@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 
 public class C
 {
-  public static String Scramble = "§k";
+  public static String Scramble = "§k             TEAGSGG";
   public static String Bold = "§l";
   public static String Strike = "§m";
   public static String Line = "§n";
