@@ -29,7 +29,13 @@ DEATHMATCH_START_IN(C.cGray+"Das Deathmatch startet in % sekunden."),
 DEATHMATCH_END(C.cGray+"Das Deathmatch ist zu ende."),
 GAME_WIN(C.cAqua+"Der Spieler % hat das Spiel gewonnen!"),
 SURVIVAL_GAMES_DISTRICT_WIN("Das District % mit den Spielern % und % hat Gewonnen."),
-DEATHMATCH_END_IN(C.cGray+"Das Deathmatch endet in % sekunden.");
+DEATHMATCH_END_IN(C.cGray+"Das Deathmatch endet in % sekunden."),
+LOGIN_MESSAGE("Logge dich bitte mit /login [Password] ein"),
+KICK_BY_FALSE_PASSWORD("Du hast % mal dein Password falsch eingegeben."),
+LOGIN_ACCEPT("Du hast dich Erfolgreich eingeloggt."),
+LOGIN_DENY("Das Password ist falsch."),
+REGISTER_ACCEPT("Register Erfolgreich."),
+REGISTER_MESSAGE("Registriere dich bitte mit /register [Password]");
 
 private String t;
 private Text(String t){
