@@ -9,6 +9,7 @@ public class Merchant
 {
   private static final long serialVersionUID = -7657859047817139872L;
   private NMSMerchant h;
+  
   public Merchant()
   {
     this.h = new NMSMerchant();
