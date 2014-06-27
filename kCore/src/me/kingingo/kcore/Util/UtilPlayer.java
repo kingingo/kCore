@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import net.minecraft.server.v1_7_R3.EntityPlayer;
 import net.minecraft.server.v1_7_R3.EnumClientCommand;
 import net.minecraft.server.v1_7_R3.PacketPlayInClientCommand;
+import net.minecraft.server.v1_7_R3.PacketPlayOutPlayerInfo;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,6 +36,16 @@ public class UtilPlayer
     {
       message(client, curMessage, wiki);
     }
+  }
+  
+  public static void Tab(String[] tab,Player p){
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[0], true, 9999));
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[1], true, 9999));
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[2], true, 9999));
+
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[3], true, 9999));
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[4], true, 9999));
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[5], true, 9999));
   }
   
   public static void RespawnNow(final Player p,JavaPlugin plugin){
