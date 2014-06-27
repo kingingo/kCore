@@ -22,6 +22,8 @@ KICKED_BY_PREMIUM(C.cRed+"Du wurdest aus der Lobby gekickt weil ein Admin/Premiu
 PREFIX(C.cDAqua+"[EpicPvP]: "+C.cGray),
 TEAM_OUT("Das Team % ist ausgeschieden."),
 RESTART_FROM_ADMIN("Server wurde von einen Admin §6§lRestartet§c!"),
+SCHUTZZEIT_END_IN("Die Schutzzeit endet in % sekunden."),
+SCHUTZZEIT_END("Die Schutzzeit endet."),
 GAME_START(C.cGray+"LOS!"),
 GAME_START_IN(C.cGray+"Das Spiel startet in % sekunden."),
 DEATHMATCH_START(C.cGray+"Das Deathmatch startet."),

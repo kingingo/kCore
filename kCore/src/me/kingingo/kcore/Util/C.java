@@ -27,6 +27,7 @@ public class C
   public static String cWhite = ""+ChatColor.WHITE;
   public static String cYellow = ""+ChatColor.YELLOW;
 
+  public static String mOrange = "§6";
   public static String mHead = ""+ChatColor.BLUE;
   public static String mBody = ""+ChatColor.GRAY;
   public static String mChat = ""+ChatColor.WHITE;

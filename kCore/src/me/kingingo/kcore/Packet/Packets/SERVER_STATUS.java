@@ -55,7 +55,7 @@ public class SERVER_STATUS extends Packet{
 	}
 	
 	public String toString(){
-		//SERVER_STATUS-/-IP-/-STATE-/-ONLINE-/-MAX_ONLINE-/-MAP-/-TYP
+		//SERVER_STATUS-/-STATE-/-ONLINE-/-MAX-/-MAP-/-TYP-/-SERVER
 		return String.format(getName() + "-/-%s-/-%d-/-%d-/-%s-/-%s-/-%s", new Object[] { this.state.string(), Integer.valueOf(this.online), Integer.valueOf(this.max_online), this.map, this.typ.string(), this.id });
 	}
 	

@@ -49,7 +49,7 @@ public class ClientListener implements Listener{
 	
 	@EventHandler
 	public void Received(ClientReceiveMessageEvent ev){
-		System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
+		//System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 		if(ev.getMessage().equalsIgnoreCase("ping")){
 			c.sendMessageToServer("pong");
 		}
