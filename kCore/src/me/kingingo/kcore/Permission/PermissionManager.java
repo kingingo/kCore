@@ -77,6 +77,7 @@ public class PermissionManager {
 	}
 	
 	public void addPermission(Player p, Permission perm){
+		if(!list.containsKey(p))list.put(p, new ArrayList<Permission>());
 		list.get(p).add(perm);
 		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','"+perm.getPermissionToString()+"','none','"+p.getName().toLowerCase()+"');");
 	}
