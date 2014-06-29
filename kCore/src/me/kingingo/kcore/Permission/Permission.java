@@ -12,16 +12,16 @@ OneInTheChamber_LIFE("epicpvp.oitc.life"),
 //One In The Chamber - ENDE -
 
 //PETS
-PET_BLAZE("pet.blaze"),
-PET_CHICKEN("pet.chicken"),
-PET_COW("pet.cow"),
-PET_ENDERMAN("pet.enderman"),
-PET_IRON_GOLEM("pet.iron_golem"),
-PET_PIG("pet.pig"),
-PET_SPIDER("pet.spider"),
-PET_WOLF("pet.wolf"),
-PET_ZOMBIE("pet.zombie"),
-PET_SHEEP("pet.sheep");
+PET_BLAZE("kpet.blaze"),
+PET_CHICKEN("kpet.chicken"),
+PET_COW("kpet.cow"),
+PET_ENDERMAN("kpet.enderman"),
+PET_IRON_GOLEM("kpet.irongolem"),
+PET_PIG("kpet.pig"),
+PET_SPIDER("kpet.spider"),
+PET_WOLF("kpet.wolf"),
+PET_ZOMBIE("kpet.zombie"),
+PET_SHEEP("kpet.sheep");
 
 //PETS
 

@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Tokens implements Listener {
 
 	private MySQL mysql;
-	private HashMap<Player,Integer> tokens = new HashMap<>();
+	private HashMap<String,Integer> tokens = new HashMap<>();
 	
 	public Tokens(JavaPlugin instance,MySQL mysql){
 		this.mysql=mysql;
@@ -60,6 +60,26 @@ public class Tokens implements Listener {
 		mysql.Update("INSERT INTO tokens_list (name,tokens) values ('"+p.toLowerCase()+"','0');");
 	}
 	
+	public Integer getTokens(String p){
+		if(tokens.containsKey(p))return tokens.get(p);
+		int d = 0;
+		
+		try{
+			
+			ResultSet rs =mysql.Query("SELECT tokens FROM tokens_list WHERE name='" + p.toLowerCase() + "'");
+			
+			while(rs.next()){
+				d = rs.getInt(1);
+			}
+ 			
+			rs.close();
+		}catch (Exception err){	
+			System.err.println(err);
+		}
+		tokens.put(p, d);
+		return d;
+	}
+	
 	public Integer getTokens(Player p){
 		if(tokens.containsKey(p))return tokens.get(p);
 		int d = 0;
@@ -76,7 +96,7 @@ public class Tokens implements Listener {
 		}catch (Exception err){	
 			System.err.println(err);
 		}
-		tokens.put(p, d);
+		tokens.put(p.getName(), d);
 		return d;
 	}
 	
@@ -85,18 +105,18 @@ public class Tokens implements Listener {
 			int c = getTokens(p);
 			if(c<coins)return false;
 			int co=c-coins;
-			tokens.put(p, co);
+			tokens.put(p.getName(), co);
 		}else{
 			int c = getTokens(p);
 			if(c<coins)return false;
 			int co=c-coins;
-			tokens.put(p, co);
+			tokens.put(p.getName(), co);
 			mysql.Update("UPDATE `tokens_list` SET tokens='"+co+"' WHERE name='"+p.getName()+"'");
 		}
 		return true;
 	}
 	
-	public void addTokens(Player p,boolean save,Integer coins){
+	public void addTokens(String p,boolean save,Integer coins){
 		if(!save){
 			int c = getTokens(p);
 			int co=c+coins;
@@ -105,6 +125,19 @@ public class Tokens implements Listener {
 			int c = getTokens(p);
 			int co=c+coins;
 			tokens.put(p, co);
+			mysql.Update("UPDATE `tokens_list` SET tokens='"+co+"' WHERE name='"+p.toLowerCase()+"'");
+		}
+	}
+	
+	public void addTokens(Player p,boolean save,Integer coins){
+		if(!save){
+			int c = getTokens(p);
+			int co=c+coins;
+			tokens.put(p.getName(), co);
+		}else{
+			int c = getTokens(p);
+			int co=c+coins;
+			tokens.put(p.getName(), co);
 			mysql.Update("UPDATE `tokens_list` SET tokens='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 		}
 	}
