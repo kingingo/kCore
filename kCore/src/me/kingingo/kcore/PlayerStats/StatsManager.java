@@ -1,6 +1,8 @@
 package me.kingingo.kcore.PlayerStats;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.MySQL.MySQL;
@@ -16,6 +18,7 @@ public class StatsManager {
 	JavaPlugin plugin;
 	MySQL mysql;
 	GameType typ;
+	HashMap<Player,HashMap<Stats,Object>> list = new HashMap<>(); 
 	
 	public StatsManager(JavaPlugin plugin,MySQL mysql,GameType typ){
 		this.plugin=plugin;
@@ -33,10 +36,85 @@ public class StatsManager {
 		mysql.Update(t);
 	}
 	
-	public String getString(Stats s,Player p){
+	public double getKDR(int k,int d){
+		double kdr = (double)k/(double)d;
+		
+		kdr = kdr * 100;
+		
+		kdr = Math.round(kdr);
+		
+		kdr = kdr / 100;
+		return kdr;
+	}
+	
+	public void SaveAllPlayerData(Player p){
+		for(Stats s : list.get(p).keySet()){
+			if(list.get(p).get(s) instanceof Integer){
+				UpdatePlayer(p, s,((Integer)list.get(p).get(s)) );
+			}else if(list.get(p).get(s) instanceof String){
+				UpdatePlayer(p, s,((String)list.get(p).get(s)) );
+			}
+		}
+	}
+	
+	public void UpdatePlayer(Player p,Stats s,String i){
+		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE player='" + p.getName().toLowerCase() + "'");
+	}
+	
+	public void UpdatePlayer(Player p,Stats s,int i){
+		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE player='" + p.getName().toLowerCase() + "'");
+	}
+	
+	public void createEintrag(Player p){
+		Stats[] stats = typ.getStats();
+		String tt = "player,UUID,";
+		String ti = "'"+p.getName().toLowerCase()+"','"+p.getUniqueId()+"',";
+		for(Stats s : stats){
+			tt=tt+s.getTYP()+",";
+			ti=ti+"'"+s.getTYP()+"',";
+		}
+		String t = "INSERT INTO users_"+typ.getKürzel()+" ("+tt+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
+		mysql.Update(t);
+	}
+	
+	public Integer getRanking(Stats s,Player p){
+		if(!list.containsKey(p))list.put(p, new HashMap<Stats,Object>());
+		if(list.containsKey(p)&&list.get(p).containsKey(Stats.RANKING)){
+			return (int)list.get(p).get(Stats.RANKING);
+		}
+		
+		boolean done = false;
+		int n = 0;
+		
+		try
+	    {
+	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` ORDER BY `"+s.getTYP()+"` DESC;");
+
+	      while ((rs.next()) && (!done)) {
+	        n++;
+	        if (rs.getString(1).equalsIgnoreCase(p.getName().toLowerCase())) {
+	          done = true;
+	        }
+	      }
+
+	      rs.close();
+	    } catch (Exception err) {
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    }
+		
+		list.get(p).put(Stats.RANKING, n);
+	    return n;
+	}
+	
+	public String getString(Stats s,Player p){	
+		if(!list.containsKey(p))list.put(p, new HashMap<Stats,Object>());
+		if(list.containsKey(p)&&list.get(p).containsKey(s)){
+			return (String)list.get(p).get(s);
+		}
+		
 		String i = "";
 		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users"+typ.getKürzel()+" WHERE player= '"+p.getName().toLowerCase()+"'");
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p.getName().toLowerCase()+"'");
 			while(rs.next()){
 				i=rs.getString(1);
 			}
@@ -44,10 +122,27 @@ public class StatsManager {
 		}catch (Exception err){
 			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
 		}
+		
+		list.get(p).put(s, i);
 		return i;
 	}
 	
+	public void setString(Player p,String i,Stats s){
+		if(!list.containsKey(p))list.put(p, new HashMap<Stats,Object>());
+		list.get(p).put(s, i);
+	}
+	
+	public void setInt(Player p,int i,Stats s){
+		if(!list.containsKey(p))list.put(p, new HashMap<Stats,Object>());
+		list.get(p).put(s, i);
+	}
+	
 	public Integer getInt(Stats s,Player p){
+		if(!list.containsKey(p))list.put(p, new HashMap<Stats,Object>());
+		if(list.containsKey(p)&&list.get(p).containsKey(s)){
+			return (Integer)list.get(p).get(s);
+		}
+		
 		int i = 0;
 		try{
 			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users"+typ.getKürzel()+" WHERE player= '"+p.getName().toLowerCase()+"'");
@@ -58,6 +153,8 @@ public class StatsManager {
 		}catch (Exception err){
 			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
 		}
+		
+		list.get(p).put(s, i);
 		return i;
 	}
 	

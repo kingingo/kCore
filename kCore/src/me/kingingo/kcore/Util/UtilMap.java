@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.server.v1_7_R3.MinecraftServer;
@@ -13,14 +14,59 @@ import net.minecraft.server.v1_7_R3.RegionFile;
 import net.minecraft.server.v1_7_R3.RegionFileCache;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.google.common.collect.Lists;
+
 public class UtilMap{
 
+	public static int MinZ(Location start, int r) {
+		return start.getBlockZ() - (r);
+	}
+
+	public static int MinX(Location start, int r) {
+		return start.getBlockX() - (r);
+	}
+
+	public static int MaxZ(Location start, int r) {
+		return start.getBlockZ() + (r);
+	}
+
+	public static int MaxX(Location start, int r) {
+		return start.getBlockX() + (r);
+	}
+
+	public static List<Block> getScans(int radius, Location startloc) {
+		List<Block> list = Lists.newArrayList();
+		final Block block = startloc.getBlock();
+		final int x = block.getX();
+		final int y = block.getY();
+		final int z = block.getZ();
+		final int minX = x - radius;
+		final int minY = y - radius;
+		final int minZ = z - radius;
+		final int maxX = x + radius;
+		final int maxY = y + radius;
+		final int maxZ = z + radius;
+		for (int counterX = minX; counterX <= maxX; counterX++) {
+			for (int counterY = minY; counterY <= maxY; counterY++) {
+				for (int counterZ = minZ; counterZ <= maxZ; counterZ++) {
+					final Block blockName = startloc.getWorld().getBlockAt(
+							counterX, counterY, counterZ);
+					list.add(blockName);
+				}
+			}
+		}
+
+		return list;
+	}
+	
 	public static boolean ClearWorldReferences(String worldName)
 	  {
 	    HashMap regionfiles = null;

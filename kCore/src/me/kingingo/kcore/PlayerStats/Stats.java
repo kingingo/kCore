@@ -7,6 +7,7 @@ KILLS("kills int","kills"),
 DEATHS("deaths int","deaths"),
 WIN("win int","win"),
 LOSE("lose int","lose"),
+RANKING("rank int","rank"),
 
 RUSH_ZERSTOERTE_BLOECKE("bloecke int","bloecke"),
 
