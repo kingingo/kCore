@@ -24,8 +24,9 @@ public class Hologram implements Listener{
 	private boolean protocollib=false;
 	
 	public Hologram(JavaPlugin plugin){
-		if(Bukkit.getPluginManager().getPlugin("Protocollib")==null||!Bukkit.getPluginManager().getPlugin("Protocollib").isEnabled())this.protocollib=true;
-		if(this.protocollib)Bukkit.getPluginManager().registerEvents(this, plugin);
+		if(Bukkit.getPluginManager().getPlugin("ProtocolLib")==null)this.protocollib=true;
+		if(!this.protocollib)Bukkit.getPluginManager().registerEvents(this, plugin);
+		System.out.println("PROTOCOL: "+this.protocollib);
 	}
 	
 	HashMap<NameTagMessage,Integer> clone;

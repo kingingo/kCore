@@ -15,6 +15,7 @@ import net.minecraft.server.v1_7_R3.RegionFileCache;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
@@ -42,7 +43,7 @@ public class UtilMap{
 		return start.getBlockX() + (r);
 	}
 
-	public static List<Block> getScans(int radius, Location startloc) {
+	public static List<Block> getScans(int radius,boolean air, Location startloc) {
 		List<Block> list = Lists.newArrayList();
 		final Block block = startloc.getBlock();
 		final int x = block.getX();
@@ -59,6 +60,7 @@ public class UtilMap{
 				for (int counterZ = minZ; counterZ <= maxZ; counterZ++) {
 					final Block blockName = startloc.getWorld().getBlockAt(
 							counterX, counterY, counterZ);
+					if(air&&blockName.getType()==Material.AIR)continue;
 					list.add(blockName);
 				}
 			}
