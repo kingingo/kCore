@@ -87,11 +87,13 @@ public class StatsManager{
 	}
 	
 	public void UpdatePlayer(Player p,Stats s,String i){
+		if(!s.isMysql())return;
 		ExistPlayer(p);
 		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE player='" + p.getName() + "'");
 	}
 	
 	public void UpdatePlayer(Player p,Stats s,int i){
+		if(!s.isMysql())return;
 		ExistPlayer(p);
 		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE player='" + p.getName() + "'");
 	}
@@ -105,7 +107,6 @@ public class StatsManager{
 			ti=ti+"'0',";
 		}
 		String t = "INSERT INTO users_"+typ.getKürzel()+" ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
-		System.err.println("ADD: "+t);
 		mysql.Update(t);
 	}
 	

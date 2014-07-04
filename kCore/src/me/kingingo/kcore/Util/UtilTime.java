@@ -59,7 +59,29 @@ public class UtilTime
   {
     return convertString(time, trim, TimeUnit.FIT);
   }
+  
+  public static String formatSeconds(int milis) {
+			if (milis > 60) {
+				if (milis > 3600) {
+					int time = (int) (milis / 3600);
+					if (milis - time * 3600 > 1) {
+						return time + "h "
+								+ formatSeconds(milis - time * 3600);
+					}
+					return time + "h";
+				}
 
+				int time = (int) (milis / 60);
+				if (milis - time * 60 > 1) {
+					return time + "min "
+							+ formatSeconds(milis - time * 60);
+				}
+				return time + "min";
+			}
+
+		return milis + "sec";
+  }
+  
   public static String convertString(long time, int trim, TimeUnit type)
   {
     if (time == -1L) return "Permanent";

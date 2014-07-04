@@ -5,7 +5,7 @@ import me.kingingo.kcore.Util.C;
 public enum Text {
 FIGHT_START_IN(C.cGray+"Ihr könnt in % sekunden Kämpfen!"),
 FIGHT_START(C.cGray+"Ihr könnt NUN Kämpfen!"),
-GAME_END_IN(C.cGray+"Das Spiel endet in % sekunden."),
+GAME_END_IN(C.cGray+"Das Spiel endet in % ."),
 GAME_END(C.cGray+"Das Spiel wurde beendet."),
 RESTART_IN(C.cGray+"Der Server Restartet in % sekunden."),
 RESTART(C.cGray+"Der Server Restartet Jetzt."),
