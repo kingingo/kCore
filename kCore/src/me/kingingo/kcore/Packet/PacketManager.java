@@ -30,7 +30,7 @@ public class PacketManager {
 	
 	public void SendPacket(String toServer,Packet packet){
 		Bukkit.getPluginManager().callEvent(new PacketSendEvent(packet,toServer));
-		c.sendMessageToServer(toServer+"-/-"+packet.toString());
+		c.sendMessageToServer(toServer+"=/="+packet.toString());
 	}
 	
 }

@@ -7,7 +7,6 @@ import me.kingingo.kcore.Client.Events.ClientLostConnectionEvent;
 import me.kingingo.kcore.Client.Events.ClientReceiveMessageEvent;
 import me.kingingo.kcore.Client.Events.ClientSendMessageEvent;
 import me.kingingo.kcore.Update.UpdateType;
-import me.kingingo.kcore.Update.Updater;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 
 import org.bukkit.event.EventHandler;
@@ -25,7 +24,7 @@ public class ClientListener implements Listener{
 	
 	@EventHandler
 	public void Client(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.MIN_04)return;
+		if(ev.getType()!=UpdateType.MIN_01)return;
 		if(connected)return;
 		c.connect();
 	}
