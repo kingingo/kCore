@@ -4,6 +4,7 @@ public enum Permission {
 JOIN_FULL_SERVER("epicpvp.join_full_server"),
 ALL_PERMISSION("epicpvp.*"),
 NONE("FAIL"),
+SERVER_JOIN_SPECTATE("epicpvp.server.spectate"),
 PREMIUM_LOBBY("lobby.premiumbereich"), 
 
 //One In The Chamber - START -

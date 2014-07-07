@@ -77,6 +77,8 @@ public class StatsManager{
 	}
 	
 	public void SaveAllPlayerData(Player p){
+		if(!list.containsKey(p))return;
+		if(list.get(p).isEmpty())return;
 		for(Stats s : list.get(p).keySet()){
 			if(list.get(p).get(s) instanceof Integer){
 				UpdatePlayer(p, s,((Integer)list.get(p).get(s)) );
