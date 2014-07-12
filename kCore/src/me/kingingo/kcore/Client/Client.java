@@ -68,24 +68,7 @@ public class Client {
 		                 sendMessageToServer(Name);
 		                 sendMessageToServer("ping");
 		                 while(in.hasNext()){
-//		                	 if(messagestosend.isEmpty()){
-//		                 		Thread.sleep(1000);
-//		                 		continue;
-//		                 	}
-//		                	 
-//		                	cloned.clear();
-//		                	cloned=(ArrayList<String>)messagestosend.clone();
-//		                	
-//		                	for(String m : cloned){
-//		                		out.println(m);
-//		                		Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent(m));
-//		                		messagestosend.remove(m);
-//		                	}
-//		                	out.flush();
-		                	
-		                	//if(in.hasNext()){
 		                		Bukkit.getPluginManager().callEvent(new ClientReceiveMessageEvent(in.nextLine()));
-		                	//}
 		                 }
 		                 disconnect(true);
 		        	 }catch (Exception e){
@@ -116,7 +99,6 @@ public class Client {
 	}
 	
 	public void sendMessageToServer(String m){
-		//messagestosend.add(m);
 		out.println(m);
 		out.flush();
 		Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent(m));

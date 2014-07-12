@@ -24,7 +24,7 @@ public class ClientListener implements Listener{
 	
 	@EventHandler
 	public void Client(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.MIN_01)return;
+		if(ev.getType()!=UpdateType.MIN_005)return;
 		if(connected)return;
 		c.connect();
 	}

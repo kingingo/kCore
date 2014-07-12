@@ -172,6 +172,58 @@ public class UtilInv
     }
     return true;
   }
+  
+  public static Integer AnzahlInInventory(Player p,Material m){
+		int a = 0;
+		
+		for(ItemStack i : p.getInventory()){
+			
+			if(i!=null && i.getType()==m){
+				a=a+i.getAmount();
+			}
+			
+		}
+		
+		return a;
+	}
+	
+	public static boolean isInInventory(Player p,Material m){
+		
+		for(ItemStack i : p.getInventory()){
+			
+			if(i!=null && i.getType()==m){
+				return true;
+			}
+			
+		}
+		return false;
+	}
+  
+  public static Integer AnzahlInInventory(Player p,int id){
+		int a = 0;
+		
+		for(ItemStack i : p.getInventory()){
+			
+			if(i!=null && i.getTypeId()==id){
+				a=a+i.getAmount();
+			}
+			
+		}
+		
+		return a;
+	}
+	
+	public static boolean isInInventory(Player p,int id){
+		
+		for(ItemStack i : p.getInventory()){
+			
+			if(i!=null && i.getTypeId()==id){
+				return true;
+			}
+			
+		}
+		return false;
+	}
 
   public static void DisallowMovementOf(InventoryClickEvent event, String name, Material type, byte data, boolean inform)
   {

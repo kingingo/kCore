@@ -9,6 +9,7 @@ public enum UpdateType
   MIN_04(240000L), 
   MIN_02(120000L), 
   MIN_01(60000L), 
+  MIN_005(30000L),
   SLOWEST(32000L), 
   SLOWER(16000L), 
   SLOW(4000L), 

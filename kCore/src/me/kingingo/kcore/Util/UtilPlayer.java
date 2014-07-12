@@ -17,6 +17,7 @@ import org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
 
 public class UtilPlayer
 {
@@ -36,6 +37,10 @@ public class UtilPlayer
     {
       message(client, curMessage, wiki);
     }
+  }
+  
+  public static boolean isZoom(Player p){
+		return p.hasPotionEffect(PotionEffectType.SLOW);
   }
   
   public static void Tab(String[] tab,Player p){

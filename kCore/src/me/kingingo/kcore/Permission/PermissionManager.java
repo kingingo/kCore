@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import lombok.Getter;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -19,10 +20,13 @@ public class PermissionManager {
 	private HashMap<Player,List<Permission>> list = new HashMap<>();
 	private HashMap<Player,String> prefix = new HashMap<>();
 	private MySQL mysql;
+	@Getter
+	private JavaPlugin instance;
 	
-	public PermissionManager(JavaPlugin plugin,MySQL mysql){
+	public PermissionManager(JavaPlugin instance,MySQL mysql){
 		this.mysql=mysql;
-		Bukkit.getPluginManager().registerEvents(new PermissionListener(this), plugin);
+		this.instance=instance;
+		Bukkit.getPluginManager().registerEvents(new PermissionListener(this), getInstance());
 	}
 	
 	public String getPrefix(Player p){
