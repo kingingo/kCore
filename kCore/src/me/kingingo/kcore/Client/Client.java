@@ -67,10 +67,10 @@ public class Client {
 		                 out = new PrintWriter(getS().getOutputStream());
 		                 out.println(Name);
 		                 out.flush();
+		                 Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent(Name));
 		                 out.println("ping");
 		                 out.flush();
-//		                 sendMessageToServer(Name);
-//		                 sendMessageToServer("ping");
+		                 Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent("ping"));
 		                 while(in.hasNext()){
 		                		Bukkit.getPluginManager().callEvent(new ClientReceiveMessageEvent(in.nextLine()));
 		                 }
@@ -103,8 +103,8 @@ public class Client {
 	}
 	
 	public void sendMessageToServer(String m){
-//		out.println(m);
-//		out.flush();
+		out.println(m);
+		out.flush();
 		Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent(m));
 	}
 	
