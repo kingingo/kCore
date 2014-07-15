@@ -11,9 +11,11 @@ RANKING("rank int","rank","Rang",false),
 
 RUSH_ZERSTOERTE_BLOECKE("bloecke int","bloecke","Bloecke",true),
 
-TM_TESTS("tests int","tests","Tests",true),
-TM_PÄSSE("paesse int","paesse","Paesse",true),
-TM_KARMA("karma int","karma","Karma",true);
+TTT_TESTS("tests int","tests","Tests",true),
+TTT_PÄSSE("paesse int","paesse","Paesse",true),
+TTT_KARMA("karma int","karma","Karma",true),
+TTT_DETECTIVE_PUNKTE("detectivepunkte int","detectivepunkte","Detective-Punkte",true),
+TTT_TRAITOR_PUNKTE("traitorpunkte int","traitorpunkte","Traitor-Punkte",true);
 
 @Getter
 String CREATE;

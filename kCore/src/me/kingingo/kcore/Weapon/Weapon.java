@@ -14,6 +14,7 @@ import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Weapon.Event.WeaponAddPlayerEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -59,7 +60,7 @@ public class Weapon implements Listener{
 	
 	@Getter
 	@Setter
-	int Shot=1;
+	int Shot=1; //PROJECTILE PRO SCHUSS
 	
 	@Getter
 	@Setter
@@ -67,11 +68,11 @@ public class Weapon implements Listener{
 	
 	@Getter
 	@Setter
-	long Delay=TimeSpan.SECOND*1; //SEC
+	long Delay=TimeSpan.SECOND*1; //SHOT DELAY SEC
 	
 	@Getter
 	@Setter
-	long ReloadDelay=TimeSpan.SECOND*3; //SEC
+	long ReloadDelay=TimeSpan.SECOND*3; //RELOAD DAY SEC
 	
 	@Getter
 	@Setter
@@ -89,21 +90,47 @@ public class Weapon implements Listener{
 	
 	ItemMeta im;
 	
-	public Weapon(JavaPlugin instance,WeaponTyp typ,ItemStack Ammo,ItemStack Weapon){
+	public Weapon(JavaPlugin instance,WeaponTyp typ,ItemStack Ammo,ItemStack Weapon,long ReloadDelay, long Delay,int MaxInLauf,double abweichung,int Shot,int damage,String NAME){
 		this.Typ=typ;
 		this.Ammo=Ammo;
 		this.Weapon=Weapon;
 		this.Lore = Weapon.getItemMeta().getLore();
 		this.instance=instance;
+		this.ReloadDelay=ReloadDelay;
+		this.Delay=Delay;
+		this.NAME=NAME;
+		this.MaxInLauf=MaxInLauf;
+		this.abweichung=abweichung;
+		this.Shot=Shot;
+		this.damage=damage;
+		update();
 		Bukkit.getPluginManager().registerEvents(this, getInstance());
 	}
 	
 	public int getAmmo(String n){
-		return Integer.valueOf( n.split(" | ")[1].split(">>")[0] );
+		try{
+			if(!n.contains(" | "))return 0;
+			if(!n.contains(">>"))return 0;
+			return Integer.valueOf( n.split(" >")[0].split(" ")[1] );
+		}catch(NumberFormatException e){
+			return 0;
+		}
 	}
 	
 	public int getShot(String n){
-		return Integer.valueOf( n.split(" | ")[0].split("<<")[1] );
+		try{
+			if(!n.contains(" | "))return 0;
+			if(!n.contains("<<"))return 0;	
+			System.out.println("M:"+n.split("< ")[1]);
+			System.out.println("M1:"+n.split("< ")[1].split(" ")[0]);
+			return Integer.valueOf( n.split("< ")[1].split(" ")[0] );
+		}catch(NumberFormatException e){
+			return 0;
+		}
+	}
+	
+	public ItemStack getWeapon(){
+		return Weapon.clone();
 	}
 	
 	public void update(){
@@ -113,18 +140,18 @@ public class Weapon implements Listener{
 		Weapon.setItemMeta(im);
 	}
 	
-	public void setWeaponToNormal(ItemStack i,int ammo,int lauf){
+	public ItemStack setWeaponToNormal(ItemStack i,int ammo,int lauf){
 		im = i.getItemMeta();
-		String n = getNORMAL();
-		n.replaceAll("SHOT", String.valueOf(lauf));
-		n.replaceAll("AMMO", String.valueOf(ammo));
-		im.setDisplayName(n);
+		String s = getNAME()+getNORMAL();
+		s=s.replaceAll("SHOT", String.valueOf(lauf));
+		s=s.replaceAll("AMMO", String.valueOf(ammo));
+		System.out.println("NAME: "+s);
+		im.setDisplayName(s);
 		i.setItemMeta(im);
+		return i;
 	}
 	
-	public void setWeaponToNormal(ItemStack i,Player p){
-		im = i.getItemMeta();
-		String n = getNORMAL();
+	public ItemStack setWeaponToNormal(ItemStack i,Player p){
 		int ammo = UtilInv.AnzahlInInventory(p, Ammo.getTypeId());
 		int lauf=0;
 		if(ammo >= MaxInLauf){
@@ -134,11 +161,8 @@ public class Weapon implements Listener{
 			lauf=ammo;
 			ammo=0;
 		}
-		n.replaceAll("SHOT", String.valueOf(lauf));
-		n.replaceAll("AMMO", String.valueOf(ammo));
-		im.setDisplayName(n);
-		i.setItemMeta(im);
-		p.updateInventory();
+		System.out.println("AMMO:"+ammo+" / LAUF:"+lauf);
+		return setWeaponToNormal(i, ammo, lauf);
 	}
 	
 	public void setWeaponToReload(ItemStack i){
@@ -166,9 +190,20 @@ public class Weapon implements Listener{
 	}
 	
 	@EventHandler
+	public void Give(WeaponAddPlayerEvent ev){
+		if(ev.getWeapon()==this){
+			if(ev.getPos()==-1){
+				ev.getPlayer().getInventory().addItem(setWeaponToNormal(getWeapon(), ev.getPlayer()));
+			}else{
+				ev.getPlayer().getInventory().setItem(ev.getPos(), setWeaponToNormal(getWeapon(), ev.getPlayer()));
+			}
+		}
+	}
+	
+	@EventHandler
 	public void Shoot(PlayerInteractEvent ev){
 		if(UtilEvent.isAction(ev, ActionType.R)&&ev.getPlayer().getItemInHand()!=null){
-			if(ev.getPlayer().getItemInHand().getType()==Weapon.getType()){
+			if(ev.getPlayer().getItemInHand().hasItemMeta()&&ev.getPlayer().getItemInHand().getItemMeta().hasDisplayName()&&ev.getPlayer().getItemInHand().getItemMeta().getDisplayName().contains(getNAME())){
 				if(list.containsKey(ev.getPlayer()) && list.get(ev.getPlayer()) > System.currentTimeMillis()){
 					return;
 				}

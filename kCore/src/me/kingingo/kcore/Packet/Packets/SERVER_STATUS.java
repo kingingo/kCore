@@ -44,7 +44,7 @@ public class SERVER_STATUS extends Packet{
 	public String getName(){
 		return "SERVER_STATUS";
 	}
-	
+
 	public void Set(String[] packet) {
 	 this.state = GameState.valueOf(packet[1]);
 	 this.online = Integer.valueOf(packet[2]).intValue();

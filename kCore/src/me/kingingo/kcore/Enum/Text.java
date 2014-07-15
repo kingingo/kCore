@@ -45,6 +45,10 @@ TTT_WIN("Die % haben diese Runde gewonnen!"),
 TTT_DEATH("Der Spieler % ist gestorben und war %."),
 TTT_TESTER_USED("Der Tester ist im moment nicht Frei."),
 TTT_TESTER_TIME("Du warst schon in Tester kommer später wieder."),
+TTT_TRAITOR_SHOP("Du hast nicht genug Traitor-Punkte!"),
+TTT_DETECTIVE_SHOP("Du hast nicht genug Detective-Punkte!"),
+TTT_TRAITOR_SHOP_BUYED("Du hast erfolgreich ein Traitor Item erworben!"),
+TTT_DETECTIVE_SHOP_BUYED("Du hast erfolgreich ein Traitor Item erworben!"),
 TTT_TESTER_JOIN("% ist den Tester beigetretten.");
 
 private String t;

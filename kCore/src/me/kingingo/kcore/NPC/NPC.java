@@ -1,8 +1,9 @@
-package me.kingingo.kcore.Minecraft;
+package me.kingingo.kcore.NPC;
 
 import java.lang.reflect.Field;
 
 import lombok.Getter;
+import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerNamedEntitySpawn;
 import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_7_R3.DataWatcher;
 import net.minecraft.server.v1_7_R3.EntityPlayer;
@@ -23,6 +24,14 @@ import org.bukkit.craftbukkit.v1_7_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
 
 public class NPC {
 	
@@ -32,13 +41,19 @@ public class NPC {
 	String Name;
 	@Getter
 	EntityPlayer p;
+	@Getter
+	NPCManager Manager;
 	
-	public NPC(String Name,Location loc){
-		this.loc=loc;
+	private boolean sleep=false;
+	PacketPlayOutNamedEntitySpawn spawned;
+	
+	public NPC(String Name,NPCManager Manager){
+		this.Manager=Manager;
 		this.Name=Name;
 	}
 	
-	public PacketPlayOutNamedEntitySpawn verdeckt(String Name){
+	public PacketPlayOutNamedEntitySpawn spawn(Location spawn){
+		loc=spawn;
 		if(p==null){
 			CraftServer s = (CraftServer)Bukkit.getServer();
 			GameProfile g = new GameProfile(null, Name);
@@ -51,41 +66,13 @@ public class NPC {
 		p.locX=loc.getX();
 		p.locY=loc.getY();
 		p.locZ=loc.getZ();
-		PacketPlayOutNamedEntitySpawn npc = new PacketPlayOutNamedEntitySpawn( p );
-		setValue("a",npc,p.getId());
-		
+		spawned = new PacketPlayOutNamedEntitySpawn( p );
+		setValue("a",spawned,p.getId());
+		getManager().getNPCList().put(p.getId(), this);
 		for(Player p : UtilServer.getPlayers()){
-			((CraftPlayer)p).getHandle().playerConnection.sendPacket(npc);
+			((CraftPlayer)p).getHandle().playerConnection.sendPacket(spawned);
 		}
-		return npc;
-	}
-	
-	public void aufdecken(){
-		remove();
-		this.p=null;
-		spawn();
-	}
-	
-	public PacketPlayOutNamedEntitySpawn spawn(){
-		if(p==null){
-			CraftServer s = (CraftServer)Bukkit.getServer();
-			GameProfile g = new GameProfile(null, Name);
-			WorldServer w = ((CraftWorld)loc.getWorld()).getHandle();
-			PlayerInteractManager i = new PlayerInteractManager(w);
-			EntityPlayer p = new EntityPlayer( s.getServer() , w, g, i);
-			
-			this.p=p;
-		}
-		p.locX=loc.getX();
-		p.locY=loc.getY();
-		p.locZ=loc.getZ();
-		PacketPlayOutNamedEntitySpawn npc = new PacketPlayOutNamedEntitySpawn( p );
-		setValue("a",npc,p.getId());
-		
-		for(Player p : UtilServer.getPlayers()){
-			((CraftPlayer)p).getHandle().playerConnection.sendPacket(npc);
-		}
-		return npc;
+		return spawned;
 	}
 	
 	public void setName(String s) {
@@ -97,8 +84,8 @@ public class NPC {
         d.a(10, (Object) (String) s);
         //d.a(11, (Object) (byte) 0);
         PacketPlayOutEntityMetadata packet40 = new PacketPlayOutEntityMetadata(p.getId(), d, true);
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet40);
+        for (Player pl : Bukkit.getOnlinePlayers()) {
+            ((CraftPlayer) pl).getHandle().playerConnection.sendPacket(packet40);
         }
     }
 	
@@ -109,8 +96,8 @@ public class NPC {
 	     setValue("c", tp, ((int) (loc.getY() * 32)));
 	     setValue("d", tp, ((int) (loc.getZ() * 32)));
 	     this.loc=loc;
-	     for (Player p : Bukkit.getOnlinePlayers()) {
-	            ((CraftPlayer)p).getHandle().playerConnection.sendPacket(tp);
+	     for (Player pl : Bukkit.getOnlinePlayers()) {
+	            ((CraftPlayer)pl).getHandle().playerConnection.sendPacket(tp);
 	     }
 	}
 	
@@ -142,32 +129,47 @@ public class NPC {
 	        setValue("a", p2, p.getId());
 	        setValue("b", p2, getCompressedAngle(yaw));
 	 
-	        for (Player p : Bukkit.getOnlinePlayers()) {
-	            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-	            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(p2);
+	        for (Player pl : Bukkit.getOnlinePlayers()) {
+	            ((CraftPlayer) pl).getHandle().playerConnection.sendPacket(packet);
+	            ((CraftPlayer) pl).getHandle().playerConnection.sendPacket(p2);
 	        }
 	        this.loc.setPitch(pitch);
 	        this.loc.setYaw(yaw);
 	        this.loc.add(a, b, c);
 	    }
-	  
+	
+	public void SendPlayer(Player pl){
+		((CraftPlayer) pl).getHandle().playerConnection.sendPacket(spawned);
+		if(sleep){
+			PacketPlayOutBed bed = new PacketPlayOutBed();
+
+			setValue("a", bed, p.getId());
+			setValue("b", bed,(int) loc.getX());
+			setValue("c", bed,(int) loc.getY());
+			setValue("d", bed,(int) loc.getZ());
+			((CraftPlayer) pl).getHandle().playerConnection.sendPacket(bed);
+		}
+	}
+	
     public void remove() {
+    	getManager().getNPCList().remove(p.getId());
         PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(p.getId());
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+        ((CraftWorld)loc.getWorld()).getHandle().removeEntity(p);
+        for (Player pl : UtilServer.getPlayers()) {
+            ((CraftPlayer) pl).getHandle().playerConnection.sendPacket(packet);
         }
     }
-	
+    
 	public PacketPlayOutBed sleep() {
 		PacketPlayOutBed bed = new PacketPlayOutBed();
 
-		setValue("a", bed, 1337);
+		setValue("a", bed, p.getId());
 		setValue("b", bed,(int) loc.getX());
 		setValue("c", bed,(int) loc.getY());
 		setValue("d", bed,(int) loc.getZ());
 		
-		for(Player p : UtilServer.getPlayers()){
-			((CraftPlayer)p).getHandle().playerConnection.sendPacket(bed);
+		for(Player pl : UtilServer.getPlayers()){
+			((CraftPlayer)pl).getHandle().playerConnection.sendPacket(bed);
 		}
 		return bed;
 	}
@@ -178,7 +180,7 @@ public class NPC {
 			field.setAccessible(true);
 			field.set(instance, value);
 		}catch(Exception e){
-			
+			System.err.println(e);
 		}
 	}
 	
