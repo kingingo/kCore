@@ -15,6 +15,10 @@ import java.util.zip.ZipFile;
 public class FileUtil
 {
 	
+	public static boolean existPath(File path){
+		return path.exists();
+	}
+	
 	 public static void download(URL source, File destination) throws IOException {
 
 	        InputStream inputStream = null;

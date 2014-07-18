@@ -1,6 +1,7 @@
 package me.kingingo.kcore.NPC;
 
 import java.lang.reflect.Field;
+import java.util.UUID;
 
 import lombok.Getter;
 import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerNamedEntitySpawn;
@@ -56,7 +57,7 @@ public class NPC {
 		loc=spawn;
 		if(p==null){
 			CraftServer s = (CraftServer)Bukkit.getServer();
-			GameProfile g = new GameProfile(null, Name);
+			GameProfile g = new GameProfile(UUID.randomUUID(), Name);
 			WorldServer w = ((CraftWorld)loc.getWorld()).getHandle();
 			PlayerInteractManager i = new PlayerInteractManager(w);
 			EntityPlayer p = new EntityPlayer( s.getServer() , w, g, i);
@@ -69,8 +70,9 @@ public class NPC {
 		spawned = new PacketPlayOutNamedEntitySpawn( p );
 		setValue("a",spawned,p.getId());
 		getManager().getNPCList().put(p.getId(), this);
-		for(Player p : UtilServer.getPlayers()){
-			((CraftPlayer)p).getHandle().playerConnection.sendPacket(spawned);
+		for(Player pl : UtilServer.getPlayers()){
+			if(pl.getName().equalsIgnoreCase(getName()))continue;
+			((CraftPlayer)pl).getHandle().playerConnection.sendPacket(spawned);
 		}
 		return spawned;
 	}
@@ -97,6 +99,7 @@ public class NPC {
 	     setValue("d", tp, ((int) (loc.getZ() * 32)));
 	     this.loc=loc;
 	     for (Player pl : Bukkit.getOnlinePlayers()) {
+				if(pl.getName().equalsIgnoreCase(getName()))continue;
 	            ((CraftPlayer)pl).getHandle().playerConnection.sendPacket(tp);
 	     }
 	}
@@ -130,6 +133,7 @@ public class NPC {
 	        setValue("b", p2, getCompressedAngle(yaw));
 	 
 	        for (Player pl : Bukkit.getOnlinePlayers()) {
+				if(pl.getName().equalsIgnoreCase(getName()))continue;
 	            ((CraftPlayer) pl).getHandle().playerConnection.sendPacket(packet);
 	            ((CraftPlayer) pl).getHandle().playerConnection.sendPacket(p2);
 	        }
@@ -154,8 +158,8 @@ public class NPC {
     public void remove() {
     	getManager().getNPCList().remove(p.getId());
         PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(p.getId());
-        ((CraftWorld)loc.getWorld()).getHandle().removeEntity(p);
         for (Player pl : UtilServer.getPlayers()) {
+			if(pl.getName().equalsIgnoreCase(getName()))continue;
             ((CraftPlayer) pl).getHandle().playerConnection.sendPacket(packet);
         }
     }
@@ -169,6 +173,7 @@ public class NPC {
 		setValue("d", bed,(int) loc.getZ());
 		
 		for(Player pl : UtilServer.getPlayers()){
+			if(pl.getName().equalsIgnoreCase(getName()))continue;
 			((CraftPlayer)pl).getHandle().playerConnection.sendPacket(bed);
 		}
 		return bed;

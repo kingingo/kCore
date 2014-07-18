@@ -44,6 +44,7 @@ public class NPCManager implements Listener {
 		        }
 		    }
 		});
+		
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	

@@ -42,4 +42,8 @@ public class PlayerScoreboard {
 			board.getObjective(typ).getScore(p2).setScore(i);
 	}
 	
+	public void setScore(String p2,DisplaySlot typ,int i){
+		board.getObjective(typ).getScore(Bukkit.getOfflinePlayer(p2)).setScore(i);
+}
+	
 }

@@ -33,6 +33,22 @@ public class UtilItem {
 	    i.setItemMeta(im);
 	    return i;
 	  }
+	  
+	  public static boolean ItemNameEquals(ItemStack i, ItemStack i1){
+		  if(i.hasItemMeta()&&i.getItemMeta().hasDisplayName()){
+			  if(i1.hasItemMeta()&&i1.getItemMeta().hasDisplayName()){
+				  if(i.getItemMeta().getDisplayName().equalsIgnoreCase(i1.getItemMeta().getDisplayName())){
+					  return true;
+				  }else{
+					  return false;
+				  }
+			  }else{
+				  return false;
+			  }
+		  }else{
+			  return false;
+		  }
+	  }
 
 	  public static org.bukkit.inventory.ItemStack Item(org.bukkit.inventory.ItemStack i, List<String> msg, String msg1)
 	  {

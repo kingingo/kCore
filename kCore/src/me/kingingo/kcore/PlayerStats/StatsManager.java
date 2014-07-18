@@ -2,10 +2,13 @@ package me.kingingo.kcore.PlayerStats;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
+
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
+import me.kingingo.kcore.PlayerStats.Event.PlayerStatsChangeEvent;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -120,7 +123,7 @@ public class StatsManager{
 	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE player='"+p.getName()+"'");
 
 	      while (rs.next()) {
-	    	  done=true;
+	    		  done=true;
 	      }
 
 	      rs.close();
@@ -140,7 +143,7 @@ public class StatsManager{
 		}
 		
 		boolean done = false;
-		int n = 0;
+		int n = -1;
 		
 		try
 	    {
@@ -158,7 +161,7 @@ public class StatsManager{
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
 	    }
 		
-		list.get(p).put(Stats.RANKING, n);
+		if(n!=-1)list.get(p).put(Stats.RANKING, n);
 	    return n;
 	}
 	
@@ -186,11 +189,13 @@ public class StatsManager{
 	public void setString(Player p,String i,Stats s){
 		ExistPlayer(p);
 		list.get(p).put(s, i);
+		Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(s,p));
 	}
 	
 	public void setInt(Player p,int i,Stats s){
 		ExistPlayer(p);
 		list.get(p).put(s, i);
+		Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(s,p));
 	}
 	
 	public Integer getInt(Stats s,Player p){
@@ -199,7 +204,7 @@ public class StatsManager{
 			return (Integer)list.get(p).get(s);
 		}
 		
-		int i = 0;
+		int i = -1;
 		try{
 			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p.getName()+"'");
 			while(rs.next()){
@@ -210,12 +215,13 @@ public class StatsManager{
 			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
 		}
 		
-		list.get(p).put(s, i);
+		if(i!=-1)list.get(p).put(s, i);
+		
 		return i;
 	}
 	
 	public Integer getIntWithString(Stats s,String p){
-		int i = 0;
+		int i = -1;
 		try{
 			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p+"'");
 			while(rs.next()){
