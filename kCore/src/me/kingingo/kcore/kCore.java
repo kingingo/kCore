@@ -4,7 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class kCore extends JavaPlugin
 {
   public void onEnable(){
-	  test
+	  test123
   }
 
   public void onDisable()
