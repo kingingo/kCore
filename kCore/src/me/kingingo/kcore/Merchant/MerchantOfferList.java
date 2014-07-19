@@ -2,8 +2,8 @@ package me.kingingo.kcore.Merchant;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import net.minecraft.server.v1_7_R3.MerchantRecipe;
-import net.minecraft.server.v1_7_R3.MerchantRecipeList;
+import net.minecraft.server.v1_7_R4.MerchantRecipe;
+import net.minecraft.server.v1_7_R4.MerchantRecipeList;
 
 public final class MerchantOfferList extends ArrayList<MerchantOffer>
 {

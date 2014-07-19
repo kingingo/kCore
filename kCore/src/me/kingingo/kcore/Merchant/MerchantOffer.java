@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Merchant;
 import java.io.Serializable;
-import net.minecraft.server.v1_7_R3.MerchantRecipe;
-import org.bukkit.craftbukkit.v1_7_R3.inventory.CraftItemStack;
+import net.minecraft.server.v1_7_R4.MerchantRecipe;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
 public final class MerchantOffer

@@ -1,11 +1,11 @@
 package me.kingingo.kcore.Merchant;
 import java.io.Serializable;
-import net.minecraft.server.v1_7_R3.EntityHuman;
-import net.minecraft.server.v1_7_R3.EntityPlayer;
-import net.minecraft.server.v1_7_R3.IMerchant;
-import net.minecraft.server.v1_7_R3.ItemStack;
-import net.minecraft.server.v1_7_R3.MerchantRecipe;
-import net.minecraft.server.v1_7_R3.MerchantRecipeList;
+import net.minecraft.server.v1_7_R4.EntityHuman;
+import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.server.v1_7_R4.IMerchant;
+import net.minecraft.server.v1_7_R4.ItemStack;
+import net.minecraft.server.v1_7_R4.MerchantRecipe;
+import net.minecraft.server.v1_7_R4.MerchantRecipeList;
 
 public final class NMSMerchant
   implements IMerchant, Serializable

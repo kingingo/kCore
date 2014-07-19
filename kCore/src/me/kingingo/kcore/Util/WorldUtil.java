@@ -1,21 +1,21 @@
 package me.kingingo.kcore.Util;
 import java.io.File;
 
-import net.minecraft.server.v1_7_R3.ConvertProgressUpdater;
-import net.minecraft.server.v1_7_R3.Convertable;
-import net.minecraft.server.v1_7_R3.EntityTracker;
-import net.minecraft.server.v1_7_R3.EnumDifficulty;
-import net.minecraft.server.v1_7_R3.EnumGamemode;
-import net.minecraft.server.v1_7_R3.ServerNBTManager;
-import net.minecraft.server.v1_7_R3.WorldLoaderServer;
-import net.minecraft.server.v1_7_R3.WorldManager;
-import net.minecraft.server.v1_7_R3.WorldServer;
-import net.minecraft.server.v1_7_R3.WorldSettings;
+import net.minecraft.server.v1_7_R4.ConvertProgressUpdater;
+import net.minecraft.server.v1_7_R4.Convertable;
+import net.minecraft.server.v1_7_R4.EntityTracker;
+import net.minecraft.server.v1_7_R4.EnumDifficulty;
+import net.minecraft.server.v1_7_R4.EnumGamemode;
+import net.minecraft.server.v1_7_R4.ServerNBTManager;
+import net.minecraft.server.v1_7_R4.WorldLoaderServer;
+import net.minecraft.server.v1_7_R4.WorldManager;
+import net.minecraft.server.v1_7_R4.WorldServer;
+import net.minecraft.server.v1_7_R4.WorldSettings;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
-import org.bukkit.craftbukkit.v1_7_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_7_R4.CraftServer;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.generator.ChunkGenerator;
@@ -35,7 +35,7 @@ public class WorldUtil
     ChunkGenerator generator = creator.generator();
     File folder = new File(server.getWorldContainer(), name);
     World world = server.getWorld(name);
-    net.minecraft.server.v1_7_R3.WorldType type = net.minecraft.server.v1_7_R3.WorldType.getType(creator.type().getName());
+    net.minecraft.server.v1_7_R4.WorldType type = net.minecraft.server.v1_7_R4.WorldType.getType(creator.type().getName());
     boolean generateStructures = creator.generateStructures();
 
     if (world != null)
@@ -77,7 +77,8 @@ public class WorldUtil
     while (used);
     boolean hardcore = false;
 
-    WorldServer internal = new WorldServer(server.getServer(), new ServerNBTManager(server.getWorldContainer(), name, true), name, dimension, new WorldSettings(creator.seed(), EnumGamemode.a(server.getDefaultGameMode().getValue()), generateStructures, hardcore, type), server.getServer().methodProfiler, creator.environment(), generator);
+    //WorldServer internal = new WorldServer(server.getServer(), new ServerNBTManager(server.getWorldContainer(), name, true), name, dimension, new WorldSettings(creator.seed(), EnumGamemode.a(server.getDefaultGameMode().getValue()), generateStructures, hardcore, type), server.getServer().methodProfiler, creator.environment(), generator);
+    WorldServer internal = new WorldServer(server.getServer(), new ServerNBTManager(server.getWorldContainer(), name, true), name, dimension, new WorldSettings(creator.seed(), EnumGamemode.SURVIVAL, generateStructures, hardcore, type), server.getServer().methodProfiler, creator.environment(), generator);
 
     boolean containsWorld = false;
     for (World otherWorld : server.getWorlds())

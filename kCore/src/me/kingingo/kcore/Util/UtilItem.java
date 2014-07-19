@@ -3,12 +3,12 @@ package me.kingingo.kcore.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_7_R3.NBTTagCompound;
-import net.minecraft.server.v1_7_R3.NBTTagList;
+import net.minecraft.server.v1_7_R4.NBTTagCompound;
+import net.minecraft.server.v1_7_R4.NBTTagList;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_7_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -77,7 +77,7 @@ public class UtilItem {
 	      return i;
 	    }
 	    org.bukkit.inventory.ItemStack item = i.clone();
-	    net.minecraft.server.v1_7_R3.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+	    net.minecraft.server.v1_7_R4.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
 	    NBTTagCompound tag = null;
 	    if (!nmsStack.hasTag())
 	    {

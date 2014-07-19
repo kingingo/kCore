@@ -2,11 +2,11 @@ package me.kingingo.kcore.memory;
 
 import java.util.Iterator;
 
-import net.minecraft.server.v1_7_R3.IInventory;
+import net.minecraft.server.v1_7_R4.IInventory;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.plugin.java.JavaPlugin;

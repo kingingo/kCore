@@ -4,35 +4,26 @@ import java.lang.reflect.Field;
 import java.util.UUID;
 
 import lombok.Getter;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerNamedEntitySpawn;
 import me.kingingo.kcore.Util.UtilServer;
-import net.minecraft.server.v1_7_R3.DataWatcher;
-import net.minecraft.server.v1_7_R3.EntityPlayer;
-import net.minecraft.server.v1_7_R3.PacketPlayOutBed;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityHeadRotation;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_7_R3.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_7_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_7_R3.PacketPlayOutRelEntityMoveLook;
-import net.minecraft.server.v1_7_R3.PlayerInteractManager;
-import net.minecraft.server.v1_7_R3.WorldServer;
+import net.minecraft.server.v1_7_R4.DataWatcher;
+import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.server.v1_7_R4.PacketPlayOutBed;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityHeadRotation;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_7_R4.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R4.PacketPlayOutRelEntityMoveLook;
+import net.minecraft.server.v1_7_R4.PlayerInteractManager;
+import net.minecraft.server.v1_7_R4.WorldServer;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.CraftServer;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
 
 public class NPC {
 	

@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Merchant;
 import java.io.Serializable;
-import net.minecraft.server.v1_7_R3.EntityHuman;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
+
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class Merchant
