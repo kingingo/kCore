@@ -103,8 +103,8 @@ public class Client {
 	}
 	
 	public void sendMessageToServer(String m){
-//		out.println(m);
-//		out.flush();
+		out.println(m);
+		out.flush();
 		Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent(m));
 	}
 	
