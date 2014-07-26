@@ -18,6 +18,7 @@ public class PermissionListener implements Listener {
 	public void Login(PlayerLoginEvent ev){
 		Player p = ev.getPlayer();
 	    manager.loadPermission(p);
+	    manager.setTabList(p);
 	}
 	
 }

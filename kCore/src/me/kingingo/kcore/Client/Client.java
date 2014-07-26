@@ -103,6 +103,7 @@ public class Client {
 	}
 	
 	public void sendMessageToServer(String m){
+		if(getName().equalsIgnoreCase("TEST-SERVER"))return;
 		out.println(m);
 		out.flush();
 		Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent(m));

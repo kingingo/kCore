@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 public class PlayerScoreboard {
 
@@ -24,6 +25,19 @@ public class PlayerScoreboard {
 	
 	public void setBoard(){
 		p.setScoreboard(board);
+	}
+	
+	public void addPlayerToTeam(String Team,Player p){
+		if(board.getTeam(Team)==null)return;
+		Team r = board.getTeam(Team);
+		r.addPlayer(p);
+	}
+	
+	public void addTeam(String Team, String prefix,Player[] list){
+		if(board.getTeam(Team)!=null)return;
+		Team r = board.registerNewTeam(Team);
+		if(prefix!=null)r.setPrefix(prefix);
+		for(Player p : list)r.addPlayer(p);
 	}
 	
 	public void addBoard(DisplaySlot typ,String DisplayName){

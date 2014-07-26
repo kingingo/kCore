@@ -3,6 +3,20 @@ package me.kingingo.kcore.Enum;
 import me.kingingo.kcore.Util.C;
 
 public enum Text {
+PERK_SNEAKDAMAGE(new String[]{"% Schaden wenn ein Spieler schleicht"}),
+PERK_NOFALLDAMAGE(new String[]{"kein Fallschaden"}),
+PERK_NOFIREDAMAGE(new String[]{"kein Feuerschaden"}),
+PERK_ARROWFIRE(new String[]{"Chance um % Prozent dass dein Pfeil brennt"}),
+PERK_NODROPSBYDEATH(new String[]{"Beim Tod keine Drops"}),
+PERK_POTIONBYDEATH(new String[]{"Beim Tod kriegt der Töder den Effect %."}),
+PERK_NOKNOCKBACK(new String[]{"kein Rückstoß"}),
+PERK_HEAL(new String[]{"Leben regeneriert um % Prozent schneller"}),
+PERK_POISEN(new String[]{"% Prozent Chance das der Spieler dem du Schaden zufügst","% Sekunden lang vergiftet ist"}),
+	
+KIT_SHOP_ADD("Du hast das Kit % gewählt."),
+KIT_SHOP_NO_MONEY("Du hast nicht genug %."),
+KIT_SHOP_BUYED_KIT("Du hast erfolgreich das Kit % gekauft."),
+
 FIGHT_START_IN(C.cGray+"§eIhr könnt in§b % §eSekunden Kämpfen!"),
 FIGHT_START(C.cGray+"§cIhr könnt nun Kämpfen!"),
 GAME_END_IN(C.cGray+"§eDas Spiel endet in§b % §e"),
@@ -53,6 +67,7 @@ TTT_PÄSSE_LOBBYPHASE("Die LobbyPhase ist vorbei..."),
 TTT_PÄSSE_MAX_USED("Es wurden schon zu viele Traitor Pässe benutzt"),
 TTT_SHOP("Du hast nicht genug Punkte!"),
 TTT_SHOP_BUYED("Du hast erfolgreich ein Item erworben!"),
+TTT_NPC_CLICKED("Das ist % er war ein %."),
 TTT_TRAITOR_SHOP_RADAR_CHANGE("Du hast den Spieler % ausgewählt!"),
 TTT_DETECTIVE_SHOP_DEFIBRILLATOR_DEATH("Bei diesem Spieler ist es Zuspät"),
 TTT_DETECTIVE_SHOP_DEFIBRILLATOR_WIEDERBELEBT("Du hast erfolgreich % wiederbelebt"),
@@ -60,23 +75,55 @@ TTT_DETECTIVE_SHOP_DEFIBRILLATOR_WIEDERBELEBTER("Du wurdest von % wiederbelebt")
 TTT_TESTER_JOIN("% ist den Tester beigetretten.");
 
 private String t;
+private String[] tt;
 private Text(String t){
 	this.t=t;
+}
+
+private Text(String[] t){
+	this.tt=t;
 }
 
 public String getText(){
 	return this.t;
 }
 
-public String getText(int s){
+public String[] getTexts(Object s){
+	for(int i = 0 ; i < tt.length ; i++){
+		tt[i]=tt[i].replaceFirst("%",String.valueOf(s));
+	}
+	return tt;
+}
+
+public String[] getTexts(String[] s){
+	for(int i = 0 ; i < tt.length ; i++){
+		for(int i1 = 0 ; i1 < s.length ; i1++){
+			if(s[i1]==null)continue;
+			tt[i]=tt[i].replaceFirst("%", s[i1]);
+			s[i1]=null;
+		}
+	}
+	return tt;
+}
+
+public String[] getTexts(){
+	return tt;
+}
+
+public String getText(Object s){
 	if(this.t.contains("%"))return t.replaceAll("%", String.valueOf(s));
 	return this.t;
 }
 
-public String getText(String s){
-	if(this.t.contains("%"))return t.replaceAll("%", s);
-	return this.t;
-}
+//public String getText(int s){
+//	if(this.t.contains("%"))return t.replaceAll("%", String.valueOf(s));
+//	return this.t;
+//}
+//
+//public String getText(String s){
+//	if(this.t.contains("%"))return t.replaceAll("%", s);
+//	return this.t;
+//}
 
 public String getText(String[] s){
 	String tt=this.t;

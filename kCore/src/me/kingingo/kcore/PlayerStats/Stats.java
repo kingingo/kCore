@@ -11,6 +11,8 @@ RANKING("rank int","rank","Rang",false),
 
 RUSH_ZERSTOERTE_BLOECKE("bloecke int","bloecke","Bloecke",true),
 
+SHEEPWARS_KILLED_SHEEPS("sheeps int","sheeps","Sheeps",true),
+
 TTT_TESTS("tests int","tests","Tests",true),
 TTT_PÄSSE("paesse int","paesse","Paesse",true),
 TTT_KARMA("karma int","karma","Karma",true),
