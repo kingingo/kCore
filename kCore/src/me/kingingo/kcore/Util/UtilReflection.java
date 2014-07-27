@@ -19,4 +19,15 @@ public class UtilReflection {
 		}
 	}
 	
+	public static Object getValue(String name, Object instance){
+		try{
+			Field field = instance.getClass().getDeclaredField(name);
+			field.setAccessible(true);
+			return field.get(instance);
+		}catch(Exception e){
+			System.err.println(e);
+			return null;
+		}
+	}
+	
 }

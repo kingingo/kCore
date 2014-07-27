@@ -63,95 +63,114 @@ public class Hologram implements Listener{
 	}
 	
 	//--
-	public void sendText(final Player p, Location loc,int time, String... msg) {
-		if(this.protocollib)return;
+	public NameTagMessage sendText(final Player p, Location loc,int time, String... msg) {
+		if(this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			message.sendToPlayer(p, loc);
 			list.put(message, time);
+			return message;
 		} catch (Exception error) {
 			error.printStackTrace();
 		}
+		return null;
 	}
 	
-	public void sendText(final Player p, Location loc, String... msg) {
-		if(this.protocollib)return;
+	public NameTagMessage sendText(final Player p, Location loc, String... msg) {
+		if(this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			message.sendToPlayer(p, loc);
+			return message;
 		} catch (Exception error) {
 			error.printStackTrace();
 		}
+		return null;
 	}
 	
-	public void sendText(final Player p, Location loc,int time, String msg) {
-		if(this.protocollib)return;
+	public NameTagMessage sendText(final Player p, Location loc,int time, String msg) {
+		if(this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			message.sendToPlayer(p, loc);
 			list.put(message, time);
+			return message;
 		} catch (Exception error) {
 			error.printStackTrace();
 		}
+		return null;
 	}
 	
-	public void sendText(final Player p, Location loc, String msg) {
-		if(this.protocollib)return;
+	public NameTagMessage sendText(final Player p, Location loc, String msg) {
+		if(this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			message.sendToPlayer(p, loc);
+			return message;
 		} catch (Exception error) {
 			error.printStackTrace();
 		}
+		return null;
 	}
 	
 	//--
 
-	public void sendTextAll(Location loc, String... msg) {
-		if(this.protocollib)return;
+	public NameTagMessage sendTextAll(Location loc, String... msg) {
+		if(this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			for (Player ps : Bukkit.getOnlinePlayers())
 				message.sendToPlayer(ps, loc);
+			
+			return message;
 		} catch (Exception error) {
 			error.printStackTrace();
 		}
+		return null;
 	}
 	
-	public void sendTextAll(Location loc, String msg) {
-		if(this.protocollib)return;
+	public NameTagMessage sendTextAll(Location loc, String msg) {
+		if(this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			for (Player ps : Bukkit.getOnlinePlayers())
 				message.sendToPlayer(ps, loc);
+			
+			return message;
 		} catch (Exception error) {
 			error.printStackTrace();
 		}
+		return null;
 	}
 	
-	public void sendTextAll(Location loc,int time, String... msg) {
-		if(this.protocollib)return;
+	public NameTagMessage sendTextAll(Location loc,int time, String... msg) {
+		if(this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			list.put(message, time);
 			for (Player ps : Bukkit.getOnlinePlayers())
 				message.sendToPlayer(ps, loc);
 			
+			return message;
 		} catch (Exception error) {
 			error.printStackTrace();
 		}
+		return null;
 	}
 	
-	public void sendTextAll(Location loc,int time, String msg) {
-		if(this.protocollib)return;
+	public NameTagMessage sendTextAll(Location loc,int time, String msg) {
+		if(this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			list.put(message, time);
 			for (Player ps : Bukkit.getOnlinePlayers())
 				message.sendToPlayer(ps, loc);
+			
+			return message;
 		} catch (Exception error) {
 			error.printStackTrace();
 		}
+		return null;
 	}
 	
 }

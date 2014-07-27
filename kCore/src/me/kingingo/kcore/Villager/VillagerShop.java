@@ -19,6 +19,7 @@ import net.minecraft.server.v1_7_R4.PathfinderGoalSelector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftCreature;
 import org.bukkit.entity.EntityType;
@@ -34,6 +35,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class VillagerShop implements Listener {
@@ -61,6 +63,7 @@ public class VillagerShop implements Listener {
 		this.name=name;
 		this.spawn=spawn.add(0,0.15,0);
 		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
+		spawn.getWorld().loadChunk(spawn.getWorld().getChunkAt(spawn));
 		this.villager=(Villager)spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
 		VillagerClearPath();
 		Bukkit.getPluginManager().registerEvents(this, instance);
@@ -69,6 +72,20 @@ public class VillagerShop implements Listener {
 	public void addShop(ItemStack item,Merchant merchant,int slot){
 		shops.put(item, merchant);
 		inventory.setItem(slot, item);
+	}
+	
+	public void finish(){
+		ItemMeta im;
+		for(int i = 0; i<getInventory().getSize();i++){
+			if(getInventory().getItem(i)==null||getInventory().getItem(i).getType()==Material.AIR){
+				getInventory().setItem(i, new ItemStack(Material.FENCE));
+				getInventory().getItem(i).setType(Material.STAINED_GLASS_PANE);
+				getInventory().getItem(i).setDurability((byte) 7);
+				im = getInventory().getItem(i).getItemMeta();
+				im.setDisplayName(" ");
+				getInventory().getItem(i).setItemMeta(im);
+			}
+		}
 	}
 	
 	public void VillagerClearPath(){
@@ -175,11 +192,13 @@ public class VillagerShop implements Listener {
 		if(ev.getRightClicked() instanceof Villager){
 			Villager v = (Villager)ev.getRightClicked();
 			if(v.getEntityId()==villager.getEntityId()){
+				ev.setCancelled(true);
 				ev.getPlayer().openInventory(getInventory());
 			}
 		}
 	}
 	
+	Merchant m;
 	@EventHandler
 	public void ClickInventory(InventoryClickEvent ev){
 	if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
@@ -189,7 +208,10 @@ public class VillagerShop implements Listener {
 			p.closeInventory();
 			for(ItemStack s : getShops().keySet()){
 				if(UtilItem.ItemNameEquals(ev.getCurrentItem(), s)){
-					getShops().get(s).openTrading(p,getName());
+					m = getShops().get(s).clone();
+					m.setCustomer(p);
+					m.setTitle(getName());
+					m.openTrading(p);
 					break;
 				}
 			}

@@ -36,6 +36,7 @@ VOTE_MIN("§eEs müssen mindestens §b% §eSpieler online sein damit das Spiel start
 KICKED_BY_PREMIUM(C.cRed+"§cDu wurdest vom Server gekickt damit ein Premium User spielen kann. Du möchtest auch? &bshop.EpicPvP.de"),
 PREFIX_GAME(C.cDAqua+"§7[§6%§7]: "+C.cGray),
 PREFIX(C.cDAqua+"§7[§6EpicPvP§7]: "+C.cGray),
+TEAM_WIN("Das Team % hat das Spiel Gewonnen."),
 TEAM_OUT("§b%§c ist gefallen"),
 RESTART_FROM_ADMIN("§cDer Server wurde von einem Administrator restartet!"),
 SCHUTZZEIT_END_IN("§eDie Schutzzeit endet in§b %§e Sekunden"),
@@ -72,7 +73,8 @@ TTT_TRAITOR_SHOP_RADAR_CHANGE("Du hast den Spieler % ausgewählt!"),
 TTT_DETECTIVE_SHOP_DEFIBRILLATOR_DEATH("Bei diesem Spieler ist es Zuspät"),
 TTT_DETECTIVE_SHOP_DEFIBRILLATOR_WIEDERBELEBT("Du hast erfolgreich % wiederbelebt"),
 TTT_DETECTIVE_SHOP_DEFIBRILLATOR_WIEDERBELEBTER("Du wurdest von % wiederbelebt"),
-TTT_TESTER_JOIN("% ist den Tester beigetretten.");
+TTT_TESTER_JOIN("% ist den Tester beigetretten."),
+SHEEPWARS_SHEEP_DEATH("Das Schaf vom Team % wurde von % gekillt!");
 
 private String t;
 private String[] tt;
