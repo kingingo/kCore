@@ -9,7 +9,7 @@ public abstract class Perk implements Listener{
 	@Getter
 	String name;
 	@Getter
-	String description[];
+	String[] description;
 	@Getter
 	Kit kit;
 	

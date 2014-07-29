@@ -17,7 +17,7 @@ public class Coins implements Listener{
 	private MySQL mysql;
 	private HashMap<Player,Integer> coins = new HashMap<>();
 	
-	public Coins(MySQL mysql,JavaPlugin instance){
+	public Coins(JavaPlugin instance,MySQL mysql){
 		this.mysql=mysql;
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}

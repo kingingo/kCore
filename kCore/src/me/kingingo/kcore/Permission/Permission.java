@@ -7,6 +7,11 @@ NONE("FAIL"),
 SERVER_JOIN_SPECTATE("epicpvp.server.spectate"),
 PREMIUM_LOBBY("lobby.premiumbereich"), 
 
+//Kits
+SHEEPRUSH_KIT_TESTKIT("epicpvp.kit.testkit"),
+ALL_KITS("epicpvp.kit.*"),
+//Kits
+
 //One In The Chamber - START -
 OneInTheChamber_KIT("epicpvp.oitc.kit"),
 OneInTheChamber_LIFE("epicpvp.oitc.life"),

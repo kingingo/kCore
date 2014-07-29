@@ -9,6 +9,7 @@ import me.kingingo.kcore.Client.Events.ClientSendMessageEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -51,6 +52,12 @@ public class ClientListener implements Listener{
 		//System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 		if(ev.getMessage().equalsIgnoreCase("ping")){
 			c.sendMessageToServer("pong");
+		}else if(ev.getMessage().equalsIgnoreCase("stop=?now")){
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/stop");
+		}else if(ev.getMessage().equalsIgnoreCase("restart=?now")){
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/restart");
+		}else if(ev.getMessage().equalsIgnoreCase("reload=?now")){
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/reload");
 		}
 	}
 	

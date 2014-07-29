@@ -2,7 +2,7 @@ package me.kingingo.kcore.Util;
 
 public enum InventorySize {
 _9(9),
-_16(16),
+_18(18),
 _27(27),
 _36(36),
 _45(45);

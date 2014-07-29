@@ -247,9 +247,7 @@ public class PetManager implements Listener{
 	  @EventHandler
 	  public void onUpdate(UpdateEvent event)
 	  {
-	    if (event.getType() != UpdateType.FAST) {
-	      return;
-	    }
+	    if (event.getType() != UpdateType.FAST)return;
 	    
 //	    for(Creature e : petToLocation.keySet()){
 //	    	if(petToLocation.get(e).distance(e.getLocation()) > 5){
@@ -272,50 +270,50 @@ public class PetManager implements Listener{
 	      Location ownerSpot = (Location)this.petToLocation.get(pet);
 	      Location petSpot = pet.getLocation();
 	      
-	      if(petSpot.distance(ownerSpot) > 4){
+	      if(petSpot.distance(ownerSpot) > 6){
 	    	  pet.teleport(ownerSpot);
 	      }
 	      
-	      //	      int xDiff = Math.abs(petSpot.getBlockX() - ownerSpot.getBlockX());
-//	      int yDiff = Math.abs(petSpot.getBlockY() - ownerSpot.getBlockY());
-//	      int zDiff = Math.abs(petSpot.getBlockZ() - ownerSpot.getBlockZ());
-//
-//	      if (xDiff + yDiff + zDiff > 4)
-//	      {
-//	        EntityCreature ec = ((CraftCreature)pet).getHandle();
-//	        Navigation nav = ec.getNavigation();
-//	        int xIndex = -1;
-//	        int zIndex = -1;
-//	        Block targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
-//	        while ((targetBlock.isEmpty()) || (targetBlock.isLiquid()))
-//	        {
-//	          if (xIndex < 2) {
-//	            xIndex++;
-//	          } else if (zIndex < 2){
-//	            xIndex = -1;
-//	            zIndex++;
-//	          }else {
-//	            return;
-//	          }
-//	          targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
-//	        }
-//	        if (((Integer)this.failedAttemptsToLocation.get(pet)).intValue() > 4)
-//	        {
-//	          pet.teleport(petToLocation.get(pet));
-//	          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
-//	        }
-//	        else if (/*!nav.a(petSpot.getX(), petSpot.getY() + 1, petSpot.getZ(), 2.0D)*/!moveEntity(pet,targetBlock.getLocation(),2.0F))
-//	        {
-//	          if (pet.getFallDistance() == 0.0F)
-//	          {
-//	            this.failedAttemptsToLocation.put(pet, Integer.valueOf(((Integer)this.failedAttemptsToLocation.get(pet)).intValue() + 1));
-//	          }
-//	        }
-//	        else
-//	        {
-//	          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
-//	        }
-//	      }
+	      int xDiff = Math.abs(petSpot.getBlockX() - ownerSpot.getBlockX());
+	      int yDiff = Math.abs(petSpot.getBlockY() - ownerSpot.getBlockY());
+	      int zDiff = Math.abs(petSpot.getBlockZ() - ownerSpot.getBlockZ());
+
+	      if (xDiff + yDiff + zDiff > 4)
+	      {
+	        EntityCreature ec = ((CraftCreature)pet).getHandle();
+	        Navigation nav = ec.getNavigation();
+	        int xIndex = -1;
+	        int zIndex = -1;
+	        Block targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
+	        while ((targetBlock.isEmpty()) || (targetBlock.isLiquid()))
+	        {
+	          if (xIndex < 2) {
+	            xIndex++;
+	          } else if (zIndex < 2){
+	            xIndex = -1;
+	            zIndex++;
+	          }else {
+	            return;
+	          }
+	          targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
+	        }
+	        if (((Integer)this.failedAttemptsToLocation.get(pet)).intValue() > 6)
+	        {
+	          pet.teleport(petToLocation.get(pet));
+	          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
+	        }
+	        else if (/*!nav.a(petSpot.getX(), petSpot.getY() + 1, petSpot.getZ(), 2.0D)*/!moveEntity(pet,targetBlock.getLocation(),2.0F))
+	        {
+	          if (pet.getFallDistance() == 0.0F)
+	          {
+	            this.failedAttemptsToLocation.put(pet, Integer.valueOf(((Integer)this.failedAttemptsToLocation.get(pet)).intValue() + 1));
+	          }
+	        }
+	        else
+	        {
+	          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
+	        }
+	      }
 	    }
 	  }
 	

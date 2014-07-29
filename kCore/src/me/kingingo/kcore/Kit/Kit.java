@@ -30,24 +30,22 @@ public class Kit {
 	@Getter
 	Permission permission;
 	
-	public Kit(JavaPlugin instance,String Name,ItemStack item,Permission permission,KitType type,int C,Perk[] perks){
+	public Kit(JavaPlugin instance,String Name,ItemStack item,Permission permission,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.permission=permission;
-		this.preis=C;
+		this.preis=preis;
 		
-		int i=3;
+		int i=2;
 		for(Perk perk : perks){
 			Bukkit.getPluginManager().registerEvents(perk, instance);
 			perk.setKit(this);
 			i=i+perk.description.length;
 		}
-		
 		this.description=new String[i];
-		this.description[0]=getName();
-		this.description[1]=getType().getName();
-		this.description[2]=" ";
-		
+		this.description[0]=getType().getName();
+		this.description[1]=" ";
+		i=2;
 		for(Perk perk : perks){
 			for(String s : perk.getDescription()){
 				this.description[i]=s;

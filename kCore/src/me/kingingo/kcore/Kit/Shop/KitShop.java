@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Kit.Shop;
 
 import lombok.Getter;
+import me.kingingo.kcore.Enum.GameState;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Permission.PermissionManager;
@@ -8,7 +9,9 @@ import me.kingingo.kcore.PlayerStats.StatsManager;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.Tokens;
+import me.kingingo.kcore.Util.UtilEvent;
 import me.kingingo.kcore.Util.UtilItem;
+import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,6 +19,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -45,6 +50,11 @@ public class KitShop implements Listener {
 		this.permManager=manager;
 		if(kits.length>size.getSize())size=InventorySize._45;
 		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
+		
+		for(Kit k : kits){
+			getInventory().addItem(k.getItem());
+		}
+		
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
@@ -53,31 +63,31 @@ public class KitShop implements Listener {
 		switch(kit.getType()){
 		case PREMIUM:
 			if(getPermManager().hasPermission(p, kit.getPermission())){
-				inventory.setItem(0, UtilItem.RenameItem(kit.getItem(), getName()));
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
-				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR_BLOCK), "§cZurück"));
+				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			}else{
-				inventory.setItem(0, UtilItem.RenameItem(kit.getItem(), getName()));
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aPremium-Kit","§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
-				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR_BLOCK), "§cZurück"));
+				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			}
 			break;
 		case STARTER:
-			inventory.setItem(0, UtilItem.RenameItem(kit.getItem(), getName()));
+			inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 			inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 			inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
-			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR_BLOCK), "§cZurück"));
+			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			break;
 		default:
 			if(getPermManager().hasPermission(p, kit.getPermission())){
-				inventory.setItem(0, UtilItem.RenameItem(kit.getItem(), getName()));
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
 				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR_BLOCK), "§cZurück"));
 			}else{
-				inventory.setItem(0, UtilItem.RenameItem(kit.getItem(), getName()));
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.GLOWSTONE_DUST) ,"§6Kaufen"));
 				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
@@ -144,8 +154,9 @@ public class KitShop implements Listener {
 			ev.setCancelled(true);
 			p.closeInventory();
 			for(Kit kit : getKits()){
-				if(UtilItem.ItemNameEquals(ev.getCurrentItem(), kit.getItem())){
-					getInv(kit, p);
+				if(UtilItem.ItemNameEquals(ev.getCurrentItem(), kit.getItem().clone())){
+					p.openInventory(getInv(kit, p));
+					break;
 				}
 			}
 		}else{
@@ -163,7 +174,7 @@ public class KitShop implements Listener {
 						p.closeInventory();
 						p.getInventory().remove(p.getItemInHand());
 					}else if(ev.getCurrentItem().getType()==Material.GLOWSTONE_DUST){
-						
+						p.openInventory(getKaufen(kit));
 					}
 					break;
 				}else if(String.valueOf(kit.getName()+" §aKaufen").equalsIgnoreCase(ev.getInventory().getName())){

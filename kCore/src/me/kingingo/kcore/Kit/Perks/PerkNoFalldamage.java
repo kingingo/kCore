@@ -20,8 +20,8 @@ public class PerkNoFalldamage extends Perk{
 	public void onBreak(EntityDamageEvent e){
 		if(e.getEntity() instanceof Player){
 			Player p = (Player)e.getEntity();
-			if(!this.getKit().hasPlayer(p))return;
 			if(e.getCause()==DamageCause.FALL){
+			if(!this.getKit().hasPlayer(p))return;
 				e.setCancelled(true);
 			}
 		}
