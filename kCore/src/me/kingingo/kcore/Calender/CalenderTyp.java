@@ -3,6 +3,7 @@ package me.kingingo.kcore.Calender;
 import lombok.Getter;
 
 public enum CalenderTyp {
+NONE("00.00"),
 GEBURSTAG("06.11"),
 WEIHNACHTEN("24.12"),
 NIKOLAUS("06.12"),
