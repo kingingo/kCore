@@ -35,17 +35,33 @@ public class Kit {
 		this.type=type;
 		this.permission=permission;
 		this.preis=preis;
+		int i;
 		
-		int i=2;
+		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
+			i=4;
+		}else{
+			i=2;
+		}
+		
 		for(Perk perk : perks){
 			Bukkit.getPluginManager().registerEvents(perk, instance);
 			perk.setKit(this);
 			i=i+perk.description.length;
 		}
+		
 		this.description=new String[i];
 		this.description[0]=getType().getName();
 		this.description[1]=" ";
-		i=2;
+		
+		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
+			this.description[2]="§ePreis: "+preis;
+			this.description[3]=" ";
+			i=4;
+		}else{
+			i=2;
+		}
+			
+		
 		for(Perk perk : perks){
 			for(String s : perk.getDescription()){
 				this.description[i]=s;
