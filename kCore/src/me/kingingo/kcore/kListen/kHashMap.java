@@ -1,66 +1,17 @@
 package me.kingingo.kcore.kListen;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Set;
 
-public class kHashMap<KeyType, ValueType>
-{
-  private HashMap<KeyType, ValueType> _wrappedHashMap = new HashMap();
-  
-  public boolean containsKey(KeyType key)
-  {
-    return this._wrappedHashMap.containsKey(key);
-  }
+  public class kHashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable{
 
-  public boolean containsValue(ValueType key)
-  {
-    return this._wrappedHashMap.containsValue(key);
-  }
+	private static final long serialVersionUID = -5979173328012264825L;
 
-  public Set<Map.Entry<KeyType, ValueType>> entrySet()
-  {
-    return this._wrappedHashMap.entrySet();
+	@Override
+	public Set<java.util.Map.Entry<K, V>> entrySet() {
+		return this.entrySet();
+	}
+	  
   }
-
-  public Set<KeyType> keySet()
-  {
-    return this._wrappedHashMap.keySet();
-  }
-
-  public Collection<ValueType> values()
-  {
-    return this._wrappedHashMap.values();
-  }
-
-  public ValueType get(KeyType key)
-  {
-    return this._wrappedHashMap.get(key);
-  }
-
-  public ValueType remove(KeyType key)
-  {
-    return this._wrappedHashMap.remove(key);
-  }
-
-  public ValueType put(KeyType key, ValueType value)
-  {
-    return this._wrappedHashMap.put(key, value);
-  }
-
-  public void clear()
-  {
-    this._wrappedHashMap.clear();
-  }
-
-  public int size()
-  {
-    return this._wrappedHashMap.size();
-  }
-
-  public boolean isEmpty()
-  {
-    return this._wrappedHashMap.isEmpty();
-  }
-}
