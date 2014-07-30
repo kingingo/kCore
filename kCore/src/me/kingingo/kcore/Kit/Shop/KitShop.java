@@ -80,6 +80,18 @@ public class KitShop implements Listener {
 			inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
 			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			break;
+		case SPEZIAL_KIT:
+			if(getPermManager().hasPermission(p, kit.getPermission())){
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+			}else{
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aSpezial-Kit","§7Nur erhältlich zu Besonderen anlässen!"} ,"§4Spezial-Kit"));
+				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+			}
 		default:
 			if(getPermManager().hasPermission(p, kit.getPermission())){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
