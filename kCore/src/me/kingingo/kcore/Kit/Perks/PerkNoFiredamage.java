@@ -20,7 +20,7 @@ public class PerkNoFiredamage extends Perk{
 	public void onBreak(EntityDamageEvent e){
 		if(e.getEntity() instanceof Player){
 			Player p = (Player)e.getEntity();
-			if(!this.getKit().hasPlayer(p))return;
+			if(!this.getKit().hasPlayer(this,p))return;
 			if(e.getCause()==DamageCause.FIRE||e.getCause() == DamageCause.FIRE_TICK||e.getCause()==DamageCause.LAVA){
 				e.setCancelled(true);
 			}

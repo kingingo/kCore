@@ -3,6 +3,7 @@ package me.kingingo.kcore.Kit;
 import java.util.ArrayList;
 
 import lombok.Getter;
+import me.kingingo.kcore.Kit.Perks.Event.KitHasPlayerEvent;
 import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Util.UtilItem;
 
@@ -94,7 +95,10 @@ public class Kit {
 		getPlayers().remove(p);
 	}
 	
-	public boolean hasPlayer(Player p){
+	public boolean hasPlayer(Perk perk,Player p){
+		KitHasPlayerEvent e = new KitHasPlayerEvent(perk,p,this);
+		Bukkit.getPluginManager().callEvent(e);
+		if(e.isCancelled())return false;
 		return getPlayers().contains(p);
 	}
 	

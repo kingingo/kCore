@@ -19,7 +19,7 @@ public class PerkNoKnockback extends Perk{
 	  public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
 	   if(e.getDamager() instanceof Player && e.getEntity() instanceof Player){
 		   Player dm = (Player)e.getDamager();
-		   if(!this.getKit().hasPlayer(dm))return;
+		   if(!this.getKit().hasPlayer(this,dm))return;
 		   Player op = (Player)e.getEntity();
 		   dm.setVelocity(new Vector(0,0,0));
 		   op.setVelocity(new Vector(0,0,0));

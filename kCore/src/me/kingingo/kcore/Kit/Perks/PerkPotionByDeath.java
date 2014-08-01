@@ -21,7 +21,7 @@ public class PerkPotionByDeath extends Perk{
 	@EventHandler
 	public void Death(PlayerDeathEvent ev){
 		if(ev.getEntity() instanceof Player && ev.getEntity().getKiller() instanceof Player){
-			if(!this.getKit().hasPlayer(ev.getEntity().getKiller()))return;
+			if(!this.getKit().hasPlayer(this,ev.getEntity().getKiller()))return;
 			Player k = (Player)ev.getEntity();
 			k.addPotionEffect(potion);
 		}

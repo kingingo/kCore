@@ -23,7 +23,7 @@ public class PerkArrowFire extends Perk{
 	public void Shoot(EntityShootBowEvent ev){
 		if(ev.getEntity() instanceof Player){
 			Player p = (Player)ev.getEntity();
-			if(!this.getKit().hasPlayer(p))return;
+			if(!this.getKit().hasPlayer(this,p))return;
 			if(UtilMath.RandomInt(10, 0)==i){
 				ev.getProjectile().setFireTicks(ev.getProjectile().getMaxFireTicks());
 			}
