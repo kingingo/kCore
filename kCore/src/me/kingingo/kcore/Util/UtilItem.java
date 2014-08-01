@@ -35,6 +35,20 @@ public class UtilItem {
 	    return i;
 	  }
 	  
+	  public static ItemStack addEnchantmentGlow(ItemStack item){ 
+	        net.minecraft.server.v1_7_R4.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+	        NBTTagCompound tag = null;
+	        if (!nmsStack.hasTag()) {
+	            tag = new NBTTagCompound();
+	            nmsStack.setTag(tag);
+	        }
+	        if (tag == null) tag = nmsStack.getTag();
+	        NBTTagList ench = new NBTTagList();
+	        tag.set("ench", ench);
+	        nmsStack.setTag(tag);
+	        return CraftItemStack.asCraftMirror(nmsStack);
+	    }
+	  
 	  public static boolean ItemNameEquals(ItemStack i, ItemStack i1){
 		  if(i.hasItemMeta()&&i.getItemMeta().hasDisplayName()){
 			  if(i1.hasItemMeta()&&i1.getItemMeta().hasDisplayName()){

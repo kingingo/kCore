@@ -31,7 +31,7 @@ public class Kit {
 	@Getter
 	Permission permission;
 	
-	public Kit(JavaPlugin instance,String Name,ItemStack item,Permission permission,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,ItemStack item,Permission permission,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.permission=permission;
@@ -45,7 +45,6 @@ public class Kit {
 		}
 		
 		for(Perk perk : perks){
-			Bukkit.getPluginManager().registerEvents(perk, instance);
 			perk.setKit(this);
 			i=i+perk.description.length;
 		}
@@ -55,9 +54,9 @@ public class Kit {
 		this.description[1]=" ";
 		
 		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
-			this.description[2]="§ePreis: "+preis;
-			this.description[3]=" ";
-			i=4;
+			this.description[1]="§ePreis: "+preis;
+			this.description[2]=" ";
+			i=3;
 		}else{
 			i=2;
 		}
@@ -70,18 +69,17 @@ public class Kit {
 			}
 		}
 		
-		this.item=UtilItem.Item(item, getDescription(), getName());
+		this.item=UtilItem.addEnchantmentGlow( UtilItem.Item(item, getDescription(), getName()) );
 		this.perks=perks;
 	}
 	
-	public Kit(JavaPlugin instance,String Name,ItemStack item,Permission permission,KitType type,String[] description,Perk[] perks){
+	public Kit(String Name,ItemStack item,Permission permission,KitType type,String[] description,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.permission=permission;
 		this.description=description;
-		this.item=UtilItem.Item(item, getDescription(), getName());
+		this.item=UtilItem.addEnchantmentGlow( UtilItem.Item(item, getDescription(), getName()) );
 		for(Perk perk : perks){
-			Bukkit.getPluginManager().registerEvents(perk, instance);
 			perk.setKit(this);
 		}
 		this.perks=perks;

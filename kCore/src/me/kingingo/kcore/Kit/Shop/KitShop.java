@@ -1,17 +1,14 @@
 package me.kingingo.kcore.Kit.Shop;
 
 import lombok.Getter;
-import me.kingingo.kcore.Enum.GameState;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Kit;
+import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Permission.PermissionManager;
-import me.kingingo.kcore.PlayerStats.StatsManager;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.Tokens;
-import me.kingingo.kcore.Util.UtilEvent;
 import me.kingingo.kcore.Util.UtilItem;
-import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -19,8 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -52,7 +47,10 @@ public class KitShop implements Listener {
 		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
 		
 		for(Kit k : kits){
-			getInventory().addItem(k.getItem());
+			getInventory().addItem( k.getItem() );
+			for(Perk perk : k.getPerks()){
+				Bukkit.getPluginManager().registerEvents(perk, instance);
+			}
 		}
 		
 		Bukkit.getPluginManager().registerEvents(this, instance);

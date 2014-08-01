@@ -8,7 +8,19 @@ SERVER_JOIN_SPECTATE("epicpvp.server.spectate"),
 PREMIUM_LOBBY("lobby.premiumbereich"), 
 
 //Kits
-SHEEPRUSH_KIT_TESTKIT("epicpvp.kit.testkit"),
+SHEEPRUSH_KIT_STARTER("epicpvp.kit.starter"),
+SHEEPRUSH_KIT_ARROWMAN("epicpvp.kit.arrowman"),
+SHEEPRUSH_KIT_ITEMSTEALER("epicpvp.kit.itemstealer"),
+SHEEPRUSH_KIT_HEALER("epicpvp.kit.healer"),
+SHEEPRUSH_KIT_DROPPER("epicpvp.kit.dropper"),
+SHEEPRUSH_KIT_ANKER("epicpvp.kit.anker"),
+SHEEPRUSH_KIT_PERKER("epicpvp.kit.perker"),
+SHEEPRUSH_KIT_TNTER("epicpvp.kit.tnter"),
+SHEEPRUSH_KIT_BUFFER("epicpvp.kit.buffer"),
+SHEEPRUSH_KIT_KNIGHT("epicpvp.kit.knight"),
+SHEEPRUSH_KIT_THEDEATH("epicpvp.kit.thedeath"),
+SHEEPRUSH_KIT_SPRINGER("epicpvp.kit.springer"),
+
 ALL_KITS("epicpvp.kit.*"),
 //Kits
 
