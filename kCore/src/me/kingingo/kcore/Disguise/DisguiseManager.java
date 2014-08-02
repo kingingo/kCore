@@ -47,6 +47,16 @@ public class DisguiseManager implements Listener {
 		return getDisguise().get(entity.getEntityId());
 	}
 	
+	public void disguise(LivingEntity entity,DisguiseType type){
+		DisguiseBase disguise = DisguiseType.newDisguise(entity, type);
+		if (!disguise.GetEntity().isAlive()) {
+		      return;
+		    }
+	    this.disguise.put(Integer.valueOf(disguise.GetEntityId()), disguise);
+
+	    reApplyDisguise(disguise);
+	}
+	
 	public void disguise(DisguiseBase disguise){
 	    if (!disguise.GetEntity().isAlive()) {
 	      return;
