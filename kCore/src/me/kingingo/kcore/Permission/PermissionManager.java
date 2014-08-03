@@ -149,6 +149,7 @@ public class PermissionManager {
 	
 	public void loadPermission(Player p){
 		String g="default";
+		Permission permission;
 		List<Permission> perm = new ArrayList<>();
 		ResultSet rs;
 		
@@ -169,7 +170,9 @@ public class PermissionManager {
 	      
 	      rs = mysql.Query("SELECT permission FROM game_perm WHERE user='"+p.getName()+"' AND prefix='none' AND pgroup='none'");
 	      while (rs.next()){
-	    	  perm.add(Permission.isPerm(rs.getString(1)));  
+	    	  permission=Permission.isPerm(rs.getString(1));
+	    	  if(permission==Permission.NONE)continue;
+	    	  perm.add(permission);  
 	      }
 	      rs.close();
 	    }
@@ -182,9 +185,10 @@ public class PermissionManager {
 	    {
 	      
 	      rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none'");
-	      while (rs.next())
-	      {
-	    	  perm.add(Permission.isPerm(rs.getString(1)));
+	      while (rs.next()){
+	    	  permission=Permission.isPerm(rs.getString(1));
+	    	  if(permission==Permission.NONE)continue;
+	    	  perm.add(permission);  
 	      }
 	      rs.close();
 	    }
@@ -205,7 +209,7 @@ public class PermissionManager {
 			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
 		}
 		
-		if(!list.isEmpty())list.put(p, perm);
+		if(!perm.isEmpty())list.put(p, perm);
 	}
 	
 	public void loadPermissions(Player p, List<Permission> permission){

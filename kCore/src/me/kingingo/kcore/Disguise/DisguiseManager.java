@@ -7,8 +7,10 @@ import java.util.List;
 import lombok.Getter;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
+import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.Packet;
 import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
@@ -27,15 +29,32 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+
 public class DisguiseManager implements Listener {
 
 	@Getter
 	JavaPlugin instance;
 	@Getter
 	private HashMap<Integer,DisguiseBase> disguise = new HashMap<>();
+	private HashMap<Integer,ArrayList<Player>> see = new HashMap<>();
 	
 	public DisguiseManager(JavaPlugin instance){
 		this.instance=instance;
+		
+//		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.NORMAL, PacketType.Play.Server.ENTITY_DESTROY){
+//		    public void onPacketReceiving(PacketEvent event){
+//		        if(event.getPacketType() == PacketType.Play.Server.ENTITY_DESTROY){
+//		           
+//		        }
+//		    }
+//		});
+		
 		Bukkit.getPluginManager().registerEvents(this, getInstance());
 	}
 	
@@ -47,8 +66,18 @@ public class DisguiseManager implements Listener {
 		return getDisguise().get(entity.getEntityId());
 	}
 	
+	public void disguise(LivingEntity entity,DisguiseType type,Object[] o){
+		DisguiseBase disguise = DisguiseType.newDisguise(entity, type,o);
+		if (!disguise.GetEntity().isAlive()) {
+		      return;
+		    }
+	    this.disguise.put(Integer.valueOf(disguise.GetEntityId()), disguise);
+
+	    reApplyDisguise(disguise);
+	}
+	
 	public void disguise(LivingEntity entity,DisguiseType type){
-		DisguiseBase disguise = DisguiseType.newDisguise(entity, type);
+		DisguiseBase disguise = DisguiseType.newDisguise(entity, type,null);
 		if (!disguise.GetEntity().isAlive()) {
 		      return;
 		    }
@@ -139,6 +168,7 @@ public class DisguiseManager implements Listener {
 	            }
 	          }
 	        }
+	        see.put(disguise.GetEntityId(), new ArrayList<Player>());
 	      }
 	    });
 	  }
@@ -178,6 +208,7 @@ public class DisguiseManager implements Listener {
 	            {
 	              entityPlayer.playerConnection.sendPacket(packet);
 	            }
+	            see.put(player.getEntityId(), new ArrayList<Player>());
 	        }
 	      }
 	    });
@@ -214,14 +245,45 @@ public class DisguiseManager implements Listener {
 	    }
 	  }
 	  
+	  @EventHandler
+	  public void Disguises(UpdateEvent event) {
+	    if (event.getType() != UpdateType.SEC) {
+	      return;
+	    }
+	    for (Player player : UtilServer.getPlayers()){
+	    	if(see.containsKey(player.getEntityId())&&getDisguise().containsKey(player.getEntityId())){
+	        	if(!see.get(player.getEntityId()).isEmpty()){
+	        		for(int i=0; i<see.get(player.getEntityId()).size();i++){
+	        			if(player.getLocation().distance(see.get(player.getEntityId()).get(i).getLocation())>40){
+	        				see.get(player.getEntityId()).remove(i);
+	        			}
+	        		}
+	        	}
+	        }else{
+	        	continue;
+	        }
+	      for (Player otherPlayer : UtilServer.getPlayers()){
+	    	if(otherPlayer.getEntityId()==player.getEntityId())continue;
+	        if(!see.get(player.getEntityId()).contains(otherPlayer)){
+	        	if(otherPlayer.getLocation().distance(player.getLocation())<40){
+	        		see.get(player.getEntityId()).add(otherPlayer);
+	        		System.out.println("JAJAAA");
+	        		((CraftPlayer)otherPlayer).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(new int[] { getDisguise().get(player.getEntityId()).GetEntityId() }));
+	        		((CraftPlayer)otherPlayer).getHandle().playerConnection.sendPacket(getDisguise().get(player.getEntityId()).GetSpawnPacket());
+	        	}
+	        }
+	      }
+	    }
+	  }
+	  
 	  @EventHandler(priority=EventPriority.HIGHEST)
 	  public void PlayerJoin(final PlayerJoinEvent ev){
+		  if(getDisguise().isEmpty())return;
 		  Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), new Runnable(){
 
 			@Override
 			public void run() {
 				 for(DisguiseBase disguise : getDisguise().values()){
-					 System.err.println("FERTIG");
 					 reApplyDisguiseOnly(ev.getPlayer(), disguise);
 				 }
 			}
@@ -234,16 +296,16 @@ public class DisguiseManager implements Listener {
 	    undisguise(event.getPlayer());
 	  }
 	  
-	  @EventHandler
-	  public void ChunkUnload(ChunkUnloadEvent event) {
-	    for (org.bukkit.entity.Entity entity : event.getChunk().getEntities())
-	    {
-	      if (this.disguise.containsKey(Integer.valueOf(entity.getEntityId())))
-	      {
-	        //this._entityDisguiseMap.put(entity.getUniqueId().toString(), (DisguiseBase)this.getDisguise().get(Integer.valueOf(entity.getEntityId())));
-	        this.disguise.remove(Integer.valueOf(entity.getEntityId()));
-	      }
-	    }
-	  }
+//	  @EventHandler
+//	  public void ChunkUnload(ChunkUnloadEvent event) {
+//	    for (org.bukkit.entity.Entity entity : event.getChunk().getEntities())
+//	    {
+//	      if (this.disguise.containsKey(Integer.valueOf(entity.getEntityId())))
+//	      {
+//	        //this._entityDisguiseMap.put(entity.getUniqueId().toString(), (DisguiseBase)this.getDisguise().get(Integer.valueOf(entity.getEntityId())));
+//	        this.disguise.remove(Integer.valueOf(entity.getEntityId()));
+//	      }
+//	    }
+//	  }
 	  
 }

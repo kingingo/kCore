@@ -3,6 +3,8 @@ package me.kingingo.kcore.Kit;
 import java.util.ArrayList;
 
 import lombok.Getter;
+import me.kingingo.kcore.Disguise.DisguiseManager;
+import me.kingingo.kcore.Disguise.DisguiseType;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Kit.Perks.Event.KitHasPlayerEvent;
 import me.kingingo.kcore.Permission.Permission;
@@ -32,14 +34,17 @@ public class Kit {
 	@Getter
 	Permission permission;
 	@Getter
-	DisguiseBase disguise;
+	DisguiseType disguise=null;
+	@Getter
+	DisguiseManager dmanager;
 	
-	public Kit(String Name,ItemStack item,Permission permission,DisguiseBase disguise,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,ItemStack item,Permission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.permission=permission;
 		this.preis=preis;
 		this.disguise=disguise;
+		this.dmanager=dmanager;
 		int i;
 		
 		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
@@ -119,14 +124,22 @@ public class Kit {
 		this.perks=perks;
 	}
 	
-	public void addPlayer(Player p){
-		if(getDisguise()!=null){
-			
+	public void disguise(){
+		if(getDisguise()==null)return;
+		for(Player p : getPlayers()){
+				DisguiseBase d = DisguiseType.newDisguise(p, getDisguise(), new Object[]{p.getName()});
+				getDmanager().disguise(d);
 		}
+	}
+	
+	public void addPlayer(Player p){
 		getPlayers().add(p);
 	}
 	
 	public void removePlayer(Player p){
+		if(getDisguise()!=null){
+			getDmanager().undisguise(p);
+		}
 		getPlayers().remove(p);
 	}
 	

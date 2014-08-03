@@ -21,6 +21,10 @@ SHEEPRUSH_KIT_KNIGHT("epicpvp.kit.knight"),
 SHEEPRUSH_KIT_THEDEATH("epicpvp.kit.thedeath"),
 SHEEPRUSH_KIT_SPRINGER("epicpvp.kit.springer"),
 
+SHEEPRUSH_KIT_BLAZE("epicpvp.kit.blaze"),
+SHEEPRUSH_KIT_ENDERMAN("epicpvp.kit.enderman"),
+SHEEPRUSH_KIT_ZOMBIE("epicpvp.kit.zombie"),
+
 ALL_KITS("epicpvp.kit.*"),
 //Kits
 
@@ -45,11 +49,11 @@ PET_SHEEP("kpet.sheep");
 
 public static Permission isPerm(String perm){
 	Permission per=Permission.NONE;
-	switch(perm){
-	case "epicpvp.oitc.kit": per=Permission.OneInTheChamber_KIT; break;
-	case "epicpvp.oitc.life": per=Permission.OneInTheChamber_LIFE; break;
-	case "epicpvp.join_full_server": per=Permission.JOIN_FULL_SERVER; break;
-	case "epicpvp.*": per=Permission.ALL_PERMISSION; break;
+	for(Permission permission : Permission.values()){
+		if(permission.getPermissionToString().equalsIgnoreCase(perm)){
+			per=permission;
+			break;
+		}
 	}
 	return per;
 }

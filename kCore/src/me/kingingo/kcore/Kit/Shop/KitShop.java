@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.InventorySize;
@@ -60,7 +61,7 @@ public class KitShop implements Listener {
 	Inventory inventory=Bukkit.createInventory(null, 9, kit.getName());
 		switch(kit.getType()){
 		case PREMIUM:
-			if(getPermManager().hasPermission(p, kit.getPermission())){
+			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
@@ -79,7 +80,7 @@ public class KitShop implements Listener {
 			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			break;
 		case SPEZIAL_KIT:
-			if(getPermManager().hasPermission(p, kit.getPermission())){
+			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
@@ -91,7 +92,7 @@ public class KitShop implements Listener {
 				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			}
 		default:
-			if(getPermManager().hasPermission(p, kit.getPermission())){
+			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
