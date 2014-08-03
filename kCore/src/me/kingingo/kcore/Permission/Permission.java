@@ -8,7 +8,7 @@ SERVER_JOIN_SPECTATE("epicpvp.server.spectate"),
 PREMIUM_LOBBY("lobby.premiumbereich"), 
 
 //Kits
-SHEEPRUSH_ADMIN_KIT("epicpvp.admin.kit"),
+ADMIN_KIT("epicpvp.admin.kit"),
 
 SHEEPRUSH_KIT_STARTER("epicpvp.kit.starter"),
 SHEEPRUSH_KIT_ARROWMAN("epicpvp.kit.arrowman"),

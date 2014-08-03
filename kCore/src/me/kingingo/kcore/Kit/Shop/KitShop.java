@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Kit.Shop;
 
 import lombok.Getter;
+import me.kingingo.kcore.Enum.GameState;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.KitType;
@@ -10,7 +11,9 @@ import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.Tokens;
+import me.kingingo.kcore.Util.UtilEvent;
 import me.kingingo.kcore.Util.UtilItem;
+import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -63,6 +67,19 @@ public class KitShop implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
+	@EventHandler
+	public void ShopOpen(PlayerInteractEvent ev){
+		if(UtilEvent.isAction(ev, ActionType.R)){
+			if(ev.getPlayer().getItemInHand()!=null&&UtilItem.ItemNameEquals(ev.getPlayer().getItemInHand(), UtilItem.RenameItem(new ItemStack(Material.CHEST), "§bKitShop"))){
+				if(permManager.hasPermission(ev.getPlayer(), Permission.ADMIN_KIT)){
+					ev.getPlayer().openInventory(getAdmininventory());
+				}else{
+					ev.getPlayer().openInventory(getInventory());
+				}
+			}
+		}
+	}
+	
 	public Inventory getInv(Kit kit,Player p){
 	Inventory inventory=Bukkit.createInventory(null, 9, kit.getName());
 		switch(kit.getType()){
@@ -97,6 +114,7 @@ public class KitShop implements Listener {
 				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aSpezial-Kit","§7Nur erhältlich zu Besonderen anlässen!"} ,"§4Spezial-Kit"));
 				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			}
+			break;
 		case ADMIN:
 			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
@@ -109,6 +127,7 @@ public class KitShop implements Listener {
 				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §cAdmin-Kit"} ,"§4Spezial-Kit"));
 				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			}
+			break;
 		default:
 			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));

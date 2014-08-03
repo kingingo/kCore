@@ -263,11 +263,11 @@ public class DisguiseManager implements Listener {
 	        	continue;
 	        }
 	      for (Player otherPlayer : UtilServer.getPlayers()){
+	    	if(!otherPlayer.getWorld().getName().equalsIgnoreCase(player.getWorld().getName()))continue;
 	    	if(otherPlayer.getEntityId()==player.getEntityId())continue;
 	        if(!see.get(player.getEntityId()).contains(otherPlayer)){
 	        	if(otherPlayer.getLocation().distance(player.getLocation())<40){
 	        		see.get(player.getEntityId()).add(otherPlayer);
-	        		System.out.println("JAJAAA");
 	        		((CraftPlayer)otherPlayer).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(new int[] { getDisguise().get(player.getEntityId()).GetEntityId() }));
 	        		((CraftPlayer)otherPlayer).getHandle().playerConnection.sendPacket(getDisguise().get(player.getEntityId()).GetSpawnPacket());
 	        	}

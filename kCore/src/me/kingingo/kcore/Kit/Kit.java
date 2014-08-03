@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Kit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Disguise.DisguiseManager;
@@ -89,7 +90,7 @@ public class Kit {
 		this.preis=preis;
 		int i;
 		
-		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
+		if(KitType.PREMIUM!=type&&KitType.STARTER!=type&&KitType.ADMIN!=type){
 			i=4;
 		}else{
 			i=2;
@@ -122,6 +123,15 @@ public class Kit {
 		
 		this.item=UtilItem.addEnchantmentGlow( UtilItem.Item(item, getDescription(), getName()) );
 		this.perks=perks;
+	}
+	
+	public void disguise(HashMap<Player,String> list){
+		if(getDisguise()==null)return;
+		for(Player p : getPlayers()){
+				if(!list.containsKey(p))continue;
+				DisguiseBase d = DisguiseType.newDisguise(p, getDisguise(), new Object[]{list.get(p)+p.getName()});
+				getDmanager().disguise(d);
+		}
 	}
 	
 	public void disguise(){
