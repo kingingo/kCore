@@ -3,6 +3,7 @@ package me.kingingo.kcore.Kit.Shop;
 import lombok.Getter;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Kit;
+import me.kingingo.kcore.Kit.KitType;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Permission.PermissionManager;
@@ -30,6 +31,8 @@ public class KitShop implements Listener {
 	@Getter
 	Inventory inventory;
 	@Getter
+	Inventory admininventory;
+	@Getter
 	Kit[] kits;
 	@Getter
 	PermissionManager permManager;
@@ -46,9 +49,12 @@ public class KitShop implements Listener {
 		this.permManager=manager;
 		if(kits.length>size.getSize())size=InventorySize._45;
 		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
+		this.admininventory=Bukkit.createInventory(null, size.getSize(), getName());
 		
 		for(Kit k : kits){
-			getInventory().addItem( k.getItem() );
+			if(k.getType()!=KitType.ADMIN)getInventory().addItem( k.getItem() );
+			
+			getAdmininventory().addItem( k.getItem() );
 			for(Perk perk : k.getPerks()){
 				Bukkit.getPluginManager().registerEvents(perk, instance);
 			}
@@ -89,6 +95,18 @@ public class KitShop implements Listener {
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aSpezial-Kit","§7Nur erhältlich zu Besonderen anlässen!"} ,"§4Spezial-Kit"));
+				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+			}
+		case ADMIN:
+			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+			}else{
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §cAdmin-Kit"} ,"§4Spezial-Kit"));
 				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			}
 		default:
