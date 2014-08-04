@@ -5,7 +5,9 @@ JOIN_FULL_SERVER("epicpvp.join_full_server"),
 ALL_PERMISSION("epicpvp.*"),
 NONE("FAIL"),
 SERVER_JOIN_SPECTATE("epicpvp.server.spectate"),
-PREMIUM_LOBBY("lobby.premiumbereich"), 
+PREMIUM_LOBBY("lobby.premiumbereich"),
+MUTE_ALL("epicpvp.mute.all"),
+MUTE_ALL_CHAT("epicpvp.mute.all.chat"),
 
 //Kits
 ADMIN_KIT("epicpvp.admin.kit"),

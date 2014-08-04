@@ -20,6 +20,9 @@ PERK_MOREHEALTH(new String[]{"Immer wenn du nur noch % Herzen hast erhält dein G
 PERK_STOPPERK(new String[]{"Sobald du jemanden schlägst ist sein Perk für % sekunden unbrauchbar."}),
 PERK_DEATHDROPONLY(new String[]{"Wenn du stirbst hast du % sekunden wo niemand deine Sachen aufheben kann."}),
 
+CHAT_MUTE("Der Chat wurde gesperrt!"),
+CHAT_UNMUTE("Der Chat wurde entsperrt!"),
+
 KIT_SHOP_ADD("Du hast das Kit % gewählt."),
 KIT_SHOP_NO_MONEY("Du hast nicht genug %."),
 KIT_SHOP_BUYED_KIT("Du hast erfolgreich das Kit % gekauft."),
