@@ -232,19 +232,19 @@ public class KitShop implements Listener {
 					
 					if(ev.getCurrentItem().getType()==Material.GOLD_NUGGET){
 						int c = getCoins().getCoins(p);
-						if(c<=kit.getPreis()){
+						if(c>=kit.getPreis()){
 							getCoins().delCoins(p, true, c);
 							getPermManager().addPermission(p, kit.getPermission());
-							p.sendMessage(Text.PREFIX+Text.KIT_SHOP_BUYED_KIT.getText(kit.getName()));
+							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_BUYED_KIT.getText(kit.getName()));
 						}else{
 							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_NO_MONEY.getText("Coins"));
 						}
 					}else if(ev.getCurrentItem().getType()==Material.GOLD_INGOT){
 						int c = getTokens().getTokens(p);
-						if(c<=kit.getPreis()){
+						if(c>=kit.getPreis()){
 							getTokens().delTokens(p, true, c);
 							getPermManager().addPermission(p, kit.getPermission());
-							p.sendMessage(Text.PREFIX+Text.KIT_SHOP_BUYED_KIT.getText(kit.getName()));
+							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_BUYED_KIT.getText(kit.getName()));
 						}else{
 							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_NO_MONEY.getText("Tokens"));
 						}

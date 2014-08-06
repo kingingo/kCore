@@ -50,7 +50,11 @@ public class DisguiseManager implements Listener {
 //		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.NORMAL, PacketType.Play.Server.ENTITY_DESTROY){
 //		    public void onPacketReceiving(PacketEvent event){
 //		        if(event.getPacketType() == PacketType.Play.Server.ENTITY_DESTROY){
-//		           
+//		            Player player = event.getPlayer();
+//		            try {
+//		                PacketContainer packet = event.getPacket();
+//		                System.out.println("DESTROY: "+player.getName());
+//		            } catch (Exception e){}
 //		        }
 //		    }
 //		});
@@ -95,6 +99,14 @@ public class DisguiseManager implements Listener {
 	    reApplyDisguise(disguise);
 	}
 
+	public void undisguiseAll(){
+		for(Player p : UtilServer.getPlayers()){
+			if(disguise.containsKey(p.getEntityId())){
+				undisguise(p);
+			}
+		}
+	}
+	
 	public void undisguise(LivingEntity entity)
 	  {
 	    if (!this.disguise.containsKey(Integer.valueOf(entity.getEntityId()))) {
