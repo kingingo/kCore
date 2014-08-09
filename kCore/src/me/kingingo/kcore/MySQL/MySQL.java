@@ -65,6 +65,60 @@ public class MySQL
 	    }
 	  }
   
+  public Integer getInt(String qry){
+	  Bukkit.getPluginManager().callEvent(new MySQLQueryEvent(qry));
+	    ResultSet rs = null;
+	    Integer o = null;
+	    try
+	    {
+	      Statement stmt = connection.createStatement();
+	      rs = stmt.executeQuery(qry);
+	      while(rs.next()){
+	    	  o=rs.getInt(1);
+	      }
+	    }
+	    catch (Exception ex) {
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex));
+	    }
+	  return o;
+  }
+  
+  public String getString(String qry){
+	  Bukkit.getPluginManager().callEvent(new MySQLQueryEvent(qry));
+	    ResultSet rs = null;
+	    String o = null;
+	    try
+	    {
+	      Statement stmt = connection.createStatement();
+	      rs = stmt.executeQuery(qry);
+	      while(rs.next()){
+	    	  o=rs.getString(1);
+	      }
+	    }
+	    catch (Exception ex) {
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex));
+	    }
+	  return o;
+  }
+  
+  public Object getObject(String qry){
+	  Bukkit.getPluginManager().callEvent(new MySQLQueryEvent(qry));
+	    ResultSet rs = null;
+	    Object o= null;
+	    try
+	    {
+	      Statement stmt = connection.createStatement();
+	      rs = stmt.executeQuery(qry);
+	      while(rs.next()){
+	    	  o=rs.getObject(1);
+	      }
+	    }
+	    catch (Exception ex) {
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex));
+	    }
+	  return o;
+  }
+  
   public ResultSet Query(String qry) {
 	  Bukkit.getPluginManager().callEvent(new MySQLQueryEvent(qry));
 	    ResultSet rs = null;
