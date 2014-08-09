@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -22,6 +23,9 @@ public class PermissionManager {
 	private HashMap<Player,List<Permission>> list = new HashMap<>();
 	private HashMap<Player,String> prefix = new HashMap<>();
 	private MySQL mysql;
+	@Getter
+	@Setter
+	private boolean SetAllowTab=true;
 	@Getter
 	private JavaPlugin instance;
 	
