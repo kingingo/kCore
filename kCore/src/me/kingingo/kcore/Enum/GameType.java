@@ -14,7 +14,8 @@ TroubleInMinecraft("TroubleInMinecraft","TTT",new Stats[]{Stats.KILLS,Stats.DEAT
 EnderMode("EnderMode","EM",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 MegaRush("MegaRush","MR",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 BeastMode("BeastMode","BM",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
-SheepWars("SheepWars","SW",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),
+SheepWars8("SheepWars8","SW",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),
+SheepWars16("SheepWars16","SW",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),
 MarioParty("MarioParty","MP",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 NONE("NONE","FAIL",null);
 

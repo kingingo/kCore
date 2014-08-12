@@ -38,6 +38,104 @@ public class Kit {
 	DisguiseType disguise=null;
 	@Getter
 	DisguiseManager dmanager;
+	@Getter
+	ItemStack[] items;
+	
+	public Kit(String Name,ItemStack item,ItemStack[] items,Permission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
+		this.Name=Name;
+		this.type=type;
+		this.items=items;
+		this.permission=permission;
+		this.preis=preis;
+		this.disguise=disguise;
+		this.dmanager=dmanager;
+		int i;
+		try{
+		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
+			i=4;
+		}else{
+			i=2;
+		}
+		
+		for(Perk perk : perks){
+			perk.setKit(this);
+			i=i+perk.description.length;
+		}
+		
+		this.description=new String[i];
+		this.description[0]=getType().getName();
+		this.description[1]=" ";
+		
+		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
+			this.description[1]="§ePreis: "+preis;
+			this.description[2]=" ";
+			i=3;
+		}else{
+			i=2;
+		}
+			
+		
+		for(Perk perk : perks){
+			for(String s : perk.getDescription()){
+				this.description[i]=s;
+				i++;
+			}
+		}
+		}catch(ArrayIndexOutOfBoundsException e){
+			System.err.println("[Kit] Name: "+Name);
+			e.printStackTrace();
+		}
+		
+		this.item=UtilItem.Item(item, getDescription(), getName());
+		this.perks=perks;
+	}
+	
+	public Kit(String Name,ItemStack item,ItemStack[] items,Permission permission,KitType type,int preis,Perk[] perks){
+		this.Name=Name;
+		this.type=type;
+		this.permission=permission;
+		this.items=items;
+		this.preis=preis;
+		int i;
+		try{
+		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
+			i=4;
+		}else{
+			i=2;
+		}
+		
+		for(Perk perk : perks){
+			perk.setKit(this);
+			i=i+perk.description.length;
+		}
+		
+		this.description=new String[i];
+		this.description[0]=getType().getName();
+		this.description[1]=" ";
+		
+		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
+			this.description[1]="§ePreis: "+preis;
+			this.description[2]=" ";
+			i=3;
+		}else{
+			i=2;
+		}
+			
+		
+		for(Perk perk : perks){
+			for(String s : perk.getDescription()){
+				this.description[i]=s;
+				i++;
+			}
+		}
+		}catch(ArrayIndexOutOfBoundsException e){
+			System.err.println("[Kit] Name: "+Name);
+			e.printStackTrace();
+		}
+		
+		this.item=UtilItem.Item(item, getDescription(), getName());
+		this.perks=perks;
+	}
 	
 	public Kit(String Name,ItemStack item,Permission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
@@ -47,7 +145,7 @@ public class Kit {
 		this.disguise=disguise;
 		this.dmanager=dmanager;
 		int i;
-		
+		try{
 		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
 			i=4;
 		}else{
@@ -78,8 +176,12 @@ public class Kit {
 				i++;
 			}
 		}
+		}catch(ArrayIndexOutOfBoundsException e){
+			System.err.println("[Kit] Name: "+Name);
+			e.printStackTrace();
+		}
 		
-		this.item=UtilItem.addEnchantmentGlow( UtilItem.Item(item, getDescription(), getName()) );
+		this.item=UtilItem.Item(item, getDescription(), getName());
 		this.perks=perks;
 	}
 	
@@ -89,8 +191,8 @@ public class Kit {
 		this.permission=permission;
 		this.preis=preis;
 		int i;
-		
-		if(KitType.PREMIUM!=type&&KitType.STARTER!=type&&KitType.ADMIN!=type){
+		try{
+		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
 			i=4;
 		}else{
 			i=2;
@@ -120,8 +222,12 @@ public class Kit {
 				i++;
 			}
 		}
+		}catch(ArrayIndexOutOfBoundsException e){
+			System.err.println("[Kit] Name: "+Name);
+			e.printStackTrace();
+		}
 		
-		this.item=UtilItem.addEnchantmentGlow( UtilItem.Item(item, getDescription(), getName()) );
+		this.item=UtilItem.Item(item, getDescription(), getName());
 		this.perks=perks;
 	}
 	
@@ -131,6 +237,25 @@ public class Kit {
 				if(!list.containsKey(p))continue;
 				DisguiseBase d = DisguiseType.newDisguise(p, getDisguise(), new Object[]{list.get(p)+p.getName()});
 				getDmanager().disguise(d);
+		}
+	}
+	
+	public void StartGame(HashMap<Player,String> list){
+		setItems();
+		disguise(list);
+	}
+	
+	public void StartGame(){
+		setItems();
+		disguise();
+	}
+	
+	public void setItems(){
+		if(items==null)return;
+		for(Player p : getPlayers()){
+			for(ItemStack i : items){
+				p.getInventory().addItem(i.clone());
+			}
 		}
 	}
 	

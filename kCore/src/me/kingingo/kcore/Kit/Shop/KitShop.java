@@ -1,5 +1,7 @@
 package me.kingingo.kcore.Kit.Shop;
 
+import java.util.HashMap;
+
 import lombok.Getter;
 import me.kingingo.kcore.Enum.GameState;
 import me.kingingo.kcore.Enum.Text;
@@ -44,6 +46,7 @@ public class KitShop implements Listener {
 	Coins coins;
 	@Getter
 	Tokens tokens;
+	HashMap<Player,Inventory> l = new HashMap<>();
 	
 	public KitShop(JavaPlugin instance,Coins coins,Tokens tokens,PermissionManager manager,String name,InventorySize size,Kit[] kits){
 		this.name=name;
@@ -67,15 +70,53 @@ public class KitShop implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
+	public void getInv(Player p){
+		if(l.containsKey(p)){
+			p.openInventory(l.get(p));
+			return;
+		}
+		if(permManager.hasPermission(p, Permission.ADMIN_KIT)){
+			Inventory inv = Bukkit.createInventory(null, getAdmininventory().getSize(), getAdmininventory().getTitle());
+			for(ItemStack i : getAdmininventory()){
+				if(i==null||i.getType()==Material.AIR)continue;
+				for(Kit k : getKits()){
+					if(UtilItem.ItemNameEquals(i, k.getItem())){
+						if(getPermManager().hasPermission(p, k.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+							inv.addItem(UtilItem.addEnchantmentGlow(i.clone()));	
+						}else{
+							inv.addItem(i.clone());
+						}
+						break;
+					}
+				}
+			}
+			l.put(p, inv);
+			p.openInventory(inv);
+		}else{
+			Inventory inv = Bukkit.createInventory(null, getInventory().getSize(), getInventory().getTitle());
+			for(ItemStack i : getInventory()){
+				if(i==null||i.getType()==Material.AIR)continue;
+				for(Kit k : getKits()){
+					if(UtilItem.ItemNameEquals(i, k.getItem().clone())){
+						if(getPermManager().hasPermission(p, k.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+							inv.addItem(UtilItem.addEnchantmentGlow(i.clone()));	
+						}else{
+							inv.addItem(i.clone());
+						}
+						break;
+					}
+				}
+			}
+			l.put(p, inv);
+			p.openInventory(inv);
+		}
+	}
+	
 	@EventHandler
 	public void ShopOpen(PlayerInteractEvent ev){
 		if(UtilEvent.isAction(ev, ActionType.R)){
 			if(ev.getPlayer().getItemInHand()!=null&&UtilItem.ItemNameEquals(ev.getPlayer().getItemInHand(), UtilItem.RenameItem(new ItemStack(Material.CHEST), "§bKitShop"))){
-				if(permManager.hasPermission(ev.getPlayer(), Permission.ADMIN_KIT)){
-					ev.getPlayer().openInventory(getAdmininventory());
-				}else{
-					ev.getPlayer().openInventory(getInventory());
-				}
+				getInv(ev.getPlayer());
 			}
 		}
 	}
@@ -215,7 +256,7 @@ public class KitShop implements Listener {
 					
 					if(ev.getCurrentItem().getType()==Material.IRON_DOOR||ev.getCurrentItem().getType()==Material.REDSTONE){
 						p.closeInventory();
-						p.openInventory(getInventory());
+						getInv(p);
 					}else if(ev.getCurrentItem().getType()==Material.FIRE){
 						kit.addPlayer(p);
 						p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_ADD.getText(kit.getName()));
@@ -233,7 +274,7 @@ public class KitShop implements Listener {
 					if(ev.getCurrentItem().getType()==Material.GOLD_NUGGET){
 						int c = getCoins().getCoins(p);
 						if(c>=kit.getPreis()){
-							getCoins().delCoins(p, true, c);
+							getCoins().delCoins(p, true, kit.getPreis());
 							getPermManager().addPermission(p, kit.getPermission());
 							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_BUYED_KIT.getText(kit.getName()));
 						}else{
@@ -242,7 +283,7 @@ public class KitShop implements Listener {
 					}else if(ev.getCurrentItem().getType()==Material.GOLD_INGOT){
 						int c = getTokens().getTokens(p);
 						if(c>=kit.getPreis()){
-							getTokens().delTokens(p, true, c);
+							getTokens().delTokens(p, true, kit.getPreis());
 							getPermManager().addPermission(p, kit.getPermission());
 							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_BUYED_KIT.getText(kit.getName()));
 						}else{

@@ -15,14 +15,17 @@ public class PerkNoKnockback extends Perk{
 		super("noKnockback",Text.PERK_NOKNOCKBACK.getTexts());
 	}
 	
-	@EventHandler(priority=EventPriority.NORMAL)
+	@EventHandler(priority=EventPriority.HIGHEST)
 	  public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-	   if(e.getDamager() instanceof Player && e.getEntity() instanceof Player){
+	   if(e.getDamager() instanceof Player && e.getEntity() instanceof Player&&!e.isCancelled()){
 		   Player dm = (Player)e.getDamager();
-		   if(!this.getKit().hasPlayer(this,dm))return;
+		   if(this.getKit().hasPlayer(this, dm)){
+			   dm.setVelocity(new Vector(0,0,0));
+		   }
 		   Player op = (Player)e.getEntity();
-		   dm.setVelocity(new Vector(0,0,0));
-		   op.setVelocity(new Vector(0,0,0));
+		   if(this.getKit().hasPlayer(this, op)){
+			   op.setVelocity(new Vector(0,0,0));
+		   }
 	   }
 	  }
 	

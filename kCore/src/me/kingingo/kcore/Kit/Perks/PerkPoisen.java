@@ -15,7 +15,7 @@ public class PerkPoisen extends Perk{
 	int time;
 	int chance;
 	public PerkPoisen(int time,int chance){
-		super("Poisen", Text.PERK_POISEN.getTexts(new String[]{""+chance,""+time}));
+		super("Poisen", Text.PERK_POISEN.getTexts(new String[]{String.valueOf(chance),String.valueOf(time)}));
 		this.time=time;
 		this.chance=chance;
 	}
@@ -24,7 +24,7 @@ public class PerkPoisen extends Perk{
 	Player attack;
 	@EventHandler
 	public void Damage(EntityDamageByEntityEvent ev){
-		if(ev.getEntity() instanceof Player){
+		if(ev.getEntity() instanceof Player&&ev.getDamager() instanceof Player){
 			defend=(Player)ev.getEntity();
 			if(!this.getKit().hasPlayer(this,defend))return;
 			if(!(UtilMath.RandomInt(100, 0)<chance))return;

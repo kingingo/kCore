@@ -29,6 +29,9 @@ public class AddonNight implements Listener {
 	@EventHandler
 	public void Night(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.FASTEST)return;
+		if(getWorld().isThundering()){
+			getWorld().setStorm(false);
+		}
 		if(getWorld().getTime()<24000&&getWorld().getTime()>12000){
 			time=getWorld().getTime();
 			time+=80;

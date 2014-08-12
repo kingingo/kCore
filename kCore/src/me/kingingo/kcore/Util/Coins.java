@@ -3,6 +3,8 @@ package me.kingingo.kcore.Util;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import me.kingingo.kcore.Enum.GameType;
+import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
 
 import org.bukkit.Bukkit;
@@ -71,12 +73,47 @@ public class Coins implements Listener{
 	@EventHandler
 	public void Quit(PlayerQuitEvent ev){
 		addCoins(ev.getPlayer(),true,0);
+		if(coins.containsKey(ev.getPlayer()))coins.remove(ev.getPlayer());
 	}
 	
 	@EventHandler
 	public void Join(PlayerJoinEvent ev){
 		Exist(ev.getPlayer().getName());
+		if(coins.containsKey(ev.getPlayer()))coins.remove(ev.getPlayer());
 		getCoins(ev.getPlayer());
+	}
+	
+	public boolean delCoins(Player p,boolean save,Integer coins,GameType typ){
+		if(!save){
+			int c = getCoins(p);
+			if(c<coins)return false;
+			int co=c-coins;
+			this.coins.put(p, co);
+			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_DEL.getText(coins));
+		}else{
+			int c = getCoins(p);
+			if(c<coins)return false;
+			int co=c-coins;
+			this.coins.put(p, co);
+			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
+			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_DEL.getText(coins));
+		}
+		return true;
+	}
+	
+	public void addCoins(Player p,boolean save,Integer coins,GameType typ){
+		if(!save){
+			int c = getCoins(p);
+			int co=c+coins;
+			this.coins.put(p, co);
+			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_ADD.getText(coins));
+		}else{
+			int c = getCoins(p);
+			int co=c+coins;
+			this.coins.put(p, co);
+			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
+			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_ADD.getText(coins));
+		}
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins){

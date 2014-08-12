@@ -8,6 +8,7 @@ import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 public class PerkHeal extends Perk{
 
@@ -22,7 +23,7 @@ public class PerkHeal extends Perk{
 		if(ev.getType()!=UpdateType.SLOW)return;
 		for(Player p : this.getKit().getPlayers()){
 			if(p.getFoodLevel()==20){
-				((CraftPlayer)p).setHealth(((CraftPlayer)p).getHealth()+heal);
+				UtilPlayer.health(p,heal);
 			}
 		}
 	}
