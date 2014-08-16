@@ -2,31 +2,44 @@ package me.kingingo.kcore.Kit.Perks;
 
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Update.UpdateType;
+import me.kingingo.kcore.Update.Event.UpdateEvent;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerVelocityEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 public class PerkNoKnockback extends Perk{
 
-	public PerkNoKnockback() {
+	JavaPlugin instance;
+	
+	public PerkNoKnockback(JavaPlugin instance) {
 		super("noKnockback",Text.PERK_NOKNOCKBACK.getTexts());
+		this.instance=instance;
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	  public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-	   if(e.getDamager() instanceof Player && e.getEntity() instanceof Player&&!e.isCancelled()){
-		   Player dm = (Player)e.getDamager();
-		   if(this.getKit().hasPlayer(this, dm)){
-			   dm.setVelocity(new Vector(0,0,0));
-		   }
-		   Player op = (Player)e.getEntity();
+	   if(e.getEntity() instanceof Player&&!e.isCancelled()){
+		   final Player op = (Player)e.getEntity();
 		   if(this.getKit().hasPlayer(this, op)){
-			   op.setVelocity(new Vector(0,0,0));
+			   op.setVelocity(new Vector());
+			   Bukkit.getScheduler().scheduleSyncDelayedTask(instance, new Runnable(){
+
+				@Override
+				public void run() {
+					op.setVelocity(new Vector());
+				}
+				   
+			   },1L);
 		   }
 	   }
 	  }
+	
 	
 }

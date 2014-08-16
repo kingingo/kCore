@@ -34,6 +34,10 @@ SHEEPWARS_KIT_ZOMBIE("epicpvp.kit.zombie"),
 ALL_KITS("epicpvp.kit.*"),
 //Kits
 
+//SkyPvP - START -
+SkyPvP_Mehr_Leben("epicpvp.skypvp.more_life"),
+//SkyPvP - ENDE -
+
 //One In The Chamber - START -
 OneInTheChamber_KIT("epicpvp.oitc.kit"),
 OneInTheChamber_LIFE("epicpvp.oitc.life"),

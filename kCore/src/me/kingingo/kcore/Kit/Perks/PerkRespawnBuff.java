@@ -13,27 +13,20 @@ import me.kingingo.kcore.Kit.Perk;
 public class PerkRespawnBuff extends Perk{
 
 	PotionEffect[] potion;
-	JavaPlugin instance;
 	
-	public PerkRespawnBuff(PotionEffect[] potion,JavaPlugin instance) {
+	public PerkRespawnBuff(PotionEffect[] potion) {
 		super("RespawnBuff",Text.PERK_PREMIUM.getTexts());
 		this.potion=potion;
-		this.instance=instance;
 	}
-// int duration, int amplifier
+	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Respawn(final PlayerRespawnEvent ev){
 		if(this.getKit().hasPlayer(this,ev.getPlayer())){
-//			System.out.println("NAME: "+ev.getPlayer().getName());
-//			Bukkit.getScheduler().scheduleSyncDelayedTask(instance, new Runnable(){
-//				@Override
-//				public void run() {
+
 					for(PotionEffect e : potion){
 						System.out.println("TYP: "+e.getType().getName()+" DUR:"+e.getDuration()+" AMP:"+e.getAmplifier());
 						ev.getPlayer().addPotionEffect(new PotionEffect(e.getType(),e.getDuration(),e.getAmplifier()));
 					}
-//				}
-//			},20);
 		}
 	}
 	

@@ -89,6 +89,7 @@ TOKENS_ADD("§eDu hast §b%§e Tokens erhalten."),
 TOKENS_DEL("§eDir wurden §c% §eTokens abgezogen."),
 COINS_ADD("§eDu hast §b%§e Coins erhalten."),
 COINS_DEL("§eDir wurden §c% §eCoins abgezogen."),
+GAME_AUSGESCHIEDEN("% wurde aussem Spiel ausgeschlossen!"),
 SHEEPWARS_SHEEP_DEATH("§eDas Schaf vom Team %§e wurde von§b % §egetötet!");
 
 private String t;

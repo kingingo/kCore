@@ -10,8 +10,10 @@ import me.kingingo.kcore.MySQL.MySQL;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,6 +24,13 @@ public class Coins implements Listener{
 	public Coins(JavaPlugin instance,MySQL mysql){
 		this.mysql=mysql;
 		Bukkit.getPluginManager().registerEvents(this, instance);
+	}
+	
+	public void SaveAll(){
+		for(Player p : coins.keySet()){
+			addCoins(p, true, 0);
+		}
+		coins.clear();
 	}
 	
 	public boolean Exist(String p){
@@ -70,17 +79,18 @@ public class Coins implements Listener{
 		return d;
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void Quit(PlayerQuitEvent ev){
-		addCoins(ev.getPlayer(),true,0);
-		if(coins.containsKey(ev.getPlayer()))coins.remove(ev.getPlayer());
+		if(coins.containsKey(ev.getPlayer())){
+			addCoins(ev.getPlayer(),true,0);
+			coins.remove(ev.getPlayer());
+		}
 	}
 	
-	@EventHandler
-	public void Join(PlayerJoinEvent ev){
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void Join(PlayerLoginEvent ev){
 		Exist(ev.getPlayer().getName());
 		if(coins.containsKey(ev.getPlayer()))coins.remove(ev.getPlayer());
-		getCoins(ev.getPlayer());
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins,GameType typ){

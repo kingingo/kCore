@@ -10,8 +10,10 @@ import me.kingingo.kcore.MySQL.MySQL;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -47,17 +49,23 @@ public class Tokens implements Listener {
 		return b;
 	}
 	
-	@EventHandler
+	public void SaveAll(){
+		for(String p : tokens.keySet()){
+			addTokens(p, true, 0);
+		}
+		tokens.clear();
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void Quit(PlayerQuitEvent ev){
 		addTokens(ev.getPlayer(),true,0);
 		if(tokens.containsKey(ev.getPlayer()))tokens.remove(ev.getPlayer());
 	}
 	
-	@EventHandler
-	public void Join(PlayerJoinEvent ev){
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void Join(PlayerLoginEvent ev){
 		Exist(ev.getPlayer().getName());
 		if(tokens.containsKey(ev.getPlayer()))tokens.remove(ev.getPlayer());
-		getTokens(ev.getPlayer());
 	}
 	
 	public void CreateAccount(String p){
