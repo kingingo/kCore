@@ -35,6 +35,12 @@ public class UtilMath
   {
     return offset2d(a.getLocation().toVector(), b.getLocation().toVector());
   }
+  
+  public static double RandomDouble(double start,double end){
+	  double random = new Random().nextDouble();
+	  double result = start + (random * (end - start));
+	  return result;
+  }
 
   public static double offset2d(Location a, Location b)
   {
