@@ -15,9 +15,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class UtilItem {
-
-	public static org.bukkit.inventory.ItemStack SetDescriptions(org.bukkit.inventory.ItemStack i, List<String> msg)
-	  {
+	
+	public static ItemStack EnchantItem(ItemStack item, String... ench){
+		for(String e : ench){
+			int lvl = Integer.valueOf(e.split(":")[1]);
+			Enchantment en = Enchantment.getByName(e.split(":")[0]);
+			item.addEnchantment(en, lvl);
+		}
+		return item;
+	}
+	
+	public static org.bukkit.inventory.ItemStack SetDescriptions(org.bukkit.inventory.ItemStack i, List<String> msg){
 	    ItemMeta im = i.getItemMeta();
 	    im.setLore(msg);
 	    i.setItemMeta(im);
