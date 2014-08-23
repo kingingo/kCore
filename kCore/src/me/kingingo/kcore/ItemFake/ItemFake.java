@@ -20,34 +20,33 @@ public class ItemFake implements Listener {
 	@Getter
 	Item item;
 	@Getter
-	Location location;
-	@Getter
 	JavaPlugin instance;
 	
 	public ItemFake(Item item,JavaPlugin plugin){
 		this.item=item;
-		this.location=item.getLocation();
 		this.instance=plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		Bukkit.getPluginManager().callEvent(new ItemFakeCreateEvent(this));
 	}
 	
 	public ItemFake(Location loc,ItemStack item,JavaPlugin plugin){
-		this.location=loc;
-		getLocation().getWorld().loadChunk(getLocation().getWorld().getChunkAt(getLocation()));
-		this.item=getLocation().getWorld().dropItemNaturally(getLocation().add(0,0.3,0), item);
+		loc.getWorld().loadChunk(loc.getWorld().getChunkAt(loc));
+		this.item=loc.getWorld().dropItemNaturally(loc.clone().add(0,0.3,0), item);
 		this.instance=plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		Bukkit.getPluginManager().callEvent(new ItemFakeCreateEvent(this));
 	}
 	
 	public ItemFake(Location loc,int id,JavaPlugin plugin){
-		this.location=loc;
-		getLocation().getWorld().loadChunk(getLocation().getWorld().getChunkAt(getLocation()));
-		this.item=getLocation().getWorld().dropItemNaturally(getLocation().add(0,0.3,0), new ItemStack(id));
+		loc.getWorld().loadChunk(loc.getWorld().getChunkAt(loc));
+		this.item=loc.getWorld().dropItemNaturally(loc.clone().add(0,0.3,0), new ItemStack(id));
 		this.instance=plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		Bukkit.getPluginManager().callEvent(new ItemFakeCreateEvent(this));
+	}
+	
+	public Location getLocation(){
+		return item.getLocation();
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)

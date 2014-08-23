@@ -29,11 +29,11 @@ public class ItemFakeManager implements Listener {
 	private Hologram hm;
 	@Getter
 	@Setter
-	private double distance;
+	private double distance=4.0;
 	@Getter
-	private HashMap<Player,ArrayList<NameTagMessage>> players = new HashMap<>();
+	private HashMap<ItemFake,HashMap<Player,NameTagMessage>> itemfake = new HashMap<>();
 	private NameTagMessage ntm;
-	private ArrayList<NameTagMessage> ntmlist;
+	private ArrayList<Player> ntm_remove = new ArrayList<Player>();
 	
 	public ItemFakeManager(JavaPlugin instance,Hologram hm){
 		this.instance=instance;
@@ -44,16 +44,20 @@ public class ItemFakeManager implements Listener {
 	@EventHandler
 	public void RemoveHoloGram(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC_2)return;
-		for(Player p : getPlayers().keySet()){
-			ntmlist = getPlayers().get(p);
-			if(ntmlist.isEmpty())continue;
-			for(int i = 0; i < ntmlist.size(); ++i) {
-				if(ntmlist.get(i).getLocation().distance(p.getLocation()) > getDistance()){
-					ntmlist.get(i).clear(p);
-					ntmlist.remove(i);
+		for(ItemFake i : itemfake.keySet()){
+			ntm_remove.clear();
+			for(Player p : itemfake.get(i).keySet()){
+				ntm=itemfake.get(i).get(p);
+				if(ntm==null||p==null)continue;
+				if(!i.getLocation().getWorld().getName().equalsIgnoreCase(p.getWorld().getName()))continue;
+				if(i.getLocation().distance(p.getLocation()) > getDistance()){
+					ntm.clear(p);
+					ntm_remove.add(p);
 				}
 			}
-			
+			for(Player p : ntm_remove){
+				itemfake.get(i).remove(p);
+			}
 		}
 	}
 	
@@ -64,11 +68,12 @@ public class ItemFakeManager implements Listener {
 			if(!i.getItemStack().hasItemMeta())continue;
 			if(!i.getItemStack().getItemMeta().hasDisplayName())continue;
 			for(Player p : UtilServer.getPlayers()){
+				if(itemfake.containsKey(i)&&itemfake.get(i).containsKey(p))continue;
 				if(!i.getLocation().getWorld().getName().equalsIgnoreCase(p.getWorld().getName()))continue;
 				if(i.getLocation().distance(p.getLocation()) <= getDistance()){
-					ntm = hm.sendText(p, i.getLocation().add(0,1,0), i.getItemStack().getItemMeta().getDisplayName());
-					if(!players.containsKey(p))players.put(p, new ArrayList<NameTagMessage>());
-					players.get(p).add(ntm);
+					ntm = hm.sendText(p, i.getLocation().clone().add(0,0.2,0), i.getItemStack().getItemMeta().getDisplayName());
+					if(!itemfake.containsKey(i))itemfake.put(i, new HashMap<Player,NameTagMessage>());
+					itemfake.get(i).put(p, ntm);
 				}
 			}
 		}
@@ -82,6 +87,12 @@ public class ItemFakeManager implements Listener {
 	@EventHandler
 	public void Remove(ItemFakeDestroyEvent ev){
 		list.remove(ev.getItemfake());
+		if(itemfake.containsKey(ev.getItemfake())){
+			for(Player p : itemfake.get(ev.getItemfake()).keySet()){
+				itemfake.get(ev.getItemfake()).get(p).clear(p);
+			}
+			itemfake.remove(ev.getItemfake());
+		}
 	}
 	
 }
