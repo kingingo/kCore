@@ -13,7 +13,7 @@ public class Erstellen {
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_IN_GILDE.getText());
 				return;
 			}
-			String g = args[2];
+			String g = args[1];
 			if(g.length()<2){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_NAME_LENGTH_MIN.getText(2));
 				return;
@@ -26,7 +26,7 @@ public class Erstellen {
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EXIST.getText());
 				return;
 			}
-			manager.createGildenEintrag(g, "§7"+g+"§b*§r", 10, p.getName());
+			manager.createGildenEintrag(g, "§7"+g+"§b*§f", 10, p.getName());
 			manager.createPlayerEintrag(p.getName(), p.getUniqueId().toString(), g);
 			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_CREATE.getText(g));
 		}else{

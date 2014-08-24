@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class Annehmen {
 
 	public static void use(Player p,String[] args,GildenManager manager){
-		if(args.length>=1){
+		if(args.length==1){
 			if(manager.getGilden_einladung().containsKey(p)){
 				if(manager.isPlayerInGilde(p.getName())){
 					p.sendMessage(Text.GILDE_PLAYER_IS_IN_GILDE.getText());

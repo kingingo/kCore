@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class Verlassen {
 
 	public static void use(Player p,String[] args,GildenManager manager){
-		if(args.length>=1){
+		if(args.length==1){
 			if(manager.isPlayerInGilde(p.getName())){
 				String g = manager.getPlayerGilde(p.getName());
 				String owner = manager.getOwner(g);

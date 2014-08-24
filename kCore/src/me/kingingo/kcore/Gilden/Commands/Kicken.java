@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class Kicken {
 
 	public static void use(Player p,String[] args,GildenManager manager){
-		if(args.length>=2){
+		if(args.length==2){
 			if(!manager.isPlayerInGilde(p.getName())){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
 				return;
@@ -23,7 +23,7 @@ public class Kicken {
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_OWNER_NOT.getText());
 				return;
 			}
-			String kick_o = args[2];
+			String kick_o = args[1];
 			if(manager.isPlayerInGilde(kick_o)){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_IS_NOT_IN_THE_GILD.getText(kick_o));
 				return;

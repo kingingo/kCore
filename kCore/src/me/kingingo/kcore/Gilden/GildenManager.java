@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
+import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
@@ -17,7 +18,9 @@ import me.kingingo.kcore.Util.UtilPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -36,9 +39,9 @@ public class GildenManager implements Listener {
 	@Getter
 	private HashMap<String,String> gilden_tag = new HashMap<>();
 	@Getter
-	private HashMap<String,HashMap<GildenTyp,HashMap<Stats,Object>>> gilden_data = new HashMap<>();
+	private HashMap<String,HashMap<GildenType,HashMap<Stats,Object>>> gilden_data = new HashMap<>();
 	@Getter
-	private HashMap<String,HashMap<GildenTyp,ArrayList<Stats>>> gilden_data_musst_saved = new HashMap<>();
+	private HashMap<String,HashMap<GildenType,ArrayList<Stats>>> gilden_data_musst_saved = new HashMap<>();
 	@Getter
 	private HashMap<String,String> gilden_owner = new HashMap<>();
 	@Getter
@@ -46,19 +49,20 @@ public class GildenManager implements Listener {
 	@Getter
 	private MySQL mysql;
 	@Getter
-	private GildenTyp typ;
+	private GildenType typ;
 	@Getter
 	private HashMap<Player,Long> teleport = new HashMap<>();
 	@Getter
 	private HashMap<Player,Location> teleport_loc = new HashMap<>();
 	
-	public GildenManager(JavaPlugin instance,MySQL mysql,GildenTyp typ){
+	public GildenManager(JavaPlugin instance,MySQL mysql,GildenType typ,CommandHandler cmd){
 		this.instance=instance;
 		this.typ=typ;
 		this.mysql=mysql;
 		mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden(gilde varchar(30),gildentag varchar(30),member int,founder varchar(30),owner varchar(30))");
 		mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden_user(player varchar(30),UUID varchar(100),gilde varchar(30))");
 		CreateTable();
+		cmd.register(CommandGilde.class, new CommandGilde(this));
 		Bukkit.getPluginManager().registerEvents(this, getInstance());
 	}
 	
@@ -69,6 +73,15 @@ public class GildenManager implements Listener {
 			Player defend = (Player)ev.getEntity();
 			if(isPlayerInGilde(attack.getName())&&isPlayerInGilde(defend.getName())){
 				if(getPlayerGilde(attack.getName()).equalsIgnoreCase(getPlayerGilde(defend.getName()))){
+					ev.setCancelled(true);
+				}
+			}
+		}else if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Projectile){
+			Projectile attack = (Projectile)ev.getDamager();
+			Player defend = (Player)ev.getEntity();
+			if(!(attack.getShooter() instanceof Player))return;
+			if(isPlayerInGilde( ((Player)attack.getShooter()).getName() )&&isPlayerInGilde(defend.getName())){
+				if(getPlayerGilde(((Player)attack.getShooter()).getName()).equalsIgnoreCase(getPlayerGilde(defend.getName()))){
 					ev.setCancelled(true);
 				}
 			}
@@ -166,11 +179,14 @@ public class GildenManager implements Listener {
 			removePlayerEintrag(n);
 		}
 		mysql.Update("DELETE FROM list_gilden WHERE gilde='" + name.toLowerCase() + "'");
-		mysql.Update("DELETE FROM list_gilden_data WHERE gilde='" + name.toLowerCase() + "'");
+		for(GildenType t : GildenType.values()){
+			mysql.Update("DELETE FROM list_gilden_data_"+t.getKürzel()+" WHERE gilde='" + name.toLowerCase() + "'");
+		}
 		mysql.Update("DELETE FROM list_gilden_user WHERE gilde='" + name.toLowerCase() + "'");
 	}
 	
 	public void removePlayerEintrag(String name){
+		getGilden_player().remove(name);
 		mysql.Update("DELETE FROM list_gilden_user WHERE player='" + name.toLowerCase() + "'");
 	}
 	
@@ -216,12 +232,12 @@ public class GildenManager implements Listener {
 		return false;
 	}
 	
-	public boolean ExistGildeData(String gilde,GildenTyp typ){
+	public boolean ExistGildeData(String gilde,GildenType typ){
 		boolean done = false;
 		if(gilden_data.containsKey(gilde))return true;
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `typ` FROM `list_gilden_data` WHERE gilde='"+gilde.toLowerCase()+"' AND typ='"+typ.getKürzel()+"'");
+	      ResultSet rs = mysql.Query("SELECT `gilde` FROM `list_gilden_data_"+typ.getKürzel()+"` WHERE gilde='"+gilde.toLowerCase()+"'");
 
 	      while (rs.next()) {
 	    		  done=true;
@@ -234,12 +250,12 @@ public class GildenManager implements Listener {
 		
 		if(!done)createDataEintrag(gilde, typ);
 		
-		gilden_data.put(gilde,new HashMap<GildenTyp,HashMap<Stats,Object>>());
+		gilden_data.put(gilde,new HashMap<GildenType,HashMap<Stats,Object>>());
 		gilden_data.get(gilde).put(typ, new HashMap<Stats,Object>());
 		return done;
 	}
 	
-	public void UpdateGilde(String gilde,GildenTyp typ){
+	public void UpdateGilde(String gilde,GildenType typ){
 		if(!gilden_data_musst_saved.containsKey(gilde))return;
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))return;
 		for(Stats s : gilden_data.get(gilde).get(typ).keySet()){
@@ -247,9 +263,11 @@ public class GildenManager implements Listener {
 			if(!s.isMysql())continue;
 			Object o = gilden_data.get(gilde).get(typ).get(s);
 			if(o instanceof Integer){
-				mysql.Update("UPDATE list_gilden_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "' AND typ='"+typ.getKürzel()+"'");
+				gilden_data_musst_saved.get(gilde).get(typ).remove(s);
+				mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
 			}else if(o instanceof String){
-				mysql.Update("UPDATE list_gilden_data SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + gilde.toLowerCase() + "' AND typ='"+typ.getKürzel()+"'");
+				gilden_data_musst_saved.get(gilde).get(typ).remove(s);
+				mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
 			}
 		}
 	}
@@ -257,12 +275,13 @@ public class GildenManager implements Listener {
 	public boolean ExistGilde(String gilde){
 		boolean done = false;
 		if(gilden_tag.containsKey(gilde))return true;
+		String i = "";
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `gilde` FROM `list_gilden` WHERE gilde='"+gilde.toLowerCase()+"'");
-
+	      ResultSet rs = mysql.Query("SELECT `gildentag` FROM `list_gilden` WHERE gilde='"+gilde.toLowerCase()+"'");
 	      while (rs.next()) {
 	    		  done=true;
+	    		  i=rs.getString(1);
 	      }
 
 	      rs.close();
@@ -270,7 +289,7 @@ public class GildenManager implements Listener {
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
 	    }
 		
-		if(done)gilden_tag.put(gilde, getTag(gilde));
+		if(done)gilden_tag.put(gilde, i);
 		return done;
 	}
 	
@@ -307,17 +326,17 @@ public class GildenManager implements Listener {
 	    }
 	}
 	
-	public void setInt(String gilde,GildenTyp typ,int i,Stats s){
-		if(ExistGilde(gilde))return ;
+	public void setInt(String gilde,GildenType typ,int i,Stats s){
+		if(!ExistGilde(gilde))return ;
 		ExistGildeData(gilde, typ);
 		gilden_data.get(gilde).get(typ).put(s, i);
-		if(!gilden_data_musst_saved.containsKey(gilde))gilden_data_musst_saved.put(gilde, new HashMap<GildenTyp,ArrayList<Stats>>());
+		if(!gilden_data_musst_saved.containsKey(gilde))gilden_data_musst_saved.put(gilde, new HashMap<GildenType,ArrayList<Stats>>());
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))gilden_data_musst_saved.get(gilde).put(typ, new ArrayList<Stats>());
 		if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))gilden_data_musst_saved.get(gilde).get(typ).add(s);
 	}
 	
-	public Integer getRank(String gilde,GildenTyp typ,Stats s){
-		if(ExistGilde(gilde))return null;
+	public Integer getRank(String gilde,GildenType typ,Stats s){
+		if(!ExistGilde(gilde))return null;
 		ExistGildeData(gilde, typ);
 		
 		boolean done = false;
@@ -325,7 +344,7 @@ public class GildenManager implements Listener {
 		
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `gilde`,`typ` FROM `list_gilden_data` WHERE typ='"+typ.getKürzel()+"' ORDER BY `"+s.getTYP()+"` DESC;");
+	      ResultSet rs = mysql.Query("SELECT `gilde`,`typ` FROM `list_gilden_data_"+typ.getKürzel()+"` WHERE ORDER BY `"+s.getTYP()+"` DESC;");
 
 	      while ((rs.next()) && (!done)) {
 	    	 n++;
@@ -342,17 +361,17 @@ public class GildenManager implements Listener {
 	    return n;
 	}
 	
-	public void setString(String gilde,GildenTyp typ,String i,Stats s){
-		if(ExistGilde(gilde))return ;
+	public void setString(String gilde,GildenType typ,String i,Stats s){
+		if(!ExistGilde(gilde))return ;
 		ExistGildeData(gilde, typ);
 		gilden_data.get(gilde).get(typ).put(s, i);
-		if(!gilden_data_musst_saved.containsKey(gilde))gilden_data_musst_saved.put(gilde, new HashMap<GildenTyp,ArrayList<Stats>>());
+		if(!gilden_data_musst_saved.containsKey(gilde))gilden_data_musst_saved.put(gilde, new HashMap<GildenType,ArrayList<Stats>>());
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))gilden_data_musst_saved.get(gilde).put(typ, new ArrayList<Stats>());
 		if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))gilden_data_musst_saved.get(gilde).get(typ).add(s);
 	}
 	
 	public String getOwner(String gilde){
-		if(ExistGilde(gilde))return null;
+		if(!ExistGilde(gilde))return null;
 		ExistGildeData(gilde, typ);
 
 		String i = "";
@@ -368,15 +387,15 @@ public class GildenManager implements Listener {
 		return i;
 	}
 	
-	public String getString(Stats s,String gilde,GildenTyp typ){
-		if(ExistGilde(gilde))return null;
+	public String getString(Stats s,String gilde,GildenType typ){
+		if(!ExistGilde(gilde))return null;
 		ExistGildeData(gilde, typ);
 		if(gilden_data.containsKey(gilde)&&gilden_data.get(gilde).containsKey(s)){
 			return (String)gilden_data.get(gilde).get(typ).get(s);
 		}
 		String i = "";
 		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data WHERE gilde= '"+gilde.toLowerCase()+"' AND typ='"+typ.getKürzel()+"'");
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data_"+typ.getKürzel()+" WHERE gilde= '"+gilde.toLowerCase()+"'");
 			while(rs.next()){
 				i=rs.getString(1);
 			}
@@ -385,21 +404,21 @@ public class GildenManager implements Listener {
 			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
 		}
 		
-		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GildenTyp,HashMap<Stats,Object>>());
+		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GildenType,HashMap<Stats,Object>>());
 		if(!gilden_data.get(gilde).containsKey(typ))gilden_data.get(gilde).put(typ, new HashMap<Stats,Object>());
 		gilden_data.get(gilde).get(typ).put(s, i);
 		return i;
 	}
 	
-	public Integer getInt(Stats s,String gilde,GildenTyp typ){
-		if(ExistGilde(gilde))return null;
+	public Integer getInt(Stats s,String gilde,GildenType typ){
+		if(!ExistGilde(gilde))return null;
 		ExistGildeData(gilde, typ);
 		if(gilden_data.containsKey(gilde)&&gilden_data.get(gilde).containsKey(s)){
 			return (int)gilden_data.get(gilde).get(typ).get(s);
 		}
 		int i = -1;
 		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data WHERE gilde= '"+gilde.toLowerCase()+"' AND typ='"+typ.getKürzel()+"'");
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data_"+typ.getKürzel()+" WHERE gilde= '"+gilde.toLowerCase()+"'");
 			while(rs.next()){
 				i=rs.getInt(1);
 			}
@@ -408,7 +427,7 @@ public class GildenManager implements Listener {
 			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
 		}
 		
-		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GildenTyp,HashMap<Stats,Object>>());
+		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GildenType,HashMap<Stats,Object>>());
 		if(!gilden_data.get(gilde).containsKey(typ))gilden_data.get(gilde).put(typ, new HashMap<Stats,Object>());
 		gilden_data.get(gilde).get(typ).put(s, i);
 		return i;
@@ -417,28 +436,35 @@ public class GildenManager implements Listener {
 	public void createGildenEintrag(String gilde,String gildentag,int member,String founder){
 		String t = "INSERT INTO list_gilden (gilde,gildentag,member,founder,owner) VALUES ('"+gilde.toLowerCase()+"','"+gildentag+"','"+member+"','"+founder+"','"+founder+"');";
 		mysql.Update(t);
-		createDataEintrag(gilde, getTyp());
+		createAllDataEintrage(gilde);
 	}
 	
-	public void createDataEintrag(String gilde,GildenTyp typ){
+	public void createAllDataEintrage(String gilde){
+		for(GildenType t : GildenType.values()){
+			createDataEintrag(gilde, t);
+		}
+	}
+	
+	public void createDataEintrag(String gilde,GildenType typ){
 		Stats[] stats = typ.getStats();
-		String tt = "gilde,typ,";
-		String ti = "'"+gilde.toLowerCase()+"','"+typ.getKürzel()+"',";
+		String tt = "gilde,";
+		String ti = "'"+gilde.toLowerCase()+"',";
 		for(Stats s : stats){
 			tt=tt+s.getTYP()+",";
 			ti=ti+"'0',";
 		}
-		String t = "INSERT INTO list_gilden_data ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
+		String t = "INSERT INTO list_gilden_data_"+typ.getKürzel()+" ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
 		mysql.Update(t);
 	}
 	
 	public void CreateTable(){
-		String tt = "gilde varchar(30),typ varchar(30),";
-		for(Stats s : getTyp().getStats()){
-			tt=tt+s.getCREATE()+",";
+		for(GildenType t : GildenType.values()){
+			String tt = "gilde varchar(30),";
+			for(Stats s : t.getStats()){
+				tt=tt+s.getCREATE()+",";
+			}
+			mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden_data_"+t.getKürzel()+"("+tt.substring(0, tt.length()-1)+")");
 		}
-		String t = "CREATE TABLE IF NOT EXISTS list_gilden_data("+tt.substring(0, tt.length()-1)+")";
-		mysql.Update(t);
 	}
 	
 }
