@@ -53,11 +53,11 @@ public class ClientListener implements Listener{
 		if(ev.getMessage().equalsIgnoreCase("ping")){
 			c.sendMessageToServer("pong");
 		}else if(ev.getMessage().equalsIgnoreCase("stop=?now")){
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/stop");
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
 		}else if(ev.getMessage().equalsIgnoreCase("restart=?now")){
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/restart");
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
 		}else if(ev.getMessage().equalsIgnoreCase("reload=?now")){
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/reload");
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "reload");
 		}
 	}
 	
