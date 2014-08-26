@@ -3,6 +3,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import me.kingingo.kcore.NickManager.Events.PlayerSendMessageEvent;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.EnumClientCommand;
 import net.minecraft.server.v1_7_R4.PacketPlayInClientCommand;
@@ -21,23 +22,6 @@ import org.bukkit.potion.PotionEffectType;
 
 public class UtilPlayer
 {
-  public static void message(org.bukkit.entity.Entity client, LinkedList<String> messageList)
-  {
-    message(client, messageList, false);
-  }
-
-  public static void message(org.bukkit.entity.Entity client, String message)
-  {
-    message(client, message, false);
-  }
-
-  public static void message(org.bukkit.entity.Entity client, LinkedList<String> messageList, boolean wiki)
-  {
-    for (String curMessage : messageList)
-    {
-      message(client, curMessage, wiki);
-    }
-  }
   
   public static boolean isZoom(Player p){
 		return p.hasPotionEffect(PotionEffectType.SLOW);
@@ -65,7 +49,7 @@ public class UtilPlayer
     	  }, 10L);
 }
 
-  public static void message(org.bukkit.entity.Entity client, String message, boolean wiki)
+  public static void sendMessage(org.bukkit.entity.Entity client, String message)
   {
     if (client == null) {
       return;
@@ -74,7 +58,9 @@ public class UtilPlayer
       return;
     }
 
-    ((Player)client).sendMessage(message);
+    PlayerSendMessageEvent ev = new PlayerSendMessageEvent(((Player)client),message);
+    Bukkit.getPluginManager().callEvent(ev);
+    ((Player)client).sendMessage(ev.getMessage());
   }
 
   public static Player searchExact(String name)
@@ -106,11 +92,11 @@ public class UtilPlayer
         return null;
       }
 
-      message(caller, F.main(collName + " Search", 
-        C.mCount + matchList.size() + 
-        C.mBody + " matches for [" + 
-        C.mElem + player + 
-        C.mBody + "]."));
+//      message(caller, F.main(collName + " Search", 
+//        C.mCount + matchList.size() + 
+//        C.mBody + " matches for [" + 
+//        C.mElem + player + 
+//        C.mBody + "]."));
 
       if (matchList.size() > 0)
       {
@@ -118,10 +104,10 @@ public class UtilPlayer
         for (String cur : matchList) {
           matchString = matchString + cur + " ";
         }
-        message(caller, F.main(collName + " Search", 
-          C.mBody + " Matches [" + 
-          C.mElem + matchString + 
-          C.mBody + "]."));
+//        message(caller, F.main(collName + " Search", 
+//          C.mBody + " Matches [" + 
+//          C.mElem + matchString + 
+//          C.mBody + "]."));
       }
 
       return null;
@@ -150,11 +136,11 @@ public class UtilPlayer
         return null;
       }
 
-      message(caller, F.main("Online Player Search", 
-        C.mCount + matchList.size() + 
-        C.mBody + " matches for [" + 
-        C.mElem + player + 
-        C.mBody + "]."));
+//      message(caller, F.main("Online Player Search", 
+//        C.mCount + matchList.size() + 
+//        C.mBody + " matches for [" + 
+//        C.mElem + player + 
+//        C.mBody + "]."));
 
       if (matchList.size() > 0)
       {
@@ -164,10 +150,10 @@ public class UtilPlayer
         if (matchString.length() > 1) {
           matchString = matchString.substring(0, matchString.length() - 2);
         }
-        message(caller, F.main("Online Player Search", 
-          C.mBody + "Matches [" + 
-          C.mElem + matchString + 
-          C.mBody + "]."));
+//        message(caller, F.main("Online Player Search", 
+//          C.mBody + "Matches [" + 
+//          C.mElem + matchString + 
+//          C.mBody + "]."));
       }
 
       return null;
@@ -196,10 +182,10 @@ public class UtilPlayer
     if ((inform) && (failList.length() > 0))
     {
       failList = failList.substring(0, failList.length() - 1);
-      message(caller, F.main("Online Player(s) Search", 
-        C.mBody + "Invalid [" + 
-        C.mElem + failList + 
-        C.mBody + "]."));
+//      message(caller, F.main("Online Player(s) Search", 
+//        C.mBody + "Invalid [" + 
+//        C.mElem + failList + 
+//        C.mBody + "]."));
     }
 
     return matchList;

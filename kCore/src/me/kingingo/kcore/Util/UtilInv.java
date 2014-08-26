@@ -251,7 +251,7 @@ public class UtilInv
         return;
       }
 
-      UtilPlayer.message(event.getWhoClicked(), F.main("Inventory", "You cannot hotbar swap " + F.item(name) + "."));
+     // UtilPlayer.message(event.getWhoClicked(), F.main("Inventory", "You cannot hotbar swap " + F.item(name) + "."));
       event.setCancelled(true);
     }
     else
@@ -264,7 +264,7 @@ public class UtilInv
       if (!IsItem(event.getCurrentItem(), type, data)) {
         return;
       }
-      UtilPlayer.message(event.getWhoClicked(), F.main("Inventory", "You cannot move " + F.item(name) + "."));
+      //UtilPlayer.message(event.getWhoClicked(), F.main("Inventory", "You cannot move " + F.item(name) + "."));
       event.setCancelled(true);
     }
   }

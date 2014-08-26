@@ -124,7 +124,9 @@ FRIEND_DEL_IN("In % sekunden wird die Freundschaft mit % aufgelöst."),
 FRIEND_GET("Du hast von % eine Freundschaftsanfrage erhalten."),
 FRIEND_NOW("Du bist jetzt mit % befreundet!"),
 FRIEND_ASK_NOT("Momentan hast du keine Freundschaftsanfrage."),
-FRIEND_IS_FRIEND("Du bist mit % befreundet!");
+FRIEND_IS_FRIEND("Du bist mit % befreundet!"),
+NICK("Du hast dein Nick zu % geändert!"),
+NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 private String t;
 private String[] tt;

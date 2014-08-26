@@ -1,5 +1,8 @@
 package me.kingingo.kcore.Util;
 
+import me.kingingo.kcore.NickManager.Events.BroadcastMessageEvent;
+import me.kingingo.kcore.NickManager.Events.PlayerSendMessageEvent;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.Sound;
@@ -19,29 +22,25 @@ public class UtilServer
 
   public static void broadcast(String message)
   {
+	BroadcastMessageEvent ev = new BroadcastMessageEvent(message);
+	Bukkit.getPluginManager().callEvent(ev);  
     for (Player cur : getPlayers())
-      UtilPlayer.message(cur, message);
+    	UtilPlayer.sendMessage(cur, ev.getMessage());
+      //UtilPlayer.message(cur, message);
   }
 
   public static void broadcastSpecial(String event, String message)
   {
+	BroadcastMessageEvent ev = new BroadcastMessageEvent(message);
+	Bukkit.getPluginManager().callEvent(ev);  
     for (Player cur : getPlayers())
     {
-      UtilPlayer.message(cur, "§b§l" + event);
-      UtilPlayer.message(cur, message);
+    //  UtilPlayer.message(cur, "§b§l" + event);
+    //  UtilPlayer.message(cur, message);
+    	UtilPlayer.sendMessage(cur, ev.getMessage());
       cur.playSound(cur.getLocation(), Sound.ORB_PICKUP, 2.0F, 0.0F);
       cur.playSound(cur.getLocation(), Sound.ORB_PICKUP, 2.0F, 0.0F);
     }
-  }
-
-  public static void broadcast(String sender, String message)
-  {
-    broadcast("§f§l" + sender + " " + "§b" + message);
-  }
-
-  public static void broadcastMagic(String sender, String message)
-  {
-    broadcast("§2§k" + message);
   }
 
   public static double getFilledPercent()

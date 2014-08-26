@@ -10,6 +10,9 @@ PREMIUM_LOBBY("lobby.premiumbereich"),
 MUTE_ALL("epicpvp.mute.all"),
 MUTE_ALL_CHAT("epicpvp.mute.all.chat"),
 
+NICK_RANDOM("epicpvp.nick.random"),
+NICK_SET("epicpvp.nick.set"),
+
 //Kits
 ADMIN_KIT("epicpvp.admin.kit"),
 SHEEPWARS_KIT_OLD_RUSH("epicpvp.kit.old_rush"),

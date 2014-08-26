@@ -274,11 +274,11 @@ public class UtilEnt
         return null;
       }
 
-      UtilPlayer.message(caller, F.main("Creature Search", 
-        C.mCount + matchList.size() + 
-        C.mBody + " matches for [" + 
-        C.mElem + arg + 
-        C.mBody + "]."));
+//      UtilPlayer.message(caller, F.main("Creature Search", 
+//        C.mCount + matchList.size() + 
+//        C.mBody + " matches for [" + 
+//        C.mElem + arg + 
+//        C.mBody + "]."));
 
       if (matchList.size() > 0)
       {
@@ -288,10 +288,10 @@ public class UtilEnt
         if (matchString.length() > 1) {
           matchString = matchString.substring(0, matchString.length() - 2);
         }
-        UtilPlayer.message(caller, F.main("Creature Search", 
-          C.mBody + "Matches [" + 
-          C.mElem + matchString + 
-          C.mBody + "]."));
+//        UtilPlayer.message(caller, F.main("Creature Search", 
+//          C.mBody + "Matches [" + 
+//          C.mElem + matchString + 
+//          C.mBody + "]."));
       }
 
       return null;
@@ -322,12 +322,12 @@ public class UtilEnt
       if (!inform) {
         return null;
       }
-
-      UtilPlayer.message(caller, F.main("Creature Search", 
-        C.mCount + matchList.size() + 
-        C.mBody + " matches for [" + 
-        C.mElem + arg + 
-        C.mBody + "]."));
+//
+//      UtilPlayer.message(caller, F.main("Creature Search", 
+//        C.mCount + matchList.size() + 
+//        C.mBody + " matches for [" + 
+//        C.mElem + arg + 
+//        C.mBody + "]."));
 
       if (matchList.size() > 0)
       {
@@ -337,10 +337,10 @@ public class UtilEnt
         if (matchString.length() > 1) {
           matchString = matchString.substring(0, matchString.length() - 2);
         }
-        UtilPlayer.message(caller, F.main("Creature Search", 
-          C.mBody + "Matches [" + 
-          C.mElem + matchString + 
-          C.mBody + "]."));
+//        UtilPlayer.message(caller, F.main("Creature Search", 
+//          C.mBody + "Matches [" + 
+//          C.mElem + matchString + 
+//          C.mBody + "]."));
       }
 
       return null;
