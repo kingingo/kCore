@@ -11,11 +11,10 @@ import lombok.Setter;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
-import me.kingingo.kcore.ScoreboardManager.PlayerScoreboard;
 import me.kingingo.kcore.Util.C;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R4.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -96,25 +95,25 @@ public class PermissionManager {
 			String t = prefix.get(p);
 			int i = t.indexOf("§");
 			t=""+t.toCharArray()[i]+t.toCharArray()[i+1];
-			if(p.getName().length()>13){
+			if(p.getCustomName().length()>13){
 				try{
-					p.setPlayerListName(t+p.getName().subSequence(0, 13));
+					UtilPlayer.setPlayerListName(p,t+p.getCustomName().subSequence(0, 13));
 				}catch(IllegalArgumentException e){
-					p.setPlayerListName(t+p.getName().subSequence(0, 12));
+					UtilPlayer.setPlayerListName(p,t+p.getCustomName().subSequence(0, 12));
 				}
 			}else{
-					p.setPlayerListName(t+p.getName());
+				UtilPlayer.setPlayerListName(p,t+p.getCustomName());
 			}
 		}else{
-			if(p.getName().length()>13){
+			if(p.getCustomName().length()>13){
 				try{
-					p.setPlayerListName("§7"+p.getName().subSequence(0, 13));
+					UtilPlayer.setPlayerListName(p,"§7"+p.getCustomName().subSequence(0, 13));
 				}catch(IllegalArgumentException e){
 					//((CraftServer)Bukkit.getServer()).getHandle().players.remove("§7"+p.getName().subSequence(0, 13));
-					p.setPlayerListName("§7"+p.getName().subSequence(0, 12));
+					UtilPlayer.setPlayerListName(p,"§7"+p.getCustomName().subSequence(0, 12));
 				}
 			}else{
-				p.setPlayerListName("§7"+p.getName());
+				UtilPlayer.setPlayerListName(p,"§7"+p.getCustomName());
 			}
 		}
 	}

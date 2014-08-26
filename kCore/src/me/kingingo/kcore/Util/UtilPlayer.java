@@ -3,6 +3,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import me.kingingo.kcore.NickManager.Events.PlayerListNameChangeEvent;
 import me.kingingo.kcore.NickManager.Events.PlayerSendMessageEvent;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.EnumClientCommand;
@@ -35,6 +36,12 @@ public class UtilPlayer
 	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[3], true, 9999));
 	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[4], true, 9999));
 	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[5], true, 9999));
+  }
+  
+  public static void setPlayerListName(Player player,String nick){
+	  PlayerListNameChangeEvent ev = new PlayerListNameChangeEvent(player,nick);
+	  Bukkit.getPluginManager().callEvent(ev);
+	  player.setPlayerListName(ev.getNick());
   }
   
   public static void RespawnNow(final Player p,JavaPlugin plugin){
