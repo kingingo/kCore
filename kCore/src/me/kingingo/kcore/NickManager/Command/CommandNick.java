@@ -35,7 +35,8 @@ public class CommandNick implements CommandExecutor, Listener{
 		}
 		if(args[0].equalsIgnoreCase("random")){
 			if(pManager.hasPermission(p, Permission.NICK_RANDOM)){
-				p.sendMessage(Text.PREFIX.getText()+Text.NICK.getText(nManager.setNick(p)));
+				String n = nManager.setNick(p);
+				p.sendMessage(Text.PREFIX.getText()+Text.NICK.getText(n));
 				return false;
 			}
 		}else{

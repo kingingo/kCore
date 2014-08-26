@@ -39,9 +39,9 @@ public static DisguiseBase newDisguise(LivingEntity entity,DisguiseType type,Obj
 		d1.SetName( (String)o[0] );
 		d1.SetCustomNameVisible(true);
 		return d1;
-	case BLOCK:
-		DisguiseBlock d2 = new DisguiseBlock(entity,((int)o[0]),((int)o[1]));
-		return d2;
+//	case BLOCK:
+//		DisguiseBlock d2 = new DisguiseBlock(entity,((int)o[0]),((int)o[1]));
+//		return d2;
 	case CAT: 
 		DisguiseCat d3=new DisguiseCat(entity);
 		d3.SetName((String)o[0]);
@@ -72,11 +72,11 @@ public static DisguiseBase newDisguise(LivingEntity entity,DisguiseType type,Obj
 		d8.SetName((String)o[0]);
 		d8.SetCustomNameVisible(true);
 		return d8;
-	case MAGMA_CUBE:
-		DisguiseMagmaCube d9 = new DisguiseMagmaCube(entity);
-		d9.SetName( (String)o[0] );
-		d9.SetCustomNameVisible(true);
-		return d9;
+//	case MAGMA_CUBE:
+//		DisguiseMagmaCube d9 = new DisguiseMagmaCube(entity);
+//		d9.SetName( (String)o[0] );
+//		d9.SetCustomNameVisible(true);
+//		return d9;
 	case PIG_ZOMBIE: 
 		DisguisePigZombie d10 = new DisguisePigZombie(entity);
 		d10.SetName( (String)o[0] );
@@ -97,17 +97,17 @@ public static DisguiseBase newDisguise(LivingEntity entity,DisguiseType type,Obj
 		d13.SetName( (String)o[0] );
 		d13.SetCustomNameVisible(true);
 		return d13;
-	case SLIME:
-		DisguiseSlime d14 = new DisguiseSlime(entity);
-		d14.SetName( (String)o[0] );
-		d14.SetCustomNameVisible(true);
-		return d14;
+//	case SLIME:
+//		DisguiseSlime d14 = new DisguiseSlime(entity);
+//		d14.SetName( (String)o[0] );
+//		d14.SetCustomNameVisible(true);
+//		return d14;
 	case WOLF: 
 		DisguiseWolf d15 = new DisguiseWolf(entity);
 		d15.SetName( (String)o[0] );
 		d15.SetCustomNameVisible(true);
 		return d15;
-	case PLAYER: return new DisguisePlayer(entity,(String)o[0]);
+	//case PLAYER: return new DisguisePlayer(entity,(String)o[0]);
 	case IRON_GOLEM:
 		DisguiseIronGolem d17 = new DisguiseIronGolem(entity);
 		d17.SetName( (String)o[0] );

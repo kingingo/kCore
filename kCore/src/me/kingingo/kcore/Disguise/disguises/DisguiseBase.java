@@ -1,8 +1,10 @@
 package me.kingingo.kcore.Disguise.disguises;
+import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntityLiving;
 import net.minecraft.server.v1_7_R4.DataWatcher;
 import net.minecraft.server.v1_7_R4.Packet;
 import net.minecraft.server.v1_7_R4.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_7_R4.World;
+
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
@@ -35,7 +37,7 @@ public abstract class DisguiseBase
 //    }
   }
 
-  public abstract Packet GetSpawnPacket();
+  public abstract WrapperPlayServerSpawnEntityLiving GetSpawnPacket();
 
   public Packet GetMetaDataPacket()
   {

@@ -90,32 +90,43 @@ public class PermissionManager {
 		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','"+perm.getPermissionToString()+"','none','"+p.getName().toLowerCase()+"');");
 	}
 	
-	public void setTabList(Player p){	
-		if(prefix.containsKey(p)){
+	public boolean setTabList(Player p){
+		return setTabList(p, false);
+	}
+	
+	public boolean setTabList(Player p,boolean invisble){
+		if(!isSetAllowTab())return false;
+		String name = p.getName();
+		if(p.isCustomNameVisible()){
+			name=p.getCustomName();
+		}
+		if(prefix.containsKey(p)&&!invisble){
 			String t = prefix.get(p);
 			int i = t.indexOf("§");
 			t=""+t.toCharArray()[i]+t.toCharArray()[i+1];
-			if(p.getCustomName().length()>13){
+			
+			if(name.length()>13){
 				try{
-					UtilPlayer.setPlayerListName(p,t+p.getCustomName().subSequence(0, 13));
+					UtilPlayer.setPlayerListName(p,t+name.subSequence(0, 13));
 				}catch(IllegalArgumentException e){
-					UtilPlayer.setPlayerListName(p,t+p.getCustomName().subSequence(0, 12));
+					UtilPlayer.setPlayerListName(p,t+name.subSequence(0, 12));
 				}
 			}else{
-				UtilPlayer.setPlayerListName(p,t+p.getCustomName());
+				UtilPlayer.setPlayerListName(p,t+name);
 			}
 		}else{
-			if(p.getCustomName().length()>13){
+			if(name.length()>13){
 				try{
-					UtilPlayer.setPlayerListName(p,"§7"+p.getCustomName().subSequence(0, 13));
+					UtilPlayer.setPlayerListName(p,"§7"+name.subSequence(0, 13));
 				}catch(IllegalArgumentException e){
 					//((CraftServer)Bukkit.getServer()).getHandle().players.remove("§7"+p.getName().subSequence(0, 13));
-					UtilPlayer.setPlayerListName(p,"§7"+p.getCustomName().subSequence(0, 12));
+					UtilPlayer.setPlayerListName(p,"§7"+name.subSequence(0, 12));
 				}
 			}else{
-				UtilPlayer.setPlayerListName(p,"§7"+p.getCustomName());
+				UtilPlayer.setPlayerListName(p,"§7"+name);
 			}
 		}
+		return true;
 	}
 	
 	public String getGroup(Player p){

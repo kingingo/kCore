@@ -236,7 +236,7 @@ public class Kit {
 		for(Player p : getPlayers()){
 				if(!list.containsKey(p))continue;
 				DisguiseBase d = DisguiseType.newDisguise(p, getDisguise(), new Object[]{list.get(p)+p.getName()});
-				getDmanager().disguise(d);
+				getDmanager().disguise(p,d);
 		}
 	}
 	
@@ -263,7 +263,7 @@ public class Kit {
 		if(getDisguise()==null)return;
 		for(Player p : getPlayers()){
 				DisguiseBase d = DisguiseType.newDisguise(p, getDisguise(), new Object[]{p.getName()});
-				getDmanager().disguise(d);
+				getDmanager().disguise(p,d);
 		}
 	}
 	
