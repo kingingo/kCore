@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
+import me.kingingo.kcore.NickManager.NickManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,10 +27,12 @@ public class NPCManager implements Listener {
 	HashMap<Integer,NPC> NPCList = new HashMap<>();
 	@Getter
 	JavaPlugin instance;
+	@Getter
+	NickManager nManager;
 	
 	public NPCManager(JavaPlugin instance){
 		this.instance=instance;
-		
+		this.nManager=nManager;
 		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY){
 		    public void onPacketReceiving(PacketEvent event){
 		        if(event.getPacketType() == PacketType.Play.Client.USE_ENTITY){
@@ -39,8 +42,11 @@ public class NPCManager implements Listener {
 		                if(NPCList.containsKey(packet.getIntegers().read(0))){
 		                	PlayerInteractNPCEvent ev = new PlayerInteractNPCEvent(player,getNPCList().get( packet.getIntegers().read(0) ));
 		                	Bukkit.getPluginManager().callEvent(ev);
+		                	event.setCancelled(true);
 		                }
-		            } catch (Exception e){}
+		            } catch (Exception e){
+		            	System.err.println("[NPCManager] Error: "+e.getMessage());
+		            }
 		        }
 		    }
 		});

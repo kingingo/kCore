@@ -51,7 +51,7 @@ public class NickManager {
 	public String[] nick = new String[]{"king","Exteme","Steve","Buddy","Flex","Apex","Captain","Tim"
 			,"Gigga","AdamHD","Jesus","xgen","BTW","Robin","checker","dc","ingo","Style"
 			,"Jonny","leon","Manii","Ginkis","eco","ungadunga","John","Samir","Pika","fredwa",
-			"Dox","Dove","Ole","Crypt","Bro"};
+			"Dox","Dove","Ole","Crypt","Bro","zocker","jman","coder","win"};
 	
 	public NickManager(CommandHandler cmd,PermissionManager pManager){
 		this.cmd=cmd;
@@ -61,10 +61,19 @@ public class NickManager {
 			 @Override
 			public void onPacketSending(PacketEvent event) {
 	        if(event.getPacketType() == PacketType.Play.Server.NAMED_ENTITY_SPAWN){
-	            Player player = event.getPlayer();
 	            	try {
 		                PacketContainer packet = event.getPacket();
+		                boolean b = false;
 		                WrapperPlayServerNamedEntitySpawn t = new WrapperPlayServerNamedEntitySpawn(packet);
+		                for(Player p : UtilServer.getPlayers()){
+		                	if(p.getName().equalsIgnoreCase(t.getPlayerName())){
+		                		b=true;
+		                		continue;
+		                	}
+		                }
+
+		                if(!b)return;
+		                
 		                for(Player p : name.keySet()){
 		                	if(p.getName().equalsIgnoreCase(t.getPlayerName())){
 				                WrapperPlayServerNamedEntitySpawn p20 = new WrapperPlayServerNamedEntitySpawn(p);
@@ -73,7 +82,9 @@ public class NickManager {
 				                break;
 		                	}
 		                }
-		            } catch (Exception e){}
+		            } catch (Exception e){
+		            	System.err.print("[NickManager] Error: "+e.getMessage());
+		            }
 	            }
 	    }
 	});
@@ -117,7 +128,11 @@ public class NickManager {
              }
          }
 		player.setDisplayName(nick);
-		UtilPlayer.setPlayerListName(player, "§e"+nick);
+		if(getPManager().isSetAllowTab()){
+			UtilPlayer.setPlayerListName(player, "§e"+nick);
+		}else{
+			UtilPlayer.setPlayerListName(player, nick);
+		}
 		return nick;
 	}
 	
