@@ -12,19 +12,12 @@ import me.kingingo.kcore.NickManager.Events.PlayerSendMessageEvent;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_7_R4.EntityHuman;
-import net.minecraft.server.v1_7_R4.EntityInsentient;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.EntityTracker;
 import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R4.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_7_R4.WorldServer;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftHumanEntity;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,7 +30,6 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
 public class NickManager {
 
@@ -63,16 +55,17 @@ public class NickManager {
 	        if(event.getPacketType() == PacketType.Play.Server.NAMED_ENTITY_SPAWN){
 	            	try {
 		                PacketContainer packet = event.getPacket();
-		                boolean b = false;
 		                WrapperPlayServerNamedEntitySpawn t = new WrapperPlayServerNamedEntitySpawn(packet);
-		                for(Player p : UtilServer.getPlayers()){
-		                	if(p.getName().equalsIgnoreCase(t.getPlayerName())){
-		                		b=true;
-		                		continue;
-		                	}
-		                }
-
-		                if(!b)return;
+		                
+//		                boolean b = false;
+//		                for(Player p : UtilServer.getPlayers()){
+//		                	if(p.getName().equalsIgnoreCase(t.getPlayerName())){
+//		                		b=true;
+//		                		continue;
+//		                	}
+//		                }
+//
+//		                if(!b)return;
 		                
 		                for(Player p : name.keySet()){
 		                	if(p.getName().equalsIgnoreCase(t.getPlayerName())){

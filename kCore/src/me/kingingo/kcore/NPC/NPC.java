@@ -35,6 +35,8 @@ public class NPC {
 	EntityPlayer p;
 	@Getter
 	NPCManager Manager;
+	@Getter
+	boolean world=false;
 	
 	private boolean sleep=false;
 	PacketPlayOutNamedEntitySpawn spawned;
@@ -52,7 +54,6 @@ public class NPC {
 			WorldServer w = ((CraftWorld)loc.getWorld()).getHandle();
 			PlayerInteractManager i = new PlayerInteractManager(w);
 			EntityPlayer p = new EntityPlayer( s.getServer() , w, g, i);
-			
 			this.p=p;
 		}
 		p.locX=loc.getX();
@@ -69,7 +70,6 @@ public class NPC {
 	}
 	
 	public void setName(String s) {
-	
         DataWatcher d = new DataWatcher(null);
         d.a(0, (Object) (byte) 0);
         d.a(1, (Object) (short) 0);
