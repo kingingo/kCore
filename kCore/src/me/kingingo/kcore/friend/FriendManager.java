@@ -94,7 +94,7 @@ public class FriendManager implements Listener {
 			}
 			rs.close();
 		} catch (SQLException e) {
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY, e));
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY, e,getMysql()));
 		}
 		return list;
 	}

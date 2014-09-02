@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import me.kingingo.kcore.MySQL.Events.MySQLConnectEvent;
+import me.kingingo.kcore.MySQL.Events.MySQLDisconnectEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLQueryEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLUpdateEvent;
@@ -37,6 +38,7 @@ public class MySQL
     {
       if (connection != null)
         connection.close();
+      	Bukkit.getPluginManager().callEvent(new MySQLDisconnectEvent(this));
     }
     catch (Exception ex) {
     	System.err.println(ex);
@@ -48,87 +50,92 @@ public class MySQL
 		connection = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + db, 
 				user, pass);
 	} catch (SQLException e) {
-		Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.CONNECT,e));
+		Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.CONNECT,e,this));
 		return;
 	}
-	Bukkit.getPluginManager().callEvent(new MySQLConnectEvent());
+	Bukkit.getPluginManager().callEvent(new MySQLConnectEvent(this));
   }
   
   public void Update(String qry) {
-	  Bukkit.getPluginManager().callEvent(new MySQLUpdateEvent(qry));
 	    try {
+	  	  MySQLUpdateEvent ev=new MySQLUpdateEvent(qry,this);
+		  Bukkit.getPluginManager().callEvent(ev);
 	      Statement stmt = connection.createStatement();
-	      stmt.executeUpdate(qry);
+	      stmt.executeUpdate(ev.getUpdater());
 	      stmt.close();
 	    } catch (Exception ex) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.UPDATE,ex));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.UPDATE,ex,this));
 	    }
 	  }
   
   public Integer getInt(String qry){
-	  Bukkit.getPluginManager().callEvent(new MySQLQueryEvent(qry));
+	  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
+	  	Bukkit.getPluginManager().callEvent(ev);
 	    ResultSet rs = null;
 	    Integer o = null;
 	    try
 	    {
 	      Statement stmt = connection.createStatement();
-	      rs = stmt.executeQuery(qry);
+	      rs = stmt.executeQuery(ev.getQuery());
 	      while(rs.next()){
 	    	  o=rs.getInt(1);
 	      }
 	    }
 	    catch (Exception ex) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
 	    }
 	  return o;
   }
   
   public String getString(String qry){
-	  Bukkit.getPluginManager().callEvent(new MySQLQueryEvent(qry));
+	  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
+	  	Bukkit.getPluginManager().callEvent(ev);
 	    ResultSet rs = null;
 	    String o = null;
 	    try
 	    {
 	      Statement stmt = connection.createStatement();
-	      rs = stmt.executeQuery(qry);
+	      rs = stmt.executeQuery(ev.getQuery());
 	      while(rs.next()){
 	    	  o=rs.getString(1);
 	      }
 	    }
 	    catch (Exception ex) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
 	    }
 	  return o;
   }
   
   public Object getObject(String qry){
-	  Bukkit.getPluginManager().callEvent(new MySQLQueryEvent(qry));
+	  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
+	  	Bukkit.getPluginManager().callEvent(ev);
 	    ResultSet rs = null;
 	    Object o= null;
 	    try
 	    {
 	      Statement stmt = connection.createStatement();
-	      rs = stmt.executeQuery(qry);
+	      rs = stmt.executeQuery(ev.getQuery());
 	      while(rs.next()){
 	    	  o=rs.getObject(1);
 	      }
 	    }
 	    catch (Exception ex) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
 	    }
 	  return o;
   }
   
   public ResultSet Query(String qry) {
-	  Bukkit.getPluginManager().callEvent(new MySQLQueryEvent(qry));
+	  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
+	  	Bukkit.getPluginManager().callEvent(ev);
 	    ResultSet rs = null;
 	    try
 	    {
 	      Statement stmt = connection.createStatement();
-	      rs = stmt.executeQuery(qry);
+	      rs = stmt.executeQuery(ev.getQuery());
 	    }
 	    catch (Exception ex) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
 	    }
 
 	    return rs;

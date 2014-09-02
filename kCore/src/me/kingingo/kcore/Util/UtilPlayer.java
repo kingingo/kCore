@@ -2,6 +2,7 @@ package me.kingingo.kcore.Util;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.UUID;
 
 import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
 import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
@@ -29,13 +30,38 @@ public class UtilPlayer
   }
   
   public static void Tab(String[] tab,Player p){
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[0], true, 9999));
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[1], true, 9999));
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[2], true, 9999));
+	  PacketPlayOutPlayerInfo t = new PacketPlayOutPlayerInfo();
+	  UtilReflection.setValue("username", t, tab[0]);
+	  UtilReflection.setValue("ping", t, 9999);
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
+	  t = new PacketPlayOutPlayerInfo();
+	  UtilReflection.setValue("username", t, tab[1]);
+	  UtilReflection.setValue("ping", t, 9999);
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
+	  t = new PacketPlayOutPlayerInfo();
+	  UtilReflection.setValue("username", t, tab[2]);
+	  UtilReflection.setValue("ping", t, 9999);
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
 
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[3], true, 9999));
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[4], true, 9999));
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[5], true, 9999));
+	  t = new PacketPlayOutPlayerInfo();
+	  UtilReflection.setValue("username", t, tab[3]);
+	  UtilReflection.setValue("ping", t, 9999);
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
+	  t = new PacketPlayOutPlayerInfo();
+	  UtilReflection.setValue("username", t, tab[4]);
+	  UtilReflection.setValue("ping", t, 9999);
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
+	  t = new PacketPlayOutPlayerInfo();
+	  UtilReflection.setValue("username", t, tab[5]);
+	  UtilReflection.setValue("ping", t, 9999);
+	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
+//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[0], true, 9999));
+//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[1], true, 9999));
+//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[2], true, 9999));
+//
+//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[3], true, 9999));
+//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[4], true, 9999));
+//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[5], true, 9999));
   }
   
   public static void setPlayerListName(Player player,String nick){

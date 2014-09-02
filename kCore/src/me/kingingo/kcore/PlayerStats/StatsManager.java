@@ -50,7 +50,7 @@ public class StatsManager{
 
 	      rs.close();
 	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 	    return list;
 	}
@@ -164,7 +164,7 @@ public class StatsManager{
 
 	      rs.close();
 	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		
 		list.put(p, new HashMap<Stats,Object>());
@@ -194,7 +194,7 @@ public class StatsManager{
 
 	      rs.close();
 	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		
 		if(n!=-1)list.get(p).put(Stats.RANKING, n);
@@ -215,7 +215,7 @@ public class StatsManager{
 			}
 			rs.close();
 		}catch (Exception err){
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 		}
 		
 		list.get(p).put(s, i);
@@ -248,7 +248,7 @@ public class StatsManager{
 			}
 			rs.close();
 		}catch (Exception err){
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 		}
 		
 		if(i!=-1)list.get(p).put(s, i);
@@ -265,7 +265,7 @@ public class StatsManager{
 			}
 			rs.close();
 		}catch (Exception err){
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 		}
 		return i;
 	}

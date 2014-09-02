@@ -111,7 +111,8 @@ public class NPC {
 	        byte x = (byte) a;
 	        byte y = (byte) b;
 	        byte z = (byte) c;
-	        PacketPlayOutRelEntityMoveLook packet = new PacketPlayOutRelEntityMoveLook(p.getId(),x,y,z,getCompressedAngle(yaw),getCompressedAngle2(pitch));
+	        PacketPlayOutRelEntityMoveLook packet = new PacketPlayOutRelEntityMoveLook();
+//	        PacketPlayOutRelEntityMoveLook packet = new PacketPlayOutRelEntityMoveLook(p.getId(),x,y,z,getCompressedAngle(yaw),getCompressedAngle2(pitch));
 //	        setValue("a", packet, p.getId());
 //	        setValue("b", packet, x);
 //	        setValue("c", packet, y);

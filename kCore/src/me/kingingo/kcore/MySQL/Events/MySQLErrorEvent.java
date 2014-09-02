@@ -1,5 +1,8 @@
 package me.kingingo.kcore.MySQL.Events;
 
+import lombok.Getter;
+import lombok.Setter;
+import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 
 import org.bukkit.event.Event;
@@ -7,20 +10,19 @@ import org.bukkit.event.HandlerList;
 
 public class MySQLErrorEvent extends Event{
 	private static HandlerList handlers = new HandlerList();
-	private MySQLErr err;
-	private Exception error;
+	@Getter
+	@Setter
+	private MySQLErr error;
+	@Getter
+	@Setter
+	private Exception exception;
+	@Getter
+	private MySQL mysql;
 	
-	public MySQLErrorEvent(MySQLErr err,Exception error){
-		this.err=err;
+	public MySQLErrorEvent(MySQLErr error,Exception exception,MySQL mysql){
 		this.error=error;
-	}
-	
-	public Exception getException(){
-		return this.error;
-	}
-	
-	public MySQLErr getError(){
-		return this.err;
+		this.exception=exception;
+		this.mysql=mysql;
 	}
 	
 	@Override

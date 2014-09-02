@@ -213,7 +213,7 @@ public class GildenManager implements Listener {
 
 	      rs.close();
 	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		gilden_player.put(name,g);
 		
@@ -232,7 +232,7 @@ public class GildenManager implements Listener {
 
 	      rs.close();
 	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		return false;
 	}
@@ -250,7 +250,7 @@ public class GildenManager implements Listener {
 
 	      rs.close();
 	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		
 		if(!done)createDataEintrag(gilde, typ);
@@ -309,7 +309,7 @@ public class GildenManager implements Listener {
 
 	      rs.close();
 	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		
 		if(done)gilden_tag.put(gilde, i);
@@ -328,7 +328,7 @@ public class GildenManager implements Listener {
 
 	      rs.close();
 	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		return tag;
 	}
@@ -345,7 +345,7 @@ public class GildenManager implements Listener {
 
 	      rs.close();
 	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 	}
 	
@@ -378,7 +378,7 @@ public class GildenManager implements Listener {
 
 	      rs.close();
 	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		
 	    return n;
@@ -405,7 +405,7 @@ public class GildenManager implements Listener {
 			}
 			rs.close();
 		}catch (Exception err){
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 		}
 		return i;
 	}
@@ -424,7 +424,7 @@ public class GildenManager implements Listener {
 			}
 			rs.close();
 		}catch (Exception err){
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 		}
 		
 		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GildenType,HashMap<Stats,Object>>());
@@ -447,7 +447,7 @@ public class GildenManager implements Listener {
 			}
 			rs.close();
 		}catch (Exception err){
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 		}
 		
 		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GildenType,HashMap<Stats,Object>>());

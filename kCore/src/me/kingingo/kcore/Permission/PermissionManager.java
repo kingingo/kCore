@@ -140,7 +140,7 @@ public class PermissionManager {
 
 			rs.close();
 		} catch (Exception err) {
-		  Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+		  Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
 		}
 		return g;
 	}
@@ -156,7 +156,7 @@ public class PermissionManager {
 
 			rs.close();
 		} catch (Exception err) {
-		  Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+		  Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
 		}
 		return g;
 	}
@@ -176,7 +176,7 @@ public class PermissionManager {
 
 			rs.close();
 		} catch (Exception err) {
-		  Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+		  Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
 		}
 		
 		try
@@ -192,7 +192,7 @@ public class PermissionManager {
 	    }
 	    catch (SQLException e)
 	    {
-	      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e));
+	      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
 	    }
 		
 		try
@@ -208,7 +208,7 @@ public class PermissionManager {
 	    }
 	    catch (SQLException e)
 	    {
-	      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e));
+	      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
 	    }
 		
 		try {
@@ -220,7 +220,7 @@ public class PermissionManager {
 
 			rs.close();
 		} catch (Exception err) {
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err));
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
 		}
 		
 		if(!perm.isEmpty())list.put(p, perm);

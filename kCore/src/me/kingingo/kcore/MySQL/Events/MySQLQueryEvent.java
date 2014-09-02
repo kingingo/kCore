@@ -1,18 +1,23 @@
 package me.kingingo.kcore.MySQL.Events;
 
+import lombok.Getter;
+import lombok.Setter;
+import me.kingingo.kcore.MySQL.MySQL;
+
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class MySQLQueryEvent extends Event{
 	private static HandlerList handlers = new HandlerList();
-	private String q;
+	@Getter
+	@Setter
+	private String query;
+	@Getter
+	private MySQL mysql;
 	
-	public MySQLQueryEvent(String q){
-		this.q=q;
-	}
-	
-	public String getQuery(){
-		return this.q;
+	public MySQLQueryEvent(String query,MySQL mysql){
+		this.query=query;
+		this.mysql=mysql;
 	}
 	
 	@Override
