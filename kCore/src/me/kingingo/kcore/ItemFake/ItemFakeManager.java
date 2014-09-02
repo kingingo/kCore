@@ -9,6 +9,7 @@ import me.kingingo.kcore.Hologram.Hologram;
 import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
 import me.kingingo.kcore.ItemFake.Events.ItemFakeCreateEvent;
 import me.kingingo.kcore.ItemFake.Events.ItemFakeDestroyEvent;
+import me.kingingo.kcore.ItemFake.Events.ItemFakePickupEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilServer;
@@ -16,7 +17,10 @@ import me.kingingo.kcore.Util.UtilServer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.ItemDespawnEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ItemFakeManager implements Listener {
@@ -57,6 +61,27 @@ public class ItemFakeManager implements Listener {
 			}
 			for(Player p : ntm_remove){
 				itemfake.get(i).remove(p);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void ItemDespawn(ItemDespawnEvent ev){
+		for(ItemFake f : list){
+			if(f.getItem().getEntityId()==ev.getEntity().getEntityId()){
+				ev.setCancelled(true);
+				break;
+			}
+		}
+	}
+	
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void PickUp(PlayerPickupItemEvent ev){
+		for(ItemFake f : list){
+			if(f.getItem().getEntityId()==ev.getItem().getEntityId()){
+				ev.setCancelled(true);
+				Bukkit.getPluginManager().callEvent(new ItemFakePickupEvent(ev.getItem(),ev.getPlayer(),f));
+				break;
 			}
 		}
 	}

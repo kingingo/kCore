@@ -126,6 +126,9 @@ FRIEND_NOW("Du bist jetzt mit % befreundet!"),
 FRIEND_ASK_NOT("Momentan hast du keine Freundschaftsanfrage."),
 FRIEND_IS_FRIEND("Du bist mit % befreundet!"),
 NICK("Du hast dein Nick zu % geändert!"),
+NEULING_SCHUTZ("Der Spieler % ist noch im Neuling's Schutz!"),
+NEULING_END("Du besitzt nun kein Neuling Schutz mehr!"),
+NEULING_CMD("Du bist kein Neuling."),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 private String t;
