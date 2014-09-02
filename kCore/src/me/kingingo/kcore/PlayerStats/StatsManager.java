@@ -3,6 +3,8 @@ package me.kingingo.kcore.PlayerStats;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
@@ -15,10 +17,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class StatsManager{
 
-	JavaPlugin plugin;
-	MySQL mysql;
-	GameType typ;
-	HashMap<Player,HashMap<Stats,Object>> list = new HashMap<>(); 
+	@Getter
+	private JavaPlugin plugin;
+	@Getter
+	private MySQL mysql;
+	@Getter
+	private GameType typ;
+	@Getter
+	private HashMap<Player,HashMap<Stats,Object>> list = new HashMap<>(); 
+	@Getter
+	@Setter
+	private boolean onDisable=false;
 	
 	public StatsManager(JavaPlugin plugin,MySQL mysql,GameType typ){
 		this.plugin=plugin;
@@ -68,25 +77,50 @@ public class StatsManager{
 	}
 	
 	public void SaveAllData(){
-		for(Player p : list.keySet()){
-			for(Stats s : list.get(p).keySet()){
-				if(list.get(p).get(s) instanceof Integer){
-					UpdatePlayer(p, s,((Integer)list.get(p).get(s)) );
-				}else if(list.get(p).get(s) instanceof String){
-					UpdatePlayer(p, s,((String)list.get(p).get(s)) );
+		Player player;
+		Stats stats;
+		for(int p = 0; p<list.size(); p++){
+			for(int s = 0; s<list.get(p).size(); s++){
+				if(list.get(p) instanceof Player){
+					player = (Player)list.keySet().toArray()[p];
+					if(list.get(p).get(s) instanceof Stats){
+						stats = (Stats)list.get(p).keySet().toArray()[s];	
+						if(!stats.isMysql())continue;
+						if(list.get(p).get(s) instanceof Integer){
+							mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Integer)list.get(p).get(s)) +"' WHERE player='" + player.getName() + "'");
+							list.get(p).remove(s);
+						}else if(list.get(p).get(s) instanceof String){
+							mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((String)list.get(p).get(s)) +"' WHERE player='" + player.getName() + "'");
+							list.get(p).remove(s);
+						}
+					}else{
+						System.err.println("[StatsManager] Fehler: Object ist kein Stats Object!");
+					}
+				}else{
+					System.err.println("[StatsManager] Fehler: Object ist kein Player Object!");
 				}
 			}
 		}
+		list.clear();
 	}
 	
 	public void SaveAllPlayerData(Player p){
+		if(isOnDisable())return;
 		if(!list.containsKey(p))return;
 		if(list.get(p).isEmpty())return;
-		for(Stats s : list.get(p).keySet()){
-			if(list.get(p).get(s) instanceof Integer){
-				UpdatePlayer(p, s,((Integer)list.get(p).get(s)) );
-			}else if(list.get(p).get(s) instanceof String){
-				UpdatePlayer(p, s,((String)list.get(p).get(s)) );
+		for(int s = 0; s < list.get(p).size() ; s++){
+			if(list.get(p).keySet().toArray()[s] instanceof Stats){
+				Stats st =(Stats) list.get(p).keySet().toArray()[s];
+				if(!st.isMysql())continue;
+				if(list.get(p).get(s) instanceof Integer){
+					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((String)list.get(p).get(s)) +"' WHERE player='" + p.getName() + "'");
+					list.get(p).remove(s);
+				}else if(list.get(p).get(s) instanceof String){
+					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Integer)list.get(p).get(s)) +"' WHERE player='" + p.getName() + "'");
+					list.get(p).remove(s);
+				}
+			}else{
+				System.err.println("[StatsManager] Fehler: Object ist kein Stats Object!");
 			}
 		}
 	}
@@ -95,12 +129,14 @@ public class StatsManager{
 		if(!s.isMysql())return;
 		ExistPlayer(p);
 		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE player='" + p.getName() + "'");
+		list.get(p).remove(s);
 	}
 	
 	public void UpdatePlayer(Player p,Stats s,int i){
 		if(!s.isMysql())return;
 		ExistPlayer(p);
 		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE player='" + p.getName() + "'");
+		list.get(p).remove(s);
 	}
 	
 	public void createEintrag(Player p){

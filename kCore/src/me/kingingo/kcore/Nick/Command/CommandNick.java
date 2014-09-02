@@ -1,8 +1,8 @@
-package me.kingingo.kcore.NickManager.Command;
+package me.kingingo.kcore.Nick.Command;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.NickManager.NickManager;
+import me.kingingo.kcore.Nick.NickManager;
 import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Permission.PermissionManager;
 

@@ -1,4 +1,4 @@
-package me.kingingo.kcore.NeulingManager;
+package me.kingingo.kcore.Neuling;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;

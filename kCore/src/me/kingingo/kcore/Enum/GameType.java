@@ -17,6 +17,7 @@ BeastMode("BeastMode","BM",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.
 SheepWars8("SheepWars8","SW",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),
 SheepWars16("SheepWars16","SW",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),
 MarioParty("MarioParty","MP",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
+PVP("PvP-Server","PvP",new Stats[]{Stats.KILLS,Stats.DEATHS}),
 NONE("NONE","FAIL",null);
 
 private String typ;

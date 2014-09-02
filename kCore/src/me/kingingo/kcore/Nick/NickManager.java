@@ -1,14 +1,14 @@
-package me.kingingo.kcore.NickManager;
+package me.kingingo.kcore.Nick;
 
 import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerNamedEntitySpawn;
-import me.kingingo.kcore.NickManager.Command.CommandNick;
-import me.kingingo.kcore.NickManager.Events.BroadcastMessageEvent;
-import me.kingingo.kcore.NickManager.Events.PlayerListNameChangeEvent;
-import me.kingingo.kcore.NickManager.Events.PlayerSendMessageEvent;
+import me.kingingo.kcore.Nick.Command.CommandNick;
+import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
+import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
+import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;

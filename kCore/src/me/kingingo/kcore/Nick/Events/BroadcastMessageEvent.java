@@ -1,4 +1,4 @@
-package me.kingingo.kcore.NickManager.Events;
+package me.kingingo.kcore.Nick.Events;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,16 +8,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerSendMessageEvent extends Event{
+public class BroadcastMessageEvent extends Event{
 	private static HandlerList handlers = new HandlerList();
 	@Getter
 	@Setter
 	private String message;
-	@Getter
-	private Player player;
 	
-	public PlayerSendMessageEvent(Player player,String message){
-		this.player=player;
+	public BroadcastMessageEvent(String message){
 		this.message=message;
 	}
 	

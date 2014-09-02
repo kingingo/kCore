@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Util;
 
-import me.kingingo.kcore.NickManager.Events.BroadcastMessageEvent;
-import me.kingingo.kcore.NickManager.Events.PlayerSendMessageEvent;
+import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
+import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;

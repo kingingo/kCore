@@ -1,4 +1,4 @@
-package me.kingingo.kcore.NickManager.Events;
+package me.kingingo.kcore.Nick.Events;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,17 +8,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerListNameChangeEvent extends Event{
+public class PlayerSendMessageEvent extends Event{
 	private static HandlerList handlers = new HandlerList();
 	@Getter
 	@Setter
-	private String nick;
+	private String message;
 	@Getter
 	private Player player;
 	
-	public PlayerListNameChangeEvent(Player player,String nick){
+	public PlayerSendMessageEvent(Player player,String message){
 		this.player=player;
-		this.nick=nick;
+		this.message=message;
 	}
 	
 	@Override

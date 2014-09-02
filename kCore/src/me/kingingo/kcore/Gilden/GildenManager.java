@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
@@ -54,6 +55,9 @@ public class GildenManager implements Listener {
 	private HashMap<Player,Long> teleport = new HashMap<>();
 	@Getter
 	private HashMap<Player,Location> teleport_loc = new HashMap<>();
+	@Getter
+	@Setter
+	private boolean onDisable=false;
 	
 	public GildenManager(JavaPlugin instance,MySQL mysql,GildenType typ,CommandHandler cmd){
 		this.instance=instance;
@@ -135,6 +139,7 @@ public class GildenManager implements Listener {
 	
 	@EventHandler
 	public void PlayerQuit(PlayerQuitEvent ev){
+		if(isOnDisable())return;
 		if(!isPlayerInGilde(ev.getPlayer().getName()))return;
 		sendGildenChat(getPlayerGilde(ev.getPlayer().getName()), Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_LEAVE.getText(ev.getPlayer().getName()));
 	}
@@ -253,6 +258,24 @@ public class GildenManager implements Listener {
 		gilden_data.put(gilde,new HashMap<GildenType,HashMap<Stats,Object>>());
 		gilden_data.get(gilde).put(typ, new HashMap<Stats,Object>());
 		return done;
+	}
+	
+	public void AllUpdateGilde(){
+		for(String g : gilden_data_musst_saved.keySet()){
+			for(GildenType typ : gilden_data_musst_saved.get(g).keySet()){
+				for(Stats s : gilden_data_musst_saved.get(g).get(typ)){
+					if(!s.isMysql())return;
+					Object o = gilden_data.get(g).get(typ).get(s);
+					if(o instanceof Integer){
+						gilden_data_musst_saved.get(g).get(typ).remove(s);
+						mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+					}else if(o instanceof String){
+						gilden_data_musst_saved.get(g).get(typ).remove(s);
+						mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+					}
+				}
+			}
+		}
 	}
 	
 	public void UpdateGilde(String gilde,GildenType typ){

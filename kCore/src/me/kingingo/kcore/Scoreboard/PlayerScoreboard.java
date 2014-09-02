@@ -1,4 +1,4 @@
-package me.kingingo.kcore.ScoreboardManager;
+package me.kingingo.kcore.Scoreboard;
 
 import lombok.Getter;
 import me.kingingo.kcore.Util.UtilServer;

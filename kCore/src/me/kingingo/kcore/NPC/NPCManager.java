@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
-import me.kingingo.kcore.NickManager.NickManager;
+import me.kingingo.kcore.Nick.NickManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

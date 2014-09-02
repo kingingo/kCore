@@ -1,7 +1,7 @@
-package me.kingingo.kcore.NeulingManager.Events;
+package me.kingingo.kcore.Neuling.Events;
 
 import lombok.Getter;
-import me.kingingo.kcore.NeulingManager.NeulingManager;
+import me.kingingo.kcore.Neuling.NeulingManager;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
