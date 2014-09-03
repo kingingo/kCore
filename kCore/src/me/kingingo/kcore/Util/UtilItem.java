@@ -58,6 +58,7 @@ public class UtilItem {
 	    }
 	  
 	  public static boolean ItemNameEquals(ItemStack i, ItemStack i1){
+		  if(i==null||i1==null)return false;
 		  if(i.hasItemMeta()&&i.getItemMeta().hasDisplayName()){
 			  if(i1.hasItemMeta()&&i1.getItemMeta().hasDisplayName()){
 				  if(i.getItemMeta().getDisplayName().equalsIgnoreCase(i1.getItemMeta().getDisplayName())){

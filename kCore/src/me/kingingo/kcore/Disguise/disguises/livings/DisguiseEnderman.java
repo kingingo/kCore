@@ -7,6 +7,7 @@ import net.minecraft.server.v1_7_R4.MobEffectList;
 import net.minecraft.server.v1_7_R4.PotionBrewer;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class DisguiseEnderman extends DisguiseMonster
 {
@@ -53,9 +54,9 @@ public class DisguiseEnderman extends DisguiseMonster
     this.DataWatcher.watch(18, Byte.valueOf((byte)(flag ? 1 : 0)));
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 58;
+    return EntityType.ENDERMAN;
   }
 
   protected String getHurtSound()

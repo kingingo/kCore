@@ -3,6 +3,7 @@ import me.kingingo.kcore.Disguise.disguises.DisguiseTameableAnimal;
 import net.minecraft.server.v1_7_R4.BlockCloth;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class DisguiseWolf extends DisguiseTameableAnimal
 {
@@ -53,9 +54,9 @@ public class DisguiseWolf extends DisguiseTameableAnimal
     return this.DataWatcher.getByte(19) == 1;
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 95;
+    return EntityType.WOLF;
   }
 
   protected String getHurtSound()

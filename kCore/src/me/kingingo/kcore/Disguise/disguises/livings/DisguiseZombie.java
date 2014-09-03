@@ -3,6 +3,7 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import me.kingingo.kcore.Disguise.disguises.DisguiseMonster;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class DisguiseZombie extends DisguiseMonster
 {
@@ -15,9 +16,9 @@ public class DisguiseZombie extends DisguiseMonster
     this.DataWatcher.a(14, Byte.valueOf((byte)0));
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 54;
+    return EntityType.ZOMBIE;
   }
 
   public boolean IsBaby()

@@ -3,6 +3,7 @@ import me.kingingo.kcore.Disguise.disguises.DisguiseMonster;
 import net.minecraft.server.v1_7_R4.DataWatcher;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Skeleton.SkeletonType;
 
@@ -15,9 +16,9 @@ public class DisguiseSkeleton extends DisguiseMonster
     this.DataWatcher.a(13, Byte.valueOf((byte)0));
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 51;
+    return EntityType.SKELETON;
   }
 
   public void SetSkeletonType(Skeleton.SkeletonType skeletonType)

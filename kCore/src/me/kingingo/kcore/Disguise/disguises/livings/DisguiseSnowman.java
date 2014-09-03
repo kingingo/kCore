@@ -2,6 +2,7 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import me.kingingo.kcore.Disguise.disguises.DisguiseGolem;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class DisguiseSnowman extends DisguiseGolem
 {
@@ -10,8 +11,8 @@ public class DisguiseSnowman extends DisguiseGolem
     super(entity);
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 97;
+    return EntityType.SNOWMAN;
   }
 }

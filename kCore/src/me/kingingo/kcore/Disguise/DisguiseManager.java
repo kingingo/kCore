@@ -52,31 +52,6 @@ public class DisguiseManager implements Listener {
 	
 	public DisguiseManager(JavaPlugin instance){
 		this.instance=instance;
-		//PacketPlayOutSpawnEntityLiving
-//		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.HIGHEST, PacketType.Play.Server.NAMED_ENTITY_SPAWN){
-//			 	@Override
-//				public void onPacketSending(PacketEvent event) {
-//		        if(event.getPacketType() == PacketType.Play.Server.NAMED_ENTITY_SPAWN){
-//		            Player player = event.getPlayer();
-//		            System.err.println("PLAYER: "+player.getName());
-//		            try {
-//		                PacketContainer packet = event.getPacket();
-//		                WrapperPlayServerSpawnEntityLiving pa = new WrapperPlayServerSpawnEntityLiving(packet);
-//		                System.err.println("TYPE:"+pa.getType().toString());
-//		                if(pa.getType()==EntityType.PLAYER){
-//		                	System.err.println("PLAYER1: "+player.getName());
-//		                	for(LivingEntity entity : disguise.keySet()){
-//		                		if(entity.getEntityId()==pa.getEntityID()){
-//		                			System.err.println("SEND "+player.getName()+" FROM "+((Player)entity).getName());
-//		                			DisguiseBase db = disguise.get(entity);
-//		                			event.setPacket(db.GetSpawnPacket().getHandle());
-//		                		}
-//		                	}
-//		                }
-//		            } catch (Exception e){}
-//		        }
-//		    }
-//		});
 		
 		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.HIGHEST, PacketType.Play.Server.NAMED_ENTITY_SPAWN){
 		 	@Override
@@ -93,10 +68,12 @@ public class DisguiseManager implements Listener {
 	                			DisguiseBase db = disguise.get(entity);
 	                			EntityPlayer entityPlayer = ((CraftPlayer) p).getHandle();
 	                	        entityPlayer.playerConnection.sendPacket(new PacketPlayOutEntityDestroy(new int[] { db.GetEntityId() }));
-	                			event.setPacket(db.GetSpawnPacket().getHandle());
+	                			event.setPacket(db.GetSpawnPacket());
 	                		}
 	                }
-	            } catch (Exception e){}
+	            } catch (Exception e){
+	            	System.err.println("[DisguiseManager] Error: "+e.getMessage());
+	            }
 	        }
 	    }
 	});
@@ -225,7 +202,7 @@ public class DisguiseManager implements Listener {
 	           // EntityPlayer entityPlayer = ((CraftPlayer)player).getHandle();
 	            //entityPlayer.playerConnection.sendPacket(disguise.GetSpawnPacket());
 	            try {
-					ProtocolLibrary.getProtocolManager().sendServerPacket(player, disguise.GetSpawnPacket().getHandle());
+					ProtocolLibrary.getProtocolManager().sendServerPacket(player, disguise.GetSpawnPacket());
 				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -272,7 +249,7 @@ public class DisguiseManager implements Listener {
 	            //EntityPlayer entityPlayer = ((CraftPlayer)player).getHandle();
 	            //entityPlayer.playerConnection.sendPacket(disguise.GetSpawnPacket());
 	            try {
-					ProtocolLibrary.getProtocolManager().sendServerPacket(player, disguise.GetSpawnPacket().getHandle());
+					ProtocolLibrary.getProtocolManager().sendServerPacket(player, disguise.GetSpawnPacket());
 				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -349,20 +326,20 @@ public class DisguiseManager implements Listener {
 //	    }
 //	  }
 	  
-	  @EventHandler(priority=EventPriority.HIGHEST)
-	  public void PlayerJoin(final PlayerJoinEvent ev){
-		  if(getDisguise().isEmpty())return;
-		  Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), new Runnable(){
-
-			@Override
-			public void run() {
-				 for(DisguiseBase disguise : getDisguise().values()){
-					 reApplyDisguiseOnly(ev.getPlayer(), disguise);
-				 }
-			}
-			  
-		  },20*2);
-	  }
+//	  @EventHandler(priority=EventPriority.HIGHEST)
+//	  public void PlayerJoin(final PlayerJoinEvent ev){
+//		  if(getDisguise().isEmpty())return;
+//		  Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), new Runnable(){
+//
+//			@Override
+//			public void run() {
+//				 for(DisguiseBase disguise : getDisguise().values()){
+//					 reApplyDisguiseOnly(ev.getPlayer(), disguise);
+//				 }
+//			}
+//			  
+//		  },20*2);
+//	  }
 	  
 	  @EventHandler
 	  public void PlayerQuit(PlayerQuitEvent event){

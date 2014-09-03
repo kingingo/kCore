@@ -5,6 +5,9 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.server.v1_7_R4.MathHelper;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
@@ -167,27 +170,35 @@ public class UtilDisplay {
       return packet;
     }
 
-    public Object getTeleportPacket(Location loc)
+    public Object getTeleportPacket(int entityid,Location loc)
     {
-      Class PacketPlayOutEntityTeleport = Util.getCraftClass("PacketPlayOutEntityTeleport");
-
-      Object packet = null;
-      try
-      {
-          packet = PacketPlayOutEntityTeleport.getConstructor(new Class[] { Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Byte.TYPE, Byte.TYPE }).newInstance(new Object[] { Integer.valueOf(EntityID), Integer.valueOf(loc.getBlockX() * 32), Integer.valueOf(loc.getBlockY() * 32), Integer.valueOf(loc.getBlockZ() * 32), Byte.valueOf((byte)((int)loc.getYaw() * 256 / 360)), Byte.valueOf((byte)((int)loc.getPitch() * 256 / 360)) });
-      } catch (IllegalArgumentException e) {
-        e.printStackTrace();
-      } catch (SecurityException e) {
-        e.printStackTrace();
-      } catch (InstantiationException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
-      } catch (InvocationTargetException e) {
-        e.printStackTrace();
-      } catch (NoSuchMethodException e) {
-        e.printStackTrace();
-      }
+    	
+    	PacketPlayOutEntityTeleport packet = new PacketPlayOutEntityTeleport();
+    	UtilReflection.setValue("a", packet, entityid);
+    	UtilReflection.setValue("b", packet, MathHelper.floor(loc.getX() * 32.0D));
+    	UtilReflection.setValue("c", packet, MathHelper.floor(loc.getY() * 32.0D));
+    	UtilReflection.setValue("d", packet, MathHelper.floor(loc.getZ() * 32.0D));
+    	UtilReflection.setValue("e", packet, ((byte) ((int) (loc.getYaw() * 256.0F / 360.0F))));
+    	UtilReflection.setValue("f", packet, ((byte) ((int) (loc.getPitch() * 256.0F / 360.0F))));
+//      Class PacketPlayOutEntityTeleport = Util.getCraftClass("PacketPlayOutEntityTeleport");
+//
+//      Object packet = null;
+//      try
+//      {
+//           packet = PacketPlayOutEntityTeleport.getConstructor(new Class[] { Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Byte.TYPE, Byte.TYPE }).newInstance(new Object[] { Integer.valueOf(EntityID), Integer.valueOf(loc.getBlockX() * 32), Integer.valueOf(loc.getBlockY() * 32), Integer.valueOf(loc.getBlockZ() * 32), Byte.valueOf((byte)((int)loc.getYaw() * 256 / 360)), Byte.valueOf((byte)((int)loc.getPitch() * 256 / 360)) });
+//      } catch (IllegalArgumentException e) {
+//        e.printStackTrace();
+//      } catch (SecurityException e) {
+//        e.printStackTrace();
+//      } catch (InstantiationException e) {
+//		e.printStackTrace();
+//	} catch (IllegalAccessException e) {
+//		e.printStackTrace();
+//	} catch (InvocationTargetException e) {
+//		e.printStackTrace();
+//	} catch (NoSuchMethodException e) {
+//		e.printStackTrace();
+//	}
 
       return packet;
     }
@@ -252,7 +263,7 @@ public class UtilDisplay {
             dragon.name=text;
             dragon.health=(healthpercent/100f)*UtilDisplay.MAX_HEALTH;
             Object metaPacket = dragon.getMetaPacket(dragon.getWatcher());
-            Object teleportPacket = dragon.getTeleportPacket(player.getLocation().add(0, -200, 0));
+            Object teleportPacket = dragon.getTeleportPacket(dragon.EntityID,player.getLocation().add(0, -200, 0));
             Util.sendPacket(player, metaPacket);
             Util.sendPacket(player, teleportPacket);
         }

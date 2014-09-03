@@ -2,6 +2,7 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import me.kingingo.kcore.Disguise.disguises.DisguiseMonster;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class DisguiseCreeper extends DisguiseMonster
 {
@@ -13,9 +14,9 @@ public class DisguiseCreeper extends DisguiseMonster
     this.DataWatcher.a(17, Byte.valueOf((byte)0));
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 50;
+    return EntityType.CREEPER;
   }
 
   public boolean IsPowered()

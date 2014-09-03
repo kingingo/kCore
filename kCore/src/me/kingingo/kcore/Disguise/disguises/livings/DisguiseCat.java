@@ -2,6 +2,7 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import me.kingingo.kcore.Disguise.disguises.DisguiseTameableAnimal;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class DisguiseCat extends DisguiseTameableAnimal
 {
@@ -22,9 +23,9 @@ public class DisguiseCat extends DisguiseTameableAnimal
     this.DataWatcher.watch(18, Byte.valueOf((byte)i));
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 98;
+    return EntityType.OCELOT;
   }
 
   protected String getHurtSound()

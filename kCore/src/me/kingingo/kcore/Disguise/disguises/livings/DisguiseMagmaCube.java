@@ -1,4 +1,9 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
+import org.bukkit.entity.EntityType;
+
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+
 import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
 import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntityLiving;
 import me.kingingo.kcore.Util.UtilReflection;
@@ -26,8 +31,17 @@ public class DisguiseMagmaCube extends DisguiseInsentient
     return this.DataWatcher.getByte(16);
   }
 
-//  public Packet GetSpawnPacket()
-//  {
+  public PacketContainer GetSpawnPacket()
+  {
+	WrapperPlayServerSpawnEntityLiving pa = new WrapperPlayServerSpawnEntityLiving();
+	pa.setEntityID(this.Entity.getId());
+	pa.setZ(EnumEntitySize.SIZE_2.a(this.Entity.locZ));
+	pa.setX(EnumEntitySize.SIZE_2.a(this.Entity.locX));
+	pa.setY(MathHelper.floor(this.Entity.locY * 32.0D));
+	pa.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
+	pa.setMetadata(new WrappedDataWatcher(this.DataWatcher));
+	pa.setType(EntityType.MAGMA_CUBE);
+	return pa.getHandle();
 //    PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
 //    UtilReflection.setValue("a", packet,  this.Entity.getId());
 //    UtilReflection.setValue("b", packet, 62);
@@ -80,7 +94,7 @@ public class DisguiseMagmaCube extends DisguiseInsentient
 //    UtilReflection.setValue("m", packet, this.DataWatcher.b());
 //
 //    return packet;
-//  }
+  }
 
   protected String getHurtSound()
   {
@@ -91,10 +105,4 @@ public class DisguiseMagmaCube extends DisguiseInsentient
   {
     return 0.4F * GetSize();
   }
-
-@Override
-public WrapperPlayServerSpawnEntityLiving GetSpawnPacket() {
-	// TODO Auto-generated method stub
-	return null;
-}
 }

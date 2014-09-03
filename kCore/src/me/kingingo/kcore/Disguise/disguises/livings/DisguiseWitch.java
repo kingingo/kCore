@@ -2,6 +2,7 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import me.kingingo.kcore.Disguise.disguises.DisguiseMonster;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class DisguiseWitch extends DisguiseMonster
 {
@@ -12,9 +13,9 @@ public class DisguiseWitch extends DisguiseMonster
     this.DataWatcher.a(21, Byte.valueOf((byte)0));
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 66;
+    return EntityType.WITCH;
   }
 
   public String getHurtSound()

@@ -1,9 +1,11 @@
 package me.kingingo.kcore.NPC;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import lombok.Getter;
+import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_7_R4.DataWatcher;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
@@ -44,6 +46,28 @@ public class NPC {
 	public NPC(String Name,NPCManager Manager){
 		this.Manager=Manager;
 		this.Name=Name;
+	}
+	
+	public void setTab(ArrayList<Player> list){
+		if(p!=null){
+			for(Player player : list)UtilPlayer.setTab(p.getName(), player);
+		}
+	}
+	
+	public void setTab(Player player){
+		if(p!=null){
+			UtilPlayer.setTab(p.getName(), player);
+		}
+	}
+	
+	public void setTab(){
+		if(p!=null){
+			for(Player player : UtilServer.getPlayers())UtilPlayer.setTab(p.getName(), player);
+		}
+	}
+	
+	public void destroyTab(){
+		
 	}
 	
 	public PacketPlayOutNamedEntitySpawn spawn(Location spawn){

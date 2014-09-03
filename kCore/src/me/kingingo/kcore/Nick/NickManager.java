@@ -49,38 +49,28 @@ public class NickManager {
 		this.cmd=cmd;
 		this.pManager=pManager;
 		
-		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(pManager.getInstance(), ListenerPriority.NORMAL, PacketType.Play.Server.NAMED_ENTITY_SPAWN){
-			 @Override
-			public void onPacketSending(PacketEvent event) {
-	        if(event.getPacketType() == PacketType.Play.Server.NAMED_ENTITY_SPAWN){
-	            	try {
-		                PacketContainer packet = event.getPacket();
-		                WrapperPlayServerNamedEntitySpawn t = new WrapperPlayServerNamedEntitySpawn(packet);
-		                
-//		                boolean b = false;
-//		                for(Player p : UtilServer.getPlayers()){
+//		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(pManager.getInstance(), ListenerPriority.NORMAL, PacketType.Play.Server.NAMED_ENTITY_SPAWN){
+//			 @Override
+//			public void onPacketSending(PacketEvent event) {
+//	        if(event.getPacketType() == PacketType.Play.Server.NAMED_ENTITY_SPAWN){
+//	            	try {
+//		                PacketContainer packet = event.getPacket();
+//		                WrapperPlayServerNamedEntitySpawn t = new WrapperPlayServerNamedEntitySpawn(packet);
+//		                
+//		                for(Player p : name.keySet()){
 //		                	if(p.getName().equalsIgnoreCase(t.getPlayerName())){
-//		                		b=true;
-//		                		continue;
+//				                WrapperPlayServerNamedEntitySpawn p20 = new WrapperPlayServerNamedEntitySpawn(p);
+//				                p20.setPlayerName(name.get(p));
+//				                event.setPacket(p20.getHandle());
+//				                break;
 //		                	}
 //		                }
-//
-//		                if(!b)return;
-		                
-		                for(Player p : name.keySet()){
-		                	if(p.getName().equalsIgnoreCase(t.getPlayerName())){
-				                WrapperPlayServerNamedEntitySpawn p20 = new WrapperPlayServerNamedEntitySpawn(p);
-				                p20.setPlayerName(name.get(p));
-				                event.setPacket(p20.getHandle());
-				                break;
-		                	}
-		                }
-		            } catch (Exception e){
-		            	System.err.print("[NickManager] Error: "+e.getMessage());
-		            }
-	            }
-	    }
-	});
+//		            } catch (Exception e){
+//		            	System.err.print("[NickManager] Error: "+e.getMessage());
+//		            }
+//	            }
+//	    }
+//	});
 		
 		cmd.register(CommandNick.class, new CommandNick(this,pManager));
 	}

@@ -2,6 +2,7 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import me.kingingo.kcore.Disguise.disguises.DisguiseAnimal;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 
 public class DisguiseHorse extends DisguiseAnimal
@@ -17,9 +18,9 @@ public class DisguiseHorse extends DisguiseAnimal
     this.DataWatcher.a(22, Integer.valueOf(0));
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 100;
+    return EntityType.HORSE;
   }
 
   public void setType(Horse.Variant horseType)

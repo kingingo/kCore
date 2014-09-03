@@ -2,6 +2,7 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import me.kingingo.kcore.Disguise.disguises.DisguiseGolem;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class DisguiseIronGolem extends DisguiseGolem
 {
@@ -12,9 +13,9 @@ public class DisguiseIronGolem extends DisguiseGolem
     this.DataWatcher.a(16, Byte.valueOf((byte)0));
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 99;
+    return EntityType.IRON_GOLEM;
   }
 
   public boolean bW()

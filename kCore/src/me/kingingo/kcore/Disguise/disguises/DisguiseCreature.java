@@ -2,6 +2,7 @@ package me.kingingo.kcore.Disguise.disguises;
 import org.bukkit.entity.EntityType;
 
 import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 
 import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntityLiving;
@@ -19,9 +20,9 @@ public abstract class DisguiseCreature extends DisguiseInsentient
     super(entity);
   }
 
-  protected abstract int GetEntityTypeId();
+  protected abstract EntityType GetEntityTypeId();
 
-  public WrapperPlayServerSpawnEntityLiving GetSpawnPacket()
+  public PacketContainer GetSpawnPacket()
   {
 	WrapperPlayServerSpawnEntityLiving pa = new WrapperPlayServerSpawnEntityLiving();
 	pa.setEntityID(this.Entity.getId());
@@ -30,8 +31,8 @@ public abstract class DisguiseCreature extends DisguiseInsentient
 	pa.setY(MathHelper.floor(this.Entity.locY * 32.0D));
 	pa.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
 	pa.setMetadata(new WrappedDataWatcher(this.DataWatcher));
-	pa.setType(EntityType.ZOMBIE);
-	return pa;
+	pa.setType(this.GetEntityTypeId());
+	return pa.getHandle();
 //    PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
 //    UtilReflection.setValue("a", packet, this.Entity.getId());
 //    UtilReflection.setValue("b", packet, ((byte)GetEntityTypeId()));

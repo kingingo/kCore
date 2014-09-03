@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class DisguisePigZombie extends DisguiseZombie
 {
@@ -8,9 +9,9 @@ public class DisguisePigZombie extends DisguiseZombie
     super(entity);
   }
 
-  public int GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
-    return 57;
+    return EntityType.PIG_ZOMBIE;
   }
 
   protected String getHurtSound()

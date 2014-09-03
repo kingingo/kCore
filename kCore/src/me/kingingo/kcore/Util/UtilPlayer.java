@@ -29,32 +29,15 @@ public class UtilPlayer
 		return p.hasPotionEffect(PotionEffectType.SLOW);
   }
   
-  public static void Tab(String[] tab,Player p){
+  public static void setTab(String tab,Player p){
 	  PacketPlayOutPlayerInfo t = new PacketPlayOutPlayerInfo();
-	  UtilReflection.setValue("username", t, tab[0]);
+	  UtilReflection.setValue("username", t, tab);
 	  UtilReflection.setValue("ping", t, 9999);
 	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
-	  t = new PacketPlayOutPlayerInfo();
-	  UtilReflection.setValue("username", t, tab[1]);
-	  UtilReflection.setValue("ping", t, 9999);
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
-	  t = new PacketPlayOutPlayerInfo();
-	  UtilReflection.setValue("username", t, tab[2]);
-	  UtilReflection.setValue("ping", t, 9999);
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
-
-	  t = new PacketPlayOutPlayerInfo();
-	  UtilReflection.setValue("username", t, tab[3]);
-	  UtilReflection.setValue("ping", t, 9999);
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
-	  t = new PacketPlayOutPlayerInfo();
-	  UtilReflection.setValue("username", t, tab[4]);
-	  UtilReflection.setValue("ping", t, 9999);
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
-	  t = new PacketPlayOutPlayerInfo();
-	  UtilReflection.setValue("username", t, tab[5]);
-	  UtilReflection.setValue("ping", t, 9999);
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
+  }
+  
+  public static void setTab(String[] tab,Player p){
+	  for(String t : tab)setTab(t, p);
 //	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[0], true, 9999));
 //	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[1], true, 9999));
 //	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[2], true, 9999));

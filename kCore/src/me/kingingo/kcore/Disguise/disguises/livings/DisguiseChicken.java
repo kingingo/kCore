@@ -2,6 +2,7 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import me.kingingo.kcore.Disguise.disguises.DisguiseAnimal;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 public class DisguiseChicken extends DisguiseAnimal
 {
@@ -10,9 +11,9 @@ public class DisguiseChicken extends DisguiseAnimal
     super(entity);
   }
 
-  protected int GetEntityTypeId()
+  protected EntityType GetEntityTypeId()
   {
-    return 93;
+    return EntityType.CHICKEN;
   }
 
   public String getHurtSound()
