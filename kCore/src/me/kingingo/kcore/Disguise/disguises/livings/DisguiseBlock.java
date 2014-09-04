@@ -11,7 +11,6 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntity;
 import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntity.ObjectTypes;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntity1;
 import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntityLiving;
 import net.minecraft.server.v1_7_R4.EnumEntitySize;
 import net.minecraft.server.v1_7_R4.MathHelper;
@@ -40,11 +39,11 @@ public class DisguiseBlock extends DisguiseBase
   public PacketContainer GetSpawnPacket(){
 	WrapperPlayServerSpawnEntity pa = new WrapperPlayServerSpawnEntity();
 	pa.setEntityID(this.Entity.getId());
-	pa.setZ(EnumEntitySize.SIZE_2.a(this.Entity.locZ));
-	pa.setX(EnumEntitySize.SIZE_2.a(this.Entity.locX));
-	pa.setY(MathHelper.floor(this.Entity.locY * 32.0D));
+	pa.setZ(this.Entity.locZ);
+	pa.setX(this.Entity.locX);
+	pa.setY(this.Entity.locY);
 	pa.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
-	//pa.setObjectData(ObjectTypes.FALLING_BLOCK);
+	pa.setType(70);
 	pa.setObjectData((this._blockId | this._blockData << 16));
 	return pa.getHandle();
 //    PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity();

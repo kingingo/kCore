@@ -1,4 +1,5 @@
 package me.kingingo.kcore.Disguise.disguises;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseEnderman;
 import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntityLiving;
 import net.minecraft.server.v1_7_R4.DataWatcher;
 import net.minecraft.server.v1_7_R4.Packet;
@@ -34,10 +35,10 @@ public abstract class DisguiseBase
     this.DataWatcher.watch(0, Byte.valueOf(this.Entity.getDataWatcher().getByte(0)));
     this.DataWatcher.watch(1, Short.valueOf(this.Entity.getDataWatcher().getShort(1)));
 
-//    if ((this instanceof DisguiseEnderman))
-//    {
-//      this.DataWatcher.watch(0, Byte.valueOf((byte)(this.DataWatcher.getByte(0) & 0xFFFFFFFE)));
-//    }
+    if ((this instanceof DisguiseEnderman))
+    {
+      this.DataWatcher.watch(0, Byte.valueOf((byte)(this.DataWatcher.getByte(0) & 0xFFFFFFFE)));
+    }
   }
 
   public abstract PacketContainer GetSpawnPacket();

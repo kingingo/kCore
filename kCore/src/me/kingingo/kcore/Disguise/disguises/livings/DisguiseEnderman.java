@@ -48,7 +48,7 @@ public class DisguiseEnderman extends DisguiseMonster
   {
     return this.DataWatcher.getByte(18) > 0;
   }
-
+  
   public void a(boolean flag)
   {
     this.DataWatcher.watch(18, Byte.valueOf((byte)(flag ? 1 : 0)));

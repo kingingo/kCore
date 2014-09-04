@@ -30,6 +30,12 @@ public class WrapperPlayServerEntityDestroy extends AbstractPacket {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
+	
+	public WrapperPlayServerEntityDestroy(int[] entities) {
+		super(new PacketContainer(TYPE), TYPE);
+		handle.getModifier().writeDefaults();
+		handle.getIntegerArrays().write(0, entities);
+	}
 
 	public WrapperPlayServerEntityDestroy(PacketContainer packet) {
 		super(packet, TYPE);

@@ -35,9 +35,9 @@ public class DisguiseSlime extends DisguiseInsentient
   {
 	WrapperPlayServerSpawnEntityLiving pa = new WrapperPlayServerSpawnEntityLiving();
 	pa.setEntityID(this.Entity.getId());
-	pa.setZ(EnumEntitySize.SIZE_2.a(this.Entity.locZ));
-	pa.setX(EnumEntitySize.SIZE_2.a(this.Entity.locX));
-	pa.setY(MathHelper.floor(this.Entity.locY * 32.0D));
+	pa.setZ(this.Entity.locZ);
+	pa.setX(this.Entity.locX);
+	pa.setY(this.Entity.locY);
 	pa.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
 	pa.setMetadata(new WrappedDataWatcher(this.DataWatcher));
 	pa.setType(EntityType.SLIME);
