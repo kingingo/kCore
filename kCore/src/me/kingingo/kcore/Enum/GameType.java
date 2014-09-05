@@ -20,22 +20,17 @@ MarioParty("MarioParty","MP",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stat
 PVP("PvP-Server","PvP",new Stats[]{Stats.KILLS,Stats.DEATHS}),
 NONE("NONE","FAIL",null);
 
+@Getter
 private String typ;
+@Getter
 private String Kürzel;
 @Getter
 private Stats[] stats;
+
 private GameType(String Typ,String Kürzel,Stats[] stats){
 	this.typ=Typ;
 	this.stats=stats;
 	this.Kürzel=Kürzel;
-}
-
-public String getKürzel(){
-	return this.Kürzel;
-}
-
-public String string(){
-	return typ;
 }
 
 }

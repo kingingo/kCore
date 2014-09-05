@@ -13,7 +13,7 @@ public class BROADCAST extends Packet{
 	public BROADCAST(){}
 	
 	public BROADCAST(String[] packet){
-		this.Message=packet[1];
+		Set(packet);
 	}
 	
 	public BROADCAST(String Message){
@@ -24,9 +24,12 @@ public class BROADCAST extends Packet{
 		return "BROADCAST";
 	}
 	
-	public void Set(String packet){
-		String[] split = packet.split("-/-");
+	public void Set(String[] split){
 		Message=split[1];
+	}
+	
+	public void Set(String packet){
+		Message=packet;
 	}
 	
 	public String toString(){

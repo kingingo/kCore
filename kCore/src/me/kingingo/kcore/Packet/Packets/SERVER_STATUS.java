@@ -32,6 +32,10 @@ public class SERVER_STATUS extends Packet{
 		Set(packet);
 	}
 	
+	public SERVER_STATUS(String packet){
+		Set(packet);
+	}
+	
 	public SERVER_STATUS(GameState state, int online, int max_online, String map, GameType typ, String id) {
 	    this.online = online;
 	    this.state = state;
@@ -44,6 +48,16 @@ public class SERVER_STATUS extends Packet{
 	public String getName(){
 		return "SERVER_STATUS";
 	}
+	
+	public void Set(String packet){
+		String[] split = packet.split("-/-");
+		 this.state = GameState.valueOf(split[1]);
+		 this.online = Integer.valueOf(split[2]).intValue();
+		 this.max_online = Integer.valueOf(split[3]).intValue();
+		 this.map = split[4];
+		 this.typ = GameType.valueOf(split[5]);
+		 this.id = split[6];
+		}
 
 	public void Set(String[] packet) {
 	 this.state = GameState.valueOf(packet[1]);
@@ -56,7 +70,7 @@ public class SERVER_STATUS extends Packet{
 	
 	public String toString(){
 		//SERVER_STATUS-/-STATE-/-ONLINE-/-MAX-/-MAP-/-TYP-/-SERVER
-		return String.format(getName() + "-/-%s-/-%d-/-%d-/-%s-/-%s-/-%s", new Object[] { this.state.string(), Integer.valueOf(this.online), Integer.valueOf(this.max_online), this.map, this.typ.string(), this.id });
+		return String.format(getName() + "-/-%s-/-%d-/-%d-/-%s-/-%s-/-%s", new Object[] { this.state.string(), Integer.valueOf(this.online), Integer.valueOf(this.max_online), this.map, this.typ.getTyp(), this.id });
 	}
 	
 }

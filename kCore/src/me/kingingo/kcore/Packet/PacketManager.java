@@ -2,7 +2,11 @@ package me.kingingo.kcore.Packet;
 
 import lombok.Getter;
 import me.kingingo.kcore.Client.Client;
+import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Packet.Events.PacketSendEvent;
+import me.kingingo.kcore.Packet.Packets.BROADCAST;
+import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
+import me.kingingo.kcore.Packet.Packets.SERVER_INFO_ALL;
 import me.kingingo.kcore.Packet.Packets.SERVER_STATUS;
 
 import org.bukkit.Bukkit;
@@ -21,9 +25,15 @@ public class PacketManager {
 		new PacketListener(this);
 	}
 	
-	public Packet getPacket(String packet) {
-	 if (packet.contains("SERVER_STATUS")) {
-		return new SERVER_STATUS(packet.split("-/-"));
+	public Packet getPacket(String packet) {		
+		if (packet.contains("SERVER_STATUS")) {
+		return new SERVER_STATUS(packet);
+		}else if (packet.contains("BROADCAST")) {
+			return new BROADCAST(packet);
+		}else if (packet.contains("SEND_MESSAGE")) {
+			return new SEND_MESSAGE(packet);
+		}else if (packet.contains("SERVER_INFO_ALL")) {
+			return new SERVER_INFO_ALL();
 		}
 	 return null;
 	}

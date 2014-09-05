@@ -9,7 +9,7 @@ SERVER_JOIN_SPECTATE("epicpvp.server.spectate"),
 PREMIUM_LOBBY("lobby.premiumbereich"),
 MUTE_ALL("epicpvp.mute.all"),
 MUTE_ALL_CHAT("epicpvp.mute.all.chat"),
-
+ADMIN_SERVICE("epicpvp.service"),
 NICK_RANDOM("epicpvp.nick.random"),
 NICK_SET("epicpvp.nick.set"),
 

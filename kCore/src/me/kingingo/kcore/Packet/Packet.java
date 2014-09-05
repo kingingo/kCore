@@ -1,15 +1,9 @@
 package me.kingingo.kcore.Packet;
 
-public class Packet {
-	
-	public Packet(){}
-	
-	public String getName(){
-		return "Packet";
-	}
-	
-	public String toString(){
-		return "";
-	}
-	
+
+public abstract class Packet {
+	public abstract String getName();
+	public abstract String toString();
+	public abstract void Set(String[] split);
+	public abstract void Set(String split);
 }

@@ -15,6 +15,10 @@ public class SEND_MESSAGE extends Packet{
 	
 	public SEND_MESSAGE(){}
 	
+	public SEND_MESSAGE(String packet){
+		Set(packet);
+	}
+	
 	public SEND_MESSAGE(String[] packet){
 		Set(packet);
 	}
@@ -28,9 +32,15 @@ public class SEND_MESSAGE extends Packet{
 		return "SEND_MESSAGE";
 	}
 	
-	public void Set(String[] packet){
-		Message=packet[1];
-		Player=packet[2];;
+	public void Set(String[] split){
+		Message=split[1];
+		Player=split[2];;
+	}
+	
+	public void Set(String packet){
+		String[] split = packet.split("-/-");
+		Message=split[1];
+		Player=split[2];;
 	}
 	
 	public String toString(){

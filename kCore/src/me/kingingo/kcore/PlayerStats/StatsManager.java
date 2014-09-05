@@ -77,27 +77,13 @@ public class StatsManager{
 	}
 	
 	public void SaveAllData(){
-		Player player;
-		Stats stats;
-		for(int p = 0; p<list.size(); p++){
-			for(int s = 0; s<list.get(p).size(); s++){
-				if(list.get(p) instanceof Player){
-					player = (Player)list.keySet().toArray()[p];
-					if(list.get(p).get(s) instanceof Stats){
-						stats = (Stats)list.get(p).keySet().toArray()[s];	
-						if(!stats.isMysql())continue;
-						if(list.get(p).get(s) instanceof Integer){
-							mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Integer)list.get(p).get(s)) +"' WHERE player='" + player.getName() + "'");
-							list.get(p).remove(s);
-						}else if(list.get(p).get(s) instanceof String){
-							mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((String)list.get(p).get(s)) +"' WHERE player='" + player.getName() + "'");
-							list.get(p).remove(s);
-						}
-					}else{
-						System.err.println("[StatsManager] Fehler: Object ist kein Stats Object!");
-					}
-				}else{
-					System.err.println("[StatsManager] Fehler: Object ist kein Player Object!");
+		for(Player player : list.keySet()){
+			for(Stats stats : list.get(player).keySet()){
+				if(!stats.isMysql())continue;
+				if(list.get(player).get(stats) instanceof Integer){
+					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Integer)list.get(player).get(stats)) +"' WHERE player='" + player.getName() + "'");
+				}else if(list.get(player).get(stats) instanceof String){
+					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((String)list.get(player).get(stats)) +"' WHERE player='" + player.getName() + "'");
 				}
 			}
 		}

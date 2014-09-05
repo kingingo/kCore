@@ -31,6 +31,10 @@ public class UtilPlayer
 		return p.hasPotionEffect(PotionEffectType.SLOW);
   }
   
+  public static int getVersion(Player player){
+	  return ( (CraftPlayer) player).getHandle().playerConnection.networkManager.getVersion();
+  }
+  
   public static void setTab(String tab,Player p){
 	  PacketPlayOutPlayerInfo t = new PacketPlayOutPlayerInfo();
 	  UtilReflection.setValue("username", t, tab);
