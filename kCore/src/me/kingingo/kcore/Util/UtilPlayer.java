@@ -1,9 +1,11 @@
 package me.kingingo.kcore.Util;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.UUID;
 
+import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerEntityEquipment;
 import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
 import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
@@ -14,19 +16,44 @@ import net.minecraft.server.v1_7_R4.PacketPlayOutPlayerInfo;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 import org.spigotmc.ProtocolInjector;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketContainer;
+
 public class UtilPlayer
 {
   
+	public static void sendPacket(Player player,Packet packet){
+		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
+	}
+
+	public static void setPlayerFakeEquipment(Player player,Player to,ItemStack item,short slot){
+		WrapperPlayServerEntityEquipment packet = new WrapperPlayServerEntityEquipment();
+		packet.setEntityId(player.getEntityId());
+		packet.setItem(item);
+		packet.setSlot(slot);
+		sendPacket(to, packet.getHandle());
+	}
+	
+  public static void sendPacket(Player player,PacketContainer packet){
+	  try {
+		ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+	} catch (InvocationTargetException e) {
+		e.printStackTrace();
+	}
+  }
+	
   public static boolean isZoom(Player p){
 		return p.hasPotionEffect(PotionEffectType.SLOW);
   }
@@ -35,7 +62,7 @@ public class UtilPlayer
 	  return ( (CraftPlayer) player).getHandle().playerConnection.networkManager.getVersion();
   }
   
-  public static void setTab(String tab,Player p){
+  public static void setTab(String tab,Player p,boolean b){
 	  PacketPlayOutPlayerInfo t = new PacketPlayOutPlayerInfo();
 	  UtilReflection.setValue("username", t, tab);
 	  UtilReflection.setValue("ping", t, 9999);
@@ -43,7 +70,7 @@ public class UtilPlayer
   }
   
   public static void setTab(String[] tab,Player p){
-	  for(String t : tab)setTab(t, p);
+	  for(String t : tab)setTab(t, p,true);
 //	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[0], true, 9999));
 //	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[1], true, 9999));
 //	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[2], true, 9999));

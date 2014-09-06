@@ -1,17 +1,20 @@
 package me.kingingo.kcore.NPC;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.Setter;
+import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerEntityMoveLook;
+import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_7_R4.DataWatcher;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.PacketPlayOutBed;
 import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityHeadRotation;
 import net.minecraft.server.v1_7_R4.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R4.PacketPlayOutNamedEntitySpawn;
@@ -27,9 +30,12 @@ import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import com.comphenix.protocol.ProtocolLibrary;
+
 public class NPC {
 	
 	@Getter
+	@Setter
 	Location loc;
 	@Getter
 	String Name;
@@ -48,21 +54,21 @@ public class NPC {
 		this.Name=Name;
 	}
 	
-	public void setTab(ArrayList<Player> list){
+	public void setTab(ArrayList<Player> list,boolean b){
 		if(p!=null){
-			for(Player player : list)UtilPlayer.setTab(p.getName(), player);
+			for(Player player : list)UtilPlayer.setTab(p.getName(), player,b);
 		}
 	}
 	
-	public void setTab(Player player){
+	public void setTab(Player player,boolean b){
 		if(p!=null){
-			UtilPlayer.setTab(p.getName(), player);
+			UtilPlayer.setTab(p.getName(), player,b);
 		}
 	}
 	
-	public void setTab(){
+	public void setTab(boolean b){
 		if(p!=null){
-			for(Player player : UtilServer.getPlayers())UtilPlayer.setTab(p.getName(), player);
+			for(Player player : UtilServer.getPlayers())UtilPlayer.setTab(p.getName(), player,b);
 		}
 	}
 	
@@ -119,43 +125,46 @@ public class NPC {
 	     }
 	}
 	
-	public void walk(double x, double y, double z) {
-	        walk(x, y, z, getLoc().getYaw(), getLoc().getPitch());
+	public void walk(Location newLoc) {
+	        walk(newLoc, getLoc().getYaw(), getLoc().getPitch());
 	}
 	
     private byte getCompressedAngle(float value) {
         return (byte) ((value * 256.0F) / 360.0F);
     }
- 
-    private byte getCompressedAngle2(float value) {
-        return (byte) ((value * 256.0F) / 360.0F);
-    }
-	
-	public void walk(double a, double b, double c, float yaw, float pitch) {
-	        byte x = (byte) a;
-	        byte y = (byte) b;
-	        byte z = (byte) c;
-	        PacketPlayOutRelEntityMoveLook packet = new PacketPlayOutRelEntityMoveLook();
-//	        PacketPlayOutRelEntityMoveLook packet = new PacketPlayOutRelEntityMoveLook(p.getId(),x,y,z,getCompressedAngle(yaw),getCompressedAngle2(pitch));
-//	        setValue("a", packet, p.getId());
-//	        setValue("b", packet, x);
-//	        setValue("c", packet, y);
-//	        setValue("d", packet, z);
-//	        setValue("e", packet, getCompressedAngle(yaw));
-//	        setValue("f", packet, getCompressedAngle2(pitch));
+    
+	public void walk(Location newLoc, float yaw, float pitch) {
+//		WrapperPlayServerEntityMoveLook packet = new WrapperPlayServerEntityMoveLook();
+//		double x = ((newLoc.getBlockX() - getLoc().getBlockX()) * 32);
+//		double y = ((newLoc.getBlockY() - getLoc().getBlockY()) * 32);
+//		double z = ((newLoc.getBlockZ() - getLoc().getBlockZ()) * 32);
+//		packet.setDx(x);
+//		packet.setDy(y);
+//		packet.setDz(z);
+//		packet.setEntityID(p.getId());
+//		packet.setPitch(UtilMath.getCompressedAngle(pitch));
+//		packet.setYaw(UtilMath.getCompressedAngle(yaw));
+//		getLoc().add(x,y,z);
+//        for (Player pl : UtilServer.getPlayers()) {
+//			if(pl.getName().equalsIgnoreCase(getName()))continue;
+//			try {
+//				ProtocolLibrary.getProtocolManager().sendServerPacket(pl, packet.getHandle());
+//			} catch (InvocationTargetException e) {
+//				e.printStackTrace();
+//			}
+//        }
+   
+			byte x = (byte)((newLoc.getBlockX() - getLoc().getBlockX()) * 32);
+			byte y = (byte)((newLoc.getBlockY() - getLoc().getBlockY()) * 32);
+			byte z = (byte)((newLoc.getBlockZ() - getLoc().getBlockZ()) * 32);
+			loc.add((newLoc.getBlockX() - getLoc().getBlockX()), (newLoc.getBlockY() - getLoc().getBlockY()), (newLoc.getBlockZ() - getLoc().getBlockZ()));
+	        PacketPlayOutRelEntityMoveLook packet = new PacketPlayOutRelEntityMoveLook(p.getId(),x,y,z,getCompressedAngle(yaw),getCompressedAngle(pitch),true);
 	 
-	        PacketPlayOutEntityHeadRotation p2 = new PacketPlayOutEntityHeadRotation();
-	        setValue("a", p2, p.getId());
-	        setValue("b", p2, getCompressedAngle(yaw));
-	 
-	        for (Player pl : Bukkit.getOnlinePlayers()) {
+	        for (Player pl : UtilServer.getPlayers()) {
 				if(pl.getName().equalsIgnoreCase(getName()))continue;
 	            ((CraftPlayer) pl).getHandle().playerConnection.sendPacket(packet);
-	            ((CraftPlayer) pl).getHandle().playerConnection.sendPacket(p2);
+	           // ((CraftPlayer) pl).getHandle().playerConnection.sendPacket(p2);
 	        }
-	        this.loc.setPitch(pitch);
-	        this.loc.setYaw(yaw);
-	        this.loc.add(a, b, c);
 	    }
 	
 	public void SendPlayer(Player pl){

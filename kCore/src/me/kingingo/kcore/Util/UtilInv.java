@@ -42,7 +42,7 @@ public class UtilInv
 
     return false;
   }
-
+  
   public static boolean remove(Player player, Material item, byte data, int toRemove)
   {
     if (!contains(player, item, data, toRemove)) {
@@ -54,17 +54,13 @@ public class UtilInv
       {
         ItemStack stack = player.getInventory().getItem(i);
 
-        if ((stack.getData() == null) || (stack.getData().getData() == data))
-        {
+        if ((stack.getData() == null) || (stack.getData().getData() == data)){
           int foundAmount = stack.getAmount();
 
-          if (toRemove >= foundAmount)
-          {
+          if (toRemove >= foundAmount){
             toRemove -= foundAmount;
             player.getInventory().setItem(i, null);
-          }
-          else
-          {
+          }else{
             stack.setAmount(foundAmount - toRemove);
             player.getInventory().setItem(i, stack);
             toRemove = 0;

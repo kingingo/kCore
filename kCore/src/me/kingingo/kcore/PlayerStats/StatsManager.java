@@ -10,6 +10,7 @@ import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.PlayerStats.Event.PlayerStatsChangeEvent;
+import me.kingingo.kcore.PlayerStats.Event.PlayerStatsCreateEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -135,6 +136,7 @@ public class StatsManager{
 		}
 		String t = "INSERT INTO users_"+typ.getKürzel()+" ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
 		mysql.Update(t);
+		Bukkit.getPluginManager().callEvent(new PlayerStatsCreateEvent(this,p));
 	}
 	
 	public boolean ExistPlayer(Player p){
