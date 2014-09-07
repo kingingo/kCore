@@ -167,7 +167,7 @@ public class StatsManager{
 		}
 		
 		boolean done = false;
-		int n = -1;
+		int n = 0;
 		
 		try
 	    {

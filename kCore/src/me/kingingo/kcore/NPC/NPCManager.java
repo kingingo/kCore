@@ -3,6 +3,7 @@ package me.kingingo.kcore.NPC;
 import java.util.HashMap;
 
 import lombok.Getter;
+import me.kingingo.kcore.Hologram.wrapper.WrapperPlayClientUseEntity;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
 import me.kingingo.kcore.Nick.NickManager;
 
@@ -38,9 +39,9 @@ public class NPCManager implements Listener {
 		        if(event.getPacketType() == PacketType.Play.Client.USE_ENTITY){
 		            Player player = event.getPlayer();
 		            try {
-		                PacketContainer packet = event.getPacket();
-		                if(NPCList.containsKey(packet.getIntegers().read(0))){
-		                	PlayerInteractNPCEvent ev = new PlayerInteractNPCEvent(player,getNPCList().get( packet.getIntegers().read(0) ));
+		                WrapperPlayClientUseEntity packet = new WrapperPlayClientUseEntity(event.getPacket());
+		                if(NPCList.containsKey(packet.getTargetID())){
+		                	PlayerInteractNPCEvent ev = new PlayerInteractNPCEvent(player,getNPCList().get( packet.getTargetID() ));
 		                	Bukkit.getPluginManager().callEvent(ev);
 		                	event.setCancelled(true);
 		                }
