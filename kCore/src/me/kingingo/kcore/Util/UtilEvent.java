@@ -34,6 +34,9 @@ public class UtilEvent
     if (action == ActionType.AIR) {
         return (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR);
     }
+    if(action == ActionType.PHYSICAL){
+    	return (event.getAction() == Action.PHYSICAL);
+    }
     return false;
   }
 
@@ -66,6 +69,7 @@ public class UtilEvent
 
   public static enum ActionType
   {
+	PHYSICAL,
     L, 
     L_AIR, 
     L_BLOCK, 
