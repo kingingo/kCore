@@ -47,6 +47,8 @@ public class UtilString
     badWords.add("Mongo"); badWords.add("fuck"); badWords.add("Hurensohn"); badWords.add("hundesohn");
     badWords.add("nutte"); badWords.add("behindert"); badWords.add("hässlig"); badWords.add("schlampe");
     badWords.add("hässlich"); badWords.add("Hure"); badWords.add("hure");
+    badWords.add("eu");badWords.add("de");badWords.add("me");badWords.add("to");badWords.add("minecraft.to");
+    badWords.add("tv");badWords.add("com");badWords.add("tk");badWords.add("net");
   }
 
   public static boolean containsIgnoreCase(String string, String in) {
@@ -108,8 +110,8 @@ public class UtilString
     for (String s : text.split(" ")) {
       Matcher searchforips = ipPattern.matcher(s.toLowerCase());
       Matcher searchforweb = webPattern.matcher(s.toLowerCase());
-      Matcher searchformc = mcPattern.matcher(s.toLowerCase());
-      if ((searchforips.find()) || (searchforweb.find()) || (searchformc.find())) return true;
+      //Matcher searchformc = mcPattern.matcher(s.toLowerCase());
+      if ((searchforips.find()) || (searchforweb.find())) return true;
     }
     return false;
   }
