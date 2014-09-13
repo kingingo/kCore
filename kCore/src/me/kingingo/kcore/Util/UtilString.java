@@ -105,20 +105,13 @@ public class UtilString
     }
     return toreturn;
   }
-  
-  public static boolean checkForBadWords(String text) {
-	    for (String s : text.split(" ")) {
-	      if(isBadWord(s))return true;
-	    }
-	    return false;
-	  }
 
   public static boolean checkForIP(String text) {
     for (String s : text.split(" ")) {
       Matcher searchforips = ipPattern.matcher(s.toLowerCase());
       Matcher searchforweb = webPattern.matcher(s.toLowerCase());
-      //Matcher searchformc = mcPattern.matcher(s.toLowerCase());
-      if ((searchforips.find()) || (searchforweb.find())) return true;
+      Matcher searchformc = mcPattern.matcher(s.toLowerCase());
+      if ((searchforips.find()) || (searchforweb.find()) || (searchformc.find())) return true;
     }
     return false;
   }
