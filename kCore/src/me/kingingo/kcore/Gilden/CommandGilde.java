@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Gilden;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.Commands.Annehmen;
 import me.kingingo.kcore.Gilden.Commands.Einladen;
@@ -34,7 +35,7 @@ public class CommandGilde implements CommandExecutor{
 			p.sendMessage("§6/gilde verlassen §8|§b Zum Verlassen/Schliesen der Gilde.");
 			p.sendMessage("§6/gilde kicken [Player] §8|§b Kickt einen Spieler aus der Gilde.");
 			p.sendMessage("§6/gilde info [Gilde] §8|§b Zeigt Infos über einer Gilde.");
-			if(manager.getTyp()==GildenType.PvP){
+			if(manager.getTyp()==GameType.PVP){
 				p.sendMessage("§6/gilde sethome §8|§b setzt den Gilden-Home");
 				p.sendMessage("§6/gilde home §8|§b Teleportiert dich zum Gilden-Home");
 			}
@@ -49,11 +50,11 @@ public class CommandGilde implements CommandExecutor{
 				Verlassen.use(p, args, manager);
 			}else if(args[0].equalsIgnoreCase("kicken")){
 				Kicken.use(p, args, manager);
-			}else if(manager.getTyp()==GildenType.PvP&&args[0].equalsIgnoreCase("sethome")){
+			}else if(manager.getTyp()==GameType.PVP&&args[0].equalsIgnoreCase("sethome")){
 				Home.useSet(p, args, manager);
-			}else if(manager.getTyp()==GildenType.PvP&&args[0].equalsIgnoreCase("home")){
+			}else if(manager.getTyp()==GameType.PVP&&args[0].equalsIgnoreCase("home")){
 				Home.use(p, args, manager);
-			}else if(manager.getTyp()==GildenType.PvP&&args[0].equalsIgnoreCase("info")){
+			}else if(manager.getTyp()==GameType.PVP&&args[0].equalsIgnoreCase("info")){
 				Info.use(p, args, manager);
 			}
 		}

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
@@ -40,9 +41,9 @@ public class GildenManager implements Listener {
 	@Getter
 	private HashMap<String,String> gilden_tag = new HashMap<>();
 	@Getter
-	private HashMap<String,HashMap<GildenType,HashMap<Stats,Object>>> gilden_data = new HashMap<>();
+	private HashMap<String,HashMap<GameType,HashMap<Stats,Object>>> gilden_data = new HashMap<>();
 	@Getter
-	private HashMap<String,HashMap<GildenType,ArrayList<Stats>>> gilden_data_musst_saved = new HashMap<>();
+	private HashMap<String,HashMap<GameType,ArrayList<Stats>>> gilden_data_musst_saved = new HashMap<>();
 	@Getter
 	private HashMap<String,String> gilden_owner = new HashMap<>();
 	@Getter
@@ -50,7 +51,7 @@ public class GildenManager implements Listener {
 	@Getter
 	private MySQL mysql;
 	@Getter
-	private GildenType typ;
+	private GameType typ;
 	@Getter
 	private HashMap<Player,Long> teleport = new HashMap<>();
 	@Getter
@@ -59,7 +60,7 @@ public class GildenManager implements Listener {
 	@Setter
 	private boolean onDisable=false;
 	
-	public GildenManager(JavaPlugin instance,MySQL mysql,GildenType typ,CommandHandler cmd){
+	public GildenManager(JavaPlugin instance,MySQL mysql,GameType typ,CommandHandler cmd){
 		this.instance=instance;
 		this.typ=typ;
 		this.mysql=mysql;
@@ -184,7 +185,7 @@ public class GildenManager implements Listener {
 			removePlayerEintrag(n);
 		}
 		mysql.Update("DELETE FROM list_gilden WHERE gilde='" + name.toLowerCase() + "'");
-		for(GildenType t : GildenType.values()){
+		for(GameType t : GameType.values()){
 			mysql.Update("DELETE FROM list_gilden_data_"+t.getKürzel()+" WHERE gilde='" + name.toLowerCase() + "'");
 		}
 		mysql.Update("DELETE FROM list_gilden_user WHERE gilde='" + name.toLowerCase() + "'");
@@ -237,7 +238,7 @@ public class GildenManager implements Listener {
 		return false;
 	}
 	
-	public boolean ExistGildeData(String gilde,GildenType typ){
+	public boolean ExistGildeData(String gilde,GameType typ){
 		boolean done = false;
 		if(gilden_data.containsKey(gilde))return true;
 		try
@@ -255,14 +256,14 @@ public class GildenManager implements Listener {
 		
 		if(!done)createDataEintrag(gilde, typ);
 		
-		gilden_data.put(gilde,new HashMap<GildenType,HashMap<Stats,Object>>());
+		gilden_data.put(gilde,new HashMap<GameType,HashMap<Stats,Object>>());
 		gilden_data.get(gilde).put(typ, new HashMap<Stats,Object>());
 		return done;
 	}
 	
 	public void AllUpdateGilde(){
 		for(String g : gilden_data_musst_saved.keySet()){
-			for(GildenType typ : gilden_data_musst_saved.get(g).keySet()){
+			for(GameType typ : gilden_data_musst_saved.get(g).keySet()){
 				for(Stats s : gilden_data_musst_saved.get(g).get(typ)){
 					if(!s.isMysql())return;
 					Object o = gilden_data.get(g).get(typ).get(s);
@@ -278,7 +279,7 @@ public class GildenManager implements Listener {
 		}
 	}
 	
-	public void UpdateGilde(String gilde,GildenType typ){
+	public void UpdateGilde(String gilde,GameType typ){
 		if(!gilden_data_musst_saved.containsKey(gilde))return;
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))return;
 		for(Stats s : gilden_data.get(gilde).get(typ).keySet()){
@@ -349,16 +350,16 @@ public class GildenManager implements Listener {
 	    }
 	}
 	
-	public void setInt(String gilde,GildenType typ,int i,Stats s){
+	public void setInt(String gilde,GameType typ,int i,Stats s){
 		if(!ExistGilde(gilde))return ;
 		ExistGildeData(gilde, typ);
 		gilden_data.get(gilde).get(typ).put(s, i);
-		if(!gilden_data_musst_saved.containsKey(gilde))gilden_data_musst_saved.put(gilde, new HashMap<GildenType,ArrayList<Stats>>());
+		if(!gilden_data_musst_saved.containsKey(gilde))gilden_data_musst_saved.put(gilde, new HashMap<GameType,ArrayList<Stats>>());
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))gilden_data_musst_saved.get(gilde).put(typ, new ArrayList<Stats>());
 		if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))gilden_data_musst_saved.get(gilde).get(typ).add(s);
 	}
 	
-	public Integer getRank(String gilde,GildenType typ,Stats s){
+	public Integer getRank(String gilde,GameType typ,Stats s){
 		if(!ExistGilde(gilde))return null;
 		ExistGildeData(gilde, typ);
 		
@@ -384,11 +385,11 @@ public class GildenManager implements Listener {
 	    return n;
 	}
 	
-	public void setString(String gilde,GildenType typ,String i,Stats s){
+	public void setString(String gilde,GameType typ,String i,Stats s){
 		if(!ExistGilde(gilde))return ;
 		ExistGildeData(gilde, typ);
 		gilden_data.get(gilde).get(typ).put(s, i);
-		if(!gilden_data_musst_saved.containsKey(gilde))gilden_data_musst_saved.put(gilde, new HashMap<GildenType,ArrayList<Stats>>());
+		if(!gilden_data_musst_saved.containsKey(gilde))gilden_data_musst_saved.put(gilde, new HashMap<GameType,ArrayList<Stats>>());
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))gilden_data_musst_saved.get(gilde).put(typ, new ArrayList<Stats>());
 		if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))gilden_data_musst_saved.get(gilde).get(typ).add(s);
 	}
@@ -410,7 +411,7 @@ public class GildenManager implements Listener {
 		return i;
 	}
 	
-	public String getString(Stats s,String gilde,GildenType typ){
+	public String getString(Stats s,String gilde,GameType typ){
 		if(!ExistGilde(gilde))return null;
 		ExistGildeData(gilde, typ);
 		if(gilden_data.containsKey(gilde)&&gilden_data.get(gilde).containsKey(s)){
@@ -427,13 +428,13 @@ public class GildenManager implements Listener {
 			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 		}
 		
-		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GildenType,HashMap<Stats,Object>>());
+		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GameType,HashMap<Stats,Object>>());
 		if(!gilden_data.get(gilde).containsKey(typ))gilden_data.get(gilde).put(typ, new HashMap<Stats,Object>());
 		gilden_data.get(gilde).get(typ).put(s, i);
 		return i;
 	}
 	
-	public Integer getInt(Stats s,String gilde,GildenType typ){
+	public Integer getInt(Stats s,String gilde,GameType typ){
 		if(!ExistGilde(gilde))return null;
 		ExistGildeData(gilde, typ);
 		if(gilden_data.containsKey(gilde)&&gilden_data.get(gilde).containsKey(s)){
@@ -450,7 +451,7 @@ public class GildenManager implements Listener {
 			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 		}
 		
-		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GildenType,HashMap<Stats,Object>>());
+		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GameType,HashMap<Stats,Object>>());
 		if(!gilden_data.get(gilde).containsKey(typ))gilden_data.get(gilde).put(typ, new HashMap<Stats,Object>());
 		gilden_data.get(gilde).get(typ).put(s, i);
 		return i;
@@ -463,12 +464,12 @@ public class GildenManager implements Listener {
 	}
 	
 	public void createAllDataEintrage(String gilde){
-		for(GildenType t : GildenType.values()){
+		for(GameType t : GameType.values()){
 			createDataEintrag(gilde, t);
 		}
 	}
 	
-	public void createDataEintrag(String gilde,GildenType typ){
+	public void createDataEintrag(String gilde,GameType typ){
 		Stats[] stats = typ.getStats();
 		String tt = "gilde,";
 		String ti = "'"+gilde.toLowerCase()+"',";
@@ -481,7 +482,7 @@ public class GildenManager implements Listener {
 	}
 	
 	public void CreateTable(){
-		for(GildenType t : GildenType.values()){
+		for(GameType t : GameType.values()){
 			String tt = "gilde varchar(30),";
 			for(Stats s : t.getStats()){
 				tt=tt+s.getCREATE()+",";
