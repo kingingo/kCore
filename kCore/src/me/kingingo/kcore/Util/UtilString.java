@@ -105,6 +105,13 @@ public class UtilString
     }
     return toreturn;
   }
+  
+  public static boolean checkForBadWords(String text) {
+	    for (String s : text.split(" ")) {
+	      if(isBadWord(s))return true;
+	    }
+	    return false;
+	  }
 
   public static boolean checkForIP(String text) {
     for (String s : text.split(" ")) {
