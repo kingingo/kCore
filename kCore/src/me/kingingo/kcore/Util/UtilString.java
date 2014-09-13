@@ -9,7 +9,8 @@ public class UtilString
   private static List<String> badWords = new ArrayList<>();
   static Pattern ipPattern = Pattern.compile("((?<![0-9])(?:(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[ ]?[.,_ ][ ]?(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[ ]?[.,_ ][ ]?(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[ ]?[.,_ ][ ]?(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2}))(?![0-9]))");
   static Pattern webPattern = Pattern.compile("(http://)|(https://)?(www)?\\S{2,}((\\.com)|(\\.ru)|(\\.net)|(\\.org)|(\\.minecraft\\.to)|(\\.co\\.uk)|(\\.me)|(\\.tk)|(\\.info)|(\\.es)|(\\.de)|(\\.arpa)|(\\.edu)|(\\.firm)|(\\.int)|(\\.mil)|(\\.mobi)|(\\.nato)|(\\.to)|(\\.fr)|(\\.ms)|(\\.vu)|(\\.eu)|(\\.nl)|(\\.us)|(\\.dk))");
-
+  static Pattern mcPattern = Pattern.compile("(eu)|(me)|(de)|(to)|(ru)|(net)|(tv)|(info)|(com)");
+  
   public static List<String> stringArrayToList(String[] arg1) {
     List<String> toreturn = new ArrayList<>();
     String[] arrayOfString = arg1; int j = arg1.length; for (int i = 0; i < j; i++) { String s = arrayOfString[i];
@@ -107,7 +108,8 @@ public class UtilString
     for (String s : text.split(" ")) {
       Matcher searchforips = ipPattern.matcher(s.toLowerCase());
       Matcher searchforweb = webPattern.matcher(s.toLowerCase());
-      if ((searchforips.find()) || (searchforweb.find())) return true;
+      Matcher searchformc = mcPattern.matcher(s.toLowerCase());
+      if ((searchforips.find()) || (searchforweb.find()) || (searchformc.find())) return true;
     }
     return false;
   }
