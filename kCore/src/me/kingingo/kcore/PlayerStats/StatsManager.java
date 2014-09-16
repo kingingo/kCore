@@ -244,18 +244,51 @@ public class StatsManager{
 		return i;
 	}
 	
+	public Integer getRankWithString(Stats s,String p){
+		boolean done = false;
+		int n = 0;
+		
+		try
+	    {
+	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` ORDER BY `"+s.getTYP()+"` DESC;");
+
+	      while ((rs.next()) && (!done)) {
+	        n++;
+	        if (rs.getString(1).equalsIgnoreCase(p)) {
+	          done = true;
+	        }
+	      }
+
+	      rs.close();
+	    } catch (Exception err) {
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
+	    }
+		
+		if(n!=-1)list.get(p).put(Stats.RANKING, n);
+	    return n;
+	}
+	
+	public boolean ExistPlayer(String p){
+		boolean done = false;
+		try
+	    {
+	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE player='"+p+"'");
+	      while (rs.next()) {
+	    		  done=true;
+	      }
+	      rs.close();
+	    } catch (Exception err) {
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
+	    }
+		return done;
+	}
+	
+	public String getStringWithString(Stats s,String p){
+		return getMysql().getString("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p+"'");
+	}
+	
 	public Integer getIntWithString(Stats s,String p){
-		int i = -1;
-		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p+"'");
-			while(rs.next()){
-				i=rs.getInt(1);
-			}
-			rs.close();
-		}catch (Exception err){
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
-		}
-		return i;
+		return getMysql().getInt("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p+"'");
 	}
 	
 }

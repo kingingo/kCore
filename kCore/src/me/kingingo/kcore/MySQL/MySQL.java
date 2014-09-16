@@ -91,7 +91,7 @@ public class MySQL
 	  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
 	  	Bukkit.getPluginManager().callEvent(ev);
 	    ResultSet rs = null;
-	    String o = null;
+	    String o = "null";
 	    try
 	    {
 	      Statement stmt = connection.createStatement();

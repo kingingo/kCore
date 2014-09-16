@@ -201,6 +201,10 @@ public class GildenManager implements Listener {
 		mysql.Update("INSERT INTO list_gilden_user (player,uuid,gilde) VALUES ('"+name.toLowerCase()+"','"+UUID+"','"+gilde.toLowerCase()+"');");
 	}
 	
+	public String getPlayerGilde(Player player){
+		return getPlayerGilde(player.getName());
+	}
+	
 	public String getPlayerGilde(String name){
 		if(gilden_player.containsKey(name))return gilden_player.get(name);
 		String g  = "";
@@ -219,6 +223,10 @@ public class GildenManager implements Listener {
 		gilden_player.put(name,g);
 		
 		return g;
+	}
+	
+	public boolean isPlayerInGilde(Player player){
+		return isPlayerInGilde(player.getName());
 	}
 	
 	public boolean isPlayerInGilde(String name){

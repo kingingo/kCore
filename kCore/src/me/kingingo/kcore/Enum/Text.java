@@ -20,6 +20,14 @@ PERK_MOREHEALTH(new String[]{"§b§oImmer wenn du nur noch % Herzen hast erhält de
 PERK_STOPPERK(new String[]{"§b§oSobald du jemanden schlägst ist sein Perk für % sekunden unbrauchbar."}),
 PERK_DEATHDROPONLY(new String[]{"§b§oWenn du stirbst hast du % sekunden wo niemand deine Sachen aufheben kann."}),
 
+STATS_PREFIX("§9§l[]----- §6§lStats §9§l-----[]"),
+STATS_PREFIXBY("§9§l[]----- §6§lStats von % §9§l-----[]"),
+STATS_KILLS("§6Kills : §9"),
+STATS_DEATHS("§6Tode : §9"),
+STATS_KDR("§6KDR : §9"),
+STATS_GILDE("§6Gilde : §9"),
+STATS_RANKING("§6Ranking : §9"),
+
 CHAT_MUTE("Der Chat wurde gesperrt!"),
 CHAT_UNMUTE("Der Chat wurde entsperrt!"),
 
