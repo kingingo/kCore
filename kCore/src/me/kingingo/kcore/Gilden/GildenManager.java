@@ -16,6 +16,7 @@ import me.kingingo.kcore.PlayerStats.Stats;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -69,6 +70,13 @@ public class GildenManager implements Listener {
 		CreateTable();
 		cmd.register(CommandGilde.class, new CommandGilde(this));
 		Bukkit.getPluginManager().registerEvents(this, getInstance());
+		
+		for(Player p : UtilServer.getPlayers()){
+			if(!isPlayerInGilde(p.getName()))return;
+			if(gilden_player.containsKey(p.getName()))gilden_player.remove(p.getName());
+			getPlayerGilde(p.getName());
+		}
+		
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)
@@ -186,7 +194,9 @@ public class GildenManager implements Listener {
 		}
 		mysql.Update("DELETE FROM list_gilden WHERE gilde='" + name.toLowerCase() + "'");
 		for(GameType t : GameType.values()){
-			mysql.Update("DELETE FROM list_gilden_data_"+t.getKürzel()+" WHERE gilde='" + name.toLowerCase() + "'");
+			if(t==GameType.PVP||t==GameType.SKY||t==GameType.WARZ){
+				mysql.Update("DELETE FROM list_gilden_data_"+t.getKürzel()+" WHERE gilde='" + name.toLowerCase() + "'");
+			}
 		}
 		mysql.Update("DELETE FROM list_gilden_user WHERE gilde='" + name.toLowerCase() + "'");
 	}
@@ -473,7 +483,9 @@ public class GildenManager implements Listener {
 	
 	public void createAllDataEintrage(String gilde){
 		for(GameType t : GameType.values()){
-			createDataEintrag(gilde, t);
+			if(t==GameType.PVP||t==GameType.SKY||t==GameType.WARZ){
+				createDataEintrag(gilde, t);
+			}
 		}
 	}
 	
@@ -491,12 +503,15 @@ public class GildenManager implements Listener {
 	
 	public void CreateTable(){
 		for(GameType t : GameType.values()){
+			if(t==GameType.PVP||t==GameType.SKY||t==GameType.WARZ){
 			String tt = "gilde varchar(30),";
 			for(Stats s : t.getStats()){
 				tt=tt+s.getCREATE()+",";
 			}
 			mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden_data_"+t.getKürzel()+"("+tt.substring(0, tt.length()-1)+")");
+			
 		}
+			}
 	}
 	
 }

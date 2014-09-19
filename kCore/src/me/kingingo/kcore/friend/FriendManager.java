@@ -46,6 +46,7 @@ public class FriendManager implements Listener {
 		this.instance=plugin;
 		this.cmd=cmd;
 		this.mysql=mysql;
+		cmd.register(CommandFriend.class, new CommandFriend(this));
 		Bukkit.getPluginManager().registerEvents(this, getInstance());
 		mysql.Update("CREATE TABLE IF NOT EXISTS list_friend (player varchar(30),friede varchar(30))");
 	}
@@ -88,7 +89,7 @@ public class FriendManager implements Listener {
 	public List<String> getFriendList(Player p){
 		List<String> list = new ArrayList<String>();
 		try {
-			ResultSet rs = getMysql().Query("SELECT list_friend FROM friede WHERE player='"+p.getName().toLowerCase()+"'");
+			ResultSet rs = getMysql().Query("SELECT friede FROM list_friend WHERE player='"+p.getName().toLowerCase()+"'");
 			while(rs.next()){
 				list.add(rs.getString(1).toLowerCase());
 			}
