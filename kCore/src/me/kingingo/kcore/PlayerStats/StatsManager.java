@@ -68,11 +68,8 @@ public class StatsManager{
 	
 	public double getKDR(int k,int d){
 		double kdr = (double)k/(double)d;
-		
 		kdr = kdr * 100;
-		
 		kdr = Math.round(kdr);
-		
 		kdr = kdr / 100;
 		return kdr;
 	}
@@ -95,21 +92,15 @@ public class StatsManager{
 		if(isOnDisable())return;
 		if(!list.containsKey(p))return;
 		if(list.get(p).isEmpty())return;
-		for(int s = 0; s < list.get(p).size() ; s++){
-			if(list.get(p).keySet().toArray()[s] instanceof Stats){
-				Stats st =(Stats) list.get(p).keySet().toArray()[s];
-				if(!st.isMysql())continue;
-				if(list.get(p).get(s) instanceof Integer){
-					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((String)list.get(p).get(s)) +"' WHERE player='" + p.getName() + "'");
-					list.get(p).remove(s);
-				}else if(list.get(p).get(s) instanceof String){
-					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Integer)list.get(p).get(s)) +"' WHERE player='" + p.getName() + "'");
-					list.get(p).remove(s);
-				}
-			}else{
-				System.err.println("[StatsManager] Fehler: Object ist kein Stats Object!");
+		for(Stats st : list.get(p).keySet()){
+			if(!st.isMysql())continue;
+			if(list.get(p).get(st) instanceof Integer){
+				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Integer)list.get(p).get(st)) +"' WHERE player='" + p.getName() + "'");
+			}else if(list.get(p).get(st) instanceof String){
+				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((String)list.get(p).get(st)) +"' WHERE player='" + p.getName() + "'");
 			}
 		}
+		list.remove(p);
 	}
 	
 	public void UpdatePlayer(Player p,Stats s,String i){

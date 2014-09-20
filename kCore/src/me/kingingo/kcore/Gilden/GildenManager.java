@@ -322,10 +322,8 @@ public class GildenManager implements Listener {
 			if(!s.isMysql())continue;
 			Object o = gilden_data.get(gilde).get(typ).get(s);
 			if(o instanceof Integer){
-				gilden_data_musst_saved.get(gilde).get(typ).remove(s);
 				mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
 			}else if(o instanceof String){
-				gilden_data_musst_saved.get(gilde).get(typ).remove(s);
 				mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
 			}
 		}

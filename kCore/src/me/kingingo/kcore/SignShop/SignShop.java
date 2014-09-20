@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
 import me.kingingo.kcore.kListener;
+import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.PlayerStats.Stats;
 import me.kingingo.kcore.PlayerStats.StatsManager;
@@ -42,7 +43,7 @@ public class SignShop extends kListener{
 				return;
 			}
 			ev.setLine(0, ChatColor.AQUA + "[Shop]");
-			p.sendMessage("§eDie Sign wurde erstellt!");
+			p.sendMessage(Text.PREFIX.getText()+"§eDie Sign wurde erstellt!");
 		}
 	}
 	
@@ -126,7 +127,7 @@ public class SignShop extends kListener{
 		boolean b = true;
 		
 		if(getStatsmanager().getDouble(Stats.MONEY, p) < Geld){
-			p.sendMessage("§cDu hast nicht genug Geld!");
+			p.sendMessage(Text.PREFIX.getText()+"§cDu hast nicht genug Geld!");
 			b = false;
 		}
 		
@@ -228,7 +229,7 @@ public class SignShop extends kListener{
 			
 			if(Action.RIGHT_CLICK_BLOCK == a && Action.LEFT_CLICK_BLOCK == a){
 				ev.setCancelled(true);
-				p.sendMessage("§cNicht so Schnell ...");
+				p.sendMessage(Text.PREFIX.getText()+"§cNicht so Schnell ...");
 				return;
 			}
 			
@@ -245,7 +246,7 @@ public class SignShop extends kListener{
 	                		if(shop.get(p) <= System.currentTimeMillis()){
 	                			shop.remove(p);
 	                		}else{
-	                			p.sendMessage("§cDu kannst nur alle 3sek was kaufen!");
+	                			p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§cDu kannst nur alle 3sek was kaufen!");
 	                			return;
 	                		}
 	                		
@@ -274,7 +275,7 @@ public class SignShop extends kListener{
 	                				ItemStack i = new ItemStack(id, 32,Short.parseShort(idnach) );
 	                				p.getInventory().addItem(i);
 	            					p.updateInventory();
-	            					p.sendMessage("§6Du hast " + 32 + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
+	            					p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§6Du hast " + 32 + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
 	            					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)-Preis, Stats.MONEY);
 	                				return;
 	                			}
@@ -284,7 +285,7 @@ public class SignShop extends kListener{
 	            				ItemStack i = new ItemStack(id, 32);
 	            				p.getInventory().addItem(i);
 	        					p.updateInventory();
-	        					p.sendMessage("§6Du hast " + 32 + " mal " + id+" bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
+	        					p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§6Du hast " + 32 + " mal " + id+" bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
 	        					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)-Preis, Stats.MONEY);
 	            				return;
 	                		}
@@ -306,7 +307,7 @@ public class SignShop extends kListener{
 	            				ItemStack i = new ItemStack(id, anzahl,Short.parseShort(idnach) );
 	            				p.getInventory().addItem(i);
 	        					p.updateInventory();
-	        					p.sendMessage("§6Du hast " + anzahl + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
+	        					p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§6Du hast " + anzahl + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
 	        					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)-Preis, Stats.MONEY);
 	        					return;
 	            			}
@@ -319,7 +320,7 @@ public class SignShop extends kListener{
 	        				p.getInventory().addItem(i);
 	        				p.updateInventory();
 	        				
-	    					p.sendMessage("§6Du hast " + anzahl + " mal " + id+" bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
+	    					p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§6Du hast " + anzahl + " mal " + id+" bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
 	    					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)-Preis, Stats.MONEY);
 	                }
 				}
@@ -341,7 +342,7 @@ public class SignShop extends kListener{
 	                		if(shop.get(p) <= System.currentTimeMillis()){
 	                			shop.remove(p);
 	                		}else{
-	                			p.sendMessage("§cDu kannst nur alle 3sek was Verkaufen!");
+	                			p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§cDu kannst nur alle 3sek was Verkaufen!");
 	                			return;
 	                		}
 	                		
@@ -365,12 +366,12 @@ public class SignShop extends kListener{
 	            				//boolean b = RemoveItemDoppelPunkt(p, sign.getLine(3),32);
 	            				int b = SellAllDoppelPunkt(p, sign.getLine(3));
 	            				if(b==0){
-	        						p.sendMessage("§cDu hast das Item nicht in Inventar oder du hast zu wenig von den Item's");
+	        						p.sendMessage(Text.PREFIX.getText()+"§cDu hast das Item nicht in Inventar oder du hast zu wenig von den Item's");
 	        						return;
 	        					}
 	            				p.updateInventory();
 	            				VerkaufPreis=VerkaufPreis*b;
-	        					p.sendMessage("§6Du hast " + b + " mal " + id+":"+idnach + " Verkauft und hast " + VerkaufPreis+" Epic's erhalten.");
+	        					p.sendMessage(Text.PREFIX.getText()+"§6Du hast " + b + " mal " + id+":"+idnach + " Verkauft und hast " + VerkaufPreis+" Epic's erhalten.");
 	        					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)+VerkaufPreis, Stats.MONEY);
 	                    		return;
 	                		}
@@ -382,14 +383,14 @@ public class SignShop extends kListener{
 	                		//boolean b = RemoveItem(p, Integer.valueOf(sign.getLine(3)),32);
 	        				int b = SellAll(p, Integer.valueOf(sign.getLine(3)));
 	        				if(b==0){
-	    						p.sendMessage("§cDu hast das Item nicht in Inventar oder du hast zu wenig von den Item's");
+	    						p.sendMessage(Text.PREFIX.getText()+"§cDu hast das Item nicht in Inventar oder du hast zu wenig von den Item's");
 	    						return;
 	    					}
 	                		
 	    					p.updateInventory();
 	    				
 	    					VerkaufPreis=VerkaufPreis*b;
-	    					p.sendMessage("§6Du hast " + b + " mal " + id+" Verkauft und hast " + VerkaufPreis+" Epic's erhalten.");
+	    					p.sendMessage(Text.PREFIX.getText()+"§6Du hast " + b + " mal " + id+" Verkauft und hast " + VerkaufPreis+" Epic's erhalten.");
 	    					
 	    					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)+VerkaufPreis, Stats.MONEY);
 	    					return;
@@ -407,11 +408,11 @@ public class SignShop extends kListener{
 	        				boolean b = RemoveItemDoppelPunkt(p, sign.getLine(3), anzahl);
 	        				
 	        				if(!b){
-	    						p.sendMessage("§cDu hast das Item nicht in Inventar oder du hast zu wenig von den Item's");
+	    						p.sendMessage(Text.PREFIX.getText()+"§cDu hast das Item nicht in Inventar oder du hast zu wenig von den Item's");
 	    						return;
 	    					}
 	        				p.updateInventory();
-	        				p.sendMessage("§6Du hast " + 32 + " mal " + id+":"+idnach + " Verkauft und hast " + VerkaufPreis+" Epic's erhalten.");
+	        				p.sendMessage(Text.PREFIX.getText()+"§6Du hast " + 32 + " mal " + id+":"+idnach + " Verkauft und hast " + VerkaufPreis+" Epic's erhalten.");
 	        				getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)+VerkaufPreis, Stats.MONEY);
 	                		return;
 	            		}
@@ -423,12 +424,12 @@ public class SignShop extends kListener{
 	            		boolean b = RemoveItem(p, Integer.valueOf(sign.getLine(3)),anzahl);
 	    				
 	    				if(!b){
-							p.sendMessage("§cDu hast das Item nicht in Inventar oder du hast zu wenig von den Item's");
+							p.sendMessage(Text.PREFIX.getText()+"§cDu hast das Item nicht in Inventar oder du hast zu wenig von den Item's");
 							return;
 						}
 	            		
 						p.updateInventory();
-						p.sendMessage("§6Du hast " + anzahl + " mal " + id+" Verkauft und hast " + VerkaufPreis+" Epic's erhalten.");
+						p.sendMessage(Text.PREFIX.getText()+"§6Du hast " + anzahl + " mal " + id+" Verkauft und hast " + VerkaufPreis+" Epic's erhalten.");
 						getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)+VerkaufPreis, Stats.MONEY);
 	    				return;
 	                	
