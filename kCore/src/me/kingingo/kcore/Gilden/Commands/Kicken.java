@@ -24,7 +24,7 @@ public class Kicken {
 				return;
 			}
 			String kick_o = args[1];
-			if(manager.isPlayerInGilde(kick_o)){
+			if(!manager.isPlayerInGilde(kick_o)){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_IS_NOT_IN_THE_GILD.getText(kick_o));
 				return;
 			}

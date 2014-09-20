@@ -3,8 +3,6 @@ package me.kingingo.kcore.MySQL;
 import me.kingingo.kcore.MySQL.Events.MySQLConnectEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLDisconnectEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
-import me.kingingo.kcore.Update.UpdateType;
-import me.kingingo.kcore.Update.Event.UpdateEvent;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,19 +28,23 @@ public class MySQLListener implements Listener{
 			mysql.close();
 			mysql.connect();
 			break;
+		case CLOSE:
+			break;
+		default:
+			break;
 		}
 		
-		System.err.println("[kCORE] Error: "+ev.getException());
+		System.err.println("[kCore] Error: "+ev.getException());
 	}
 	
 	@EventHandler
 	public void Connect(MySQLConnectEvent ev){
-		System.out.println("[kCORE] Die MySQL Verbindung wurde hergestellt.");
+		System.out.println("[kCore] Die MySQL Verbindung wurde hergestellt.");
 	}
 	
 	@EventHandler
 	public void Close(MySQLDisconnectEvent ev){
-		System.out.println("[kCORE] Die MySQL Verbindung wurde geschlossen.");
+		System.out.println("[kCore] Die MySQL Verbindung wurde geschlossen.");
 	}
 	
 }

@@ -1,13 +1,10 @@
 package me.kingingo.kcore.Gilden.Commands;
 
-import java.util.ArrayList;
-
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
+import me.kingingo.kcore.Gilden.Events.GildenPlayerTeleportEvent;
 import me.kingingo.kcore.PlayerStats.Stats;
 import me.kingingo.kcore.Util.TimeSpan;
-import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -40,6 +37,9 @@ public class Home {
 	
 	public static void use(Player p,String[] args,GildenManager manager){
 		if(args.length==1){
+			GildenPlayerTeleportEvent ev = new GildenPlayerTeleportEvent(p,manager);
+			Bukkit.getPluginManager().callEvent(ev);
+			if(ev.isCancelled())return;
 			manager.getTeleport_loc().put(p, p.getLocation());
 			manager.getTeleport().put(p, System.currentTimeMillis()+(TimeSpan.SECOND*5));
 			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_HOME.getText(5));

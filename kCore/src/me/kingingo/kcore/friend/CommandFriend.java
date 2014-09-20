@@ -23,13 +23,16 @@ public class CommandFriend implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		p = (Player)cs;
 		if(args.length==0){
-			p.sendMessage("�6/freund hinzuf�gen [Player] �8|�b Freundschaftanfrage senden.");
-			p.sendMessage("�6/freund entfernen [Player] �8|�b Freundschaftanfrage zur�ck ziehen.");
-			p.sendMessage("�6/freund annehmen �8|�b Freundschaftanfrage annehmen.");
-			p.sendMessage("�6/freund list �8|�b Freundschaften auflisten.");
+
+			p.sendMessage("§b■■■■■■■■■■■■■■§6§l FRIEND §b■■■■■■■■■■■■■■");
+			p.sendMessage("§6/f hinzufügen [Player] §8|§7 Freundschaftanfrage senden.");
+			p.sendMessage("§6/f entfernen [Player] §8|§7 Freundschaftanfrage zurück ziehen.");
+			p.sendMessage("§6/f annehmen §8|§7 Freundschaftanfrage annehmen.");
+			p.sendMessage("§6/f list §8|§7 Freundschaften auflisten.");
+			p.sendMessage("§b■■■■■■■■■■■■■■§6§l FRIEND §b■■■■■■■■■■■■■■");
 		}else{
 			if(!manager.getFriendList().containsKey(p.getName().toLowerCase()))manager.getFriendList().put(p.getName().toLowerCase(), manager.getFriendList(p));
-			if(args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("hinzuf�gen")){
+			if(args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("hinzufügen")){
 				if(manager.getFriendList().containsKey(p.getName().toLowerCase())&&manager.getFriendList().get(p.getName().toLowerCase()).contains(args[1].toLowerCase())){
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_EXIST.getText(args[1]));
 					return false;
@@ -66,7 +69,7 @@ public class CommandFriend implements CommandExecutor{
 				}else{
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_NOT.getText(friend));
 				}
-			}else if(args[0].equalsIgnoreCase("annehmen")||args[0].equalsIgnoreCase("accept")){
+			}else if(args[0].equalsIgnoreCase("annehmen")||args[0].equalsIgnoreCase("agree")||args[0].equalsIgnoreCase("accept")){
 				if(manager.getAnfrage().containsKey(p)){
 					Player friend = manager.getAnfrage().get(p);
 					manager.getAnfrage().remove(p);
@@ -83,14 +86,14 @@ public class CommandFriend implements CommandExecutor{
 				}
 			}else if(args[0].equalsIgnoreCase("list")){
 				if(manager.getFriendList().get(p.getName().toLowerCase()).isEmpty()){
-					p.sendMessage(Text.FRIEND_PREFIX.getText()+" Du hast keine Freunde!");
+					p.sendMessage(Text.FRIEND_PREFIX.getText()+"Du hast keine Freunde!");
 				}else{
 					String l = "List: ";
 					for(String n : manager.getFriendList().get(p.getName().toLowerCase())){
 						if(UtilPlayer.isOnline(n)){
-							l=l+"�a"+n+"�7,";
+							l=l+"§a"+n+"§7,";
 						}else{
-							l=l+"�c"+n+"�7,";
+							l=l+"§c"+n+"§7,";
 						}
 					}
 					l=l.substring(0, l.length()-1);

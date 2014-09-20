@@ -3,6 +3,8 @@ package me.kingingo.kcore.Neuling;
 import java.util.HashMap;
 
 import lombok.Getter;
+import me.kingingo.kcore.kListener;
+import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Neuling.Events.NeulingEvent;
 import me.kingingo.kcore.Neuling.Events.NeulingSchutzEndEvent;
@@ -13,11 +15,12 @@ import me.kingingo.kcore.Util.TimeSpan;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class NeulingManager {
+public class NeulingManager extends kListener{
 
 	@Getter
 	private long time = TimeSpan.MINUTE*20;
@@ -26,9 +29,11 @@ public class NeulingManager {
 	@Getter
 	private HashMap<Player,Long> players = new HashMap<Player,Long>();
 	
-	public NeulingManager(JavaPlugin instance,int min){
+	public NeulingManager(JavaPlugin instance,CommandHandler cmd,int min){
+		super(instance,"[NeulingManager]");
 		this.time=TimeSpan.MINUTE*min;
 		this.instance=instance;
+		cmd.register(CommandNeuling.class, new CommandNeuling(this));
 	}
 	
 	public void add(Player player){
@@ -57,7 +62,8 @@ public class NeulingManager {
 	}
 	
 	Player v;
-	@EventHandler
+	Player a;
+	@EventHandler(priority=EventPriority.HIGH)
 	public void DamageByEntity(EntityDamageByEntityEvent ev){
 		if(ev.getEntity() instanceof Player){
 			v = (Player)ev.getEntity();
@@ -65,6 +71,14 @@ public class NeulingManager {
 				ev.setCancelled(true);
 				if(ev.getDamager() instanceof Player){
 					((Player)ev.getDamager()).sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ.getText(v.getName()));
+				}
+			}
+			
+			if(ev.getDamager() instanceof Player){
+				a=(Player)ev.getDamager();
+				if(getPlayers().containsKey(a)){
+					ev.setCancelled(true);
+					v.sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ_YOU.getText());
 				}
 			}
 		}
@@ -75,7 +89,7 @@ public class NeulingManager {
 		if(ev.getType()!=UpdateType.SEC)return;
 		if(getPlayers().isEmpty())return;
 		for(int i = 0; i<getPlayers().size(); i++){
-			if( (getPlayers().get(i)+getTime()) < System.currentTimeMillis() ){
+			if( (getPlayers().get(((Player)getPlayers().keySet().toArray()[i]))+getTime()) < System.currentTimeMillis() ){
 				del( ((Player)getPlayers().keySet().toArray()[i]) );
 			}
 		}

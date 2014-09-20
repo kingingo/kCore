@@ -222,6 +222,34 @@ public class StatsManager{
 		Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(s,p));
 	}
 	
+	public void setDouble(Player p,double i,Stats s){
+		ExistPlayer(p);
+		list.get(p).put(s, i);
+		Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(s,p));
+	}
+	
+	public Double getDouble(Stats s,Player p){
+		ExistPlayer(p);
+		if(list.containsKey(p)&&list.get(p).containsKey(s)){
+			return (Double)list.get(p).get(s);
+		}
+		
+		double i = -1;
+		try{
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p.getName()+"'");
+			while(rs.next()){
+				i=rs.getDouble(1);
+			}
+			rs.close();
+		}catch (Exception err){
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
+		}
+		
+		if(i!=-1)list.get(p).put(s, i);
+		
+		return i;
+	}
+	
 	public Integer getInt(Stats s,Player p){
 		ExistPlayer(p);
 		if(list.containsKey(p)&&list.get(p).containsKey(s)){
@@ -264,7 +292,6 @@ public class StatsManager{
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		
-		if(n!=-1)list.get(p).put(Stats.RANKING, n);
 	    return n;
 	}
 	
@@ -285,6 +312,10 @@ public class StatsManager{
 	
 	public String getStringWithString(Stats s,String p){
 		return getMysql().getString("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p+"'");
+	}
+	
+	public Double getDoubleWithString(Stats s,String p){
+		return getMysql().getDouble("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p+"'");
 	}
 	
 	public Integer getIntWithString(Stats s,String p){

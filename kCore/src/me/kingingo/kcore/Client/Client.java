@@ -95,8 +95,9 @@ public class Client {
 			Bukkit.getPluginManager().callEvent(new ClientDisconnectEvent());
 		}
 		try {
-			send.currentThread().stop();
 			getS().close();
+			send.stop();
+			//send.currentThread().stop();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

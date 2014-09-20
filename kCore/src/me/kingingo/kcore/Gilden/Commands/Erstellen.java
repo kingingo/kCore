@@ -29,10 +29,10 @@ public class Erstellen {
 			}
 			manager.createGildenEintrag(g, "§7"+g+"§b*§f", 10, p.getName());
 			manager.createPlayerEintrag(p.getName(), p.getUniqueId().toString(), g);
-			manager.setInt(g, manager.getTyp(), p.getLocation().getBlockX(), Stats.LOC_X);
-			manager.setInt(g, manager.getTyp(), p.getLocation().getBlockY(), Stats.LOC_Y);
-			manager.setInt(g, manager.getTyp(), p.getLocation().getBlockZ(), Stats.LOC_Z);
-			manager.setString(g, manager.getTyp(), p.getLocation().getWorld().getName(), Stats.WORLD);
+			manager.setInt(g, p.getLocation().getBlockX(), Stats.LOC_X);
+			manager.setInt(g, p.getLocation().getBlockY(), Stats.LOC_Y);
+			manager.setInt(g, p.getLocation().getBlockZ(), Stats.LOC_Z);
+			manager.setString(g, p.getLocation().getWorld().getName(), Stats.WORLD);
 			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_CREATE.getText(g));
 		}else{
 			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde erstellen [Gilde]");

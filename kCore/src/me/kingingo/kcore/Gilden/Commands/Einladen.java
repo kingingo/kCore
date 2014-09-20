@@ -11,17 +11,18 @@ public class Einladen {
 
 	public static void use(Player p,String[] args,GildenManager manager){
 		if(args.length==2){
-			String einladen_o = args[2];
+			String einladen_o = args[1];
 			if(!UtilPlayer.isOnline(einladen_o)){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_OFFLINE.getText(einladen_o));
 				return;
 			}
 			Player einladen = Bukkit.getPlayer(einladen_o);
 			if(manager.isPlayerInGilde(einladen.getName())){
-				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_IN_GILDE.getText());
+				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_IN_GILDE1.getText());
 				return;
 			}
-			if(manager.isPlayerInGilde(p.getName())){
+			
+			if(!manager.isPlayerInGilde(p.getName())){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
 				return;
 			}
@@ -31,8 +32,8 @@ public class Einladen {
 				return;
 			}
 			manager.getGilden_einladung().put(einladen, manager.getPlayerGilde(p.getName()));
-			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EINLADEN.getText(manager.getPlayerGilde(p.getName())));
-			einladen.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EILADUNG.getText(manager.getPlayerGilde(p.getName())));
+			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EINLADEN.getText(einladen_o));
+			einladen.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EILADUNG.getText(einladen_o));
 		}else{
 			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde einladen [Player]");
 		}

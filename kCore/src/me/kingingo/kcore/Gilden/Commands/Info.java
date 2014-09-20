@@ -16,6 +16,7 @@ public class Info {
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
 				return;
 			}
+			p.sendMessage(Text.GILDE_STATS_PREFIX.getText());
 			String g = manager.getPlayerGilde(p.getName());
 			for(Stats s : manager.getTyp().getStats()){
 				if(s==Stats.LOC_X||s==Stats.LOC_Y||s==Stats.LOC_Z||s==Stats.WORLD)continue;
@@ -40,6 +41,7 @@ public class Info {
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EXIST_NOT.getText());
 				return;
 			}
+			p.sendMessage(Text.GILDE_STATS_PREFIXBY.getText(g));
 			for(Stats s : manager.getTyp().getStats()){
 				if(s==Stats.LOC_X||s==Stats.LOC_Y||s==Stats.LOC_Z||s==Stats.WORLD)continue;
 				p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getInt(s, g, manager.getTyp()));

@@ -12,7 +12,7 @@ public class UtilServer
 {
   public static Player[] getPlayers()
   {
-    return getServer().getOnlinePlayers();
+    return Bukkit.getServer().getOnlinePlayers();
   }
 
   public static Server getServer()

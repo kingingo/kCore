@@ -68,6 +68,25 @@ public class MySQL
 	    }
 	  }
   
+  public Double getDouble(String qry){
+	  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
+	  	Bukkit.getPluginManager().callEvent(ev);
+	    ResultSet rs = null;
+	    double o = 0.0;
+	    try
+	    {
+	      Statement stmt = connection.createStatement();
+	      rs = stmt.executeQuery(ev.getQuery());
+	      while(rs.next()){
+	    	  o=rs.getDouble(1);
+	      }
+	    }
+	    catch (Exception ex) {
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
+	    }
+	  return o;
+}
+  
   public Integer getInt(String qry){
 	  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
 	  	Bukkit.getPluginManager().callEvent(ev);

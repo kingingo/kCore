@@ -56,25 +56,23 @@ public class FriendManager implements Listener {
 	@EventHandler
 	public void Update(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC)return;
-		if(del_friend_timer.isEmpty())return;
-		for(Player f : del_friend_timer.keySet()){
+		if(del_friend.isEmpty())return;
+		for(Player f : del_friend.keySet()){
 			if(!del_friend.containsKey(f))continue;
 			i=del_friend_timer.get(f);
+			del_friend_timer.remove(f);
 			a=del_friend.get(f);
 			if(i==0){
 				del_friend.remove(f);
 				DelFriend(f.getName(), a.getName());
-				if(f.isOnline()){
-					if(getFriendList().containsKey(f.getName().toLowerCase()))getFriendList().remove(f.getName().toLowerCase());
-				}
-				if(a.isOnline()){
-					if(getFriendList().containsKey(a.getName().toLowerCase()))getFriendList().remove(f.getName().toLowerCase());
-				}
+				if(getFriendList().containsKey(f.getName().toLowerCase()))getFriendList().remove(f.getName().toLowerCase());
+				if(getFriendList().containsKey(a.getName().toLowerCase()))getFriendList().remove(a.getName().toLowerCase());
 				continue;
 			}
 			if(f.isOnline())f.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_DEL_IN.getText(new String[]{String.valueOf(i),a.getName()}));
 			if(a.isOnline())a.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_DEL_IN.getText(new String[]{String.valueOf(i),f.getName()}));
 			i--;
+			del_friend_timer.put(f, i);
 		}
 		
 	}
@@ -130,6 +128,7 @@ public class FriendManager implements Listener {
 			if(getFriendList().containsKey(attack)&&getFriendList().get(attack).contains(defend.getName())){
 				if(getFriendList().containsKey(defend)&&getFriendList().get(defend).contains(attack.getName().toLowerCase())){
 					ev.setCancelled(true);
+					attack.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_HIT.getText());
 				}
 			}
 		}else if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Projectile){
@@ -141,6 +140,7 @@ public class FriendManager implements Listener {
 			if(getFriendList().containsKey(((Player)attack.getShooter()))&&getFriendList().get(((Player)attack.getShooter())).contains(defend.getName())){
 				if(getFriendList().containsKey(defend)&&getFriendList().get(defend).contains(((Player)attack.getShooter()).getName().toLowerCase())){
 					ev.setCancelled(true);
+					((Player)attack.getShooter()).sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_HIT.getText());
 				}
 			}
 		}
