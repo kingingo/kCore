@@ -53,6 +53,7 @@ public class NeulingManager extends kListener{
 	Player e;
 	@EventHandler
 	public void Damage(EntityDamageEvent ev){
+		if(getPlayers().isEmpty())return;
 		if(ev.getEntity() instanceof Player){
 			e = (Player)ev.getEntity();
 			if(getPlayers().containsKey(e)){
@@ -65,6 +66,7 @@ public class NeulingManager extends kListener{
 	Player a;
 	@EventHandler(priority=EventPriority.HIGH)
 	public void DamageByEntity(EntityDamageByEntityEvent ev){
+		if(getPlayers().isEmpty())return;
 		if(ev.getEntity() instanceof Player){
 			v = (Player)ev.getEntity();
 			if(getPlayers().containsKey(v)){
