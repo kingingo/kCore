@@ -5,7 +5,6 @@ import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.PlayerStats.Stats;
 import me.kingingo.kcore.Util.UtilPlayer;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class Info {
@@ -22,6 +21,7 @@ public class Info {
 				if(s==Stats.LOC_X||s==Stats.LOC_Y||s==Stats.LOC_Z||s==Stats.WORLD)continue;
 				p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getInt(s, g, manager.getTyp()));
 			}
+			p.sendMessage("§6Anzahl: §b"+manager.getAnzahl(g)+"/10");
 			manager.getMember(g);
 			String l = "§6List: ";
 			for(String n : manager.getGilden_player().keySet()){

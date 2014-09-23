@@ -49,6 +49,8 @@ public class GildenManager implements Listener {
 	@Getter
 	private HashMap<Player,String> gilden_einladung = new HashMap<>();
 	@Getter
+	private HashMap<String,Integer> gilden_count = new HashMap<>();
+	@Getter
 	private MySQL mysql;
 	@Getter
 	private GildenType typ;
@@ -165,6 +167,7 @@ public class GildenManager implements Listener {
 	public void PlayerQuit(PlayerQuitEvent ev){
 		if(isOnDisable())return;
 		if(!isPlayerInGilde(ev.getPlayer().getName()))return;
+		UpdateGilde(getPlayerGilde(ev.getPlayer()), getTyp());
 		sendGildenChat(getPlayerGilde(ev.getPlayer().getName()), Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_LEAVE.getText(ev.getPlayer().getName()));
 	}
 	
@@ -307,11 +310,24 @@ public class GildenManager implements Listener {
 						mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
 					}else if(o instanceof String){
 						mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+					}else if(o instanceof Double){
+						mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
 					}
 				}
 			}
 		}
 		gilden_data_musst_saved.clear();
+	}
+	
+	public int getAnzahl(String gilde){
+		gilde=gilde.toLowerCase();
+		if(getGilden_count().containsKey(gilde)){
+			return getGilden_count().get(gilde);
+		}
+		getMember(gilde);
+		int i = getMysql().getInt("SELECT COUNT(*) FROM `list_gilden_user` WHERE gilde='"+gilde.toLowerCase()+"'");
+		getGilden_count().put(gilde, i);
+		return i;
 	}
 	
 	public void UpdateGilde(String gilde,GildenType typ){
@@ -325,6 +341,8 @@ public class GildenManager implements Listener {
 				mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
 			}else if(o instanceof String){
 				mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
+			}else if(o instanceof Double){
+				mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
 			}
 		}
 		gilden_data_musst_saved.get(gilde).remove(typ);
@@ -387,6 +405,7 @@ public class GildenManager implements Listener {
 	}
 	
 	public void getMember(String gilde){
+		if(getGilden_count().containsKey(gilde.toLowerCase()))return;
 		try
 	    {
 	      ResultSet rs = mysql.Query("SELECT `player` FROM `list_gilden_user` WHERE gilde='"+gilde.toLowerCase()+"'");
@@ -400,6 +419,7 @@ public class GildenManager implements Listener {
 	    } catch (Exception err) {
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
+		getAnzahl(gilde);
 	}
 	
 	public void setInt(String gilde,int i, Stats s){

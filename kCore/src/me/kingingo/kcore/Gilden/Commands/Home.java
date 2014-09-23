@@ -37,6 +37,9 @@ public class Home {
 	
 	public static void use(Player p,String[] args,GildenManager manager){
 		if(args.length==1){
+			if(manager.getTeleport().containsKey(p)){
+				return;
+			}
 			GildenPlayerTeleportEvent ev = new GildenPlayerTeleportEvent(p,manager);
 			Bukkit.getPluginManager().callEvent(ev);
 			if(ev.isCancelled())return;

@@ -2,9 +2,7 @@ package me.kingingo.kcore.Gilden.Commands;
 
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
-import me.kingingo.kcore.Util.UtilPlayer;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class Annehmen {
@@ -17,6 +15,12 @@ public class Annehmen {
 					return;
 				}
 				String g = manager.getGilden_einladung().get(p);
+				if(manager.getAnzahl(g) >= 10){
+					p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_COUNT.getText());
+					manager.getGilden_einladung().remove(p);
+					return;
+				}
+				manager.getGilden_count().remove(g.toLowerCase());
 				manager.createPlayerEintrag(p.getName(), p.getUniqueId().toString(), g);
 				manager.getGilden_player().put(p.getName(), g);
 				manager.sendGildenChat(g, Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_ENTRE.getText(p.getName()));

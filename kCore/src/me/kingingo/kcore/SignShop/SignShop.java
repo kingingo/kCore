@@ -246,7 +246,7 @@ public class SignShop extends kListener{
 	                		if(shop.get(p) <= System.currentTimeMillis()){
 	                			shop.remove(p);
 	                		}else{
-	                			p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§cDu kannst nur alle 3sek was kaufen!");
+	                			p.sendMessage(Text.PREFIX.getText()+"§cDu kannst nur alle 3sek was kaufen!");
 	                			return;
 	                		}
 	                		
@@ -275,7 +275,7 @@ public class SignShop extends kListener{
 	                				ItemStack i = new ItemStack(id, 32,Short.parseShort(idnach) );
 	                				p.getInventory().addItem(i);
 	            					p.updateInventory();
-	            					p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§6Du hast " + 32 + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
+	            					p.sendMessage(Text.PREFIX.getText()+"§6Du hast " + 32 + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
 	            					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)-Preis, Stats.MONEY);
 	                				return;
 	                			}
@@ -285,7 +285,7 @@ public class SignShop extends kListener{
 	            				ItemStack i = new ItemStack(id, 32);
 	            				p.getInventory().addItem(i);
 	        					p.updateInventory();
-	        					p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§6Du hast " + 32 + " mal " + id+" bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
+	        					p.sendMessage(Text.PREFIX.getText()+"§6Du hast " + 32 + " mal " + id+" bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
 	        					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)-Preis, Stats.MONEY);
 	            				return;
 	                		}
@@ -307,7 +307,7 @@ public class SignShop extends kListener{
 	            				ItemStack i = new ItemStack(id, anzahl,Short.parseShort(idnach) );
 	            				p.getInventory().addItem(i);
 	        					p.updateInventory();
-	        					p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§6Du hast " + anzahl + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
+	        					p.sendMessage(Text.PREFIX.getText()+"§6Du hast " + anzahl + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
 	        					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)-Preis, Stats.MONEY);
 	        					return;
 	            			}
@@ -320,7 +320,7 @@ public class SignShop extends kListener{
 	        				p.getInventory().addItem(i);
 	        				p.updateInventory();
 	        				
-	    					p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§6Du hast " + anzahl + " mal " + id+" bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
+	    					p.sendMessage(Text.PREFIX.getText()+"§6Du hast " + anzahl + " mal " + id+" bekommen dir wurden " + Preis + " §bEpics §6abgezogen .");
 	    					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)-Preis, Stats.MONEY);
 	                }
 				}
@@ -342,7 +342,7 @@ public class SignShop extends kListener{
 	                		if(shop.get(p) <= System.currentTimeMillis()){
 	                			shop.remove(p);
 	                		}else{
-	                			p.sendMessage(Text.PREFIX.getText()+Text.PREFIX.getText()+"§cDu kannst nur alle 3sek was Verkaufen!");
+	                			p.sendMessage(Text.PREFIX.getText()+"§cDu kannst nur alle 3sek was Verkaufen!");
 	                			return;
 	                		}
 	                		

@@ -82,6 +82,8 @@ public class StatsManager{
 					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Integer)list.get(player).get(stats)) +"' WHERE player='" + player.getName() + "'");
 				}else if(list.get(player).get(stats) instanceof String){
 					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((String)list.get(player).get(stats)) +"' WHERE player='" + player.getName() + "'");
+				}else if(list.get(player).get(stats) instanceof Double){
+					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Double)list.get(player).get(stats)) +"' WHERE player='" + player.getName() + "'");
 				}
 			}
 		}
@@ -98,6 +100,8 @@ public class StatsManager{
 				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Integer)list.get(p).get(st)) +"' WHERE player='" + p.getName() + "'");
 			}else if(list.get(p).get(st) instanceof String){
 				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((String)list.get(p).get(st)) +"' WHERE player='" + p.getName() + "'");
+			}else if(list.get(p).get(st) instanceof Double){
+				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Double)list.get(p).get(st)) +"' WHERE player='" + p.getName() + "'");
 			}
 		}
 		list.remove(p);

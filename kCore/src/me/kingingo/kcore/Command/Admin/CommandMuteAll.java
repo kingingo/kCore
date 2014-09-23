@@ -39,7 +39,13 @@ public class CommandMuteAll implements CommandExecutor, Listener{
 				}
 			}
 		}else{
-			
+			if(chat){
+				chat=false;
+				System.out.println("[MuteAll] Chat mutet");
+			}else{
+				chat=true;
+				System.out.println("[MuteAll] Chat unmutet");
+			}
 		}
 		return false;
 	}

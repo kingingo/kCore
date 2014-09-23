@@ -80,7 +80,7 @@ public class NeulingManager extends kListener{
 				a=(Player)ev.getDamager();
 				if(getPlayers().containsKey(a)){
 					ev.setCancelled(true);
-					v.sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ_YOU.getText());
+					a.sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ_YOU.getText());
 				}
 			}
 		}

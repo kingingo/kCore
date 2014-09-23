@@ -33,6 +33,7 @@ public class CommandFriend implements CommandExecutor{
 		}else{
 			if(!manager.getFriendList().containsKey(p.getName().toLowerCase()))manager.getFriendList().put(p.getName().toLowerCase(), manager.getFriendList(p));
 			if(args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("hinzufügen")){
+				if(args.length!=2)return false;
 				if(manager.getFriendList().containsKey(p.getName().toLowerCase())&&manager.getFriendList().get(p.getName().toLowerCase()).contains(args[1].toLowerCase())){
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_EXIST.getText(args[1]));
 					return false;
@@ -51,6 +52,7 @@ public class CommandFriend implements CommandExecutor{
 				friend.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_GET.getText(p.getName()));
 				p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_SEND.getText(friend.getName()));
 			}else if(args[0].equalsIgnoreCase("del")||args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("entfernen")){
+				if(args.length!=2)return false;
 				String friend = args[1].toLowerCase();
 				if(friend.equalsIgnoreCase(p.getName())){
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_YOURE_SELF.getText());

@@ -16,6 +16,7 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -123,22 +124,25 @@ public class FriendManager implements Listener {
 		if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Player){
 			Player attack = (Player)ev.getDamager();
 			Player defend = (Player)ev.getEntity();
-			if(!getFriendList().containsKey(attack))getFriendList().put(attack.getName().toLowerCase(), getFriendList(attack));
-			if(!getFriendList().containsKey(defend))getFriendList().put(defend.getName().toLowerCase(), getFriendList(defend));
-			if(getFriendList().containsKey(attack)&&getFriendList().get(attack).contains(defend.getName())){
-				if(getFriendList().containsKey(defend)&&getFriendList().get(defend).contains(attack.getName().toLowerCase())){
+			if(!getFriendList().containsKey(attack.getName().toLowerCase()))getFriendList().put(attack.getName().toLowerCase(), getFriendList(attack));
+			if(!getFriendList().containsKey(defend.getName().toLowerCase()))getFriendList().put(defend.getName().toLowerCase(), getFriendList(defend));
+			
+			if(getFriendList().containsKey(attack.getName().toLowerCase())&&getFriendList().get(attack.getName().toLowerCase()).contains(defend.getName().toLowerCase())){
+				if(getFriendList().containsKey(defend.getName().toLowerCase())&&getFriendList().get(defend.getName().toLowerCase()).contains(attack.getName().toLowerCase())){
 					ev.setCancelled(true);
 					attack.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_HIT.getText());
 				}
 			}
 		}else if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Projectile){
 			Projectile attack = (Projectile)ev.getDamager();
+			if(!(attack instanceof Arrow))return;
 			Player defend = (Player)ev.getEntity();
 			if(!(attack.getShooter() instanceof Player))return;
-			if(!getFriendList().containsKey(attack))getFriendList().put(((Player)attack.getShooter()).getName().toLowerCase(), getFriendList(((Player)attack.getShooter())));
-			if(!getFriendList().containsKey(defend))getFriendList().put(defend.getName().toLowerCase(), getFriendList(defend));
-			if(getFriendList().containsKey(((Player)attack.getShooter()))&&getFriendList().get(((Player)attack.getShooter())).contains(defend.getName())){
-				if(getFriendList().containsKey(defend)&&getFriendList().get(defend).contains(((Player)attack.getShooter()).getName().toLowerCase())){
+			if(!getFriendList().containsKey(((Player)attack.getShooter()).getName().toLowerCase()))getFriendList().put(((Player)attack.getShooter()).getName().toLowerCase(), getFriendList(((Player)attack.getShooter())));
+			if(!getFriendList().containsKey(defend.getName().toLowerCase()))getFriendList().put(defend.getName().toLowerCase(), getFriendList(defend));
+			
+			if(getFriendList().containsKey(((Player)attack.getShooter()).getName().toLowerCase())&&getFriendList().get(((Player)attack.getShooter()).getName().toLowerCase()).contains(defend.getName().toLowerCase())){
+				if(getFriendList().containsKey(defend.getName().toLowerCase())&&getFriendList().get(defend.getName().toLowerCase()).contains(((Player)attack.getShooter()).getName().toLowerCase())){
 					ev.setCancelled(true);
 					((Player)attack.getShooter()).sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_HIT.getText());
 				}
