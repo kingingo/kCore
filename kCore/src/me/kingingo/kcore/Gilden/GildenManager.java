@@ -324,7 +324,7 @@ public class GildenManager implements Listener {
 		if(getGilden_count().containsKey(gilde)){
 			return getGilden_count().get(gilde);
 		}
-		getMember(gilde);
+		
 		int i = getMysql().getInt("SELECT COUNT(*) FROM `list_gilden_user` WHERE gilde='"+gilde.toLowerCase()+"'");
 		getGilden_count().put(gilde, i);
 		return i;

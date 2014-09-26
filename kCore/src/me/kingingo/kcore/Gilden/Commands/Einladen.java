@@ -41,7 +41,7 @@ public class Einladen {
 			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EINLADEN.getText(einladen_o));
 			einladen.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EILADUNG.getText(einladen_o));
 		}else{
-			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde einladen [Player]");
+			p.sendMessage(Text.GILDE_PREFIX.getText()+"/gilde einladen [Player]");
 		}
 	}
 	

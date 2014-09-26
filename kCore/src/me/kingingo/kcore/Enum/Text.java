@@ -19,7 +19,7 @@ PERK_PREMIUM(new String[]{"§b§oNach dem Respawnen hasts du 1 Minute lang extra
 PERK_MOREHEALTH(new String[]{"§b§oImmer wenn du nur noch % Herzen hast erhält dein Geger denn % Prozent Schaden "}),
 PERK_STOPPERK(new String[]{"§b§oSobald du jemanden schlägst ist sein Perk für % sekunden unbrauchbar."}),
 PERK_DEATHDROPONLY(new String[]{"§b§oWenn du stirbst hast du % sekunden wo niemand deine Sachen aufheben kann."}),
-
+//
 STATS_PREFIX("§b■■■■■■■■§6 §lSTATS §b■■■■■■■■"),
 STATS_PREFIXBY("§b■■■■■■■■ §6§lStats von % §b■■■■■■■■"),
 STATS_KILLS("§6Kills : §7"),
