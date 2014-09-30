@@ -8,6 +8,7 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -119,7 +120,6 @@ public class PermissionManager {
 				try{
 					UtilPlayer.setPlayerListName(p,"§7"+name.subSequence(0, 13));
 				}catch(IllegalArgumentException e){
-					//((CraftServer)Bukkit.getServer()).getHandle().players.remove("§7"+p.getName().subSequence(0, 13));
 					UtilPlayer.setPlayerListName(p,"§7"+name.subSequence(0, 12));
 				}
 			}else{

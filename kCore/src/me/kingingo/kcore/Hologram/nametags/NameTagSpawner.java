@@ -137,8 +137,7 @@ public class NameTagSpawner {
 		attach.sendPacket(observer);
 
 		// Save location
-		getLocations(observer)[index] = new Vector(location.getX(), location.getY() + dY,
-				location.getZ());
+		getLocations(observer)[index] = new Vector(location.getX(), location.getY() + dY,location.getZ());
 	}
 
 	/**
@@ -191,7 +190,7 @@ public class NameTagSpawner {
 
 		WrappedDataWatcher wdw = new WrappedDataWatcher();
 		wdw.setObject(10, message);
-		wdw.setObject(11, (byte) 1);
+		wdw.setObject(11, (byte) 1);//wdw.setObject(11, (byte) 1);
 		wdw.setObject(12, -1700000);
 		horse.setMetadata(wdw);
 		return horse;

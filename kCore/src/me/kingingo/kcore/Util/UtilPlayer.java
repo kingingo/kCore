@@ -8,11 +8,14 @@ import java.util.UUID;
 import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerEntityEquipment;
 import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
 import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
+import net.minecraft.server.v1_7_R4.ChatSerializer;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.EnumClientCommand;
+import net.minecraft.server.v1_7_R4.IChatBaseComponent;
 import net.minecraft.server.v1_7_R4.Packet;
 import net.minecraft.server.v1_7_R4.PacketPlayInClientCommand;
 import net.minecraft.server.v1_7_R4.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_7_R4.PlayerConnection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -59,7 +62,7 @@ public class UtilPlayer
   }
   
   public static int getVersion(Player player){
-	  return ( (CraftPlayer) player).getHandle().playerConnection.networkManager.getVersion();
+	  return ((CraftPlayer)player).getHandle().playerConnection.networkManager.getVersion();
   }
   
   public static void setTab(String tab,Player p,boolean b){
@@ -71,13 +74,6 @@ public class UtilPlayer
   
   public static void setTab(String[] tab,Player p){
 	  for(String t : tab)setTab(t, p,true);
-//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[0], true, 9999));
-//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[1], true, 9999));
-//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[2], true, 9999));
-//
-//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[3], true, 9999));
-//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[4], true, 9999));
-//	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(tab[5], true, 9999));
   }
   
   public static void setPlayerListName(Player player,String nick){

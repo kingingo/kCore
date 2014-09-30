@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 public class PermissionListener implements Listener {
@@ -18,7 +19,11 @@ public class PermissionListener implements Listener {
 	public void Login(PlayerLoginEvent ev){
 		Player p = ev.getPlayer();
 	    manager.loadPermission(p);
-	    manager.setTabList(p);
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void Join(PlayerJoinEvent ev){
+		manager.setTabList(ev.getPlayer());
 	}
 	
 }

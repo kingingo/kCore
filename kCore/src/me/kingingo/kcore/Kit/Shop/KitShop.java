@@ -122,68 +122,115 @@ public class KitShop implements Listener {
 	}
 	
 	public Inventory getInv(Kit kit,Player p){
-	Inventory inventory=Bukkit.createInventory(null, 9, kit.getName());
-		switch(kit.getType()){
-		case PREMIUM:
-			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
-				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
-				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
-				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
-			}else{
-				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
-				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aPremium-Kit","§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
-				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
-			}
-			break;
-		case STARTER:
+		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName());
+		
+//		switch(kit.getType()){
+//		case PREMIUM:
+//			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+//				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+//				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+//				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+//				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+//			}else{
+//				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+//				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+//				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aPremium-Kit","§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
+//				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+//			}
+//			break;
+//		case STARTER:
+//			inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+//			inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+//			inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+//			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+//			break;
+//		case SPEZIAL_KIT:
+//			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+//				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+//				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+//				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+//				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+//			}else{
+//				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+//				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+//				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aSpezial-Kit","§7Nur erhältlich zu Besonderen anlässen!"} ,"§4Spezial-Kit"));
+//				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+//			}
+//			break;
+//		case ADMIN:
+//			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+//				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+//				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+//				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+//				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+//			}else{
+//				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+//				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+//				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §cAdmin-Kit"} ,"§4Spezial-Kit"));
+//				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+//			}
+//			break;
+//		default:
+//			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+//				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+//				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+//				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+//				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR_BLOCK), "§cZurück"));
+//			}else{
+//				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+//				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+//				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.GLOWSTONE_DUST) ,"§6Kaufen"));
+//				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+//			}
+//			break;
+//		}
+		
+		if(kit.getType()==KitType.STARTER){
 			inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 			inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 			inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
-			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
-			break;
-		case SPEZIAL_KIT:
+		}else if(kit.getType()==KitType.ADMIN){
 			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
-				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
-			}else{
-				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
-				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aSpezial-Kit","§7Nur erhältlich zu Besonderen anlässen!"} ,"§4Spezial-Kit"));
-				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
-			}
-			break;
-		case ADMIN:
-			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
-				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
-				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
-				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			}else{
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §cAdmin-Kit"} ,"§4Spezial-Kit"));
-				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			}
-			break;
-		default:
+		}else if(kit.getType()==KitType.SPEZIAL_KIT){
 			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
-				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR_BLOCK), "§cZurück"));
+			}else{
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aSpezial-Kit","§7Nur erhältlich zu Besonderen anlässen!"} ,"§4Spezial-Kit"));
+			}
+		}else if(kit.getType()==KitType.PREMIUM){
+			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+			}else{
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+				inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aPremium-Kit","§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
+			}
+		}else{
+			if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
+				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
+				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
 			}else{
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.GLOWSTONE_DUST) ,"§6Kaufen"));
-				inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 			}
-			break;
 		}
-		
+	
 		for(int i = 0 ; i < inventory.getSize(); i++){
 			if(inventory.getItem(i)==null||inventory.getItem(i).getType()==Material.AIR){
 				if(inventory.getItem(i)==null)inventory.setItem(i, new ItemStack(Material.FENCE));
@@ -194,6 +241,7 @@ public class KitShop implements Listener {
 				inventory.getItem(i).setItemMeta(im);
 			}
 		}
+		inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
 		
 		return inventory;
 	}
