@@ -8,7 +8,6 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -20,8 +19,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PermissionManager {
-	private HashMap<Player,List<Permission>> list = new HashMap<>();
-	private HashMap<Player,String> prefix = new HashMap<>();
+	private HashMap<String,List<Permission>> plist = new HashMap<>();
+	private HashMap<Player,String> pgroup = new HashMap<>();
+	private HashMap<String,List<Permission>> groups = new HashMap<>();
+	private HashMap<String,String> gprefix = new HashMap<>();
 	private MySQL mysql;
 	@Getter
 	@Setter
@@ -36,22 +37,29 @@ public class PermissionManager {
 	}
 	
 	public String getPrefix(Player p){
-		if(prefix.containsKey(p))return prefix.get(p);
+		if(pgroup.containsKey(p)&&gprefix.containsKey(pgroup.get(p)))return gprefix.get(pgroup.get(p));
 		return C.cGray;
 	}
 	
 	public List<Permission> getPermissionList(Player p){
-		if(list.containsKey(p))return list.get(p);
-		return null;
+		ArrayList<Permission> list = new ArrayList<>();
+		if(pgroup.containsKey(p)){
+			for(Permission perm : groups.get(p)){
+				list.add(perm);
+			}
+		}
+		if(plist.containsKey(p.getName().toLowerCase())){
+			for(Permission perm : plist.get(p.getName().toLowerCase())){
+				list.add(perm);
+			}
+		}
+		return list;
 	}
 	
 	public boolean hasPermission(Player p,Permission perm){
-		if(list.containsKey(p)&&(list.get(p).contains(perm)||list.get(p).contains(Permission.ALL_PERMISSION)))return true;
+		if(pgroup.containsKey(p)&& (groups.get(pgroup.get(p)).contains(perm)||groups.get(pgroup.get(p)).contains(Permission.ALL_PERMISSION)) )return true;
+		if(plist.containsKey(p.getName().toLowerCase())&& (plist.get(p.getName().toLowerCase()).contains(perm)||plist.get(p.getName().toLowerCase()).contains(Permission.ALL_PERMISSION)) )return true;
 		return false;
-	}
-	
-	public void setPrefix(Player p,String prefix){
-		this.prefix.put(p,prefix);
 	}
 	
 	public void setGroup(String p, String group){
@@ -69,6 +77,8 @@ public class PermissionManager {
 
 			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','none','"+group+"','"+p.getName().toLowerCase()+"');");
 		}
+		pgroup.remove(p);
+		pgroup.put(p, group);
 	}
 	
 	
@@ -81,13 +91,14 @@ public class PermissionManager {
 	}
 	
 	public void addPermission(String p, Permission perm){
-		list.get(p).add(perm);
+		if(!plist.containsKey(p.toLowerCase()))plist.put(p.toLowerCase(), new ArrayList<Permission>());
+		plist.get(p.toLowerCase()).add(perm);
 		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','"+perm.getPermissionToString()+"','none','"+p.toLowerCase()+"');");
 	}
 	
 	public void addPermission(Player p, Permission perm){
-		if(!list.containsKey(p))list.put(p, new ArrayList<Permission>());
-		list.get(p).add(perm);
+		if(!plist.containsKey(p.getName().toLowerCase()))plist.put(p.getName().toLowerCase(), new ArrayList<Permission>());
+		plist.get(p.getName().toLowerCase()).add(perm);
 		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','"+perm.getPermissionToString()+"','none','"+p.getName().toLowerCase()+"');");
 	}
 	
@@ -101,8 +112,8 @@ public class PermissionManager {
 		if(p.isCustomNameVisible()){
 			name=p.getCustomName();
 		}
-		if(prefix.containsKey(p)&&!invisble){
-			String t = prefix.get(p);
+		if(pgroup.containsKey(p)&&gprefix.containsKey(pgroup.get(p))&&!invisble){
+			String t = gprefix.get(pgroup.get(p));
 			int i = t.indexOf("§");
 			t=""+t.toCharArray()[i]+t.toCharArray()[i+1];
 			
@@ -162,31 +173,51 @@ public class PermissionManager {
 	}
 	
 	public void loadPermission(Player p){
-		String g="default";
+		String g=getGroup(p);
 		Permission permission;
-		List<Permission> perm = new ArrayList<>();
 		ResultSet rs;
+		if(g==null)g="default";
 		
-		try {
-			rs = mysql.Query("SELECT pgroup FROM game_perm WHERE user='"+ p.getName().toLowerCase() + "' AND prefix='none' AND permission='none'");
+		if(!groups.containsKey(g)){
+			groups.put(g, new ArrayList<Permission>());
+			try
+		    {
+		      rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none' AND user='none'");
+		      while (rs.next()){
+		    	  permission=Permission.isPerm(rs.getString(1));
+		    	  if(permission==Permission.NONE)continue;
+		    	  groups.get(g).add(permission);
+		      }
+		      rs.close();
+		    }
+		    catch (SQLException e)
+		    {
+		      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
+		    }
+		}
+		
+		if(!gprefix.containsKey(g)){
+			try {
+				rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND user='none'");
 
-			while (rs.next()) {
-				g = rs.getString(1);
+				while (rs.next()) {
+					gprefix.put(g, rs.getString(1));
+				}
+
+				rs.close();
+			} catch (Exception err) {
+				Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
 			}
-
-			rs.close();
-		} catch (Exception err) {
-		  Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
 		}
 		
 		try
 	    {
-	      
-	      rs = mysql.Query("SELECT permission FROM game_perm WHERE user='"+p.getName()+"' AND prefix='none' AND pgroup='none'");
+	      rs = mysql.Query("SELECT permission FROM game_perm WHERE user='"+p.getName().toLowerCase()+"' AND prefix='none' AND pgroup='none'");
 	      while (rs.next()){
 	    	  permission=Permission.isPerm(rs.getString(1));
 	    	  if(permission==Permission.NONE)continue;
-	    	  perm.add(permission);  
+	    	  if(!plist.containsKey(p.getName().toLowerCase()))plist.put(p.getName().toLowerCase(), new ArrayList<Permission>());
+	    	  plist.get(p.getName().toLowerCase()).add(permission);
 	      }
 	      rs.close();
 	    }
@@ -195,49 +226,21 @@ public class PermissionManager {
 	      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
 	    }
 		
-		try
-	    {
-	      
-	      rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none'");
-	      while (rs.next()){
-	    	  permission=Permission.isPerm(rs.getString(1));
-	    	  if(permission==Permission.NONE)continue;
-	    	  perm.add(permission);  
-	      }
-	      rs.close();
-	    }
-	    catch (SQLException e)
-	    {
-	      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
-	    }
-		
-		try {
-			rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND user='none'");
-
-			while (rs.next()) {
-				setPrefix(p,rs.getString(1));
-			}
-
-			rs.close();
-		} catch (Exception err) {
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
-		}
-		
-		if(!perm.isEmpty())list.put(p, perm);
+		pgroup.put(p, g);
 	}
 	
-	public void loadPermissions(Player p, List<Permission> permission){
-		if(p instanceof Player && !permission.isEmpty())list.put(p, permission);
-	}
+//	public void loadPermissions(Player p, List<Permission> permission){
+//		if(p instanceof Player && !permission.isEmpty())list.put(p, permission);
+//	}
 	
 	public void removePermission(String p, Permission perm){
 		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.toLowerCase() + "' AND permission='"+perm.getPermissionToString()+"'");
 	}
 	
 	public void removePermission(Player p, Permission perm){
-		if(list.containsKey(p)){
-			if(list.get(p).contains(perm)){
-				list.get(p).remove(perm);
+		if(plist.containsKey(p.getName().toLowerCase())){
+			if(plist.get(p.getName().toLowerCase()).contains(perm)){
+				plist.get(p.getName().toLowerCase()).remove(perm);
 			}
 		}
 		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.getName().toLowerCase() + "' AND permission='"+perm.getPermissionToString()+"'");
@@ -252,7 +255,7 @@ public class PermissionManager {
 	}
 	
 	public void removePermissions(Player p){
-		if(list.containsKey(p))list.remove(p);
+		if(plist.containsKey(p.getName().toLowerCase()))plist.remove(p.getName().toLowerCase());
 	}
 	
 }
