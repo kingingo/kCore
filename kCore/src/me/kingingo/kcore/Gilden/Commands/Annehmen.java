@@ -22,7 +22,6 @@ public class Annehmen {
 				}
 				manager.getGilden_count().remove(g.toLowerCase());
 				manager.createPlayerEintrag(p.getName(), p.getUniqueId().toString(), g);
-				manager.getGilden_player().put(p.getName(), g);
 				manager.sendGildenChat(g, Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_ENTRE.getText(p.getName()));
 			}else{
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_NICHT_EINGELADEN.getText());

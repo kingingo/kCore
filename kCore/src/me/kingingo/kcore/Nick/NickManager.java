@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerNamedEntitySpawn;
 import me.kingingo.kcore.Nick.Command.CommandNick;
 import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
 import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
@@ -12,16 +13,30 @@ import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;
 import net.minecraft.server.v1_7_R4.Entity;
+import net.minecraft.server.v1_7_R4.EntityHuman;
 import net.minecraft.server.v1_7_R4.EntityInsentient;
 import net.minecraft.server.v1_7_R4.EntityLiving;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.server.v1_7_R4.EntityTracker;
+import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_7_R4.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R4.WorldServer;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
 
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
 
 public class NickManager {
 
@@ -86,54 +101,23 @@ public class NickManager {
 		if(name.containsKey(player))name.remove(player);
 		name.put(player, nick);
 		
-//		 EntityHuman eh = ((CraftPlayer)player).getHandle();
-//         PacketPlayOutEntityDestroy p29 = new PacketPlayOutEntityDestroy(new int[]{player.getEntityId()});
-//         PacketPlayOutNamedEntitySpawn p20 = new PacketPlayOutNamedEntitySpawn(eh);
-//         try {
-//             java.lang.reflect.Field profileField = p20.getClass().getDeclaredField("b");
-//             profileField.setAccessible(true);
-//             profileField.set(p20, new GameProfile( player.getUniqueId(),nick));
-//         } catch (Exception e) {
-//            
-//         }
-//         for(Player o : Bukkit.getOnlinePlayers()){
-//             if(!o.getName().equals(player.getName())){
-//                 ((CraftPlayer)o).getHandle().playerConnection.sendPacket(p29);
-//                 ((CraftPlayer)o).getHandle().playerConnection.sendPacket(p20);
-//             }
-//         }
-//		EntityPlayer p = ((CraftPlayer)player).getHandle();
-//		WorldServer world = (WorldServer) p.world;
-//        EntityTracker tracker = world.tracker;
-//        tracker.untrackEntity(p);
-//        p.listName = nick;
-//       Class<?> entityHumanClazz = EntityHuman.class;
-//
-//        Field name;
-//        Field namec;
-//		try {
-//		name = entityHumanClazz.getDeclaredField("displayName");
-//        name.setAccessible(true);
-//		namec = entityHumanClazz.getDeclaredField("listName");
-//        namec.setAccessible(true);
-//        try {
-//			name.set(p, nick);
-//			namec.set(p, nick);
-//		} catch (IllegalArgumentException e) {
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			e.printStackTrace();
-//		}
-//        tracker.track(p);
-//		} catch (NoSuchFieldException e) {
-//			e.printStackTrace();
-//		} catch (SecurityException e) {
-//			e.printStackTrace();
-//		}
-//		EntityInsentient ei = ((EntityInsentient)((CraftLivingEntity) player).getHandle());
-//		ei.setCustomName(nick);
-//		ei.setCustomNameVisible(true);
-		player.setCustomName(nick);
+		 EntityHuman eh = ((CraftPlayer)player).getHandle();
+         PacketPlayOutEntityDestroy p29 = new PacketPlayOutEntityDestroy(new int[]{player.getEntityId()});
+         PacketPlayOutNamedEntitySpawn p20 = new PacketPlayOutNamedEntitySpawn(eh);
+         try {
+             java.lang.reflect.Field profileField = p20.getClass().getDeclaredField("b");
+             profileField.setAccessible(true);
+             profileField.set(p20, new GameProfile( player.getUniqueId(),nick));
+         } catch (Exception e) {
+            
+         }
+         for(Player o : Bukkit.getOnlinePlayers()){
+             if(!o.getName().equals(player.getName())){
+                 ((CraftPlayer)o).getHandle().playerConnection.sendPacket(p29);
+                 ((CraftPlayer)o).getHandle().playerConnection.sendPacket(p20);
+             }
+         }
+
 		player.setDisplayName(nick);
 		if(getPManager().isSetAllowTab()){
 			UtilPlayer.setPlayerListName(player, "§e"+nick);

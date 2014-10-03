@@ -74,7 +74,7 @@ public class GildenManager implements Listener {
 		
 		for(Player p : UtilServer.getPlayers()){
 			if(!isPlayerInGilde(p.getName()))continue;
-			if(gilden_player.containsKey(p.getName()))gilden_player.remove(p.getName());
+			if(gilden_player.containsKey(p.getName().toLowerCase()))gilden_player.remove(p.getName().toLowerCase());
 			getPlayerGilde(p.getName());
 		}
 		
@@ -173,7 +173,7 @@ public class GildenManager implements Listener {
 	
 	@EventHandler
 	public void PlayerJoin(PlayerJoinEvent ev){
-		if(gilden_player.containsKey(ev.getPlayer().getName()))gilden_player.remove(ev.getPlayer().getName());
+		if(gilden_player.containsKey(ev.getPlayer().getName().toLowerCase()))gilden_player.remove(ev.getPlayer().getName().toLowerCase());
 		if(!isPlayerInGilde(ev.getPlayer()))return;
 		sendGildenChat(getPlayerGilde(ev.getPlayer()), Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_JOIN.getText(ev.getPlayer().getName()));
 	}
@@ -221,7 +221,8 @@ public class GildenManager implements Listener {
 	}
 	
 	public void removePlayerEintrag(String name){
-		getGilden_player().remove(name);
+		getGilden_count().remove(getPlayerGilde(name));
+		getGilden_player().remove(name.toLowerCase());
 		mysql.Update("DELETE FROM list_gilden_user WHERE player='" + name.toLowerCase() + "'");
 	}
 	
@@ -235,7 +236,7 @@ public class GildenManager implements Listener {
 	}
 	
 	public String getPlayerGilde(String name){
-		if(gilden_player.containsKey(name))return gilden_player.get(name);
+		if(gilden_player.containsKey(name.toLowerCase()))return gilden_player.get(name.toLowerCase());
 		String g  = "-";
 		try
 	    {
@@ -259,8 +260,8 @@ public class GildenManager implements Listener {
 	}
 	
 	public boolean isPlayerInGilde(String name){
-		if(gilden_player.containsKey(name)){
-			if(gilden_player.get(name).equalsIgnoreCase("-"))return false;
+		if(gilden_player.containsKey(name.toLowerCase())){
+			if(gilden_player.get(name.toLowerCase()).equalsIgnoreCase("-"))return false;
 			return true;
 		}
 		boolean b = false;
@@ -274,6 +275,7 @@ public class GildenManager implements Listener {
 	    } catch (Exception err) {
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
+		
 		return b;
 	}
 	
@@ -395,13 +397,13 @@ public class GildenManager implements Listener {
 	}
 	
 	public void GildenPlayerPut(String player,String gilde){
-		if(getGilden_player().containsKey(player))getGilden_player().remove(player);
+		if(getGilden_player().containsKey(player.toLowerCase()))getGilden_player().remove(player.toLowerCase());
 		getGilden_player().put(player.toLowerCase(), gilde);
 	}
 	
 	public void GildenPlayerPut(String player){
-		if(getGilden_player().containsKey(player))getGilden_player().remove(player);
-		getGilden_player().put(player.toLowerCase(), getPlayerGilde(player));
+		if(getGilden_player().containsKey(player.toLowerCase()))getGilden_player().remove(player.toLowerCase());
+		getGilden_player().put(player.toLowerCase(), getPlayerGilde(player.toLowerCase()));
 	}
 	
 	public void getMember(String gilde){
@@ -411,7 +413,7 @@ public class GildenManager implements Listener {
 	      ResultSet rs = mysql.Query("SELECT `player` FROM `list_gilden_user` WHERE gilde='"+gilde.toLowerCase()+"'");
 
 	      while (rs.next()) {
-	    	  if(gilden_player.containsKey(rs.getString(1)))continue;
+	    	  if(gilden_player.containsKey(rs.getString(1).toLowerCase()))continue;
 	    	  GildenPlayerPut(rs.getString(1), gilde);
 	      }
 
@@ -434,6 +436,33 @@ public class GildenManager implements Listener {
 		if(!gilden_data_musst_saved.containsKey(gilde))gilden_data_musst_saved.put(gilde, new HashMap<GildenType,ArrayList<Stats>>());
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))gilden_data_musst_saved.get(gilde).put(typ, new ArrayList<Stats>());
 		if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))gilden_data_musst_saved.get(gilde).get(typ).add(s);
+	}
+	
+	public Integer getInt(Stats s,String gilde){
+		return getInt(s, gilde,getTyp());
+	}
+	
+	public Integer getInt(Stats s,String gilde,GildenType typ){
+		if(!ExistGilde(gilde))return null;
+		ExistGildeData(gilde, typ);
+		if(gilden_data.containsKey(gilde)&&gilden_data.get(gilde).containsKey(typ)&&gilden_data.get(gilde).get(typ).containsKey(s)){
+			return (int)gilden_data.get(gilde).get(typ).get(s);
+		}
+		int i = -1;
+		try{
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data_"+typ.getKürzel()+" WHERE gilde= '"+gilde.toLowerCase()+"'");
+			while(rs.next()){
+				i=rs.getInt(1);
+			}
+			rs.close();
+		}catch (Exception err){
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
+		}
+		
+		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GildenType,HashMap<Stats,Object>>());
+		if(!gilden_data.get(gilde).containsKey(typ))gilden_data.get(gilde).put(typ, new HashMap<Stats,Object>());
+		gilden_data.get(gilde).get(typ).put(s, i);
+		return i;
 	}
 	
 	public Integer getRank(String gilde,GildenType typ,Stats s){
@@ -500,7 +529,7 @@ public class GildenManager implements Listener {
 	public String getString(Stats s,String gilde,GildenType typ){
 		if(!ExistGilde(gilde))return null;
 		ExistGildeData(gilde, typ);
-		if(gilden_data.containsKey(gilde)&&gilden_data.get(gilde).containsKey(s)){
+		if(gilden_data.containsKey(gilde)&&gilden_data.get(gilde).containsKey(typ)&&gilden_data.get(gilde).get(typ).containsKey(s)){
 			return (String)gilden_data.get(gilde).get(typ).get(s);
 		}
 		String i = "";
@@ -508,33 +537,6 @@ public class GildenManager implements Listener {
 			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data_"+typ.getKürzel()+" WHERE gilde= '"+gilde.toLowerCase()+"'");
 			while(rs.next()){
 				i=rs.getString(1);
-			}
-			rs.close();
-		}catch (Exception err){
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
-		}
-		
-		if(!gilden_data.containsKey(gilde))gilden_data.put(gilde, new HashMap<GildenType,HashMap<Stats,Object>>());
-		if(!gilden_data.get(gilde).containsKey(typ))gilden_data.get(gilde).put(typ, new HashMap<Stats,Object>());
-		gilden_data.get(gilde).get(typ).put(s, i);
-		return i;
-	}
-	
-	public Integer getInt(Stats s,String gilde){
-		return getInt(s, gilde,getTyp());
-	}
-	
-	public Integer getInt(Stats s,String gilde,GildenType typ){
-		if(!ExistGilde(gilde))return null;
-		ExistGildeData(gilde, typ);
-		if(gilden_data.containsKey(gilde)&&gilden_data.get(gilde).containsKey(s)){
-			return (int)gilden_data.get(gilde).get(typ).get(s);
-		}
-		int i = -1;
-		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data_"+typ.getKürzel()+" WHERE gilde= '"+gilde.toLowerCase()+"'");
-			while(rs.next()){
-				i=rs.getInt(1);
 			}
 			rs.close();
 		}catch (Exception err){
