@@ -6,8 +6,8 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
 import me.kingingo.kcore.Disguise.disguises.DisguiseHuman;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerNamedEntitySpawn;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntityLiving;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerNamedEntitySpawn;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
 import me.kingingo.kcore.Util.UtilReflection;
 import net.minecraft.server.v1_7_R4.MathHelper;
 import net.minecraft.server.v1_7_R4.Packet;

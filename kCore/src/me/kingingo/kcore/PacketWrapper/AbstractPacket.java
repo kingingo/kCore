@@ -15,7 +15,7 @@
  *  02111-1307 USA
  */
 
-package me.kingingo.kcore.Hologram.wrapper;
+package me.kingingo.kcore.PacketWrapper;
 
 import java.lang.reflect.InvocationTargetException;
 

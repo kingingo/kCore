@@ -2,13 +2,22 @@ package me.kingingo.kcore.Hologram.nametags;
 
 import java.util.Map;
 
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerAttachEntity;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerEntityDestroy;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerEntityTeleport;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntity;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntityLiving;
+import me.kingingo.kcore.Disguise.disguises.DummyEntity;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerAttachEntity;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityDestroy;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityTeleport;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntity;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
+import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilReflection;
+import net.minecraft.server.v1_7_R4.DataWatcher;
+import net.minecraft.server.v1_7_R4.EnumEntitySize;
+import net.minecraft.server.v1_7_R4.MathHelper;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
 
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -124,20 +133,20 @@ public class NameTagSpawner {
 	 * @param message - the message to display.
 	 */
 	public void setNameTag(int index, Player observer, Location location, double dY, String message) {
-		WrapperPlayServerAttachEntity attach = new WrapperPlayServerAttachEntity();
-		WrapperPlayServerSpawnEntityLiving horse = createHorsePacket(index, location, dY, message);
-		WrapperPlayServerSpawnEntity skull = createSkullPacket(index, location, dY);
+			WrapperPlayServerAttachEntity attach = new WrapperPlayServerAttachEntity();
+			WrapperPlayServerSpawnEntityLiving horse = createHorsePacket(index, location, dY, message);
+			WrapperPlayServerSpawnEntity skull = createSkullPacket(index, location, dY);
 
-		// The horse is riding on the skull
-		attach.setEntityId(horse.getEntityID());
-		attach.setVehicleId(skull.getEntityID());
+			// The horse is riding on the skull
+			attach.setEntityId(horse.getEntityID());
+			attach.setVehicleId(skull.getEntityID());
 
-		horse.sendPacket(observer);
-		skull.sendPacket(observer);
-		attach.sendPacket(observer);
+			horse.sendPacket(observer);
+			skull.sendPacket(observer);
+			attach.sendPacket(observer);
 
-		// Save location
-		getLocations(observer)[index] = new Vector(location.getX(), location.getY() + dY,location.getZ());
+			// Save location
+			getLocations(observer)[index] = new Vector(location.getX(), location.getY() + dY,location.getZ());
 	}
 
 	/**
@@ -177,7 +186,7 @@ public class NameTagSpawner {
 		}
 		return result;
 	}
-
+	
 	// Construct the invisible horse packet
 	private WrapperPlayServerSpawnEntityLiving createHorsePacket(int index, Location location,
 			double dY, String message) {

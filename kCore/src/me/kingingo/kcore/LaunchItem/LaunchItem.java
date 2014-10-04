@@ -18,7 +18,8 @@ public class LaunchItem {
 	private Player player;
 	@Getter
 	private Long time;
-	@Getter LaunchItemEventHandler handler;
+	@Getter 
+	private LaunchItemEventHandler handler;
 	
 	public interface LaunchItemEventHandler {
         public void onLaunchItem(LaunchItemEvent event);

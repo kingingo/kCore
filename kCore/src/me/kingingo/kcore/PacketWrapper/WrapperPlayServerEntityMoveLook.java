@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Hologram.wrapper;
+package me.kingingo.kcore.PacketWrapper;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 

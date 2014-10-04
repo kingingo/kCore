@@ -106,6 +106,7 @@ public class NameTagMessage extends ImageMessage {
 	 * @param location - the starting location.
 	 */
 	public void sendToPlayer(Player player, Location location) {
+		this.location=location;
 		for (int i = 0; i < lines.length; i++) {
 			spawner.setNameTag(i, player, location, -i * lineSpacing, lines[i]);
 		}

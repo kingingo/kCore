@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerEntityMoveLook;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityMoveLook;
 import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;

@@ -15,7 +15,7 @@
  *  02111-1307 USA
  */
 
-package me.kingingo.kcore.Hologram.wrapper;
+package me.kingingo.kcore.PacketWrapper;
 
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -100,6 +100,12 @@ public class WrapperPlayServerSpawnEntityLiving extends AbstractPacket {
      * Set the type of mob.
      * @param value - new value.
     */
+    
+    @SuppressWarnings("deprecation")
+   	public void setType(int value) {
+           handle.getIntegers().write(1, (int) value);
+       }
+    
     @SuppressWarnings("deprecation")
 	public void setType(EntityType value) {
         handle.getIntegers().write(1, (int) value.getTypeId());

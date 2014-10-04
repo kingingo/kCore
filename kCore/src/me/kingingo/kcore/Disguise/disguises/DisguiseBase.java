@@ -1,6 +1,6 @@
 package me.kingingo.kcore.Disguise.disguises;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguiseEnderman;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntityLiving;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
 import net.minecraft.server.v1_7_R4.DataWatcher;
 import net.minecraft.server.v1_7_R4.Packet;
 import net.minecraft.server.v1_7_R4.PacketPlayOutEntityMetadata;

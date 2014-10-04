@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Hologram.wrapper;
+package me.kingingo.kcore.PacketWrapper;
 
 /*
  *  PacketWrapper - Contains wrappers for each packet in Minecraft.

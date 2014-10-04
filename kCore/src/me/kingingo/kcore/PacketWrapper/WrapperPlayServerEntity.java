@@ -15,56 +15,66 @@
  *  02111-1307 USA
  */
 
-package me.kingingo.kcore.Hologram.wrapper;
+package me.kingingo.kcore.PacketWrapper;
 
-import java.util.List;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import com.google.common.primitives.Ints;
+import com.comphenix.protocol.events.PacketEvent;
 
-public class WrapperPlayServerEntityDestroy extends AbstractPacket {
-	public static final PacketType TYPE = PacketType.Play.Server.ENTITY_DESTROY;
+public class WrapperPlayServerEntity extends AbstractPacket {
+	public static final PacketType TYPE = PacketType.Play.Server.ENTITY;
 
-	public WrapperPlayServerEntityDestroy() {
+	public WrapperPlayServerEntity() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
-	
-	public WrapperPlayServerEntityDestroy(int[] entities) {
-		super(new PacketContainer(TYPE), TYPE);
-		handle.getModifier().writeDefaults();
-		handle.getIntegerArrays().write(0, entities);
-	}
 
-	public WrapperPlayServerEntityDestroy(PacketContainer packet) {
+	public WrapperPlayServerEntity(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
-	/**
-	 * Retrieve the IDs of the entities that will be destroyed.
-	 * 
-	 * @return The current entities.
-	 */
-	public List<Integer> getEntities() {
-		return Ints.asList(handle.getIntegerArrays().read(0));
+	protected WrapperPlayServerEntity(PacketContainer packet, PacketType type) {
+		super(packet, type);
 	}
 
 	/**
-	 * Set the entities that will be destroyed.
+	 * Retrieve entity ID.
 	 * 
-	 * @param value - new value.
+	 * @return The current EID
 	 */
-	public void setEntities(int[] entities) {
-		handle.getIntegerArrays().write(0, entities);
+	public int getEntityID() {
+		return handle.getIntegers().read(0);
 	}
 
 	/**
-	 * Set the entities that will be destroyed.
+	 * Set entity ID.
 	 * 
 	 * @param value - new value.
 	 */
-	public void setEntities(List<Integer> entities) {
-		setEntities(Ints.toArray(entities));
+	public void setEntityID(int value) {
+		handle.getIntegers().write(0, value);
+	}
+
+	/**
+	 * Retrieve the entity.
+	 * 
+	 * @param world - the current world of the entity.
+	 * @return The entity.
+	 */
+	public Entity getEntity(World world) {
+		return handle.getEntityModifier(world).read(0);
+	}
+
+	/**
+	 * Retrieve the entity.
+	 * 
+	 * @param event - the packet event.
+	 * @return The entity.
+	 */
+	public Entity getEntity(PacketEvent event) {
+		return getEntity(event.getPlayer().getWorld());
 	}
 }

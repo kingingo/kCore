@@ -3,9 +3,9 @@ package me.kingingo.kcore.NPC;
 import java.util.HashMap;
 
 import lombok.Getter;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayClientUseEntity;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
 import me.kingingo.kcore.Nick.NickManager;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayClientUseEntity;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

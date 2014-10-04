@@ -5,7 +5,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 
 import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
-import me.kingingo.kcore.Hologram.wrapper.WrapperPlayServerSpawnEntityLiving;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
 import me.kingingo.kcore.Util.UtilReflection;
 import net.minecraft.server.v1_7_R4.EnumEntitySize;
 import net.minecraft.server.v1_7_R4.MathHelper;
