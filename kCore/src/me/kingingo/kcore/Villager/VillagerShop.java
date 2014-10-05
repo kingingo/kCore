@@ -127,6 +127,11 @@ public class VillagerShop implements Listener {
 	@EventHandler
 	public void Move(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SLOW)return;
+		if(getVillager()==null||getVillager().isDead()){
+			spawn.getWorld().loadChunk(spawn.getWorld().getChunkAt(spawn));
+			this.villager=(Villager)spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
+			VillagerClearPath();
+		}
 		Location l = getVillager().getLocation();
 		if(l.getBlockX()!=getSpawn().getBlockX()){
 			if(l.getBlockZ()!=getSpawn().getBlockZ()){
