@@ -2,6 +2,7 @@ package me.kingingo.kcore.Util;
 
 import java.util.HashMap;
 
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerOpenWindow;
 import net.minecraft.server.v1_7_R4.ContainerAnvil;
 import net.minecraft.server.v1_7_R4.EntityHuman;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
@@ -15,6 +16,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -200,7 +202,7 @@ public class AnvilGUI {
  
         //Counter stuff that the game uses to keep track of inventories
         int c = p.nextContainerCounter();
- 
+        
         //Send the packet
         p.playerConnection.sendPacket(new PacketPlayOutOpenWindow(c, 8, "Repairing", 9, true));
  

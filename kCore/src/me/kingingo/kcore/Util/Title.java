@@ -11,17 +11,17 @@ public class Title {
 	private static int VERSION = 47;
 
 	public static void sendTitle(Player p, String title) {
-		if (!(UtilPlayer.getVersion(p) != VERSION)) return;
+		if (!(UtilPlayer.getVersion(p) >= VERSION)) return;
 	    ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new ProtocolInjector.PacketTitle(ProtocolInjector.PacketTitle.Action.TITLE, ChatSerializer.a("{\"text\": \"\"}").a(title)));
 	}
 
 	public static void sendSubTitle(Player p, String subtitle) {
-		if (!(UtilPlayer.getVersion(p) != VERSION)) return;
+		if (!(UtilPlayer.getVersion(p) >= VERSION)) return;
 	    ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new ProtocolInjector.PacketTitle(ProtocolInjector.PacketTitle.Action.SUBTITLE, ChatSerializer.a("{\"text\": \"\"}").a(subtitle)));
 	}
 
 	public static void sendTimings(Player p, int fadeIn, int stay, int fadeOut) {
-		if (!(UtilPlayer.getVersion(p) != VERSION)) return;
+		if (!(UtilPlayer.getVersion(p) >= VERSION)) return;
 		try {
 			final Object handle = UtilReflection.getHandle(p);
 			final Object connection = UtilReflection.getField(handle.getClass(), "playerConnection").get(handle);
@@ -33,12 +33,12 @@ public class Title {
 	}
 	
 	public static void reset(Player p) {
-		if (!(UtilPlayer.getVersion(p) != VERSION)) return;
+		if (!(UtilPlayer.getVersion(p) >= VERSION)) return;
 	    ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new ProtocolInjector.PacketTitle(ProtocolInjector.PacketTitle.Action.RESET));
 	}
 
 	public static void clear(Player p) {
-		if (!(UtilPlayer.getVersion(p) != VERSION)) return;
+		if (!(UtilPlayer.getVersion(p) >= VERSION)) return;
 	    ((CraftPlayer)p).getHandle().playerConnection.sendPacket(new ProtocolInjector.PacketTitle(ProtocolInjector.PacketTitle.Action.CLEAR));
 	}
 }

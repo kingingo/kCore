@@ -326,7 +326,7 @@ public class UtilDisplay {
     
     
     public static void displayTextBar(Player p,String text){
-		if(UtilPlayer.getVersion(p)!=47)return;
+		if(UtilPlayer.getVersion(p)>=47)return;
     	try{
     	setStatus(p, "", 100);
     	} catch (Exception error){}
@@ -335,7 +335,7 @@ public class UtilDisplay {
     
     
     public static void displayTextBar(String text,Player p){
-		if(UtilPlayer.getVersion(p)!=47)return;
+		if(UtilPlayer.getVersion(p)>=47)return;
     	try{
     	setStatus(p, "", 100);
     	} catch (Exception error){}

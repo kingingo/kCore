@@ -12,7 +12,6 @@ import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Util.C;
-import me.kingingo.kcore.Util.TabTitle;
 import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;

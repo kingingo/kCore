@@ -39,7 +39,7 @@ public class TabTitle
     public static void setHeaderAndFooter(Player p, String rawHeader, String rawFooter)
     {
         CraftPlayer player = (CraftPlayer) p;
-        if (player.getHandle().playerConnection.networkManager.getVersion() != PROTOCOL_VERSION) return;
+        if (!(UtilPlayer.getVersion(p) >= PROTOCOL_VERSION)) return;
         IChatBaseComponent header = ChatSerializer.a(TextConverter.convert(rawHeader));
         IChatBaseComponent footer = ChatSerializer.a(TextConverter.convert(rawFooter));
         if (header == null || footer == null)
