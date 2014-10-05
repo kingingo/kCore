@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -29,6 +30,29 @@ public class UtilLocation {
 		}
 		
 		return lo;
+	}
+	
+	public static Location getLowestBlock(Location loc) {
+		Location toreturn = loc.clone();
+		int start = 255;
+		toreturn.setY(start);
+		while (true) {
+			Block b = toreturn.getBlock();
+			if (b.getType() == Material.AIR
+					|| b.getType() == Material.LONG_GRASS
+					|| b.getTypeId() == 78 || b.getTypeId() == 37
+					|| b.getTypeId() == 38 || b.getTypeId() == 39
+					|| b.getTypeId() == 40 || b.getType() == Material.BEDROCK
+					|| b.getType().toString().contains("WATER")) {
+				start--;
+				toreturn.setY(start);
+			} else {
+				start++;
+				toreturn.setY(start);
+				break;
+			}
+		}
+		return toreturn;
 	}
 	
 	public static String getLocString(Location l)

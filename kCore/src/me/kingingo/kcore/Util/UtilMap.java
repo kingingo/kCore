@@ -42,6 +42,44 @@ public class UtilMap{
 	public static int MaxX(Location start, int r) {
 		return start.getBlockX() + (r);
 	}
+	
+	public static List<Location> Quadrat(Location loc, int r) {
+		List<Location> list = new ArrayList<Location>();
+		int MaxX = MaxX(loc.clone(), r);
+		int MaxZ = MaxZ(loc.clone(), r);
+		int MinX = MinX(loc.clone(), r);
+		int MinZ = MinZ(loc.clone(), r);
+		int MinY = 0;
+		int MaxY = 255;
+
+		for (int y = MinY; y < MaxY; y++) {
+			for (int z = MinZ; z < MaxZ; z++) {
+				Location l = new Location(loc.getWorld(), MaxX, y, z);
+				if (l.getBlock().getType() == Material.AIR)
+					list.add(l);
+			}
+
+			for (int x = MaxX; x > MinX; x--) {
+				Location l = new Location(loc.getWorld(), x, y, MaxZ);
+				if (l.getBlock().getType() == Material.AIR)
+					list.add(l);
+			}
+
+			for (int z = MaxZ; z > MinZ; z--) {
+				Location l = new Location(loc.getWorld(), MinX, y, z);
+				if (l.getBlock().getType() == Material.AIR)
+					list.add(l);
+			}
+
+			for (int x = MinX; x < MaxX; x++) {
+				Location l = new Location(loc.getWorld(), x, y, MinZ);
+				if (l.getBlock().getType() == Material.AIR)
+					list.add(l);
+			}
+		}
+
+		return list;
+	}
 
 	public static List<Block> getScans(int radius,boolean air, Location startloc) {
 		List<Block> list = Lists.newArrayList();
