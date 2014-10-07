@@ -34,24 +34,32 @@ public class UtilLocation {
 	
 	public static Location getLowestBlock(Location loc) {
 		Location toreturn = loc.clone();
-		int start = 255;
-		toreturn.setY(start);
-		while (true) {
-			Block b = toreturn.getBlock();
-			if (b.getType() == Material.AIR
-					|| b.getType() == Material.LONG_GRASS
-					|| b.getTypeId() == 78 || b.getTypeId() == 37
-					|| b.getTypeId() == 38 || b.getTypeId() == 39
-					|| b.getTypeId() == 40 || b.getType() == Material.BEDROCK
-					|| b.getType().toString().contains("WATER")) {
-				start--;
-				toreturn.setY(start);
-			} else {
-				start++;
-				toreturn.setY(start);
+		Block b;
+		for(int y = 255; y > 0; y--){
+			b = toreturn.getBlock();
+			if(b.getType()==Material.AIR||b.getTypeId()==87||b.getTypeId()==37||b.getTypeId()==38||b.getTypeId()==39||b.getTypeId()==40){
+				toreturn.setY(y);
+			}else{
+				toreturn.setY(y+2);
 				break;
 			}
 		}
+//		while (true) {
+//			Block b = toreturn.getBlock();
+//			if (b.getType() == Material.AIR
+//					|| b.getType() == Material.LONG_GRASS
+//					|| b.getTypeId() == 78 || b.getTypeId() == 37
+//					|| b.getTypeId() == 38 || b.getTypeId() == 39
+//					|| b.getTypeId() == 40 || b.getType() == Material.BEDROCK
+//					|| b.getType().toString().contains("WATER")) {
+//				start--;
+//				toreturn.setY(start);
+//			} else {
+//				start++;
+//				toreturn.setY(start);
+//				break;
+//			}
+//		}
 		return toreturn;
 	}
 	

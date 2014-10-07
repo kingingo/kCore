@@ -77,6 +77,7 @@ public class UtilPlayer
   }
   
   public static void RespawnNow(final Player p,JavaPlugin plugin){
+	  if(getVersion(p)>=47)return;
       Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
     	  
     	   public void run() {

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
+import me.kingingo.kcore.Hologram.nametags.Events.HologramRemoveEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
@@ -11,9 +12,12 @@ import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Hologram implements Listener{
@@ -28,6 +32,8 @@ public class Hologram implements Listener{
 		if(Bukkit.getPluginManager().getPlugin("ProtocolLib")==null)this.protocollib=true;
 		if(!this.protocollib)Bukkit.getPluginManager().registerEvents(this, plugin);
 		System.out.println("PROTOCOL: "+this.protocollib);
+		
+		//new HologramsPatcher(plugin);
 	}
 	
 	HashMap<NameTagMessage,Integer> clone;
@@ -42,6 +48,7 @@ public class Hologram implements Listener{
 			if(this.clone.get(message)>0){
 				this.list.put(message, this.clone.get(message)-1);
 			}else{
+				Bukkit.getPluginManager().callEvent(new HologramRemoveEvent(message.getSpawner()));
 				this.list.remove(message);
 				for(Player p : UtilServer.getPlayers())message.clear(p);
 			}

@@ -2,7 +2,9 @@ package me.kingingo.kcore.Hologram.nametags;
 
 import java.util.Map;
 
+import lombok.Getter;
 import me.kingingo.kcore.Disguise.disguises.DummyEntity;
+import me.kingingo.kcore.Hologram.nametags.Events.HologramCreateEvent;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerAttachEntity;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityDestroy;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityTeleport;
@@ -15,6 +17,7 @@ import net.minecraft.server.v1_7_R4.EnumEntitySize;
 import net.minecraft.server.v1_7_R4.MathHelper;
 import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
@@ -44,6 +47,13 @@ public class NameTagSpawner {
 	// The starting entity ID
 	private int startEntityId;
 	private int nameTagCount;
+	
+	@Getter
+	private WrapperPlayServerAttachEntity attach;
+	@Getter
+	private WrapperPlayServerSpawnEntityLiving horse;
+	@Getter
+	private WrapperPlayServerSpawnEntity skull;
 
 	// Previous locations
 	private Map<Player, Vector[]> playerLocations = new MapMaker().weakKeys().makeMap();
@@ -133,14 +143,16 @@ public class NameTagSpawner {
 	 * @param message - the message to display.
 	 */
 	public void setNameTag(int index, Player observer, Location location, double dY, String message) {
-			WrapperPlayServerAttachEntity attach = new WrapperPlayServerAttachEntity();
-			WrapperPlayServerSpawnEntityLiving horse = createHorsePacket(index, location, dY, message);
-			WrapperPlayServerSpawnEntity skull = createSkullPacket(index, location, dY);
+			 attach = new WrapperPlayServerAttachEntity();
+			 horse = createHorsePacket(index, location, dY, message);
+			 skull = createSkullPacket(index, location, dY);
 
 			// The horse is riding on the skull
 			attach.setEntityId(horse.getEntityID());
 			attach.setVehicleId(skull.getEntityID());
-
+			
+			Bukkit.getPluginManager().callEvent(new HologramCreateEvent(this));
+			
 			horse.sendPacket(observer);
 			skull.sendPacket(observer);
 			attach.sendPacket(observer);
