@@ -38,7 +38,7 @@ public class UtilLocation {
 		Block b;
 		for(int y = 255; y > 0; y--){
 			b = toreturn.getBlock();
-			if(b.getType()==Material.AIR||b.getTypeId()==87||b.getTypeId()==37||b.getTypeId()==38||b.getTypeId()==39||b.getTypeId()==40){
+			if(b.getType()==Material.AIR||b.getTypeId()==87||b.getTypeId()==78||b.getTypeId()==31||b.getTypeId()==37||b.getTypeId()==38||b.getTypeId()==39||b.getTypeId()==40){
 				toreturn.setY(y);
 			}else{
 				toreturn.setY(y+2);
