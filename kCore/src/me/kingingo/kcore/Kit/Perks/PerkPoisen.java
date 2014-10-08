@@ -15,7 +15,7 @@ public class PerkPoisen extends Perk{
 	int time;
 	int chance;
 	public PerkPoisen(int time,int chance){
-		super("Poisen", Text.PERK_POISEN.getTexts(new String[]{String.valueOf(chance),String.valueOf(time)}));
+		super("Poisen");
 		this.time=time;
 		this.chance=chance;
 	}

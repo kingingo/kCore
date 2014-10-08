@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 public class PerkNoDropsByDeath extends Perk{
 
 	public PerkNoDropsByDeath(){
-		super("NoDropsByDeath", Text.PERK_NODROPSBYDEATH.getTexts());
+		super("NoDropsByDeath");
 	}
 	
 	@EventHandler

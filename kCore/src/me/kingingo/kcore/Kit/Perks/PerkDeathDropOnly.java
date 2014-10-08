@@ -24,7 +24,7 @@ public class PerkDeathDropOnly extends Perk{
 	HashMap<Integer,Long> Drops = new HashMap<>();
 	
 	public PerkDeathDropOnly(int time){
-		super("DeathDropOnly", Text.PERK_NODROPSBYDEATH.getTexts(time));
+		super("DeathDropOnly");
 		this.time=time;
 	}
 	

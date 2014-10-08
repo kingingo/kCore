@@ -15,7 +15,7 @@ public class PerkSpawnByDeath extends Perk{
 	int chance;
 	
 	public PerkSpawnByDeath(EntityType e,int chance){
-		super("SpawnByDeath", Text.PERK_SPAWNBYDEATH.getTexts(e.getName()));
+		super("SpawnByDeath");
 		this.e=e;
 		this.chance=chance;
 	}

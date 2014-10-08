@@ -14,7 +14,7 @@ public class PerkHeal extends Perk{
 
 	double heal;
 	public PerkHeal(double heal){
-		super("Heal", Text.PERK_HEAL.getTexts(heal));
+		super("Heal");
 		this.heal=heal;
 	}
 	

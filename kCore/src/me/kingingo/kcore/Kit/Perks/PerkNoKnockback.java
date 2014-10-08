@@ -19,7 +19,7 @@ public class PerkNoKnockback extends Perk{
 	JavaPlugin instance;
 	
 	public PerkNoKnockback(JavaPlugin instance) {
-		super("noKnockback",Text.PERK_NOKNOCKBACK.getTexts());
+		super("noKnockback");
 		this.instance=instance;
 	}
 	

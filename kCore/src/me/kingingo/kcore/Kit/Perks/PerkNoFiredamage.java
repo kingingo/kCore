@@ -13,7 +13,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 public class PerkNoFiredamage extends Perk{
 
 	public PerkNoFiredamage() {
-		super("noFiredamage",Text.PERK_NOFIREDAMAGE.getTexts());
+		super("noFiredamage");
 	}
 	
 	@EventHandler

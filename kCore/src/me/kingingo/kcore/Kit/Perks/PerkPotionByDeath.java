@@ -15,7 +15,7 @@ public class PerkPotionByDeath extends Perk{
 
 	PotionEffect potion;
 	public PerkPotionByDeath(PotionEffect potion,String name){
-		super("PotionByDeath", Text.PERK_POTIONBYDEATH.getTexts(name));
+		super("PotionByDeath");
 	}
 	
 	@EventHandler

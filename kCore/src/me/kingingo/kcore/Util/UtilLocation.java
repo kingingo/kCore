@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import com.google.common.collect.Lists;
 
@@ -103,6 +104,34 @@ public class UtilLocation {
 		}
 
 		return list;
+	}
+	
+	public static Vector calculateVector(Location from, Location to) {
+		Location a = from, b = to;
+		
+		//calculate the distance between the locations (a => from || b => to)
+		double dX = a.getX() - b.getX();
+		double dY = a.getY() - b.getY();
+		double dZ = a.getZ() - b.getZ();
+		// -------------------------
+		
+		//calculate the yaw
+		double yaw = Math.atan2(dZ, dX);
+		// -------------------------
+		
+		//calculate the pitch
+		double pitch = Math.atan2(Math.sqrt(dZ * dZ + dX * dX), dY) + Math.PI;
+		// -------------------------
+		
+		//calculate and create the new vector
+		double x = Math.sin(pitch) * Math.cos(yaw);
+		double y = Math.sin(pitch) * Math.sin(yaw);
+		double z = Math.cos(pitch);
+		
+		Vector vector = new Vector(x, z, y);
+		// -------------------------
+		
+		return vector;
 	}
 	
 	public static ArrayList<Location> LocWithBorder(World w,int locs,int MinBorder,int MaxBorder,int MaxX,int MinX,int MaxZ,int MinZ,int MaxY,int MinY){

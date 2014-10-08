@@ -15,7 +15,7 @@ public class PerkHealByHit extends Perk{
 	int chance;
 	
 	public PerkHealByHit(int chance,int herz){
-		super("HealByHit", Text.PERK_HEALBYHIT.getTexts(new String[]{String.valueOf(chance),String.valueOf(herz)}));
+		super("HealByHit");
 		this.chance=chance;
 		this.herz=herz;
 	}

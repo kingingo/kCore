@@ -17,7 +17,7 @@ public class PerkStopPerk extends Perk{
 	HashMap<Player,Long> list = new HashMap<>();
 	
 	public PerkStopPerk(int time) {
-		super("StopPerk",Text.PERK_STOPPERK.getTexts(time));
+		super("StopPerk");
 	}
 
 	long t;

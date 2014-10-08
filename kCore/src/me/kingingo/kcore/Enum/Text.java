@@ -3,23 +3,6 @@ package me.kingingo.kcore.Enum;
 import me.kingingo.kcore.Util.C;
 
 public enum Text {
-PERK_SNEAKDAMAGE(new String[]{"§b§oWenn du schleichst erhältst du nur noch % Schaden"}),
-PERK_NOFALLDAMAGE(new String[]{"§b§oDu erhältst keinen Fallschaden"}),
-PERK_NOFIREDAMAGE(new String[]{"§b§oDu erhältst keinen Feuerschaden"}),
-PERK_ARROWFIRE(new String[]{"§b§oDu erhältst eine Chance um % Prozent dass dein Pfeil brennt"}),
-PERK_NODROPSBYDEATH(new String[]{"§b§oDu dropst keine Items wenn du stirbst"}),
-PERK_POTIONBYDEATH(new String[]{"§b§oBeim Tod kriegt der Mörder den Effect %."}),
-PERK_NOKNOCKBACK(new String[]{"§b§oDu erhältst keinen Rückstoß"}),
-PERK_HEAL(new String[]{"§b§oDein Leben regeneriert um % Prozent schneller"}),
-PERK_POISEN(new String[]{"§b§oDu hast eine % 'tige Prozent Chance das der Spieler dem du Schaden zufügst","§b§o % Sekunden lang vergiftet ist"}),
-PERK_NOHUNGER(new String[]{"§b§oDu hungerst nie."}),
-PERK_HEALBYHIT(new String[]{"§b§o% Prozent Chance ein % Herz zu bekommen wenn du deinen Gegner schlägst."}),
-PERK_SPAWNBYDEATH(new String[]{"§b§oBeim Tot gibt es die Chance das ein % spawn."}),
-PERK_PREMIUM(new String[]{"§b§oNach dem Respawnen hasts du 1 Minute lang extra Potions."}),
-PERK_MOREHEALTH(new String[]{"§b§oImmer wenn du nur noch % Herzen hast erhält dein Geger denn % Prozent Schaden "}),
-PERK_STOPPERK(new String[]{"§b§oSobald du jemanden schlägst ist sein Perk für % sekunden unbrauchbar."}),
-PERK_DEATHDROPONLY(new String[]{"§b§oWenn du stirbst hast du % sekunden wo niemand deine Sachen aufheben kann."}),
-//
 STATS_PREFIX("§b■■■■■■■■§6 §lSTATS §b■■■■■■■■"),
 STATS_PREFIXBY("§b■■■■■■■■ §6§lStats von % §b■■■■■■■■"),
 STATS_KILLS("§6Kills : §7"),

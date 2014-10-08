@@ -34,7 +34,8 @@ public class MySQLListener implements Listener{
 			break;
 		}
 		
-		System.err.println("[kCore] Error: "+ev.getException());
+		System.err.println("[kCore] Error:");
+		ev.getException().printStackTrace();
 	}
 	
 	@EventHandler

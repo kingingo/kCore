@@ -9,13 +9,10 @@ public abstract class Perk implements Listener{
 	@Getter
 	String name;
 	@Getter
-	String[] description;
-	@Getter
 	Kit kit;
 	
-	public Perk(String name,String[] description){
+	public Perk(String name){
 		this.name=name;
-		this.description=description;
 	}
 	
 	public void setKit(Kit kit){

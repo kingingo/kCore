@@ -15,7 +15,7 @@ public class PerkRespawnBuff extends Perk{
 	PotionEffect[] potion;
 	
 	public PerkRespawnBuff(PotionEffect[] potion) {
-		super("RespawnBuff",Text.PERK_PREMIUM.getTexts());
+		super("RespawnBuff");
 		this.potion=potion;
 	}
 	

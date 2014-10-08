@@ -41,7 +41,7 @@ public class Kit {
 	@Getter
 	ItemStack[] items;
 	
-	public Kit(String Name,ItemStack item,ItemStack[] items,Permission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,Permission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.items=items;
@@ -59,8 +59,8 @@ public class Kit {
 		
 		for(Perk perk : perks){
 			perk.setKit(this);
-			i=i+perk.description.length;
 		}
+		i=i+desc.length;
 		
 		this.description=new String[i];
 		this.description[0]=getType().getName();
@@ -75,12 +75,11 @@ public class Kit {
 		}
 			
 		
-		for(Perk perk : perks){
-			for(String s : perk.getDescription()){
-				this.description[i]=s;
-				i++;
-			}
+		for(String s : desc){
+			this.description[i]=s;
+			i++;
 		}
+			
 		}catch(ArrayIndexOutOfBoundsException e){
 			System.err.println("[Kit] Name: "+Name);
 			e.printStackTrace();
@@ -90,7 +89,7 @@ public class Kit {
 		this.perks=perks;
 	}
 	
-	public Kit(String Name,ItemStack item,ItemStack[] items,Permission permission,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,Permission permission,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.permission=permission;
@@ -106,9 +105,8 @@ public class Kit {
 		
 		for(Perk perk : perks){
 			perk.setKit(this);
-			i=i+perk.description.length;
 		}
-		
+		i=i+desc.length;
 		this.description=new String[i];
 		this.description[0]=getType().getName();
 		this.description[1]=" ";
@@ -122,12 +120,11 @@ public class Kit {
 		}
 			
 		
-		for(Perk perk : perks){
-			for(String s : perk.getDescription()){
-				this.description[i]=s;
-				i++;
-			}
+		for(String s : desc){
+			this.description[i]=s;
+			i++;
 		}
+		
 		}catch(ArrayIndexOutOfBoundsException e){
 			System.err.println("[Kit] Name: "+Name);
 			e.printStackTrace();
@@ -137,7 +134,7 @@ public class Kit {
 		this.perks=perks;
 	}
 	
-	public Kit(String Name,ItemStack item,Permission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,String[] desc,ItemStack item,Permission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.permission=permission;
@@ -154,8 +151,8 @@ public class Kit {
 		
 		for(Perk perk : perks){
 			perk.setKit(this);
-			i=i+perk.description.length;
 		}
+		i=i+desc.length;
 		
 		this.description=new String[i];
 		this.description[0]=getType().getName();
@@ -170,12 +167,11 @@ public class Kit {
 		}
 			
 		
-		for(Perk perk : perks){
-			for(String s : perk.getDescription()){
+		for(String s : desc){
 				this.description[i]=s;
 				i++;
-			}
 		}
+		
 		}catch(ArrayIndexOutOfBoundsException e){
 			System.err.println("[Kit] Name: "+Name);
 			e.printStackTrace();
@@ -185,7 +181,7 @@ public class Kit {
 		this.perks=perks;
 	}
 	
-	public Kit(String Name,ItemStack item,Permission permission,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,String[] desc,ItemStack item,Permission permission,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.permission=permission;
@@ -200,8 +196,8 @@ public class Kit {
 		
 		for(Perk perk : perks){
 			perk.setKit(this);
-			i=i+perk.description.length;
 		}
+		i=i+desc.length;
 		
 		this.description=new String[i];
 		this.description[0]=getType().getName();
@@ -214,14 +210,12 @@ public class Kit {
 		}else{
 			i=2;
 		}
-			
 		
-		for(Perk perk : perks){
-			for(String s : perk.getDescription()){
-				this.description[i]=s;
-				i++;
-			}
+		for(String s : desc){
+			this.description[i]=s;
+			i++;
 		}
+		
 		}catch(ArrayIndexOutOfBoundsException e){
 			System.err.println("[Kit] Name: "+Name);
 			e.printStackTrace();

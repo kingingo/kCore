@@ -12,7 +12,7 @@ public class PerkSneakDamage extends Perk{
 	
 	double damage;
 	public PerkSneakDamage(double damage) {
-		super("Sneakdamage",Text.PERK_SNEAKDAMAGE.getTexts(damage));
+		super("Sneakdamage");
 		this.damage=damage;
 	}
 	

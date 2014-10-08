@@ -14,7 +14,7 @@ public class PerkMoreHearth extends Perk{
 	int herz;
 	
 	public PerkMoreHearth(int herz,int prozent) {
-		super("MoreHearth",Text.PERK_MOREHEALTH.getTexts(new String[]{String.valueOf(herz),String.valueOf(prozent)}));
+		super("MoreHearth");
 		this.prozent=prozent;
 		this.herz=herz;
 	}

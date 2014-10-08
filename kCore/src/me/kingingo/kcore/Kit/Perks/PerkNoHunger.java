@@ -10,7 +10,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 public class PerkNoHunger extends Perk{
 
 	public PerkNoHunger(){
-		super("NoHunger", Text.PERK_NOHUNGER.getTexts());
+		super("NoHunger");
 	}
 	
 	@EventHandler
