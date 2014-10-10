@@ -5,9 +5,11 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.Enum.GameState;
 import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Game.Events.GameStartEvent;
 import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.KitType;
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Kit.Perks.Event.PerkEquipmentEvent;
 import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.Coins;
@@ -21,6 +23,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -62,12 +65,19 @@ public class KitShop implements Listener {
 			if(k.getType()!=KitType.ADMIN)getInventory().addItem( k.getItem() );
 			
 			getAdmininventory().addItem( k.getItem() );
-			for(Perk perk : k.getPerks()){
-				Bukkit.getPluginManager().registerEvents(perk, instance);
-			}
 		}
 		
 		Bukkit.getPluginManager().registerEvents(this, instance);
+	}
+	
+	@EventHandler(priority=EventPriority.NORMAL)
+	public void Start(GameStartEvent ev){
+		for(Kit k : kits){
+			for(Perk perk : k.getPerks()){
+				Bukkit.getPluginManager().registerEvents(perk, permManager.getInstance());
+			}
+		}
+		Bukkit.getPluginManager().callEvent(new PerkEquipmentEvent());
 	}
 	
 	public void getInv(Player p){

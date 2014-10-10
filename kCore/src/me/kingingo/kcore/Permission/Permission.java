@@ -12,6 +12,8 @@ MUTE_ALL_CHAT("epicpvp.mute.all.chat"),
 ADMIN_SERVICE("epicpvp.service"),
 NICK_RANDOM("epicpvp.nick.random"),
 NICK_SET("epicpvp.nick.set"),
+CHAT_LINK("epicpvp.chatlink"),
+
 
 //Kits
 ADMIN_KIT("epicpvp.admin.kit"),

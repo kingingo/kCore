@@ -14,7 +14,7 @@ STATS_RANKING("§6Ranking : §7"),
 
 CHAT_MUTE("§aDer Chat wurde gesperrt!"),
 CHAT_UNMUTE("§cDer Chat wurde entsperrt!"),
-
+ENDERGAMES_TELEPORT("§eDu hast deine Position mit §5% §egewechselt!"),
 KIT_SHOP_ADD("§eDu hast das Kit §3% §egewählt."),
 KIT_SHOP_NO_MONEY("Du hast nicht genug §b%§e."),
 KIT_SHOP_BUYED_KIT("Du hast erfolgreich das Kit§3 % 3Egekauft."),

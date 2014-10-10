@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Kit.Perks;
 
-import me.kingingo.kcore.Game.Events.GameStartEvent;
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Kit.Perks.Event.PerkEquipmentEvent;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +18,7 @@ public class PerkEquipment extends Perk{
 	}
 
 	@EventHandler(priority=EventPriority.HIGHEST)
-	public void Start(GameStartEvent ev){
+	public void Start(PerkEquipmentEvent ev){
 		for(Player p : getKit().getPlayers()){
 			p.getInventory().addItem(item);
 		}

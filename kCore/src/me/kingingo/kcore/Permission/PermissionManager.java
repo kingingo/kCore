@@ -16,6 +16,7 @@ import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PermissionManager {
@@ -23,6 +24,8 @@ public class PermissionManager {
 	private HashMap<Player,String> pgroup = new HashMap<>();
 	private HashMap<String,List<Permission>> groups = new HashMap<>();
 	private HashMap<String,String> gprefix = new HashMap<>();
+	//@Getter
+	//private HashMap<Player,PermissionAttachment> playerAttachment = new HashMap<>();
 	private MySQL mysql;
 	@Getter
 	@Setter
@@ -99,6 +102,7 @@ public class PermissionManager {
 	public void addPermission(Player p, Permission perm){
 		if(!plist.containsKey(p.getName().toLowerCase()))plist.put(p.getName().toLowerCase(), new ArrayList<Permission>());
 		plist.get(p.getName().toLowerCase()).add(perm);
+		//getPlayerAttachment().get(p).setPermission(perm.getPermissionToString(), true);
 		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','"+perm.getPermissionToString()+"','none','"+p.getName().toLowerCase()+"');");
 	}
 	
@@ -243,6 +247,7 @@ public class PermissionManager {
 				plist.get(p.getName().toLowerCase()).remove(perm);
 			}
 		}
+		//getPlayerAttachment().get(p).unsetPermission(perm.getPermissionToString());
 		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.getName().toLowerCase() + "' AND permission='"+perm.getPermissionToString()+"'");
 	}
 	
@@ -251,10 +256,12 @@ public class PermissionManager {
 	}
 	
 	public void removePermission(Player p, String perm){
+	//	getPlayerAttachment().get(p).unsetPermission(perm);
 		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.getName().toLowerCase() + "' AND permission='"+perm+"'");
 	}
 	
 	public void removePermissions(Player p){
+	//	for(Permission perm : plist.get(p.getName().toLowerCase()))getPlayerAttachment().get(p).unsetPermission(perm.getPermissionToString());
 		if(plist.containsKey(p.getName().toLowerCase()))plist.remove(p.getName().toLowerCase());
 	}
 	
