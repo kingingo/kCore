@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -182,6 +183,17 @@ public class UtilInv
 		
 		return a;
 	}
+  
+  	public static boolean isInventoryEmpty(Inventory inv){
+  		boolean empty=true;
+  			for(ItemStack i : inv.getContents()){
+  				if(i!=null){
+  					empty=false;
+  					break;
+  				}
+  			}
+  		return empty;
+  	}
 	
 	public static boolean isInInventory(Player p,Material m){
 		

@@ -29,6 +29,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -61,7 +62,7 @@ public class VillagerShop implements Listener {
 	
 	public VillagerShop(JavaPlugin instance,String name,Location spawn,InventorySize size){
 		this.name=name;
-		this.spawn=spawn.add(0,0.15,0);
+		this.spawn=spawn.add(0,0.5,0);
 		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
 		spawn.getWorld().loadChunk(spawn.getWorld().getChunkAt(spawn));
 		this.villager=(Villager)spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
@@ -127,11 +128,11 @@ public class VillagerShop implements Listener {
 	@EventHandler
 	public void Move(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SLOW)return;
-		if(getVillager()==null||getVillager().isDead()){
-			spawn.getWorld().loadChunk(spawn.getWorld().getChunkAt(spawn));
-			this.villager=(Villager)spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
-			VillagerClearPath();
-		}
+//		if(getVillager()==null||getVillager().isDead()){
+//			spawn.getWorld().loadChunk(spawn.getWorld().getChunkAt(spawn));
+//			this.villager=(Villager)spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
+//			VillagerClearPath();
+//		}
 		Location l = getVillager().getLocation();
 		if(l.getBlockX()!=getSpawn().getBlockX()){
 			if(l.getBlockZ()!=getSpawn().getBlockZ()){
@@ -177,6 +178,15 @@ public class VillagerShop implements Listener {
 					ev.setCancelled(true);
 				}
 			}
+		}
+	}
+	
+	@EventHandler
+	public void Death(EntityDeathEvent ev){
+		if(ev.getEntity().getEntityId()==villager.getEntityId()){
+			spawn.getWorld().loadChunk(spawn.getWorld().getChunkAt(spawn));
+			this.villager=(Villager)spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
+			VillagerClearPath();
 		}
 	}
 	

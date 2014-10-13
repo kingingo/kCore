@@ -25,11 +25,11 @@ public class PerkPoisen extends Perk{
 	@EventHandler
 	public void Damage(EntityDamageByEntityEvent ev){
 		if(ev.getEntity() instanceof Player&&ev.getDamager() instanceof Player){
-			defend=(Player)ev.getEntity();
+			defend=(Player)ev.getDamager();
 			if(!this.getKit().hasPlayer(this,defend))return;
 			if(!(UtilMath.RandomInt(100, 0)<chance))return;
-			attack=(Player)ev.getDamager();
-			attack.addPotionEffect(new PotionEffect(PotionEffectType.POISON,time*20,1));
+			defend=(Player)ev.getEntity();
+			defend.addPotionEffect(new PotionEffect(PotionEffectType.POISON,time*20,1));
 		}
 	}
 	
