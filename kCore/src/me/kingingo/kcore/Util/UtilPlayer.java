@@ -23,6 +23,7 @@ import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.comphenix.protocol.ProtocolLibrary;
@@ -367,6 +368,10 @@ public class UtilPlayer
       health = ((CraftPlayer)player).getMaxHealth();
     }
     player.setHealth(health);
+  }
+  
+  public static void addPotionEffect(Player p,PotionEffectType typ, int time,int stärke){
+	  p.addPotionEffect(new PotionEffect(typ,time*20,stärke));
   }
 
   public static void hunger(Player player, int mod)

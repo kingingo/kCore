@@ -3,7 +3,7 @@ package me.kingingo.kcore.Kit.Perks.Event;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PerkEquipmentEvent extends Event {
+public class PerkStartEvent extends Event {
 	private static HandlerList handlers = new HandlerList();
 	
 	@Override

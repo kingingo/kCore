@@ -9,7 +9,7 @@ import me.kingingo.kcore.Game.Events.GameStartEvent;
 import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.KitType;
 import me.kingingo.kcore.Kit.Perk;
-import me.kingingo.kcore.Kit.Perks.Event.PerkEquipmentEvent;
+import me.kingingo.kcore.Kit.Perks.Event.PerkStartEvent;
 import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.Coins;
@@ -77,7 +77,7 @@ public class KitShop implements Listener {
 				Bukkit.getPluginManager().registerEvents(perk, permManager.getInstance());
 			}
 		}
-		Bukkit.getPluginManager().callEvent(new PerkEquipmentEvent());
+		Bukkit.getPluginManager().callEvent(new PerkStartEvent());
 	}
 	
 	public void getInv(Player p){
