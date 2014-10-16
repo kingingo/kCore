@@ -13,6 +13,7 @@ public enum UpdateType
   SLOWEST(32000L), 
   SLOWER(16000L), 
   SLOW(4000L), 
+  SEC_3(3000L),
   SEC_2(2000L),
   SEC(1000L), 
   FAST(500L), 

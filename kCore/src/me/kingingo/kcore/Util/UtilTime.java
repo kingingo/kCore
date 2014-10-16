@@ -33,6 +33,28 @@ public class UtilTime
     return "Took " + convertString(System.currentTimeMillis() - epoch, 1, TimeUnit.FIT) + ".";
   }
 
+  public static String formatMili(long milis) {
+		if (milis > TimeSpan.MINUTE) {
+			if (milis > TimeSpan.HOUR) {
+				int time = (int) (milis / TimeSpan.HOUR);
+				if (milis - time * TimeSpan.HOUR > 1) {
+					return time + "h "
+							+ formatMili(milis - time * TimeSpan.HOUR);
+				}
+				return time + "h";
+			}
+
+			int time = (int) (milis / TimeSpan.MINUTE);
+			if (milis - time * TimeSpan.MINUTE > 1) {
+				return time + "min "
+						+ formatMili(milis - time * TimeSpan.MINUTE);
+			}
+			return time + "min";
+		}
+
+	return (int) (milis / TimeSpan.SECOND) + "sec";
+  }
+  
   public static double convert(long time, int trim, TimeUnit type)
   {
     if (type == TimeUnit.FIT)

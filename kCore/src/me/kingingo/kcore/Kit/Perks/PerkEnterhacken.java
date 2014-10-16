@@ -25,7 +25,7 @@ public class PerkEnterhacken extends Perk{
 		if(ev.getState()==State.IN_GROUND){
 			if(!getKit().getPlayers().contains(ev.getPlayer()))return;
 			damage.add(ev.getPlayer());
-			ev.getPlayer().setVelocity( ev.getHook().getLocation().add(0,2,0).toVector().subtract(ev.getPlayer().getLocation().toVector()).normalize().multiply(4) );
+			ev.getPlayer().setVelocity( ev.getHook().getLocation().add(0,1.8,0).toVector().subtract(ev.getPlayer().getLocation().toVector()).normalize().multiply(2) );
 		}
 	}
 	

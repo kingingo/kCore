@@ -4,12 +4,31 @@ import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
 import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.Sound;
+import org.bukkit.FireworkEffect.Type;
 import org.bukkit.entity.Player;
 
 public class UtilServer
 {
+	
+	private static UtilFirework firework;
+	
+	public static void playFirework(Location loc, Color color, Type t) {
+    	firework = new UtilFirework();
+		try {
+			firework.playFirework(loc.getWorld(), loc, FireworkEffect.builder().with(t).withColor(color).build());
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
   public static Player[] getPlayers()
   {
     return Bukkit.getServer().getOnlinePlayers();

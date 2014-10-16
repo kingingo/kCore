@@ -1,7 +1,5 @@
 package me.kingingo.kcore;
 
-import me.kingingo.kcore.Util.F;
-
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,7 +19,7 @@ public class kListener implements Listener{
 	}
 	
 	protected void Log(String message){
-	  System.out.println(F.main(this.moduleName, message));
+	  System.out.println(this.moduleName+" "+message);
 	}
 	
 }

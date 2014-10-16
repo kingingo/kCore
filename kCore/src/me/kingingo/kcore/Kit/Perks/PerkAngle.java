@@ -26,7 +26,7 @@ public class PerkAngle extends Perk{
 		if(ev.getState()==State.CAUGHT_ENTITY){
 			if(!getKit().getPlayers().contains(ev.getPlayer()))return;
 			damage.add(ev.getCaught());
-			ev.getCaught().setVelocity( ev.getPlayer().getLocation().add(0,2,0).toVector().subtract(ev.getCaught().getLocation().toVector()).normalize().multiply(4) );
+			ev.getCaught().setVelocity( ev.getPlayer().getLocation().add(0,1,0).toVector().subtract(ev.getCaught().getLocation().toVector()).normalize().multiply(2.5) );
 		}
 	}
 	

@@ -33,12 +33,11 @@ public class CleanroomChunkGenerator extends ChunkGenerator
 
         this.layer = new short['?'];
         this.layerDataValues = null;
-
+         
         if ((id.length() > 0) && (id.charAt(0) == '.'))
         {
           id = id.substring(1);
-        }
-        else {
+        }else {
           this.layer[(y++)] = ((short)Material.BEDROCK.getId());
         }
 
