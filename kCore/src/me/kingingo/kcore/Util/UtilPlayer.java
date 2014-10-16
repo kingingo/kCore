@@ -48,6 +48,10 @@ public class UtilPlayer
 		sendPacket(to, packet.getHandle());
 	}
 	
+	public static double getHealth(Player player){
+		return ((CraftPlayer)player).getHealth();
+	}
+	
   public static void sendPacket(Player player,PacketContainer packet){
 	  try {
 		ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
