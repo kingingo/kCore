@@ -1,13 +1,17 @@
 package me.kingingo.kcore.Util;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import net.minecraft.server.v1_7_R4.TileEntityBeacon;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.inventory.ItemStack;
 
 public class UtilBlock
@@ -30,6 +34,28 @@ public class UtilBlock
     return solid((byte)block);
   }
 
+  public static void setBeaconActive(Block block, boolean state) {
+		TileEntityBeacon beacon = (TileEntityBeacon) ((CraftWorld) block.getWorld()).getHandle().getTileEntity(block.getX(),block.getY(), block.getZ());
+		Field active = null;
+		try {
+			active = TileEntityBeacon.class.getDeclaredField("d");
+			active.setAccessible(true);
+			active.set(beacon, state);
+		}
+		catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+		catch (SecurityException e) {
+			e.printStackTrace();
+		}
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+	}
+  
   public static boolean solid(byte block) {
     if (blockPassSet.isEmpty())
     {
