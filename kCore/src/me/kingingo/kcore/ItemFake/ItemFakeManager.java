@@ -52,7 +52,7 @@ public class ItemFakeManager implements Listener {
 			ntm_remove.clear();
 			for(Player p : itemfake.get(i).keySet()){
 				ntm=itemfake.get(i).get(p);
-				if(ntm==null||p==null)continue;
+				if(ntm==null||i==null||p==null)continue;
 				if(!i.getLocation().getWorld().getName().equalsIgnoreCase(p.getWorld().getName()))continue;
 				if(i.getLocation().distance(p.getLocation()) > getDistance()){
 					ntm.clear(p);

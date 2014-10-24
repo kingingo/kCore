@@ -34,6 +34,7 @@ public class UtilLocation {
 	}
 	
 	public static Location getLowestBlock(Location loc) {
+		loc.getWorld().loadChunk(loc.getWorld().getChunkAt(loc));
 		Location toreturn = loc.clone();
 		Block b;
 		for(int y = 255; y > 0; y--){
@@ -45,22 +46,6 @@ public class UtilLocation {
 				break;
 			}
 		}
-//		while (true) {
-//			Block b = toreturn.getBlock();
-//			if (b.getType() == Material.AIR
-//					|| b.getType() == Material.LONG_GRASS
-//					|| b.getTypeId() == 78 || b.getTypeId() == 37
-//					|| b.getTypeId() == 38 || b.getTypeId() == 39
-//					|| b.getTypeId() == 40 || b.getType() == Material.BEDROCK
-//					|| b.getType().toString().contains("WATER")) {
-//				start--;
-//				toreturn.setY(start);
-//			} else {
-//				start++;
-//				toreturn.setY(start);
-//				break;
-//			}
-//		}
 		return toreturn;
 	}
 	

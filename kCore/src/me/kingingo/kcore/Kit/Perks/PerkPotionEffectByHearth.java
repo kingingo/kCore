@@ -14,6 +14,7 @@ public class PerkPotionEffectByHearth extends Perk{
 	private PotionEffectType type;
 	private int second=1;
 	private int stärke=1;
+	private Player p;
 	
 	public PerkPotionEffectByHearth(PotionEffectType type,int stärke, int second) {
 		super("PotionEffectByHearth");
@@ -25,9 +26,10 @@ public class PerkPotionEffectByHearth extends Perk{
 	@EventHandler
 	public void Damage(EntityDamageByEntityEvent ev){
 		if(ev.getEntity() instanceof Player){
-			if(!getKit().getPlayers().contains( ((Player)ev.getEntity()) ))return;
-			if(UtilPlayer.getHealth( ((Player)ev.getEntity()) ) < 8 && !((Player)ev.getEntity()).hasPotionEffect(type)){
-				((Player)ev.getEntity()).addPotionEffect(new PotionEffect(type,second*20,stärke));
+			p=(Player)ev.getEntity();
+			if(!getKit().getPlayers().contains( p ))return;
+			if(UtilPlayer.getHealth( p ) < 8 && !p.hasPotionEffect(type)){
+				p.addPotionEffect(new PotionEffect(type,second*20,stärke));
 			}
 		}
 	}

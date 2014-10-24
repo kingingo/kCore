@@ -35,25 +35,9 @@ public class UtilBlock
   }
 
   public static void setBeaconActive(Block block, boolean state) {
+	  	block.setType(Material.BEACON);
 		TileEntityBeacon beacon = (TileEntityBeacon) ((CraftWorld) block.getWorld()).getHandle().getTileEntity(block.getX(),block.getY(), block.getZ());
-		Field active = null;
-		try {
-			active = TileEntityBeacon.class.getDeclaredField("d");
-			active.setAccessible(true);
-			active.set(beacon, state);
-		}
-		catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		}
-		catch (SecurityException e) {
-			e.printStackTrace();
-		}
-		catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
-		catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
+		UtilReflection.setValue("a", beacon, state);
 	}
   
   public static boolean solid(byte block) {

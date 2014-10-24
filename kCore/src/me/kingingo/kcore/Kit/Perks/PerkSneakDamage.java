@@ -21,16 +21,20 @@ public class PerkSneakDamage extends Perk{
 	public void Damage(EntityDamageByEntityEvent ev){
 		if(ev.getEntity() instanceof Player){
 			defend=(Player)ev.getEntity();
-			if(!this.getKit().hasPlayer(this,defend))return;
-			if(defend.isSneaking()){
-				defend.playEffect(defend.getEyeLocation(),Effect.MOBSPAWNER_FLAMES,-30);
-				ev.setDamage(damage);
+			if(this.getKit().hasPlayer(this,defend)){
+				if(defend.isSneaking()){
+					defend.playEffect(defend.getEyeLocation(),Effect.MOBSPAWNER_FLAMES,-30);
+					ev.setDamage(damage);
+				}
 			}
-		}else if(ev.getDamager() instanceof Player){
+		}
+		
+		if(ev.getDamager() instanceof Player){
 			defend=(Player)ev.getDamager();
-			if(!this.getKit().hasPlayer(this,defend))return;
-			if(defend.isSneaking()){
-				ev.setCancelled(true);
+			if(this.getKit().hasPlayer(this,defend)){
+				if(defend.isSneaking()){
+					ev.setCancelled(true);
+				}
 			}
 		}
 	}
