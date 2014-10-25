@@ -10,6 +10,10 @@ public class SERVER_INFO_ALL extends Packet{
 		return "SERVER_INFO_ALL";
 	}
 	
+	public SERVER_INFO_ALL create(String[] packet){
+		return new SERVER_INFO_ALL();
+	}
+	
 	public String toString(){
 		return getName();
 	}

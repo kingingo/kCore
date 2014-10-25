@@ -35,6 +35,7 @@ public class AddonNight implements Listener {
 		if(getWorld().getTime()<24000&&getWorld().getTime()>12000){
 			time=getWorld().getTime();
 			time+=80;
+			getWorld().setStorm(false);
 			getWorld().setTime(time);
 		}
 	}

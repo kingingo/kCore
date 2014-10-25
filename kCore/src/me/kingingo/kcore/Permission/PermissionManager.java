@@ -11,6 +11,8 @@ import lombok.Setter;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
+import me.kingingo.kcore.Packet.PacketManager;
+import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Util.C;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -32,8 +34,9 @@ public class PermissionManager {
 	private boolean SetAllowTab=true;
 	@Getter
 	private JavaPlugin instance;
+	private PacketManager packetManager;
 	
-	public PermissionManager(JavaPlugin instance,MySQL mysql){
+	public PermissionManager(JavaPlugin instance,PacketManager packetManager,MySQL mysql){
 		this.mysql=mysql;
 		this.instance=instance;
 		Bukkit.getPluginManager().registerEvents(new PermissionListener(this), getInstance());
@@ -71,17 +74,18 @@ public class PermissionManager {
 		}else{
 			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','none','"+group+"','"+p.toLowerCase()+"');");
 		}
+		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(p.toLowerCase()));
 	}
 	
 	public void setGroup(Player p, String group){
 		if(getGroup(p.getName())!=null){
 			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE user='" + p.getName().toLowerCase() + "'");
 		}else{
-
 			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','none','"+group+"','"+p.getName().toLowerCase()+"');");
 		}
 		pgroup.remove(p);
 		pgroup.put(p, group);
+		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(p.getName().toLowerCase()));
 	}
 	
 	

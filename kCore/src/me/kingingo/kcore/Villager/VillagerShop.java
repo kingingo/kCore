@@ -9,6 +9,7 @@ import me.kingingo.kcore.Merchant.Merchant;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
+import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilItem;
 import net.minecraft.server.v1_7_R4.EntityCreature;
 import net.minecraft.server.v1_7_R4.EntityHuman;
@@ -60,15 +61,37 @@ public class VillagerShop implements Listener {
 	@Getter
 	@Setter
 	boolean move=false;
+	long spawn_time = 0;
 	
 	public VillagerShop(JavaPlugin instance,String name,Location spawn,InventorySize size){
 		this.name=name;
-		this.spawn=spawn.add(0,0.5,0);
+		spawn(spawn);
 		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
-		spawn.getWorld().loadChunk(spawn.getWorld().getChunkAt(spawn));
-		this.villager=(Villager)spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
-		VillagerClearPath();
 		Bukkit.getPluginManager().registerEvents(this, instance);
+	}
+	
+	public void spawn(){
+		if(villager!=null){
+			this.villager.remove();
+			this.villager=null;
+		}
+		this.spawn.getWorld().loadChunk(this.spawn.getWorld().getChunkAt(this.spawn));
+		this.spawn_time=System.currentTimeMillis();
+		this.villager=(Villager)this.spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
+		VillagerClearPath();
+	}
+	
+	public void spawn(Location loc){
+		if(villager!=null){
+			this.villager.remove();
+			this.villager=null;
+		}
+		this.spawn=loc;
+		this.spawn=spawn.add(0,0.5,0);
+		this.spawn.getWorld().loadChunk(this.spawn.getWorld().getChunkAt(this.spawn));
+		this.spawn_time=System.currentTimeMillis();
+		this.villager=(Villager)this.spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
+		VillagerClearPath();
 	}
 	
 	public void addShop(ItemStack item,Merchant merchant,int slot){
@@ -126,14 +149,21 @@ public class VillagerShop implements Listener {
 	    }
 	}
 	
+//	@EventHandler
+//	public void Exsit(UpdateEvent ev){
+//		if(ev.getType()!=UpdateType.SLOWEST)return;
+//		for(Villager e : getSpawn().getWorld().getEntitiesByClass(Villager.class)){
+//			if(e.getLocation().distance(getSpawn()) <= 2){
+//				this.villager=e;
+//				break;
+//			}
+//		}
+//	}
+	
 	@EventHandler
 	public void Move(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SLOW)return;
-		if(getVillager()==null||getVillager().isDead()){
-			spawn.getWorld().loadChunk(spawn.getWorld().getChunkAt(spawn));
-			this.villager=(Villager)spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
-			VillagerClearPath();
-		}
+		
 		Location l = getVillager().getLocation();
 		if(l.getBlockX()!=getSpawn().getBlockX()){
 			if(l.getBlockZ()!=getSpawn().getBlockZ()){
@@ -204,6 +234,18 @@ public class VillagerShop implements Listener {
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
+	public void ClickFail(PlayerInteractEntityEvent ev){
+		if(!ev.isCancelled()&&ev.getRightClicked() instanceof Villager){
+			Villager v = (Villager)ev.getRightClicked();
+				if(v.getLocation().distance(getSpawn())<=3){
+					this.villager=v;
+					ev.setCancelled(true);
+					ev.getPlayer().openInventory(getInventory());
+				}
+		}
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void Click(PlayerInteractEntityEvent ev){
 		if(ev.getRightClicked() instanceof Villager){
 			Villager v = (Villager)ev.getRightClicked();

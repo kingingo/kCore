@@ -12,6 +12,7 @@ import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.Perks.Event.PerkStartEvent;
 import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Permission.PermissionManager;
+import me.kingingo.kcore.Scoreboard.PlayerScoreboard;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.Tokens;
@@ -78,6 +79,8 @@ public class KitShop implements Listener {
 			}
 		}
 		Bukkit.getPluginManager().callEvent(new PerkStartEvent());
+		
+		
 	}
 	
 	public void getInv(Player p){

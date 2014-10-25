@@ -23,6 +23,10 @@ public class SEND_MESSAGE extends Packet{
 		Set(packet);
 	}
 	
+	public SEND_MESSAGE create(String[] packet){
+		return new SEND_MESSAGE(packet);
+	}
+	
 	public SEND_MESSAGE(String Message,String Player){
 		this.Message=Message;
 		this.Player=Player;

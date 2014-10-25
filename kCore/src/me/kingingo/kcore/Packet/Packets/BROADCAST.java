@@ -20,6 +20,10 @@ public class BROADCAST extends Packet{
 		this.Message=Message;
 	}
 	
+	public BROADCAST create(String[] packet){
+		return new BROADCAST(packet);
+	}
+	
 	public String getName(){
 		return "BROADCAST";
 	}

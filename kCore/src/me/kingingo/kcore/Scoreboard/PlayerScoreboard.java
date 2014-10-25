@@ -1,5 +1,7 @@
 package me.kingingo.kcore.Scoreboard;
 
+import java.util.ArrayList;
+
 import lombok.Getter;
 import me.kingingo.kcore.Util.UtilServer;
 
@@ -33,11 +35,27 @@ public class PlayerScoreboard {
 		r.addPlayer(p);
 	}
 	
-	public void addTeam(String Team, String prefix,Player[] list){
-		if(board.getTeam(Team)!=null)return;
+	public Team addTeam(String Team, String prefix){
+		if(board.getTeam(Team)!=null)return null;
 		Team r = board.registerNewTeam(Team);
 		if(prefix!=null)r.setPrefix(prefix);
-		for(Player p : list)r.addPlayer(p);
+		return r;
+	}
+	
+	public Team addTeam(String Team, String prefix,ArrayList<Player> list){
+		if(board.getTeam(Team)!=null)return null;
+		Team r = board.registerNewTeam(Team);
+		if(prefix!=null)r.setPrefix(prefix);
+		if(list!=null)for(Player p : list)r.addPlayer(p);
+		return r;
+	}
+	
+	public Team addTeam(String Team, String prefix,Player[] list){
+		if(board.getTeam(Team)!=null)return null;
+		Team r = board.registerNewTeam(Team);
+		if(prefix!=null)r.setPrefix(prefix);
+		if(list!=null)for(Player p : list)r.addPlayer(p);
+		return r;
 	}
 	
 	public void addBoard(DisplaySlot typ,String DisplayName){

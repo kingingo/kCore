@@ -32,6 +32,10 @@ public class SERVER_STATUS extends Packet{
 		Set(packet);
 	}
 	
+	public SERVER_STATUS create(String[] packet){
+		return new SERVER_STATUS(packet);
+	}
+	
 	public SERVER_STATUS(String packet){
 		Set(packet);
 	}
