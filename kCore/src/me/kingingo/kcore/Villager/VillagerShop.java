@@ -23,6 +23,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftCreature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -48,7 +49,7 @@ public class VillagerShop implements Listener {
 	@Getter
 	Location spawn;
 	@Getter
-	Villager villager;
+	Entity villager;
 	@Getter
 	Inventory inventory;
 	@Getter
@@ -62,9 +63,11 @@ public class VillagerShop implements Listener {
 	@Setter
 	boolean move=false;
 	long spawn_time = 0;
+	EntityType type;
 	
-	public VillagerShop(JavaPlugin instance,String name,Location spawn,InventorySize size){
+	public VillagerShop(JavaPlugin instance,EntityType type,String name,Location spawn,InventorySize size){
 		this.name=name;
+		this.type=type;
 		spawn(spawn);
 		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
 		Bukkit.getPluginManager().registerEvents(this, instance);
@@ -77,7 +80,7 @@ public class VillagerShop implements Listener {
 		}
 		this.spawn.getWorld().loadChunk(this.spawn.getWorld().getChunkAt(this.spawn));
 		this.spawn_time=System.currentTimeMillis();
-		this.villager=(Villager)this.spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
+		this.villager=this.spawn.getWorld().spawnEntity(getSpawn(), this.type);
 		VillagerClearPath();
 	}
 	
@@ -90,7 +93,7 @@ public class VillagerShop implements Listener {
 		this.spawn=spawn.add(0,0.5,0);
 		this.spawn.getWorld().loadChunk(this.spawn.getWorld().getChunkAt(this.spawn));
 		this.spawn_time=System.currentTimeMillis();
-		this.villager=(Villager)this.spawn.getWorld().spawnEntity(getSpawn(), EntityType.VILLAGER);
+		this.villager=this.spawn.getWorld().spawnEntity(getSpawn(), this.type);
 		VillagerClearPath();
 	}
 	
@@ -176,9 +179,8 @@ public class VillagerShop implements Listener {
 	
 	@EventHandler
 	public void TargetLivingEntity(EntityTargetLivingEntityEvent ev){
-		if(ev.getEntity() instanceof Villager){
-			Villager v = (Villager)ev.getEntity();
-			if(v.getEntityId()==getVillager().getEntityId()){
+		if(ev.getEntity().getType()==this.type){
+			if(ev.getEntity().getEntityId()==getVillager().getEntityId()){
 				if(!move){
 					ev.setTarget(null);
 					ev.setCancelled(true);
@@ -189,9 +191,8 @@ public class VillagerShop implements Listener {
 	
 	@EventHandler
 	public void Target(EntityTargetEvent ev){
-		if(ev.getEntity() instanceof Villager){
-			Villager v = (Villager)ev.getEntity();
-			if(v.getEntityId()==getVillager().getEntityId()){
+		if(ev.getEntity().getType()==type){
+			if(ev.getEntity().getEntityId()==getVillager().getEntityId()){
 				if(!move){
 					ev.setTarget(null);
 					ev.setCancelled(true);
@@ -202,9 +203,8 @@ public class VillagerShop implements Listener {
 	
 	@EventHandler
 	public void DamageByEntity(EntityDamageByEntityEvent ev){
-		if(ev.getEntity() instanceof Villager){
-			Villager v = (Villager) ev.getEntity();
-			if(v.getEntityId()==getVillager().getEntityId()){
+		if(ev.getEntity().getType()==type){
+			if(ev.getEntity().getEntityId()==getVillager().getEntityId()){
 				if(!damage){
 					ev.setCancelled(true);
 				}
@@ -223,9 +223,8 @@ public class VillagerShop implements Listener {
 	
 	@EventHandler
 	public void Damage(EntityDamageEvent ev){
-		if(ev.getEntity() instanceof Villager){
-			Villager v = (Villager) ev.getEntity();
-			if(v.getEntityId()==getVillager().getEntityId()){
+		if(ev.getEntity().getType()==type){
+			if(ev.getEntity().getEntityId()==getVillager().getEntityId()){
 				if(!damage){
 					ev.setCancelled(true);
 				}
@@ -235,21 +234,19 @@ public class VillagerShop implements Listener {
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void ClickFail(PlayerInteractEntityEvent ev){
-		if(!ev.isCancelled()&&ev.getRightClicked() instanceof Villager){
-			Villager v = (Villager)ev.getRightClicked();
-				if(v.getLocation().distance(getSpawn())<=3){
-					this.villager=v;
-					ev.setCancelled(true);
-					ev.getPlayer().openInventory(getInventory());
-				}
+		if(!ev.isCancelled()&&ev.getRightClicked().getType()==type){
+			if(ev.getRightClicked().getLocation().distance(getSpawn())<=3){
+				this.villager=ev.getRightClicked();
+				ev.setCancelled(true);
+				ev.getPlayer().openInventory(getInventory());
+			}
 		}
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Click(PlayerInteractEntityEvent ev){
-		if(ev.getRightClicked() instanceof Villager){
-			Villager v = (Villager)ev.getRightClicked();
-			if(v.getEntityId()==villager.getEntityId()){
+		if(ev.getRightClicked().getType()==type){
+			if(ev.getRightClicked().getEntityId()==villager.getEntityId()){
 				ev.setCancelled(true);
 				ev.getPlayer().openInventory(getInventory());
 			}

@@ -18,7 +18,6 @@ import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PermissionManager {
@@ -39,6 +38,7 @@ public class PermissionManager {
 	public PermissionManager(JavaPlugin instance,PacketManager packetManager,MySQL mysql){
 		this.mysql=mysql;
 		this.instance=instance;
+		this.packetManager=packetManager;
 		Bukkit.getPluginManager().registerEvents(new PermissionListener(this), getInstance());
 	}
 	
