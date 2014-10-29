@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Calender;
+package me.kingingo.kcore.Calendar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,7 +7,7 @@ import lombok.Getter;
 
 public class Calendar {
 
-	public boolean isWeakend(){
+	public static boolean isWeakend(){
 		SimpleDateFormat ft = new SimpleDateFormat("E");
 		String day = ft.format(new Date());
 		switch(day){
@@ -18,19 +18,19 @@ public class Calendar {
 		return false;
 	}
 	
-	public boolean isInTime(int days,CalendarType type){
+	public static boolean isInTime(int days,CalendarType type){
 		 Date dNow = new Date( );
 	     SimpleDateFormat ft = new SimpleDateFormat ("MM");
 	     if(Integer.valueOf(ft.format(dNow))==type.month){
 	    	 ft = new SimpleDateFormat ("dd");
-		     if(Integer.valueOf(ft.format(dNow))+days <= type.day && Integer.valueOf(ft.format(dNow))-days >= type.day ){
+		     if( (Integer.valueOf(ft.format(dNow))+days) >= type.day && (Integer.valueOf(ft.format(dNow))-days) <= type.day ){
 		    	 return true;
 		     }
 	     }
 		return false;
 	}
 	
-	public CalendarType getHoliday(int days){
+	public static CalendarType getHoliday(int days){
 	     for(CalendarType typ : CalendarType.values()){
 	    	 if(isInTime(days,typ)){
 	    		 return typ;
@@ -39,7 +39,7 @@ public class Calendar {
 	     return null;
 	}
 	
-	public CalendarType getHoliday(){
+	public static CalendarType getHoliday(){
 		 Date dNow = new Date( );
 	     SimpleDateFormat ft = new SimpleDateFormat ("dd.MM");
 	     for(CalendarType typ : CalendarType.values()){
@@ -50,7 +50,7 @@ public class Calendar {
 	     return null;
 	}
 	
-	public boolean isHoliday(){
+	public static boolean isHoliday(){
 		 Date dNow = new Date( );
 	     SimpleDateFormat ft = new SimpleDateFormat ("dd.MM");
 	     for(CalendarType typ : CalendarType.values()){
