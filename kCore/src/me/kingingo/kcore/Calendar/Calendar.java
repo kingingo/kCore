@@ -62,6 +62,7 @@ public class Calendar {
 	}
 	
 	public enum CalendarType {
+		HITLER("20.04",20,4),
 		GEBURSTAG("06.11",6,11),
 		WEIHNACHTEN("24.12",24,12),
 		NIKOLAUS("06.12",6,12),
