@@ -13,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 public class UtilItem {
 	
@@ -116,6 +117,15 @@ public class UtilItem {
 	    tag.set("AttributeModifiers", am);
 	    nmsStack.setTag(tag);
 	    return CraftItemStack.asCraftMirror(nmsStack);
+	  }
+	  
+	  public static ItemStack Head(String player){
+		   ItemStack is = new ItemStack(Material.SKULL_ITEM, 1);
+		    is.setDurability((short)3);
+		    SkullMeta meta = (SkullMeta)is.getItemMeta();
+		    meta.setOwner(player);
+		    is.setItemMeta(meta);
+		    return is;
 	  }
 
 	  public static org.bukkit.inventory.ItemStack RenameItem(org.bukkit.inventory.ItemStack i, String msg)
