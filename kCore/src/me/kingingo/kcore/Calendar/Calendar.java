@@ -20,8 +20,18 @@ public class Calendar {
 	
 	public static boolean isInTime(int days,CalendarType type){
 		 Date dNow = new Date( );
+		// boolean b = false;
 	     SimpleDateFormat ft = new SimpleDateFormat ("MM");
-	     if(Integer.valueOf(ft.format(dNow))==type.month){
+//	     int day=type.day;
+//	  
+//	     System.out.println("DATE:"+type.toString()+" "+(day+days)+" "+(Integer.valueOf(ft.format(dNow))-1)+"=="+(type.month));
+//
+//	     day=type.day;
+//	     if((day+days) > 30){
+//	    	 b=true;
+//	     }
+	     
+	     if(Integer.valueOf(ft.format(dNow))==type.month/*||(b&&(Integer.valueOf(ft.format(dNow))-1)==(type.month))*/){
 	    	 ft = new SimpleDateFormat ("dd");
 		     if( (Integer.valueOf(ft.format(dNow))+days) >= type.day && (Integer.valueOf(ft.format(dNow))-days) <= type.day ){
 		    	 return true;
@@ -33,6 +43,7 @@ public class Calendar {
 	public static CalendarType getHoliday(int days){
 	     for(CalendarType typ : CalendarType.values()){
 	    	 if(isInTime(days,typ)){
+	    		 System.out.println("FINE :" +typ.toString());
 	    		 return typ;
 	    	 }
 	     }
