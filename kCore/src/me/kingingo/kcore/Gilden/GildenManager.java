@@ -61,6 +61,7 @@ public class GildenManager implements Listener {
 	@Getter
 	@Setter
 	private boolean onDisable=false;
+	HashMap<Integer,String> ranking = new HashMap<>();
 	
 	public GildenManager(JavaPlugin instance,MySQL mysql,GildenType typ,CommandHandler cmd){
 		this.instance=instance;
@@ -78,6 +79,48 @@ public class GildenManager implements Listener {
 			getPlayerGilde(p.getName());
 		}
 		
+	}
+	
+	@EventHandler
+	public void Ranking(UpdateEvent ev){
+		if(ev.getType()!=UpdateType.MIN_08)return;
+		ranking.clear();
+		try{
+		     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_data_"+getTyp().getKürzel()+"` ORDER BY kills DESC LIMIT 10;");
+
+		      int zahl = 1;
+		      
+		      while (rs.next()) {
+		        ranking.put(zahl, "§b#§a" + String.valueOf(zahl) + "§b | §a" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+		        zahl++;
+		      }
+
+		      rs.close();
+		 } catch (Exception err) {
+		      System.out.println("MySQL-Error: " + err.getMessage());
+		 }
+	}
+	
+	public void Ranking(Player p){
+		p.sendMessage("§b------ §aPlayer Ranking | Top 10 §b------");
+		p.sendMessage("§a Place | Kills | Player");
+		if(ranking.isEmpty()){
+			try{
+			     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_data_"+getTyp().getKürzel()+"` ORDER BY kills DESC LIMIT 10;");
+
+			      int zahl = 1;
+			      
+			      while (rs.next()) {
+			        ranking.put(zahl, "§b#§a" + String.valueOf(zahl) + "§b | §a" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+			        zahl++;
+			      }
+
+			      rs.close();
+			 } catch (Exception err) {
+			      System.out.println("MySQL-Error: " + err.getMessage());
+			 }
+		}
+		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)

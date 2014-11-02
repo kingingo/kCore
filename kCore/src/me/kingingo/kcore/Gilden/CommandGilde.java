@@ -7,6 +7,7 @@ import me.kingingo.kcore.Gilden.Commands.Erstellen;
 import me.kingingo.kcore.Gilden.Commands.Home;
 import me.kingingo.kcore.Gilden.Commands.Info;
 import me.kingingo.kcore.Gilden.Commands.Kicken;
+import me.kingingo.kcore.Gilden.Commands.Ranking;
 import me.kingingo.kcore.Gilden.Commands.Verlassen;
 
 import org.bukkit.command.Command;
@@ -31,6 +32,7 @@ public class CommandGilde implements CommandExecutor{
 			p.sendMessage("§6/gilde erstellen §8|§7 Erstellt eine neue Gilde.");
 			p.sendMessage("§6/gilde einladen [Player] §8§8|§7 Lädt einen Spieler in die Gilde ein");
 			p.sendMessage("§6/gilde annehmen §8|§7 Nimmt Gildeinladung an.");
+			p.sendMessage("§6/gilde ranking §8|§7 Zeigt die Top Ten an Gilden.");
 			p.sendMessage("§6/gilde verlassen §8|§7 Zum Verlassen/Schliesen der Gilde.");
 			p.sendMessage("§6/gilde kicken [Player] §8|§7 Kickt einen Spieler aus der Gilde.");
 			p.sendMessage("§6/gilde info [Gilde] §8|§7 Zeigt Infos über einer Gilde.");
@@ -48,6 +50,8 @@ public class CommandGilde implements CommandExecutor{
 				Annehmen.use(p, args, manager);
 			}else if(args[0].equalsIgnoreCase("verlassen")){
 				Verlassen.use(p, args, manager);
+			}else if(args[0].equalsIgnoreCase("ranking")){
+				Ranking.use(p, args, manager);
 			}else if(args[0].equalsIgnoreCase("kicken")){
 				Kicken.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.PVP&&args[0].equalsIgnoreCase("sethome")){

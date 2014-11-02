@@ -43,7 +43,6 @@ public class Calendar {
 	public static CalendarType getHoliday(int days){
 	     for(CalendarType typ : CalendarType.values()){
 	    	 if(isInTime(days,typ)){
-	    		 System.out.println("FINE :" +typ.toString());
 	    		 return typ;
 	    	 }
 	     }
