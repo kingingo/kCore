@@ -56,7 +56,6 @@ public class KitShop implements Listener {
 	HashMap<Player,Inventory> l = new HashMap<>();
 	CalendarType holiday;
 	
-	
 	public KitShop(JavaPlugin instance,Coins coins,Tokens tokens,PermissionManager manager,String name,InventorySize size,Kit[] kits){
 		this.name=name;
 		this.kits=kits;
