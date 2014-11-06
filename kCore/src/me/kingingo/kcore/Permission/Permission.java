@@ -31,6 +31,7 @@ DEATHGAMES_KIT_SCHILDKROETE("epicpvp.kit.dg.schildkroete"),
 DEATHGAMES_KIT_RITTER("epicpvp.kit.dg.ritter"),
 DEATHGAMES_KIT_SUPERMAN("epicpvp.kit.dg.superman"),
 DEATHGAMES_KIT_TELEPORTER("epicpvp.kit.dg.teleporter"),
+DEATHGAMES_KIT_SWITCHER("epicpvp.kit.dg.switcher"),
 
 //Kits
 ADMIN_KIT("epicpvp.admin.kit"),

@@ -3,6 +3,8 @@ package me.kingingo.kcore.Util;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import me.kingingo.kcore.Calendar.Calendar;
+import me.kingingo.kcore.Calendar.Calendar.CalendarType;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
@@ -20,9 +22,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Coins implements Listener{
 	private MySQL mysql;
 	private HashMap<Player,Integer> coins = new HashMap<>();
+	CalendarType holiday;
 	
 	public Coins(JavaPlugin instance,MySQL mysql){
 		this.mysql=mysql;
+		this.holiday=Calendar.getHoliday(3);
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
@@ -91,6 +95,9 @@ public class Coins implements Listener{
 	public void Join(PlayerLoginEvent ev){
 		Exist(ev.getPlayer().getName());
 		if(coins.containsKey(ev.getPlayer()))coins.remove(ev.getPlayer());
+		if(holiday!=null&&holiday==CalendarType.GEBURSTAG){
+			ev.getPlayer().sendMessage(Text.PREFIX.getText()+"§eHeute haben die Owner §cKingIngo §eund§c T3ker§e Geburstag und deswegen sind §cAlle Kit's§e für jeden Freigeschalten und es gibt §cDouble Coins§e!");
+		}
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins,GameType typ){
@@ -112,6 +119,7 @@ public class Coins implements Listener{
 	}
 	
 	public void addCoins(Player p,boolean save,Integer coins,GameType typ){
+		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coins=coins*2;
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;
@@ -143,6 +151,7 @@ public class Coins implements Listener{
 	}
 	
 	public void addCoins(Player p,boolean save,Integer coins){
+		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coins=coins*2;
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;

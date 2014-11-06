@@ -86,12 +86,12 @@ public class GildenManager implements Listener {
 		if(ev.getType()!=UpdateType.MIN_08)return;
 		ranking.clear();
 		try{
-		     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_data_"+getTyp().getKürzel()+"` ORDER BY kills DESC LIMIT 10;");
+		     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_data_"+getTyp().getKÃ¼rzel()+"` ORDER BY kills DESC LIMIT 10;");
 
 		      int zahl = 1;
 		      
 		      while (rs.next()) {
-		        ranking.put(zahl, "§b#§a" + String.valueOf(zahl) + "§b | §a" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+		        ranking.put(zahl, "Â§b#Â§a" + String.valueOf(zahl) + "Â§b | Â§a" + String.valueOf(rs.getInt(1)) + " Â§b|Â§a " + rs.getString(2));
 		        zahl++;
 		      }
 
@@ -102,16 +102,16 @@ public class GildenManager implements Listener {
 	}
 	
 	public void Ranking(Player p){
-		p.sendMessage("§b------ §aPlayer Ranking | Top 10 §b------");
-		p.sendMessage("§a Place | Kills | Player");
+		p.sendMessage("Â§bâ– â– â– â– â– â– â– â–  Â§6Â§lGilden Ranking | Top 10 Â§bâ– â– â– â– â– â– â– â– ");
+		p.sendMessage("Â§b Place | Kills | Gilde");
 		if(ranking.isEmpty()){
 			try{
-			     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_data_"+getTyp().getKürzel()+"` ORDER BY kills DESC LIMIT 10;");
+			     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_data_"+getTyp().getKÃ¼rzel()+"` ORDER BY kills DESC LIMIT 10;");
 
 			      int zahl = 1;
 			      
 			      while (rs.next()) {
-			        ranking.put(zahl, "§b#§a" + String.valueOf(zahl) + "§b | §a" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+				     ranking.put(zahl, "Â§b#Â§6" + String.valueOf(zahl) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§6 " + rs.getString(2));
 			        zahl++;
 			      }
 
@@ -254,7 +254,7 @@ public class GildenManager implements Listener {
 		}
 		mysql.Update("DELETE FROM list_gilden WHERE gilde='" + name.toLowerCase() + "'");
 		for(GildenType t : GildenType.values()){
-				mysql.Update("DELETE FROM list_gilden_data_"+t.getKürzel()+" WHERE gilde='" + name.toLowerCase() + "'");
+				mysql.Update("DELETE FROM list_gilden_data_"+t.getKÃ¼rzel()+" WHERE gilde='" + name.toLowerCase() + "'");
 		}
 		mysql.Update("DELETE FROM list_gilden_user WHERE gilde='" + name.toLowerCase() + "'");
 		gilden_data.remove(name);
@@ -327,7 +327,7 @@ public class GildenManager implements Listener {
 		if(gilden_data.containsKey(gilde))return true;
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `gilde` FROM `list_gilden_data_"+typ.getKürzel()+"` WHERE gilde='"+gilde.toLowerCase()+"'");
+	      ResultSet rs = mysql.Query("SELECT `gilde` FROM `list_gilden_data_"+typ.getKÃ¼rzel()+"` WHERE gilde='"+gilde.toLowerCase()+"'");
 
 	      while (rs.next()) {
 	    	  done=true;
@@ -352,11 +352,11 @@ public class GildenManager implements Listener {
 					if(!s.isMysql())continue;
 					Object o = gilden_data.get(g).get(typ).get(s);
 					if(o instanceof Integer){
-						mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+						mysql.Update("UPDATE list_gilden_data_"+typ.getKÃ¼rzel()+" SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
 					}else if(o instanceof String){
-						mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+						mysql.Update("UPDATE list_gilden_data_"+typ.getKÃ¼rzel()+" SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
 					}else if(o instanceof Double){
-						mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+						mysql.Update("UPDATE list_gilden_data_"+typ.getKÃ¼rzel()+" SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
 					}
 				}
 			}
@@ -383,11 +383,11 @@ public class GildenManager implements Listener {
 			if(!s.isMysql())continue;
 			Object o = gilden_data.get(gilde).get(typ).get(s);
 			if(o instanceof Integer){
-				mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
+				mysql.Update("UPDATE list_gilden_data_"+typ.getKÃ¼rzel()+" SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
 			}else if(o instanceof String){
-				mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
+				mysql.Update("UPDATE list_gilden_data_"+typ.getKÃ¼rzel()+" SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
 			}else if(o instanceof Double){
-				mysql.Update("UPDATE list_gilden_data_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
+				mysql.Update("UPDATE list_gilden_data_"+typ.getKÃ¼rzel()+" SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
 			}
 		}
 		gilden_data_musst_saved.get(gilde).remove(typ);
@@ -493,7 +493,7 @@ public class GildenManager implements Listener {
 		}
 		int i = -1;
 		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data_"+typ.getKürzel()+" WHERE gilde= '"+gilde.toLowerCase()+"'");
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data_"+typ.getKÃ¼rzel()+" WHERE gilde= '"+gilde.toLowerCase()+"'");
 			while(rs.next()){
 				i=rs.getInt(1);
 			}
@@ -517,7 +517,7 @@ public class GildenManager implements Listener {
 		
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `gilde`,`typ` FROM `list_gilden_data_"+typ.getKürzel()+"` WHERE ORDER BY `"+s.getTYP()+"` DESC;");
+	      ResultSet rs = mysql.Query("SELECT `gilde`,`typ` FROM `list_gilden_data_"+typ.getKÃ¼rzel()+"` WHERE ORDER BY `"+s.getTYP()+"` DESC;");
 
 	      while ((rs.next()) && (!done)) {
 	    	 n++;
@@ -577,7 +577,7 @@ public class GildenManager implements Listener {
 		}
 		String i = "";
 		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data_"+typ.getKürzel()+" WHERE gilde= '"+gilde.toLowerCase()+"'");
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM list_gilden_data_"+typ.getKÃ¼rzel()+" WHERE gilde= '"+gilde.toLowerCase()+"'");
 			while(rs.next()){
 				i=rs.getString(1);
 			}
@@ -612,7 +612,7 @@ public class GildenManager implements Listener {
 			tt=tt+s.getTYP()+",";
 			ti=ti+"'0',";
 		}
-		String t = "INSERT INTO list_gilden_data_"+typ.getKürzel()+" ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
+		String t = "INSERT INTO list_gilden_data_"+typ.getKÃ¼rzel()+" ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
 		mysql.Update(t);
 	}
 	
@@ -622,7 +622,7 @@ public class GildenManager implements Listener {
 			for(Stats s : t.getStats()){
 				tt=tt+s.getCREATE()+",";
 			}
-			mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden_data_"+t.getKürzel()+"("+tt.substring(0, tt.length()-1)+")");
+			mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden_data_"+t.getKÃ¼rzel()+"("+tt.substring(0, tt.length()-1)+")");
 		}
 	}
 	

@@ -76,13 +76,6 @@ public class KitShop implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
-	@EventHandler
-	public void Join(PlayerJoinEvent ev){
-		if(holiday!=null&&holiday==CalendarType.GEBURSTAG){
-			ev.getPlayer().sendMessage(Text.PREFIX.getText()+"§eHeute haben die Owner §aKingIngo §eund§a T3ker§e Geburstag und deswegen sind Alle Kit's für jeden Freigeschalten!");
-		}
-	}
-	
 	@EventHandler(priority=EventPriority.NORMAL)
 	public void Start(GameStartEvent ev){
 		for(Kit k : kits){
