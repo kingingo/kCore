@@ -3,6 +3,7 @@ package me.kingingo.kcore.Util;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import lombok.Getter;
 import me.kingingo.kcore.Calendar.Calendar;
 import me.kingingo.kcore.Calendar.Calendar.CalendarType;
 import me.kingingo.kcore.Enum.GameType;
@@ -10,23 +11,26 @@ import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Coins implements Listener{
 	private MySQL mysql;
 	private HashMap<Player,Integer> coins = new HashMap<>();
 	CalendarType holiday;
+	private ItemStack item;
 	
 	public Coins(JavaPlugin instance,MySQL mysql){
 		this.mysql=mysql;
 		this.holiday=Calendar.getHoliday(3);
+		this.item=UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aCoins-Bottle");
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
@@ -35,6 +39,22 @@ public class Coins implements Listener{
 			addCoins(p, true, 0);
 		}
 		coins.clear();
+	}
+	
+	public void einlösen(ItemStack item){
+		if(UtilItem.ItemNameEquals(this.item,item)&&item.hasItemMeta()&&!item.getItemMeta().getLore().isEmpty()){
+			try{
+				Integer i = Integer.valueOf(item.getItemMeta().getLore().get(2));
+			}catch(NumberFormatException e){
+				System.err.println("[Coins] Einlösen FAIL!!!");
+			}
+		}
+	}
+	
+	public ItemStack getCoinsBottle(int coins){
+		ItemStack i = this.item.clone();
+		i=UtilItem.SetDescriptions(i, new String[]{"§eWenn du diesen Coins-Bottle","§eeinlöst erhälst du","§d"+coins});
+		return i;
 	}
 	
 	public boolean Exist(String p){

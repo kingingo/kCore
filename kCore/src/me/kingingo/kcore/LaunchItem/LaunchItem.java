@@ -47,5 +47,4 @@ public class LaunchItem {
 		}
 		return false;
 	}
-	
 }
