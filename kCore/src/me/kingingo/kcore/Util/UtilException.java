@@ -9,7 +9,7 @@ import java.util.TimeZone;
 
 import me.kingingo.kcore.MySQL.MySQL;
 
-public class CatchException {
+public class UtilException {
 	
 	public static void catchException(Exception e,String Server,String IP,MySQL sql){
 		String exception = "Exception";
