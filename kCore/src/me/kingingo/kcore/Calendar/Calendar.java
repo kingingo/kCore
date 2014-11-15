@@ -17,7 +17,7 @@ public class Calendar {
 		}
 		return false;
 	}
-	
+	//FFFF
 	public static boolean isInTime(int days,CalendarType type){
 		 Date dNow = new Date( );
 		// boolean b = false;
