@@ -1,10 +1,7 @@
 package me.kingingo.kcore.Packet;
 
-import java.util.HashMap;
-
 import lombok.Getter;
 import me.kingingo.kcore.Client.Client;
-import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Packet.Events.PacketSendEvent;
 import me.kingingo.kcore.Packet.Packets.BROADCAST;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
@@ -12,6 +9,9 @@ import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
 import me.kingingo.kcore.Packet.Packets.SERVER_INFO_ALL;
 import me.kingingo.kcore.Packet.Packets.SERVER_STATUS;
+import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_ADD_CLIENT_GROUP;
+import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP;
+import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_CLIENT_GROUP;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -54,6 +54,12 @@ public class PacketManager {
 			return new PERMISSION_USER_RELOAD(packet);
 		}else if (packet.contains("PERMISSION_GROUP_RELOAD")) {
 			return new PERMISSION_GROUP_RELOAD(packet);
+		}else if (packet.contains("TEAMSPEAK_ADD_CLIENT_GROUP")) {
+			return new TEAMSPEAK_ADD_CLIENT_GROUP(packet.split("-/-"));
+		}else if (packet.contains("TEAMSPEAK_REMOVE_CLIENT_GROUP")) {
+			return new TEAMSPEAK_REMOVE_CLIENT_GROUP(packet.split("-/-"));
+		}else if (packet.contains("TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP")) {
+			return new TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP(packet.split("-/-"));
 		}
 	 return null;
 	}
