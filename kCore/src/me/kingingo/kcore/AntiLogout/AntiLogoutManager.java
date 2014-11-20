@@ -135,6 +135,7 @@ public class AntiLogoutManager extends kListener {
 					ev.getPlayer().getInventory().setBoots(null);
 				}
 			}
+			Log(ev.getPlayer().getName()+" hat sich in Kampf ausgeloggt und wurde bestraft!");
 			Bukkit.getPluginManager().callEvent(new AntiLogoutQuitPlayerEvent(ev.getPlayer(),this));
 		}
 	}

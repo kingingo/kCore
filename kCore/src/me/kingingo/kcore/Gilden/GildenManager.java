@@ -62,6 +62,7 @@ public class GildenManager implements Listener {
 	@Setter
 	private boolean onDisable=false;
 	HashMap<Integer,String> ranking = new HashMap<>();
+	HashMap<String,Integer> extra_prefix = new HashMap<>();
 	
 	public GildenManager(JavaPlugin instance,MySQL mysql,GildenType typ,CommandHandler cmd){
 		this.instance=instance;
@@ -79,6 +80,7 @@ public class GildenManager implements Listener {
 			getPlayerGilde(p.getName());
 		}
 		
+		LoadRanking();
 	}
 	
 	@EventHandler
@@ -101,18 +103,18 @@ public class GildenManager implements Listener {
 		 }
 	}
 	
-	public void Ranking(Player p){
-		p.sendMessage("§b■■■■■■■■ §6§lGilden Ranking | Top 10 §b■■■■■■■■");
-		p.sendMessage("§b Place | Kills | Gilde");
+	public void LoadRanking(){
 		if(ranking.isEmpty()){
+			extra_prefix.clear();
 			try{
-			     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_data_"+getTyp().getKürzel()+"` ORDER BY kills DESC LIMIT 10;");
+			     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_data_"+getTyp().getKürzel()+"` ORDER BY kills DESC LIMIT 15;");
 
 			      int zahl = 1;
 			      
 			      while (rs.next()) {
 				     ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
-			        zahl++;
+				     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
+				     zahl++;
 			      }
 
 			      rs.close();
@@ -120,6 +122,12 @@ public class GildenManager implements Listener {
 			      System.out.println("MySQL-Error: " + err.getMessage());
 			 }
 		}
+	}
+	
+	public void Ranking(Player p){
+		p.sendMessage("§b■■■■■■■■ §6§lGilden Ranking | Top 10 §b■■■■■■■■");
+		p.sendMessage("§b Place | Kills | Gilde");
+		LoadRanking();
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
 	
@@ -202,6 +210,25 @@ public class GildenManager implements Listener {
 		if(isPlayerInGilde(p.getName())){
 			String g = getPlayerGilde(p.getName());
 			String tag = getTag(g);
+			
+			if(extra_prefix.containsKey(g.toLowerCase())){
+				if(extra_prefix.get(g)==1){
+					tag=tag.replaceAll("§7", "§4§l");
+				}else if(extra_prefix.get(g)==2){
+					tag=tag.replaceAll("§7", "§2§l");
+				}else if(extra_prefix.get(g)==3){
+					tag=tag.replaceAll("§7", "§e§l");
+				}else if(extra_prefix.get(g)>=4 && extra_prefix.get(g)<=6){
+					tag=tag.replaceAll("§7", "§3");
+				}else if(extra_prefix.get(g)>=7 && extra_prefix.get(g)<=9){
+					tag=tag.replaceAll("§7", "§d");
+				}else if(extra_prefix.get(g)>=10 && extra_prefix.get(g)<=12){
+					tag=tag.replaceAll("§7", "§a");
+				}else if(extra_prefix.get(g)>=13 && extra_prefix.get(g)<=15){
+					tag=tag.replaceAll("§7", "§b");
+				}
+			}
+			
 			p.setDisplayName(p.getDisplayName().replace(p.getName(), tag) + ChatColor.RESET + p.getName());
 		}
 	}

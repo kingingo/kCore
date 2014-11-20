@@ -8,7 +8,10 @@ public class TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP extends Packet{
 
 	@Setter
 	@Getter
-	String identität;
+	String identität;	
+	@Getter
+	@Setter
+	String inGameName;
 	
 	public TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP(){}
 	
@@ -20,8 +23,9 @@ public class TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP extends Packet{
 		return new TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP(packet);
 	}
 	
-	public TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP(String identität){
+	public TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP(String identität,String inGameName){
 		this.identität=identität;
+		this.inGameName=inGameName;
 	}
 	
 	public String getName(){
@@ -30,16 +34,19 @@ public class TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP extends Packet{
 	
 	public void Set(String[] split){
 		identität=split[1];
+		inGameName=split[2];
 	}
 	
-	//TEAMSPEAK_ADD_CLIENT_GROUP-/-IDENTITÄT
+	//TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP-/-IDENTITÄT-/-InGame
 	public String toString(){
-		return String.format(getName()+"-/-%s", getIdentität());
+		return String.format(getName()+"-/-%s-/-%s", getIdentität(),getInGameName());
 	}
 
 	@Override
 	public void Set(String split) {
-		this.identität=split;
+		String[] sp = split.split("-/-");
+		this.identität=sp[1];
+		inGameName=sp[2];
 	}
 	
 }

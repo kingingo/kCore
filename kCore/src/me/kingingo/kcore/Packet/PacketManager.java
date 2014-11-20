@@ -10,6 +10,7 @@ import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
 import me.kingingo.kcore.Packet.Packets.SERVER_INFO_ALL;
 import me.kingingo.kcore.Packet.Packets.SERVER_STATUS;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_ADD_CLIENT_GROUP;
+import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_CLIENT;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_CLIENT_GROUP;
 
@@ -60,6 +61,8 @@ public class PacketManager {
 			return new TEAMSPEAK_REMOVE_CLIENT_GROUP(packet.split("-/-"));
 		}else if (packet.contains("TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP")) {
 			return new TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP(packet.split("-/-"));
+		}else if (packet.contains("TEAMSPEAK_CLIENT")) {
+			return new TEAMSPEAK_CLIENT(packet.split("-/-"));
 		}
 	 return null;
 	}
