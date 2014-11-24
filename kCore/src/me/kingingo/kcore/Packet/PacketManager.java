@@ -13,6 +13,8 @@ import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_ADD_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_CLIENT;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_CLIENT_GROUP;
+import me.kingingo.kcore.Packet.Packets.YOUTUBE_GET_DATA;
+import me.kingingo.kcore.Packet.Packets.YOUTUBE_IS_DATA;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -63,6 +65,10 @@ public class PacketManager {
 			return new TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP(packet.split("-/-"));
 		}else if (packet.contains("TEAMSPEAK_CLIENT")) {
 			return new TEAMSPEAK_CLIENT(packet.split("-/-"));
+		}else if (packet.contains("YOUTUBE_GET_DATA")) {
+			return new YOUTUBE_GET_DATA(packet.split("-/-"));
+		}else if (packet.contains("YOUTUBE_IS_DATA")) {
+			return new YOUTUBE_IS_DATA(packet.split("-/-"));
 		}
 	 return null;
 	}
