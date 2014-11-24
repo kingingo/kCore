@@ -86,21 +86,39 @@ public class GildenManager implements Listener {
 	@EventHandler
 	public void Ranking(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.MIN_08)return;
-		ranking.clear();
+		extra_prefix.clear();
 		try{
-		     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_data_"+getTyp().getKürzel()+"` ORDER BY kills DESC LIMIT 10;");
+		     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_data_"+getTyp().getKürzel()+"` ORDER BY kills DESC LIMIT 15;");
 
 		      int zahl = 1;
 		      
 		      while (rs.next()) {
-		        ranking.put(zahl, "§b#§a" + String.valueOf(zahl) + "§b | §a" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
-		        zahl++;
+		  			if(zahl==1){
+		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
+		  			}else if(zahl==2){
+		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
+		  			}else if(zahl==3){
+		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
+		  			}else if(zahl>=4 && zahl<=6){
+		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
+		  			}else if(zahl>=7 && zahl<=9){
+		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
+		  			}else if(zahl>=10 && zahl<=12){
+		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+		  			}else if(zahl>=13 && zahl<=15){
+		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
+		  			}else{
+		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+		  			}
+			     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
+			     zahl++;
 		      }
 
 		      rs.close();
 		 } catch (Exception err) {
 		      System.out.println("MySQL-Error: " + err.getMessage());
 		 }
+		
 	}
 	
 	public void LoadRanking(){
@@ -112,7 +130,23 @@ public class GildenManager implements Listener {
 			      int zahl = 1;
 			      
 			      while (rs.next()) {
-				     ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+			    	  if(zahl==1){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
+			  			}else if(zahl==2){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
+			  			}else if(zahl==3){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
+			  			}else if(zahl>=4 && zahl<=6){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
+			  			}else if(zahl>=7 && zahl<=9){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
+			  			}else if(zahl>=10 && zahl<=12){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+			  			}else if(zahl>=13 && zahl<=15){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
+			  			}else{
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+			  			}
 				     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
 				     zahl++;
 			      }
