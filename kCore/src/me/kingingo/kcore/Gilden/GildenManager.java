@@ -159,7 +159,7 @@ public class GildenManager implements Listener {
 	}
 	
 	public void Ranking(Player p){
-		p.sendMessage("§b■■■■■■■■ §6§lGilden Ranking | Top 10 §b■■■■■■■■");
+		p.sendMessage("§b■■■■■■■■ §6§lGilden Ranking | Top 15 §b■■■■■■■■");
 		p.sendMessage("§b Place | Kills | Gilde");
 		LoadRanking();
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
