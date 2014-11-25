@@ -1,4 +1,11 @@
 package me.kingingo.kcore.Util;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -10,6 +17,30 @@ public class UtilString
   static Pattern ipPattern = Pattern.compile("((?<![0-9])(?:(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[ ]?[.,_ ][ ]?(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[ ]?[.,_ ][ ]?(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[ ]?[.,_ ][ ]?(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2}))(?![0-9]))");
   static Pattern webPattern = Pattern.compile("(http://)|(https://)?(www)?\\S{2,}((\\.com)|(\\.ru)|(\\.net)|(\\.org)|(\\.minecraft\\.to)|(\\.co\\.uk)|(\\.me)|(\\.tk)|(\\.info)|(\\.es)|(\\.de)|(\\.arpa)|(\\.edu)|(\\.firm)|(\\.int)|(\\.mil)|(\\.mobi)|(\\.nato)|(\\.to)|(\\.fr)|(\\.ms)|(\\.vu)|(\\.eu)|(\\.nl)|(\\.us)|(\\.dk))");
   static Pattern mcPattern = Pattern.compile("(eu)|(me)|(de)|(to)|(ru)|(net)|(tv)|(info)|(com)");
+  
+    public static BufferedImage stringToBufferedImage(Font font, String s){
+      BufferedImage img = new BufferedImage(1, 1, 6);
+      Graphics g = img.getGraphics();
+      g.setFont(font);
+
+      FontRenderContext frc = g.getFontMetrics().getFontRenderContext();
+      Rectangle2D rect = font.getStringBounds(s, frc);
+      g.dispose();
+
+      img = new BufferedImage((int)Math.ceil(rect.getWidth()), (int)Math.ceil(rect.getHeight()), 6);
+      g = img.getGraphics();
+      g.setColor(Color.black);
+      g.setFont(font);
+
+      FontMetrics fm = g.getFontMetrics();
+      int x = 0;
+      int y = fm.getAscent();
+
+      g.drawString(s, x, y);
+      g.dispose();
+
+      return img;
+    }
   
   public static List<String> stringArrayToList(String[] arg1) {
     List<String> toreturn = new ArrayList<>();

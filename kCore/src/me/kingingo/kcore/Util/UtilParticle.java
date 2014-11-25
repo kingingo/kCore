@@ -98,6 +98,13 @@ public enum UtilParticle {
 		Material material = Material.getMaterial(id);
 		return material != null && material.isBlock();
 	}
+	
+	public void display(float speed, int amount, Location center, double range) throws IllegalArgumentException {
+		if (requiresWater && !isWater(center)) {
+			throw new IllegalArgumentException("There is no water at the center location");
+		}
+		new UtilParticlePacket(name, 0,0,0, speed, amount).sendTo(center, range);
+	}
  
 	public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws IllegalArgumentException {
 		if (requiresWater && !isWater(center)) {
