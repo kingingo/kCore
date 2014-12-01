@@ -21,12 +21,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PermissionManager {
+	@Getter
 	private HashMap<String,List<Permission>> plist = new HashMap<>();
+	@Getter
 	private HashMap<Player,String> pgroup = new HashMap<>();
+	@Getter
 	private HashMap<String,List<Permission>> groups = new HashMap<>();
+	@Getter
 	private HashMap<String,String> gprefix = new HashMap<>();
-	//@Getter
-	//private HashMap<Player,PermissionAttachment> playerAttachment = new HashMap<>();
 	private MySQL mysql;
 	@Getter
 	@Setter

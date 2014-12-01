@@ -1,5 +1,12 @@
 package me.kingingo.kcore.Permission;
 
+import javax.xml.crypto.dsig.keyinfo.PGPData;
+
+import me.kingingo.kcore.Update.UpdateType;
+import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilList;
+import me.kingingo.kcore.Util.UtilServer;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,20 +29,18 @@ public class PermissionListener implements Listener {
 	    manager.loadPermission(p);
 	}
 	
-//	@EventHandler
-//	public void Quit(PlayerQuitEvent ev){
-//		manager.getPlayerAttachment().remove(ev.getPlayer());
-//	}
+	boolean b = false;
+	@EventHandler
+	public void Update(UpdateEvent ev){
+		if(ev.getType()==UpdateType.MIN_64){
+			UtilList.CleanList(manager.getPgroup());
+		}else if(ev.getType()==UpdateType.MIN_32){
+			UtilList.CleanList(manager.getPlist());
+		}
+	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Join(PlayerJoinEvent ev){
 		manager.setTabList(ev.getPlayer());
-//		if(!manager.getPlayerAttachment().containsKey(ev.getPlayer())){
-//			manager.getPlayerAttachment().put(ev.getPlayer(),ev.getPlayer().addAttachment(manager.getInstance()));
-//			for(Permission perm : manager.getPermissionList(ev.getPlayer())){
-//				manager.getPlayerAttachment().get(ev.getPlayer()).setPermission(perm.getPermissionToString(), true);
-//			}
-//		}
 	}
-	
 }

@@ -31,6 +31,7 @@ import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.TimeSpan;
+import me.kingingo.kcore.Util.UtilList;
 
 public class AntiLogoutManager extends kListener {
 
@@ -62,19 +63,22 @@ public class AntiLogoutManager extends kListener {
 	World w;
 	@EventHandler
 	public void Updater(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.SEC_2)return;
-		for(int i = 0; i<getPlayers().size(); i++){
-			if(! is(((Player)getPlayers().keySet().toArray()[i])) ){
-				if(worldGuard!=null){
-					loc = ((Player)getPlayers().keySet().toArray()[i]).getLocation();
-					w = loc.getWorld();
-					RegionManager regionManager = worldGuard.getRegionManager(w);
-				    ApplicableRegionSet set = regionManager.getApplicableRegions(loc);
-				    if (!set.allows(DefaultFlag.PVP)) {
-				    	del(((Player)getPlayers().keySet().toArray()[i]));
-				    }
+		if(ev.getType()==UpdateType.SEC_2){
+			for(int i = 0; i<getPlayers().size(); i++){
+				if(! is(((Player)getPlayers().keySet().toArray()[i])) ){
+					if(worldGuard!=null){
+						loc = ((Player)getPlayers().keySet().toArray()[i]).getLocation();
+						w = loc.getWorld();
+						RegionManager regionManager = worldGuard.getRegionManager(w);
+					    ApplicableRegionSet set = regionManager.getApplicableRegions(loc);
+					    if (!set.allows(DefaultFlag.PVP)) {
+					    	del(((Player)getPlayers().keySet().toArray()[i]));
+					    }
+					}
 				}
 			}
+		}else if(ev.getType()==UpdateType.MIN_32){
+			UtilList.CleanList(players);
 		}
 	}
 	

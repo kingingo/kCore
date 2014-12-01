@@ -18,6 +18,10 @@ import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.PlayerStats.Stats;
 import me.kingingo.kcore.PlayerStats.StatsManager;
+import me.kingingo.kcore.Update.UpdateType;
+import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilList;
+import me.kingingo.kcore.Util.UtilServer;
 
 public class SignShop extends kListener{
 
@@ -32,6 +36,13 @@ public class SignShop extends kListener{
 		super(instance,"[SignShop]");
 		this.instance=instance;
 		this.statsmanager=statsmanager;
+	}
+	
+	boolean b = false;
+	@EventHandler
+	public void Update(UpdateEvent ev){
+		if(ev.getType()!=UpdateType.MIN_64)return;
+		UtilList.CleanList(shop);
 	}
 	
 	@EventHandler
