@@ -2,6 +2,9 @@ package me.kingingo.kcore.Update;
 
 public enum UpdateType
 {
+  HOUR_4(4*3840000L),
+  HOUR_3(3*3840000L), 
+  HOUR_2(2*3840000L), 
   MIN_64(3840000L), 
   MIN_32(1920000L), 
   MIN_16(960000L), 

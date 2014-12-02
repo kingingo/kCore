@@ -18,18 +18,22 @@ public class Calendar {
 		return false;
 	}
 	
+	public static boolean FromToTime(String FromDate,String ToDate){
+		Date dNow = new Date( );
+	    SimpleDateFormat ft = new SimpleDateFormat ("MM");
+	    if(FromDate.substring(3).equalsIgnoreCase(ft.format(dNow)) && ToDate.substring(3).equalsIgnoreCase(ft.format(dNow))){
+	    	ft=new SimpleDateFormat("dd");
+	    	if(Integer.valueOf(ft.format(dNow)) >= Integer.valueOf(FromDate.substring(0,2)) && Integer.valueOf(ft.format(dNow)) <= Integer.valueOf(ToDate.substring(0,2))){
+	    		return true;
+	    	}
+	    }
+	    
+	    return false;
+	}
+	
 	public static boolean isInTime(int days,CalendarType type){
 		 Date dNow = new Date( );
-		// boolean b = false;
 	     SimpleDateFormat ft = new SimpleDateFormat ("MM");
-//	     int day=type.day;
-//	  
-//	     System.out.println("DATE:"+type.toString()+" "+(day+days)+" "+(Integer.valueOf(ft.format(dNow))-1)+"=="+(type.month));
-//
-//	     day=type.day;
-//	     if((day+days) > 30){
-//	    	 b=true;
-//	     }
 	     
 	     if(Integer.valueOf(ft.format(dNow))==type.month/*||(b&&(Integer.valueOf(ft.format(dNow))-1)==(type.month))*/){
 	    	 ft = new SimpleDateFormat ("dd");
@@ -50,6 +54,15 @@ public class Calendar {
 	}
 	
 	public static CalendarType getHoliday(){
+		for(CalendarType typ : CalendarType.values()){
+	    	 if(isInTime(typ.timeSpan,typ)){
+	    		 return typ;
+	    	 }
+	     }
+		return null;
+	}
+	
+	public static CalendarType TodayHoliday(){
 		 Date dNow = new Date( );
 	     SimpleDateFormat ft = new SimpleDateFormat ("dd.MM");
 	     for(CalendarType typ : CalendarType.values()){
@@ -72,20 +85,23 @@ public class Calendar {
 	}
 	
 	public enum CalendarType {
-		HITLER("20.04",20,4),
-		GEBURSTAG("06.11",6,11),
-		WEIHNACHTEN("24.12",24,12),
-		NIKOLAUS("06.12",6,12),
-		OSTERN("05.04",5,4),
-		SILVESTER("01.01",1,1),
-		HELLOWEEN("31.10",31,10);
+		HITLER("20.04",20,4,1),
+		GEBURSTAG("06.11",6,11,3),
+		WEIHNACHTEN("24.12",24,12,24),
+		NIKOLAUS("06.12",6,12,2),
+		OSTERN("05.04",5,4,3),
+		SILVESTER("01.01",1,1,2),
+		HELLOWEEN("31.10",31,10,4);
 		@Getter
 		String date;
 		int day;
 		int month;
-		private CalendarType(String date,int day,int month){
+		@Getter
+		int timeSpan;
+		private CalendarType(String date,int day,int month,int timeSpan){
 			this.date=date;
 			this.day=day;
+			this.timeSpan=timeSpan;
 			this.month=month;
 		}	
 	}

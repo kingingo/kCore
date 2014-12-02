@@ -32,9 +32,9 @@ public class PermissionListener implements Listener {
 	boolean b = false;
 	@EventHandler
 	public void Update(UpdateEvent ev){
-		if(ev.getType()==UpdateType.MIN_64){
+		if(ev.getType()==UpdateType.HOUR_2){
 			UtilList.CleanList(manager.getPgroup());
-		}else if(ev.getType()==UpdateType.MIN_32){
+		}else if(ev.getType()==UpdateType.HOUR_2){
 			UtilList.CleanList(manager.getPlist());
 		}
 	}
