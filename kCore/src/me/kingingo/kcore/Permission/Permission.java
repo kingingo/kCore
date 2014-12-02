@@ -13,6 +13,7 @@ ADMIN_SERVICE("epicpvp.service"),
 NICK_RANDOM("epicpvp.nick.random"),
 NICK_SET("epicpvp.nick.set"),
 CHAT_LINK("epicpvp.chatlink"),
+COMMAND_MEM("epicpvp.command.mem"),
 
 DEATHGAMES_KIT_ANKER("epicpvp.kit.dg.anker"),
 DEATHGAMES_KIT_BOMBER("epicpvp.kit.dg.bomber"),

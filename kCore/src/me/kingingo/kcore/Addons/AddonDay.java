@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class AddonTimeNight implements Listener {
+public class AddonDay implements Listener {
 
 	@Getter
 	JavaPlugin instance;
@@ -19,7 +19,7 @@ public class AddonTimeNight implements Listener {
 	@Getter
 	boolean drehen=false;
 	
-	public AddonTimeNight(JavaPlugin plugin,World w){
+	public AddonDay(JavaPlugin plugin,World w){
 		this.world=w;
 		this.instance=plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
@@ -32,9 +32,9 @@ public class AddonTimeNight implements Listener {
 		if(getWorld().isThundering()){
 			getWorld().setStorm(false);
 		}
-		if(getWorld().getTime()>=0&&getWorld().getTime()<13000){
+		if(getWorld().getTime()<24000&&getWorld().getTime()>12000){
 			time=getWorld().getTime();
-			time+=160;
+			time+=80;
 			getWorld().setStorm(false);
 			getWorld().setTime(time);
 		}
