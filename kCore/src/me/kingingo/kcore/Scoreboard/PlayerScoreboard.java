@@ -66,16 +66,12 @@ public class PlayerScoreboard {
 		}
 	}
 	
-	public void resetScore(OfflinePlayer p1,DisplaySlot typ){
+	public void resetScore(String p1,DisplaySlot typ){
 		board.resetScores(p1);
 	}
 	
-	public void setScore(OfflinePlayer p2,DisplaySlot typ,int i){
-			board.getObjective(typ).getScore(p2).setScore(i);
-	}
-	
 	public void setScore(String p2,DisplaySlot typ,int i){
-		board.getObjective(typ).getScore(Bukkit.getOfflinePlayer(p2)).setScore(i);
-}
+		board.getObjective(typ).getScore(p2).setScore(i);
+	}
 	
 }
