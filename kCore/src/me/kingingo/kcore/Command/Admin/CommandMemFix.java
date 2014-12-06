@@ -26,7 +26,7 @@ public class CommandMemFix implements CommandExecutor, Listener{
 		Bukkit.getPluginManager().registerEvents(this, permManager.getInstance());
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "mem", sender = Sender.EVERYONE)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "memfix", sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		if(cs instanceof Player){
 			Player p = (Player)cs;
