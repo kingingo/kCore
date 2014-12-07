@@ -160,12 +160,14 @@ public class Coins implements Listener{
 			if(c<coins)return false;
 			int co=c-coins;
 			this.coins.put(p, co);
+			p.sendMessage(Text.PREFIX.getText()+Text.COINS_DEL.getText(coins));
 		}else{
 			int c = getCoins(p);
 			if(c<coins)return false;
 			int co=c-coins;
 			this.coins.put(p, co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
+			p.sendMessage(Text.PREFIX.getText()+Text.COINS_DEL.getText(coins));
 		}
 		return true;
 	}
@@ -176,11 +178,13 @@ public class Coins implements Listener{
 			int c = getCoins(p);
 			int co=c+coins;
 			this.coins.put(p, co);
+			p.sendMessage(Text.PREFIX.getText()+Text.COINS_ADD.getText(coins));
 		}else{
 			int c = getCoins(p);
 			int co=c+coins;
 			this.coins.put(p, co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
+			p.sendMessage(Text.PREFIX.getText()+Text.COINS_ADD.getText(coins));
 		}
 	}
 	

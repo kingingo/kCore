@@ -37,17 +37,44 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 		}
 	}
 	
+	public int getSlotSort(){
+		if(getSize()==9){
+			if(!contains(4))return 4;
+			else if(!contains(5))return 5;
+			else if(!contains(3))return 3;
+			else if(!contains(6))return 6;
+			else if(!contains(2))return 2;
+			else if(!contains(7))return 7;
+			else if(!contains(1))return 1;
+			else if(!contains(8))return 8;
+			else if(!contains(0))return 0;
+		}
+		return 0;
+	}
+	
 	public InventoryPageBase(int size,String title){
 		super(null, size, title);
 		this.buttons=new ArrayList<>();
 	}
 	
-	public void fill(ItemStack item){
+	public void fill(Material material){
 		for(int i = 0 ; i < getSize(); i++){
 			if(getItem(i)==null||getItem(i).getType()==Material.AIR){
 				if(getItem(i)==null)setItem(i, new ItemStack(Material.IRON_FENCE));
-				getItem(i).setTypeId(item.getTypeId());
-				getItem(i).setDurability((short) item.getDurability());
+				getItem(i).setType(material);
+				ItemMeta im = getItem(i).getItemMeta();
+				im.setDisplayName(" ");
+				getItem(i).setItemMeta(im);
+			}
+		}
+	}
+	
+	public void fill(Material material,int data){
+		for(int i = 0 ; i < getSize(); i++){
+			if(getItem(i)==null||getItem(i).getType()==Material.AIR){
+				if(getItem(i)==null)setItem(i, new ItemStack(Material.IRON_FENCE));
+				getItem(i).setType(material);
+				getItem(i).setDurability((short) data);
 				ItemMeta im = getItem(i).getItemMeta();
 				im.setDisplayName(" ");
 				getItem(i).setItemMeta(im);

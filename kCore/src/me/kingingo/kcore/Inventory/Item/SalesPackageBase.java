@@ -18,29 +18,19 @@ public class SalesPackageBase implements IButton{
 	@Getter
 	private ItemStack itemStack;
 	private Click click;
-	@Getter
-	private int coins;
-	@Getter
-	private int tokens;
-	@Getter
-	private Permission permission;
 	
-	public SalesPackageBase(Click click,Material material,String name,String[] description,Permission permission,int coins,int tokens){
+	public SalesPackageBase(Click click,Material material,String name,String[] description){
 		this.name=name;
 		this.description=description;
-		this.coins=coins;
-		this.tokens=tokens;
-		this.permission=permission;
+		this.click=click;
 		this.itemStack=UtilItem.Item(new ItemStack(material), getDescription(), getName());
 	}
 	
-	public SalesPackageBase(Click click,Material material,int data,String name,String[] description,Permission permission,int coins,int tokens){
+	public SalesPackageBase(Click click,Material material,int data,String name,String[] description){
 		this.name=name;
 		this.description=description;
-		this.coins=coins;
-		this.tokens=tokens;
-		this.permission=permission;
-		this.itemStack=UtilItem.Item(new ItemStack(material,data), getDescription(), getName());
+		this.click=click;
+		this.itemStack=UtilItem.Item(new ItemStack(material,1,(byte)data), getDescription(), getName());
 	}
 
 	public void Clicked(Player player, ActionType type) {
