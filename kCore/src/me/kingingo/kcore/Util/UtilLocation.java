@@ -3,6 +3,8 @@ package me.kingingo.kcore.Util;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.server.v1_7_R4.PacketPlayOutMapChunk;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -89,6 +91,10 @@ public class UtilLocation {
 		}
 
 		return list;
+	}
+	
+	public static Vector FromToVector(Location first_location,Location second_location){
+		return new Vector(second_location.getX(), second_location.getY(), second_location.getZ()).subtract(new Vector(first_location.getX(), first_location.getY(), first_location.getZ()));
 	}
 	
 	public static Vector calculateVector(Location from, Location to) {

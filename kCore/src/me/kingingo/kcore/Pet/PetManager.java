@@ -25,7 +25,6 @@ import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import me.kingingo.kcore.Pet.kEntity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -45,8 +44,6 @@ public class PetManager implements Listener{
 	private HashMap<Creature,Integer> failedAttemptsToLocation;
 	@Getter
 	private HashMap<String, Integer> failedAttempts;
-	@Getter
-	private HashMap<kEnderdragon,Location> enderdragon;
 	private Field _goalSelector;
 	private Field _targetSelector;
 	
@@ -54,7 +51,6 @@ public class PetManager implements Listener{
 		Bukkit.getPluginManager().registerEvents(this, instance);
 		this.instance=instance;
 		this.failedAttempts = new HashMap<>();
-		this.enderdragon= new HashMap<>();
 		this.failedAttemptsToLocation = new HashMap<>();
 		this.petToLocation = new HashMap<>();
 		this.activePetOwners = new HashMap<>();
