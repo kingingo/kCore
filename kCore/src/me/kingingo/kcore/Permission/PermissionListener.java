@@ -1,19 +1,14 @@
 package me.kingingo.kcore.Permission;
 
-import javax.xml.crypto.dsig.keyinfo.PGPData;
-
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilList;
-import me.kingingo.kcore.Util.UtilServer;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PermissionListener implements Listener {
 	
@@ -24,17 +19,15 @@ public class PermissionListener implements Listener {
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
-	public void Login(PlayerLoginEvent ev){
-		Player p = ev.getPlayer();
-	    manager.loadPermission(p);
+	public void Login(AsyncPlayerPreLoginEvent ev){
+	    manager.loadPermission(ev.getName());
 	}
 	
 	boolean b = false;
 	@EventHandler
 	public void Update(UpdateEvent ev){
-		if(ev.getType()==UpdateType.HOUR_2){
+		if(ev.getType()==UpdateType.MIN_64){
 			UtilList.CleanList(manager.getPgroup());
-		}else if(ev.getType()==UpdateType.HOUR_2){
 			UtilList.CleanList(manager.getPlist());
 		}
 	}

@@ -65,17 +65,22 @@ public class AnvilGUI {
         private AnvilSlot slot;
  
         private String name;
- 
+        private Player player;
         private boolean close = true;
         private boolean destroy = true;
  
-        public AnvilClickEvent(AnvilSlot slot, String name){
+        public AnvilClickEvent(AnvilSlot slot,Player player, String name){
             this.slot = slot;
+            this.player=player;
             this.name = name;
         }
  
         public AnvilSlot getSlot(){
             return slot;
+        }
+        
+        public Player getPlayer(){
+        	return player;
         }
  
         public String getName(){
@@ -113,8 +118,8 @@ public class AnvilGUI {
  
     private Listener listener;
  
-    public AnvilGUI(Player player, final AnvilClickEventHandler handler,JavaPlugin plugin){
-        this.player = player;
+    public AnvilGUI(/*Player player,*/ final AnvilClickEventHandler handler,JavaPlugin plugin){
+        //this.player = player;
         this.handler = handler;
  
         this.listener = new Listener(){
@@ -140,7 +145,7 @@ public class AnvilGUI {
                             }
                         }
  
-                        AnvilClickEvent clickEvent = new AnvilClickEvent(AnvilSlot.bySlot(slot), name);
+                        AnvilClickEvent clickEvent = new AnvilClickEvent(AnvilSlot.bySlot(slot),clicker, name);
  
                         handler.onAnvilClick(clickEvent);
  
@@ -149,24 +154,25 @@ public class AnvilGUI {
                         }
  
                         if(clickEvent.getWillDestroy()){
+                        	inv.clear();
                             destroy();
                         }
                     }
                 }
             }
  
-            @EventHandler
-            public void onInventoryClose(InventoryCloseEvent event){
-                if(event.getPlayer() instanceof Player){
-                    Player player = (Player) event.getPlayer();
-                    Inventory inv = event.getInventory();
- 
-                    if(inv.equals(AnvilGUI.this.inv)){
-                        inv.clear();
-                        destroy();
-                    }
-                }
-            }
+//            @EventHandler
+//            public void onInventoryClose(InventoryCloseEvent event){
+//                if(event.getPlayer() instanceof Player){
+//                   // Player player = (Player) event.getPlayer();
+//                    Inventory inv = event.getInventory();
+// 
+//                    if(inv.equals(AnvilGUI.this.inv)){
+//                        inv.clear();
+//                        destroy();
+//                    }
+//                }
+//            }
  
             @EventHandler
             public void onPlayerQuit(PlayerQuitEvent event){
@@ -187,7 +193,8 @@ public class AnvilGUI {
         items.put(slot, item);
     }
  
-    public void open(){
+    public void open(Player player){
+    	this.player = player;
         EntityPlayer p = ((CraftPlayer) player).getHandle();
  
         AnvilContainer container = new AnvilContainer(p);
@@ -220,9 +227,7 @@ public class AnvilGUI {
         player = null;
         handler = null;
         items = null;
- 
         HandlerList.unregisterAll(listener);
- 
         listener = null;
     }
 }

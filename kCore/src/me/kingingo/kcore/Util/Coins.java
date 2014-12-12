@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Calendar.Calendar;
 import me.kingingo.kcore.Calendar.Calendar.CalendarType;
 import me.kingingo.kcore.Enum.GameType;
@@ -16,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -23,9 +25,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Coins implements Listener{
 	private MySQL mysql;
-	private HashMap<Player,Integer> coins = new HashMap<>();
+	private HashMap<String,Integer> coins = new HashMap<>();
 	CalendarType holiday;
 	private ItemStack item;
+	@Getter
+	@Setter
+	private boolean join_Check=true;
 	
 	public Coins(JavaPlugin instance,MySQL mysql){
 		this.mysql=mysql;
@@ -35,8 +40,8 @@ public class Coins implements Listener{
 	}
 	
 	public void SaveAll(){
-		for(Player p : coins.keySet()){
-			addCoins(p, true, 0);
+		for(String p : coins.keySet()){
+			addCoins(p.toLowerCase(), 0);
 		}
 		coins.clear();
 	}
@@ -57,34 +62,35 @@ public class Coins implements Listener{
 		return i;
 	}
 	
-	public boolean Exist(String p){
-		boolean b = false;
-		try{
-			
-			ResultSet rs =mysql.Query("SELECT coins FROM coins_list WHERE name='" + p.toLowerCase() + "'");
-			
-			while(rs.next()){
-				b=Boolean.valueOf(true);
-			}
- 			
-			rs.close();
-		}catch (Exception err){
-			System.err.println(err);
-		}
-		
-		if(!b){
-			CreateAccount(p);
-		}
-				
-		return b;
-	}
-	
 	public void CreateAccount(String p){
 		mysql.Update("INSERT INTO coins_list (name,coins) values ('"+p.toLowerCase()+"','0');");
 	}
 	
+	public Integer getCoins(String p){
+		if(coins.containsKey(p.toLowerCase()))return coins.get(p.toLowerCase());
+		int d = -9999999;
+		try{
+			ResultSet rs = mysql.Query("SELECT coins FROM coins_list WHERE name='" + p.toLowerCase() + "'");
+			
+			while(rs.next()){
+				d = rs.getInt(1);
+			}
+			rs.close();
+		}catch (Exception err){	
+			System.err.println(err);
+		}
+		
+		if(d==-9999999){
+			CreateAccount(p);
+			d=0;
+		}
+		
+		coins.put(p.toLowerCase(), d);
+		return d;
+	}
+	
 	public Integer getCoins(Player p){
-		if(coins.containsKey(p))return coins.get(p);
+		if(coins.containsKey(p.getName().toLowerCase()))return coins.get(p.getName().toLowerCase());
 		int d = 0;
 		
 		try{
@@ -99,25 +105,23 @@ public class Coins implements Listener{
 		}catch (Exception err){	
 			System.err.println(err);
 		}
-		coins.put(p, d);
+		
+		coins.put(p.getName().toLowerCase(), d);
 		return d;
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Quit(PlayerQuitEvent ev){
-		if(coins.containsKey(ev.getPlayer())){
+		if(coins.containsKey(ev.getPlayer().getName().toLowerCase())){
 			addCoins(ev.getPlayer(),true,0);
-			coins.remove(ev.getPlayer());
+			coins.remove(ev.getPlayer().getName().toLowerCase());
 		}
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
-	public void Join(PlayerLoginEvent ev){
-		Exist(ev.getPlayer().getName());
-		if(coins.containsKey(ev.getPlayer()))coins.remove(ev.getPlayer());
-		if(holiday!=null&&holiday==CalendarType.GEBURSTAG){
-			ev.getPlayer().sendMessage(Text.PREFIX.getText()+"§eHeute haben die Owner §cKingIngo §eund§c T3ker§e Geburstag und deswegen sind §cAlle Kit's§e für jeden Freigeschalten und es gibt §cDouble Coins§e!");
-		}
+	public void Login(AsyncPlayerPreLoginEvent ev){
+		if(coins.containsKey(ev.getName().toLowerCase()))coins.remove(ev.getName().toLowerCase());
+		if(join_Check) getCoins(ev.getName().toLowerCase());
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins,GameType typ){
@@ -125,13 +129,13 @@ public class Coins implements Listener{
 			int c = getCoins(p);
 			if(c<coins)return false;
 			int co=c-coins;
-			this.coins.put(p, co);
+			this.coins.put(p.getName().toLowerCase(), co);
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_DEL.getText(coins));
 		}else{
 			int c = getCoins(p);
 			if(c<coins)return false;
 			int co=c-coins;
-			this.coins.put(p, co);
+			this.coins.put(p.getName().toLowerCase(), co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_DEL.getText(coins));
 		}
@@ -143,15 +147,51 @@ public class Coins implements Listener{
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;
-			this.coins.put(p, co);
+			this.coins.put(p.getName().toLowerCase(), co);
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_ADD.getText(coins));
 		}else{
 			int c = getCoins(p);
 			int co=c+coins;
-			this.coins.put(p, co);
+			this.coins.put(p.getName().toLowerCase(), co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_ADD.getText(coins));
 		}
+	}
+	
+	public String inList(String player){
+		for(int i = 0; i < coins.size(); i++){
+			if(((String)coins.keySet().toArray()[i]).equalsIgnoreCase(player)){
+				return ((String)coins.keySet().toArray()[i]).toLowerCase();
+			}
+		}
+		return null;
+	}
+	
+	public void delCoins(String p,Integer coi){
+		String player = inList(p);
+		if(player!=null){
+			if(coins.containsKey(player)){
+				addCoins(player,0);
+				coins.remove(player);
+			}
+		}
+		int c = getCoins(p);
+		int co=c+coi;
+		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.toLowerCase()+"'");
+	}
+	
+	public void addCoins(String p,Integer coi){
+		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coi=coi*2;
+		String player = inList(p);
+		if(player!=null){
+			if(coins.containsKey(player)){
+				addCoins(player,0);
+				coins.remove(player);
+			}
+		}
+		int c = getCoins(p);
+		int co=c+coi;
+		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.toLowerCase()+"'");
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins){
@@ -159,13 +199,13 @@ public class Coins implements Listener{
 			int c = getCoins(p);
 			if(c<coins)return false;
 			int co=c-coins;
-			this.coins.put(p, co);
+			this.coins.put(p.getName().toLowerCase(), co);
 			p.sendMessage(Text.PREFIX.getText()+Text.COINS_DEL.getText(coins));
 		}else{
 			int c = getCoins(p);
 			if(c<coins)return false;
 			int co=c-coins;
-			this.coins.put(p, co);
+			this.coins.put(p.getName().toLowerCase(), co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 			p.sendMessage(Text.PREFIX.getText()+Text.COINS_DEL.getText(coins));
 		}
@@ -177,12 +217,12 @@ public class Coins implements Listener{
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;
-			this.coins.put(p, co);
+			this.coins.put(p.getName().toLowerCase(), co);
 			p.sendMessage(Text.PREFIX.getText()+Text.COINS_ADD.getText(coins));
 		}else{
 			int c = getCoins(p);
 			int co=c+coins;
-			this.coins.put(p, co);
+			this.coins.put(p.getName().toLowerCase(), co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 			p.sendMessage(Text.PREFIX.getText()+Text.COINS_ADD.getText(coins));
 		}

@@ -24,7 +24,7 @@ public class PermissionManager {
 	@Getter
 	private HashMap<String,List<Permission>> plist = new HashMap<>();
 	@Getter
-	private HashMap<Player,String> pgroup = new HashMap<>();
+	private HashMap<String,String> pgroup = new HashMap<>();
 	@Getter
 	private HashMap<String,List<Permission>> groups = new HashMap<>();
 	@Getter
@@ -45,13 +45,13 @@ public class PermissionManager {
 	}
 	
 	public String getPrefix(Player p){
-		if(pgroup.containsKey(p)&&gprefix.containsKey(pgroup.get(p)))return gprefix.get(pgroup.get(p));
+		if(pgroup.containsKey(p.getName().toLowerCase())&&gprefix.containsKey(pgroup.containsKey(p.getName().toLowerCase())))return gprefix.get(pgroup.containsKey(p.getName().toLowerCase()));
 		return C.cGray;
 	}
 	
 	public List<Permission> getPermissionList(Player p){
 		ArrayList<Permission> list = new ArrayList<>();
-		if(pgroup.containsKey(p)){
+		if(pgroup.containsKey(p.getName().toLowerCase())){
 			for(Permission perm : groups.get(p)){
 				list.add(perm);
 			}
@@ -65,7 +65,7 @@ public class PermissionManager {
 	}
 	
 	public boolean hasPermission(Player p,Permission perm){
-		if(pgroup.containsKey(p)&& (groups.get(pgroup.get(p)).contains(perm)||groups.get(pgroup.get(p)).contains(Permission.ALL_PERMISSION)) )return true;
+		if(pgroup.containsKey(p.getName().toLowerCase())&& (groups.get(pgroup.containsKey(p.getName().toLowerCase())).contains(perm)||groups.get(pgroup.containsKey(p.getName().toLowerCase())).contains(Permission.ALL_PERMISSION)) )return true;
 		if(plist.containsKey(p.getName().toLowerCase())&& (plist.get(p.getName().toLowerCase()).contains(perm)||plist.get(p.getName().toLowerCase()).contains(Permission.ALL_PERMISSION)) )return true;
 		return false;
 	}
@@ -85,8 +85,8 @@ public class PermissionManager {
 		}else{
 			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','none','"+group+"','"+p.getName().toLowerCase()+"');");
 		}
-		pgroup.remove(p);
-		pgroup.put(p, group);
+		pgroup.remove(p.getName().toLowerCase());
+		pgroup.put(p.getName().toLowerCase(), group);
 		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(p.getName().toLowerCase()));
 	}
 	
@@ -108,7 +108,6 @@ public class PermissionManager {
 	public void addPermission(Player p, Permission perm){
 		if(!plist.containsKey(p.getName().toLowerCase()))plist.put(p.getName().toLowerCase(), new ArrayList<Permission>());
 		plist.get(p.getName().toLowerCase()).add(perm);
-		//getPlayerAttachment().get(p).setPermission(perm.getPermissionToString(), true);
 		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','"+perm.getPermissionToString()+"','none','"+p.getName().toLowerCase()+"');");
 	}
 	
@@ -122,8 +121,8 @@ public class PermissionManager {
 		if(p.isCustomNameVisible()){
 			name=p.getCustomName();
 		}
-		if(pgroup.containsKey(p)&&gprefix.containsKey(pgroup.get(p))&&!invisble){
-			String t = gprefix.get(pgroup.get(p));
+		if(pgroup.containsKey(p.getName().toLowerCase())&&gprefix.containsKey(pgroup.containsKey(p.getName().toLowerCase()))&&!invisble){
+			String t = gprefix.get(pgroup.containsKey(p.getName().toLowerCase()));
 			int i = t.indexOf("§");
 			t=""+t.toCharArray()[i]+t.toCharArray()[i+1];
 			
@@ -182,7 +181,7 @@ public class PermissionManager {
 		return g;
 	}
 	
-	public void loadPermission(Player p){
+	public void loadPermission(String p){
 		String g=getGroup(p);
 		Permission permission;
 		ResultSet rs;
@@ -222,12 +221,12 @@ public class PermissionManager {
 		
 		try
 	    {
-	      rs = mysql.Query("SELECT permission FROM game_perm WHERE user='"+p.getName().toLowerCase()+"' AND prefix='none' AND pgroup='none'");
+	      rs = mysql.Query("SELECT permission FROM game_perm WHERE user='"+p.toLowerCase()+"' AND prefix='none' AND pgroup='none'");
 	      while (rs.next()){
 	    	  permission=Permission.isPerm(rs.getString(1));
 	    	  if(permission==Permission.NONE)continue;
-	    	  if(!plist.containsKey(p.getName().toLowerCase()))plist.put(p.getName().toLowerCase(), new ArrayList<Permission>());
-	    	  plist.get(p.getName().toLowerCase()).add(permission);
+	    	  if(!plist.containsKey(p.toLowerCase()))plist.put(p.toLowerCase(), new ArrayList<Permission>());
+	    	  plist.get(p.toLowerCase()).add(permission);
 	      }
 	      rs.close();
 	    }
@@ -236,12 +235,8 @@ public class PermissionManager {
 	      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
 	    }
 		
-		pgroup.put(p, g);
+		pgroup.put(p.toLowerCase(), g);
 	}
-	
-//	public void loadPermissions(Player p, List<Permission> permission){
-//		if(p instanceof Player && !permission.isEmpty())list.put(p, permission);
-//	}
 	
 	public void removePermission(String p, Permission perm){
 		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.toLowerCase() + "' AND permission='"+perm.getPermissionToString()+"'");
@@ -253,7 +248,6 @@ public class PermissionManager {
 				plist.get(p.getName().toLowerCase()).remove(perm);
 			}
 		}
-		//getPlayerAttachment().get(p).unsetPermission(perm.getPermissionToString());
 		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.getName().toLowerCase() + "' AND permission='"+perm.getPermissionToString()+"'");
 	}
 	
@@ -262,12 +256,10 @@ public class PermissionManager {
 	}
 	
 	public void removePermission(Player p, String perm){
-	//	getPlayerAttachment().get(p).unsetPermission(perm);
 		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.getName().toLowerCase() + "' AND permission='"+perm+"'");
 	}
 	
 	public void removePermissions(Player p){
-	//	for(Permission perm : plist.get(p.getName().toLowerCase()))getPlayerAttachment().get(p).unsetPermission(perm.getPermissionToString());
 		if(plist.containsKey(p.getName().toLowerCase()))plist.remove(p.getName().toLowerCase());
 	}
 	

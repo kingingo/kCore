@@ -11,12 +11,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class InventoryRename{
 
-	public InventoryRename(Player p,JavaPlugin instance,String Title,AnvilClickEventHandler anvil) {
-		AnvilGUI gui = new AnvilGUI( p,anvil, instance);
+	private AnvilGUI gui;
+	
+	public InventoryRename(AnvilClickEventHandler anvil,JavaPlugin instance,String Title) {
+		gui = new AnvilGUI(anvil, instance);
 		ItemStack renamed = UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), Title);
 		gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, renamed);
 		gui.setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "§aFertig"));
-		gui.open();
+	}
+	
+	public void open(Player player){
+		gui.open(player);
 	}
 
 }

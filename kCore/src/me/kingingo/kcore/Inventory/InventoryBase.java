@@ -31,12 +31,12 @@ public class InventoryBase extends kListener{
 	@Getter
 	private JavaPlugin instance;
 	
-	public InventoryBase(JavaPlugin instance,String name){
+	public InventoryBase(JavaPlugin instance,int main_size,String name){
 		super(instance,name);
 		this.name=name;
 		this.pages= new ArrayList<>();
 		this.another= new ArrayList<>();
-		this.main=new InventoryPageBase(instance,27,name);
+		this.main=new InventoryPageBase(instance,main_size,name);
 	}
 	
 	public void openShop(Player player){

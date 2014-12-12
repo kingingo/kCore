@@ -3,6 +3,8 @@ package me.kingingo.kcore.Util;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
@@ -12,8 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +22,9 @@ public class Tokens implements Listener {
 
 	private MySQL mysql;
 	private HashMap<String,Integer> tokens = new HashMap<>();
+	@Getter
+	@Setter
+	private boolean join_Check=true;
 	
 	public Tokens(JavaPlugin instance,MySQL mysql){
 		this.mysql=mysql;
@@ -57,15 +61,15 @@ public class Tokens implements Listener {
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
-	public void Quit(PlayerQuitEvent ev){
-		addTokens(ev.getPlayer(),true,0);
-		if(tokens.containsKey(ev.getPlayer()))tokens.remove(ev.getPlayer());
+	public void Login(AsyncPlayerPreLoginEvent ev){
+		if(tokens.containsKey(ev.getName().toLowerCase()))tokens.remove(ev.getName().toLowerCase());
+		if(join_Check) getTokens(ev.getName().toLowerCase());
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
-	public void Join(PlayerLoginEvent ev){
-		Exist(ev.getPlayer().getName());
-		if(tokens.containsKey(ev.getPlayer()))tokens.remove(ev.getPlayer());
+	public void Quit(PlayerQuitEvent ev){
+		addTokens(ev.getPlayer(),true,0);
+		if(tokens.containsKey(ev.getPlayer().getName().toLowerCase()))tokens.remove(ev.getPlayer().getName().toLowerCase());
 	}
 	
 	public void CreateAccount(String p){
@@ -73,7 +77,7 @@ public class Tokens implements Listener {
 	}
 	
 	public Integer getTokens(String p){
-		if(tokens.containsKey(p))return tokens.get(p);
+		if(tokens.containsKey(p.toLowerCase()))return tokens.get(p.toLowerCase());
 		int d = 0;
 		
 		try{
@@ -88,12 +92,12 @@ public class Tokens implements Listener {
 		}catch (Exception err){	
 			System.err.println(err);
 		}
-		tokens.put(p, d);
+		tokens.put(p.toLowerCase(), d);
 		return d;
 	}
 	
 	public Integer getTokens(Player p){
-		if(tokens.containsKey(p))return tokens.get(p);
+		if(tokens.containsKey(p.getName().toLowerCase()))return tokens.get(p.getName().toLowerCase());
 		int d = 0;
 		
 		try{
@@ -108,7 +112,7 @@ public class Tokens implements Listener {
 		}catch (Exception err){	
 			System.err.println(err);
 		}
-		tokens.put(p.getName(), d);
+		tokens.put(p.getName().toLowerCase(), d);
 		return d;
 	}
 	
@@ -117,13 +121,13 @@ public class Tokens implements Listener {
 			int c = getTokens(p);
 			if(c<coins)return false;
 			int co=c-coins;
-			tokens.put(p.getName(), co);
+			tokens.put(p.getName().toLowerCase(), co);
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.TOKENS_DEL.getText(coins));
 		}else{
 			int c = getTokens(p);
 			if(c<coins)return false;
 			int co=c-coins;
-			tokens.put(p.getName(), co);
+			tokens.put(p.getName().toLowerCase(), co);
 			mysql.Update("UPDATE `tokens_list` SET tokens='"+co+"' WHERE name='"+p.getName()+"'");
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.TOKENS_DEL.getText(coins));
 		}
@@ -134,12 +138,12 @@ public class Tokens implements Listener {
 		if(!save){
 			int c = getTokens(p);
 			int co=c+coins;
-			tokens.put(p.getName(), co);
+			tokens.put(p.getName().toLowerCase(), co);
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.TOKENS_ADD.getText(coins));
 		}else{
 			int c = getTokens(p);
 			int co=c+coins;
-			tokens.put(p.getName(), co);
+			tokens.put(p.getName().toLowerCase(), co);
 			mysql.Update("UPDATE `tokens_list` SET tokens='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.TOKENS_ADD.getText(coins));
 		}
@@ -150,12 +154,12 @@ public class Tokens implements Listener {
 			int c = getTokens(p);
 			if(c<coins)return false;
 			int co=c-coins;
-			tokens.put(p.getName(), co);
+			tokens.put(p.getName().toLowerCase(), co);
 		}else{
 			int c = getTokens(p);
 			if(c<coins)return false;
 			int co=c-coins;
-			tokens.put(p.getName(), co);
+			tokens.put(p.getName().toLowerCase(), co);
 			mysql.Update("UPDATE `tokens_list` SET tokens='"+co+"' WHERE name='"+p.getName()+"'");
 		}
 		return true;
@@ -165,11 +169,11 @@ public class Tokens implements Listener {
 		if(!save){
 			int c = getTokens(p);
 			int co=c+coins;
-			tokens.put(p, co);
+			tokens.put(p.toLowerCase(), co);
 		}else{
 			int c = getTokens(p);
 			int co=c+coins;
-			tokens.put(p, co);
+			tokens.put(p.toLowerCase(), co);
 			mysql.Update("UPDATE `tokens_list` SET tokens='"+co+"' WHERE name='"+p.toLowerCase()+"'");
 		}
 	}
@@ -178,11 +182,11 @@ public class Tokens implements Listener {
 		if(!save){
 			int c = getTokens(p);
 			int co=c+coins;
-			tokens.put(p.getName(), co);
+			tokens.put(p.getName().toLowerCase(), co);
 		}else{
 			int c = getTokens(p);
 			int co=c+coins;
-			tokens.put(p.getName(), co);
+			tokens.put(p.getName().toLowerCase(), co);
 			mysql.Update("UPDATE `tokens_list` SET tokens='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 		}
 	}

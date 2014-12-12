@@ -3,6 +3,8 @@ package me.kingingo.kcore.Pet;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import lombok.Getter;
+import lombok.Setter;
+import me.kingingo.kcore.Pet.Setting.PetSetting;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Pet.Event.PetWithOutOwnerLocationEvent;
@@ -30,7 +32,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
 
 public class PetManager implements Listener{
 
@@ -46,6 +50,10 @@ public class PetManager implements Listener{
 	private HashMap<String, Integer> failedAttempts;
 	private Field _goalSelector;
 	private Field _targetSelector;
+	@Getter
+	private boolean setting=false;
+	@Getter
+	private HashMap<EntityType,PetSetting> setting_list;
 	
 	public PetManager(JavaPlugin instance){
 		Bukkit.getPluginManager().registerEvents(this, instance);
@@ -54,6 +62,13 @@ public class PetManager implements Listener{
 		this.failedAttemptsToLocation = new HashMap<>();
 		this.petToLocation = new HashMap<>();
 		this.activePetOwners = new HashMap<>();
+	}
+	
+	public void setSetting(boolean b){
+		setting=b;
+		if(setting){
+			setting_list=new HashMap<EntityType,PetSetting>();
+		}
 	}
 	
 	public void RemovePet(Player player, boolean removeOwner)
@@ -96,8 +111,7 @@ public class PetManager implements Listener{
 	      if (((org.bukkit.entity.Creature)this.activePetOwners.get(player.getName())).getType() != entityType)
 	      {
 	        RemovePet(player, true);
-	      }
-	      else {
+	      }else {
 	        return;
 	      }
 	    }
@@ -112,7 +126,7 @@ public class PetManager implements Listener{
 	
 	public org.bukkit.entity.Creature GetPet(Player player){
 	    return (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName());
-	  }
+	}
 	
 	private void ClearPetGoals(org.bukkit.entity.Creature pet){
 	    try
@@ -173,7 +187,7 @@ public class PetManager implements Listener{
 	  @EventHandler
 	  public void onUpdateTo(UpdateEvent event)
 	  {
-	    if (event.getType() != UpdateType.FAST)return;
+	    if (event.getType() != UpdateType.FASTER)return;
 
 	    for(String playerName : activePetOwners.keySet()){
 	    	owner=Bukkit.getPlayer(playerName);
@@ -210,8 +224,8 @@ public class PetManager implements Listener{
 	 	       if (((Integer)this.failedAttempts.get(playerName)).intValue() > 4){
 		          pet.teleport(owner);
 		          this.failedAttempts.put(playerName, Integer.valueOf(0));
-	 	       }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.5D)){
-		          if (pet.getFallDistance() == 0.0F){
+	 	      }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.5D)){
+		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>8){
 		            this.failedAttempts.put(playerName, Integer.valueOf(((Integer)this.failedAttempts.get(playerName)).intValue() + 1));
 		          }
 	 	       }else{
@@ -303,7 +317,7 @@ public class PetManager implements Listener{
 	 
 	  @EventHandler
 	  public void onUpdate(UpdateEvent event){
-	    if (event.getType() != UpdateType.FAST)return;
+	    if (event.getType() != UpdateType.FASTER)return;
 	    
 	    for(Creature pet : petToLocation.keySet()){
 	    	petSpot=pet.getLocation();
@@ -332,11 +346,11 @@ public class PetManager implements Listener{
 		        }
 		        
 		        if (((Integer)this.failedAttemptsToLocation.get(pet)).intValue() > 6){
-		          pet.teleport(petToLocation.get(pet));
+		          pet.teleport(ownerSpot);
 		          Bukkit.getPluginManager().callEvent(new PetWithOutOwnerLocationEvent(pet,ownerSpot));
 		          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
 		        }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.5D)){
-		          if (pet.getFallDistance() == 0.0F){
+		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>8){
 		            this.failedAttemptsToLocation.put(pet, Integer.valueOf(((Integer)this.failedAttemptsToLocation.get(pet)).intValue() + 1));
 		          }
 		        }else{
@@ -399,6 +413,21 @@ public class PetManager implements Listener{
 //	      }
 //	    }
 	  }
+	  
+	Creature c;
+	@EventHandler
+	public void Interdact(PlayerInteractEntityEvent ev){
+		 if(isSetting()){
+			 if(getActivePetOwners().containsKey(ev.getPlayer().getName())){
+				c=getActivePetOwners().get(ev.getPlayer().getName());
+				if(c.getEntityId()==ev.getRightClicked().getEntityId()){
+					if(getSetting_list().containsKey(c.getType())){
+						ev.getPlayer().openInventory( getSetting_list().get(c.getType()).getMain() );
+					}
+				}
+			 }
+		 }
+	}
 	
 	@EventHandler
 	public void onEntityTarget(EntityTargetEvent ev){
