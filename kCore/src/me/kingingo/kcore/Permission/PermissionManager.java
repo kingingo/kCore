@@ -45,7 +45,7 @@ public class PermissionManager {
 	}
 	
 	public String getPrefix(Player p){
-		if(pgroup.containsKey(p.getName().toLowerCase())&&gprefix.containsKey(pgroup.containsKey(p.getName().toLowerCase())))return gprefix.get(pgroup.containsKey(p.getName().toLowerCase()));
+		if(pgroup.containsKey(p.getName().toLowerCase())&&gprefix.containsKey(pgroup.get(p.getName().toLowerCase())))return gprefix.get(pgroup.get(p.getName().toLowerCase()));
 		return C.cGray;
 	}
 	
@@ -65,7 +65,7 @@ public class PermissionManager {
 	}
 	
 	public boolean hasPermission(Player p,Permission perm){
-		if(pgroup.containsKey(p.getName().toLowerCase())&& (groups.get(pgroup.containsKey(p.getName().toLowerCase())).contains(perm)||groups.get(pgroup.containsKey(p.getName().toLowerCase())).contains(Permission.ALL_PERMISSION)) )return true;
+		if(pgroup.containsKey(p.getName().toLowerCase())&& (groups.get(pgroup.get(p.getName().toLowerCase())).contains(perm)||groups.get(pgroup.get(p.getName().toLowerCase())).contains(Permission.ALL_PERMISSION)) )return true;
 		if(plist.containsKey(p.getName().toLowerCase())&& (plist.get(p.getName().toLowerCase()).contains(perm)||plist.get(p.getName().toLowerCase()).contains(Permission.ALL_PERMISSION)) )return true;
 		return false;
 	}
@@ -121,8 +121,8 @@ public class PermissionManager {
 		if(p.isCustomNameVisible()){
 			name=p.getCustomName();
 		}
-		if(pgroup.containsKey(p.getName().toLowerCase())&&gprefix.containsKey(pgroup.containsKey(p.getName().toLowerCase()))&&!invisble){
-			String t = gprefix.get(pgroup.containsKey(p.getName().toLowerCase()));
+		if(pgroup.containsKey(p.getName().toLowerCase())&&gprefix.containsKey(pgroup.get(p.getName().toLowerCase()))&&!invisble){
+			String t = gprefix.get(pgroup.get(p.getName().toLowerCase()));
 			int i = t.indexOf("§");
 			t=""+t.toCharArray()[i]+t.toCharArray()[i+1];
 			

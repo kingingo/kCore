@@ -125,6 +125,10 @@ public class UtilLocation {
 		return vector;
 	}
 	
+	public static ArrayList<Location> LocWithBorder(World w,int locs,int MinBorder,int MaxBorder,Location location,int radius){
+		return LocWithBorder(w, locs, MinBorder, MaxBorder, location.getBlockX()+radius, location.getBlockX()-radius, location.getBlockZ()+radius, location.getBlockZ()-radius, location.getBlockY()+radius, location.getBlockY()-radius);
+	}
+	
 	public static ArrayList<Location> LocWithBorder(World w,int locs,int MinBorder,int MaxBorder,int MaxX,int MinX,int MaxZ,int MinZ,int MaxY,int MinY){
 		ArrayList<Location> list = new ArrayList<>();
 		int x=0;

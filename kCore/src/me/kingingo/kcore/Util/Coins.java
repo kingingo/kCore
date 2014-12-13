@@ -25,6 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Coins implements Listener{
 	private MySQL mysql;
+	@Getter
 	private HashMap<String,Integer> coins = new HashMap<>();
 	CalendarType holiday;
 	private ItemStack item;

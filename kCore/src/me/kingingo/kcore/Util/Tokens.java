@@ -21,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Tokens implements Listener {
 
 	private MySQL mysql;
+	@Getter
 	private HashMap<String,Integer> tokens = new HashMap<>();
 	@Getter
 	@Setter
