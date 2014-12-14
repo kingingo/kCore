@@ -25,7 +25,8 @@ public class PerkPotionInWater extends Perk{
 	@EventHandler
 	public void Update(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC)return;
-		for(Player p : getKit().getPlayers()){
+		if(!getPerkData().getPlayers().containsKey(this))return;
+		for(Player p : getPerkData().getPlayers().get(this)){
 			if(p.getLocation().getBlock().getType().toString().contains("WATER")&&!p.hasPotionEffect(type)){
 				p.addPotionEffect(new PotionEffect(type,20*time,stärke));
 			}

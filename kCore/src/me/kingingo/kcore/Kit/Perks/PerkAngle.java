@@ -24,7 +24,7 @@ public class PerkAngle extends Perk{
 	@EventHandler
 	public void Enterhaken(PlayerFishEvent ev){
 		if(ev.getState()==State.CAUGHT_ENTITY){
-			if(!getKit().getPlayers().contains(ev.getPlayer()))return;
+			if(!getPerkData().hasPlayer(this,ev.getPlayer()))return;
 			damage.add(ev.getCaught());
 			ev.getCaught().setVelocity( ev.getPlayer().getLocation().add(0,1,0).toVector().subtract(ev.getCaught().getLocation().toVector()).normalize().multiply(2.5) );
 		}

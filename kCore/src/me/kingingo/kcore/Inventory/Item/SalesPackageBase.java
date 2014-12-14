@@ -33,8 +33,8 @@ public class SalesPackageBase implements IButton{
 		this.itemStack=UtilItem.Item(new ItemStack(material,1,(byte)data), getDescription(), getName());
 	}
 
-	public void Clicked(Player player, ActionType type) {
-		click.onClick(player, type);
+	public void Clicked(Player player, ActionType type,Object object) {
+		click.onClick(player, type,object);
 	}
 	
 }

@@ -21,12 +21,10 @@ public class PerkRespawnBuff extends Perk{
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Respawn(final PlayerRespawnEvent ev){
-		if(this.getKit().hasPlayer(this,ev.getPlayer())){
-
-					for(PotionEffect e : potion){
-						System.out.println("TYP: "+e.getType().getName()+" DUR:"+e.getDuration()+" AMP:"+e.getAmplifier());
-						ev.getPlayer().addPotionEffect(new PotionEffect(e.getType(),e.getDuration(),e.getAmplifier()));
-					}
+		if(this.getPerkData().hasPlayer(this,ev.getPlayer())){
+			for(PotionEffect e : potion){
+				ev.getPlayer().addPotionEffect(new PotionEffect(e.getType(),e.getDuration(),e.getAmplifier()));
+			}
 		}
 	}
 	

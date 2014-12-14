@@ -15,7 +15,7 @@ public class PerkNoHunger extends Perk{
 	
 	@EventHandler
 	public void Food(FoodLevelChangeEvent ev){
-		if(ev.getEntity()instanceof Player&&this.getKit().hasPlayer( this,((Player)ev.getEntity()) ))ev.setFoodLevel(20);
+		if(ev.getEntity()instanceof Player&&this.getPerkData().hasPlayer( this,((Player)ev.getEntity()) ))ev.setFoodLevel(20);
 	}
 	
 

@@ -27,7 +27,7 @@ public class PerkMoreHearth extends Perk{
 		   d=(Player)e.getEntity();
 		   a=(Player)e.getDamager();
 		   
-		   if(this.getKit().hasPlayer(this,a)){
+		   if(this.getPerkData().hasPlayer(this,a)){
 			   if(((CraftPlayer)a).getHealth()<=herz){
 				   e.setDamage( e.getDamage()+((e.getDamage()/100)*prozent) );  
 			   }

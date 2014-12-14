@@ -194,6 +194,20 @@ public class UtilInv
     }
     return true;
   }
+ 
+  public static Integer FreeInventory(Player p){
+		int a = 0;
+		
+		for(ItemStack i : p.getInventory()){
+			
+			if(i!=null || i.getType()==Material.AIR){
+				a=a+i.getAmount();
+			}
+			
+		}
+		
+		return a;
+	}
   
   public static Integer AnzahlInInventory(Player p,Material m){
 		int a = 0;
@@ -219,7 +233,7 @@ public class UtilInv
   			}
   		return empty;
   	}
-	
+  	
 	public static boolean isInInventory(Player p,Material m){
 		
 		for(ItemStack i : p.getInventory()){

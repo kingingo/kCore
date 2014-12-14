@@ -1,23 +1,20 @@
 package me.kingingo.kcore.Kit;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
-import me.kingingo.kcore.kListener;
 import me.kingingo.kcore.Disguise.DisguiseManager;
 import me.kingingo.kcore.Disguise.DisguiseType;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
-import me.kingingo.kcore.Kit.Perks.Event.KitHasPlayerEvent;
+import me.kingingo.kcore.Kit.Perks.Event.PerkHasPlayerEvent;
 import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class Kit{
+public class Kit extends PerkData{
 
 	@Getter
 	String Name;
@@ -25,8 +22,6 @@ public class Kit{
 	ItemStack item;
 	@Getter
 	String[] description;
-	@Getter
-	ArrayList<Player> players = new ArrayList<>();
 	@Getter
 	Perk[] perks;
 	@Getter
@@ -59,7 +54,7 @@ public class Kit{
 		}
 		
 		for(Perk perk : perks){
-			perk.setKit(this);
+			perk.setPerkData(this);
 		}
 		i=i+desc.length;
 		
@@ -74,7 +69,6 @@ public class Kit{
 		}else{
 			i=2;
 		}
-			
 		
 		for(String s : desc){
 			this.description[i]=s;
@@ -105,7 +99,7 @@ public class Kit{
 		}
 		
 		for(Perk perk : perks){
-			perk.setKit(this);
+			perk.setPerkData(this);
 		}
 		i=i+desc.length;
 		this.description=new String[i];
@@ -151,7 +145,7 @@ public class Kit{
 		}
 		
 		for(Perk perk : perks){
-			perk.setKit(this);
+			perk.setPerkData(this);
 		}
 		i=i+desc.length;
 		
@@ -196,7 +190,7 @@ public class Kit{
 		}
 		
 		for(Perk perk : perks){
-			perk.setKit(this);
+			perk.setPerkData(this);
 		}
 		i=i+desc.length;
 		
@@ -228,10 +222,12 @@ public class Kit{
 	
 	public void disguise(HashMap<Player,String> list){
 		if(getDisguise()==null)return;
-		for(Player p : getPlayers()){
+		for(Perk perk : getPlayers().keySet()){
+			for(Player p : getPlayers().get(perk)){
 				if(!list.containsKey(p))continue;
 				DisguiseBase d = DisguiseType.newDisguise(p, getDisguise(), new Object[]{list.get(p)+p.getName()});
 				getDmanager().disguise(p,d);
+			}
 		}
 	}
 	
@@ -247,37 +243,36 @@ public class Kit{
 	
 	public void setItems(){
 		if(items==null)return;
-		for(Player p : getPlayers()){
-			for(ItemStack i : items){
-				p.getInventory().addItem(i.clone());
+		for(Perk perk : getPlayers().keySet()){
+			for(Player p : getPlayers().get(perk)){
+				for(ItemStack i : items){
+					p.getInventory().addItem(i.clone());
+				}
 			}
 		}
 	}
 	
 	public void disguise(){
 		if(getDisguise()==null)return;
-		for(Player p : getPlayers()){
+		for(Perk perk : getPlayers().keySet()){
+			for(Player p : getPlayers().get(perk)){
 				DisguiseBase d = DisguiseType.newDisguise(p, getDisguise(), new Object[]{p.getName()});
 				getDmanager().disguise(p,d);
+			}
 		}
 	}
 	
 	public void addPlayer(Player p){
-		getPlayers().add(p);
+		for(Perk perk : getPlayers().keySet()){
+			getPlayers().get(perk).add(p);
+		}
 	}
 	
 	public void removePlayer(Player p){
 		if(getDisguise()!=null){
 			getDmanager().undisguise(p);
 		}
-		getPlayers().remove(p);
-	}
-	
-	public boolean hasPlayer(Perk perk,Player p){
-		KitHasPlayerEvent e = new KitHasPlayerEvent(perk,p,this);
-		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled())return false;
-		return getPlayers().contains(p);
+		for(Perk perk : getPlayers().keySet())getPlayers().get(perk).remove(p);
 	}
 	
 }

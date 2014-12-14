@@ -29,9 +29,9 @@ public class PetShop extends InventoryBase{
 		this.manager=manager;
 		this.manager.setSetting(true);
 		
-		this.manager.getSetting_list().put(EntityType.IRON_GOLEM, new PetSetting(manager,UtilItem.RenameItem(new ItemStack(Material.IRON_BLOCK), "§aIronGolem")));
-		this.manager.getSetting_list().put(EntityType.PIG, new PetSetting(manager,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 90), "§aPig")));
-		this.manager.getSetting_list().put(EntityType.WOLF, new PetSetting(manager,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 95), "§aWolf")));
+		this.manager.getSetting_list().put(EntityType.IRON_GOLEM, new PetSetting(manager,EntityType.IRON_GOLEM,UtilItem.RenameItem(new ItemStack(Material.IRON_BLOCK), "§aIronGolem")));
+		this.manager.getSetting_list().put(EntityType.PIG, new PetSetting(manager,EntityType.PIG,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 90), "§aPig")));
+		this.manager.getSetting_list().put(EntityType.WOLF, new PetSetting(manager,EntityType.WOLF,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 95), "§aWolf")));
 		
 		getMain().setItem(0, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
 		getMain().setItem(1, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
@@ -55,14 +55,14 @@ public class PetShop extends InventoryBase{
 		getMain().setItem(26, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
 		
 		getMain().addButton(10, new SalesPackageBase(new Click(){
-			public void onClick(Player player, ActionType type) {
+			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, Permission.PET_IRON_GOLEM)){
 					manager.AddPetOwner(player, "IronGolem", EntityType.IRON_GOLEM, player.getLocation());
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
 					@Override
-					public void onClick(Player player, ActionType type) {
+					public void onClick(Player player, ActionType type,Object object) {
 						permManager.addPermission(player, Permission.PET_IRON_GOLEM);
 					}
 					
@@ -75,7 +75,7 @@ public class PetShop extends InventoryBase{
 		}, Material.IRON_BLOCK, "IronGolem", new String[]{""}));
 		
 		getMain().addButton(11, new SalesPackageBase(new Click(){
-			public void onClick(Player player, ActionType type) {
+			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, Permission.PET_WOLF)){
 					manager.AddPetOwner(player, "Wolf", EntityType.WOLF, player.getLocation());
 					player.closeInventory();
@@ -83,7 +83,7 @@ public class PetShop extends InventoryBase{
 					InventoryBuy buy = new InventoryBuy(new Click(){
 
 						@Override
-						public void onClick(Player player, ActionType type) {
+						public void onClick(Player player, ActionType type,Object object) {
 							permManager.addPermission(player, Permission.PET_WOLF);
 						}
 						
@@ -96,7 +96,7 @@ public class PetShop extends InventoryBase{
 		}, Material.MONSTER_EGG,95, "Wolf", new String[]{""}));
 		
 		getMain().addButton(12, new SalesPackageBase(new Click(){
-			public void onClick(Player player, ActionType type) {
+			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, Permission.PET_PIG)){
 					manager.AddPetOwner(player, "Pig", EntityType.PIG, player.getLocation());
 					player.closeInventory();
@@ -104,7 +104,7 @@ public class PetShop extends InventoryBase{
 					InventoryBuy buy = new InventoryBuy(new Click(){
 
 					@Override
-					public void onClick(Player player, ActionType type) {
+					public void onClick(Player player, ActionType type,Object object) {
 						permManager.addPermission(player, Permission.PET_PIG);
 					}
 					

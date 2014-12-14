@@ -18,7 +18,7 @@ public class PerkLessDamage extends Perk{
 	@EventHandler
 	public void Less(EntityDamageByEntityEvent ev){
 		if(ev.getDamager() instanceof Player){
-			if(getKit().getPlayers().contains( ((Player)ev.getDamager()) )){
+			if(getPerkData().hasPlayer(this, ((Player)ev.getDamager()))){
 				ev.setDamage( ((ev.getDamage()*prozent)/100) );
 			}
 		}

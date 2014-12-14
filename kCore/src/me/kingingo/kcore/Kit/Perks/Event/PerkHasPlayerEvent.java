@@ -3,13 +3,14 @@ package me.kingingo.kcore.Kit.Perks.Event;
 import lombok.Getter;
 import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Kit.PerkData;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class KitHasPlayerEvent extends Event implements Cancellable{
+public class PerkHasPlayerEvent extends Event implements Cancellable{
 	private static HandlerList handlers = new HandlerList();
 	private boolean cancel=false;
 	@Getter
@@ -17,11 +18,11 @@ public class KitHasPlayerEvent extends Event implements Cancellable{
 	@Getter
 	Player player;
 	@Getter
-	Kit kit;
+	PerkData perkData;
 	
-	public KitHasPlayerEvent(Perk perk,Player player,Kit kit){
+	public PerkHasPlayerEvent(Perk perk,Player player,PerkData perkData){
 		this.player=player;
-		this.kit=kit;
+		this.perkData=perkData;
 		this.perk=perk;
 	}
 	

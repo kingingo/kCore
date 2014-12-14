@@ -26,7 +26,7 @@ public class PerkHealByHit extends Perk{
 		if(ev.getEntity() instanceof Player&&ev.getDamager() instanceof Player){
 			defend=(Player)ev.getEntity();
 			attack=(Player)ev.getDamager();
-			if(!this.getKit().hasPlayer(this,attack))return;
+			if(!this.getPerkData().hasPlayer(this,attack))return;
 			if(UtilMath.RandomInt(100, 1) < chance){
 				UtilPlayer.health(attack, herz);
 			}

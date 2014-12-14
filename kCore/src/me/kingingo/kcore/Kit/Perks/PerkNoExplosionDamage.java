@@ -20,7 +20,7 @@ public class PerkNoExplosionDamage extends Perk{
 	public void onBreak(EntityDamageEvent e){
 		if(e.getEntity() instanceof Player){
 			Player p = (Player)e.getEntity();
-			if(!this.getKit().hasPlayer(this,p))return;
+			if(!this.getPerkData().hasPlayer(this,p))return;
 			if(e.getCause()==DamageCause.BLOCK_EXPLOSION||e.getCause()==DamageCause.ENTITY_EXPLOSION){
 				e.setCancelled(true);
 			}

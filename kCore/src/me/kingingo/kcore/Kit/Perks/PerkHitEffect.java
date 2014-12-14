@@ -28,7 +28,7 @@ public class PerkHitEffect extends Perk{
 	public void Damage(EntityDamageByEntityEvent ev){
 		if(ev.getEntity() instanceof Player&&ev.getDamager() instanceof Player){
 			defend=(Player)ev.getDamager();
-			if(!this.getKit().hasPlayer(this,defend))return;
+			if(!this.getPerkData().hasPlayer(this,defend))return;
 			if(!(UtilMath.RandomInt(100, 0)<chance))return;
 			defend=(Player)ev.getEntity();
 			defend.addPotionEffect(new PotionEffect(potion,time*20,1));

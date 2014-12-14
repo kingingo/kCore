@@ -7,6 +7,7 @@ import net.minecraft.server.v1_7_R4.NBTTagCompound;
 import net.minecraft.server.v1_7_R4.NBTTagList;
 
 import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
@@ -146,4 +147,24 @@ public class UtilItem {
 	    return i;
 	  }
 	
+	  public static DyeColor getColorDye(ItemStack wool){
+		  if(wool.getDurability()==0)return DyeColor.WHITE;
+		  if(wool.getDurability()==1)return DyeColor.ORANGE;
+		  if(wool.getDurability()==2)return DyeColor.MAGENTA;
+		  if(wool.getDurability()==3)return DyeColor.LIGHT_BLUE;
+		  if(wool.getDurability()==4)return DyeColor.YELLOW;
+		  if(wool.getDurability()==5)return DyeColor.LIME;
+		  if(wool.getDurability()==6)return DyeColor.PINK;
+		  if(wool.getDurability()==7)return DyeColor.GRAY;
+		  if(wool.getDurability()==8)return DyeColor.GRAY;
+		  if(wool.getDurability()==9)return DyeColor.CYAN;
+		  if(wool.getDurability()==10)return DyeColor.PURPLE;
+		  if(wool.getDurability()==11)return DyeColor.BLUE;
+		  if(wool.getDurability()==12)return DyeColor.BROWN;
+		  if(wool.getDurability()==13)return DyeColor.GREEN;
+		  if(wool.getDurability()==14)return DyeColor.RED;
+		  if(wool.getDurability()==15)return DyeColor.BLACK;
+		  return null;
+	  }
+	  
 }

@@ -24,7 +24,8 @@ public class PerkSnowballSwitcher extends Perk{
 	
 	@EventHandler
 	public void Perk(PerkStartEvent ev){
-		for(Player p : getKit().getPlayers())p.getInventory().addItem(s.clone());
+		if(!getPerkData().getPlayers().containsKey(this))return;
+		for(Player p : getPerkData().getPlayers().get(this))p.getInventory().addItem(s.clone());
 	}
 
 	Snowball snowball;
@@ -34,7 +35,7 @@ public class PerkSnowballSwitcher extends Perk{
 		if(ev.getDamager() instanceof Snowball){
 			snowball=(Snowball)ev.getDamager();
 			if(!(snowball.getShooter() instanceof Player))return;
-			if(getKit().getPlayers().contains( ((Player)snowball.getShooter()) )){
+			if(getPerkData().hasPlayer(this, ((Player)snowball.getShooter()))){
 				if(ev.getEntity() instanceof Player){
 					loc=ev.getEntity().getLocation();
 					ev.getEntity().teleport(snowball.getShooter().getLocation());
@@ -49,7 +50,7 @@ public class PerkSnowballSwitcher extends Perk{
 		if(ev.getEntity() instanceof Snowball){
 			snowball = (Snowball)ev.getEntity();
 			if(!(snowball.getShooter() instanceof Player))return;
-			if(getKit().getPlayers().contains( ((Player)snowball.getShooter()) )){
+			if(getPerkData().hasPlayer(this, ((Player)snowball.getShooter()))){
 				((Player)snowball.getShooter()).getInventory().addItem(s.clone());
 			}
 		}

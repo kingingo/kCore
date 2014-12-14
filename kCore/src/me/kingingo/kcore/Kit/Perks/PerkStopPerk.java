@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
-import me.kingingo.kcore.Kit.Perks.Event.KitHasPlayerEvent;
+import me.kingingo.kcore.Kit.Perks.Event.PerkHasPlayerEvent;
 import me.kingingo.kcore.Util.TimeSpan;
 
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class PerkStopPerk extends Perk{
 
 	long t;
 	@EventHandler
-	public void PerkAllow(KitHasPlayerEvent ev){
+	public void PerkAllow(PerkHasPlayerEvent ev){
 		if(list.containsKey(ev.getPlayer())){
 			t=list.get(ev.getPlayer());
 			if(t>System.currentTimeMillis()){
@@ -37,7 +37,7 @@ public class PerkStopPerk extends Perk{
 	@EventHandler
 	public void Death(PlayerDeathEvent ev){
 		if(ev.getEntity() instanceof Player && ev.getEntity().getKiller() instanceof Player){
-			if(!this.getKit().hasPlayer(this, ev.getEntity().getKiller()))return;
+			if(!this.getPerkData().hasPlayer(this, ev.getEntity().getKiller()))return;
 			d=(Player)ev.getEntity();
 			if(!list.containsKey(d)){
 				list.put(d, (TimeSpan.SECOND*time)+System.currentTimeMillis());

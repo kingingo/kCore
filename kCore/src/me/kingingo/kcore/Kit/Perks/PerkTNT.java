@@ -15,7 +15,7 @@ public class PerkTNT extends Perk{
 	
 	@EventHandler
 	public void Place(BlockPlaceEvent ev){
-		if(!this.getKit().hasPlayer(this,ev.getPlayer()))return;
+		if(!this.getPerkData().hasPlayer(this,ev.getPlayer()))return;
 		if(ev.getBlock().getType()==Material.TNT){
 			ev.getBlock().setType(Material.AIR);
 			ev.getBlock().getLocation().getWorld().spawnEntity(ev.getBlock().getLocation(),EntityType.PRIMED_TNT);

@@ -23,7 +23,8 @@ public class PerkWalkEffect extends Perk{
 	@EventHandler
 	public void Update(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.FAST)return;
-			for(Player p : getKit().getPlayers()){
+		if(!getPerkData().getPlayers().containsKey(this))return;
+			for(Player p : getPerkData().getPlayers().get(this)){
 				p.getLocation().getWorld().playEffect(p.getLocation().add(UtilMath.r(2), UtilMath.r(3), UtilMath.r(2)), this.effect,i);
 				p.getLocation().getWorld().playEffect(p.getLocation().add(UtilMath.r(2), UtilMath.r(3), UtilMath.r(2)), this.effect,i);
 				p.getLocation().getWorld().playEffect(p.getLocation().add(UtilMath.r(2), UtilMath.r(3), UtilMath.r(2)), this.effect,i);

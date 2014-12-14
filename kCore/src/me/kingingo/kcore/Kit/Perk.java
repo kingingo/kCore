@@ -1,22 +1,22 @@
 package me.kingingo.kcore.Kit;
 
-import org.bukkit.event.Listener;
-
 import lombok.Getter;
+
+import org.bukkit.event.Listener;
 
 public abstract class Perk implements Listener{
 
 	@Getter
 	String name;
 	@Getter
-	Kit kit;
+	PerkData perkData;
 	
 	public Perk(String name){
 		this.name=name;
 	}
 	
-	public void setKit(Kit kit){
-		this.kit=kit;
+	public void setPerkData(PerkData perkData){
+		this.perkData=perkData;
 	}
 	
 }

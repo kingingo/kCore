@@ -27,7 +27,7 @@ public class PerkPotionEffectByHearth extends Perk{
 	public void Damage(EntityDamageByEntityEvent ev){
 		if(ev.getEntity() instanceof Player){
 			p=(Player)ev.getEntity();
-			if(!getKit().getPlayers().contains( p ))return;
+			if(!getPerkData().hasPlayer(this, p))return;
 			if(UtilPlayer.getHealth( p ) < 8 && !p.hasPotionEffect(type)){
 				p.addPotionEffect(new PotionEffect(type,second*20,stärke));
 			}

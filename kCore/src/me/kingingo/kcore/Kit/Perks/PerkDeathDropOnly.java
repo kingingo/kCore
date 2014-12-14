@@ -59,7 +59,7 @@ public class PerkDeathDropOnly extends Perk{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Death(PlayerDeathEvent ev){
 		if(ev.getEntity() instanceof Player && ev.getEntity().getKiller() instanceof Player){
-			if(!this.getKit().hasPlayer(this,((Player)ev.getEntity())))return;
+			if(!this.getPerkData().hasPlayer(this,((Player)ev.getEntity())))return;
 			l= new ArrayList<>();
 			for(ItemStack i : ev.getDrops()){
 				item=ev.getEntity().getLocation().getWorld().dropItem(ev.getEntity().getLocation().add(0,0.5,0), i);

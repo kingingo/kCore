@@ -19,7 +19,8 @@ public class PerkEquipment extends Perk{
 
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Start(PerkStartEvent ev){
-		for(Player p : getKit().getPlayers()){
+		if(!getPerkData().getPlayers().containsKey(this))return;
+		for(Player p : getPerkData().getPlayers().get(this)){
 			p.getInventory().addItem(item);
 		}
 	}

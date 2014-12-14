@@ -23,7 +23,7 @@ public class PerkHealByKill extends Perk{
 	public void Damage(EntityDeathEvent ev){
 		if((ev.getEntity() instanceof Monster||ev.getEntity() instanceof Animals)&&ev.getEntity().getKiller() instanceof Player){
 			attack=(Player)ev.getEntity().getKiller();
-			if(!this.getKit().hasPlayer(this,attack))return;
+			if(!this.getPerkData().hasPlayer(this,attack))return;
 				UtilPlayer.health(attack, herz);
 		}
 	}

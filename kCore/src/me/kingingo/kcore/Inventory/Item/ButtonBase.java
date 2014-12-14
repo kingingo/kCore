@@ -45,8 +45,8 @@ public class ButtonBase implements IButton{
 		this.itemStack=UtilItem.RenameItem(new ItemStack(material,1,(byte)data), getName());
 	}
 	
-	public void Clicked(Player player, ActionType type) {
-		click.onClick(player, type);
+	public void Clicked(Player player, ActionType type,Object object) {
+		click.onClick(player, type,object);
 	}
 	
 }

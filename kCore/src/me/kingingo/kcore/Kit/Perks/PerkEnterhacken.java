@@ -23,7 +23,7 @@ public class PerkEnterhacken extends Perk{
 	@EventHandler
 	public void Enterhaken(PlayerFishEvent ev){
 		if(ev.getState()==State.IN_GROUND){
-			if(!getKit().getPlayers().contains(ev.getPlayer()))return;
+			if(!getPerkData().hasPlayer(this, ev.getPlayer()))return;
 			damage.add(ev.getPlayer());
 			ev.getPlayer().setVelocity( ev.getHook().getLocation().add(0,1.8,0).toVector().subtract(ev.getPlayer().getLocation().toVector()).normalize().multiply(2) );
 		}

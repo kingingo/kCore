@@ -21,7 +21,8 @@ public class PerkHeal extends Perk{
 	@EventHandler
 	public void Updater(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SLOW)return;
-		for(Player p : this.getKit().getPlayers()){
+		if(!this.getPerkData().getPlayers().containsKey(this))return;
+		for(Player p : this.getPerkData().getPlayers().get(this)){
 			if(p.getFoodLevel()==20){
 				UtilPlayer.health(p,heal);
 			}

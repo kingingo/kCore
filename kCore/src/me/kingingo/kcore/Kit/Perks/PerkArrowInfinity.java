@@ -18,6 +18,7 @@ public class PerkArrowInfinity extends Perk{
 	public void Shoot(EntityShootBowEvent ev){
 		if(ev.getEntity() instanceof Player){
 			Player p = (Player)ev.getEntity();
+			if(!getPerkData().hasPlayer(this, p))return;
 			p.getInventory().addItem(new ItemStack(Material.ARROW));
 		}
 	}

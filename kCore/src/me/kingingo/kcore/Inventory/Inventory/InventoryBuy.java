@@ -18,11 +18,11 @@ public class InventoryBuy extends InventoryPageBase{
 		addButton(2,new ButtonBase(new Click(){
 
 			@Override
-			public void onClick(Player player, ActionType type) {
+			public void onClick(Player player, ActionType type,Object object) {
 				if(!coins.delCoins(player, true, c)){
 					player.sendMessage(Text.PREFIX.getText()+"§cDu hast nicht genug Coins!");
 				}else{
-					buyed.onClick(player, type);
+					buyed.onClick(player, type,null);
 				}
 				player.closeInventory();
 			}
@@ -32,11 +32,11 @@ public class InventoryBuy extends InventoryPageBase{
 		addButton(6,new ButtonBase(new Click(){
 
 			@Override
-			public void onClick(Player player, ActionType type) {
+			public void onClick(Player player, ActionType type,Object object) {
 				if(!tokens.delTokens(player, true, t)){
 					player.sendMessage(Text.PREFIX.getText()+"§cDu hast nicht genug Tokens!");
 				}else{
-					buyed.onClick(player, type);
+					buyed.onClick(player, type,null);
 				}
 				player.closeInventory();
 			}
@@ -51,11 +51,11 @@ public class InventoryBuy extends InventoryPageBase{
 		addButton(4,new ButtonBase(new Click(){
 
 			@Override
-			public void onClick(Player player, ActionType type) {
+			public void onClick(Player player, ActionType type,Object object) {
 				if(!tokens.delTokens(player, true, t)){
 					player.sendMessage(Text.PREFIX.getText()+"§cDu hast nicht genug Tokens!");
 				}else{
-					buyed.onClick(player, type);
+					buyed.onClick(player, type,null);
 				}
 				player.closeInventory();
 			}
@@ -69,11 +69,11 @@ public class InventoryBuy extends InventoryPageBase{
 		addButton(4,new ButtonBase(new Click(){
 
 			@Override
-			public void onClick(Player player, ActionType type) {
+			public void onClick(Player player, ActionType type,Object object) {
 				if(!coins.delCoins(player, true, c)){
 					player.sendMessage(Text.PREFIX.getText()+"§cDu hast nicht genug Coins!");
 				}else{
-					buyed.onClick(player, type);
+					buyed.onClick(player, type,null);
 				}
 				player.closeInventory();
 			}

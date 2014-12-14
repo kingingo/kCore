@@ -16,7 +16,7 @@ public class PerkHolzfäller extends Perk{
 
 	@EventHandler
 	public void onBreak(BlockBreakEvent e){
-		if(!this.getKit().hasPlayer(this,e.getPlayer()))return;
+		if(!this.getPerkData().hasPlayer(this,e.getPlayer()))return;
 		if(e.getPlayer().getWorld().getName().equalsIgnoreCase("world"))return;
 		Block b = e.getBlock();
 		

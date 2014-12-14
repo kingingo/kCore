@@ -20,7 +20,7 @@ public class PerkNoDropsByDeath extends Perk{
 	@EventHandler
 	public void Death(PlayerDeathEvent ev){
 		if(ev.getEntity() instanceof Player && ev.getEntity().getKiller() instanceof Player){
-			if(!this.getKit().hasPlayer(this,((Player)ev.getEntity())))return;
+			if(!this.getPerkData().hasPlayer(this,((Player)ev.getEntity())))return;
 			ev.getDrops().clear();
 		}
 	}

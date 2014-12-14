@@ -23,7 +23,7 @@ public class PerkSpawnByDeath extends Perk{
 	@EventHandler
 	public void Death(PlayerDeathEvent ev){
 		if(ev.getEntity() instanceof Player && ev.getEntity().getKiller() instanceof Player){
-			if(!this.getKit().hasPlayer(this,((Player)ev.getEntity())))return;
+			if(!this.getPerkData().hasPlayer(this,((Player)ev.getEntity())))return;
 			if(UtilMath.RandomInt(100, 1)<=chance){
 				ev.getEntity().getWorld().spawnEntity(ev.getEntity().getLocation().add(0,0.2,0), e);
 			}

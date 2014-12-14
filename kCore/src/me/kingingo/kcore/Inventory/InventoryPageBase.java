@@ -31,7 +31,7 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 	public void useButton(Player player,ActionType type,ItemStack item){
 		for(IButton button : buttons){
 			if(UtilItem.ItemNameEquals(button.getItemStack(), item)){
-				button.Clicked(player, type);
+				button.Clicked(player, type,item);
 				break;
 			}
 		}

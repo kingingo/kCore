@@ -27,7 +27,7 @@ public class PerkNoKnockback extends Perk{
 	  public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
 	   if(e.getEntity() instanceof Player&&!e.isCancelled()){
 		   final Player op = (Player)e.getEntity();
-		   if(this.getKit().hasPlayer(this, op)){
+		   if(this.getPerkData().hasPlayer(this, op)){
 			   op.setVelocity(new Vector());
 			   Bukkit.getScheduler().scheduleSyncDelayedTask(instance, new Runnable(){
 
