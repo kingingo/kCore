@@ -10,6 +10,8 @@ import me.kingingo.kcore.Calendar.Calendar.CalendarType;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.MySQL.MySQL;
+import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
+import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -119,6 +121,13 @@ public class Coins implements Listener{
 		}
 	}
 	
+	@EventHandler
+	public void Packet(PacketReceiveEvent ev){
+		if(ev.getPacket() instanceof NOT_SAVE_COINS){
+			coins.remove( ((NOT_SAVE_COINS)ev.getPacket()).getSpieler().toLowerCase() );
+		}
+	}
+	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		if(coins.containsKey(ev.getName().toLowerCase()))coins.remove(ev.getName().toLowerCase());
@@ -169,13 +178,13 @@ public class Coins implements Listener{
 	}
 	
 	public void delCoins(String p,Integer coi){
-		String player = inList(p);
-		if(player!=null){
-			if(coins.containsKey(player)){
-				addCoins(player,0);
-				coins.remove(player);
-			}
-		}
+//		String player = inList(p);
+//		if(player!=null){
+//			if(coins.containsKey(player)){
+//				addCoins(player,0);
+//				coins.remove(player);
+//			}
+//		}
 		int c = getCoins(p);
 		int co=c+coi;
 		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.toLowerCase()+"'");
@@ -183,13 +192,13 @@ public class Coins implements Listener{
 	
 	public void addCoins(String p,Integer coi){
 		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coi=coi*2;
-		String player = inList(p);
-		if(player!=null){
-			if(coins.containsKey(player)){
-				addCoins(player,0);
-				coins.remove(player);
-			}
-		}
+//		String player = inList(p);
+//		if(player!=null){
+//			if(coins.containsKey(player)){
+//				addCoins(player,0);
+//				coins.remove(player);
+//			}
+//		}
 		int c = getCoins(p);
 		int co=c+coi;
 		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.toLowerCase()+"'");

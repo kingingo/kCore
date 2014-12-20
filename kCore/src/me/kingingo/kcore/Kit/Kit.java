@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Kit;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
@@ -55,6 +56,7 @@ public class Kit extends PerkData{
 		
 		for(Perk perk : perks){
 			perk.setPerkData(this);
+			getPlayers().put(perk, new ArrayList<Player>());
 		}
 		i=i+desc.length;
 		
@@ -100,6 +102,7 @@ public class Kit extends PerkData{
 		
 		for(Perk perk : perks){
 			perk.setPerkData(this);
+			getPlayers().put(perk, new ArrayList<Player>());
 		}
 		i=i+desc.length;
 		this.description=new String[i];
@@ -146,6 +149,7 @@ public class Kit extends PerkData{
 		
 		for(Perk perk : perks){
 			perk.setPerkData(this);
+			getPlayers().put(perk, new ArrayList<Player>());
 		}
 		i=i+desc.length;
 		
@@ -191,6 +195,7 @@ public class Kit extends PerkData{
 		
 		for(Perk perk : perks){
 			perk.setPerkData(this);
+			getPlayers().put(perk, new ArrayList<Player>());
 		}
 		i=i+desc.length;
 		

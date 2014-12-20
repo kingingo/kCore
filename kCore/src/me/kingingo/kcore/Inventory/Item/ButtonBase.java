@@ -1,7 +1,6 @@
 package me.kingingo.kcore.Inventory.Item;
 
 import lombok.Getter;
-import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 
@@ -43,6 +42,12 @@ public class ButtonBase implements IButton{
 		this.click=click;
 		this.name=name;
 		this.itemStack=UtilItem.RenameItem(new ItemStack(material,1,(byte)data), getName());
+	}
+	
+	public ButtonBase(Click click,ItemStack item){
+		this.click=click;
+		if(item.hasItemMeta()&&item.getItemMeta().hasDisplayName())this.name=item.getItemMeta().getDisplayName();
+		this.itemStack=item;
 	}
 	
 	public void Clicked(Player player, ActionType type,Object object) {

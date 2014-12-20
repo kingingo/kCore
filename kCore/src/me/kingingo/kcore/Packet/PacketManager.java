@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.kingingo.kcore.Client.Client;
 import me.kingingo.kcore.Packet.Events.PacketSendEvent;
 import me.kingingo.kcore.Packet.Packets.BROADCAST;
+import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
@@ -51,6 +52,8 @@ public class PacketManager {
 			return new BROADCAST(packet);
 		}else if (packet.contains("SEND_MESSAGE")) {
 			return new SEND_MESSAGE(packet);
+		}else if (packet.contains("NOT_SAVE_COINS")) {
+			return new NOT_SAVE_COINS(packet);
 		}else if (packet.contains("SERVER_INFO_ALL")) {
 			return new SERVER_INFO_ALL();
 		}else if (packet.contains("PERMISSION_USER_RELOAD")) {

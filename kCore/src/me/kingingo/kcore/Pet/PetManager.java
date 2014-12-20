@@ -224,7 +224,7 @@ public class PetManager implements Listener{
 	 	       if (((Integer)this.failedAttempts.get(playerName)).intValue() > 4){
 		          pet.teleport(owner);
 		          this.failedAttempts.put(playerName, Integer.valueOf(0));
-	 	      }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.5D)){
+	 	      }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(),  2.0D)){
 		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>8){
 		            this.failedAttempts.put(playerName, Integer.valueOf(((Integer)this.failedAttempts.get(playerName)).intValue() + 1));
 		          }
@@ -349,7 +349,7 @@ public class PetManager implements Listener{
 		          pet.teleport(ownerSpot);
 		          Bukkit.getPluginManager().callEvent(new PetWithOutOwnerLocationEvent(pet,ownerSpot));
 		          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
-		        }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.5D)){
+		        }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 2.0D)){
 		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>8){
 		            this.failedAttemptsToLocation.put(pet, Integer.valueOf(((Integer)this.failedAttemptsToLocation.get(pet)).intValue() + 1));
 		          }

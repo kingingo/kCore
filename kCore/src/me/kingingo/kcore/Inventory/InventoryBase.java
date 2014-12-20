@@ -6,11 +6,8 @@ import lombok.Getter;
 import me.kingingo.kcore.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
-import me.kingingo.kcore.Util.Coins;
-import me.kingingo.kcore.Util.Tokens;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
-import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryCustom;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;
@@ -43,12 +40,14 @@ public class InventoryBase extends kListener{
 		player.openInventory(main);
 	}
 	
-	public void addAnother(InventoryPageBase page){
+	public InventoryPageBase addAnother(InventoryPageBase page){
 		another.add(page);
+		return page;
 	}
 	
-	public void addPage(InventoryPageBase page){
+	public InventoryPageBase addPage(InventoryPageBase page){
 		pages.add(page);
+		return page;
 	}
 	
 	public InventoryPageBase get(Inventory inv){
@@ -82,7 +81,7 @@ public class InventoryBase extends kListener{
 	public void UseInv(InventoryClickEvent ev){
 		if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
 			page=get(ev.getInventory());
-			if(page!=null&&(getPages().contains(page)||main==page||getAnother().contains(page))){
+			if(page!=null){
 				ev.setCancelled(true);
 				p=(Player)ev.getWhoClicked();
 				if(ClickType.LEFT==ev.getClick())page.useButton(p, ActionType.L, ev.getCurrentItem());

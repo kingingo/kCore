@@ -32,11 +32,11 @@ public class CommandMem implements CommandExecutor, Listener{
 			Player p = (Player)cs;
 			if(permManager.hasPermission(p, Permission.COMMAND_MEM)){
 				 Runtime run = Runtime.getRuntime();
-				 p.sendMessage("§7Online:§b "+UtilTime.formatMili(System.currentTimeMillis() - online)+"§7 TPS:§b "+Math.round((Lag.getTPS()/20)*100)+"%§7 Ram: §b" + run.totalMemory() / 1048576L + " MB§7 / §b" + run.maxMemory() / 1048576L + " MB");
+				 p.sendMessage("§7Online:§b "+UtilTime.formatMili(System.currentTimeMillis() - online)+"§7 TPS:§b "+Math.round( (Lag.getTPS()/20)*100 )+"%§7 Ram: §b" + run.totalMemory() / 1048576L + " MB§7 / §b" + run.maxMemory() / 1048576L + " MB");
 			}
 		}else{
 			 Runtime run = Runtime.getRuntime();
-			 System.out.println("Online: "+UtilTime.formatMili(System.currentTimeMillis() - online)+" TPS: "+Math.round((Lag.getTPS()/20)*100)+"% Ram: " + run.totalMemory() / 1048576L + " MB / " + run.maxMemory() / 1048576L + " MB");
+			 System.out.println("Online: "+UtilTime.formatMili(System.currentTimeMillis() - online)+" TPS: "+Math.round( (Lag.getTPS()/20)*100 )+"% Ram: " + run.totalMemory() / 1048576L + " MB / " + run.maxMemory() / 1048576L + " MB");
 		}
 		return false;
 	}

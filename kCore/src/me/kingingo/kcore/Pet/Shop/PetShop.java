@@ -5,6 +5,7 @@ import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.SalesPackageBase;
+import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Pet.PetManager;
@@ -17,21 +18,32 @@ import me.kingingo.kcore.Util.UtilItem;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PetShop extends InventoryBase{
 
 	@Getter
 	private PetManager manager;
+	@Getter
+	private PermissionManager permManager;
 	
 	public PetShop(final PetManager manager,final PermissionManager permManager,final Coins coins,final Tokens tokens){
 		super(manager.getInstance(),27,"Pet-Shop");
 		this.manager=manager;
+		this.permManager=permManager;
 		this.manager.setSetting(true);
+		
+		this.permManager.getMysql().Update("CREATE TABLE IF NOT EXISTS list_pet(player varchar(30),pet varchar(100))");
 		
 		this.manager.getSetting_list().put(EntityType.IRON_GOLEM, new PetSetting(manager,EntityType.IRON_GOLEM,UtilItem.RenameItem(new ItemStack(Material.IRON_BLOCK), "§aIronGolem")));
 		this.manager.getSetting_list().put(EntityType.PIG, new PetSetting(manager,EntityType.PIG,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 90), "§aPig")));
 		this.manager.getSetting_list().put(EntityType.WOLF, new PetSetting(manager,EntityType.WOLF,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 95), "§aWolf")));
+		this.manager.getSetting_list().put(EntityType.SHEEP, new PetSetting(manager,EntityType.SHEEP,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 91), "§aSchaf")));
 		
 		getMain().setItem(0, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
 		getMain().setItem(1, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
@@ -115,6 +127,37 @@ public class PetShop extends InventoryBase{
 			}
 			
 		}, Material.MONSTER_EGG,90, "Pig", new String[]{""}));
+		
+		getMain().addButton(13, new SalesPackageBase(new Click(){
+			public void onClick(Player player, ActionType type,Object object) {
+				if(permManager.hasPermission(player, Permission.PET_SHEEP)){
+					manager.AddPetOwner(player, "Schaf", EntityType.SHEEP, player.getLocation());
+					player.closeInventory();
+				}else{
+					InventoryBuy buy = new InventoryBuy(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,Object object) {
+						permManager.addPermission(player, Permission.PET_SHEEP);
+					}
+					
+					},"Kaufen",coins,4000,tokens,100);
+					player.openInventory(buy);
+					addAnother(buy);
+				}
+			}
+			
+		}, Material.MONSTER_EGG,91, "Schaf", new String[]{""}));
+	}
+	
+	@EventHandler(priority=EventPriority.LOW)
+	public void Join(AsyncPlayerPreLoginEvent ev){
+		
+	}
+	
+	@EventHandler
+	public void Quit(PlayerQuitEvent ev){
+		manager.RemovePet(ev.getPlayer(), true);
 	}
 	
 }

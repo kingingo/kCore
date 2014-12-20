@@ -17,6 +17,7 @@ public abstract class Perk implements Listener{
 	
 	public void setPerkData(PerkData perkData){
 		this.perkData=perkData;
+		
 	}
 	
 }

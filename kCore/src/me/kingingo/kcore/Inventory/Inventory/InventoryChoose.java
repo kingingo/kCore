@@ -12,9 +12,8 @@ public class InventoryChoose extends InventoryPageBase{
 	public InventoryChoose(Click click,String Title,int size,ItemStack[] item) {
 		super(size,Title);
 		for(ItemStack i : item){
-			addButton(getSlotSort(), new ButtonBase(click,i.getType(),i.getDurability(),i.getItemMeta().getDisplayName()));
+			addButton(new ButtonBase(click,i));
 		}
 		fill(Material.STAINED_GLASS_PANE,7);
 	}
-
 }

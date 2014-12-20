@@ -10,7 +10,6 @@ import me.kingingo.kcore.Util.AnvilGUI.AnvilClickEvent;
 import me.kingingo.kcore.Util.AnvilGUI.AnvilClickEventHandler;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
-import net.minecraft.server.v1_7_R4.EntityAgeable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -25,30 +24,26 @@ import org.bukkit.inventory.ItemStack;
 
 public class PetSetting extends InventoryBase{
 
-	private InventoryRename inv_rename;
 	private InventoryChoose inv_choose;
 	
 	public PetSetting(final PetManager manager,EntityType type,ItemStack item) {
 		super(manager.getInstance(),9, "PetSetting");
-		this.inv_rename=new InventoryRename(new AnvilClickEventHandler(){
-
-			@Override
-			public void onAnvilClick(AnvilClickEvent event) {
-				Creature c = manager.getActivePetOwners().get(event.getPlayer().getName());
-				c.setCustomName(event.getName().replaceAll("&", "§"));
-				c.setCustomNameVisible(true);
-				event.setWillClose(true);
-				event.setWillDestroy(false);
-			}
-			
-		}, manager.getInstance(), "Name Ändern");
 		
 		getMain().setItem(1,item);
 		getMain().addButton(3, new ButtonBase(new Click(){
 			@Override
-			public void onClick(Player player, ActionType type,Object object) {
+			public void onClick(final Player player, ActionType type,Object object) {
 				player.closeInventory();
-				inv_rename.open(player);
+				new InventoryRename(player,new AnvilClickEventHandler(){
+
+					@Override
+					public void onAnvilClick(AnvilClickEvent event) {
+						Creature c = manager.getActivePetOwners().get(player.getName());
+						c.setCustomName(event.getName().replaceAll("&", "§"));
+						c.setCustomNameVisible(true);
+					}
+					
+				}, manager.getInstance(), "Namen Ändern");
 			}
 		}, Material.ANVIL, "§aNamen Ändern"));
 		Entity e = Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"),0,60,0), type);
@@ -57,6 +52,7 @@ public class PetSetting extends InventoryBase{
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					CraftAgeable c =(CraftAgeable) manager.GetPet(player);
+					c.setAgeLock(false);
 					if(c.isAdult()){
 						c.setBaby();
 					}else{
@@ -64,7 +60,7 @@ public class PetSetting extends InventoryBase{
 					}
 					player.closeInventory();
 				}
-			},Material.GRASS,"Alter Ändern"));
+			},Material.GRASS,"§aAlter Ändern"));
 		}
 		
 		if(type==EntityType.SHEEP){
@@ -77,16 +73,18 @@ public class PetSetting extends InventoryBase{
 						player.closeInventory();
 					}
 				}
-			},"Farbe Ändern",18,new ItemStack[]{new ItemStack(Material.WOOL,1,(byte)0),new ItemStack(Material.WOOL,1,(byte)1),new ItemStack(Material.WOOL,1,(byte)2),new ItemStack(Material.WOOL,1,(byte)3),new ItemStack(Material.WOOL,1,(byte)4),new ItemStack(Material.WOOL,1,(byte)5),new ItemStack(Material.WOOL,1,(byte)6),new ItemStack(Material.WOOL,1,(byte)7),new ItemStack(Material.WOOL,1,(byte)9),new ItemStack(Material.WOOL,1,(byte)10),new ItemStack(Material.WOOL,1,(byte)11),new ItemStack(Material.WOOL,1,(byte)12),new ItemStack(Material.WOOL,1,(byte)13),new ItemStack(Material.WOOL,1,(byte)14),new ItemStack(Material.WOOL,1,(byte)15)});
+			},"Farbe Ändern",18,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)0), "Weiß"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), "Orange"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)2),"Magneta"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)3),"Hell Blau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)4),"Gelb"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)5),"Hell Grün"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)6),"Pink"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)7),"Grau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)9),"Cyan"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)10),"Lila"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)11),"Blau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12),"Braun"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)13),"Grün"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)14),"Rot"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)15),"Schwarz")});
+			addPage(inv_choose);
+			
 			getMain().addButton(5, new ButtonBase(new Click(){
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					player.closeInventory();
 					player.openInventory(inv_choose);
 				}
-			},Material.WOOL,"Farbe Ändern"));
+			},Material.WOOL,"§aFarbe Ändern"));
 		}
-		getMain().fill(Material.STAINED_GLASS_PANE,1);
+		getMain().fill(Material.STAINED_GLASS_PANE,4);
 		e.remove();
 	}
 

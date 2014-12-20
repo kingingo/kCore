@@ -13,15 +13,12 @@ public class InventoryRename{
 
 	private AnvilGUI gui;
 	
-	public InventoryRename(AnvilClickEventHandler anvil,JavaPlugin instance,String Title) {
-		gui = new AnvilGUI(anvil, instance);
+	public InventoryRename(Player player,AnvilClickEventHandler anvil,JavaPlugin instance,String Title) {
+		gui = new AnvilGUI(player,instance, anvil);
 		ItemStack renamed = UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), Title);
 		gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, renamed);
 		gui.setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "§aFertig"));
-	}
-	
-	public void open(Player player){
-		gui.open(player);
+		gui.open();
 	}
 
 }

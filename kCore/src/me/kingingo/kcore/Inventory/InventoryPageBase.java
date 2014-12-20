@@ -86,6 +86,11 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
+	public void addButton(IButton button){
+		addItem(button.getItemStack());
+		this.buttons.add(button);
+	}
+	
 	public void addButton(int slot,IButton button){
 		setItem(slot, button.getItemStack());
 		this.buttons.add(button);

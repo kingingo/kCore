@@ -29,6 +29,7 @@ public class PermissionManager {
 	private HashMap<String,List<Permission>> groups = new HashMap<>();
 	@Getter
 	private HashMap<String,String> gprefix = new HashMap<>();
+	@Getter
 	private MySQL mysql;
 	@Getter
 	@Setter
