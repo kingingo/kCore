@@ -93,14 +93,14 @@ public class PetManager implements Listener{
 		return false;
 	}
 	
-	public Creature AddPetWithOutOwner(String name, EntityType entityType, Location location){
+	public Creature AddPetWithOutOwner(String name,boolean clear_goal, EntityType entityType, Location location){
 		location.getWorld().loadChunk(location.getWorld().getChunkAt(location));
 	    Creature pet =(Creature) location.getWorld().spawnEntity(location, entityType);
 	    pet.setCustomNameVisible(true);
 	    pet.setCustomName(name);
 	    this.petToLocation.put(pet,location);
 	    this.failedAttemptsToLocation.put(pet,Integer.valueOf(0));
-	    ClearPetGoals(pet);
+	    if(clear_goal)ClearPetGoals(pet);
 	    return pet;
     }
 	

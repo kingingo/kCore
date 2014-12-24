@@ -9,6 +9,7 @@ import me.kingingo.kcore.Util.TimeSpan;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class PerkStopPerk extends Perk{
@@ -35,9 +36,9 @@ public class PerkStopPerk extends Perk{
 	
 	Player d;
 	@EventHandler
-	public void Death(PlayerDeathEvent ev){
-		if(ev.getEntity() instanceof Player && ev.getEntity().getKiller() instanceof Player){
-			if(!this.getPerkData().hasPlayer(this, ev.getEntity().getKiller()))return;
+	public void Death(EntityDamageByEntityEvent ev){
+		if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Player){
+			if(!this.getPerkData().hasPlayer(this,((Player) ev.getDamager())))return;
 			d=(Player)ev.getEntity();
 			if(!list.containsKey(d)){
 				list.put(d, (TimeSpan.SECOND*time)+System.currentTimeMillis());

@@ -83,8 +83,7 @@ public class NPC {
 			GameProfile g = new GameProfile(UUID.randomUUID(), Name);
 			WorldServer w = ((CraftWorld)loc.getWorld()).getHandle();
 			PlayerInteractManager i = new PlayerInteractManager(w);
-			EntityPlayer p = new EntityPlayer( s.getServer() , w, g, i);
-			this.p=p;
+			this.p=new EntityPlayer( s.getServer() , w, g, i);
 		}
 		p.locX=loc.getX();
 		p.locY=loc.getY();

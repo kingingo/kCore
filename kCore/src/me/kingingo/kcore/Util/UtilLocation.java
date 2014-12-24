@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.server.v1_7_R4.PacketPlayOutMapChunk;
+import net.minecraft.server.v1_7_R4.PacketPlayOutWorldParticles;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -68,7 +70,21 @@ public class UtilLocation {
 	    return Math.floor(f) == f;
 	  }
 	
-	public static List<Block> getScans(int radius, Location startloc) {
+	public static Block searchBlock(Material material,int radius, Location startloc){
+		List<Block> list = getScans(radius,true, startloc);
+		Block block = null;
+		for(Block b : list){
+			if(b.getType()==material){
+				block=b;
+				break;
+			}
+		}
+		list.clear();
+		list=null;
+		return block;
+	}
+	
+	public static List<Block> getScans(int radius,boolean air, Location startloc) {
 		List<Block> list = Lists.newArrayList();
 		final Block block = startloc.getBlock();
 		final int x = block.getX();
@@ -85,6 +101,7 @@ public class UtilLocation {
 				for (int counterZ = minZ; counterZ <= maxZ; counterZ++) {
 					final Block blockName = startloc.getWorld().getBlockAt(
 							counterX, counterY, counterZ);
+					if(air&&blockName.getType()==Material.AIR)continue;
 					list.add(blockName);
 				}
 			}
@@ -125,37 +142,99 @@ public class UtilLocation {
 		return vector;
 	}
 	
-	public static ArrayList<Location> LocWithBorder(World w,int locs,int MinBorder,int MaxBorder,Location location,int radius){
-		return LocWithBorder(w, locs, MinBorder, MaxBorder, location.getBlockX()+radius, location.getBlockX()-radius, location.getBlockZ()+radius, location.getBlockZ()-radius, location.getBlockY()+radius, location.getBlockY()-radius);
+	public static ArrayList<Location> SpiralLocs(World w,int locs,int border,int x,int y,int z){
+		return SpiralLocs(w, locs,border,new Location(w,x,y,z));
 	}
 	
-	public static ArrayList<Location> LocWithBorder(World w,int locs,int MinBorder,int MaxBorder,int MaxX,int MinX,int MaxZ,int MinZ,int MaxY,int MinY){
+	public void makeCircle(Location loc, Integer r, Material m) {
+        int x;
+        int y = loc.getBlockY();
+        int z;      
+        
+        for (double i = 0.0; i < 360.0; i += 0.1) {
+        	double angle = i * Math.PI / 180;
+            x = (int)(loc.getX() + r * Math.cos(angle));
+            z = (int)(loc.getZ() + r * Math.sin(angle));
+            loc.getWorld().getBlockAt(x, y, z).setType(m);
+        }
+    }
+	
+	public void makeSpiral(Location loc,double max_r,Material m) {
+        int x;
+        int y = loc.getBlockY();
+        int z;
+        double angle;
+        double r=1;      
+        
+        for (double i = 0.0; i < 360.0; i += 0.1) {
+        	angle = i * Math.PI / 180;
+        	r+=0.005;
+            x = (int)(loc.getX() + r * Math.cos(angle));
+            z = (int)(loc.getZ() + r * Math.sin(angle));
+            loc.getWorld().getBlockAt(x, y, z).setType(m);
+            if(i>=350&&loc.getWorld().getBlockAt(x, y, z).getLocation().distance(loc)<max_r)i=0.0;
+        }
+    }
+	
+	public static ArrayList<Location> RandomLocs(World w,int locs,int border,Location loc){
 		ArrayList<Location> list = new ArrayList<>();
-		int x=0;
-		int z=0;
-		int y=0;
-		Location l = null;
-		for(int i = 0; i <= 2000; i++){
-			if(list.size()==locs)break;
-			x=UtilMath.RandomInt(MaxX, MinX);
-			z=UtilMath.RandomInt(MaxZ, MinZ);
-			y=UtilMath.RandomInt(MaxY, MinY);
-			l=new Location(w,x,y,z);
-			for(Location loc : list){
-				if(l.distance(loc)<MinBorder){
-					l=null;
-					break;
-				}
-				if(l.distance(loc)>MaxBorder){
-					l=null;
-					break;
-				}
-			}
-			if(l!=null)list.add(l);
+		  	int x;
+	        int y = loc.getBlockY();
+	        int z;
+	        int r=1;      
+	        
+	        for (int i = 0; i < locs; i++) {
+	        	r+=5;
+	            x = (int)UtilMath.RandomInt(loc.getBlockX()+r, loc.getBlockX());
+	            z = (int)UtilMath.RandomInt(loc.getBlockZ()+r, loc.getBlockZ());
+
+	            for(Location l : list){
+	            	if(w.getBlockAt(x, y, z).getLocation().distance(l) < border){
+	            		x=-9999;
+	            		z=-9999;
+	            	}
+	            }
+	            if(x!=-9999&&z!=-9999)list.add(w.getBlockAt(x, y, z).getLocation());
+	            if(list.size()>locs){
+	            	break;
+	            }else if(list.size()<locs){
+	            	i=0;
+	            }
+	        }
+		
+		for(Location l : list){
+			System.out.println("RandomLocs: "+l);
 		}
 		
-		for(Location loc : list){
-			System.out.println("LocWithBorder: "+loc);
+		return list;
+	}
+	
+	public static ArrayList<Location> SpiralLocs(World w,int locs,int border,Location loc){
+		ArrayList<Location> list = new ArrayList<>();
+		  	int x;
+	        int y = loc.getBlockY();
+	        int z;
+	        double angle;
+	        double r=1;      
+	        
+	        for (double i = 0.0; i < 360.0; i += 0.1) {
+	        	angle = i * Math.PI / 180;
+	        	r+=0.005;
+	            x = (int)(loc.getX() + r * Math.cos(angle));
+	            z = (int)(loc.getZ() + r * Math.sin(angle));
+
+	            for(Location l : list){
+	            	if(w.getBlockAt(x, y, z).getLocation().distance(l) < border){
+	            		x=-9999;
+	            		z=-9999;
+	            	}
+	            }
+	            if(x!=-9999&&z!=-9999)list.add(w.getBlockAt(x, y, z).getLocation());
+	            if(i>=350&&list.size()<locs)i=0.0;
+	        }
+		
+		for(Location l : list){
+			System.out.println("SpiralLocs: "+l);
 		}
 		
 		return list;

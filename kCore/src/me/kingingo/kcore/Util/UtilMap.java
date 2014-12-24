@@ -80,32 +80,6 @@ public class UtilMap{
 
 		return list;
 	}
-
-	public static List<Block> getScans(int radius,boolean air, Location startloc) {
-		List<Block> list = Lists.newArrayList();
-		final Block block = startloc.getBlock();
-		final int x = block.getX();
-		final int y = block.getY();
-		final int z = block.getZ();
-		final int minX = x - radius;
-		final int minY = y - radius;
-		final int minZ = z - radius;
-		final int maxX = x + radius;
-		final int maxY = y + radius;
-		final int maxZ = z + radius;
-		for (int counterX = minX; counterX <= maxX; counterX++) {
-			for (int counterY = minY; counterY <= maxY; counterY++) {
-				for (int counterZ = minZ; counterZ <= maxZ; counterZ++) {
-					final Block blockName = startloc.getWorld().getBlockAt(
-							counterX, counterY, counterZ);
-					if(air&&blockName.getType()==Material.AIR)continue;
-					list.add(blockName);
-				}
-			}
-		}
-
-		return list;
-	}
 	
 	public static boolean ClearWorldReferences(String worldName)
 	  {
