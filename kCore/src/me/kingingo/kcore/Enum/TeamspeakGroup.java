@@ -1,39 +1,45 @@
 package me.kingingo.kcore.Enum;
 
 import lombok.Getter;
+import me.kingingo.kcore.Permission.Permission;
 
 public enum TeamspeakGroup {
 
-	OWNER(32,"Owner"),
-	ADMIN(34,"Admin"),
-	MODERATOR(35,"Moderator"),
-	ARCHITEKT_LEITUNG(79,"Architekt-Leitung"),
-	ARCHITEKT(37,"Architekt"),
-	SUPPORTER(36,"Supporter"),
-	PROBE_SUPPORTER(38,"Probe-Supporter"),
-	PROBE_ARCHITEKT (39,"Probe-Architekt"),
-	RUHE (45,"Ruhe"),
-	NICHT_ANSTUPSBAR (56,"Nicht-Anstupsbar"),
-	MITGLIED (53,"Mitglied"),
-	VERTIFIZIERT(75,"Vertifiziert"),
-	PREMIUM(41,"Premium"),
-	YOUTUBER(43,"Youtuber"),
-	TEAM_FREUND(42,"Teamfreund"),
-	GEBURTSTAG(55,"Geburtstag"),
-	BOT(47,"Bot"),
-	TECHNIK(30,"Technik"),
-	PTT (46,"Pit"),
-	NICHT_ANSTUBSBART(69,"Nicht-Anstupsbar[T]"),
-	DEVELOPER(33,"Developer");
+	OWNER(25,"Owner",Permission.TEAMSPEAK_OWNER),
+	DEV_OWNER(26,"Dev/Owner",Permission.TEAMSPEAK_DEV_OWNER),
+	ADMIN(28,"Admin",Permission.TEAMSPEAK_ADMIN),
+	TEAM_LEITER(29,"Team-Leiter",Permission.TEAMSPEAK_TEAM_LEITER),
+	SMOD(31,"sMod",Permission.TEAMSPEAK_SMOD),
+	MOD(32,"Mod",Permission.TEAMSPEAK_MOD),
+	ARCHITEKT_LEITER(30,"Architekt-Leiter",Permission.TEAMSPEAK_ARCHITEKT_LEITER),
+	ARCHITEKT(33,"Architekt",Permission.TEAMSPEAK_ARCHITEKT),
+	HELFER(34,"Helfer",Permission.TEAMSPEAK_HELFER),
+	PROBE_ARCHITEKT (35,"Probe-Architekt",Permission.TEAMSPEAK_PROBE_ARCHITEKT),
+	MITGLIED (9,"Mitglied",Permission.TEAMSPEAK_MITGLIED),
+	PREMIUM(10,"Premium",Permission.TEAMSPEAK_PREMIUM),
+	YOUTUBER(12,"Youtuber",Permission.TEAMSPEAK_YOUTUBER),
+	TEAM_FREUND(13,"Teamfreund",Permission.TEAMSPEAK_TEAM_FREUND),
+	GEBURTSTAG(17,"Geburtstag",Permission.TEAMSPEAK_GEBURTSTAG),
+	BOT(18,"Bot",Permission.TEAMSPEAK_BOT),
+	TECHNIK(6,"Technik",Permission.TEAMSPEAK_TECHNIK),
+	NICHT_ANSTUPSBAR(20,"Nicht-Anstupsbar",Permission.TEAMSPEAK_NICHT_ANSTUPSBAR),
+	GARNICHT_ANSTUPSBAR(39,"Garnicht-Anstupsbar",Permission.TEAMSPEAK_GARNICHT_ANSTUPSBAR),
+	NICHT_REDEN(15,"Nicht-Reden",Permission.TEAMSPEAK_NICHT_REDEN),
+	NICHT_BEWEGEN(16,"Nicht-Bewegen",Permission.TEAMSPEAK_NICHT_BEWEGEN),
+	NICHT_ANSCHREIBBAR(21,"Nicht-Anschreibar",Permission.TEAMSPEAK_NICHT_ANSCHREIBBAR),
+	NICHT_ANSTUPSBART(23,"Nicht-Anstupsbar[T]",Permission.TEAMSPEAK_NICHT_ANSTUPSBART);
 	
 	@Getter
 	int id;
 	@Getter
 	String name;
+	@Getter
+	Permission perm;
 	
-	private TeamspeakGroup(int id,String name){
+	private TeamspeakGroup(int id,String name,Permission perm){
 		this.id=id;
 		this.name=name;
+		this.perm=perm;
 	}
 	
 	public static TeamspeakGroup get(int id){
