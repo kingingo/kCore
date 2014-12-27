@@ -119,7 +119,7 @@ public class NickManager {
          }
 
 		player.setDisplayName(nick);
-		if(getPManager().isSetAllowTab()){
+		if(getPManager().isAllowTab()){
 			UtilPlayer.setPlayerListName(player, "§e"+nick);
 		}else{
 			UtilPlayer.setPlayerListName(player, nick);

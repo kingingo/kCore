@@ -316,6 +316,23 @@ public class UtilInv
     }
   }
 
+  public static ItemStack searchInventoryItem(Player player,Material material,String displayName){
+	  for(ItemStack item : player.getInventory().getContents()){
+		  if(item!=null&&item.getType()!=Material.AIR){
+			  if(item.getType()==material){
+				  if(item.hasItemMeta()){
+					  if(item.getItemMeta().hasDisplayName()){
+						  if(item.getItemMeta().getDisplayName().equalsIgnoreCase(displayName)){
+							  return item;
+						  }
+					  }
+				  }
+			  }
+		  }
+	  }
+	  return null;
+  }
+  
   public static void refreshDurability(Player player, Material type)
   {
     for (ItemStack item : player.getInventory().getContents())

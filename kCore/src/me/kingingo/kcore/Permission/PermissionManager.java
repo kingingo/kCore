@@ -33,7 +33,7 @@ public class PermissionManager {
 	private MySQL mysql;
 	@Getter
 	@Setter
-	private boolean SetAllowTab=true;
+	private boolean AllowTab=true;
 	@Getter
 	private JavaPlugin instance;
 	private PacketManager packetManager;
@@ -117,7 +117,7 @@ public class PermissionManager {
 	}
 	
 	public boolean setTabList(Player p,boolean invisble){
-		if(!isSetAllowTab())return false;
+		if(!isAllowTab())return false;
 		String name = p.getName();
 		if(p.isCustomNameVisible()){
 			name=p.getCustomName();
@@ -126,7 +126,6 @@ public class PermissionManager {
 			String t = gprefix.get(pgroup.get(p.getName().toLowerCase()));
 			int i = t.indexOf("§");
 			t=""+t.toCharArray()[i]+t.toCharArray()[i+1];
-			
 			if(name.length()>13){
 				try{
 					UtilPlayer.setPlayerListName(p,t+name.subSequence(0, 13));

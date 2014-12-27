@@ -1,6 +1,5 @@
 package me.kingingo.kcore.Weapon;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,96 +21,96 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 public class Weapon implements Listener{
 
 	@Getter
 	@Setter
-	WeaponTyp Typ;
+	private WeaponType Typ;
 	
 	@Getter
 	@Setter
-	ItemStack Ammo;
+	private ItemStack Ammo;
+	
+	@Setter
+	private ItemStack Weapon;
 	
 	@Getter
 	@Setter
-	ItemStack Weapon;
+	private WeaponManager manager;
 	
 	@Getter
 	@Setter
-	JavaPlugin instance;
+	private String NAME = "§7Barret ";
 	
 	@Getter
 	@Setter
-	String NAME = "§7Barret ";
+	private String RELOAD = " §c<-= Reload =->";
 	
 	@Getter
 	@Setter
-	String RELOAD = " §c<-= Reload =->";
+	private String NORMAL = " §6<< SHOT | AMMO >>";
 	
 	@Getter
 	@Setter
-	String NORMAL = " §6<< SHOT | AMMO >>";
+	private int Shot=1; //PROJECTILE PRO SCHUSS
 	
 	@Getter
 	@Setter
-	int Shot=1; //PROJECTILE PRO SCHUSS
+	private double abweichung=0.1; //ABWEICHUNG
 	
 	@Getter
 	@Setter
-	double abweichung=0.1; //ABWEICHUNG
+	private long Delay=TimeSpan.SECOND*1; //SHOT DELAY SEC
 	
 	@Getter
 	@Setter
-	long Delay=TimeSpan.SECOND*1; //SHOT DELAY SEC
+	private long ReloadDelay=TimeSpan.SECOND*3; //RELOAD DAY SEC
 	
 	@Getter
 	@Setter
-	long ReloadDelay=TimeSpan.SECOND*3; //RELOAD DAY SEC
+	private int MaxInLauf=10;
 	
 	@Getter
 	@Setter
-	int MaxInLauf=10;
+	private List<String> Lore;
 	
 	@Getter
 	@Setter
-	List<String> Lore;
+	double distance=20.0; //Schussweite
 	
 	@Getter
 	@Setter
-	int damage = 1; //HERZEN PRO SCHUSS
+	private int damage = 1; //HERZEN PRO SCHUSS
 	
-	HashMap<Player,Long> list = new HashMap<>();
+	private HashMap<Player,Long> delay_list = new HashMap<>();
+	private HashMap<Player,Long> reload_list = new HashMap<>();
 	
-	ItemMeta im;
+	private ItemMeta im;
 	
-	public Weapon(JavaPlugin instance,WeaponTyp typ,ItemStack Ammo,ItemStack Weapon,long ReloadDelay, long Delay,int MaxInLauf,double abweichung,int Shot,int damage,String NAME){
+	public Weapon(WeaponManager manager,WeaponType typ,ItemStack Ammo,ItemStack Weapon){
 		this.Typ=typ;
 		this.Ammo=Ammo;
 		this.Weapon=Weapon;
 		this.Lore = Weapon.getItemMeta().getLore();
-		this.instance=instance;
-		this.ReloadDelay=ReloadDelay;
-		this.Delay=Delay;
-		this.NAME=NAME;
-		this.MaxInLauf=MaxInLauf;
-		this.abweichung=abweichung;
-		this.Shot=Shot;
-		this.damage=damage;
+		this.manager=manager;
 		update();
-		Bukkit.getPluginManager().registerEvents(this, getInstance());
+		Bukkit.getPluginManager().registerEvents(this, manager.getInstance());
 	}
 	
 	public int getAmmo(String n){
 		try{
 			if(!n.contains(" | "))return 0;
 			if(!n.contains(">>"))return 0;
-			return Integer.valueOf( n.split(" >")[0].split(" ")[1] );
+			return Integer.valueOf( n.split(" >>")[0].split(" ")[5] );
 		}catch(NumberFormatException e){
 			return 0;
 		}
@@ -121,8 +120,6 @@ public class Weapon implements Listener{
 		try{
 			if(!n.contains(" | "))return 0;
 			if(!n.contains("<<"))return 0;	
-			System.out.println("M:"+n.split("< ")[1]);
-			System.out.println("M1:"+n.split("< ")[1].split(" ")[0]);
 			return Integer.valueOf( n.split("< ")[1].split(" ")[0] );
 		}catch(NumberFormatException e){
 			return 0;
@@ -145,7 +142,6 @@ public class Weapon implements Listener{
 		String s = getNAME()+getNORMAL();
 		s=s.replaceAll("SHOT", String.valueOf(lauf));
 		s=s.replaceAll("AMMO", String.valueOf(ammo));
-		System.out.println("NAME: "+s);
 		im.setDisplayName(s);
 		i.setItemMeta(im);
 		return i;
@@ -161,20 +157,35 @@ public class Weapon implements Listener{
 			lauf=ammo;
 			ammo=0;
 		}
-		System.out.println("AMMO:"+ammo+" / LAUF:"+lauf);
 		return setWeaponToNormal(i, ammo, lauf);
 	}
 	
-	public void setWeaponToReload(ItemStack i){
+	public void setWeaponToReload(Player player,ItemStack i){
 		im = i.getItemMeta();
 		im.setDisplayName(getRELOAD());
 		i.setItemMeta(im);
+		reload_list.put(player, ReloadDelay+System.currentTimeMillis());
 	}
 	
+	ItemStack search;
 	@EventHandler
 	public void Reload(UpdateEvent ev){
-		if(UpdateType.SEC!=ev.getType())return;
+		if(UpdateType.FAST!=ev.getType())return;
+		if(reload_list.isEmpty())return;
 		
+		for(int i = 0; i < reload_list.size(); i++){
+			if(((Player)reload_list.keySet().toArray()[i]).isOnline()){
+				if(((Long)reload_list.values().toArray()[i]) < System.currentTimeMillis()){
+					search=UtilInv.searchInventoryItem(((Player)reload_list.keySet().toArray()[i]), getWeapon().getType(), getRELOAD());
+					if(search!=null){
+						setWeaponToNormal(search, ((Player)reload_list.keySet().toArray()[i]));
+					}
+					reload_list.remove(i);
+				}
+			}else{
+				reload_list.remove(i);
+			}
+		}
 	}
 	
 	public Vector Location(Location l){
@@ -200,39 +211,42 @@ public class Weapon implements Listener{
 		}
 	}
 	
+	Snowball b;
+	Vector v;
+	int r;
+	Vector loc1;
+	int a;
+	int s;
 	@EventHandler
 	public void Shoot(PlayerInteractEvent ev){
 		if(UtilEvent.isAction(ev, ActionType.R)&&ev.getPlayer().getItemInHand()!=null){
 			if(ev.getPlayer().getItemInHand().hasItemMeta()&&ev.getPlayer().getItemInHand().getItemMeta().hasDisplayName()&&ev.getPlayer().getItemInHand().getItemMeta().getDisplayName().contains(getNAME())){
-				if(list.containsKey(ev.getPlayer()) && list.get(ev.getPlayer()) > System.currentTimeMillis()){
+				if(delay_list.containsKey(ev.getPlayer()) && delay_list.get(ev.getPlayer()) > System.currentTimeMillis()){
 					return;
 				}
-				int s = getShot(ev.getPlayer().getItemInHand().getItemMeta().getDisplayName());
+				s = getShot(ev.getPlayer().getItemInHand().getItemMeta().getDisplayName());
 				
 				if(s<=0){
-					setWeaponToReload(ev.getPlayer().getItemInHand());
+					setWeaponToReload(ev.getPlayer(),ev.getPlayer().getItemInHand());
 					return;
 				}
 				
 				s--;
-				list.put(ev.getPlayer(), System.currentTimeMillis()+Delay);
+				delay_list.put(ev.getPlayer(), System.currentTimeMillis()+Delay);
 				UtilInv.remove(ev.getPlayer(), getAmmo().getType(), (byte)getAmmo().getDurability(), 1);
-				int a = getAmmo(ev.getPlayer().getItemInHand().getItemMeta().getDisplayName());
+				a = getAmmo(ev.getPlayer().getItemInHand().getItemMeta().getDisplayName());
 				setWeaponToNormal(ev.getPlayer().getItemInHand(), a, s);
 				ev.getPlayer().updateInventory();
 				
 				if(UtilPlayer.isZoom(ev.getPlayer())){
-					Vector v = ev.getPlayer().getEyeLocation().getDirection().multiply(10);
-					Snowball sw;
+					v = ev.getPlayer().getEyeLocation().getDirection().multiply(10);
 					for(int i = 0; i<Shot; i++){
-						sw = ev.getPlayer().getWorld().spawn(ev.getPlayer().getEyeLocation(),Snowball.class);
-						sw.setVelocity(v);
-						sw.setShooter(ev.getPlayer());
+						b=ev.getPlayer().getWorld().spawn(ev.getPlayer().getEyeLocation(), Snowball.class);
+						b.setShooter(ev.getPlayer());
+						b.setVelocity(v);
+						getManager().getBullets().put(b.getEntityId(),this);
 					}
 				}else{
-					Snowball sw;
-					int r;
-					Vector loc1;
 					
 					for(int i = 0; i<Shot;i++){
 						r = UtilMath.RandomInt(6, 0);
@@ -258,12 +272,21 @@ public class Weapon implements Listener{
 							break;
 						}
 						Vector v = loc1.multiply(10);
-						sw = ev.getPlayer().getWorld().spawn(ev.getPlayer().getEyeLocation(),Snowball.class);
-						sw.setVelocity(v);
-						sw.setShooter(ev.getPlayer());
+						b=ev.getPlayer().getWorld().spawn(ev.getPlayer().getEyeLocation(), Snowball.class);
+						b.setShooter(ev.getPlayer());
+						b.setVelocity(v);
+						getManager().getBullets().put(b.getEntityId(),this);
 					}
 				}
 				
+			}
+		}else if(UtilEvent.isAction(ev, ActionType.L)&&ev.getPlayer().getItemInHand()!=null){
+			if(ev.getPlayer().getItemInHand().hasItemMeta()&&ev.getPlayer().getItemInHand().getItemMeta().hasDisplayName()&&ev.getPlayer().getItemInHand().getItemMeta().getDisplayName().contains(getNAME())){
+				if(UtilPlayer.isZoom(ev.getPlayer())){
+					ev.getPlayer().removePotionEffect(PotionEffectType.SLOW);
+				}else{
+					ev.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW,120*20,3));
+				}
 			}
 		}
 	}
