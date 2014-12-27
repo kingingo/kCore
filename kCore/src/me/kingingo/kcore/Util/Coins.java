@@ -20,7 +20,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,7 +36,7 @@ public class Coins implements Listener{
 	
 	public Coins(JavaPlugin instance,MySQL mysql){
 		this.mysql=mysql;
-		this.holiday=Calendar.getHoliday(3);
+		this.holiday=Calendar.getHoliday();
 		this.item=UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aCoins-Bottle");
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
@@ -49,15 +48,15 @@ public class Coins implements Listener{
 		coins.clear();
 	}
 	
-	public void einlösen(ItemStack item){
-		if(UtilItem.ItemNameEquals(this.item,item)&&item.hasItemMeta()&&!item.getItemMeta().getLore().isEmpty()){
-			try{
-				Integer i = Integer.valueOf(item.getItemMeta().getLore().get(2));
-			}catch(NumberFormatException e){
-				System.err.println("[Coins] Einlösen FAIL!!!");
-			}
-		}
-	}
+//	public void einlösen(ItemStack item){
+//		if(UtilItem.ItemNameEquals(this.item,item)&&item.hasItemMeta()&&!item.getItemMeta().getLore().isEmpty()){
+//			try{
+//				Integer i = Integer.valueOf(item.getItemMeta().getLore().get(2));
+//			}catch(NumberFormatException e){
+//				System.err.println("[Coins] Einlösen FAIL!!!");
+//			}
+//		}
+//	}
 	
 	public ItemStack getCoinsBottle(int coins){
 		ItemStack i = this.item.clone();

@@ -19,20 +19,6 @@ import org.bukkit.inventory.ItemStack;
 public class UtilServer
 {
 	
-	private static UtilFirework firework;
-	
-	public static void playFirework(Location loc, Color color, Type t) {
-    	firework = new UtilFirework();
-		try {
-			firework.playFirework(loc.getWorld(), loc, FireworkEffect.builder().with(t).withColor(color).build());
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-	
 	public static void spawnRabbit(Location loc){
 		final Skeleton skel1 = loc.getWorld().spawn(loc, Skeleton.class);
 	    final Skeleton skel2 = loc.getWorld().spawn(loc, Skeleton.class);

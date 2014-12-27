@@ -62,7 +62,7 @@ public class KitShop implements Listener {
 		this.coins=coins;
 		this.tokens=tokens;
 		this.permManager=manager;
-		this.holiday=Calendar.getHoliday(3);
+		this.holiday=Calendar.getHoliday();
 		if(kits.length>size.getSize())size=InventorySize._45;
 		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
 		this.admininventory=Bukkit.createInventory(null, size.getSize(), getName());

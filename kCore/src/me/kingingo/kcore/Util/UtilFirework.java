@@ -1,72 +1,50 @@
 package me.kingingo.kcore.Util;
 
-import java.lang.reflect.Method;
-
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftFirework;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 public class UtilFirework {
 	 
-    private Method world_getHandle = null;
-    private Method nms_world_broadcastEntityEffect = null;
-    private Method firework_getHandle = null;
- 
-    public void playFirework(World world, Location loc, FireworkEffect fe) throws Exception {
-        // Bukkity load (CraftFirework)
-        Firework fw = (Firework) world.spawn(loc, Firework.class);
-        // the net.minecraft.server.World
-        Object nms_world = null;
-        Object nms_firework = null;
-        /*
-        * The reflection part, this gives us access to funky ways of messing around with things
-        */
-        if(world_getHandle == null) {
-            // get the methods of the craftbukkit objects
-            world_getHandle = getMethod(world.getClass(), "getHandle");
-            firework_getHandle = getMethod(fw.getClass(), "getHandle");
-        }
-        // invoke with no arguments
-        nms_world = world_getHandle.invoke(world, (Object[]) null);
-        nms_firework = firework_getHandle.invoke(fw, (Object[]) null);
-        // null checks are fast, so having this seperate is ok
-        if(nms_world_broadcastEntityEffect == null) {
-            // get the method of the nms_world
-            nms_world_broadcastEntityEffect = getMethod(nms_world.getClass(), "broadcastEntityEffect");
-        }
-        /*
-        * Now we mess with the metadata, allowing nice clean spawning of a pretty firework (look, pretty lights!)
-        */
-        // metadata load
-        FireworkMeta data = (FireworkMeta) fw.getFireworkMeta();
-        // clear existing
-        data.clearEffects();
-        // power of one
-        data.setPower(1);
-        // add the effect
-        data.addEffect(fe);
-        // set the meta
-        fw.setFireworkMeta(data);
-        /*
-        * Finally, we broadcast the entity effect then kill our fireworks object
-        */
-        // invoke with arguments
-        nms_world_broadcastEntityEffect.invoke(nms_world, new Object[] {nms_firework, (byte) 17});
-        // remove from the game
-        fw.remove();
-    }
- 
-    private static Method getMethod(Class<?> cl, String method) {
-        for(Method m : cl.getMethods()) {
-            if(m.getName().equals(method)) {
-                return m;
-            }
-        }
-        return null;
-    }
+	public static Type RandomType(){
+		return Type.values()[UtilMath.r(Type.values().length)];
+	}
+	
+	public static Color RandomColor(){
+		switch(UtilMath.RandomInt(16, 0)){
+		case 0: return Color.AQUA;
+		case 1: return Color.BLACK;
+		case 2: return Color.BLUE;
+		case 3: return Color.FUCHSIA;
+		case 4: return Color.GRAY;
+		case 5: return Color.GREEN;
+		case 6: return Color.LIME;
+		case 7: return Color.MAROON;
+		case 8: return Color.NAVY;
+		case 9: return Color.OLIVE;
+		case 10: return Color.ORANGE;
+		case 11: return Color.PURPLE;
+		case 12: return Color.RED;
+		case 13: return Color.SILVER;
+		case 14: return Color.TEAL;
+		case 15: return Color.WHITE;
+		case 16: return Color.YELLOW;
+		}
+		return Color.AQUA;
+	}
+	
+	public static void start(Location location, Color color, Type type) {
+		if(type==null)type=RandomType();
+		if(color==null)color=RandomColor();
+		 Firework fw = location.getWorld().spawn(location,Firework.class);
+         FireworkMeta meta = fw.getFireworkMeta();
+         meta.addEffect(FireworkEffect.builder().flicker(false).with(type).trail(false).withColor(color).build());
+         fw.setFireworkMeta(meta);
+         ((CraftFirework)fw).getHandle().expectedLifespan = 1;
+	}
  
 }

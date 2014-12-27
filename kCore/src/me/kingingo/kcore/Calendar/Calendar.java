@@ -1,9 +1,11 @@
 package me.kingingo.kcore.Calendar;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lombok.Getter;
+import me.kingingo.kcore.Util.TimeSpan;
 
 public class Calendar {
 
@@ -18,92 +20,98 @@ public class Calendar {
 		return false;
 	}
 	
-	public static boolean FromToTime(String FromDate,String ToDate){
-		Date dNow = new Date( );
-	    SimpleDateFormat ft = new SimpleDateFormat ("MM");
-	    if(FromDate.substring(3).equalsIgnoreCase(ft.format(dNow)) && ToDate.substring(3).equalsIgnoreCase(ft.format(dNow))){
-	    	ft=new SimpleDateFormat("dd");
-	    	if(Integer.valueOf(ft.format(dNow)) >= Integer.valueOf(FromDate.substring(0,2)) && Integer.valueOf(ft.format(dNow)) <= Integer.valueOf(ToDate.substring(0,2))){
-	    		return true;
-	    	}
-	    }
-	    
-	    return false;
-	}
-	
 	public static boolean isInTime(int days,CalendarType type){
-		 Date dNow = new Date( );
-	     SimpleDateFormat ft = new SimpleDateFormat ("MM");
-	     
-	     if(Integer.valueOf(ft.format(dNow))==type.month/*||(b&&(Integer.valueOf(ft.format(dNow))-1)==(type.month))*/){
-	    	 ft = new SimpleDateFormat ("dd");
-		     if( (Integer.valueOf(ft.format(dNow))+days) >= type.day && (Integer.valueOf(ft.format(dNow))-days) <= type.day ){
-		    	 return true;
-		     }
-	     }
-		return false;
+		Date fix = toDate(type.getFixDate());
+		Date dNow = new Date();
+		return ((dNow.getTime()+(days*TimeSpan.DAY)) >= fix.getTime() && (dNow.getTime()-(days*TimeSpan.DAY)) <= fix.getTime());
 	}
 	
-	public static CalendarType getHoliday(int days){
-	     for(CalendarType typ : CalendarType.values()){
-	    	 if(isInTime(days,typ)){
-	    		 return typ;
-	    	 }
-	     }
-	     return null;
-	}
-	
-	public static CalendarType getHoliday(){
-		for(CalendarType typ : CalendarType.values()){
-	    	 if(isInTime(typ.timeSpan,typ)){
-	    		 return typ;
-	    	 }
-	     }
+	public static Date toDate(String d){
+		try {
+			Date date = new SimpleDateFormat("dd.MM").parse(d);
+			date.setYear(new Date().getYear());
+			return date;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
-	public static CalendarType TodayHoliday(){
-		 Date dNow = new Date( );
-	     SimpleDateFormat ft = new SimpleDateFormat ("dd.MM");
-	     for(CalendarType typ : CalendarType.values()){
-	    	 if(typ.getDate().equalsIgnoreCase(ft.format(dNow))){
-	    		 return typ;
-	    	 }
-	     }
-	     return null;
+	public static boolean FromToTime(String FromDate,String ToDate){
+		Date date = new Date();
+		if( Integer.valueOf(new SimpleDateFormat("MM").format(toDate(FromDate)))==12 && Integer.valueOf(new SimpleDateFormat("MM").format(toDate(ToDate)))==01 ){
+			Date to = toDate(ToDate);
+			to.setYear(to.getYear()+1);
+			return (date.getTime() >= toDate(FromDate).getTime() && date.getTime() <= to.getTime());
+		}
+		return (date.getTime() >= toDate(FromDate).getTime() && date.getTime() <= toDate(ToDate).getTime());
 	}
 	
-	public static boolean isHoliday(){
-		 Date dNow = new Date( );
-	     SimpleDateFormat ft = new SimpleDateFormat ("dd.MM");
-	     for(CalendarType typ : CalendarType.values()){
-	    	 if(typ.getDate().equalsIgnoreCase(ft.format(dNow))){
-	    		 return true;
-	    	 }
-	     }
-	     return false;
+	public static boolean isFixHolidayDate(CalendarType type){
+		if(new SimpleDateFormat ("dd.MM").format(new Date( )).equalsIgnoreCase(type.getFixDate())){
+			return true;
+		}
+		return false;
+	}
+	
+	public static CalendarType getFixHoliday(){
+		String date = new SimpleDateFormat ("dd.MM").format(new Date( ));
+		for(CalendarType type : CalendarType.values()){
+			if(date.equalsIgnoreCase(type.getFixDate())){
+				return type;
+			}
+		}
+		return null;
+	}
+	
+	public static boolean isHoliday(CalendarType type){
+		if(FromToTime(type.getFromDate(), type.getToDate())){
+			return true;
+		}
+		return false;
+	}
+	
+	public static CalendarType getHoliday(){
+		for(CalendarType type : CalendarType.values()){
+			if(FromToTime(type.getFromDate(), type.getToDate())){
+				return type;
+			}
+		}
+		return null;
+	}
+	
+	public static CalendarType[] getHolidayAll(){
+		CalendarType[] types = new CalendarType[CalendarType.values().length];
+		int i =0;
+		for(CalendarType type : CalendarType.values()){
+			if(FromToTime(type.getFromDate(), type.getToDate())){
+				types[i]=type;
+				i++;
+			}
+		}
+		return types;
 	}
 	
 	public enum CalendarType {
-		HITLER("20.04",20,4,1),
-		GEBURSTAG("06.11",6,11,3),
-		WEIHNACHTEN("24.12",24,12,24),
-		NIKOLAUS("06.12",6,12,2),
-		OSTERN("05.04",5,4,3),
-		SILVESTER("01.01",1,1,2),
-		HELLOWEEN("31.10",31,10,4);
+		GEBURSTAG("04.11","08.11", "06.11"),
+		WEIHNACHTEN("01.12","24.12","24.12"),
+		NIKOLAUS("05.12","07.12","06.12"),
+		OSTERN("03.04","07.04","05.04"),
+		SILVESTER("28.12","03.01","01.01"),
+		HELLOWEEN("29.10","31.10","31.10");
+		
 		@Getter
-		String date;
-		int day;
-		int month;
+		private String ToDate;
 		@Getter
-		int timeSpan;
-		private CalendarType(String date,int day,int month,int timeSpan){
-			this.date=date;
-			this.day=day;
-			this.timeSpan=timeSpan;
-			this.month=month;
-		}	
+		private String FromDate;
+		@Getter
+		private String FixDate;
+		
+		private CalendarType(String FromDate,String ToDate,String FixDate){
+			this.FromDate=FromDate;
+			this.ToDate=ToDate;
+			this.FixDate=FixDate;
+		}
 	}
 	
 }
