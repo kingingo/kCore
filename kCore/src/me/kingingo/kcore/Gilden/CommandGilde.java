@@ -31,13 +31,13 @@ public class CommandGilde implements CommandExecutor{
 			p.sendMessage("§b■■■■■■■■■■■■■■§6§l GILDE §b■■■■■■■■■■■■■■");
 			p.sendMessage("§6/gilde erstellen §8|§7 Erstellt eine neue Gilde.");
 			p.sendMessage("§6/gilde einladen [Player] §8§8|§7 Lädt einen Spieler in die Gilde ein");
-			p.sendMessage("§6/gilde annehmen §8|§7 Nimmt Gildeinladung an.");
+			p.sendMessage("§6/gilde annehmen §8|§7 Nimmt Einladung an.");
 			p.sendMessage("§6/gilde ranking §8|§7 Zeigt die Top Ten an Gilden.");
-			p.sendMessage("§6/gilde verlassen §8|§7 Zum Verlassen/Schliesen der Gilde.");
+			p.sendMessage("§6/gilde verlassen §8|§7 Zum Verlassen/Schließen der Gilde.");
 			p.sendMessage("§6/gilde kicken [Player] §8|§7 Kickt einen Spieler aus der Gilde.");
-			p.sendMessage("§6/gilde info [Gilde] §8|§7 Zeigt Infos über einer Gilde.");
+			p.sendMessage("§6/gilde info [Gilde] §8|§7 Zeigt Infos über eine Gilde.");
 			if(manager.getTyp()==GildenType.PVP){
-				p.sendMessage("§6/gilde sethome §8|§7 setzt den Gilden-Home");
+				p.sendMessage("§6/gilde sethome §8|§7 setzt das Gilden-Home");
 				p.sendMessage("§6/gilde home §8|§7 Teleportiert dich zum Gilden-Home");
 			}
 			p.sendMessage("§b■■■■■■■■■■■■■■§6§l GILDE §b■■■■■■■■■■■■■■");

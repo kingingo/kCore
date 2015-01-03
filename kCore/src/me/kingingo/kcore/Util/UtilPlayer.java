@@ -1,5 +1,7 @@
 package me.kingingo.kcore.Util;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -39,6 +41,27 @@ public class UtilPlayer
 	public static void sendPacket(Player player,Packet packet){
 		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 	}
+	
+	public static void sendPacket(Player p, Object packet)
+	  {
+	    try {
+	      Object nmsPlayer = UtilReflection.getHandle(p);
+	      Field con_field = nmsPlayer.getClass().getField("playerConnection");
+	      Object con = con_field.get(nmsPlayer);
+	      Method packet_method = UtilReflection.getMethod(con.getClass(), "sendPacket");
+	      packet_method.invoke(con, new Object[] { packet });
+	    } catch (SecurityException e) {
+	      e.printStackTrace();
+	    } catch (IllegalArgumentException e) {
+	      e.printStackTrace();
+	    } catch (IllegalAccessException e) {
+	      e.printStackTrace();
+	    } catch (InvocationTargetException e) {
+	      e.printStackTrace();
+	    } catch (NoSuchFieldException e) {
+	      e.printStackTrace();
+	    }
+	  }
 
 	public static void setPlayerFakeEquipment(Player player,Player to,ItemStack item,short slot){
 		WrapperPlayServerEntityEquipment packet = new WrapperPlayServerEntityEquipment();

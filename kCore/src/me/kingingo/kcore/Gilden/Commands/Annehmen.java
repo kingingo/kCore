@@ -11,7 +11,7 @@ public class Annehmen {
 		if(args.length==1){
 			if(manager.getGilden_einladung().containsKey(p)){
 				if(manager.isPlayerInGilde(p.getName())){
-					p.sendMessage(Text.GILDE_PLAYER_IS_IN_GILDE.getText());
+					p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_IN_GILDE.getText());
 					return;
 				}
 				String g = manager.getGilden_einladung().get(p);

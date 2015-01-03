@@ -14,12 +14,14 @@ import me.kingingo.kcore.Util.UtilItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftAgeable;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 
 public class PetSetting extends InventoryBase{
@@ -38,29 +40,47 @@ public class PetSetting extends InventoryBase{
 
 					@Override
 					public void onAnvilClick(AnvilClickEvent event) {
-						Creature c = manager.getActivePetOwners().get(player.getName());
+						Creature c = manager.getActivePetOwners().get(player.getName().toLowerCase());
 						c.setCustomName(event.getName().replaceAll("&", "§"));
 						c.setCustomNameVisible(true);
 					}
 					
 				}, manager.getInstance(), "Namen Ändern");
+				if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 			}
 		}, Material.ANVIL, "§aNamen Ändern"));
+		
 		Entity e = Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"),0,60,0), type);
 		if(e instanceof CraftAgeable){
 			getMain().addButton(4, new ButtonBase(new Click(){
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					CraftAgeable c =(CraftAgeable) manager.GetPet(player);
-					c.setAgeLock(false);
+					c.setAgeLock(true);
 					if(c.isAdult()){
 						c.setBaby();
 					}else{
 						c.setAdult();
 					}
 					player.closeInventory();
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 				}
 			},Material.GRASS,"§aAlter Ändern"));
+		}else if(e instanceof Zombie){
+			getMain().addButton(4, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					Zombie c =(Zombie) manager.GetPet(player);
+					
+					if(c.isBaby()){
+						c.setBaby(false);
+					}else{
+						c.setBaby(true);
+					}
+					player.closeInventory();
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+				}
+			},Material.SKULL_ITEM,2,"§aZombie Alter Ändern"));
 		}
 		
 		if(type==EntityType.SHEEP){
@@ -71,6 +91,7 @@ public class PetSetting extends InventoryBase{
 						Sheep sh = (Sheep)manager.GetPet(player);
 						sh.setColor(UtilItem.getColorDye( ((ItemStack)object) ));	
 						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					}
 				}
 			},"Farbe Ändern",18,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)0), "Weiß"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), "Orange"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)2),"Magneta"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)3),"Hell Blau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)4),"Gelb"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)5),"Hell Grün"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)6),"Pink"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)7),"Grau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)9),"Cyan"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)10),"Lila"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)11),"Blau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12),"Braun"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)13),"Grün"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)14),"Rot"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)15),"Schwarz")});
@@ -81,6 +102,7 @@ public class PetSetting extends InventoryBase{
 				public void onClick(Player player, ActionType type,Object object) {
 					player.closeInventory();
 					player.openInventory(inv_choose);
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 				}
 			},Material.WOOL,"§aFarbe Ändern"));
 		}

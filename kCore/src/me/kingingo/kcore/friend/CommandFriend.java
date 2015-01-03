@@ -105,7 +105,6 @@ public class CommandFriend implements CommandExecutor{
 			}
 		}
 		return false;
-		
 	}
 }
 

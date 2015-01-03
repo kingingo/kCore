@@ -211,7 +211,7 @@ public class Weapon implements Listener{
 		}
 	}
 	
-	Snowball b;
+	Bullet b;
 	Vector v;
 	int r;
 	Vector loc1;
@@ -239,12 +239,10 @@ public class Weapon implements Listener{
 				ev.getPlayer().updateInventory();
 				
 				if(UtilPlayer.isZoom(ev.getPlayer())){
-					v = ev.getPlayer().getEyeLocation().getDirection().multiply(10);
+					v = ev.getPlayer().getEyeLocation().getDirection().multiply(5);
 					for(int i = 0; i<Shot; i++){
-						b=ev.getPlayer().getWorld().spawn(ev.getPlayer().getEyeLocation(), Snowball.class);
-						b.setShooter(ev.getPlayer());
-						b.setVelocity(v);
-						getManager().getBullets().put(b.getEntityId(),this);
+						b=new Bullet(ev.getPlayer(),this,v);
+						getManager().getBullets().put(b.getSnowball().getEntityId(),b);
 					}
 				}else{
 					
@@ -272,10 +270,9 @@ public class Weapon implements Listener{
 							break;
 						}
 						Vector v = loc1.multiply(10);
-						b=ev.getPlayer().getWorld().spawn(ev.getPlayer().getEyeLocation(), Snowball.class);
-						b.setShooter(ev.getPlayer());
-						b.setVelocity(v);
-						getManager().getBullets().put(b.getEntityId(),this);
+						b=new Bullet(ev.getPlayer(),this,v);
+						
+						getManager().getBullets().put(b.getSnowball().getEntityId(),b);
 					}
 				}
 				

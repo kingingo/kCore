@@ -81,6 +81,22 @@ public class UtilMap{
 		return list;
 	}
 	
+	public static void loadChunks(Location location,int radius){
+		int MaxX = MaxX(location.clone(), radius);
+		int MaxZ = MaxZ(location.clone(), radius);
+		int MinX = MinX(location.clone(), radius);
+		int MinZ = MinZ(location.clone(), radius);
+		Location loc=new Location(location.getWorld(),0,0,0);
+		
+		for (int z = MinZ; z < MaxZ; z++) {
+			for (int x = MinX; x < MaxX; x++) {
+				loc.setX(location.getX());
+				loc.setZ(z);
+				loc.getWorld().loadChunk(loc.getChunk());
+			}
+		}
+	}
+	
 	public static boolean ClearWorldReferences(String worldName)
 	  {
 	    HashMap regionfiles = null;

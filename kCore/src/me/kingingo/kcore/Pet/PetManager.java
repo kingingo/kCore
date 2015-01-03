@@ -5,6 +5,7 @@ import java.util.HashMap;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Pet.Setting.PetSetting;
+import me.kingingo.kcore.Pet.Shop.PetShop;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Pet.Event.PetWithOutOwnerLocationEvent;
@@ -30,6 +31,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -54,6 +56,15 @@ public class PetManager implements Listener{
 	private boolean setting=false;
 	@Getter
 	private HashMap<EntityType,PetSetting> setting_list;
+	@Getter
+	@Setter
+	private boolean EntityDamageEvent = false;
+	@Getter
+	@Setter
+	double distance=8;
+	@Getter
+	@Setter
+	private PetShop shop; 
 	
 	public PetManager(JavaPlugin instance){
 		Bukkit.getPluginManager().registerEvents(this, instance);
@@ -73,14 +84,15 @@ public class PetManager implements Listener{
 	
 	public void RemovePet(Player player, boolean removeOwner)
 	  {
-	    if (this.activePetOwners.containsKey(player.getName()))
+	    if (this.activePetOwners.containsKey(player.getName().toLowerCase()))
 	    {
-	      org.bukkit.entity.Creature pet = (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName());
+	      org.bukkit.entity.Creature pet = (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase());
 	      pet.remove();
 
 	      if (removeOwner)
 	      {
-	        this.activePetOwners.remove(player.getName());
+	        this.activePetOwners.remove(player.getName().toLowerCase());
+	        this.failedAttempts.remove(player.getName().toLowerCase());
 	      }
 	    }
 	  }
@@ -106,9 +118,9 @@ public class PetManager implements Listener{
 	
 	public void AddPetOwner(Player player,String name, EntityType entityType, Location location)
 	  {
-	    if (this.activePetOwners.containsKey(player.getName()))
+	    if (this.activePetOwners.containsKey(player.getName().toLowerCase()))
 	    {
-	      if (((org.bukkit.entity.Creature)this.activePetOwners.get(player.getName())).getType() != entityType)
+	      if (((org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase())).getType() != entityType)
 	      {
 	        RemovePet(player, true);
 	      }else {
@@ -119,13 +131,13 @@ public class PetManager implements Listener{
 	    pet.setCustomNameVisible(true);
 	    pet.setCustomName(name);
 
-	    this.activePetOwners.put(player.getName(),pet);
-	    this.failedAttempts.put(player.getName(), Integer.valueOf(0));
+	    this.activePetOwners.put(player.getName().toLowerCase(),pet);
+	    this.failedAttempts.put(player.getName().toLowerCase(), Integer.valueOf(0));
 	    ClearPetGoals(pet);
 	  }
 	
 	public org.bukkit.entity.Creature GetPet(Player player){
-	    return (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName());
+	    return (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase());
 	}
 	
 	private void ClearPetGoals(org.bukkit.entity.Creature pet){
@@ -167,6 +179,7 @@ public class PetManager implements Listener{
 	  @EventHandler(priority=EventPriority.LOWEST)
 	  public void onEntityDamage(EntityDamageEvent event)
 	  {
+		if(EntityDamageEvent)return;
 	    if (((event.getEntity() instanceof org.bukkit.entity.Creature)) && (this.petToLocation.containsKey((org.bukkit.entity.Creature)event.getEntity()))){
 	      event.setCancelled(true);
 	    }
@@ -225,7 +238,7 @@ public class PetManager implements Listener{
 		          pet.teleport(owner);
 		          this.failedAttempts.put(playerName, Integer.valueOf(0));
 	 	      }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(),  2.0D)){
-		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>8){
+		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>distance){
 		            this.failedAttempts.put(playerName, Integer.valueOf(((Integer)this.failedAttempts.get(playerName)).intValue() + 1));
 		          }
 	 	       }else{
@@ -233,61 +246,6 @@ public class PetManager implements Listener{
 		       }
 	    	}
 	    }
-//	    Iterator ownerIterator = this.activePetOwners.keySet().iterator();
-//	    while (ownerIterator.hasNext())
-//	    {
-//	      String playerName = (String)ownerIterator.next();
-//	      Player owner = Bukkit.getPlayer(playerName);
-//
-//	      org.bukkit.entity.Creature pet = (org.bukkit.entity.Creature)this.activePetOwners.get(playerName);
-//	      Location petSpot = pet.getLocation();
-//	      Location ownerSpot = owner.getLocation();
-//	      int xDiff = Math.abs(petSpot.getBlockX() - ownerSpot.getBlockX());
-//	      int yDiff = Math.abs(petSpot.getBlockY() - ownerSpot.getBlockY());
-//	      int zDiff = Math.abs(petSpot.getBlockZ() - ownerSpot.getBlockZ());
-//
-//	      if (xDiff + yDiff + zDiff > 4)
-//	      {
-//	        EntityCreature ec = ((CraftCreature)pet).getHandle();
-//	        Navigation nav = ec.getNavigation();
-//
-//	        int xIndex = -1;
-//	        int zIndex = -1;
-//	        Block targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
-//	        while ((targetBlock.isEmpty()) || (targetBlock.isLiquid()))
-//	        {
-//	          if (xIndex < 2) {
-//	            xIndex++;
-//	          } else if (zIndex < 2)
-//	          {
-//	            xIndex = -1;
-//	            zIndex++;
-//	          }
-//	          else {
-//	            return;
-//	          }
-//	          targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
-//	        }
-//
-//	        if (((Integer)this.failedAttempts.get(playerName)).intValue() > 4)
-//	        {
-//	          pet.teleport(owner);
-//	          this.failedAttempts.put(playerName, Integer.valueOf(0));
-//	        }
-//	       
-//	        else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.5D))
-//	        {
-//	          if (pet.getFallDistance() == 0.0F)
-//	          {
-//	            this.failedAttempts.put(playerName, Integer.valueOf(((Integer)this.failedAttempts.get(playerName)).intValue() + 1));
-//	          }
-//	        }
-//	        else
-//	        {
-//	          this.failedAttempts.put(playerName, Integer.valueOf(0));
-//	        }
-//	      }
-//	    }
 	  }
 	  
 	  public boolean moveEntity(Entity e,Location l,float speed){
@@ -350,7 +308,7 @@ public class PetManager implements Listener{
 		          Bukkit.getPluginManager().callEvent(new PetWithOutOwnerLocationEvent(pet,ownerSpot));
 		          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
 		        }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 2.0D)){
-		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>8){
+		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>distance){
 		            this.failedAttemptsToLocation.put(pet, Integer.valueOf(((Integer)this.failedAttemptsToLocation.get(pet)).intValue() + 1));
 		          }
 		        }else{
@@ -358,68 +316,15 @@ public class PetManager implements Listener{
 		          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
 		        }
 		    }
-	    }    
-//	    Iterator ownerIterator = this.petToLocation.keySet().iterator();
-//	    while (ownerIterator.hasNext())
-//	    {
-//	      Creature pet = (Creature)ownerIterator.next();
-//
-//	      Location ownerSpot = (Location)this.petToLocation.get(pet);
-//	      Location petSpot = pet.getLocation();
-//	      
-//	      if(petSpot.distance(ownerSpot) > 6){
-//	    	  pet.teleport(ownerSpot);
-//	      }
-//	      
-//	      int xDiff = Math.abs(petSpot.getBlockX() - ownerSpot.getBlockX());
-//	      int yDiff = Math.abs(petSpot.getBlockY() - ownerSpot.getBlockY());
-//	      int zDiff = Math.abs(petSpot.getBlockZ() - ownerSpot.getBlockZ());
-//
-//	      if (xDiff + yDiff + zDiff > 4)
-//	      {
-//	        EntityCreature ec = ((CraftCreature)pet).getHandle();
-//	        nav = ec.getNavigation();
-//	        int xIndex = -1;
-//	        int zIndex = -1;
-//	        Block targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
-//	        while ((targetBlock.isEmpty()) || (targetBlock.isLiquid()))
-//	        {
-//	          if (xIndex < 2) {
-//	            xIndex++;
-//	          } else if (zIndex < 2){
-//	            xIndex = -1;
-//	            zIndex++;
-//	          }else {
-//	            return;
-//	          }
-//	          targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
-//	        }
-//	        if (((Integer)this.failedAttemptsToLocation.get(pet)).intValue() > 6)
-//	        {
-//	          pet.teleport(petToLocation.get(pet));
-//	          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
-//	        }
-//	        else if (/*!nav.a(petSpot.getX(), petSpot.getY() + 1, petSpot.getZ(), 2.0D)*/!moveEntity(pet,targetBlock.getLocation(),2.0F))
-//	        {
-//	          if (pet.getFallDistance() == 0.0F)
-//	          {
-//	            this.failedAttemptsToLocation.put(pet, Integer.valueOf(((Integer)this.failedAttemptsToLocation.get(pet)).intValue() + 1));
-//	          }
-//	        }
-//	        else
-//	        {
-//	          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
-//	        }
-//	      }
-//	    }
+	    }
 	  }
 	  
 	Creature c;
 	@EventHandler
 	public void Interdact(PlayerInteractEntityEvent ev){
 		 if(isSetting()){
-			 if(getActivePetOwners().containsKey(ev.getPlayer().getName())){
-				c=getActivePetOwners().get(ev.getPlayer().getName());
+			 if(getActivePetOwners().containsKey(ev.getPlayer().getName().toLowerCase())){
+				c=getActivePetOwners().get(ev.getPlayer().getName().toLowerCase());
 				if(c.getEntityId()==ev.getRightClicked().getEntityId()){
 					if(getSetting_list().containsKey(c.getType())){
 						ev.getPlayer().openInventory( getSetting_list().get(c.getType()).getMain() );
@@ -430,13 +335,17 @@ public class PetManager implements Listener{
 	}
 	
 	@EventHandler
+	public void EntityCombust(EntityCombustEvent ev){
+		if (((ev.getEntity() instanceof org.bukkit.entity.Creature)) && (this.activePetOwners.containsValue((org.bukkit.entity.Creature)ev.getEntity()))){
+	      ev.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
 	public void onEntityTarget(EntityTargetEvent ev){
 		if (((ev.getEntity() instanceof org.bukkit.entity.Creature)) && (this.activePetOwners.containsValue((org.bukkit.entity.Creature)ev.getEntity()))){
 	      ev.setCancelled(true);
 		}
-//		else if (((ev.getEntity() instanceof org.bukkit.entity.Creature)) && (this.petToLocation.containsKey((org.bukkit.entity.Creature)ev.getEntity()))){
-//		  ev.setCancelled(true);
-//		}
 	}
 	
 }

@@ -35,13 +35,10 @@ public class UtilDisplay {
     public String name;
     public Location sloc;
     private Object dragon;
-  
-    
-    
  
     public UtilDisplay(String name, int EntityID, Location loc){
         this(name, EntityID, (int) Math.floor(loc.getBlockX() * 32.0D), (int) Math.floor(loc.getBlockY() * 32.0D), (int) Math.floor(loc.getBlockZ() * 32.0D));
-    this.sloc=loc;
+        this.sloc=loc;
     }
  
     public UtilDisplay(String name, int EntityID, Location loc, float health, boolean visible){
@@ -180,25 +177,6 @@ public class UtilDisplay {
     	UtilReflection.setValue("d", packet, MathHelper.floor(loc.getZ() * 32.0D));
     	UtilReflection.setValue("e", packet, ((byte) ((int) (loc.getYaw() * 256.0F / 360.0F))));
     	UtilReflection.setValue("f", packet, ((byte) ((int) (loc.getPitch() * 256.0F / 360.0F))));
-//      Class PacketPlayOutEntityTeleport = Util.getCraftClass("PacketPlayOutEntityTeleport");
-//
-//      Object packet = null;
-//      try
-//      {
-//           packet = PacketPlayOutEntityTeleport.getConstructor(new Class[] { Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Byte.TYPE, Byte.TYPE }).newInstance(new Object[] { Integer.valueOf(EntityID), Integer.valueOf(loc.getBlockX() * 32), Integer.valueOf(loc.getBlockY() * 32), Integer.valueOf(loc.getBlockZ() * 32), Byte.valueOf((byte)((int)loc.getYaw() * 256 / 360)), Byte.valueOf((byte)((int)loc.getPitch() * 256 / 360)) });
-//      } catch (IllegalArgumentException e) {
-//        e.printStackTrace();
-//      } catch (SecurityException e) {
-//        e.printStackTrace();
-//      } catch (InstantiationException e) {
-//		e.printStackTrace();
-//	} catch (IllegalAccessException e) {
-//		e.printStackTrace();
-//	} catch (InvocationTargetException e) {
-//		e.printStackTrace();
-//	} catch (NoSuchMethodException e) {
-//		e.printStackTrace();
-//	}
 
       return packet;
     }

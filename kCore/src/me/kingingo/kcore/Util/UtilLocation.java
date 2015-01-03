@@ -70,6 +70,30 @@ public class UtilLocation {
 	    return Math.floor(f) == f;
 	  }
 	
+	public static Block[] searchBlocks(Material material,int radius, Location startloc){
+		List<Block> list = getScans(radius,true, startloc);
+		Block block = null;
+		Block[] blocks;
+		int i = 0;
+		for(Block b : list){
+			if(b.getType()==material){
+				i++;
+			}
+		}
+		blocks=new Block[i];
+		i=0;
+		for(Block b : list){
+			if(b.getType()==material){
+				blocks[i]=b;
+				i++;
+			}
+		}
+		
+		list.clear();
+		list=null;
+		return blocks;
+	}
+	
 	public static Block searchBlock(Material material,int radius, Location startloc){
 		List<Block> list = getScans(radius,true, startloc);
 		Block block = null;

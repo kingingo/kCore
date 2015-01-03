@@ -18,7 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class WeaponManager extends kListener{
 
 	@Getter
-	private HashMap<Integer,Weapon> bullets = new HashMap<>();
+	private HashMap<Integer,Bullet> bullets = new HashMap<>();
 	@Getter
 	private ArrayList<Weapon> weapons = new ArrayList<>();
 	@Getter
@@ -41,22 +41,36 @@ public class WeaponManager extends kListener{
 		if(ev.getDamager() instanceof Snowball){
 			d_sw=(Snowball)ev.getDamager();
 			if(getBullets().containsKey(d_sw.getEntityId())){
-				ev.setDamage(getBullets().get(d_sw.getEntityId()).getDamage());
+				ev.setDamage(getBullets().get(d_sw.getEntityId()).getWeapon().getDamage());
 				getBullets().remove(d_sw.getEntityId());
 			}
 		}
 	}
 	
+	double distance;
+	ArrayList<Bullet> s = new ArrayList<>();
 	@EventHandler
 	public void Shoot(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.MIN_64)return;
+		if(ev.getType()!=UpdateType.FAST)return;
+		for(Bullet b : getBullets().values()){
+			if(b.getSnowball()==null||b.getSnowball().getShooter()==null||b.getSnowball().isDead()){
+				s.add(b);
+			}else{
+				distance=b.getSnowball().getLocation().distance(b.getStart_loc());
+				if(distance>=b.getWeapon().getDistance()){
+					s.add(b);
+				}else{
+					b.getSnowball().setVelocity(b.getVector());
+				}
+			}
+		}
 		
+		if(!s.isEmpty()){
+			for(Bullet b : s){
+				getBullets().remove(b);
+				b.remove();
+			}
+			s.clear();
+		}
 	}
-	
-	@EventHandler
-	public void BulletsClearer(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.MIN_64)return;
-		bullets.clear();
-	}
-	
 }

@@ -39,7 +39,7 @@ public class Einladen {
 			
 			manager.getGilden_einladung().put(einladen, manager.getPlayerGilde(p.getName()));
 			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EINLADEN.getText(einladen_o));
-			einladen.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EILADUNG.getText(einladen_o));
+			einladen.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EILADUNG.getText( manager.getPlayerGilde(owner) ));
 		}else{
 			p.sendMessage(Text.GILDE_PREFIX.getText()+"/gilde einladen [Player]");
 		}

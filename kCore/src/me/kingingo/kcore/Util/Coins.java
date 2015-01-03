@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Util;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Coins implements Listener{
 	private MySQL mysql;
 	@Getter
 	private HashMap<String,Integer> coins = new HashMap<>();
+	private ArrayList<String> change_coins = new ArrayList<>();
 	CalendarType holiday;
 	private ItemStack item;
 	@Getter
@@ -43,9 +45,10 @@ public class Coins implements Listener{
 	
 	public void SaveAll(){
 		for(String p : coins.keySet()){
-			addCoins(p.toLowerCase(), 0);
+			if(change_coins.contains(p.toLowerCase()))addCoins(p.toLowerCase(), 0);
 		}
 		coins.clear();
+		change_coins.clear();
 	}
 	
 //	public void einlösen(ItemStack item){
@@ -115,7 +118,7 @@ public class Coins implements Listener{
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Quit(PlayerQuitEvent ev){
 		if(coins.containsKey(ev.getPlayer().getName().toLowerCase())){
-			addCoins(ev.getPlayer(),true,0);
+			if(change_coins.contains(ev.getPlayer().getName().toLowerCase()))addCoins(ev.getPlayer(),true,0);
 			coins.remove(ev.getPlayer().getName().toLowerCase());
 		}
 	}
@@ -134,6 +137,7 @@ public class Coins implements Listener{
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins,GameType typ){
+		if(!change_coins.contains(p.getName().toLowerCase()))change_coins.add(p.getName().toLowerCase());
 		if(!save){
 			int c = getCoins(p);
 			if(c<coins)return false;
@@ -145,6 +149,7 @@ public class Coins implements Listener{
 			if(c<coins)return false;
 			int co=c-coins;
 			this.coins.put(p.getName().toLowerCase(), co);
+			change_coins.remove(p.getName().toLowerCase());
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_DEL.getText(coins));
 		}
@@ -152,6 +157,7 @@ public class Coins implements Listener{
 	}
 	
 	public void addCoins(Player p,boolean save,Integer coins,GameType typ){
+		if(!change_coins.contains(p.getName().toLowerCase()))change_coins.add(p.getName().toLowerCase());
 		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coins=coins*2;
 		if(!save){
 			int c = getCoins(p);
@@ -162,6 +168,7 @@ public class Coins implements Listener{
 			int c = getCoins(p);
 			int co=c+coins;
 			this.coins.put(p.getName().toLowerCase(), co);
+			change_coins.remove(p.getName().toLowerCase());
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_ADD.getText(coins));
 		}
@@ -184,6 +191,7 @@ public class Coins implements Listener{
 //				coins.remove(player);
 //			}
 //		}
+		change_coins.remove(p.toLowerCase());
 		int c = getCoins(p);
 		int co=c+coi;
 		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.toLowerCase()+"'");
@@ -198,12 +206,14 @@ public class Coins implements Listener{
 //				coins.remove(player);
 //			}
 //		}
+		change_coins.remove(p.toLowerCase());
 		int c = getCoins(p);
 		int co=c+coi;
 		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.toLowerCase()+"'");
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins){
+		if(!change_coins.contains(p.getName().toLowerCase()))change_coins.add(p.getName().toLowerCase());
 		if(!save){
 			int c = getCoins(p);
 			if(c<coins)return false;
@@ -214,6 +224,7 @@ public class Coins implements Listener{
 			int c = getCoins(p);
 			if(c<coins)return false;
 			int co=c-coins;
+			change_coins.remove(p.getName().toLowerCase());
 			this.coins.put(p.getName().toLowerCase(), co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 			p.sendMessage(Text.PREFIX.getText()+Text.COINS_DEL.getText(coins));
@@ -222,6 +233,7 @@ public class Coins implements Listener{
 	}
 	
 	public void addCoins(Player p,boolean save,Integer coins){
+		if(!change_coins.contains(p.getName().toLowerCase()))change_coins.add(p.getName().toLowerCase());
 		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coins=coins*2;
 		if(!save){
 			int c = getCoins(p);
@@ -231,6 +243,7 @@ public class Coins implements Listener{
 		}else{
 			int c = getCoins(p);
 			int co=c+coins;
+			change_coins.remove(p.getName().toLowerCase());
 			this.coins.put(p.getName().toLowerCase(), co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE name='"+p.getName().toLowerCase()+"'");
 			p.sendMessage(Text.PREFIX.getText()+Text.COINS_ADD.getText(coins));

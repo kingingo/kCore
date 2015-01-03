@@ -20,8 +20,7 @@ public class PerkData {
 	public boolean hasPlayer(Perk perk,Player p){
 		PerkHasPlayerEvent e = new PerkHasPlayerEvent(perk,p,this);
 		Bukkit.getPluginManager().callEvent(e);
-		if(e.isCancelled())return false;
-		if(getPlayers().containsKey(perk)){
+		if(!e.isCancelled()&&getPlayers().containsKey(perk)){
 			return getPlayers().get(perk).contains(p);
 		}
 		return false;

@@ -28,6 +28,17 @@ PERK_DROPPER("epicpvp.perk.dropper"),
 PERK_HEALER("epicpvp.perk.healer"),
 PERK_GOLENAPPLE("epicpvp.perk.goldenapple"),
 
+PLAYER_TELEPORT_A("epicpvp.player.tpa"),
+PLAYER_TELEPORT_AHERE("epicpvp.player.tpahere"),
+
+PLAYER_TELEPORT("epicpvp.player.tp"),
+PLAYER_TELEPORT_HERE("epicpvp.player.tphere"),
+PLAYER_TELEPORT_ACCEPT("epicpvp.player.tpaccept"),
+
+SET_WARP("epicpvp.setwarp"),
+WARP("epicpvp.warp"),
+WARP_LIST("epicpvp.warp.list"),
+
 TEAMSPEAK_OWNER("epicpvp.ts.owner"),
 TEAMSPEAK_DEV_OWNER("epicpvp.ts.dev_owner"),
 TEAMSPEAK_ADMIN("epicpvp.ts.admin"),
@@ -112,10 +123,12 @@ PET_ENDERMAN("kpet.enderman"),
 PET_IRON_GOLEM("kpet.irongolem"),
 PET_PIG("kpet.pig"),
 PET_SPIDER("kpet.spider"),
+PET_PIGZOMBIE("kpet.pigzombie"),
+PET_WITHERSKULL("kpet.witherskull"),
 PET_WOLF("kpet.wolf"),
 PET_ZOMBIE("kpet.zombie"),
-PET_SHEEP("kpet.sheep");
-
+PET_SHEEP("kpet.sheep"),
+PET_OCELOT("kpet.ocelot");
 //PETS
 
 public static Permission isPerm(String perm){
