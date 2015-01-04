@@ -3,6 +3,8 @@ package me.kingingo.kcore.Kit;
 import java.util.ArrayList;
 
 import lombok.Getter;
+import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerAddEvent;
+import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerRemoveEvent;
 import me.kingingo.kcore.Permission.PermissionManager;
 
 import org.bukkit.Bukkit;
@@ -21,6 +23,7 @@ public class PerkManager extends PerkData{
 	
 	public void removePlayer(Player player){
 		for(Perk perk : getPlayers().keySet())getPlayers().get(perk).remove(player);
+		Bukkit.getPluginManager().callEvent(new PerkPlayerRemoveEvent(player));
 	}
 	
 	public void removePlayer(String perkString,Player player){
@@ -30,6 +33,7 @@ public class PerkManager extends PerkData{
 				break;
 			}
 		}
+		Bukkit.getPluginManager().callEvent(new PerkPlayerRemoveEvent(player));
 	}
 	
 	public void addPlayer(String perkString, Player player){
@@ -39,6 +43,7 @@ public class PerkManager extends PerkData{
 				break;
 			}
 		}
+		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player));
 	}
 	
 	public boolean hasPlayer(Player player){
