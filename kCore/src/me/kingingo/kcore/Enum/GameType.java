@@ -20,7 +20,7 @@ MarioParty("MarioParty","MP",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stat
 PVP("PvP-Server", "PvP", new Stats[] { Stats.KILLS, Stats.DEATHS, Stats.MONEY }), 
 ArcadeGames("ArcadeGames","AG",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 SKYBLOCK("SkyBlock-Server", "Sky", new Stats[] { Stats.KILLS, Stats.DEATHS }), 
-WARZ("WarZ-Server", "WarZ", new Stats[] { Stats.KILLS, Stats.DEATHS }),
+WARZ("WarZ-Server", "WarZ", new Stats[] { Stats.KILLS, Stats.DEATHS,Stats.ANIMAL_KILLS,Stats.ANIMAL_DEATHS,Stats.MONSTER_KILLS,Stats.MONSTER_DEATHS }),
 NONE("NONE","FAIL",null);
 
 @Getter

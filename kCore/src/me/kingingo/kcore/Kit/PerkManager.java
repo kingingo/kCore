@@ -2,17 +2,20 @@ package me.kingingo.kcore.Kit;
 
 import java.util.ArrayList;
 
+import lombok.Getter;
+import me.kingingo.kcore.Permission.PermissionManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class PerkManager extends PerkData{
 	
-	public JavaPlugin instance;
+	@Getter
+	public PermissionManager manager;
 	
-	public PerkManager(JavaPlugin instance,Perk[] perks){
+	public PerkManager(PermissionManager manager,Perk[] perks){
+		this.manager=manager;
 		for(Perk perk: perks)getPlayers().put(perk, new ArrayList<Player>());
-		this.instance=instance;
 		registerPerks();
 	}
 	
@@ -20,15 +23,35 @@ public class PerkManager extends PerkData{
 		for(Perk perk : getPlayers().keySet())getPlayers().get(perk).remove(player);
 	}
 	
+	public void removePlayer(String perkString,Player player){
+		for(Perk perk : getPlayers().keySet()){
+			if(perk.getName().equalsIgnoreCase(perkString)){
+				getPlayers().get(perk).remove(player);
+				break;
+			}
+		}
+	}
+	
 	public void addPlayer(String perkString, Player player){
 		for(Perk perk : getPlayers().keySet()){
-			if(perk.getName().equalsIgnoreCase(perkString))getPlayers().get(perk).remove(player);
+			if(perk.getName().equalsIgnoreCase(perkString)){
+				getPlayers().get(perk).add(player);
+				break;
+			}
 		}
+	}
+	
+	public boolean hasPlayer(Player player){
+		for(Perk perk : getPlayers().keySet()){
+			if(getPlayers().get(perk).contains(player))return true;
+		}
+		return false;
 	}
 	
 	public void registerPerks(){
 		for(Perk perk : getPlayers().keySet()){
-			Bukkit.getPluginManager().registerEvents(perk, instance);
+			perk.setPerkData(this);
+			Bukkit.getPluginManager().registerEvents(perk, manager.getInstance());
 		}
 	}
 	

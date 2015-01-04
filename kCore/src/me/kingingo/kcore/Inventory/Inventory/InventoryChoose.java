@@ -12,6 +12,7 @@ public class InventoryChoose extends InventoryPageBase{
 	public InventoryChoose(Click click,String Title,int size,ItemStack[] item) {
 		super(size,Title);
 		for(ItemStack i : item){
+			if(i==null||i.getType()==Material.AIR)continue;
 			addButton(new ButtonBase(click,i));
 		}
 		fill(Material.STAINED_GLASS_PANE,7);

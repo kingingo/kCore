@@ -3,6 +3,7 @@ package me.kingingo.kcore.Weapon;
 public enum WeaponType {
 SNIPER,
 SHOTGUN,
-MACHINE_GUNS;
+PISTOL,
+MACHINE_GUN;
 
 }

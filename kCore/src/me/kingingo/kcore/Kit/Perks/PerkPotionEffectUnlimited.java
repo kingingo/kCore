@@ -21,8 +21,9 @@ public class PerkPotionEffectUnlimited extends Perk{
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void join(PlayerJoinEvent ev){
-		if(!getPerkData().getPlayers().containsKey(this))return;
-		UtilPlayer.addPotionEffect(ev.getPlayer(), typ, 999999,stärke);
+		if(getPerkData().hasPlayer(this, ev.getPlayer())){
+			UtilPlayer.addPotionEffect(ev.getPlayer(), typ, 999999,stärke);
+		}
 	}
 
 }

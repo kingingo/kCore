@@ -37,6 +37,11 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 		}
 	}
 	
+	public void remove(){
+		buttons.clear();
+		buttons=null;
+	}
+	
 	public int getSlotSort(){
 		if(getSize()==9){
 			if(!contains(4))return 4;

@@ -40,12 +40,16 @@ public class Home {
 			if(manager.getTeleport().containsKey(p)){
 				return;
 			}
+			if(!manager.isPlayerInGilde(p.getName())){
+				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
+				return;
+			}
 			GildenPlayerTeleportEvent ev = new GildenPlayerTeleportEvent(p,manager);
 			Bukkit.getPluginManager().callEvent(ev);
 			if(ev.isCancelled())return;
 			manager.getTeleport_loc().put(p, p.getLocation());
-			manager.getTeleport().put(p, System.currentTimeMillis()+(TimeSpan.SECOND*5));
-			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_HOME.getText(5));
+			manager.getTeleport().put(p, (System.currentTimeMillis()+(TimeSpan.SECOND*5)) );
+			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_HOME.getText(5+" sekunden"));
 		}else{
 			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde home");
 		}

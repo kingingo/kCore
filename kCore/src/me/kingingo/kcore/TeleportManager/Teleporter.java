@@ -52,10 +52,10 @@ public class Teleporter {
 			return false;
 		}else{
 			dif_x=Math.abs(loc.getX()-player.getLocation().getX());
-			dif_y=Math.abs(loc.getX()-player.getLocation().getY());
-			dif_z=Math.abs(loc.getX()-player.getLocation().getZ());
+			dif_y=Math.abs(loc.getY()-player.getLocation().getY());
+			dif_z=Math.abs(loc.getZ()-player.getLocation().getZ());
 			
-			if(dif_x<1.2&&dif_y<1.2&&dif_z<1.2){
+			if(dif_x<0.6&&dif_y<0.6&&dif_z<0.6){
 				return false;
 			}else{
 				return true;

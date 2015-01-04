@@ -25,12 +25,10 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 
 public class PetSetting extends InventoryBase{
-
-	private InventoryChoose inv_choose;
 	
 	public PetSetting(final PetManager manager,EntityType type,ItemStack item) {
 		super(manager.getInstance(),9, "PetSetting");
-		
+		int button=3;
 		getMain().setItem(1,item);
 		getMain().addButton(3, new ButtonBase(new Click(){
 			@Override
@@ -52,7 +50,8 @@ public class PetSetting extends InventoryBase{
 		
 		Entity e = Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"),0,60,0), type);
 		if(e instanceof CraftAgeable){
-			getMain().addButton(4, new ButtonBase(new Click(){
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					CraftAgeable c =(CraftAgeable) manager.GetPet(player);
@@ -67,7 +66,8 @@ public class PetSetting extends InventoryBase{
 				}
 			},Material.GRASS,"§aAlter Ändern"));
 		}else if(e instanceof Zombie){
-			getMain().addButton(4, new ButtonBase(new Click(){
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					Zombie c =(Zombie) manager.GetPet(player);
@@ -83,12 +83,15 @@ public class PetSetting extends InventoryBase{
 			},Material.SKULL_ITEM,2,"§aZombie Alter Ändern"));
 		}
 		
+		
+		
 		if(type==EntityType.SHEEP){
-			this.inv_choose=new InventoryChoose(new Click(){
+			final InventoryChoose inv_choose=new InventoryChoose(new Click(){
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					if(object instanceof ItemStack){
 						Sheep sh = (Sheep)manager.GetPet(player);
+						
 						sh.setColor(UtilItem.getColorDye( ((ItemStack)object) ));	
 						player.closeInventory();
 						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
@@ -96,8 +99,8 @@ public class PetSetting extends InventoryBase{
 				}
 			},"Farbe Ändern",18,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)0), "Weiß"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), "Orange"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)2),"Magneta"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)3),"Hell Blau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)4),"Gelb"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)5),"Hell Grün"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)6),"Pink"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)7),"Grau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)9),"Cyan"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)10),"Lila"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)11),"Blau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12),"Braun"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)13),"Grün"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)14),"Rot"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)15),"Schwarz")});
 			addPage(inv_choose);
-			
-			getMain().addButton(5, new ButtonBase(new Click(){
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					player.closeInventory();
@@ -106,6 +109,30 @@ public class PetSetting extends InventoryBase{
 				}
 			},Material.WOOL,"§aFarbe Ändern"));
 		}
+		
+		final InventoryChoose inv_helm=new InventoryChoose(new Click(){
+			@Override
+			public void onClick(Player player, ActionType type,Object object) {
+				if(object instanceof ItemStack){
+					Creature c = manager.GetPet(player);
+					c.getEquipment().setHelmet( ((ItemStack)object) );
+					player.closeInventory();
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+				}
+			}
+		},"Helm Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_HELMET,1,(byte)0), "Leder Helm"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_HELMET,1,(byte)0), "Ketten Helm"),UtilItem.RenameItem(new ItemStack(Material.GOLD_HELMET,1,(byte)0), "Gold Helm"),UtilItem.RenameItem(new ItemStack(Material.IRON_HELMET,1,(byte)0), "Iron Helm"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_HELMET,1,(byte)0), "Diamond Helm")});
+		addPage(inv_helm);
+		button++;
+		getMain().addButton(button, new ButtonBase(new Click(){
+			@Override
+			public void onClick(Player player, ActionType type,Object object) {
+				player.closeInventory();
+				player.openInventory(inv_helm);
+				if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+			}
+		},Material.LEATHER_HELMET,"§aHelm Ändern"));
+		
+		
 		getMain().fill(Material.STAINED_GLASS_PANE,4);
 		e.remove();
 	}

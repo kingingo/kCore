@@ -3,6 +3,7 @@ package me.kingingo.kcore.Inventory;
 import java.util.ArrayList;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
@@ -24,6 +25,7 @@ public class InventoryBase extends kListener{
 	@Getter
 	ArrayList<InventoryPageBase> another;
 	@Getter
+	@Setter
 	private InventoryPageBase main;
 	@Getter
 	private JavaPlugin instance;
@@ -34,6 +36,13 @@ public class InventoryBase extends kListener{
 		this.pages= new ArrayList<>();
 		this.another= new ArrayList<>();
 		this.main=new InventoryPageBase(instance,main_size,name);
+	}
+	
+	public InventoryBase(JavaPlugin instance,String name){
+		super(instance,name);
+		this.name=name;
+		this.pages= new ArrayList<>();
+		this.another= new ArrayList<>();
 	}
 	
 	public void openShop(Player player){

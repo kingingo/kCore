@@ -13,23 +13,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class CommandMuteAll implements CommandExecutor, Listener{
+public class CommandMute implements CommandExecutor, Listener{
 	
 	PermissionManager permManager;
 	boolean chat=true;
 	
-	public CommandMuteAll(PermissionManager permManager){
+	public CommandMute(PermissionManager permManager){
 		this.permManager=permManager;
 		Bukkit.getPluginManager().registerEvents(this, permManager.getInstance());
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "muteall", sender = Sender.EVERYONE)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "cmdmute", sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		if(cs instanceof Player){
 			Player p = (Player)cs;
-			if(permManager.hasPermission(p, Permission.MUTE_ALL)){
+			if(permManager.hasPermission(p, Permission.COMMAND_COMMAND_MUTE_ALL)){
 				if(chat){
 					chat=false;
 					p.sendMessage(Text.PREFIX.getText()+Text.CHAT_MUTE.getText());
@@ -41,18 +41,18 @@ public class CommandMuteAll implements CommandExecutor, Listener{
 		}else{
 			if(chat){
 				chat=false;
-				System.out.println("[MuteAll] Chat mutet");
+				System.out.println("[CmdMute] Cmd mutet");
 			}else{
 				chat=true;
-				System.out.println("[MuteAll] Chat unmutet");
+				System.out.println("[CmdMute] Cmd unmutet");
 			}
 		}
 		return false;
 	}
 
 	@EventHandler(priority=EventPriority.LOWEST)
-	public void Chat(AsyncPlayerChatEvent ev){
-		if(!chat&&!permManager.hasPermission(ev.getPlayer(), Permission.MUTE_ALL_CHAT)){
+	public void CMD(PlayerCommandPreprocessEvent ev){
+		if(!chat&&!permManager.hasPermission(ev.getPlayer(), Permission.COMMAND_COMMAND_MUTE_ALL_ALLOW)){
 			ev.setCancelled(true);
 		}
 	}

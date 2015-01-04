@@ -16,6 +16,7 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
+import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -201,24 +202,72 @@ public class GildenManager implements Listener {
 		}
 	}
 	
-	ArrayList<Player> TP = new ArrayList<>();
+//	ArrayList<Player> TP = new ArrayList<>();
+//	@EventHandler
+//	public void Update(UpdateEvent ev){
+//		if(ev.getType()!=UpdateType.FAST)return;
+//		if(teleport.isEmpty())return;
+//		for(Player p : teleport.keySet()){
+//			if(teleport.get(p) <= System.currentTimeMillis()){
+//				TP.add(p);
+//				if(teleport_loc.get(p).getX()==p.getLocation().getX()&&teleport_loc.get(p).getY()==p.getLocation().getY()&&teleport_loc.get(p).getZ()==p.getLocation().getZ()){
+//					TeleportToHome(p);
+//				}else{
+//					p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_TELEPORT_CANCELLED.getText());
+//				}
+//			}
+//		}
+//		for(Player p : TP){
+//			teleport.remove(p);
+//			teleport_loc.remove(p);
+//		}
+//	}
+	double dif_x;
+	double dif_y;
+	double dif_z;
+	public boolean hasMoved(Location loc,Player player){
+		if(loc.getBlockX() == player.getLocation().getBlockX()&&loc.getBlockY() == player.getLocation().getBlockY()&&loc.getBlockZ() == player.getLocation().getBlockZ()){
+			return false;
+		}else{
+			dif_x=Math.abs(loc.getX()-player.getLocation().getX());
+			dif_y=Math.abs(loc.getY()-player.getLocation().getY());
+			dif_z=Math.abs(loc.getZ()-player.getLocation().getZ());
+			
+			if(dif_x<0.6&&dif_y<0.6&&dif_z<0.6){
+				return false;
+			}else{
+				return true;
+			}
+		}
+	}
+	
+	Player p;
 	@EventHandler
 	public void Update(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.FAST)return;
 		if(teleport.isEmpty())return;
-		for(Player p : teleport.keySet()){
+		for(int i = 0; i < teleport.size(); i++){
+			p=((Player)teleport.keySet().toArray()[i]);
+			
 			if(teleport.get(p) <= System.currentTimeMillis()){
-				TP.add(p);
-				if(teleport_loc.get(p).getX()==p.getLocation().getX()&&teleport_loc.get(p).getY()==p.getLocation().getY()&&teleport_loc.get(p).getZ()==p.getLocation().getZ()){
+				
+				if(!p.isOnline()){
+					teleport.remove(p);
+					teleport_loc.remove(p);
+					continue;
+				}
+				
+				if(!hasMoved(teleport_loc.get(p), p)){
+				//if(teleport_loc.get(p).getX()==p.getLocation().getX()&&teleport_loc.get(p).getY()==p.getLocation().getY()&&teleport_loc.get(p).getZ()==p.getLocation().getZ()){
 					TeleportToHome(p);
 				}else{
 					p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_TELEPORT_CANCELLED.getText());
 				}
+				teleport.remove(p);
+				teleport_loc.remove(p);
+			}else{
+				p.sendMessage(Text.PREFIX.getText()+Text.GILDE_HOME.getText( UtilTime.formatMili( (teleport.get(p)-System.currentTimeMillis()) ) ));
 			}
-		}
-		for(Player p : TP){
-			teleport.remove(p);
-			teleport_loc.remove(p);
 		}
 	}
 	
@@ -236,6 +285,7 @@ public class GildenManager implements Listener {
 		if(x==0&&y==0&&z==0&&g.equalsIgnoreCase("0"))return;
 		Location loc = new Location(Bukkit.getWorld(w),x,y,z);
 		p.teleport(loc);
+		p.sendMessage(Text.PREFIX.getText()+Text.GILDE_TELEPORTET.getText());
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
