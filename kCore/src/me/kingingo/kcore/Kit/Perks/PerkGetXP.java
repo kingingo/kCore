@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Kit.Perks;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 
@@ -12,7 +13,7 @@ public class PerkGetXP extends Perk{
 		super("GetXP");
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void Death(PlayerDeathEvent ev){
 		if(getPerkData().hasPlayer(this, ev.getEntity().getKiller())){
 			ev.getEntity().getKiller().setExp( ev.getNewExp() );

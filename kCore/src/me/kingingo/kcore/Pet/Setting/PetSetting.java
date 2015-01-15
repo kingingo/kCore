@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Pet.Setting;
 
+import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryChoose;
 import me.kingingo.kcore.Inventory.Inventory.InventoryRename;
@@ -65,22 +66,6 @@ public class PetSetting extends InventoryBase{
 					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 				}
 			},Material.GRASS,"§aAlter Ändern"));
-		}else if(e instanceof Zombie){
-			button++;
-			getMain().addButton(button, new ButtonBase(new Click(){
-				@Override
-				public void onClick(Player player, ActionType type,Object object) {
-					Zombie c =(Zombie) manager.GetPet(player);
-					
-					if(c.isBaby()){
-						c.setBaby(false);
-					}else{
-						c.setBaby(true);
-					}
-					player.closeInventory();
-					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
-				}
-			},Material.SKULL_ITEM,2,"§aZombie Alter Ändern"));
 		}
 		
 		
@@ -91,7 +76,6 @@ public class PetSetting extends InventoryBase{
 				public void onClick(Player player, ActionType type,Object object) {
 					if(object instanceof ItemStack){
 						Sheep sh = (Sheep)manager.GetPet(player);
-						
 						sh.setColor(UtilItem.getColorDye( ((ItemStack)object) ));	
 						player.closeInventory();
 						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
@@ -110,27 +94,138 @@ public class PetSetting extends InventoryBase{
 			},Material.WOOL,"§aFarbe Ändern"));
 		}
 		
-		final InventoryChoose inv_helm=new InventoryChoose(new Click(){
-			@Override
-			public void onClick(Player player, ActionType type,Object object) {
-				if(object instanceof ItemStack){
-					Creature c = manager.GetPet(player);
-					c.getEquipment().setHelmet( ((ItemStack)object) );
+		if(type==EntityType.ZOMBIE||type==EntityType.PIG_ZOMBIE){
+			final InventoryChoose inv_helm=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Creature c = manager.GetPet(player);
+						c.getEquipment().setHelmet( ((ItemStack)object) );
+						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					}
+				}
+			},"Helm Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_HELMET,1,(byte)0), "Leder Helm"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_HELMET,1,(byte)0), "Ketten Helm"),UtilItem.RenameItem(new ItemStack(Material.GOLD_HELMET,1,(byte)0), "Gold Helm"),UtilItem.RenameItem(new ItemStack(Material.IRON_HELMET,1,(byte)0), "Iron Helm"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_HELMET,1,(byte)0), "Diamond Helm")});
+			addPage(inv_helm);
+			
+			final InventoryChoose inv_chest=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Creature c = manager.GetPet(player);
+						c.getEquipment().setChestplate( ((ItemStack)object) );
+						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					}
+				}
+			},"Brustpanzer Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_CHESTPLATE,1,(byte)0), "Leder Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_CHESTPLATE,1,(byte)0), "Ketten Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.GOLD_CHESTPLATE,1,(byte)0), "Gold Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.IRON_CHESTPLATE,1,(byte)0), "Iron Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_CHESTPLATE,1,(byte)0), "Diamond Brustpanzer")});
+			addPage(inv_chest);
+			
+			final InventoryChoose inv_legg=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Creature c = manager.GetPet(player);
+						c.getEquipment().setLeggings( ((ItemStack)object) );
+						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					}
+				}
+			},"Hose Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_LEGGINGS,1,(byte)0), "Leder Hose"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_LEGGINGS,1,(byte)0), "Ketten Hose"),UtilItem.RenameItem(new ItemStack(Material.GOLD_LEGGINGS,1,(byte)0), "Gold Hose"),UtilItem.RenameItem(new ItemStack(Material.IRON_LEGGINGS,1,(byte)0), "Iron Hose"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_LEGGINGS,1,(byte)0), "Diamond Hose")});
+			addPage(inv_legg);
+			
+			final InventoryChoose inv_boots=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Creature c = manager.GetPet(player);
+						c.getEquipment().setBoots( ((ItemStack)object) );
+						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					}
+				}
+			},"Schuhe Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_BOOTS,1,(byte)0), "Leder Schuhe"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_BOOTS,1,(byte)0), "Ketten Schuhe"),UtilItem.RenameItem(new ItemStack(Material.GOLD_BOOTS,1,(byte)0), "Gold Schuhe"),UtilItem.RenameItem(new ItemStack(Material.IRON_BOOTS,1,(byte)0), "Iron Schuhe"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_BOOTS,1,(byte)0), "Diamond Schuhe")});
+			addPage(inv_boots);
+			
+			final InventoryChoose inv_equip=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(final Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						player.closeInventory();
+						if( ((ItemStack)object).getType() == Material.DIAMOND_HELMET ){
+							player.openInventory(inv_helm);
+						}else if( ((ItemStack)object).getType() == Material.DIAMOND_CHESTPLATE ){
+							player.openInventory(inv_chest);
+						}else if( ((ItemStack)object).getType() == Material.DIAMOND_LEGGINGS ){
+							player.openInventory(inv_legg);
+						}else if( ((ItemStack)object).getType() == Material.DIAMOND_BOOTS ){
+							player.openInventory(inv_boots);
+						}else if( ((ItemStack)object).getType() == Material.CARROT_ITEM ){
+							new InventoryRename(player,new AnvilClickEventHandler(){
+
+								@Override
+								public void onAnvilClick(AnvilClickEvent event) {
+									try{
+										Material m = Material.getMaterial(Integer.valueOf(event.getName()));
+										if(m==null){
+											player.sendMessage(Text.PREFIX.getText()+"§cDas ist keine ID!");
+											return;
+										}
+										manager.GetPet(player).getEquipment().setItemInHand( new ItemStack(m) );;
+									}catch(NumberFormatException e){
+										player.sendMessage(Text.PREFIX.getText()+"§cDas ist keine ID!");
+									}
+								}
+								
+							}, manager.getInstance(), "Item ID");
+							if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+						}
+					}
+				}
+			},"Equipment Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.CARROT_ITEM), "Item"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_BOOTS), "Schuhe"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_LEGGINGS), "Hose"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_CHESTPLATE), "Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_HELMET), "Helm")});
+			addPage(inv_equip);
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					player.closeInventory();
+					player.openInventory(inv_equip);
+				}
+			},Material.DIAMOND_CHESTPLATE,"§aEquipment Ändern"));
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					Zombie c =(Zombie) manager.GetPet(player);
+					
+					if(c.isBaby()){
+						c.setBaby(false);
+					}else{
+						c.setBaby(true);
+					}
 					player.closeInventory();
 					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 				}
-			}
-		},"Helm Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_HELMET,1,(byte)0), "Leder Helm"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_HELMET,1,(byte)0), "Ketten Helm"),UtilItem.RenameItem(new ItemStack(Material.GOLD_HELMET,1,(byte)0), "Gold Helm"),UtilItem.RenameItem(new ItemStack(Material.IRON_HELMET,1,(byte)0), "Iron Helm"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_HELMET,1,(byte)0), "Diamond Helm")});
-		addPage(inv_helm);
-		button++;
-		getMain().addButton(button, new ButtonBase(new Click(){
-			@Override
-			public void onClick(Player player, ActionType type,Object object) {
-				player.closeInventory();
-				player.openInventory(inv_helm);
-				if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
-			}
-		},Material.LEATHER_HELMET,"§aHelm Ändern"));
+			},Material.GRASS,"§aZombie Alter Ändern"));
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					Zombie c =(Zombie) manager.GetPet(player);
+					
+					if(c.isVillager()){
+						c.setVillager(false);
+					}else{
+						c.setVillager(true);
+					}
+					player.closeInventory();
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+				}
+			},Material.SKULL_ITEM,2,"§aZombie Type Ändern"));
+		}
 		
 		
 		getMain().fill(Material.STAINED_GLASS_PANE,4);

@@ -85,8 +85,7 @@ public class UtilItem {
 	    return i;
 	  }
 
-	  public static org.bukkit.inventory.ItemStack Item(org.bukkit.inventory.ItemStack i, String[] msg, String msg1)
-	  {
+	  public static org.bukkit.inventory.ItemStack Item(org.bukkit.inventory.ItemStack i, String[] msg, String msg1){
 	    i = RenameItem(i, msg1);
 
 	    i = SetDescriptions(i, msg);

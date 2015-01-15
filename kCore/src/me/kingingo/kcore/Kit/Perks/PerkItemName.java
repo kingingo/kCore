@@ -1,13 +1,25 @@
 package me.kingingo.kcore.Kit.Perks;
 
+import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
-public class PerkItemName extends Perk{
+public class PerkItemName extends Perk implements CommandExecutor{
+	
+	public PerkItemName(CommandHandler cmd) {
+		super("ItemName");
+		if(cmd!=null)cmd.register(PerkItemName.class, this);
+	}
 	
 	public PerkItemName() {
 		super("ItemName");
@@ -28,8 +40,29 @@ public class PerkItemName extends Perk{
 				UtilItem.RenameItem(ev.getItem().getItemStack(), "§3Harke von§6 "+ev.getPlayer().getName());
 			}else if(ev.getItem().getItemStack().getTypeId()>=298&&ev.getItem().getItemStack().getTypeId()<=317){
 				UtilItem.RenameItem(ev.getItem().getItemStack(), "§3Ruestungsteil von§6 "+ev.getPlayer().getName());
+			}else if(ev.getItem().getItemStack().getType()==Material.BOW){
+				UtilItem.RenameItem(ev.getItem().getItemStack(), "§3Bogen von§6 "+ev.getPlayer().getName());
 			}
 		}
+	}
+
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "itemname", sender = Sender.PLAYER)
+	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
+		Player p = (Player)cs;
+		
+		if(getPerkData().hasPlayer(this, p)){
+			if(args.length==0){
+				p.sendMessage(Text.PREFIX.getText()+"§c/itemname [Name]");
+			}else{
+				if(p.getItemInHand()!=null&&p.getItemInHand().getType()!=Material.AIR){
+					UtilItem.RenameItem(p.getItemInHand(), args[0].replaceAll("&", "§"));
+					p.sendMessage(Text.PREFIX.getText()+"§aDas Item wurde umbenannt zu §e"+args[0].replaceAll("&", "§"));
+				}else{
+					p.sendMessage(Text.PREFIX.getText()+"§cDu musst ein Item in der Hand halten.");
+				}
+			}
+		}
+		return false;
 	}
 
 }

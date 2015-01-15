@@ -21,6 +21,7 @@ public enum TeamspeakGroup {
 	TEAM_FREUND(13,"Teamfreund",Permission.TEAMSPEAK_TEAM_FREUND),
 	GEBURTSTAG(17,"Geburtstag",Permission.TEAMSPEAK_GEBURTSTAG),
 	BOT(18,"Bot",Permission.TEAMSPEAK_BOT),
+	VERIFIZIERT(45,"Verifiziert",Permission.TEAMSPEAK_VERIFIZIERT),
 	NICHT_ANSTUPSBAR(20,"Nicht-Anstupsbar",Permission.TEAMSPEAK_NICHT_ANSTUPSBAR),
 	GARNICHT_ANSTUPSBAR(39,"Garnicht-Anstupsbar",Permission.TEAMSPEAK_GARNICHT_ANSTUPSBAR),
 	NICHT_REDEN(15,"Nicht-Reden",Permission.TEAMSPEAK_NICHT_REDEN),

@@ -2,14 +2,17 @@ package me.kingingo.kcore.Kit.Perks;
 
 import java.util.HashMap;
 
+import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilParticle;
+import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class PerkPotionClear extends Perk{
 
@@ -20,26 +23,33 @@ public class PerkPotionClear extends Perk{
 	}
 	
 	public boolean is(Player player){
-		if(timer.containsKey(player)||timer.get(player) > System.currentTimeMillis()){
+		if(timer.containsKey(player)){
+			if(timer.get(player) > System.currentTimeMillis()){
+				return true;
+			}
 			timer.remove(player);
 			return false;
 		}
-		return true;
+		return false;
 	}
 	
 	@EventHandler
 	public void Click(PlayerInteractEntityEvent ev){
-		if(ev.getPlayer().isSneaking()){
 			if(getPerkData().hasPlayer(this, ev.getPlayer())){
-				if(!is(ev.getPlayer())){
-					if(ev.getRightClicked() instanceof Player){
-						for(PotionEffect e : ((Player)ev.getRightClicked()).getActivePotionEffects())((Player)ev.getRightClicked()).removePotionEffect(e.getType());
-						timer.put(ev.getPlayer(), System.currentTimeMillis()+(TimeSpan.HOUR*2));
-						UtilParticle.FLAME.display(10F, 4F, 10F, 0, 60, ev.getPlayer().getLocation(), 10);
-					}
+				if(ev.getPlayer().isSneaking()){
+						if(ev.getRightClicked() instanceof Player){
+							if(!is(ev.getPlayer())){
+							timer.put(ev.getPlayer(), System.currentTimeMillis()+(TimeSpan.MINUTE*15));
+							UtilParticle.FLAME.display(1, 20, ((Player)ev.getRightClicked()).getLocation(), 15);
+							for(PotionEffect e : ((Player)ev.getRightClicked()).getActivePotionEffects()){
+								if(e.getType()!=PotionEffectType.JUMP)((Player)ev.getRightClicked()).removePotionEffect(e.getType());
+							}
+							}else{
+								ev.getPlayer().sendMessage(Text.PREFIX.getText()+"§cDu musst noch §4"+UtilTime.formatMili( (timer.get(ev.getPlayer())-System.currentTimeMillis()) )+"§c warten");
+							}
+						}
 				}
 			}
-		}
 	}
 
 

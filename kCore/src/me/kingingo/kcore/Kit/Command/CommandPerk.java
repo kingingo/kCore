@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryChoose;
 import me.kingingo.kcore.Inventory.Inventory.InventoryYesNo;
@@ -32,7 +33,7 @@ public class CommandPerk  extends InventoryBase implements CommandExecutor{
 	InventoryYesNo or;
 	HashMap<Player,String> perk = new HashMap<>();
 	
-	public CommandPerk(PerkManager manager){
+	public CommandPerk(final PerkManager manager){
 		super(manager.getManager().getInstance(),"CommandPerk");
 		this.manager=manager;
 		
@@ -62,9 +63,11 @@ public class CommandPerk  extends InventoryBase implements CommandExecutor{
 
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
-					perk.remove(player);
-					perk.put(player, ((ItemStack)object).getItemMeta().getDisplayName());
-					player.openInventory(or);
+					if(manager.hasPlayer(((ItemStack)object).getItemMeta().getDisplayName(), player)){
+						perk.remove(player);
+						perk.put(player, ((ItemStack)object).getItemMeta().getDisplayName());
+						player.openInventory(or);
+					}
 				}
 				
 			},"§aPerk Auswahl",18,getItems()));
@@ -75,6 +78,8 @@ public class CommandPerk  extends InventoryBase implements CommandExecutor{
 		Player p = (Player)cs;
 		if(manager.hasPlayer(p)){
 			p.openInventory(getMain());
+		}else{
+			p.sendMessage(Text.PREFIX.getText()+Text.PERK_NOT_BOUGHT.getText());
 		}
 		return false;
 	}

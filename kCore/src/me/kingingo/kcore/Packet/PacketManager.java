@@ -72,6 +72,8 @@ public class PacketManager {
 			return new YOUTUBE_GET_DATA(packet.split("-/-"));
 		}else if (packet.contains("YOUTUBE_IS_DATA")) {
 			return new YOUTUBE_IS_DATA(packet.split("-/-"));
+		}else if (packet.contains("PERMISSION_GROUP_RELOAD")) {
+			return new PERMISSION_GROUP_RELOAD(packet.split("-/-"));
 		}
 	 return null;
 	}

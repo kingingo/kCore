@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Pet.Shop;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,6 +18,7 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.Tokens;
+import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
@@ -27,6 +29,7 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftAgeable;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Zombie;
@@ -103,7 +106,7 @@ public class PetShop extends InventoryBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,98, "Ocelot", new String[]{""}));
+		}, Material.MONSTER_EGG,98, "§aOcelot", new String[]{"§6Kaufbares-Pet","§cTokens: 100","§eCoins: 4000"}));
 		
 		getMain().addButton(16, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -117,13 +120,13 @@ public class PetShop extends InventoryBase{
 						permManager.addPermission(player, Permission.PET_ZOMBIE);
 					}
 					
-				},"Kaufen",coins,5000,tokens,120);
+				},"Kaufen",coins,7000,tokens,150);
 				player.openInventory(buy);
 				addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,57, "Zombie", new String[]{""}));
+		}, Material.MONSTER_EGG,57, "§aZombie", new String[]{"§6Kaufbares-Pet","§cTokens: 150","§eCoins: 7000"}));
 		
 		getMain().addButton(15, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -143,7 +146,7 @@ public class PetShop extends InventoryBase{
 				}
 			}
 			
-		},  Material.MONSTER_EGG,92, "Cow", new String[]{""}));
+		},  Material.MONSTER_EGG,92, "§aCow", new String[]{"§6Kaufbares-Pet","§cTokens: 100","§eCoins: 4000"}));
 		
 		getMain().addButton(10, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -163,7 +166,7 @@ public class PetShop extends InventoryBase{
 				}
 			}
 			
-		}, Material.IRON_BLOCK, "IronGolem", new String[]{""}));
+		}, Material.IRON_BLOCK, "§aIronGolem", new String[]{"§6Kaufbares-Pet","§cTokens: 250","§eCoins: 10000"}));
 		
 		getMain().addButton(11, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -184,7 +187,7 @@ public class PetShop extends InventoryBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,95, "Wolf", new String[]{""}));
+		}, Material.MONSTER_EGG,95, "§aWolf", new String[]{"§6Kaufbares-Pet","§cTokens: 100","§eCoins: 4000"}));
 		
 		getMain().addButton(12, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -205,7 +208,7 @@ public class PetShop extends InventoryBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,90, "Pig", new String[]{""}));
+		}, Material.MONSTER_EGG,90, "§aPig", new String[]{"§6Kaufbares-Pet","§cTokens: 100","§eCoins: 4000"}));
 		
 		getMain().addButton(13, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -226,7 +229,7 @@ public class PetShop extends InventoryBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,91, "Schaf", new String[]{""}));
+		}, Material.MONSTER_EGG,91, "§aSchaf", new String[]{"§6Kaufbares-Pet","§cTokens: 100","§eCoins: 4000"}));
 	}
 	
 	public String toString(Creature c){
@@ -238,11 +241,16 @@ public class PetShop extends InventoryBase{
 		}else if(c instanceof Zombie){
 			Zombie ca = (Zombie)c;
 			sql=sql+"AGE:"+ca.isBaby()+"-/-";
+			sql=sql+"VILLAGER:"+ca.isVillager()+"-/-";
 		}
 		
 		if(c instanceof Sheep){
 			Sheep s = (Sheep)c;
 			sql=sql+"SHEEP:"+s.getColor().name()+"-/-";
+		}else if(c instanceof Zombie||c instanceof PigZombie){
+			c.getEquipment().getArmorContents();
+			sql=sql+"EQUIP:"+UtilInv.itemStackArrayToBase64(c.getEquipment().getArmorContents())+"-/-";
+			sql=sql+"ITEM:"+c.getEquipment().getItemInHand().getTypeId()+"-/-";
 		}
 		return sql;
 	}
@@ -267,66 +275,54 @@ public class PetShop extends InventoryBase{
 		if(!sql.equalsIgnoreCase("null")){
 			int a = 1;
 			String[] split = sql.split("-/-");
-			getManager().AddPetOwner(player, split[1].split(":")[1], EntityType.valueOf( split[0].split(":")[1] ), player.getLocation());
+			getManager().AddPetOwner(player, split[a].split(":")[1], EntityType.valueOf( split[0].split(":")[1] ), player.getLocation());
 			Creature c = getManager().getActivePetOwners().get(player.getName().toLowerCase());
 			
 			if(c instanceof CraftAgeable){
 				CraftAgeable ca = (CraftAgeable)c;
-				a=2;
-				ca.setAge( Integer.valueOf( split[2].split(":")[1] ) );
+				a++;
+				ca.setAge( Integer.valueOf( split[a].split(":")[1] ) );
 				ca.setAgeLock(true);
 			}else if(c instanceof Zombie){
 				Zombie ca = (Zombie)c;
-				a=2;
-				ca.setBaby( Boolean.valueOf( split[2].split(":")[1] ) );
+				a++;
+				ca.setBaby( Boolean.valueOf( split[a].split(":")[1] ) );
+				a++;
+				ca.setVillager( Boolean.valueOf( split[a].split(":")[1]) );
 			}
 			
 			if(c instanceof Sheep){
 				Sheep s = (Sheep)c;
 				a++;
 				s.setColor( DyeColor.valueOf( split[a].split(":")[1] ) );
+			}
+			
+			if(c instanceof Zombie||c instanceof PigZombie){
+				a++;
+				try {
+					c.getEquipment().setArmorContents( UtilInv.itemStackArrayFromBase64(split[a].split(":")[1]) );
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				a++;
+				try {
+				c.getEquipment().setItemInHand( new ItemStack( Integer.valueOf(split[a].split(":")[1]) ) );
+				} catch (NumberFormatException e) {
+				a--;
+				}
 			}
 		}
 	}
 	
 	public void loadPetSettings(Player player){
 		String sql = getPermManager().getMysql().getString("SELECT `pet` FROM `list_pet` WHERE player='"+player.getName().toLowerCase()+"'");
-		if(!sql.equalsIgnoreCase("null")){
-			int a = 1;
-			String[] split = sql.split("-/-");
-			getManager().AddPetOwner(player, split[1].split(":")[1], EntityType.valueOf( split[0].split(":")[1] ), player.getLocation());
-			Creature c = getManager().getActivePetOwners().get(player.getName().toLowerCase());
-			
-			if(c instanceof CraftAgeable){
-				CraftAgeable ca = (CraftAgeable)c;
-				a=2;
-				ca.setAge( Integer.valueOf( split[2].split(":")[1] ) );
-				ca.setAgeLock(true);
-			}else if(c instanceof Zombie){
-				Zombie ca = (Zombie)c;
-				a=2;
-				ca.setBaby( Boolean.valueOf( split[2].split(":")[1] ) );
-			}
-			
-			if(c instanceof Sheep){
-				Sheep s = (Sheep)c;
-				a++;
-				s.setColor( DyeColor.valueOf( split[a].split(":")[1] ) );
-			}
-		}
+		loadPetSettings(player, sql);
 	}
 	
 	public void UpdatePetSettings(Player player){
 		DeletePetSettings(player);
 		InsertPetSettings(player);
 	}
-	
-//	public void UpdatePetSettings(Player player){
-//		if(manager.getActivePetOwners().containsKey(player.getName().toLowerCase())){
-//			Creature c = manager.getActivePetOwners().get(player.getName().toLowerCase());
-//			getPermManager().getMysql().Update("UPDATE list_pet SET pet='"+toString(c)+"' WHERE player='" + player.getName().toLowerCase() + "'");
-//		}
-//	}
 	
 	String player;
 	@EventHandler

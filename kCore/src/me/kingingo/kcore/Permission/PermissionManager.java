@@ -238,6 +238,40 @@ public class PermissionManager {
 		pgroup.put(p.toLowerCase(), g);
 	}
 	
+	public void loadGroup(String g){
+		if(!groups.containsKey(g)){
+			Permission permission;
+			groups.put(g, new ArrayList<Permission>());
+			try
+		    {
+			ResultSet rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none' AND user='none'");
+		      while (rs.next()){
+		    	  permission=Permission.isPerm(rs.getString(1));
+		    	  if(permission==Permission.NONE)continue;
+		    	  groups.get(g).add(permission);
+		      }
+		      rs.close();
+		    }
+		    catch (SQLException e)
+		    {
+		      Bukkit.getServer().getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
+		    }
+		}
+		if(!gprefix.containsKey(g)){
+			try {
+				ResultSet rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND user='none'");
+
+				while (rs.next()) {
+					gprefix.put(g, rs.getString(1));
+				}
+
+				rs.close();
+			} catch (Exception err) {
+				Bukkit.getServer().getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
+			}
+		}
+	}
+	
 	public void removePermission(String p, Permission perm){
 		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.toLowerCase() + "' AND permission='"+perm.getPermissionToString()+"'");
 	}

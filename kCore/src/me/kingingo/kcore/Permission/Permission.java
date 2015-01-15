@@ -64,6 +64,7 @@ TEAMSPEAK_NICHT_REDEN("epicpvp.ts.nicht_reden"),
 TEAMSPEAK_NICHT_BEWEGEN("epicpvp.ts.nicht_bewegen"),
 TEAMSPEAK_NICHT_ANSTUPSBART("epicpvp.ts.nicht_anstupsbart"),
 TEAMSPEAK_NICHT_ANSCHREIBBAR("epicpvp.ts.nicht_anschreibbar"),
+TEAMSPEAK_VERIFIZIERT("epicpvp.ts.verifiziert"),
 
 DEATHGAMES_KIT_ANKER("epicpvp.kit.dg.anker"),
 DEATHGAMES_KIT_BOMBER("epicpvp.kit.dg.bomber"),

@@ -32,10 +32,10 @@ public class CommandMute implements CommandExecutor, Listener{
 			if(permManager.hasPermission(p, Permission.COMMAND_COMMAND_MUTE_ALL)){
 				if(chat){
 					chat=false;
-					p.sendMessage(Text.PREFIX.getText()+Text.CHAT_MUTE.getText());
+					p.sendMessage(Text.PREFIX.getText()+Text.CMD_MUTE.getText());
 				}else{
 					chat=true;
-					p.sendMessage(Text.PREFIX.getText()+Text.CHAT_UNMUTE.getText());
+					p.sendMessage(Text.PREFIX.getText()+Text.CMD_UNMUTE.getText());
 				}
 			}
 		}else{

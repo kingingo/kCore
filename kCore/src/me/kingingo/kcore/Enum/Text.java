@@ -35,6 +35,7 @@ SERVER_FULL_WITH_PREMIUM("§cDer Server ist voll! Kaufe dir Premium auf §bshop.
 KILL_BY("§b% §ewurde von§a % §egetötet"),
 DEATH("§b% §eist gestorben."),
 GAME_EXCLUSION(C.cRed+"% wurde vom Spiel ausgeschlossen"),
+PERK_NOT_BOUGHT("§cDu hast noch keine Perks gekauft! §bShop.EpicPvP.de"),
 VOTE_TEAM_ADD("§cDu bist nun in§a %§c"),
 VOTE_TEAM_MIN_PLAYER("Es muessen min. % Spieler online sein!"),
 VOTE_TEAM_REMOVE("§cDu hast §a %§c verlassen"),
@@ -144,6 +145,7 @@ TELEPORT_VERZÖGERUNG("§6Du wirst in §b%§6 teleportiert."),
 TELEPORT("Du wurdest teleportiert!"),
 TELEPORT_ANFRAGE_EMPFÄNGER("§6Der Spieler§b % §6hat dir eine Teleport Anfrage gesendet."),
 TELEPORT_ANFRAGE_SENDER("§6Du hast§b % §6eine Teleport Anfrage gesendet."),
+WHEREIS_TEXT("§6Du befindest dich momentan auf dem §b%§6 Server."),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 private String t;
