@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryCustom;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -40,6 +41,7 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 	public void remove(){
 		buttons.clear();
 		buttons=null;
+        HandlerList.unregisterAll(this);
 	}
 	
 	public int getSlotSort(){

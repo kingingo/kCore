@@ -34,18 +34,18 @@ public class PerkManager extends PerkData{
 	}
 	
 	public void removePlayer(Player player){
+		Bukkit.getPluginManager().callEvent(new PerkPlayerRemoveEvent(player,null));
 		for(Perk perk : getPlayers().keySet())getPlayers().get(perk).remove(player);
-		Bukkit.getPluginManager().callEvent(new PerkPlayerRemoveEvent(player));
 	}
 	
 	public void removePlayer(String perkString,Player player){
+		Bukkit.getPluginManager().callEvent(new PerkPlayerRemoveEvent(player,perkString));
 		for(Perk perk : getPlayers().keySet()){
 			if(perk.getName().equalsIgnoreCase(perkString)){
 				getPlayers().get(perk).remove(player);
 				break;
 			}
 		}
-		Bukkit.getPluginManager().callEvent(new PerkPlayerRemoveEvent(player));
 	}
 	
 	public boolean setPermission(String perkString,Permission permission){
@@ -58,6 +58,13 @@ public class PerkManager extends PerkData{
 		return false;
 	}
 	
+	public void addPlayer(Player player){
+		for(Perk perk : getPlayers().keySet()){
+			getPlayers().get(perk).add(player);
+		}
+		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player,null));
+	}
+	
 	public void addPlayer(String perkString, Player player){
 		for(Perk perk : getPlayers().keySet()){
 			if(perk.getName().equalsIgnoreCase(perkString)){
@@ -65,12 +72,12 @@ public class PerkManager extends PerkData{
 				break;
 			}
 		}
-		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player));
+		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player,perkString));
 	}
 	
 	public boolean hasPlayer(String perkString,Player player){
 		for(Perk perk : getPlayers().keySet()){
-			if(perkString.equalsIgnoreCase(perk.getName())&&manager.hasPermission(player, perk.getPermission())){
+			if(perkString.equalsIgnoreCase(perk.getName())&& (manager.hasPermission(player, perk.getPermission())||manager.hasPermission(player, Permission.PERK_ALL))){
 				return true;
 			}
 		}
@@ -79,7 +86,7 @@ public class PerkManager extends PerkData{
 	
 	public boolean hasPlayer(Player player){
 		for(Perk perk : getPlayers().keySet()){
-			if(manager.hasPermission(player, perk.getPermission()))return true;
+			if((manager.hasPermission(player, perk.getPermission())||manager.hasPermission(player, Permission.PERK_ALL)))return true;
 		}
 		return false;
 	}

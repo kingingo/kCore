@@ -30,6 +30,7 @@ PERK_MINER("epicpvp.perk.miner"),
 PERK_DROPPER("epicpvp.perk.dropper"),
 PERK_HEALER("epicpvp.perk.healer"),
 PERK_GOLENAPPLE("epicpvp.perk.goldenapple"),
+PERK_ALL("epicpvp.perk.*"),
 
 PLAYER_TELEPORT_A("epicpvp.player.tpa"),
 PLAYER_TELEPORT_AHERE("epicpvp.player.tpahere"),
@@ -119,10 +120,13 @@ OneInTheChamber_LIFE("epicpvp.oitc.life"),
 //One In The Chamber - ENDE -
 
 //PETS
+PET_ALL("kpet.*"),
 PET_BLAZE("kpet.blaze"),
 PET_CHICKEN("kpet.chicken"),
 PET_COW("kpet.cow"),
 PET_ENDERMAN("kpet.enderman"),
+PET_SNOWMAN("kpet.snowman"),
+PET_CREEPER("kpet.creeper"),
 PET_IRON_GOLEM("kpet.irongolem"),
 PET_PIG("kpet.pig"),
 PET_SPIDER("kpet.spider"),

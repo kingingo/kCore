@@ -10,9 +10,12 @@ public class PerkPlayerRemoveEvent extends Event {
 	private static HandlerList handlers = new HandlerList();
 	@Getter
 	private Player player;
+	@Getter
+	private String perkString;
 	
-	public PerkPlayerRemoveEvent(Player player){
+	public PerkPlayerRemoveEvent(Player player,String perkString){
 		this.player=player;
+		this.perkString=perkString;
 	}
 	
 	@Override

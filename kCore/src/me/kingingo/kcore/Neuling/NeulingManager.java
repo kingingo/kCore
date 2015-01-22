@@ -18,6 +18,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class NeulingManager extends kListener{
@@ -83,6 +85,22 @@ public class NeulingManager extends kListener{
 					a.sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ_YOU.getText());
 				}
 			}
+		}
+	}
+	
+	@EventHandler
+	public void Pickup(PlayerPickupItemEvent ev){
+		if(getPlayers().containsKey(ev.getPlayer())){
+			ev.getPlayer().sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ_YOU.getText());
+			ev.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void Drop(PlayerDropItemEvent ev){
+		if(getPlayers().containsKey(ev.getPlayer())){
+			ev.getPlayer().sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ_YOU.getText());
+			ev.setCancelled(true);
 		}
 	}
 	

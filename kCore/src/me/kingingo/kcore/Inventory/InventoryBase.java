@@ -2,18 +2,26 @@ package me.kingingo.kcore.Inventory;
 
 import java.util.ArrayList;
 
+import javax.print.attribute.standard.Copies;
+
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.kListener;
+import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import net.minecraft.server.v1_7_R4.IInventory;
 
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventory;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryCustom;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class InventoryBase extends kListener{
@@ -60,27 +68,35 @@ public class InventoryBase extends kListener{
 	}
 	
 	public InventoryPageBase get(Inventory inv){
+		
 		for(InventoryPageBase page : pages){
-			if(page.getName().equalsIgnoreCase(inv.getName())&&page.getSize()==inv.getSize()){
+			if(page.getName().equalsIgnoreCase(inv.getName())&&page.getSize()==inv.getSize()&&isSameInventory(page,inv)){
 				return page;
 			}
 		}
 		
 		for(InventoryPageBase page : another){
-			if(page.getName().equalsIgnoreCase(inv.getName())&&page.getSize()==inv.getSize()){
+			if(page.getName().equalsIgnoreCase(inv.getName())&&page.getSize()==inv.getSize()&&isSameInventory(page,inv)){
 				return page;
 			}
 		}
-		
-		if(main.getName().equalsIgnoreCase(inv.getName())&&main.getSize()==inv.getSize())return main;
+		if(main.getName().equalsIgnoreCase(inv.getName())&&main.getSize()==inv.getSize()&&isSameInventory(main,inv))return main;
 		return null;
+	}
+	
+	public static boolean isSameInventory(Inventory first, Inventory second)
+	{
+	    return ((CraftInventory) first).getInventory().equals(((CraftInventory) second).getInventory());
 	}
 	
 	@EventHandler
 	public void CloseInv(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.MIN_005)return;
 		for(int i = 0; i < another.size(); i++){
-			if(another.get(i).getViewers().isEmpty())another.remove(i);
+			if(another.get(i).getViewers().isEmpty()){
+				another.get(i).remove();
+				another.remove(i);
+			}
 		}
 	}
 	

@@ -109,8 +109,31 @@ public class AntiLogoutManager extends kListener {
 	
 	@EventHandler
 	public void Kick(PlayerKickEvent ev){
-		if(getPlayers().containsKey(ev.getPlayer())){
-			getPlayers().remove(ev.getPlayer());
+		if(!is(ev.getPlayer())&&!onDisable){
+			switch(typ){
+			case KILL:
+				ev.getPlayer().setHealth(0);
+				break;
+			default:
+				if(ev.getPlayer().getInventory().getHelmet()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getHelmet());
+					ev.getPlayer().getInventory().setHelmet(null);
+				}
+				if(ev.getPlayer().getInventory().getChestplate()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getChestplate());
+					ev.getPlayer().getInventory().setChestplate(null);
+				}
+				if(ev.getPlayer().getInventory().getLeggings()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getLeggings());
+					ev.getPlayer().getInventory().setLeggings(null);
+				}
+				if(ev.getPlayer().getInventory().getBoots()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getBoots());
+					ev.getPlayer().getInventory().setBoots(null);
+				}
+			}
+			Log(ev.getPlayer().getName()+" hat sich in Kampf ausgeloggt und wurde bestraft!");
+			Bukkit.getPluginManager().callEvent(new AntiLogoutQuitPlayerEvent(ev.getPlayer(),this));
 		}
 	}
 	

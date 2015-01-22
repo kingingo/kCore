@@ -10,6 +10,7 @@ import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
 import me.kingingo.kcore.Packet.Packets.SERVER_INFO_ALL;
 import me.kingingo.kcore.Packet.Packets.SERVER_STATUS;
+import me.kingingo.kcore.Packet.Packets.SERVER_TYPE_CHANGE;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_ADD_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_CLIENT;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP;
@@ -74,6 +75,8 @@ public class PacketManager {
 			return new YOUTUBE_IS_DATA(packet.split("-/-"));
 		}else if (packet.contains("PERMISSION_GROUP_RELOAD")) {
 			return new PERMISSION_GROUP_RELOAD(packet.split("-/-"));
+		}else if (packet.contains("SERVER_TYPE_CHANGE")) {
+			return new SERVER_TYPE_CHANGE(packet.split("-/-"));
 		}
 	 return null;
 	}

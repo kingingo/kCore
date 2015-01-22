@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
+import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
 import me.kingingo.kcore.Inventory.Item.Click;
@@ -28,10 +29,13 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftAgeable;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Enderman;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -51,7 +55,7 @@ public class PetShop extends InventoryBase{
 	private HashMap<String,String> settings = new HashMap<>();
 	
 	public PetShop(final PetManager manager,final PermissionManager permManager,final Coins coins,final Tokens tokens){
-		super(manager.getInstance(),27,"Pet-Shop");
+		super(manager.getInstance(),36,"Pet-Shop");
 		this.manager=manager;
 		this.permManager=permManager;
 		this.manager.setShop(this);
@@ -67,30 +71,11 @@ public class PetShop extends InventoryBase{
 		this.manager.getSetting_list().put(EntityType.ZOMBIE, new PetSetting(manager,EntityType.ZOMBIE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 57), "§aZombie")));
 		this.manager.getSetting_list().put(EntityType.OCELOT, new PetSetting(manager,EntityType.OCELOT,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 98), "§aOcelot")));
 		
-		getMain().setItem(0, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(1, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(2, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(3, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(4, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(5, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(6, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(7, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(8, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));	
-		getMain().setItem(9, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(17, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));	
-		getMain().setItem(18, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(19, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(20, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(21, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(22, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(23, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(24, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(25, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
-		getMain().setItem(26, UtilItem.RenameItem(new ItemStack(160,1,(byte)7)," "));
+		this.manager.getSetting_list().put(EntityType.CREEPER, new PetSetting(manager,EntityType.CREEPER,UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM,1,(byte)4), "§aCreeper")));
 		
 		getMain().addButton(14, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_OCELOT)){
+				if(permManager.hasPermission(player, Permission.PET_OCELOT)||permManager.hasPermission(player, Permission.PET_ALL)){
 					manager.AddPetOwner(player, "Ocelot", EntityType.OCELOT, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -110,7 +95,7 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(16, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_ZOMBIE)){
+				if(permManager.hasPermission(player, Permission.PET_ZOMBIE)||permManager.hasPermission(player, Permission.PET_ALL)){
 					manager.AddPetOwner(player, "Zombie", EntityType.ZOMBIE, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -130,7 +115,7 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(15, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_COW)){
+				if(permManager.hasPermission(player, Permission.PET_COW)||permManager.hasPermission(player, Permission.PET_ALL)){
 					manager.AddPetOwner(player, "Cow", EntityType.COW, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -150,7 +135,7 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(10, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_IRON_GOLEM)){
+				if(permManager.hasPermission(player, Permission.PET_IRON_GOLEM)||permManager.hasPermission(player, Permission.PET_ALL)){
 					manager.AddPetOwner(player, "IronGolem", EntityType.IRON_GOLEM, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -170,7 +155,7 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(11, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_WOLF)){
+				if(permManager.hasPermission(player, Permission.PET_WOLF)||permManager.hasPermission(player, Permission.PET_ALL)){
 					manager.AddPetOwner(player, "Wolf", EntityType.WOLF, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -191,7 +176,7 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(12, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_PIG)){
+				if(permManager.hasPermission(player, Permission.PET_PIG)||permManager.hasPermission(player, Permission.PET_ALL)){
 					manager.AddPetOwner(player, "Pig", EntityType.PIG, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -212,7 +197,7 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(13, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_SHEEP)){
+				if(permManager.hasPermission(player, Permission.PET_SHEEP)||permManager.hasPermission(player, Permission.PET_ALL)){
 					manager.AddPetOwner(player, "Schaf", EntityType.SHEEP, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -230,6 +215,21 @@ public class PetShop extends InventoryBase{
 			}
 			
 		}, Material.MONSTER_EGG,91, "§aSchaf", new String[]{"§6Kaufbares-Pet","§cTokens: 100","§eCoins: 4000"}));
+		
+		getMain().addButton(19, new SalesPackageBase(new Click(){
+			public void onClick(Player player, ActionType type,Object object) {
+				if(permManager.hasPermission(player, Permission.PET_CREEPER)||permManager.hasPermission(player, Permission.PET_ALL)){
+					manager.AddPetOwner(player, "Creeper", EntityType.CREEPER, player.getLocation());
+					player.closeInventory();
+				}else{
+					player.sendMessage(Text.PREFIX.getText()+Text.PREMIUM_PET.getText());
+					player.closeInventory();
+				}
+			}
+			
+		}, Material.SKULL_ITEM,4, "§aCreeper", new String[]{"§aPremium-Pet"}));
+		
+		getMain().fill(Material.STAINED_GLASS_PANE,(byte)7);
 	}
 	
 	public String toString(Creature c){
@@ -248,9 +248,12 @@ public class PetShop extends InventoryBase{
 			Sheep s = (Sheep)c;
 			sql=sql+"SHEEP:"+s.getColor().name()+"-/-";
 		}else if(c instanceof Zombie||c instanceof PigZombie){
-			c.getEquipment().getArmorContents();
 			sql=sql+"EQUIP:"+UtilInv.itemStackArrayToBase64(c.getEquipment().getArmorContents())+"-/-";
 			sql=sql+"ITEM:"+c.getEquipment().getItemInHand().getTypeId()+"-/-";
+		}else if(c instanceof Wolf){
+			sql=sql+"ANGRY:"+((Wolf)c).isAngry()+"-/-";
+		}else if(c instanceof Creeper){
+			sql=sql+"POWERED:"+((Creeper)c).isPowered()+"-/-";
 		}
 		return sql;
 	}
@@ -266,6 +269,24 @@ public class PetShop extends InventoryBase{
 		}
 	}
 	
+	public Permission getPerm(EntityType type){
+		switch(type){
+		case CHICKEN: return Permission.PET_CHICKEN;
+		case CREEPER: return Permission.PET_CREEPER;
+		case COW: return Permission.PET_COW;
+		case IRON_GOLEM: return Permission.PET_IRON_GOLEM;
+		case OCELOT: return Permission.PET_OCELOT;
+		case ZOMBIE: return Permission.PET_ZOMBIE;
+		case WOLF: return Permission.PET_WOLF;
+		case SHEEP: return Permission.PET_SHEEP;
+		case PIG: return Permission.PET_PIG;
+		case PIG_ZOMBIE: return Permission.PET_PIGZOMBIE;
+		case SPIDER: return Permission.PET_SPIDER;
+		default:
+			return Permission.NONE;
+		}
+	}
+	
 	public void loadPetSettings(String player){
 		String sql = getPermManager().getMysql().getString("SELECT `pet` FROM `list_pet` WHERE player='"+player.toLowerCase()+"'");
 		if(!sql.equalsIgnoreCase("null"))settings.put(player.toLowerCase(), sql);
@@ -275,41 +296,50 @@ public class PetShop extends InventoryBase{
 		if(!sql.equalsIgnoreCase("null")){
 			int a = 1;
 			String[] split = sql.split("-/-");
-			getManager().AddPetOwner(player, split[a].split(":")[1], EntityType.valueOf( split[0].split(":")[1] ), player.getLocation());
+			if(permManager.hasPermission(player, getPerm(EntityType.valueOf( split[0].split(":")[1] ))) || permManager.hasPermission(player, Permission.PET_ALL)){
+				getManager().AddPetOwner(player, split[a].split(":")[1], EntityType.valueOf( split[0].split(":")[1] ), player.getLocation());
 			Creature c = getManager().getActivePetOwners().get(player.getName().toLowerCase());
 			
 			if(c instanceof CraftAgeable){
 				CraftAgeable ca = (CraftAgeable)c;
 				a++;
-				ca.setAge( Integer.valueOf( split[a].split(":")[1] ) );
-				ca.setAgeLock(true);
+				if(split[a]!=null)ca.setAge( Integer.valueOf( split[a].split(":")[1] ) );
+				if(split[a]!=null)ca.setAgeLock(true);
 			}else if(c instanceof Zombie){
 				Zombie ca = (Zombie)c;
 				a++;
-				ca.setBaby( Boolean.valueOf( split[a].split(":")[1] ) );
+				if(split[a]!=null)ca.setBaby( Boolean.valueOf( split[a].split(":")[1] ) );
 				a++;
-				ca.setVillager( Boolean.valueOf( split[a].split(":")[1]) );
+				if(split[a]!=null)ca.setVillager( Boolean.valueOf( split[a].split(":")[1]) );
 			}
 			
 			if(c instanceof Sheep){
 				Sheep s = (Sheep)c;
 				a++;
-				s.setColor( DyeColor.valueOf( split[a].split(":")[1] ) );
-			}
-			
-			if(c instanceof Zombie||c instanceof PigZombie){
+				if(split[a]!=null)s.setColor( DyeColor.valueOf( split[a].split(":")[1] ) );
+				
+			}else if(c instanceof Zombie||c instanceof PigZombie){
 				a++;
 				try {
-					c.getEquipment().setArmorContents( UtilInv.itemStackArrayFromBase64(split[a].split(":")[1]) );
+					if(split[a]!=null)c.getEquipment().setArmorContents( UtilInv.itemStackArrayFromBase64(split[a].split(":")[1]) );
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				a++;
 				try {
-				c.getEquipment().setItemInHand( new ItemStack( Integer.valueOf(split[a].split(":")[1]) ) );
+					if(split[a]!=null)c.getEquipment().setItemInHand( new ItemStack( Integer.valueOf(split[a].split(":")[1]) ) );
 				} catch (NumberFormatException e) {
 				a--;
 				}
+			}else if(c instanceof Wolf){
+				a++;
+				if(split[a]!=null)((Wolf)c).setAngry( Boolean.valueOf( split[a].split(":")[1] ) );
+			}else if(c instanceof Creeper){
+				a++;
+				if(split[a]!=null)((Creeper)c).setPowered( Boolean.valueOf( split[a].split(":")[1] ) );
+			}
+			}else{
+				DeletePetSettings(player);
 			}
 		}
 	}

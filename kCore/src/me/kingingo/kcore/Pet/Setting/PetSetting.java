@@ -17,11 +17,16 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftAgeable;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftCreeper;
+import org.bukkit.entity.Cow;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.MushroomCow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 
@@ -92,9 +97,39 @@ public class PetSetting extends InventoryBase{
 					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 				}
 			},Material.WOOL,"§aFarbe Ändern"));
-		}
-		
-		if(type==EntityType.ZOMBIE||type==EntityType.PIG_ZOMBIE){
+		}else if(type==EntityType.CREEPER){
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					Creeper w = (Creeper)manager.GetPet(player);
+					player.closeInventory();
+					if(w.isPowered()){
+						w.setPowered(false);
+					}else{
+						w.setPowered(true);
+					}
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+				}
+			},Material.NETHER_STAR,"§aPowered An/Aus"));
+		}else if(type==EntityType.WOLF){
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					Wolf w = (Wolf)manager.GetPet(player);
+					player.closeInventory();
+					if(w.isAngry()){
+						w.setAngry(false);
+					}else{
+						w.setAngry(true);
+					}
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+				}
+			},Material.CARROT_STICK,"§aAngry An/Aus"));
+		}else if(type==EntityType.ZOMBIE||type==EntityType.PIG_ZOMBIE){
 			final InventoryChoose inv_helm=new InventoryChoose(new Click(){
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {

@@ -34,6 +34,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -318,6 +319,15 @@ public class PetManager implements Listener{
 		    }
 	    }
 	  }
+	 
+	@EventHandler
+	public void Creeper(EntityExplodeEvent ev){
+		if(ev.getEntityType() == EntityType.CREEPER){
+			if (((ev.getEntity() instanceof org.bukkit.entity.Creature)) && (this.activePetOwners.containsValue((org.bukkit.entity.Creature)ev.getEntity()))){
+				ev.setCancelled(true);
+			}
+		}
+	}
 	  
 	Creature c;
 	@EventHandler

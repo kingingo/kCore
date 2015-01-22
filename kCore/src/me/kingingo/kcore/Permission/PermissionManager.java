@@ -73,7 +73,7 @@ public class PermissionManager {
 	
 	public void setGroup(String p, String group){
 		if(getGroup(p)!=null){
-			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE user='" + p.toLowerCase() + "'");
+			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE user='" + p.toLowerCase() + "' AND permission='none'");
 		}else{
 			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','none','"+group+"','"+p.toLowerCase()+"');");
 		}
@@ -82,7 +82,7 @@ public class PermissionManager {
 	
 	public void setGroup(Player p, String group){
 		if(getGroup(p.getName())!=null){
-			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE user='" + p.getName().toLowerCase() + "'");
+			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE user='" + p.getName().toLowerCase() + "' AND permission='none'");
 		}else{
 			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','none','"+group+"','"+p.getName().toLowerCase()+"');");
 		}
