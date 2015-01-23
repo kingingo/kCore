@@ -11,6 +11,7 @@ import me.kingingo.kcore.Update.Event.UpdateEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 public class ClientListener implements Listener{
@@ -47,7 +48,7 @@ public class ClientListener implements Listener{
 		connected=false;
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void Received(ClientReceiveMessageEvent ev){
 		//System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 		if(ev.getMessage().equalsIgnoreCase("ping")){

@@ -72,7 +72,7 @@ public class Client {
 		                 out.flush();
 		                 Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent("ping"));
 		                 while(in.hasNext()){
-		                		Bukkit.getPluginManager().callEvent(new ClientReceiveMessageEvent(in.nextLine()));
+		                	Bukkit.getPluginManager().callEvent(new ClientReceiveMessageEvent(in.nextLine()));
 		                 }
 		                 disconnect(true);
 		        	 }catch (Exception e){
@@ -97,7 +97,6 @@ public class Client {
 		try {
 			getS().close();
 			send.stop();
-			//send.currentThread().stop();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

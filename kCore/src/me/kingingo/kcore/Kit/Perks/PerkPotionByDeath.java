@@ -1,21 +1,18 @@
 package me.kingingo.kcore.Kit.Perks;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
-import me.kingingo.kcore.Util.UtilMath;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class PerkPotionByDeath extends Perk{
 
 	PotionEffect potion;
-	public PerkPotionByDeath(PotionEffect potion,String name){
+	public PerkPotionByDeath(PotionEffect potion){
 		super("PotionByDeath");
+		this.potion=potion;
 	}
 	
 	@EventHandler
