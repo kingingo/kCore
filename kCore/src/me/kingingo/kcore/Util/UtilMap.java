@@ -16,17 +16,48 @@ import net.minecraft.server.v1_7_R4.RegionFileCache;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R4.CraftServer;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.google.common.collect.Lists;
-
 public class UtilMap{
 
+	public static void setCrystals(Location loc, int radius, int high){
+		int h = 5000;
+	      for (int i = 0; i <= 150; i++) {
+	        h -= 100;
+	        setCrystalQuadrat(loc, 25, h);
+	        if (h == 400)
+	        {
+	          break;
+	        }
+	      }
+	  }
+	
+	public static void setCrystalQuadrat(Location loc, int radius, int high){
+		List<Entity> l = new ArrayList<Entity>();
+	    int y = high;
+	    int minx = loc.getBlockX() - radius;
+	    int minz = loc.getBlockZ() - radius;
+	    int maxx = loc.getBlockX() + radius;
+	    int maxz = loc.getBlockZ() + radius;
+	    int zufall = 0;
+	    Location b = new Location(loc.getWorld(), 0.0D, 0.0D, 0.0D);
+	    for (int x = minx; x < maxx; x++)
+	      for (int z = minz; z < maxz; z++) {
+	        b = new Location(loc.getWorld(), x, y, z);
+	        zufall = (int)(1.0D + (Math.random() * 10.0D - 1.0D));
+	        if (zufall == 1) {
+	          Entity en = b.getWorld().spawnEntity(b,EntityType.ENDER_CRYSTAL);
+	          en.teleport(b);
+	          l.add(en);
+	        }
+	      }
+	  }
+	
 	public static int MinZ(Location start, int r) {
 		return start.getBlockZ() - (r);
 	}

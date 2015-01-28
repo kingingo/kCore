@@ -104,6 +104,7 @@ SHEEPWARS_KIT_BUFFER("epicpvp.kit.buffer"),
 SHEEPWARS_KIT_KNIGHT("epicpvp.kit.knight"),
 SHEEPWARS_KIT_THEDEATH("epicpvp.kit.thedeath"),
 SHEEPWARS_KIT_SPRINGER("epicpvp.kit.springer"),
+SHEEPWARS_KIT_SUPERMAN("epicpvp.kit.superman"),
 
 SHEEPWARS_KIT_IRONGOLEM("epicpvp.kit.irongolem"),
 SHEEPWARS_KIT_PIGZOMBIE("epicpvp.kit.pigzombie"),

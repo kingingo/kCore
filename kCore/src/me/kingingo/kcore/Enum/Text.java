@@ -147,6 +147,7 @@ TELEPORT("Du wurdest teleportiert!"),
 TELEPORT_ANFRAGE_EMPFÄNGER("§6Der Spieler§b % §6hat dir eine Teleport Anfrage gesendet."),
 TELEPORT_ANFRAGE_SENDER("§6Du hast§b % §6eine Teleport Anfrage gesendet."),
 WHEREIS_TEXT("§6Du befindest dich momentan auf dem §b%§6 Server."),
+FALLDOWN_NICHT_GENUG_POWER("§bDu hast nicht genug Power!"),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 private String t;
@@ -189,16 +190,6 @@ public String getText(Object s){
 	if(this.t.contains("%"))return t.replaceAll("%", String.valueOf(s));
 	return this.t;
 }
-
-//public String getText(int s){
-//	if(this.t.contains("%"))return t.replaceAll("%", String.valueOf(s));
-//	return this.t;
-//}
-//
-//public String getText(String s){
-//	if(this.t.contains("%"))return t.replaceAll("%", s);
-//	return this.t;
-//}
 
 public String getText(String[] s){
 	String tt=this.t;

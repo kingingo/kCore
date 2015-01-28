@@ -7,7 +7,7 @@ public enum GameType {
 SurvivalGames("SurvivalGames","SG",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 OneInTheChamber("OneInTheChamber","OITC",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 SkyPvP("SkyPvP","SK",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
-Falldown("Falldown","FD",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
+Falldown("Falldown","FD",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.POWER,Stats.WIN,Stats.LOSE}),
 Rush("Rush","RUSH",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 TroubleMine("TroubleMine","TIMV",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.TTT_KARMA,Stats.TTT_PÄSSE,Stats.TTT_TESTS,Stats.TTT_TRAITOR_PUNKTE,Stats.TTT_DETECTIVE_PUNKTE}),
 TroubleInMinecraft("TroubleInMinecraft","TTT",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.TTT_KARMA,Stats.TTT_PÄSSE,Stats.TTT_TESTS,Stats.TTT_TRAITOR_PUNKTE,Stats.TTT_DETECTIVE_PUNKTE}),
