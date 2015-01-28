@@ -25,7 +25,7 @@ public class PERMISSION_USER_REMOVE_ALL extends Packet{
 	}
 	
 	public String getName(){
-		return "PERMISSION_GROUP_RELOAD";
+		return "PERMISSION_USER_REMOVE_ALL";
 	}
 	
 	public void Set(String[] split){

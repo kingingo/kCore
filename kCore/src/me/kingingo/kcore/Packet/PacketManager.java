@@ -7,6 +7,7 @@ import me.kingingo.kcore.Packet.Packets.BROADCAST;
 import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
+import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_REMOVE_ALL;
 import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
 import me.kingingo.kcore.Packet.Packets.SERVER_INFO_ALL;
 import me.kingingo.kcore.Packet.Packets.SERVER_STATUS;
@@ -77,6 +78,8 @@ public class PacketManager {
 			return new PERMISSION_GROUP_RELOAD(packet.split("-/-"));
 		}else if (packet.contains("SERVER_TYPE_CHANGE")) {
 			return new SERVER_TYPE_CHANGE(packet.split("-/-"));
+		}else if(packet.contains("PERMISSION_USER_REMOVE_ALL")){
+			return new PERMISSION_USER_REMOVE_ALL(packet.split("-/-"));
 		}
 	 return null;
 	}
