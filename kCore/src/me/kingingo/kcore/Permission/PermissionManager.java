@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -75,7 +76,7 @@ public class PermissionManager {
 		if(getGroup(p)!=null){
 			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE user='" + p.toLowerCase() + "' AND permission='none'");
 		}else{
-			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','none','"+group+"','"+p.toLowerCase()+"');");
+			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','none','"+group+"','"+p.toLowerCase()+"','null');");
 		}
 		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(p.toLowerCase()));
 	}
@@ -84,7 +85,7 @@ public class PermissionManager {
 		if(getGroup(p.getName())!=null){
 			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE user='" + p.getName().toLowerCase() + "' AND permission='none'");
 		}else{
-			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','none','"+group+"','"+p.getName().toLowerCase()+"');");
+			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','none','"+group+"','"+p.getName().toLowerCase()+"','"+p.getUniqueId()+"');");
 		}
 		pgroup.remove(p.getName().toLowerCase());
 		pgroup.put(p.getName().toLowerCase(), group);
@@ -93,23 +94,23 @@ public class PermissionManager {
 	
 	
 	public void addPermission(String p, String perm){
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','"+perm+"','none','"+p.toLowerCase()+"');");
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','"+perm+"','none','"+p.toLowerCase()+"','null');");
 	}
 	
 	public void addPermission(Player p, String perm){
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','"+perm+"','none','"+p.getName().toLowerCase()+"');");
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','"+perm+"','none','"+p.getName().toLowerCase()+"','"+p.getUniqueId()+"');");
 	}
 	
 	public void addPermission(String p, Permission perm){
 		if(!plist.containsKey(p.toLowerCase()))plist.put(p.toLowerCase(), new ArrayList<Permission>());
 		plist.get(p.toLowerCase()).add(perm);
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','"+perm.getPermissionToString()+"','none','"+p.toLowerCase()+"');");
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','"+perm.getPermissionToString()+"','none','"+p.toLowerCase()+"','null');");
 	}
 	
 	public void addPermission(Player p, Permission perm){
 		if(!plist.containsKey(p.getName().toLowerCase()))plist.put(p.getName().toLowerCase(), new ArrayList<Permission>());
 		plist.get(p.getName().toLowerCase()).add(perm);
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user) values ('none','"+perm.getPermissionToString()+"','none','"+p.getName().toLowerCase()+"');");
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','"+perm.getPermissionToString()+"','none','"+p.getName().toLowerCase()+"','"+p.getUniqueId()+"');");
 	}
 	
 	public boolean setTabList(Player p){
