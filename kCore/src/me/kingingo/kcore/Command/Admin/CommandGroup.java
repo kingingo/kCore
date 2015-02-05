@@ -3,6 +3,7 @@ package me.kingingo.kcore.Command.Admin;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Permission.PermissionManager;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -33,7 +34,7 @@ public class CommandGroup implements CommandExecutor{
 					
 					String player = args[1];
 					String perm = args[2];
-					manager.addPermission(player,Permission.isPerm(perm));
+					manager.addPermission(UtilPlayer.getUUID(player, manager.getMysql()),Permission.isPerm(perm));
 					System.out.println("[kPermission] " + player + " hat die " + perm + " erhalten");
 				}
 				
@@ -50,7 +51,7 @@ public class CommandGroup implements CommandExecutor{
 					
 					String player = args[1];
 					String perm = args[2];
-					manager.removePermission(player, perm);
+					manager.removePermission(UtilPlayer.getUUID(player, manager.getMysql()), perm);
 					System.out.println("[kPermission] " + player + " hat nun nicht mehr die Permission " + perm);
 				}
 				
@@ -68,7 +69,7 @@ public class CommandGroup implements CommandExecutor{
 					String player = args[1];
 					String rang = args[2];
 					
-					manager.setGroup(player, rang);
+					manager.setGroup(UtilPlayer.getUUID(player, manager.getMysql()), rang);
 					System.out.println("[kPermission] " + player + " hat den Rang " + rang + " erhalten");
 				}
 				

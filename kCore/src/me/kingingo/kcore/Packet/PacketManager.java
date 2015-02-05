@@ -47,7 +47,6 @@ public class PacketManager {
 //				return packet_list.get(n).create(packet.split("-/-"));
 //			}
 //		}
-		
 		if (packet.contains("SERVER_STATUS")) {
 		return new SERVER_STATUS(packet);
 		}else if (packet.contains("BROADCAST")) {
@@ -55,11 +54,11 @@ public class PacketManager {
 		}else if (packet.contains("SEND_MESSAGE")) {
 			return new SEND_MESSAGE(packet);
 		}else if (packet.contains("NOT_SAVE_COINS")) {
-			return new NOT_SAVE_COINS(packet);
+			return new NOT_SAVE_COINS(packet.split("-/-"));
 		}else if (packet.contains("SERVER_INFO_ALL")) {
 			return new SERVER_INFO_ALL();
 		}else if (packet.contains("PERMISSION_USER_RELOAD")) {
-			return new PERMISSION_USER_RELOAD(packet);
+			return new PERMISSION_USER_RELOAD(packet.split("-/-"));
 		}else if (packet.contains("PERMISSION_GROUP_RELOAD")) {
 			return new PERMISSION_GROUP_RELOAD(packet);
 		}else if (packet.contains("TEAMSPEAK_ADD_CLIENT_GROUP")) {

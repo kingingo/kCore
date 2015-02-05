@@ -2,6 +2,7 @@ package me.kingingo.kcore.PlayerStats;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,11 +14,13 @@ import me.kingingo.kcore.PlayerStats.Event.PlayerStatsChangeEvent;
 import me.kingingo.kcore.PlayerStats.Event.PlayerStatsCreateEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class StatsManager implements Listener{
@@ -84,6 +87,26 @@ public class StatsManager implements Listener{
 		p.sendMessage("§b Place | Kills | Player");
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
+//	
+//	@EventHandler
+//	public void login(AsyncPlayerPreLoginEvent ev){
+//		check(ev.getName(),ev.getUniqueId());
+//	}
+	
+//	public void check(String player,UUID uuid){
+//		try{
+//			ResultSet rs = mysql.Query("SELECT UUID FROM `users_"+getTyp().getKürzel()+"` WHERE player='" + player + "'");
+//			
+//			while(rs.next()){
+//				if(rs.getString(1).equalsIgnoreCase("null")){
+//					mysql.Update("UPDATE `users_"+getTyp().getKürzel()+"` SET UUID='"+UtilPlayer.getRealUUID(player, uuid)+"' WHERE player='" + player.toLowerCase() + "'");
+//				}
+//			}
+//			rs.close();
+//		}catch (Exception err){	
+//			System.err.println(err);
+//		}
+//	}
 	
 	public HashMap<Integer,String> getRanking(Stats s,int i){
 		HashMap<Integer,String> list = new HashMap<>();
@@ -127,11 +150,11 @@ public class StatsManager implements Listener{
 			for(Stats stats : list.get(player).keySet()){
 				if(!stats.isMysql())continue;
 				if(list.get(player).get(stats) instanceof Integer){
-					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Integer)list.get(player).get(stats)) +"' WHERE player='" + player.getName() + "'");
+					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Integer)list.get(player).get(stats)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(player) + "'");
 				}else if(list.get(player).get(stats) instanceof String){
-					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((String)list.get(player).get(stats)) +"' WHERE player='" + player.getName() + "'");
+					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((String)list.get(player).get(stats)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(player) + "'");
 				}else if(list.get(player).get(stats) instanceof Double){
-					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Double)list.get(player).get(stats)) +"' WHERE player='" + player.getName() + "'");
+					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Double)list.get(player).get(stats)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(player) + "'");
 				}
 			}
 		}
@@ -145,11 +168,11 @@ public class StatsManager implements Listener{
 		for(Stats st : list.get(p).keySet()){
 			if(!st.isMysql())continue;
 			if(list.get(p).get(st) instanceof Integer){
-				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Integer)list.get(p).get(st)) +"' WHERE player='" + p.getName() + "'");
+				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Integer)list.get(p).get(st)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
 			}else if(list.get(p).get(st) instanceof String){
-				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((String)list.get(p).get(st)) +"' WHERE player='" + p.getName() + "'");
+				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((String)list.get(p).get(st)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
 			}else if(list.get(p).get(st) instanceof Double){
-				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Double)list.get(p).get(st)) +"' WHERE player='" + p.getName() + "'");
+				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Double)list.get(p).get(st)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
 			}
 		}
 		list.remove(p);
@@ -158,21 +181,21 @@ public class StatsManager implements Listener{
 	public void UpdatePlayer(Player p,Stats s,String i){
 		if(!s.isMysql())return;
 		ExistPlayer(p);
-		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE player='" + p.getName() + "'");
+		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
 		list.get(p).remove(s);
 	}
 	
 	public void UpdatePlayer(Player p,Stats s,int i){
 		if(!s.isMysql())return;
 		ExistPlayer(p);
-		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE player='" + p.getName() + "'");
+		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
 		list.get(p).remove(s);
 	}
 	
 	public void createEintrag(Player p){
 		Stats[] stats = typ.getStats();
 		String tt = "player,UUID,";
-		String ti = "'"+p.getName()+"','"+p.getUniqueId()+"',";
+		String ti = "'"+p.getName()+"','"+UtilPlayer.getRealUUID(p)+"',";
 		for(Stats s : stats){
 			tt=tt+s.getTYP()+",";
 			ti=ti+"'0',";
@@ -187,7 +210,7 @@ public class StatsManager implements Listener{
 		if(list.containsKey(p))return true;
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE player='"+p.getName()+"'");
+	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+UtilPlayer.getRealUUID(p)+"'");
 
 	      while (rs.next()) {
 	    		  done=true;
@@ -214,11 +237,11 @@ public class StatsManager implements Listener{
 		
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` ORDER BY `"+s.getTYP()+"` DESC;");
+	      ResultSet rs = mysql.Query("SELECT `UUID` FROM `users_"+typ.getKürzel()+"` ORDER BY `"+s.getTYP()+"` DESC;");
 
 	      while ((rs.next()) && (!done)) {
 	        n++;
-	        if (rs.getString(1).equalsIgnoreCase(p.getName())) {
+	        if (UUID.fromString(rs.getString(1)).equals(UtilPlayer.getRealUUID(p))) {
 	          done = true;
 	        }
 	      }
@@ -240,7 +263,7 @@ public class StatsManager implements Listener{
 		
 		String i = "";
 		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p.getName()+"'");
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(p)+"'");
 			while(rs.next()){
 				i=rs.getString(1);
 			}
@@ -279,7 +302,7 @@ public class StatsManager implements Listener{
 		
 		double i = -1;
 		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p.getName()+"'");
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(p)+"'");
 			while(rs.next()){
 				i=rs.getDouble(1);
 			}
@@ -301,7 +324,7 @@ public class StatsManager implements Listener{
 		
 		int i = -1;
 		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p.getName()+"'");
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(p)+"'");
 			while(rs.next()){
 				i=rs.getInt(1);
 			}
@@ -342,7 +365,7 @@ public class StatsManager implements Listener{
 		boolean done = false;
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE player='"+p+"'");
+	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+UtilPlayer.getUUID(p, mysql)+"'");
 	      while (rs.next()) {
 	    		  done=true;
 	      }
@@ -363,6 +386,18 @@ public class StatsManager implements Listener{
 	
 	public Integer getIntWithString(Stats s,String p){
 		return getMysql().getInt("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p+"'");
+	}
+	
+	public String getStringWithUUID(Stats s,String p){
+		return getMysql().getString("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getUUID(p, mysql)+"'");
+	}
+	
+	public Double getDoubleWithUUID(Stats s,String p){
+		return getMysql().getDouble("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getUUID(p, mysql)+"'");
+	}
+	
+	public Integer getIntWithUUID(Stats s,String p){
+		return getMysql().getInt("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getUUID(p, mysql)+"'");
 	}
 	
 }

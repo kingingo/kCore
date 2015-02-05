@@ -1,11 +1,14 @@
 package me.kingingo.kcore.Util;
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.UUID;
 
+import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
 import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityEquipment;
@@ -17,13 +20,10 @@ import net.minecraft.server.v1_7_R4.PacketPlayOutPlayerInfo;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.FireworkEffect.Type;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -34,12 +34,22 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
+import com.google.common.base.Charsets;
 
 public class UtilPlayer
 {
 	
 	public static void sendPacket(Player player,Packet packet){
 		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
+	}
+	
+	public static void setWorldChangeUUID(World world,UUID old,UUID uuid){
+		File file = new File(world.getName() + "/playerdata/"+old+".dat");
+	    if(file.exists()){
+	    	File new_file = new File(world.getName() + "/playerdata/" + uuid + ".dat");
+	    	file.renameTo(new_file);
+	    	System.out.println("[kCore] File from "+old+" renamed to "+uuid);
+	    }
 	}
 	
 	public static void sendPacket(Player p, Object packet)
@@ -62,6 +72,47 @@ public class UtilPlayer
 	      e.printStackTrace();
 	    }
 	  }
+	
+	public static UUID getRealUUID(String player,UUID uuid){
+		if(UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player).toString().getBytes(Charsets.UTF_8)).equals(uuid)){
+			uuid=getOfflineUUID(player.toLowerCase());
+		}
+		return uuid;
+	}
+	
+	public static UUID getRealUUID(Player player){
+		UUID uuid = player.getUniqueId();
+		if(UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player.getName()).toString().getBytes(Charsets.UTF_8)).equals(uuid)){
+			uuid=getOfflineUUID(player.getName().toLowerCase());
+		}
+		return uuid;
+	}
+	
+	public static UUID getOfflineUUID(String player){
+		return UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player.toLowerCase()).toString().getBytes(Charsets.UTF_8));
+	}
+	
+	public static UUID getOnlineUUID(String player){
+		try {
+			return UtilUUID.getUUIDOf(player);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static UUID getUUID(String player,MySQL mysql){
+		UUID uuid = getOnlineUUID(player);
+		if(uuid!=null){
+			String p = mysql.getString("SELECT premium FROM list_premium WHERE uuid='"+uuid+"'");
+			if(p.equalsIgnoreCase("null")||p.equalsIgnoreCase("false")){
+				uuid=getOfflineUUID(player);
+			}
+		}else{
+			uuid=getOfflineUUID(player);
+		}
+		return uuid;
+	}
 
 	public static void setPlayerFakeEquipment(Player player,Player to,ItemStack item,short slot){
 		WrapperPlayServerEntityEquipment packet = new WrapperPlayServerEntityEquipment();
@@ -135,6 +186,15 @@ public class UtilPlayer
     ((Player)client).sendMessage(ev.getMessage());
   }
 
+  public static Player searchExact(UUID uuid)
+  {
+    for (Player cur : UtilServer.getPlayers()) {
+      if (cur.getUniqueId().equals(uuid))
+        return cur;
+    }
+    return null;
+  }
+  
   public static Player searchExact(String name)
   {
     for (Player cur : UtilServer.getPlayers()) {
@@ -419,6 +479,11 @@ public class UtilPlayer
       hunger = 20;
     }
     player.setFoodLevel(hunger);
+  }
+  
+  public static boolean isOnline(UUID uuid)
+  {
+    return searchExact(uuid) != null;
   }
 
   public static boolean isOnline(String name)

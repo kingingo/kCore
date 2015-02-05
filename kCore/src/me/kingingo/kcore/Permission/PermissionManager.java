@@ -23,9 +23,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PermissionManager {
 	@Getter
-	private HashMap<String,List<Permission>> plist = new HashMap<>();
+	private HashMap<UUID,List<Permission>> plist = new HashMap<>();
 	@Getter
-	private HashMap<String,String> pgroup = new HashMap<>();
+	private HashMap<UUID,String> pgroup = new HashMap<>();
 	@Getter
 	private HashMap<String,List<Permission>> groups = new HashMap<>();
 	@Getter
@@ -47,19 +47,19 @@ public class PermissionManager {
 	}
 	
 	public String getPrefix(Player p){
-		if(pgroup.containsKey(p.getName().toLowerCase())&&gprefix.containsKey(pgroup.get(p.getName().toLowerCase())))return gprefix.get(pgroup.get(p.getName().toLowerCase()));
+		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&&gprefix.containsKey(pgroup.get(UtilPlayer.getRealUUID(p))))return gprefix.get(pgroup.get(UtilPlayer.getRealUUID(p)));
 		return C.cGray;
 	}
 	
 	public List<Permission> getPermissionList(Player p){
 		ArrayList<Permission> list = new ArrayList<>();
-		if(pgroup.containsKey(p.getName().toLowerCase())){
+		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))){
 			for(Permission perm : groups.get(p)){
 				list.add(perm);
 			}
 		}
-		if(plist.containsKey(p.getName().toLowerCase())){
-			for(Permission perm : plist.get(p.getName().toLowerCase())){
+		if(plist.containsKey(UtilPlayer.getRealUUID(p))){
+			for(Permission perm : plist.get(UtilPlayer.getRealUUID(p))){
 				list.add(perm);
 			}
 		}
@@ -67,50 +67,50 @@ public class PermissionManager {
 	}
 	
 	public boolean hasPermission(Player p,Permission perm){
-		if(pgroup.containsKey(p.getName().toLowerCase())&& (groups.get(pgroup.get(p.getName().toLowerCase())).contains(perm)||groups.get(pgroup.get(p.getName().toLowerCase())).contains(Permission.ALL_PERMISSION)) )return true;
-		if(plist.containsKey(p.getName().toLowerCase())&& (plist.get(p.getName().toLowerCase()).contains(perm)||plist.get(p.getName().toLowerCase()).contains(Permission.ALL_PERMISSION)) )return true;
+		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&& (groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).contains(perm)||groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).contains(Permission.ALL_PERMISSION)) )return true;
+		if(plist.containsKey(UtilPlayer.getRealUUID(p))&& (plist.get(UtilPlayer.getRealUUID(p)).contains(perm)||plist.get(UtilPlayer.getRealUUID(p)).contains(Permission.ALL_PERMISSION)) )return true;
 		return false;
 	}
 	
-	public void setGroup(String p, String group){
-		if(getGroup(p)!=null){
-			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE user='" + p.toLowerCase() + "' AND permission='none'");
+	public void setGroup(UUID uuid, String group){
+		if(getGroup(uuid)!=null){
+			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE uuid='" + uuid + "' AND permission='none'");
 		}else{
-			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','none','"+group+"','"+p.toLowerCase()+"','null');");
+			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','none','"+group+"','"+uuid+"');");
 		}
-		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(p.toLowerCase()));
+		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(uuid));
 	}
 	
 	public void setGroup(Player p, String group){
-		if(getGroup(p.getName())!=null){
-			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE user='" + p.getName().toLowerCase() + "' AND permission='none'");
+		if(getGroup(UtilPlayer.getRealUUID(p))!=null){
+			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE uuid='" + UtilPlayer.getRealUUID(p) + "' AND permission='none'");
 		}else{
-			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','none','"+group+"','"+p.getName().toLowerCase()+"','"+p.getUniqueId()+"');");
+			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','none','"+group+"','"+UtilPlayer.getRealUUID(p)+"');");
 		}
-		pgroup.remove(p.getName().toLowerCase());
-		pgroup.put(p.getName().toLowerCase(), group);
-		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(p.getName().toLowerCase()));
+		pgroup.remove(UtilPlayer.getRealUUID(p));
+		pgroup.put(UtilPlayer.getRealUUID(p), group);
+		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(UtilPlayer.getRealUUID(p)));
 	}
 	
 	
-	public void addPermission(String p, String perm){
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','"+perm+"','none','"+p.toLowerCase()+"','null');");
+	public void addPermission(UUID uuid, String perm){
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','"+perm+"','none','"+uuid+"');");
 	}
 	
 	public void addPermission(Player p, String perm){
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','"+perm+"','none','"+p.getName().toLowerCase()+"','"+p.getUniqueId()+"');");
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','"+perm+"','none','"+UtilPlayer.getRealUUID(p)+"');");
 	}
 	
-	public void addPermission(String p, Permission perm){
-		if(!plist.containsKey(p.toLowerCase()))plist.put(p.toLowerCase(), new ArrayList<Permission>());
-		plist.get(p.toLowerCase()).add(perm);
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','"+perm.getPermissionToString()+"','none','"+p.toLowerCase()+"','null');");
+	public void addPermission(UUID uuid, Permission perm){
+		if(!plist.containsKey(uuid))plist.put(uuid, new ArrayList<Permission>());
+		plist.get(uuid).add(perm);
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','"+perm.getPermissionToString()+"','none','"+uuid+"');");
 	}
 	
 	public void addPermission(Player p, Permission perm){
-		if(!plist.containsKey(p.getName().toLowerCase()))plist.put(p.getName().toLowerCase(), new ArrayList<Permission>());
-		plist.get(p.getName().toLowerCase()).add(perm);
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,user,uuid) values ('none','"+perm.getPermissionToString()+"','none','"+p.getName().toLowerCase()+"','"+p.getUniqueId()+"');");
+		if(!plist.containsKey(UtilPlayer.getRealUUID(p)))plist.put(UtilPlayer.getRealUUID(p), new ArrayList<Permission>());
+		plist.get(UtilPlayer.getRealUUID(p)).add(perm);
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','"+perm.getPermissionToString()+"','none','"+UtilPlayer.getRealUUID(p)+"');");
 	}
 	
 	public boolean setTabList(Player p){
@@ -123,8 +123,8 @@ public class PermissionManager {
 		if(p.isCustomNameVisible()){
 			name=p.getCustomName();
 		}
-		if(pgroup.containsKey(p.getName().toLowerCase())&&gprefix.containsKey(pgroup.get(p.getName().toLowerCase()))&&!invisble){
-			String t = gprefix.get(pgroup.get(p.getName().toLowerCase()));
+		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&&gprefix.containsKey(pgroup.get(UtilPlayer.getRealUUID(p)))&&!invisble){
+			String t = gprefix.get(pgroup.get(UtilPlayer.getRealUUID(p)));
 			int i = t.indexOf("§");
 			t=""+t.toCharArray()[i]+t.toCharArray()[i+1];
 			if(name.length()>13){
@@ -153,7 +153,7 @@ public class PermissionManager {
 	public String getGroup(Player p){
 		String g =null;
 		try {
-			ResultSet rs = mysql.Query("SELECT pgroup FROM game_perm WHERE user='"+ p.getName().toLowerCase() + "' AND prefix='none' AND permission='none'");
+			ResultSet rs = mysql.Query("SELECT pgroup FROM game_perm WHERE uuid='"+ UtilPlayer.getRealUUID(p) + "' AND prefix='none' AND permission='none'");
 
 			while (rs.next()) {
 				g=rs.getString(1);
@@ -166,10 +166,10 @@ public class PermissionManager {
 		return g;
 	}
 	
-	public String getGroup(String p){
+	public String getGroup(UUID uuid){
 		String g =null;
 		try {
-			ResultSet rs = mysql.Query("SELECT pgroup FROM game_perm WHERE user='"+ p.toLowerCase() + "' AND prefix='none' AND permission='none'");
+			ResultSet rs = mysql.Query("SELECT pgroup FROM game_perm WHERE uuid='"+ uuid + "' AND prefix='none' AND permission='none'");
 
 			while (rs.next()) {
 				g=rs.getString(1);
@@ -182,8 +182,8 @@ public class PermissionManager {
 		return g;
 	}
 	
-	public void loadPermission(String p){
-		String g=getGroup(p);
+	public void loadPermission(UUID uuid){
+		String g=getGroup(uuid);
 		Permission permission;
 		ResultSet rs;
 		if(g==null)g="default";
@@ -192,7 +192,7 @@ public class PermissionManager {
 			groups.put(g, new ArrayList<Permission>());
 			try
 		    {
-		      rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none' AND user='none'");
+		      rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none' AND uuid='none'");
 		      while (rs.next()){
 		    	  permission=Permission.isPerm(rs.getString(1));
 		    	  if(permission==Permission.NONE)continue;
@@ -208,7 +208,7 @@ public class PermissionManager {
 		
 		if(!gprefix.containsKey(g)){
 			try {
-				rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND user='none'");
+				rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND uuid='none'");
 
 				while (rs.next()) {
 					gprefix.put(g, rs.getString(1));
@@ -222,12 +222,12 @@ public class PermissionManager {
 		
 		try
 	    {
-	      rs = mysql.Query("SELECT permission FROM game_perm WHERE user='"+p.toLowerCase()+"' AND prefix='none' AND pgroup='none'");
+	      rs = mysql.Query("SELECT permission FROM game_perm WHERE uuid='"+uuid+"' AND prefix='none' AND pgroup='none'");
 	      while (rs.next()){
 	    	  permission=Permission.isPerm(rs.getString(1));
 	    	  if(permission==Permission.NONE)continue;
-	    	  if(!plist.containsKey(p.toLowerCase()))plist.put(p.toLowerCase(), new ArrayList<Permission>());
-	    	  plist.get(p.toLowerCase()).add(permission);
+	    	  if(!plist.containsKey(uuid))plist.put(uuid, new ArrayList<Permission>());
+	    	  plist.get(uuid).add(permission);
 	      }
 	      rs.close();
 	    }
@@ -236,7 +236,7 @@ public class PermissionManager {
 	      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
 	    }
 		
-		pgroup.put(p.toLowerCase(), g);
+		pgroup.put(uuid, g);
 	}
 	
 	public void loadGroup(String g){
@@ -245,7 +245,7 @@ public class PermissionManager {
 			groups.put(g, new ArrayList<Permission>());
 			try
 		    {
-			ResultSet rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none' AND user='none'");
+			ResultSet rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none' AND uuid='none'");
 		      while (rs.next()){
 		    	  permission=Permission.isPerm(rs.getString(1));
 		    	  if(permission==Permission.NONE)continue;
@@ -260,7 +260,7 @@ public class PermissionManager {
 		}
 		if(!gprefix.containsKey(g)){
 			try {
-				ResultSet rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND user='none'");
+				ResultSet rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND uuid='none'");
 
 				while (rs.next()) {
 					gprefix.put(g, rs.getString(1));
@@ -273,29 +273,29 @@ public class PermissionManager {
 		}
 	}
 	
-	public void removePermission(String p, Permission perm){
-		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.toLowerCase() + "' AND permission='"+perm.getPermissionToString()+"'");
+	public void removePermission(UUID uuid, Permission perm){
+		 mysql.Update("DELETE FROM game_perm WHERE uuid='" + uuid + "' AND permission='"+perm.getPermissionToString()+"'");
 	}
 	
 	public void removePermission(Player p, Permission perm){
-		if(plist.containsKey(p.getName().toLowerCase())){
-			if(plist.get(p.getName().toLowerCase()).contains(perm)){
-				plist.get(p.getName().toLowerCase()).remove(perm);
+		if(plist.containsKey(UtilPlayer.getRealUUID(p))){
+			if(plist.get(UtilPlayer.getRealUUID(p)).contains(perm)){
+				plist.get(UtilPlayer.getRealUUID(p)).remove(perm);
 			}
 		}
-		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.getName().toLowerCase() + "' AND permission='"+perm.getPermissionToString()+"'");
+		 mysql.Update("DELETE FROM game_perm WHERE uuid='" + UtilPlayer.getRealUUID(p) + "' AND permission='"+perm.getPermissionToString()+"'");
 	}
 	
-	public void removePermission(String p, String perm){
-		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.toLowerCase() + "' AND permission='"+perm+"'");
+	public void removePermission(UUID uuid, String perm){
+		 mysql.Update("DELETE FROM game_perm WHERE uuid='" + uuid + "' AND permission='"+perm+"'");
 	}
 	
 	public void removePermission(Player p, String perm){
-		 mysql.Update("DELETE FROM game_perm WHERE user='" + p.getName().toLowerCase() + "' AND permission='"+perm+"'");
+		 mysql.Update("DELETE FROM game_perm WHERE uuid='" + UtilPlayer.getRealUUID(p) + "' AND permission='"+perm+"'");
 	}
 	
 	public void removePermissions(Player p){
-		if(plist.containsKey(p.getName().toLowerCase()))plist.remove(p.getName().toLowerCase());
+		if(plist.containsKey(UtilPlayer.getRealUUID(p)))plist.remove(UtilPlayer.getRealUUID(p));
 	}
 	
 }

@@ -1,5 +1,7 @@
 package me.kingingo.kcore.friend;
 
+import java.util.UUID;
+
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Util.UtilPlayer;
@@ -32,7 +34,7 @@ public class CommandFriend implements CommandExecutor{
 			p.sendMessage("§6/f list §8|§7 Freundschaften auflisten.");
 			p.sendMessage("§b■■■■■■■■■■■■■■§6§l FRIEND §b■■■■■■■■■■■■■■");
 		}else{
-			if(!manager.getFriendList().containsKey(p.getName().toLowerCase()))manager.getFriendList().put(p.getName().toLowerCase(), manager.getFriendList(p));
+			if(!manager.getFriendList().containsKey(p.getName().toLowerCase()))manager.getFriendList().put(UtilPlayer.getRealUUID(p), manager.getFriendList(p));
 			if(args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("hinzufügen")){
 				if(args.length!=2)return false;
 				if(manager.getFriendList().containsKey(p.getName().toLowerCase())&&manager.getFriendList().get(p.getName().toLowerCase()).contains(args[1].toLowerCase())){
@@ -64,7 +66,7 @@ public class CommandFriend implements CommandExecutor{
 						manager.del_friend.put(Bukkit.getPlayer(friend), p);
 						manager.del_friend_timer.put(Bukkit.getPlayer(friend), 10);
 					}else{
-						manager.DelFriend(p, friend);
+						manager.DelFriend(p, UtilPlayer.getUUID(friend, manager.getMysql()));
 						if(manager.getFriendList().containsKey(friend))manager.getFriendList().remove(friend);
 						manager.getFriendList().get(p.getName().toLowerCase()).remove(friend);
 						p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_DEL.getText(friend));
@@ -80,7 +82,7 @@ public class CommandFriend implements CommandExecutor{
 						p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_EXIST.getText(friend.getName()));
 						return false;
 					}
-					manager.addFriend(p, friend.getName());
+					manager.addFriend(p, friend);
 					
 					if(friend.isOnline())friend.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_NOW.getText(p.getName()));
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_NOW.getText(friend.getName()));
@@ -92,11 +94,11 @@ public class CommandFriend implements CommandExecutor{
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+"Du hast keine Freunde!");
 				}else{
 					String l = "List: ";
-					for(String n : manager.getFriendList().get(p.getName().toLowerCase())){
+					for(UUID n : manager.getFriendList().get(UtilPlayer.getRealUUID(p))){
 						if(UtilPlayer.isOnline(n)){
-							l=l+"§a"+n+"§7,";
+							l=l+"§a"+Bukkit.getPlayer(n).getName()+"§7,";
 						}else{
-							l=l+"§c"+n+"§7,";
+							l=l+"§c"+Bukkit.getOfflinePlayer(n).getName()+"§7,";
 						}
 					}
 					l=l.substring(0, l.length()-1);

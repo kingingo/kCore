@@ -10,7 +10,7 @@ public class Annehmen {
 	public static void use(Player p,String[] args,GildenManager manager){
 		if(args.length==1){
 			if(manager.getGilden_einladung().containsKey(p)){
-				if(manager.isPlayerInGilde(p.getName())){
+				if(manager.isPlayerInGilde(p)){
 					p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_IN_GILDE.getText());
 					return;
 				}
@@ -21,7 +21,7 @@ public class Annehmen {
 					return;
 				}
 				manager.getGilden_count().remove(g.toLowerCase());
-				manager.createPlayerEintrag(p.getName(), p.getUniqueId().toString(), g);
+				manager.createPlayerEintrag(p,g);
 				manager.sendGildenChat(g, Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_ENTRE.getText(p.getName()));
 			}else{
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_NICHT_EINGELADEN.getText());

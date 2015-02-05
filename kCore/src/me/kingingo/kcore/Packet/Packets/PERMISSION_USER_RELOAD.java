@@ -1,5 +1,7 @@
 package me.kingingo.kcore.Packet.Packets;
 
+import java.util.UUID;
+
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Packet.Packet;
@@ -8,7 +10,7 @@ public class PERMISSION_USER_RELOAD extends Packet{
 
 	@Setter
 	@Getter
-	String user;
+	UUID uuid;
 	
 	public PERMISSION_USER_RELOAD(){}
 	
@@ -16,8 +18,8 @@ public class PERMISSION_USER_RELOAD extends Packet{
 		Set(packet);
 	}
 	
-	public PERMISSION_USER_RELOAD(String user){
-		this.user=user;
+	public PERMISSION_USER_RELOAD(UUID uuid){
+		this.uuid=uuid;
 	}
 	
 	public PERMISSION_USER_RELOAD create(String[] packet){
@@ -29,16 +31,16 @@ public class PERMISSION_USER_RELOAD extends Packet{
 	}
 	
 	public void Set(String[] split){
-		user=split[1];
+		uuid=UUID.fromString(split[1]);
 	}
 	
 	public void Set(String packet){
 		String[] split = packet.split("-/-");
-		user=split[1];
+		uuid=UUID.fromString(split[1]);
 	}
 	
 	public String toString(){
-		return String.format(getName()+"-/-%s", getUser());
+		return String.format(getName()+"-/-%s", getUuid());
 	}
 	
 }

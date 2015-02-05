@@ -7,6 +7,7 @@ import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_REMOVE_ALL;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilList;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -28,7 +29,7 @@ public class PermissionListener implements Listener {
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
-	    manager.loadPermission(ev.getName());
+	    manager.loadPermission(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
 	}
 	
 	boolean b = false;
@@ -49,24 +50,24 @@ public class PermissionListener implements Listener {
 			manager.loadGroup(packet.getGroup().toLowerCase());
 		}else if(ev.getPacket() instanceof PERMISSION_USER_RELOAD){
 			PERMISSION_USER_RELOAD packet = (PERMISSION_USER_RELOAD)ev.getPacket();
-			manager.getPgroup().remove(packet.getUser());
-			manager.getPlist().remove(packet.getUser());
-			manager.loadPermission(packet.getUser());
+			manager.getPgroup().remove(packet.getUuid());
+			manager.getPlist().remove(packet.getUuid());
+			manager.loadPermission(packet.getUuid());
 		}else if(ev.getPacket() instanceof PERMISSION_USER_REMOVE_ALL){
 			PERMISSION_USER_REMOVE_ALL packet = (PERMISSION_USER_REMOVE_ALL)ev.getPacket();
-			manager.getPgroup().remove(packet.getUser());
-			manager.getPlist().remove(packet.getUser());
-			Bukkit.getServer().getOperators().remove(Bukkit.getOfflinePlayer(packet.getUser()));
+			manager.getPgroup().remove(packet.getUuid());
+			manager.getPlist().remove(packet.getUuid());
+			Bukkit.getServer().getOperators().remove(Bukkit.getOfflinePlayer(packet.getUuid()));
 			if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null){
-				PermissionsEx pex = (PermissionsEx)Bukkit.getPluginManager().getPlugin("PermissionEx");
-				for(String world : pex.getUser(packet.getUser()).getAllPermissions().keySet()){
-					for(String permission : pex.getUser(packet.getUser()).getAllPermissions().get(world)){
-						pex.getUser(packet.getUser()).removePermission(permission, world);
+				ru.tehkode.permissions.PermissionManager pex = ((PermissionsEx)Bukkit.getPluginManager().getPlugin("PermissionEx")).getPermissionsManager();
+				for(String world : pex.getUser(packet.getUuid()).getAllPermissions().keySet()){
+					for(String permission : pex.getUser(packet.getUuid()).getAllPermissions().get(world)){
+						pex.getUser(packet.getUuid()).removePermission(permission, world);
 					}
 				}
-				for(String world : pex.getUser(packet.getUser()).getAllGroups().keySet()){
-					for(PermissionGroup group : pex.getUser(packet.getUser()).getAllGroups().get(world)){
-						pex.getUser(packet.getUser()).removeGroup(group, world);
+				for(String world : pex.getUser(packet.getUuid()).getAllGroups().keySet()){
+					for(PermissionGroup group : pex.getUser(packet.getUuid()).getAllGroups().get(world)){
+						pex.getUser(packet.getUuid()).removeGroup(group, world);
 					}
 				}
 			}

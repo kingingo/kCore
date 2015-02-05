@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import lombok.Getter;
 import me.kingingo.kcore.MySQL.Events.MySQLConnectEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLDisconnectEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -22,11 +23,14 @@ public class MySQL
   private String host = "";
   private String db = "";
   private Connection connection;
+  @Getter
+  private JavaPlugin instance;
 
   public MySQL(String user,String pass,String host,String db,JavaPlugin plugin) {
 	  Bukkit.getPluginManager().registerEvents(new MySQLListener(this), plugin);
 	  this.user=user;
 	  this.pass=pass;
+	  this.instance=plugin;
 	  this.host=host;
 	  this.db=db;
 	  connect();

@@ -10,7 +10,7 @@ public class Erstellen {
 
 	public static void use(Player p,String[] args,GildenManager manager){
 		if(args.length==2){
-			if(manager.isPlayerInGilde(p.getName())){
+			if(manager.isPlayerInGilde(p)){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_IN_GILDE.getText());
 				return;
 			}
@@ -58,7 +58,7 @@ public class Erstellen {
 			}
 			
 			manager.createGildenEintrag(g, "§7"+g+"§b*§f", 10, p.getName());
-			manager.createPlayerEintrag(p.getName(), p.getUniqueId().toString(), g);
+			manager.createPlayerEintrag(p, g);
 			manager.setInt(g, p.getLocation().getBlockX(), Stats.LOC_X);
 			manager.setInt(g, p.getLocation().getBlockY(), Stats.LOC_Y);
 			manager.setInt(g, p.getLocation().getBlockZ(), Stats.LOC_Z);

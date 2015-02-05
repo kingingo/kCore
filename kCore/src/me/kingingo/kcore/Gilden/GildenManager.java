@@ -3,6 +3,7 @@ package me.kingingo.kcore.Gilden;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +39,7 @@ public class GildenManager implements Listener {
 	@Getter
 	private JavaPlugin instance;
 	@Getter
-	private HashMap<String,String> gilden_player = new HashMap<>();
+	private HashMap<UUID,String> gilden_player = new HashMap<>();
 	@Getter
 	private HashMap<String,String> gilden_tag = new HashMap<>();
 	@Getter
@@ -76,9 +77,9 @@ public class GildenManager implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, getInstance());
 		
 		for(Player p : UtilServer.getPlayers()){
-			if(!isPlayerInGilde(p.getName()))continue;
+			if(!isPlayerInGilde(UtilPlayer.getRealUUID(p)))continue;
 			if(gilden_player.containsKey(p.getName().toLowerCase()))gilden_player.remove(p.getName().toLowerCase());
-			getPlayerGilde(p.getName());
+			getPlayerGilde(p);
 		}
 		
 		LoadRanking();
@@ -171,8 +172,8 @@ public class GildenManager implements Listener {
 		if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Player){
 			Player attack = (Player)ev.getDamager();
 			Player defend = (Player)ev.getEntity();
-			if(isPlayerInGilde(attack.getName())&&isPlayerInGilde(defend.getName())){
-				if(getPlayerGilde(attack.getName()).equalsIgnoreCase(getPlayerGilde(defend.getName()))){
+			if(isPlayerInGilde(UtilPlayer.getRealUUID(attack))&&isPlayerInGilde(UtilPlayer.getRealUUID(defend))){
+				if(getPlayerGilde(attack).equalsIgnoreCase(getPlayerGilde(defend))){
 					ev.setCancelled(true);
 				}
 			}
@@ -180,8 +181,8 @@ public class GildenManager implements Listener {
 			Projectile attack = (Projectile)ev.getDamager();
 			Player defend = (Player)ev.getEntity();
 			if(!(attack.getShooter() instanceof Player))return;
-			if(isPlayerInGilde( ((Player)attack.getShooter()).getName() )&&isPlayerInGilde(defend.getName())){
-				if(getPlayerGilde(((Player)attack.getShooter()).getName()).equalsIgnoreCase(getPlayerGilde(defend.getName()))){
+			if(isPlayerInGilde(UtilPlayer.getRealUUID( ((Player)attack.getShooter())) )&&isPlayerInGilde(UtilPlayer.getRealUUID( defend ) )){
+				if(getPlayerGilde(((Player)attack.getShooter())).equalsIgnoreCase(getPlayerGilde(defend))){
 					ev.setCancelled(true);
 				}
 			}
@@ -272,11 +273,11 @@ public class GildenManager implements Listener {
 	}
 	
 	public void TeleportToHome(Player p){
-		if(!isPlayerInGilde(p.getName())){
+		if(!isPlayerInGilde(p)){
 			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
 			return;
 		}
-		String g = getPlayerGilde(p.getName());
+		String g = getPlayerGilde(p);
 		String w = getString(Stats.WORLD, g, getTyp());
 		int x = getInt(Stats.LOC_X, g, typ);
 		int y = getInt(Stats.LOC_Y, g, typ);
@@ -291,8 +292,8 @@ public class GildenManager implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
 	public void onPlayerChat(AsyncPlayerChatEvent ev) {
 		Player p = ev.getPlayer();
-		if(isPlayerInGilde(p.getName())){
-			String g = getPlayerGilde(p.getName());
+		if(isPlayerInGilde(p)){
+			String g = getPlayerGilde(p);
 			String tag = getTag(g);
 			
 			if(extra_prefix.containsKey(g.toLowerCase())){
@@ -320,9 +321,9 @@ public class GildenManager implements Listener {
 	@EventHandler
 	public void PlayerQuit(PlayerQuitEvent ev){
 		if(isOnDisable())return;
-		if(!isPlayerInGilde(ev.getPlayer().getName()))return;
+		if(!isPlayerInGilde(ev.getPlayer()))return;
 		UpdateGilde(getPlayerGilde(ev.getPlayer()), getTyp());
-		sendGildenChat(getPlayerGilde(ev.getPlayer().getName()), Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_LEAVE.getText(ev.getPlayer().getName()));
+		sendGildenChat(getPlayerGilde(ev.getPlayer()), Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_LEAVE.getText(ev.getPlayer().getName()));
 	}
 	
 	@EventHandler
@@ -334,11 +335,10 @@ public class GildenManager implements Listener {
 	
 	public void sendGildenChat(String gilde,String msg){
 		Player p;
-		for(String n : gilden_player.keySet()){
+		for(UUID n : gilden_player.keySet()){
 			if(gilden_player.get(n).equalsIgnoreCase(gilde)){
 				if(UtilPlayer.isOnline(n)){
-					p = Bukkit.getPlayer(n);
-					p.sendMessage(msg);
+					Bukkit.getPlayer(n).sendMessage(msg);
 				}
 			}
 		}
@@ -353,14 +353,14 @@ public class GildenManager implements Listener {
 	}
 
 	public void removeGildenEintrag(String name){
-		ArrayList<String> l = new ArrayList<>();
+		ArrayList<UUID> l = new ArrayList<>();
 		getMember(name);
-		for(String n : getGilden_player().keySet()){
+		for(UUID n : getGilden_player().keySet()){
 			if( getGilden_player().get(n).equalsIgnoreCase(name)){
 				l.add(n);
 			}
 		}
-		for(String n : l){
+		for(UUID n : l){
 			getGilden_player().remove(n);
 		}
 		mysql.Update("DELETE FROM list_gilden WHERE gilde='" + name.toLowerCase() + "'");
@@ -375,26 +375,30 @@ public class GildenManager implements Listener {
 	}
 	
 	public void removePlayerEintrag(String name){
-		getGilden_count().remove(getPlayerGilde(name));
-		getGilden_player().remove(name.toLowerCase());
-		mysql.Update("DELETE FROM list_gilden_user WHERE player='" + name.toLowerCase() + "'");
+		removePlayerEintrag(name, UtilPlayer.getUUID(name, mysql));
 	}
 	
-	public void createPlayerEintrag(String name,String UUID,String gilde){
-		GildenPlayerPut(name, gilde);
-		mysql.Update("INSERT INTO list_gilden_user (player,uuid,gilde) VALUES ('"+name.toLowerCase()+"','"+UUID+"','"+gilde.toLowerCase()+"');");
+	public void removePlayerEintrag(String name,UUID uuid){
+		getGilden_count().remove(getPlayerGilde(uuid));
+		getGilden_player().remove(name.toLowerCase());
+		mysql.Update("DELETE FROM list_gilden_user WHERE uuid='" + uuid + "'");
+	}
+	
+	public void createPlayerEintrag(Player player,String gilde){
+		GildenPlayerPut(player, gilde);
+		mysql.Update("INSERT INTO list_gilden_user (player,uuid,gilde) VALUES ('"+player.getName().toLowerCase()+"','"+UtilPlayer.getRealUUID(player)+"','"+gilde.toLowerCase()+"');");
 	}
 	
 	public String getPlayerGilde(Player player){
-		return getPlayerGilde(player.getName());
+		return getPlayerGilde(player.getUniqueId());
 	}
 	
-	public String getPlayerGilde(String name){
-		if(gilden_player.containsKey(name.toLowerCase()))return gilden_player.get(name.toLowerCase());
+	public String getPlayerGilde(UUID uuid){
+		if(gilden_player.containsKey(uuid))return gilden_player.get(uuid);
 		String g  = "-";
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `gilde` FROM `list_gilden_user` WHERE player='"+name.toLowerCase()+"'");
+	      ResultSet rs = mysql.Query("SELECT `gilde` FROM `list_gilden_user` WHERE uuid='"+uuid+"'");
 
 	      while (rs.next()) {
 	    		g=rs.getString(1);
@@ -404,24 +408,24 @@ public class GildenManager implements Listener {
 	    } catch (Exception err) {
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
-		GildenPlayerPut(name, g);
+		GildenPlayerPut(uuid,g);
 		
 		return g;
 	}
 	
 	public boolean isPlayerInGilde(Player player){
-		return isPlayerInGilde(player.getName());
+		return isPlayerInGilde(UtilPlayer.getRealUUID(player));
 	}
 	
-	public boolean isPlayerInGilde(String name){
-		if(gilden_player.containsKey(name.toLowerCase())){
-			if(gilden_player.get(name.toLowerCase()).equalsIgnoreCase("-"))return false;
+	public boolean isPlayerInGilde(UUID uuid){
+		if(gilden_player.containsKey(uuid)){
+			if(gilden_player.get(uuid).equalsIgnoreCase("-"))return false;
 			return true;
 		}
 		boolean b = false;
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `gilde` FROM `list_gilden_user` WHERE player='"+name.toLowerCase()+"'");
+	      ResultSet rs = mysql.Query("SELECT `gilde` FROM `list_gilden_user` WHERE uuid='"+uuid+"'");
 	      while (rs.next()) {
 	    		b=Boolean.valueOf(true);
 	      }
@@ -543,32 +547,32 @@ public class GildenManager implements Listener {
 	}
 	
 	public void GildenPlayerPut(Player player,String Gilde){
-		GildenPlayerPut(player.getName(),Gilde);
+		GildenPlayerPut(UtilPlayer.getRealUUID(player),Gilde);
 	}
 	
 	public void GildenPlayerPut(Player player){
-		GildenPlayerPut(player.getName());
+		GildenPlayerPut(UtilPlayer.getRealUUID(player));
 	}
 	
-	public void GildenPlayerPut(String player,String gilde){
-		if(getGilden_player().containsKey(player.toLowerCase()))getGilden_player().remove(player.toLowerCase());
-		getGilden_player().put(player.toLowerCase(), gilde);
+	public void GildenPlayerPut(UUID uuid,String gilde){
+		if(getGilden_player().containsKey(uuid))getGilden_player().remove(uuid);
+		getGilden_player().put(uuid, gilde);
 	}
 	
-	public void GildenPlayerPut(String player){
-		if(getGilden_player().containsKey(player.toLowerCase()))getGilden_player().remove(player.toLowerCase());
-		getGilden_player().put(player.toLowerCase(), getPlayerGilde(player.toLowerCase()));
+	public void GildenPlayerPut(UUID uuid){
+		if(getGilden_player().containsKey(uuid))getGilden_player().remove(uuid);
+		getGilden_player().put(uuid, getPlayerGilde(uuid));
 	}
 	
 	public void getMember(String gilde){
 		if(getGilden_count().containsKey(gilde.toLowerCase()))return;
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `player` FROM `list_gilden_user` WHERE gilde='"+gilde.toLowerCase()+"'");
+	      ResultSet rs = mysql.Query("SELECT `uuid` FROM `list_gilden_user` WHERE gilde='"+gilde.toLowerCase()+"'");
 
 	      while (rs.next()) {
 	    	  if(gilden_player.containsKey(rs.getString(1).toLowerCase()))continue;
-	    	  GildenPlayerPut(rs.getString(1), gilde);
+	    	  GildenPlayerPut(UUID.fromString(rs.getString(1)), gilde);
 	      }
 
 	      rs.close();
@@ -659,15 +663,15 @@ public class GildenManager implements Listener {
 		if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))gilden_data_musst_saved.get(gilde).get(typ).add(s);
 	}
 	
-	public String getOwner(String gilde){
+	public UUID getOwner(String gilde){
 		if(!ExistGilde(gilde))return null;
 		ExistGildeData(gilde, typ);
 
-		String i = "";
+		UUID i = null;
 		try{
 			ResultSet rs = mysql.Query("SELECT owner FROM list_gilden WHERE gilde= '"+gilde.toLowerCase()+"'");
 			while(rs.next()){
-				i=rs.getString(1);
+				i=UUID.fromString(rs.getString(1));
 			}
 			rs.close();
 		}catch (Exception err){

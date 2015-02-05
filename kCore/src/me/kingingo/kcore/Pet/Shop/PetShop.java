@@ -3,6 +3,7 @@ package me.kingingo.kcore.Pet.Shop;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import lombok.Getter;
 import me.kingingo.kcore.Enum.Text;
@@ -10,7 +11,6 @@ import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.SalesPackageBase;
-import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Permission.Permission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Pet.PetManager;
@@ -19,10 +19,10 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.Tokens;
-import me.kingingo.kcore.Util.UtilInv;
-import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
@@ -30,7 +30,6 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftAgeable;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Enderman;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
@@ -39,7 +38,6 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -52,7 +50,7 @@ public class PetShop extends InventoryBase{
 	private PermissionManager permManager;
 	@Getter
 	private ArrayList<Player> change_settings = new ArrayList<>();
-	private HashMap<String,String> settings = new HashMap<>();
+	private HashMap<UUID,String> settings = new HashMap<>();
 	
 	public PetShop(final PetManager manager,final PermissionManager permManager,final Coins coins,final Tokens tokens){
 		super(manager.getInstance(),36,"Pet-Shop");
@@ -61,7 +59,7 @@ public class PetShop extends InventoryBase{
 		this.manager.setShop(this);
 		this.manager.setSetting(true);
 		
-		this.permManager.getMysql().Update("CREATE TABLE IF NOT EXISTS list_pet(player varchar(30),pet varchar(100))");
+		this.permManager.getMysql().Update("CREATE TABLE IF NOT EXISTS list_pet(uuid varchar(100),pet varchar(100))");
 		
 		this.manager.getSetting_list().put(EntityType.IRON_GOLEM, new PetSetting(manager,EntityType.IRON_GOLEM,UtilItem.RenameItem(new ItemStack(Material.IRON_BLOCK), "§aIronGolem")));
 		this.manager.getSetting_list().put(EntityType.PIG, new PetSetting(manager,EntityType.PIG,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 90), "§aPig")));
@@ -259,13 +257,13 @@ public class PetShop extends InventoryBase{
 	}
 	
 	public void DeletePetSettings(Player player){
-		getPermManager().getMysql().Update("DELETE FROM list_pet WHERE player='"+player.getName().toLowerCase()+"'");
+		getPermManager().getMysql().Update("DELETE FROM list_pet WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
 	}
 	
 	public void InsertPetSettings(Player player){
 		if(manager.getActivePetOwners().containsKey(player.getName().toLowerCase())){
 			Creature c = manager.getActivePetOwners().get(player.getName().toLowerCase());
-			getPermManager().getMysql().Update("INSERT INTO list_pet (player,pet) VALUES ('"+player.getName().toLowerCase()+"','"+toString(c)+"');");
+			getPermManager().getMysql().Update("INSERT INTO list_pet (uuid,pet) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+toString(c)+"');");
 		}
 	}
 	
@@ -287,9 +285,9 @@ public class PetShop extends InventoryBase{
 		}
 	}
 	
-	public void loadPetSettings(String player){
-		String sql = getPermManager().getMysql().getString("SELECT `pet` FROM `list_pet` WHERE player='"+player.toLowerCase()+"'");
-		if(!sql.equalsIgnoreCase("null"))settings.put(player.toLowerCase(), sql);
+	public void loadPetSettings(UUID uuid){
+		String sql = getPermManager().getMysql().getString("SELECT `pet` FROM `list_pet` WHERE uuid='"+uuid+"'");
+		if(!sql.equalsIgnoreCase("null"))settings.put(uuid, sql);
 	}
 	
 	public void loadPetSettings(Player player,String sql){
@@ -345,7 +343,7 @@ public class PetShop extends InventoryBase{
 	}
 	
 	public void loadPetSettings(Player player){
-		String sql = getPermManager().getMysql().getString("SELECT `pet` FROM `list_pet` WHERE player='"+player.getName().toLowerCase()+"'");
+		String sql = getPermManager().getMysql().getString("SELECT `pet` FROM `list_pet` WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
 		loadPetSettings(player, sql);
 	}
 	
@@ -354,12 +352,12 @@ public class PetShop extends InventoryBase{
 		InsertPetSettings(player);
 	}
 	
-	String player;
+	UUID player;
 	@EventHandler
 	public void Place(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC_3)return;
 		for(int i = 0; i < settings.size(); i++){
-			player=((String)settings.keySet().toArray()[i]);
+			player=((UUID)settings.keySet().toArray()[i]);
 			if(UtilPlayer.isOnline( player )){
 				loadPetSettings(Bukkit.getPlayer(player), settings.get(player));
 				settings.remove(player);
@@ -369,7 +367,7 @@ public class PetShop extends InventoryBase{
 	
 	@EventHandler(priority=EventPriority.LOW)
 	public void Join(AsyncPlayerPreLoginEvent ev){
-		loadPetSettings(ev.getName());
+		loadPetSettings(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
 	}
 	
 	@EventHandler

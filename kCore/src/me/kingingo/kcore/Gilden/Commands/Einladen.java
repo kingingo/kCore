@@ -1,5 +1,7 @@
 package me.kingingo.kcore.Gilden.Commands;
 
+import java.util.UUID;
+
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.Util.UtilPlayer;
@@ -17,27 +19,27 @@ public class Einladen {
 				return;
 			}
 			Player einladen = Bukkit.getPlayer(einladen_o);
-			if(manager.isPlayerInGilde(einladen.getName())){
+			if(manager.isPlayerInGilde(einladen)){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_IN_GILDE1.getText(einladen_o));
 				return;
 			}
 			
-			if(!manager.isPlayerInGilde(p.getName())){
+			if(!manager.isPlayerInGilde(p)){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText(einladen_o));
 				return;
 			}
-			String owner = manager.getOwner(manager.getPlayerGilde(p.getName()));
-			if(!owner.equalsIgnoreCase(p.getName())){
+			UUID owner = manager.getOwner(manager.getPlayerGilde(p));
+			if(!owner.equals(UtilPlayer.getRealUUID(p))){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_OWNER_NOT.getText());
 				return;
 			}
 			
-			if(manager.getAnzahl(manager.getPlayerGilde(p.getName())) >= 10){
+			if(manager.getAnzahl(manager.getPlayerGilde(p)) >= 10){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_COUNT.getText());
 				return;
 			}
 			
-			manager.getGilden_einladung().put(einladen, manager.getPlayerGilde(p.getName()));
+			manager.getGilden_einladung().put(einladen, manager.getPlayerGilde(p));
 			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EINLADEN.getText(einladen_o));
 			einladen.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EILADUNG.getText( manager.getPlayerGilde(owner) ));
 		}else{

@@ -1,10 +1,13 @@
 package me.kingingo.kcore.Gilden.Commands;
 
+import java.util.UUID;
+
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.Gilden.Events.GildenPlayerTeleportEvent;
 import me.kingingo.kcore.PlayerStats.Stats;
 import me.kingingo.kcore.Util.TimeSpan;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,13 +16,13 @@ public class Home {
 	
 	public static void useSet(Player p,String[] args,GildenManager manager){
 		if(args.length==1){
-			if(!manager.isPlayerInGilde(p.getName())){
+			if(!manager.isPlayerInGilde(p)){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
 				return;
 			}
-			String g = manager.getPlayerGilde(p.getName());
-			String owner=manager.getOwner(g);
-			if(!owner.equalsIgnoreCase(p.getName())){
+			String g = manager.getPlayerGilde(p);
+			UUID owner=manager.getOwner(g);
+			if(!owner.equals(UtilPlayer.getRealUUID(p))){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_OWNER_NOT.getText());
 				return;
 			}
@@ -40,7 +43,7 @@ public class Home {
 			if(manager.getTeleport().containsKey(p)){
 				return;
 			}
-			if(!manager.isPlayerInGilde(p.getName())){
+			if(!manager.isPlayerInGilde(p)){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
 				return;
 			}

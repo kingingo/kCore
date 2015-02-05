@@ -1,5 +1,7 @@
 package me.kingingo.kcore.Packet.Packets;
 
+import java.util.UUID;
+
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Packet.Packet;
@@ -8,7 +10,7 @@ public class NOT_SAVE_COINS extends Packet{
 
 	@Setter
 	@Getter
-	String spieler;
+	UUID uuid;
 	
 	public NOT_SAVE_COINS(){}
 	
@@ -16,8 +18,8 @@ public class NOT_SAVE_COINS extends Packet{
 		Set(packet);
 	}
 	
-	public NOT_SAVE_COINS(String spieler){
-		this.spieler=spieler;
+	public NOT_SAVE_COINS(UUID uuid){
+		this.uuid=uuid;
 	}
 	
 	public NOT_SAVE_COINS create(String[] packet){
@@ -29,15 +31,16 @@ public class NOT_SAVE_COINS extends Packet{
 	}
 	
 	public void Set(String[] split){
-		spieler=split[1];
+		uuid=UUID.fromString(split[1]);
 	}
 	
 	public void Set(String packet){
-		spieler=packet;
+		String[] split=packet.split("-/-");
+		uuid=UUID.fromString(split[1]);
 	}
 	
 	public String toString(){
-		return String.format(getName()+"-/-%s", spieler);
+		return String.format(getName()+"-/-%s", getUuid());
 	}
 	
 }
