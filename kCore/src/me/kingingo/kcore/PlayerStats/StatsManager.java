@@ -87,26 +87,6 @@ public class StatsManager implements Listener{
 		p.sendMessage("§b Place | Kills | Player");
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
-//	
-//	@EventHandler
-//	public void login(AsyncPlayerPreLoginEvent ev){
-//		check(ev.getName(),ev.getUniqueId());
-//	}
-	
-//	public void check(String player,UUID uuid){
-//		try{
-//			ResultSet rs = mysql.Query("SELECT UUID FROM `users_"+getTyp().getKürzel()+"` WHERE player='" + player + "'");
-//			
-//			while(rs.next()){
-//				if(rs.getString(1).equalsIgnoreCase("null")){
-//					mysql.Update("UPDATE `users_"+getTyp().getKürzel()+"` SET UUID='"+UtilPlayer.getRealUUID(player, uuid)+"' WHERE player='" + player.toLowerCase() + "'");
-//				}
-//			}
-//			rs.close();
-//		}catch (Exception err){	
-//			System.err.println(err);
-//		}
-//	}
 	
 	public HashMap<Integer,String> getRanking(Stats s,int i){
 		HashMap<Integer,String> list = new HashMap<>();

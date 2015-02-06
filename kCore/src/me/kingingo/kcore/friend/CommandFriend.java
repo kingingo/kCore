@@ -34,14 +34,21 @@ public class CommandFriend implements CommandExecutor{
 			p.sendMessage("§6/f list §8|§7 Freundschaften auflisten.");
 			p.sendMessage("§b■■■■■■■■■■■■■■§6§l FRIEND §b■■■■■■■■■■■■■■");
 		}else{
-			if(!manager.getFriendList().containsKey(p.getName().toLowerCase()))manager.getFriendList().put(UtilPlayer.getRealUUID(p), manager.getFriendList(p));
+			if(!manager.getFriendList().containsKey(UtilPlayer.getRealUUID(p)))manager.getFriendList().put(UtilPlayer.getRealUUID(p), manager.getFriendList(p));
 			if(args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("hinzufügen")){
 				if(args.length!=2)return false;
-				if(manager.getFriendList().containsKey(p.getName().toLowerCase())&&manager.getFriendList().get(p.getName().toLowerCase()).contains(args[1].toLowerCase())){
+				String f = args[1];
+				if(!UtilPlayer.isOnline(f)){
+					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(f));
+					return false;
+				}
+				Player friend = Bukkit.getPlayer(f);
+				
+				if(manager.getFriendList().containsKey(UtilPlayer.getRealUUID(p))&&manager.getFriendList().get(UtilPlayer.getRealUUID(p)).contains( UtilPlayer.getRealUUID(friend) )){
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_EXIST.getText(args[1]));
 					return false;
 				}
-				String f = args[1];
+				
 				if(f.equalsIgnoreCase(p.getName())){
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_YOURE_SELF.getText());
 					return false;
@@ -50,7 +57,6 @@ public class CommandFriend implements CommandExecutor{
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(f));
 					return false;
 				}
-				Player friend = Bukkit.getPlayer(f);
 				manager.getAnfrage().put(friend, p);
 				friend.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_GET.getText(p.getName()));
 				p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_SEND.getText(friend.getName()));
@@ -61,14 +67,21 @@ public class CommandFriend implements CommandExecutor{
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_YOURE_SELF.getText());
 					return false;
 				}
-				if(manager.getFriendList().get(p.getName().toLowerCase()).contains(friend.toLowerCase())){
+				UUID uuid;
+				if(UtilPlayer.isOnline(friend)){
+					 uuid = UtilPlayer.getRealUUID(Bukkit.getPlayer(friend));
+				}else{
+					 uuid = UtilPlayer.getUUID(friend, manager.getMysql());
+				}
+				
+				if(manager.getFriendList().get(UtilPlayer.getRealUUID(p)).contains(uuid)){
 					if(UtilPlayer.isOnline(friend)){
 						manager.del_friend.put(Bukkit.getPlayer(friend), p);
 						manager.del_friend_timer.put(Bukkit.getPlayer(friend), 10);
 					}else{
-						manager.DelFriend(p, UtilPlayer.getUUID(friend, manager.getMysql()));
-						if(manager.getFriendList().containsKey(friend))manager.getFriendList().remove(friend);
-						manager.getFriendList().get(p.getName().toLowerCase()).remove(friend);
+						manager.DelFriend(p, uuid);
+						if(manager.getFriendList().containsKey(uuid))manager.getFriendList().remove(uuid);
+						manager.getFriendList().get( UtilPlayer.getRealUUID(p) ).remove(uuid);
 						p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_DEL.getText(friend));
 					}
 				}else{
@@ -78,7 +91,7 @@ public class CommandFriend implements CommandExecutor{
 				if(manager.getAnfrage().containsKey(p)){
 					Player friend = manager.getAnfrage().get(p);
 					manager.getAnfrage().remove(p);
-					if(manager.getFriendList().get(p.getName().toLowerCase()).contains(friend.getName().toLowerCase())){
+					if(manager.getFriendList().get( UtilPlayer.getRealUUID(p) ).contains( UtilPlayer.getRealUUID(friend) )){
 						p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_EXIST.getText(friend.getName()));
 						return false;
 					}
@@ -90,7 +103,7 @@ public class CommandFriend implements CommandExecutor{
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_ASK_NOT.getText());
 				}
 			}else if(args[0].equalsIgnoreCase("list")){
-				if(manager.getFriendList().get(p.getName().toLowerCase()).isEmpty()){
+				if(manager.getFriendList().get(UtilPlayer.getRealUUID(p)).isEmpty()){
 					p.sendMessage(Text.FRIEND_PREFIX.getText()+"Du hast keine Freunde!");
 				}else{
 					String l = "List: ";
@@ -98,6 +111,7 @@ public class CommandFriend implements CommandExecutor{
 						if(UtilPlayer.isOnline(n)){
 							l=l+"§a"+Bukkit.getPlayer(n).getName()+"§7,";
 						}else{
+							if(Bukkit.getOfflinePlayer(n)==null)continue;
 							l=l+"§c"+Bukkit.getOfflinePlayer(n).getName()+"§7,";
 						}
 					}

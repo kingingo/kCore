@@ -47,8 +47,6 @@ public class GildenManager implements Listener {
 	@Getter
 	private HashMap<String,HashMap<GildenType,ArrayList<Stats>>> gilden_data_musst_saved = new HashMap<>();
 	@Getter
-	private HashMap<String,String> gilden_owner = new HashMap<>();
-	@Getter
 	private HashMap<Player,String> gilden_einladung = new HashMap<>();
 	@Getter
 	private HashMap<String,Integer> gilden_count = new HashMap<>();
@@ -70,7 +68,7 @@ public class GildenManager implements Listener {
 		this.instance=instance;
 		this.typ=typ;
 		this.mysql=mysql;
-		mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden(gilde varchar(30),gildentag varchar(30),member int,founder varchar(30),owner varchar(30))");
+		mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden(gilde varchar(30),gildentag varchar(30),member int,founder_uuid varchar(30),owner_uuid varchar(30))");
 		mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden_user(player varchar(30),UUID varchar(100),gilde varchar(30))");
 		CreateTable();
 		cmd.register(CommandGilde.class, new CommandGilde(this));
@@ -295,8 +293,8 @@ public class GildenManager implements Listener {
 		if(isPlayerInGilde(p)){
 			String g = getPlayerGilde(p);
 			String tag = getTag(g);
-			
-			if(extra_prefix.containsKey(g.toLowerCase())){
+			g=g.toLowerCase();
+			if(extra_prefix.containsKey(g)){
 				if(extra_prefix.get(g)==1){
 					tag=tag.replaceAll("§7", "§4§l");
 				}else if(extra_prefix.get(g)==2){
@@ -369,7 +367,6 @@ public class GildenManager implements Listener {
 		}
 		mysql.Update("DELETE FROM list_gilden_user WHERE gilde='" + name.toLowerCase() + "'");
 		gilden_data.remove(name);
-		gilden_owner.remove(name);
 		gilden_tag.remove(name);
 		gilden_data_musst_saved.remove(name);
 	}
@@ -390,7 +387,7 @@ public class GildenManager implements Listener {
 	}
 	
 	public String getPlayerGilde(Player player){
-		return getPlayerGilde(player.getUniqueId());
+		return getPlayerGilde(UtilPlayer.getRealUUID(player));
 	}
 	
 	public String getPlayerGilde(UUID uuid){
@@ -669,7 +666,7 @@ public class GildenManager implements Listener {
 
 		UUID i = null;
 		try{
-			ResultSet rs = mysql.Query("SELECT owner FROM list_gilden WHERE gilde= '"+gilde.toLowerCase()+"'");
+			ResultSet rs = mysql.Query("SELECT owner_uuid FROM list_gilden WHERE gilde= '"+gilde.toLowerCase()+"'");
 			while(rs.next()){
 				i=UUID.fromString(rs.getString(1));
 			}
@@ -707,8 +704,8 @@ public class GildenManager implements Listener {
 		return i;
 	}
 	
-	public void createGildenEintrag(String gilde,String gildentag,int member,String founder){
-		String t = "INSERT INTO list_gilden (gilde,gildentag,member,founder,owner) VALUES ('"+gilde.toLowerCase()+"','"+gildentag+"','"+member+"','"+founder+"','"+founder+"');";
+	public void createGildenEintrag(String gilde,String gildentag,int member,UUID founder){
+		String t = "INSERT INTO list_gilden (gilde,gildentag,member,founder_uuid,owner_uuid) VALUES ('"+gilde.toLowerCase()+"','"+gildentag+"','"+member+"','"+founder+"','"+founder+"');";
 		mysql.Update(t);
 		createAllDataEintrage(gilde);
 	}

@@ -3,6 +3,7 @@ package me.kingingo.kcore.Gilden.Commands;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.PlayerStats.Stats;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.entity.Player;
 
@@ -57,7 +58,7 @@ public class Erstellen {
 				return;
 			}
 			
-			manager.createGildenEintrag(g, "§7"+g+"§b*§f", 10, p.getName());
+			manager.createGildenEintrag(g, "§7"+g+"§b*§f", 10, UtilPlayer.getRealUUID(p));
 			manager.createPlayerEintrag(p, g);
 			manager.setInt(g, p.getLocation().getBlockX(), Stats.LOC_X);
 			manager.setInt(g, p.getLocation().getBlockY(), Stats.LOC_Y);

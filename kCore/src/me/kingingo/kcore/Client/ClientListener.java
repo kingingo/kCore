@@ -50,14 +50,17 @@ public class ClientListener implements Listener{
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Received(ClientReceiveMessageEvent ev){
-		//System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 		if(ev.getMessage().equalsIgnoreCase("ping")){
+			System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 			c.sendMessageToServer("pong");
 		}else if(ev.getMessage().equalsIgnoreCase("stop=?now")){
+			System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
 		}else if(ev.getMessage().equalsIgnoreCase("restart=?now")){
+			System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
 		}else if(ev.getMessage().equalsIgnoreCase("reload=?now")){
+			System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "reload");
 		}
 	}

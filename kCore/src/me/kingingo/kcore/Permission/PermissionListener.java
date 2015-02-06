@@ -60,6 +60,7 @@ public class PermissionListener implements Listener {
 			Bukkit.getServer().getOperators().remove(Bukkit.getOfflinePlayer(packet.getUuid()));
 			if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null){
 				ru.tehkode.permissions.PermissionManager pex = ((PermissionsEx)Bukkit.getPluginManager().getPlugin("PermissionEx")).getPermissionsManager();
+				
 				for(String world : pex.getUser(packet.getUuid()).getAllPermissions().keySet()){
 					for(String permission : pex.getUser(packet.getUuid()).getAllPermissions().get(world)){
 						pex.getUser(packet.getUuid()).removePermission(permission, world);

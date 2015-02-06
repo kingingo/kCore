@@ -16,6 +16,7 @@ import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_ADD_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_CLIENT;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_CLIENT_GROUP;
+import me.kingingo.kcore.Packet.Packets.WORLD_CHANGE_DATA;
 import me.kingingo.kcore.Packet.Packets.YOUTUBE_GET_DATA;
 import me.kingingo.kcore.Packet.Packets.YOUTUBE_IS_DATA;
 
@@ -79,6 +80,8 @@ public class PacketManager {
 			return new SERVER_TYPE_CHANGE(packet.split("-/-"));
 		}else if(packet.contains("PERMISSION_USER_REMOVE_ALL")){
 			return new PERMISSION_USER_REMOVE_ALL(packet.split("-/-"));
+		}else if(packet.contains("WORLD_CHANGE_DATA")){
+			return new WORLD_CHANGE_DATA(packet.split("-/-"));
 		}
 	 return null;
 	}

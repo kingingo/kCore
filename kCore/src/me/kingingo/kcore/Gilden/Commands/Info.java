@@ -33,6 +33,7 @@ public class Info {
 					if(UtilPlayer.isOnline(n)){
 						l=l+" §a"+Bukkit.getPlayer(n).getName()+",";
 					}else{
+						if(Bukkit.getOfflinePlayer(n)==null)continue;
 						l=l+" §c"+Bukkit.getOfflinePlayer(n).getName()+",";
 					}
 				}
@@ -57,6 +58,7 @@ public class Info {
 					if(UtilPlayer.isOnline(n)){
 						l=l+" §a"+Bukkit.getPlayer(n).getName()+",";
 					}else{
+						if(Bukkit.getOfflinePlayer(n)==null)continue;
 						l=l+" §c"+Bukkit.getOfflinePlayer(n).getName()+",";
 					}
 				}
