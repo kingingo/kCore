@@ -96,7 +96,6 @@ public class Coins implements Listener{
 	}
 	
 	public Integer getCoins(UUID uuid){
-
 		System.out.println("CREATED : "+uuid);
 		if(coins.containsKey(uuid))return coins.get(uuid);
 		int d = -9999999;

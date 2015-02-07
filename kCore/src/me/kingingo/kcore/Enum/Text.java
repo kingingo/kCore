@@ -148,6 +148,12 @@ TELEPORT_ANFRAGE_EMPFÄNGER("§6Der Spieler§b % §6hat dir eine Teleport Anfrag
 TELEPORT_ANFRAGE_SENDER("§6Du hast§b % §6eine Teleport Anfrage gesendet."),
 WHEREIS_TEXT("§6Du befindest dich momentan auf dem §b%§6 Server."),
 FALLDOWN_NICHT_GENUG_POWER("§bDu hast nicht genug Power!"),
+SKYBLOCK_HAVE_ISLAND("Du hast bereits eine Insel!"),
+SKYBLOCK_NO_ISLAND("Du besitzt keine Insel."),
+SKYBLOCK_REMOVE_ISLAND("Deine Insel wurde gelöscht!"),
+SKYBLOCK_CREATE_ISLAND("Deine Insel wurde erstellt."),
+SKYBLOCK_TELEPORT_HOME("Du wurdest zu deiner Insel teleportiert!"),
+SKYBLOC_PREFIX("§b■■■■■■■■ §6§lSkyBlock §b■■■■■■■■"),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 private String t;

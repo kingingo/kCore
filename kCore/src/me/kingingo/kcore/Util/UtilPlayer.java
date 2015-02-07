@@ -79,7 +79,7 @@ public class UtilPlayer
 			PermissionsUserData data = pex.getBackend().getUserData(old.toString());
 			data.setIdentifier(uuid.toString());
 			data.save();
-			data.load();
+			pex.clearUserCache(uuid);
 	    	System.out.println("[kCore] PermissionEx from "+old+" change to "+uuid);
 		}
 	}
