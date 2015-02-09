@@ -1,13 +1,11 @@
 package me.kingingo.kcore.Gilden.Commands;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.Util.UtilPlayer;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class Kicken {
@@ -35,7 +33,7 @@ public class Kicken {
 				return;
 			}
 			manager.sendGildenChat(g, Text.GILDE_PREFIX.getText()+Text.GILDE_KICK_PLAYER.getText(kick_o));
-			manager.removePlayerEintrag(kick_o,uuid);
+			manager.removePlayerEintrag(uuid);
 		}else{
 			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde kicken [Player]");
 		}

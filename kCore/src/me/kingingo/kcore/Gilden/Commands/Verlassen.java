@@ -24,7 +24,7 @@ public class Verlassen {
 					manager.removeGildenEintrag(g);
 				}else{
 					manager.sendGildenChat(g, Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_GO_OUT.getText(p.getName()));
-					manager.removePlayerEintrag(p.getName());
+					manager.removePlayerEintrag(p);
 					p.setDisplayName(p.getName());
 				}
 			}else{

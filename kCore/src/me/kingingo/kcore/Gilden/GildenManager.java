@@ -371,13 +371,13 @@ public class GildenManager implements Listener {
 		gilden_data_musst_saved.remove(name);
 	}
 	
-	public void removePlayerEintrag(String name){
-		removePlayerEintrag(name, UtilPlayer.getUUID(name, mysql));
+	public void removePlayerEintrag(Player player){
+		removePlayerEintrag(UtilPlayer.getRealUUID(player));
 	}
 	
-	public void removePlayerEintrag(String name,UUID uuid){
+	public void removePlayerEintrag(UUID uuid){
 		getGilden_count().remove(getPlayerGilde(uuid));
-		getGilden_player().remove(name.toLowerCase());
+		getGilden_player().remove(uuid);
 		mysql.Update("DELETE FROM list_gilden_user WHERE uuid='" + uuid + "'");
 	}
 	
