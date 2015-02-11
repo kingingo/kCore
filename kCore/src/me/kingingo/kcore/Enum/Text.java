@@ -153,7 +153,13 @@ SKYBLOCK_NO_ISLAND("Du besitzt keine Insel."),
 SKYBLOCK_REMOVE_ISLAND("Deine Insel wurde gelöscht!"),
 SKYBLOCK_CREATE_ISLAND("Deine Insel wurde erstellt."),
 SKYBLOCK_TELEPORT_HOME("Du wurdest zu deiner Insel teleportiert!"),
-SKYBLOC_PREFIX("§b■■■■■■■■ §6§lSkyBlock §b■■■■■■■■"),
+SKYBLOCK_PREFIX("§b■■■■■■■■ §6§lSkyBlock §b■■■■■■■■"),
+SIGN_SHOP_NO_ITEM_ON_INV("§cDu hast das Item nicht in Inventar oder du hast zu wenig von den Item's"),
+SIGN_SHOP_VERKAUFT_("§6Du hast % mal %:% Verkauft und hast % Epic's erhalten."),
+SIGN_SHOP_VERKAUFT("§6Du hast % mal % Verkauft und hast % Epic's erhalten."),
+SIGN_SHOP_DELAY("§cDu kannst nur alle % sekunden was verkaufen!"),
+SIGN_SHOP_GET("§6Du hast % mal % bekommen dir wurden % §bEpics §6abgezogen."),
+SIGN_SHOP_GET_("§6Du hast % mal %:% bekommen dir wurden % §bEpics §6abgezogen."),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 private String t;
@@ -177,7 +183,7 @@ public String[] getTexts(Object s){
 	return tt;
 }
 
-public String[] getTexts(String[] s){
+public String[] getTextTexs(String[] s){
 	for(int i = 0 ; i < tt.length ; i++){
 		for(int i1 = 0 ; i1 < s.length ; i1++){
 			if(s[i1]==null)continue;
