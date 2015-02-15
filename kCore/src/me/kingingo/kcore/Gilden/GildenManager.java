@@ -76,7 +76,7 @@ public class GildenManager implements Listener {
 		
 		for(Player p : UtilServer.getPlayers()){
 			if(!isPlayerInGilde(UtilPlayer.getRealUUID(p)))continue;
-			if(gilden_player.containsKey(p.getName().toLowerCase()))gilden_player.remove(p.getName().toLowerCase());
+			if(gilden_player.containsKey( UtilPlayer.getRealUUID(p) ))gilden_player.remove( UtilPlayer.getRealUUID(p) );
 			getPlayerGilde(p);
 		}
 		
@@ -326,7 +326,7 @@ public class GildenManager implements Listener {
 	
 	@EventHandler
 	public void PlayerJoin(PlayerJoinEvent ev){
-		if(gilden_player.containsKey(ev.getPlayer().getName().toLowerCase()))gilden_player.remove(ev.getPlayer().getName().toLowerCase());
+		if(gilden_player.containsKey( UtilPlayer.getRealUUID(ev.getPlayer()) ))gilden_player.remove( UtilPlayer.getRealUUID(ev.getPlayer()) );
 		if(!isPlayerInGilde(ev.getPlayer()))return;
 		sendGildenChat(getPlayerGilde(ev.getPlayer()), Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_JOIN.getText(ev.getPlayer().getName()));
 	}
