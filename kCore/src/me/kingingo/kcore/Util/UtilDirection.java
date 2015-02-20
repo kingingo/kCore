@@ -1,7 +1,9 @@
 package me.kingingo.kcore.Util;
 
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 
 public enum UtilDirection
 {
@@ -35,6 +37,32 @@ public enum UtilDirection
 		return loc;
 	}
 	
+	public UtilDirection WithRespectTo(){
+		switch(this){
+		case NORTH: return SOUTH;
+		case EAST: return WEST;
+		case SOUTH: return NORTH;
+		case WEST: return EAST;
+		default:
+			return NORTH;
+		}
+	}
+	
+	public UtilDirection WithRespectTo2(){
+		switch(this){
+		case NORTH: return SOUTH;
+		case NORTHEAST: return SOUTHWEST;
+		case EAST: return WEST;
+		case SOUTHEAST: return NORTHWEST;
+		case SOUTH: return NORTH;
+		case SOUTHWEST: return NORTHEAST;
+		case WEST: return EAST;
+		case NORTHWEST: return SOUTHEAST;
+		default:
+			return NORTH;
+		}
+	}
+	
 	public UtilDirection nextDirection(){
 		switch(this){
 		case NORTH: return EAST;
@@ -46,20 +74,20 @@ public enum UtilDirection
 		}
 	}	
 	
-//	public UtilDirection nextDirection(){
-//		switch(this){
-//		case NORTH: return NORTHEAST;
-//		case NORTHEAST: return EAST;
-//		case EAST: return SOUTHEAST;
-//		case SOUTHEAST: return SOUTH;
-//		case SOUTH: return SOUTHWEST;
-//		case SOUTHWEST: return WEST;
-//		case WEST: return NORTHWEST;
-//		case NORTHWEST: return NORTH;
-//		default:
-//			return NORTH;
-//		}
-//	}
+	public UtilDirection nextDirection2(){
+		switch(this){
+		case NORTH: return NORTHEAST;
+		case NORTHEAST: return EAST;
+		case EAST: return SOUTHEAST;
+		case SOUTHEAST: return SOUTH;
+		case SOUTH: return SOUTHWEST;
+		case SOUTHWEST: return WEST;
+		case WEST: return NORTHWEST;
+		case NORTHWEST: return NORTH;
+		default:
+			return NORTH;
+		}
+	}
 	
 	public BlockFace getBlockFace(){
 		return this.f;
@@ -74,6 +102,66 @@ public enum UtilDirection
 	{
 		return this.z;
 	}
+	
+//	public static UtilDirection getCardinalDirection(Player player) {
+//		System.err.println("YAW: "+player.getLocation().getYaw()+ " PITCH: "+player.getLocation().getPitch());
+//        double rotation = (player.getLocation().getYaw() - 90) % 360;
+//        if (rotation < 0) {
+//            rotation += 360.0;
+//        }
+//         if (0 <= rotation && rotation < 22.5) {
+//            return UtilDirection.NORTH; 
+//        } else if (22.5 <= rotation && rotation < 67.5) {
+//            return UtilDirection.NORTHEAST;
+//        } else if (67.5 <= rotation && rotation < 112.5) {
+//            return UtilDirection.EAST;
+//        } else if (112.5 <= rotation && rotation < 157.5) {
+//            return UtilDirection.SOUTHEAST;
+//        } else if (157.5 <= rotation && rotation < 202.5) {
+//            return UtilDirection.SOUTH;
+//        } else if (202.5 <= rotation && rotation < 247.5) {
+//            return UtilDirection.SOUTHWEST;
+//        } else if (247.5 <= rotation && rotation < 292.5) {
+//            return UtilDirection.WEST;
+//        } else if (292.5 <= rotation && rotation < 337.5) {
+//            return UtilDirection.NORTHWEST;
+//        } else if (337.5 <= rotation && rotation < 360.0) {
+//            return UtilDirection.NORTH;
+//        } else {
+//        	System.err.println("[Error] UtilDirection getCardinalDirection ERROR");
+//            return UtilDirection.NORTH;
+//        }
+//    }
+	
+	public static UtilDirection getCardinalDirection(Player player) {
+		System.err.println("YAW: "+player.getLocation().getYaw()+ " PITCH: "+player.getLocation().getPitch());
+        double rotation = (player.getLocation().getYaw() - 90) % 360;
+        if (rotation < 0) {
+            rotation += 360.0;
+        }
+         if (0 <= rotation && rotation < 22.5) {
+            return UtilDirection.WEST; 
+        } else if (22.5 <= rotation && rotation < 67.5) {
+            return UtilDirection.NORTHWEST;
+        } else if (67.5 <= rotation && rotation < 112.5) {
+            return UtilDirection.NORTH;
+        } else if (112.5 <= rotation && rotation < 157.5) {
+            return UtilDirection.NORTHEAST;
+        } else if (157.5 <= rotation && rotation < 202.5) {
+            return UtilDirection.EAST;
+        } else if (202.5 <= rotation && rotation < 247.5) {
+            return UtilDirection.SOUTHEAST;
+        } else if (247.5 <= rotation && rotation < 292.5) {
+            return UtilDirection.SOUTH;
+        } else if (292.5 <= rotation && rotation < 337.5) {
+            return UtilDirection.SOUTHWEST;
+        } else if (337.5 <= rotation && rotation < 360.0) {
+            return UtilDirection.WEST;
+        } else {
+        	System.err.println("[Error] UtilDirection getCardinalDirection ERROR");
+            return UtilDirection.NORTH;
+        }
+    }
 	
 	public static UtilDirection getDirection(String direction)
 	{

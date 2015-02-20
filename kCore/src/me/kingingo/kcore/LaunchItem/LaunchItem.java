@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 public class LaunchItem {
 
 	@Getter
-	private Entity droppedItem;
+	private Entity[] droppedItem;
 	@Getter
 	private Player player;
 	@Getter
@@ -25,24 +25,51 @@ public class LaunchItem {
         public void onLaunchItem(LaunchItemEvent event);
     }
 	
+	public LaunchItem(Player p,int id,int anzahl,int sec,final LaunchItemEventHandler handler) {
+		this.time=System.currentTimeMillis()+TimeSpan.SECOND*sec;
+		this.droppedItem=new Entity[anzahl];
+   		for(int i = 0 ; i < anzahl; i++){
+   			this.droppedItem[i]=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(id,1), "Item"+UtilMath.r(100)));
+   	   		this.droppedItem[i].setVelocity(p.getLocation().add(UtilMath.r(3),UtilMath.r(3),UtilMath.r(3)).getDirection());
+   		}
+   		UtilInv.remove(p, new ItemStack(id,1),anzahl);
+   		this.player=p;
+   		this.handler=handler;
+	}
+	
+	public LaunchItem(Player p,int id,int sec,final LaunchItemEventHandler handler) {
+		this.time=System.currentTimeMillis()+TimeSpan.SECOND*sec;
+		this.droppedItem=new Entity[1];
+   		this.droppedItem[0]=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(id,1), "Item"+UtilMath.r(100)));
+   		this.droppedItem[0].setVelocity(p.getLocation().getDirection());
+   		UtilInv.remove(p, new ItemStack(id,1),1);
+   		this.player=p;
+   		this.handler=handler;
+	}
+	
 	public LaunchItem(Player p,int sec,final LaunchItemEventHandler handler) {
 		this.time=System.currentTimeMillis()+TimeSpan.SECOND*sec;
-   		this.droppedItem=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(p.getItemInHand().getType(),1,p.getItemInHand().getData().getData()), "Item"+UtilMath.r(100)));
-   		this.droppedItem.setVelocity(p.getLocation().getDirection());
+		this.droppedItem=new Entity[1];
+   		this.droppedItem[0]=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(p.getItemInHand().getType(),1,p.getItemInHand().getData().getData()), "Item"+UtilMath.r(100)));
+   		this.droppedItem[0].setVelocity(p.getLocation().getDirection());
    		UtilInv.remove(p, p.getItemInHand().getType(), p.getItemInHand().getData().getData(), 1);
    		this.player=p;
    		this.handler=handler;
 	}
 	
 	public void remove(){
-		this.droppedItem.remove();
+		for(Entity e : droppedItem)e.remove();
 	}
 	
 	public boolean check(){
 		if(time<System.currentTimeMillis()){
 			LaunchItemEvent e = new LaunchItemEvent(this);
 			handler.onLaunchItem(e);
-			droppedItem.remove();
+			remove();
+			droppedItem=null;
+			time=null;
+			handler=null;
+			player=null;
 			return true;
 		}
 		return false;

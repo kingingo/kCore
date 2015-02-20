@@ -17,6 +17,7 @@ COMMAND_MEM("epicpvp.command.mem"),
 COMMAND_TOGGLE("epicpvp.command.toggle"),
 COMMAND_COMMAND_MUTE_ALL("epicpvp.command.commandmuteall"),
 COMMAND_COMMAND_MUTE_ALL_ALLOW("epicpvp.command.commandmuteall.allow"),
+kFLY("epicpvp.kfly"),
 
 PERK_NO_HUNGER("epicpvp.perk.nohunger"),
 PERK_JUMP("epicpvp.perk.jump"),

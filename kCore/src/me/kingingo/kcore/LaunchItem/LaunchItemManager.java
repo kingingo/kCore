@@ -7,6 +7,7 @@ import me.kingingo.kcore.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -33,11 +34,19 @@ public class LaunchItemManager extends kListener{
 		}
 	}
 	
+	boolean b = false;
 	@EventHandler
 	public void PickUp(PlayerPickupItemEvent ev){
 		for(LaunchItem item : items){
-			if(item.getDroppedItem().getEntityId()==ev.getItem().getEntityId()){
-				ev.setCancelled(true);
+			for(Entity e : item.getDroppedItem()){
+				if(e.getEntityId()==ev.getItem().getEntityId()){
+					ev.setCancelled(true);
+					b=true;
+					break;
+				}
+			}
+			if(b){
+				b=false;
 				break;
 			}
 		}

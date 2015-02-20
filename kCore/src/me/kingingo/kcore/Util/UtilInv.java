@@ -165,6 +165,11 @@ public class UtilInv
     return true;
   }
   
+  public static boolean remove(Player player,int item, byte data, int toRemove)
+  {
+	  return remove(player, Material.getMaterial(item),data,toRemove);
+  }
+  
   public static boolean remove(Player player, Material item, byte data, int toRemove)
   {
     if (!contains(player, item, data, toRemove)) {

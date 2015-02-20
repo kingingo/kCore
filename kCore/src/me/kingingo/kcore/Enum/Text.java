@@ -160,6 +160,8 @@ SIGN_SHOP_VERKAUFT("§6Du hast % mal % Verkauft und hast % Epic's erhalten."),
 SIGN_SHOP_DELAY("§cDu kannst nur alle % sekunden was verkaufen!"),
 SIGN_SHOP_GET("§6Du hast % mal % bekommen dir wurden % §bEpics §6abgezogen."),
 SIGN_SHOP_GET_("§6Du hast % mal %:% bekommen dir wurden % §bEpics §6abgezogen."),
+kFLY_ON("Fly wurde aktiviert."),
+kFLY_OFF("Fly wurde deaktiviert."),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 private String t;
