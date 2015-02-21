@@ -3,8 +3,8 @@ package me.kingingo.kcore.SignShop;
 import java.util.HashMap;
 
 import lombok.Getter;
-import me.kingingo.kcore.kListener;
 import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.PlayerStats.Stats;
 import me.kingingo.kcore.PlayerStats.StatsManager;
 import me.kingingo.kcore.Update.UpdateType;

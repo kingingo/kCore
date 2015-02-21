@@ -322,7 +322,7 @@ public class PetManager implements Listener{
 	 
 	@EventHandler
 	public void Creeper(EntityExplodeEvent ev){
-		if(ev.getEntity().getType() == EntityType.CREEPER){
+		if(ev.getEntity().getType()!=null&&ev.getEntity().getType()!=EntityType.PRIMED_TNT&&ev.getEntity().getType() == EntityType.CREEPER){
 			if (((ev.getEntity() instanceof org.bukkit.entity.Creature)) && (this.activePetOwners.containsValue((org.bukkit.entity.Creature)ev.getEntity()))){
 				ev.setCancelled(true);
 			}

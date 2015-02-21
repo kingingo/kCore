@@ -24,9 +24,11 @@ public class CommandkFly implements CommandExecutor{
 		if(permManager.hasPermission(player, Permission.kFLY)&&args.length==0){
 			if(player.isFlying()){
 				player.setFlying(false);
+				player.setAllowFlight(false);
 				player.sendMessage(Text.PREFIX.getText()+Text.kFLY_OFF.getText());
 			}else{
 				player.setFlying(true);
+				player.setAllowFlight(true);
 				player.sendMessage(Text.PREFIX.getText()+Text.kFLY_ON.getText());
 			}
 		}

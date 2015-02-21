@@ -1,6 +1,6 @@
 package me.kingingo.kcore.lag;
 
-import me.kingingo.kcore.kListener;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 

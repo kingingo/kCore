@@ -3,7 +3,7 @@ package me.kingingo.kcore.LaunchItem;
 import java.util.ArrayList;
 
 import lombok.Getter;
-import me.kingingo.kcore.kListener;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 

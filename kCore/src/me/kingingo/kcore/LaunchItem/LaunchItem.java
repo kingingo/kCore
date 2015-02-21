@@ -6,6 +6,7 @@ import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilMath;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -25,12 +26,24 @@ public class LaunchItem {
         public void onLaunchItem(LaunchItemEvent event);
     }
 	
+	public LaunchItem(Player p,Location loc,int id,int anzahl,int sec,final LaunchItemEventHandler handler) {
+		this.time=System.currentTimeMillis()+TimeSpan.SECOND*sec;
+		this.droppedItem=new Entity[anzahl];
+   		for(int i = 0 ; i < anzahl; i++){
+   			this.droppedItem[i]=(Entity) loc.getWorld().dropItemNaturally(loc,UtilItem.RenameItem(new ItemStack(id,1), "Item"+UtilMath.r(100)));
+   	   		this.droppedItem[i].setVelocity(loc.add(UtilMath.r(5),UtilMath.r(5),UtilMath.r(5)).getDirection());
+   		}
+   		UtilInv.remove(p, new ItemStack(id,1),anzahl);
+   		this.player=p;
+   		this.handler=handler;
+	}
+	
 	public LaunchItem(Player p,int id,int anzahl,int sec,final LaunchItemEventHandler handler) {
 		this.time=System.currentTimeMillis()+TimeSpan.SECOND*sec;
 		this.droppedItem=new Entity[anzahl];
    		for(int i = 0 ; i < anzahl; i++){
    			this.droppedItem[i]=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(id,1), "Item"+UtilMath.r(100)));
-   	   		this.droppedItem[i].setVelocity(p.getLocation().add(UtilMath.r(3),UtilMath.r(3),UtilMath.r(3)).getDirection());
+   	   		this.droppedItem[i].setVelocity(p.getLocation().add(UtilMath.r(5),UtilMath.r(5),UtilMath.r(5)).getDirection());
    		}
    		UtilInv.remove(p, new ItemStack(id,1),anzahl);
    		this.player=p;

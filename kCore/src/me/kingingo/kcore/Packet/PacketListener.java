@@ -1,8 +1,9 @@
 package me.kingingo.kcore.Packet;
 
-import me.kingingo.kcore.kListener;
 import me.kingingo.kcore.Client.Events.ClientReceiveMessageEvent;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 

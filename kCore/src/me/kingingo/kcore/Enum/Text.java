@@ -162,6 +162,8 @@ SIGN_SHOP_GET("§6Du hast % mal % bekommen dir wurden % §bEpics §6abgezogen.")
 SIGN_SHOP_GET_("§6Du hast % mal %:% bekommen dir wurden % §bEpics §6abgezogen."),
 kFLY_ON("Fly wurde aktiviert."),
 kFLY_OFF("Fly wurde deaktiviert."),
+SPAWN_SET("§aDer Spawn wurde gespeichert!"),
+SPAWN_TELEPORT("Du wurdest zum Spawn Teleportiert!"),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 private String t;

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
-import me.kingingo.kcore.kListener;
 import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Teleport.command.CommandTpa;
 import me.kingingo.kcore.Teleport.command.CommandTpaccept;

@@ -1,22 +1,83 @@
 package me.kingingo.kcore.Util;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class FileUtil
+public class UtilFile
 {
 	
 	public static boolean existPath(File path){
 		return path.exists();
+	}
+	
+	public static void createFile(File pfad,String name,String[] list){
+		createFile(new File(pfad.getAbsolutePath()+File.separator+name), list);
+	}
+	
+	public static void createFile(File pfad,String[] list){
+		try {
+			FileWriter fstream = new FileWriter(pfad);
+			BufferedWriter out = new BufferedWriter(fstream); 
+			
+			for(String l : list){
+				out.write(l);
+				out.write("\n");
+			}
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void deleteFile(File pfad,String name){
+		deleteFile(new File(pfad.getAbsolutePath()+File.separator+name));
+	}
+	
+	public static void deleteFile(File pfad){
+		if(pfad.exists()){
+			pfad.delete();
+		}
+	}
+	
+	public static String[] loadFile(File pfad,String name){
+		return loadFile(new File(pfad.getAbsolutePath()+File.separator+name));
+	}
+	
+	public static String[] loadFile(File pfad){
+		try {
+			String line=null;
+			FileInputStream fstream = new FileInputStream(pfad);
+			DataInputStream in = new DataInputStream(fstream);
+		    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		    String[] list = new String[br.read()];
+		    
+		    int i = 0;
+		    while((line=br.readLine()) != null){
+		    	list[i]=line;
+		    }
+		    
+		    return list;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	 public static void download(URL source, File destination) throws IOException {

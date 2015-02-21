@@ -187,7 +187,7 @@ public class PermissionManager {
 		Permission permission;
 		ResultSet rs;
 		if(g==null)g="default";
-		
+		System.err.println("UUID: "+uuid+" group:"+g);
 		if(!groups.containsKey(g)){
 			groups.put(g, new ArrayList<Permission>());
 			try

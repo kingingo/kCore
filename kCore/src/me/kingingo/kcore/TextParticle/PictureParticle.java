@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.kListener;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilParticle;

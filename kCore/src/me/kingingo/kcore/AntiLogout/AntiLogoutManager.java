@@ -23,11 +23,11 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.kListener;
 import me.kingingo.kcore.AntiLogout.Events.AntiLogoutAddPlayerEvent;
 import me.kingingo.kcore.AntiLogout.Events.AntiLogoutDelPlayerEvent;
 import me.kingingo.kcore.AntiLogout.Events.AntiLogoutQuitPlayerEvent;
 import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.TimeSpan;

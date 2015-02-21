@@ -103,38 +103,7 @@ public enum UtilDirection
 		return this.z;
 	}
 	
-//	public static UtilDirection getCardinalDirection(Player player) {
-//		System.err.println("YAW: "+player.getLocation().getYaw()+ " PITCH: "+player.getLocation().getPitch());
-//        double rotation = (player.getLocation().getYaw() - 90) % 360;
-//        if (rotation < 0) {
-//            rotation += 360.0;
-//        }
-//         if (0 <= rotation && rotation < 22.5) {
-//            return UtilDirection.NORTH; 
-//        } else if (22.5 <= rotation && rotation < 67.5) {
-//            return UtilDirection.NORTHEAST;
-//        } else if (67.5 <= rotation && rotation < 112.5) {
-//            return UtilDirection.EAST;
-//        } else if (112.5 <= rotation && rotation < 157.5) {
-//            return UtilDirection.SOUTHEAST;
-//        } else if (157.5 <= rotation && rotation < 202.5) {
-//            return UtilDirection.SOUTH;
-//        } else if (202.5 <= rotation && rotation < 247.5) {
-//            return UtilDirection.SOUTHWEST;
-//        } else if (247.5 <= rotation && rotation < 292.5) {
-//            return UtilDirection.WEST;
-//        } else if (292.5 <= rotation && rotation < 337.5) {
-//            return UtilDirection.NORTHWEST;
-//        } else if (337.5 <= rotation && rotation < 360.0) {
-//            return UtilDirection.NORTH;
-//        } else {
-//        	System.err.println("[Error] UtilDirection getCardinalDirection ERROR");
-//            return UtilDirection.NORTH;
-//        }
-//    }
-	
 	public static UtilDirection getCardinalDirection(Player player) {
-		System.err.println("YAW: "+player.getLocation().getYaw()+ " PITCH: "+player.getLocation().getPitch());
         double rotation = (player.getLocation().getYaw() - 90) % 360;
         if (rotation < 0) {
             rotation += 360.0;

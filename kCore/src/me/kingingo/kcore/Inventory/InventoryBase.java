@@ -6,8 +6,8 @@ import javax.print.attribute.standard.Copies;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.kListener;
 import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;

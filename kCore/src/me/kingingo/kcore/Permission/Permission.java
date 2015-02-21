@@ -19,6 +19,10 @@ COMMAND_COMMAND_MUTE_ALL("epicpvp.command.commandmuteall"),
 COMMAND_COMMAND_MUTE_ALL_ALLOW("epicpvp.command.commandmuteall.allow"),
 kFLY("epicpvp.kfly"),
 
+SPAWN_IGNORE_DELAY("epicpvp.spawn.ignore_delay"),
+SPAWN("epicpvp.spawn"),
+SPAWN_SET("epicpvp.spawn.set"),
+
 PERK_NO_HUNGER("epicpvp.perk.nohunger"),
 PERK_JUMP("epicpvp.perk.jump"),
 PERK_NO_FIRE("epicpvp.perk.nofire"),

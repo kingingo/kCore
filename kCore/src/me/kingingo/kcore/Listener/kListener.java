@@ -1,4 +1,4 @@
-package me.kingingo.kcore;
+package me.kingingo.kcore.Listener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;

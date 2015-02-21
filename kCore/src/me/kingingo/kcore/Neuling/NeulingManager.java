@@ -3,9 +3,9 @@ package me.kingingo.kcore.Neuling;
 import java.util.HashMap;
 
 import lombok.Getter;
-import me.kingingo.kcore.kListener;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Neuling.Events.NeulingEvent;
 import me.kingingo.kcore.Neuling.Events.NeulingSchutzEndEvent;
 import me.kingingo.kcore.Update.UpdateType;
