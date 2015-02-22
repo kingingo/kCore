@@ -45,8 +45,8 @@ public class Coins implements Listener{
 	}
 	
 	public void SaveAll(){
-		for(UUID p : coins.keySet()){
-			if(change_coins.contains(p))addCoins(p, 0);
+		for(UUID uuid : coins.keySet()){
+			if(change_coins.contains(uuid))addCoins(uuid, 0);
 		}
 		coins.clear();
 		change_coins.clear();
@@ -68,13 +68,13 @@ public class Coins implements Listener{
 		return i;
 	}
 	
-	public void CreateAccount(UUID uuid){
-		mysql.Update("INSERT INTO coins_list (coins,uuid) values ('0','"+uuid+"');");
+	public void CreateAccount(UUID uuid,String name){
+		mysql.Update("INSERT INTO coins_list (name,coins,uuid) values ('"+name+"','0','"+uuid+"');");
 	}
 	
 	public Integer getCoins(Player p){
 		if(coins.containsKey(UtilPlayer.getRealUUID(p)))return coins.get(UtilPlayer.getRealUUID(p));
-		int d = -9999999;
+		int d = -999;
 		try{
 			ResultSet rs = mysql.Query("SELECT coins FROM coins_list WHERE uuid='" + UtilPlayer.getRealUUID(p) + "'");
 			
@@ -86,8 +86,8 @@ public class Coins implements Listener{
 			System.err.println(err);
 		}
 		
-		if(d==-9999999){
-			CreateAccount(UtilPlayer.getRealUUID(p));
+		if(d==-999){
+			CreateAccount(UtilPlayer.getRealUUID(p),p.getName().toLowerCase());
 			d=0;
 		}
 		
@@ -96,9 +96,8 @@ public class Coins implements Listener{
 	}
 	
 	public Integer getCoins(UUID uuid){
-		System.out.println("CREATED : "+uuid);
 		if(coins.containsKey(uuid))return coins.get(uuid);
-		int d = -9999999;
+		int d = -999;
 		try{
 			ResultSet rs = mysql.Query("SELECT coins FROM coins_list WHERE uuid='" + uuid + "'");
 			
@@ -110,8 +109,8 @@ public class Coins implements Listener{
 			System.err.println(err);
 		}
 		
-		if(d==-9999999){
-			CreateAccount(uuid);
+		if(d==-999){
+			CreateAccount(uuid,"none");
 			d=0;
 		}
 		
@@ -140,21 +139,6 @@ public class Coins implements Listener{
 		if(join_Check) getCoins(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
 	}
 	
-//	public void check(String player,UUID uuid){
-//		try{
-//			ResultSet rs = mysql.Query("SELECT uuid FROM coins_list WHERE name='" + player.toLowerCase() + "'");
-//			
-//			while(rs.next()){
-//				if(rs.getString(1).equalsIgnoreCase("null")){
-//					mysql.Update("UPDATE coins_list SET uuid='"+UtilPlayer.getRealUUID(player, uuid)+"' WHERE name='" + player.toLowerCase() + "'");
-//				}
-//			}
-//			rs.close();
-//		}catch (Exception err){	
-//			System.err.println(err);
-//		}
-//	}
-	
 	public boolean delCoins(Player p,boolean save,Integer coins,GameType typ){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
 		if(!save){
@@ -179,13 +163,15 @@ public class Coins implements Listener{
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
 		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coins=coins*2;
 		if(!save){
-			int c = getCoins(UtilPlayer.getRealUUID(p));
+			int c = getCoins(p);
 			int co=c+coins;
+			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_ADD.getText(coins));
 		}else{
-			int c = getCoins(UtilPlayer.getRealUUID(p));
+			int c = getCoins(p);
 			int co=c+coins;
+			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			change_coins.remove(UtilPlayer.getRealUUID(p));
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
@@ -203,13 +189,6 @@ public class Coins implements Listener{
 	}
 	
 	public void delCoins(UUID uuid,Integer coi){
-//		String player = inList(p);
-//		if(player!=null){
-//			if(coins.containsKey(player)){
-//				addCoins(player,0);
-//				coins.remove(player);
-//			}
-//		}
 		change_coins.remove(uuid);
 		int c = getCoins(uuid);
 		int co=c+coi;
@@ -218,13 +197,6 @@ public class Coins implements Listener{
 	
 	public void addCoins(UUID uuid,Integer coi){
 		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coi=coi*2;
-//		String player = inList(p);
-//		if(player!=null){
-//			if(coins.containsKey(player)){
-//				addCoins(player,0);
-//				coins.remove(player);
-//			}
-//		}
 		change_coins.remove(uuid);
 		int c = getCoins(uuid);
 		int co=c+coi;
@@ -234,16 +206,18 @@ public class Coins implements Listener{
 	public boolean delCoins(Player p,boolean save,Integer coins){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
 		if(!save){
-			int c = getCoins(UtilPlayer.getRealUUID(p));
+			int c = getCoins(p);
 			if(c<coins)return false;
 			int co=c-coins;
+			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			p.sendMessage(Text.PREFIX.getText()+Text.COINS_DEL.getText(coins));
 		}else{
-			int c = getCoins(UtilPlayer.getRealUUID(p));
+			int c = getCoins(p);
 			if(c<coins)return false;
 			int co=c-coins;
 			change_coins.remove(UtilPlayer.getRealUUID(p));
+			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
 			p.sendMessage(Text.PREFIX.getText()+Text.COINS_DEL.getText(coins));
@@ -255,14 +229,16 @@ public class Coins implements Listener{
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
 		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coins=coins*2;
 		if(!save){
-			int c = getCoins(UtilPlayer.getRealUUID(p));
+			int c = getCoins(p);
 			int co=c+coins;
+			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			p.sendMessage(Text.PREFIX.getText()+Text.COINS_ADD.getText(coins));
 		}else{
-			int c = getCoins(UtilPlayer.getRealUUID(p));
+			int c = getCoins(p);
 			int co=c+coins;
 			change_coins.remove(UtilPlayer.getRealUUID(p));
+			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
 			p.sendMessage(Text.PREFIX.getText()+Text.COINS_ADD.getText(coins));

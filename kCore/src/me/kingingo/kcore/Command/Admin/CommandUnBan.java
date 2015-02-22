@@ -21,10 +21,18 @@ public class CommandUnBan implements CommandExecutor{
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "unkban", sender = Sender.CONSOLE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(args.length==2){
-			UUID uuid = UtilPlayer.getUUID(args[0], mysql);
-			mysql.Update("UPDATE BG_BAN SET aktiv='false' WHERE name_uuid='" + uuid + "' AND level='"+Integer.valueOf(args[1])+"'");
-			mysql.Update("UPDATE BG_ZEITBAN SET aktiv='false' WHERE name_uuid='" + uuid + "'");
-			System.err.println("[UnkBan] "+args[0]+" wurde entbannt");
+			try{
+				int i = Integer.valueOf(args[1]);
+				UUID uuid = UtilPlayer.getUUID(args[0], mysql);
+				System.out.println("UUID : "+uuid);
+				mysql.Update("UPDATE BG_BAN SET aktiv='false' WHERE name_uuid='" + uuid + "' AND level='"+i+"'");
+				mysql.Update("UPDATE BG_ZEITBAN SET aktiv='false' WHERE name_uuid='" + uuid + "'");
+				mysql.Update("UPDATE BG_BAN SET aktiv='false' WHERE name='" + args[0].toLowerCase() + "' AND level='"+i+"'");
+				mysql.Update("UPDATE BG_ZEITBAN SET aktiv='false' WHERE name='" + args[0].toLowerCase() + "'");
+				System.err.println("[UnkBan] "+args[0]+" wurde entbannt");
+			}catch(NumberFormatException e){
+				System.out.println("Das ist keine Zahl "+args[1]);
+			}
 		}
 		return false;
 	}
