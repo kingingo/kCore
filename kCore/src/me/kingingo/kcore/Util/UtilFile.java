@@ -21,6 +21,74 @@ import java.util.zip.ZipFile;
 public class UtilFile
 {
 	
+	public static void listDir(File dir) {
+
+		File[] files = dir.listFiles();
+		if (files != null) {
+			for (int i = 0; i < files.length; i++) {
+				System.out.print(files[i].getAbsolutePath());
+				if (files[i].isDirectory()) {
+					System.out.print(" (Ordner)\n");
+					listDir(files[i]); // ruft sich selbst mit dem 
+						// Unterverzeichnis als Parameter auf
+					}
+				else {
+					System.out.print(" (Datei)\n");
+				}
+			}
+		}
+	}
+	
+	public static void copyDir(File quelle, File ziel) throws FileNotFoundException, IOException {
+		
+		File[] files = quelle.listFiles();
+		File newFile = null; // in diesem Objekt wird für jedes File der Zielpfad gespeichert.
+				     // 1. Der alte Zielpfad
+				     // 2. Das systemspezifische Pfadtrennungszeichen
+				     // 3. Der Name des aktuellen Ordners/der aktuellen Datei
+		ziel.mkdirs();	     // erstellt alle benötigten Ordner
+		if (files != null) {
+			for (int i = 0; i < files.length; i++) {
+					newFile = new File(ziel.getAbsolutePath() + System.getProperty("file.separator") + files[i].getName());
+				if (files[i].isDirectory()) {
+					copyDir(files[i], newFile);
+				}
+				else {
+					copyFile(files[i], newFile);
+				}
+			}
+		}
+	}
+	
+	public long getDirSize(File dir) {
+		
+		long size = 0;
+		File[] files = dir.listFiles();
+		if (files != null) {
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					size += getDirSize(files[i]); // Gesamtgröße des Verzeichnisses aufaddieren
+				}
+				else {
+					size += files[i].length(); // Größe der Datei aufaddieren
+				}
+			}
+		}
+		return size;
+	}
+	
+	public static void copyFile(File file, File ziel) throws FileNotFoundException, IOException {
+		
+		BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(ziel, true));
+		int bytes = 0;
+		while ((bytes = in.read()) != -1) { // Datei einlesen
+			out.write(bytes); // Datei schreiben
+		}
+		in.close();
+		out.close();
+	}
+	
 	public static boolean existPath(File path){
 		return path.exists();
 	}
