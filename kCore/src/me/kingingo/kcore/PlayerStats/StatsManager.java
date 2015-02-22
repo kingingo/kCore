@@ -88,15 +88,15 @@ public class StatsManager implements Listener{
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
 	
-	public HashMap<Integer,String> getRanking(Stats s,int i){
-		HashMap<Integer,String> list = new HashMap<>();
+	public HashMap<Integer,UUID> getRanking(Stats s,int i){
+		HashMap<Integer,UUID> list = new HashMap<>();
 	    try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` ORDER BY "+s.getTYP()+" DESC LIMIT "+i+";");
+	      ResultSet rs = mysql.Query("SELECT `uuid` FROM `users_"+typ.getKürzel()+"` ORDER BY "+s.getTYP()+" DESC LIMIT "+i+";");
 
 	      int zahl = 1;
 	      while (rs.next()) {
-	    	  list.put(zahl, rs.getString(1));
+	    	  list.put(zahl, UUID.fromString(rs.getString(1)));
 	    	  zahl++;
 	      }
 
@@ -356,6 +356,21 @@ public class StatsManager implements Listener{
 		return done;
 	}
 	
+	public String getName(UUID uuid){
+		String name="";
+		try
+	    {
+	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+uuid+"'");
+	      while (rs.next()) {
+	    	  name=rs.getString(1);
+	      }
+	      rs.close();
+	    } catch (Exception err) {
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
+	    }
+		return name;
+	}
+	
 	public String getStringWithString(Stats s,String p){
 		return getMysql().getString("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p+"'");
 	}
@@ -366,6 +381,18 @@ public class StatsManager implements Listener{
 	
 	public Integer getIntWithString(Stats s,String p){
 		return getMysql().getInt("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE player= '"+p+"'");
+	}
+	
+	public String getStringWithUUID(Stats s,UUID p){
+		return getMysql().getString("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+p+"'");
+	}
+	
+	public Double getDoubleWithUUID(Stats s,UUID p){
+		return getMysql().getDouble("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+p+"'");
+	}
+	
+	public Integer getIntWithUUID(Stats s,UUID p){
+		return getMysql().getInt("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+p+"'");
 	}
 	
 	public String getStringWithUUID(Stats s,String p){
