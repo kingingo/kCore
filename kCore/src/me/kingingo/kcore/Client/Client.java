@@ -72,7 +72,7 @@ public class Client {
 		                 out.flush();
 		                 Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent("ping"));
 		                 while(in.hasNext()){
-		                	Bukkit.getPluginManager().callEvent(new ClientReceiveMessageEvent(in.nextLine()));
+		                	Bukkit.getPluginManager().callEvent(new ClientReceiveMessageEvent(in.nextLine().replaceAll("&", "§")));
 		                 }
 		                 disconnect(true);
 		        	 }catch (Exception e){
@@ -104,6 +104,7 @@ public class Client {
 	
 	public void sendMessageToServer(String m){
 		if(getName().equalsIgnoreCase("TEST-SERVER"))return;
+		m=m.replaceAll("§", "&");
 		out.println(m);
 		out.flush();
 		Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent(m));

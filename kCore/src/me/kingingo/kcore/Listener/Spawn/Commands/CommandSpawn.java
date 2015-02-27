@@ -23,13 +23,11 @@ public class CommandSpawn implements CommandExecutor{
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "spawn", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		Player player = (Player)sender;
-		if(listener.getPermManager().hasPermission(player, Permission.SPAWN)){
-			if(listener.getPermManager().hasPermission(player, Permission.SPAWN_IGNORE_DELAY)){
-				listener.TeleportToSpawn(player);
-			}else{
-				listener.getTeleport_loc().put(player, player.getLocation());
-				listener.getTeleport().put(player, (System.currentTimeMillis()+(TimeSpan.SECOND*5)) );
-			}
+		if(listener.getPermManager().hasPermission(player, Permission.SPAWN_IGNORE_DELAY)){
+			listener.TeleportToSpawn(player);
+		}else{
+			listener.getTeleport_loc().put(player, player.getLocation());
+			listener.getTeleport().put(player, (System.currentTimeMillis()+(TimeSpan.SECOND*5)) );
 		}
 		return false;
 	}
