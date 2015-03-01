@@ -12,12 +12,9 @@ import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Hologram implements Listener{
@@ -26,21 +23,22 @@ public class Hologram implements Listener{
 	private HashMap<NameTagMessage, Integer> list = new HashMap<NameTagMessage,Integer>();
 	@Setter
 	@Getter
-	private boolean protocollib=false;
+	private boolean protocollib=true;
 	
 	public Hologram(JavaPlugin plugin){
-		if(Bukkit.getPluginManager().getPlugin("ProtocolLib")==null)this.protocollib=true;
-		if(!this.protocollib)Bukkit.getPluginManager().registerEvents(this, plugin);
-		System.out.println("PROTOCOL: "+this.protocollib);
-		
-		//new HologramsPatcher(plugin);
+		if(Bukkit.getPluginManager().getPlugin("ProtocolLib")==null){
+			this.protocollib=false;
+		}else{
+			Bukkit.getPluginManager().registerEvents(this, plugin);
+		}
+		System.out.println("[Hologram] ProtocolLib: "+this.protocollib);
 	}
 	
 	HashMap<NameTagMessage,Integer> clone;
 	@EventHandler
 	public void Update(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC)return;
-		if(this.protocollib)return;
+		if(!this.protocollib)return;
 		if(this.list.isEmpty())return;
 		clone=(HashMap<NameTagMessage,Integer>)list.clone();
 		for(NameTagMessage message : clone.keySet()){
@@ -72,7 +70,7 @@ public class Hologram implements Listener{
 	
 	//--
 	public NameTagMessage sendText(final Player p, Location loc,int time, String... msg) {
-		if(this.protocollib)return null;
+		if(!this.protocollib)return null;
 		if(UtilPlayer.getVersion(p)>=47)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
@@ -86,7 +84,7 @@ public class Hologram implements Listener{
 	}
 	
 	public NameTagMessage sendText(final Player p, Location loc, String... msg) {
-		if(this.protocollib)return null;
+		if(!this.protocollib)return null;
 		if(UtilPlayer.getVersion(p)>=47)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
@@ -99,7 +97,7 @@ public class Hologram implements Listener{
 	}
 	
 	public NameTagMessage sendText(final Player p, Location loc,int time, String msg) {
-		if(this.protocollib)return null;
+		if(!this.protocollib)return null;
 		if(UtilPlayer.getVersion(p)>=47)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
@@ -113,7 +111,7 @@ public class Hologram implements Listener{
 	}
 	
 	public NameTagMessage sendText(final Player p, Location loc, String msg) {
-		if(this.protocollib)return null;
+		if(!this.protocollib)return null;
 		if(UtilPlayer.getVersion(p)>=47)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
@@ -128,7 +126,7 @@ public class Hologram implements Listener{
 	//--
 
 	public NameTagMessage sendTextAll(Location loc, String... msg) {
-		if(this.protocollib)return null;
+		if(!this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			for (Player ps : UtilServer.getPlayers()){
@@ -144,7 +142,7 @@ public class Hologram implements Listener{
 	}
 	
 	public NameTagMessage sendTextAll(Location loc, String msg) {
-		if(this.protocollib)return null;
+		if(!this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			for (Player ps : UtilServer.getPlayers()){
@@ -160,7 +158,7 @@ public class Hologram implements Listener{
 	}
 	
 	public NameTagMessage sendTextAll(Location loc,int time, String... msg) {
-		if(this.protocollib)return null;
+		if(!this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			list.put(message, time);
@@ -177,7 +175,7 @@ public class Hologram implements Listener{
 	}
 	
 	public NameTagMessage sendTextAll(Location loc,int time, String msg) {
-		if(this.protocollib)return null;
+		if(!this.protocollib)return null;
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			list.put(message, time);

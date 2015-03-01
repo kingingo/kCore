@@ -3,10 +3,8 @@ package me.kingingo.kcore.Scoreboard;
 import java.util.ArrayList;
 
 import lombok.Getter;
-import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -18,15 +16,60 @@ public class PlayerScoreboard {
 	@Getter
 	Scoreboard board;
 	@Getter
-	Player p;
+	ArrayList<Player> players;
 	
-	public PlayerScoreboard(Player p){
-		this.p=p;
+	public PlayerScoreboard(){
+		this.players=new ArrayList<Player>();
 		this.board=Bukkit.getScoreboardManager().getNewScoreboard();
 	}
 	
+	public PlayerScoreboard(Player player){
+		this.players=new ArrayList<Player>();
+		this.players.add(player);
+		this.board=Bukkit.getScoreboardManager().getNewScoreboard();
+	}
+	
+	public PlayerScoreboard(ArrayList<Player> players){
+		this.players=players;
+		this.board=Bukkit.getScoreboardManager().getNewScoreboard();
+	}
+	
+	public PlayerScoreboard(Player[] players){
+		this.players=new ArrayList<Player>();
+		for(Player player : players)this.players.add(player);
+		this.board=Bukkit.getScoreboardManager().getNewScoreboard();
+	}
+	
+	public void resetScoreboard(){
+		this.board=Bukkit.getScoreboardManager().getNewScoreboard();
+		for(Player player : this.players)player.setScoreboard(this.board);
+		this.players.clear();
+		this.players=null;
+		this.board=null;
+	}
+	
+	public void addPlayer(Player player,boolean set){
+		this.players.add(player);
+		if(set)player.setScoreboard(board);
+	}
+	
+	public void removePlayer(Player player){
+		if(this.players.contains(player)){
+			this.players.remove(player);
+			player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+		}
+	}
+	
+	public void setBoard(Player player){
+		if(players.contains(player)){
+			player.setScoreboard(board);
+		}else{
+			addPlayer(player, true);
+		}
+	}
+	
 	public void setBoard(){
-		p.setScoreboard(board);
+		for(Player player: players)player.setScoreboard(board);
 	}
 	
 	public void addPlayerToTeam(String Team,Player p){
