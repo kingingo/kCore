@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Inventory.Item;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 
@@ -9,14 +10,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class ButtonBase implements IButton{
-	
+
+	@Setter
 	private Click click;
+	@Setter
 	@Getter
 	private String name;
+	@Setter
 	@Getter
 	private String[] description;
+	@Setter
 	@Getter
 	private ItemStack itemStack;
+	@Getter
+	@Setter
+	private int slot;
 	
 	public ButtonBase(Click click,Material material,String name,String[] description){
 		this.click=click;
@@ -48,6 +56,11 @@ public class ButtonBase implements IButton{
 		this.click=click;
 		if(item.hasItemMeta()&&item.getItemMeta().hasDisplayName())this.name=item.getItemMeta().getDisplayName();
 		this.itemStack=item;
+	}
+	
+	public ButtonBase(Click click){
+		this.click=click;
+		this.itemStack=null;
 	}
 	
 	public void Clicked(Player player, ActionType type,Object object) {

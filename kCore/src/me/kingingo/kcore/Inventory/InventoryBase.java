@@ -68,7 +68,6 @@ public class InventoryBase extends kListener{
 	}
 	
 	public InventoryPageBase get(Inventory inv){
-		
 		for(InventoryPageBase page : pages){
 			if(page.getName().equalsIgnoreCase(inv.getName())&&page.getSize()==inv.getSize()&&isSameInventory(page,inv)){
 				return page;
@@ -84,8 +83,7 @@ public class InventoryBase extends kListener{
 		return null;
 	}
 	
-	public static boolean isSameInventory(Inventory first, Inventory second)
-	{
+	public static boolean isSameInventory(Inventory first, Inventory second){
 	    return ((CraftInventory) first).getInventory().equals(((CraftInventory) second).getInventory());
 	}
 	
@@ -109,8 +107,8 @@ public class InventoryBase extends kListener{
 			if(page!=null){
 				ev.setCancelled(true);
 				p=(Player)ev.getWhoClicked();
-				if(ClickType.LEFT==ev.getClick())page.useButton(p, ActionType.L, ev.getCurrentItem());
-				if(ClickType.RIGHT==ev.getClick())page.useButton(p, ActionType.R, ev.getCurrentItem());
+				if(ClickType.LEFT==ev.getClick())page.useButton(p, ActionType.L, ev.getCurrentItem(),ev.getSlot());
+				if(ClickType.RIGHT==ev.getClick())page.useButton(p, ActionType.R, ev.getCurrentItem(),ev.getSlot());
 			}
 	}
 	

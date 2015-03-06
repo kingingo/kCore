@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
@@ -23,7 +24,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -40,7 +40,7 @@ public class TreasureChest extends kListener{
 	
 	public interface TreasureChestHandler {
         public void onTreasureChest(Player player,Location loc);
-        public Inventory getInventory();
+        public InventoryBase getInventory();
     }
 	
 	public TreasureChest(JavaPlugin instance,TreasureChestType type){
@@ -62,24 +62,8 @@ public class TreasureChest extends kListener{
 			for(BlockState state : blocke.get(ev.getPlayer()) ){
 				state.update(true);
 			}
-			switch(getType()){
-			case NETHER:
-				UtilParticle.FLAME.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				break;
-			case SNOW:
-				UtilParticle.FIREWORKS_SPARK.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				break;
-			case END:
-				UtilParticle.PORTAL.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				break;
-			case SKY:
-				UtilParticle.DRIP_LAVA.display(1F, 1F, 1F, 0.002F,100, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				UtilParticle.DRIP_WATER.display(1F, 1F, 1F, 0.002F, 100, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				break;
-			default:
-				UtilParticle.FIREWORKS_SPARK.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				break;
-			}
+
+			PlayEffect( ((Player)ev.getPlayer()) );
 			blocke.remove(ev.getPlayer());
 		}
 	}
@@ -100,7 +84,7 @@ public class TreasureChest extends kListener{
 		if(UtilEvent.isAction(ev, ActionType.R_BLOCK)){
 			if(list.containsKey(ev.getPlayer())&&UtilItem.ItemNameEquals(ev.getPlayer().getItemInHand(), getTreasurechest())){
 				Location loc = ev.getClickedBlock().getLocation();
-				if(Near(loc)){
+				if(!Near(loc)){
 				  ev.getPlayer().sendMessage(Text.PREFIX.getText()+Text.TREASURE_CHEST_TOO_NEAR.getText());
 				  ev.setCancelled(true);
 				  return;
@@ -112,17 +96,13 @@ public class TreasureChest extends kListener{
 				loc.setYaw((float) (((loc.getYaw() + 90)  * Math.PI) / 180));
 				loc.setPitch((float) (((loc.getPitch() + 90) * Math.PI) / 180));
 				ev.getPlayer().teleport(loc);
-				ev.getPlayer().openInventory(list.get(ev.getPlayer()).getInventory());
+				ev.getPlayer().openInventory(list.get(ev.getPlayer()).getInventory().getMain());
 			}
 		}
 	}
 	
 	public void setMaterial(Player player,Location loc, int x,int y,int z,Material[] m){
-		Location l = new Location(loc.getWorld(),loc.getBlockX()+x,loc.getBlockY()+y,loc.getBlockZ()+z);
-		if(!blocke.containsKey(player))blocke.put(player, new ArrayList<BlockState>());
-		blocke.get(player).add(l.getBlock().getState());
-		l.getBlock().setType(m[UtilMath.r(m.length)]);
-		UtilParticle.displayBlockCrack(l.getBlock().getTypeId(), l.getBlock().getData(), 1F, 1F, 1F, 20, l, 5.0);
+		setMaterial(player, loc, x, y, z, m[UtilMath.r(m.length)] );
 	}
 	
 	public void setMaterial(Player player,Location loc, int x,int y,int z,Material m){
@@ -141,25 +121,30 @@ public class TreasureChest extends kListener{
 			for(BlockState state : blocke.get(ev.getPlayer()) ){
 				state.update(true);
 			}
-			switch(getType()){
-			case NETHER:
-				UtilParticle.FLAME.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				break;
-			case SNOW:
-				UtilParticle.FIREWORKS_SPARK.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				break;
-			case END:
-				UtilParticle.PORTAL.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				break;
-			case SKY:
-				UtilParticle.DRIP_LAVA.display(1F, 1F, 1F, 0.002F,100, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				UtilParticle.DRIP_WATER.display(1F, 1F, 1F, 0.002F, 100, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				break;
-			default:
-				UtilParticle.FIREWORKS_SPARK.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(ev.getPlayer()).get( 0 )).getLocation() , 5.0);
-				break;
-			}
+
+			PlayEffect(ev.getPlayer());
 			blocke.remove(ev.getPlayer());
+		}
+	}
+	
+	public void PlayEffect(Player p){
+		switch(getType()){
+		case NETHER:
+			UtilParticle.FLAME.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
+			break;
+		case SNOW:
+			UtilParticle.FIREWORKS_SPARK.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
+			break;
+		case END:
+			UtilParticle.PORTAL.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
+			break;
+		case SKY:
+			UtilParticle.SMOKE.display(1F, 1F, 1F, 0.0002F,50, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
+			UtilParticle.HEART.display(1F, 1F, 1F, 0.0002F,50, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
+			break;
+		default:
+			UtilParticle.FIREWORKS_SPARK.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
+			break;
 		}
 	}
 	
@@ -169,24 +154,7 @@ public class TreasureChest extends kListener{
 		if(blocke.isEmpty())return;
 		for(Player p : blocke.keySet()){
 			if(!blocke.get(p).isEmpty()){
-				switch(getType()){
-				case NETHER:
-					UtilParticle.FLAME.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
-					break;
-				case SNOW:
-					UtilParticle.FIREWORKS_SPARK.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
-					break;
-				case END:
-					UtilParticle.PORTAL.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
-					break;
-				case SKY:
-					UtilParticle.DRIP_LAVA.display(1F, 1F, 1F, 0.002F,100, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
-					UtilParticle.DRIP_WATER.display(1F, 1F, 1F, 0.002F, 100, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
-					break;
-				default:
-					UtilParticle.FIREWORKS_SPARK.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
-					break;
-				}
+				PlayEffect(p);
 			}
 		}
 	}
@@ -226,6 +194,5 @@ public class TreasureChest extends kListener{
 		}
 		setMaterial(player, loc, 1, 1, -2, getType().getBlockType());
 		setMaterial(player, loc, 2, 1, -1, getType().getBlockType());
-	
 	}
 }

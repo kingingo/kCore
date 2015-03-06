@@ -29,9 +29,10 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 		register(instance);
 	}
 	
-	public void useButton(Player player,ActionType type,ItemStack item){
+	public void useButton(Player player,ActionType type,ItemStack item,int slot){
 		for(IButton button : buttons){
-			if(UtilItem.ItemNameEquals(button.getItemStack(), item)){
+			if(UtilItem.ItemNameEquals(button.getItemStack(), item)
+					|| (button.getItemStack()==null&&slot==button.getSlot()) ){
 				button.Clicked(player, type,item);
 				break;
 			}
@@ -94,11 +95,14 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 	}
 	
 	public void addButton(IButton button){
-		addItem(button.getItemStack());
+		int slot=firstEmpty();
+		button.setSlot(slot);
+		setItem(slot, button.getItemStack());
 		this.buttons.add(button);
 	}
 	
 	public void addButton(int slot,IButton button){
+		button.setSlot(slot);
 		setItem(slot, button.getItemStack());
 		this.buttons.add(button);
 	}

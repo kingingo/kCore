@@ -183,6 +183,7 @@ kFLY_ON("Fly wurde aktiviert."),
 kFLY_OFF("Fly wurde deaktiviert."),
 SPAWN_SET("§aDer Spawn wurde gespeichert!"),
 SPAWN_TELEPORT("Du wurdest zum Spawn Teleportiert!"),
+GIVEALL("§c%§b hat jeden Spieler %x §a% §bgegeben."),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 private String t;

@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Inventory.Item;
 
 import lombok.Getter;
-import me.kingingo.kcore.Permission.Permission;
+import lombok.Setter;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 
@@ -11,13 +11,19 @@ import org.bukkit.inventory.ItemStack;
 
 public class SalesPackageBase implements IButton{
 
+	@Setter
 	@Getter
 	private String name;
 	@Getter
+	@Setter
 	private String[] description;
 	@Getter
+	@Setter
 	private ItemStack itemStack;
 	private Click click;
+	@Getter
+	@Setter
+	private int slot;
 	
 	public SalesPackageBase(Click click,Material material,String name,String[] description){
 		this.name=name;
