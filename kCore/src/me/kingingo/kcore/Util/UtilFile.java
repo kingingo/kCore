@@ -128,16 +128,30 @@ public class UtilFile
 	
 	public static String[] loadFile(File pfad){
 		try {
-			String line=null;
 			FileInputStream fstream = new FileInputStream(pfad);
 			DataInputStream in = new DataInputStream(fstream);
 		    BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		    String[] list = new String[br.read()];
+		    Object[] objects=br.lines().toArray().clone();
 		    
-		    int i = 0;
-		    while((line=br.readLine()) != null){
-		    	list[i]=line;
+		    fstream.close();
+		    in.close();
+		    br.close();
+		    
+		    String[] list = new String[objects.length];
+		    
+		    int a = 0;
+		    for(Object i : objects){
+		    	if(i instanceof String){	
+		    		list[a]=((String)i);
+		    		a++;
+			    }
 		    }
+		    
+		    objects=null;
+		    a=0;
+		    fstream=null;
+		    in=null;
+		    br=null;
 		    
 		    return list;
 		} catch (FileNotFoundException e) {

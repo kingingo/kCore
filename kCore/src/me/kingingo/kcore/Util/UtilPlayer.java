@@ -497,12 +497,21 @@ public class UtilPlayer
     }
     return players;
   }
-
+  
+  public static void damage(Player player, double prozent){
+	  health(player, -((prozent/100)*((CraftPlayer)player).getHealth()));
+  }
+  
   public static void health(Player player, double mod)
   {
     if (player.isDead()) {
       return;
     }
+    
+    if(mod<0){
+    	player.damage(0);
+    }
+    
     double health = ((CraftPlayer)player).getHealth() + mod;
 
     if (health < 0.0D) {

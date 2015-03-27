@@ -21,13 +21,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class PermissionManager {
+public class PermissionManager_old1 {
 	@Getter
 	private HashMap<UUID,List<Permission>> plist = new HashMap<>();
 	@Getter
 	private HashMap<UUID,String> pgroup = new HashMap<>();
 	@Getter
-	private HashMap<String,Group> groups = new HashMap<>();
+	private HashMap<String,List<Permission>> groups = new HashMap<>();
+	@Getter
+	private HashMap<String,String> gprefix = new HashMap<>();
 	@Getter
 	private MySQL mysql;
 	@Getter
@@ -36,26 +38,23 @@ public class PermissionManager {
 	@Getter
 	private JavaPlugin instance;
 	private PacketManager packetManager;
-	@Getter
-	private GroupTyp typ;
 	
-	public PermissionManager(JavaPlugin instance,GroupTyp typ,PacketManager packetManager,MySQL mysql){
+	public PermissionManager_old1(JavaPlugin instance,PacketManager packetManager,MySQL mysql){
 		this.mysql=mysql;
 		this.instance=instance;
 		this.packetManager=packetManager;
-		this.typ=typ;
-		Bukkit.getPluginManager().registerEvents(new PermissionListener(this), getInstance());
+		//Bukkit.getPluginManager().registerEvents(new PermissionListener(this), getInstance());
 	}
 	
 	public String getPrefix(Player p){
-		if(pgroup.containsKey(UtilPlayer.getRealUUID(p)))return groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).getPrefix();
+		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&&gprefix.containsKey(pgroup.get(UtilPlayer.getRealUUID(p))))return gprefix.get(pgroup.get(UtilPlayer.getRealUUID(p)));
 		return C.cGray;
 	}
 	
 	public List<Permission> getPermissionList(Player p){
 		ArrayList<Permission> list = new ArrayList<>();
 		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))){
-			for(Permission perm : groups.get(p).getPerms()){
+			for(Permission perm : groups.get(p)){
 				list.add(perm);
 			}
 		}
@@ -68,7 +67,7 @@ public class PermissionManager {
 	}
 	
 	public boolean hasPermission(Player p,Permission perm){
-		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&& (groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).is(perm)||groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).is(Permission.ALL_PERMISSION)) )return true;
+		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&& (groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).contains(perm)||groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).contains(Permission.ALL_PERMISSION)) )return true;
 		if(plist.containsKey(UtilPlayer.getRealUUID(p))&& (plist.get(UtilPlayer.getRealUUID(p)).contains(perm)||plist.get(UtilPlayer.getRealUUID(p)).contains(Permission.ALL_PERMISSION)) )return true;
 		return false;
 	}
@@ -77,7 +76,7 @@ public class PermissionManager {
 		if(getGroup(uuid)!=null){
 			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE uuid='" + uuid + "' AND permission='none'");
 		}else{
-			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','none','"+group+"','none','"+uuid+"');");
+			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','none','"+group+"','"+uuid+"');");
 		}
 		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(uuid));
 	}
@@ -86,7 +85,7 @@ public class PermissionManager {
 		if(getGroup(UtilPlayer.getRealUUID(p))!=null){
 			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE uuid='" + UtilPlayer.getRealUUID(p) + "' AND permission='none'");
 		}else{
-			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','none','"+group+"','none','"+UtilPlayer.getRealUUID(p)+"');");
+			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','none','"+group+"','"+UtilPlayer.getRealUUID(p)+"');");
 		}
 		pgroup.remove(UtilPlayer.getRealUUID(p));
 		pgroup.put(UtilPlayer.getRealUUID(p), group);
@@ -95,23 +94,23 @@ public class PermissionManager {
 	
 	
 	public void addPermission(UUID uuid, String perm){
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','"+perm+"','none','none','"+uuid+"');");
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','"+perm+"','none','"+uuid+"');");
 	}
 	
 	public void addPermission(Player p, String perm){
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','"+perm+"','none','none','"+UtilPlayer.getRealUUID(p)+"');");
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','"+perm+"','none','"+UtilPlayer.getRealUUID(p)+"');");
 	}
 	
 	public void addPermission(UUID uuid, Permission perm){
 		if(!plist.containsKey(uuid))plist.put(uuid, new ArrayList<Permission>());
 		plist.get(uuid).add(perm);
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','"+perm.getPermissionToString()+"','none','none','"+uuid+"');");
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','"+perm.getPermissionToString()+"','none','"+uuid+"');");
 	}
 	
 	public void addPermission(Player p, Permission perm){
 		if(!plist.containsKey(UtilPlayer.getRealUUID(p)))plist.put(UtilPlayer.getRealUUID(p), new ArrayList<Permission>());
 		plist.get(UtilPlayer.getRealUUID(p)).add(perm);
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','"+perm.getPermissionToString()+"','none','none','"+UtilPlayer.getRealUUID(p)+"');");
+		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,uuid) values ('none','"+perm.getPermissionToString()+"','none','"+UtilPlayer.getRealUUID(p)+"');");
 	}
 	
 	public boolean setTabList(Player p){
@@ -124,8 +123,8 @@ public class PermissionManager {
 		if(p.isCustomNameVisible()){
 			name=p.getCustomName();
 		}
-		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&&!invisble){
-			String t = groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).getPrefix();
+		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&&gprefix.containsKey(pgroup.get(UtilPlayer.getRealUUID(p)))&&!invisble){
+			String t = gprefix.get(pgroup.get(UtilPlayer.getRealUUID(p)));
 			int i = t.indexOf("§");
 			t=""+t.toCharArray()[i]+t.toCharArray()[i+1];
 			if(name.length()>13){
@@ -167,22 +166,6 @@ public class PermissionManager {
 		return g;
 	}
 	
-	public GroupTyp getGroupTyp(String group){
-		GroupTyp typ = null;
-		try {
-			ResultSet rs = mysql.Query("SELECT grouptyp FROM game_perm WHERE pgroup='"+group+"' AND uuid='none' AND permission='none'");
-
-			while (rs.next()) {
-				typ=GroupTyp.valueOf(rs.getString(1));
-			}
-
-			rs.close();
-		} catch (Exception err) {
-		  Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
-		}
-		return typ;
-	}
-	
 	public String getGroup(UUID uuid){
 		String g =null;
 		try {
@@ -206,39 +189,35 @@ public class PermissionManager {
 		if(g==null)g="default";
 		System.err.println("UUID: "+uuid+" group:"+g);
 		if(!groups.containsKey(g)){
-			GroupTyp typ = getGroupTyp(g);
-			if(typ==getTyp()||typ==GroupTyp.ALL){
-				groups.put(g, new Group(g,typ));
-				try
-			    {
-			      rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none' AND uuid='none'");
-			      while (rs.next()){
-			    	  permission=Permission.isPerm(rs.getString(1));
-			    	  if(permission==Permission.NONE)continue;
-			    	  groups.get(g).add(permission);
-			      }
-			      rs.close();
-			    }
-			    catch (SQLException e)
-			    {
-			      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
-			    }
-				
-				try {
-					rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND uuid='none'");
+			groups.put(g, new ArrayList<Permission>());
+			try
+		    {
+		      rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none' AND uuid='none'");
+		      while (rs.next()){
+		    	  permission=Permission.isPerm(rs.getString(1));
+		    	  if(permission==Permission.NONE)continue;
+		    	  groups.get(g).add(permission);
+		      }
+		      rs.close();
+		    }
+		    catch (SQLException e)
+		    {
+		      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
+		    }
+		}
+		
+		if(!gprefix.containsKey(g)){
+			try {
+				rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND uuid='none'");
 
-					while (rs.next()) {
-						groups.get(g).setPrefix(rs.getString(1));
-					}
-
-					rs.close();
-				} catch (Exception err) {
-					Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
+				while (rs.next()) {
+					gprefix.put(g, rs.getString(1));
 				}
-			}else{
-				g="default";
+
+				rs.close();
+			} catch (Exception err) {
+				Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
 			}
-			
 		}
 		
 		try
@@ -263,38 +242,34 @@ public class PermissionManager {
 	public void loadGroup(String g){
 		if(!groups.containsKey(g)){
 			Permission permission;
-			GroupTyp typ = getGroupTyp(g);
-			
-			if(typ==GroupTyp.ALL||typ==getTyp()){
-				groups.put(g, new Group(g,typ));
-				try
-			    {
-				ResultSet rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none' AND uuid='none'");
-			      while (rs.next()){
-			    	  permission=Permission.isPerm(rs.getString(1));
-			    	  if(permission==Permission.NONE)continue;
-			    	  groups.get(g).add(permission);
-			      }
-			      rs.close();
-			    }
-			    catch (SQLException e)
-			    {
-			      Bukkit.getServer().getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
-			    }
-				
-				try {
-					ResultSet rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND uuid='none'");
+			groups.put(g, new ArrayList<Permission>());
+			try
+		    {
+			ResultSet rs = mysql.Query("SELECT permission FROM game_perm WHERE pgroup='"+g+"' AND prefix='none' AND uuid='none'");
+		      while (rs.next()){
+		    	  permission=Permission.isPerm(rs.getString(1));
+		    	  if(permission==Permission.NONE)continue;
+		    	  groups.get(g).add(permission);
+		      }
+		      rs.close();
+		    }
+		    catch (SQLException e)
+		    {
+		      Bukkit.getServer().getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
+		    }
+		}
+		if(!gprefix.containsKey(g)){
+			try {
+				ResultSet rs = mysql.Query("SELECT prefix FROM game_perm WHERE pgroup='"+ g.toLowerCase() + "' AND permission='none' AND uuid='none'");
 
-					while (rs.next()) {
-						groups.get(g).setPrefix(rs.getString(1));
-					}
-
-					rs.close();
-				} catch (Exception err) {
-					Bukkit.getServer().getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
+				while (rs.next()) {
+					gprefix.put(g, rs.getString(1));
 				}
+
+				rs.close();
+			} catch (Exception err) {
+				Bukkit.getServer().getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
 			}
-			
 		}
 	}
 	

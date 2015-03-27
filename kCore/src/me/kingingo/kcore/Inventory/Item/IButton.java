@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Inventory.Item;
 
+import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.entity.Player;
@@ -7,6 +8,8 @@ import org.bukkit.inventory.ItemStack;
 
 public abstract interface IButton{
   public abstract int getSlot();
+  public abstract InventoryPageBase getInventoryPageBase();
+  public abstract void setInventoryPageBase(InventoryPageBase inv);
   public abstract void setSlot(int slot);
   public abstract ItemStack getItemStack();
   public abstract void setItemStack(ItemStack item);

@@ -36,7 +36,7 @@ public class CommandTpa implements CommandExecutor{
 					if(getManager().getTeleport_anfrage().containsKey(tp))getManager().getTeleport_anfrage().remove(tp);
 					getManager().getTeleport_anfrage().put(tp, player);
 					player.sendMessage(Text.PREFIX.getText()+Text.TELEPORT_ANFRAGE_SENDER.getText(tp.getName()));
-					player.sendMessage(Text.PREFIX.getText()+Text.TELEPORT_ANFRAGE_EMPFÄNGER.getText(player.getName()));
+					tp.sendMessage(Text.PREFIX.getText()+Text.TELEPORT_ANFRAGE_EMPFÄNGER.getText(player.getName()));
 				}else{
 					player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[0]));
 				}

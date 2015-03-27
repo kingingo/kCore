@@ -26,7 +26,7 @@ public class CommandGiveAll implements CommandExecutor, Listener{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		if(cs instanceof Player){
 			Player p = (Player)cs;
-			if(permManager.hasPermission(p, Permission.COMMAND_MUTE_ALL)){
+			if(permManager.hasPermission(p, Permission.COMMAND_GIVE_ALL)){
 				for(Player player : UtilServer.getPlayers()){
 					if(player==p)continue;
 					player.getInventory().addItem(p.getItemInHand());

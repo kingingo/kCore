@@ -76,10 +76,7 @@ public class UtilWorldGuard {
 	
 	public static boolean RegionFlag(Location location,StateFlag flag){
 		if(worldGuard==null&&!checkWorldGuard())return false;
-		if (worldGuard.getRegionManager(location.getWorld()).getApplicableRegions(location).allows(flag)) {
-			return true;
-		}
-		return false;
+		return worldGuard.getRegionManager(location.getWorld()).getApplicableRegions(location).allows(flag);
 	}
 	
 }

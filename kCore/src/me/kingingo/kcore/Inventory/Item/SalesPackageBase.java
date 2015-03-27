@@ -2,6 +2,7 @@ package me.kingingo.kcore.Inventory.Item;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 
@@ -24,6 +25,9 @@ public class SalesPackageBase implements IButton{
 	@Getter
 	@Setter
 	private int slot;
+	@Getter
+	@Setter
+	private InventoryPageBase inventoryPageBase;
 	
 	public SalesPackageBase(Click click,Material material,String name,String[] description){
 		this.name=name;

@@ -47,7 +47,11 @@ public class SpawnListener extends kListener{
 		
 		if(UtilFile.existPath(new File(world.getName()+File.separator+"spawn.dat"))){
 			String[] list = UtilFile.loadFile(new File(world.getName()+File.separator+"spawn.dat"));
-			world.setSpawnLocation(Integer.valueOf(list[0]), Integer.valueOf(list[1]), Integer.valueOf(list[2]));
+			try{
+				world.setSpawnLocation(Integer.valueOf(list[0]), Integer.valueOf(list[1]), Integer.valueOf(list[2]));
+			}catch(NumberFormatException e){
+				Log("Fehler NumberFormatException beim laden der Location!");
+			}
 		}else{
 			world.setSpawnLocation(0, 90, 0);
 		}

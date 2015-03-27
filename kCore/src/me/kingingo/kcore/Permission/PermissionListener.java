@@ -46,7 +46,6 @@ public class PermissionListener implements Listener {
 		if(ev.getPacket() instanceof PERMISSION_GROUP_RELOAD){
 			PERMISSION_GROUP_RELOAD packet = (PERMISSION_GROUP_RELOAD)ev.getPacket();
 			manager.getGroups().remove(packet.getGroup().toLowerCase());
-			manager.getGprefix().remove(packet.getGroup().toLowerCase());
 			manager.loadGroup(packet.getGroup().toLowerCase());
 		}else if(ev.getPacket() instanceof PERMISSION_USER_RELOAD){
 			PERMISSION_USER_RELOAD packet = (PERMISSION_USER_RELOAD)ev.getPacket();

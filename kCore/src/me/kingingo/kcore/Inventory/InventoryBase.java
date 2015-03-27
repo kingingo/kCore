@@ -2,26 +2,19 @@ package me.kingingo.kcore.Inventory;
 
 import java.util.ArrayList;
 
-import javax.print.attribute.standard.Copies;
-
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
-import net.minecraft.server.v1_7_R4.IInventory;
 
 import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventory;
-import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryCustom;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class InventoryBase extends kListener{

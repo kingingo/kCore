@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
 import me.kingingo.kcore.Hologram.nametags.Events.HologramRemoveEvent;
+import me.kingingo.kcore.LogHandler.Event.LogEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;

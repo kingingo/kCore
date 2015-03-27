@@ -11,6 +11,7 @@ import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilItem;
+import me.kingingo.kcore.Villager.Event.VillagerShopEvent;
 import net.minecraft.server.v1_7_R4.EntityCreature;
 import net.minecraft.server.v1_7_R4.EntityHuman;
 import net.minecraft.server.v1_7_R4.EntityInsentient;
@@ -238,6 +239,10 @@ public class VillagerShop implements Listener {
 			if(ev.getRightClicked().getLocation().distance(getSpawn())<=3){
 				this.villager=ev.getRightClicked();
 				ev.setCancelled(true);
+				VillagerShopEvent event = new VillagerShopEvent(ev.getPlayer(), this);
+				Bukkit.getPluginManager().callEvent(event);
+				
+				if(event.isCancelled())return;
 				ev.getPlayer().openInventory(getInventory());
 			}
 		}
@@ -247,7 +252,10 @@ public class VillagerShop implements Listener {
 	public void Click(PlayerInteractEntityEvent ev){
 		if(ev.getRightClicked().getType()==type){
 			if(ev.getRightClicked().getEntityId()==villager.getEntityId()){
-				ev.setCancelled(true);
+				VillagerShopEvent event = new VillagerShopEvent(ev.getPlayer(), this);
+				Bukkit.getPluginManager().callEvent(event);
+				
+				if(event.isCancelled())return;
 				ev.getPlayer().openInventory(getInventory());
 			}
 		}

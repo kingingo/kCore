@@ -97,12 +97,14 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 	public void addButton(IButton button){
 		int slot=firstEmpty();
 		button.setSlot(slot);
+		button.setInventoryPageBase(this);
 		setItem(slot, button.getItemStack());
 		this.buttons.add(button);
 	}
 	
 	public void addButton(int slot,IButton button){
 		button.setSlot(slot);
+		button.setInventoryPageBase(this);
 		setItem(slot, button.getItemStack());
 		this.buttons.add(button);
 	}

@@ -1,23 +1,66 @@
 package me.kingingo.kcore.Util;
 
+import java.io.PrintStream;
+
+import lombok.Getter;
+import me.kingingo.kcore.LogHandler.Event.LogEvent;
 import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
-import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.Sound;
-import org.bukkit.FireworkEffect.Type;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.ItemStack;
 
-public class UtilServer
-{
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+
+public class UtilServer{
+	
+	@Getter
+	private static boolean loghandleradded = false;
+	
+	public static void addLogHandler(){
+		if(!isLoghandleradded()){
+		//s	Bukkit.getLogger().getLogger("Minecraft").addHandler(arg0);
+			
+			System.setOut(new PrintStream(System.out) {
+		        @Override
+		        public void println(String s) {
+		            super.println(s);
+		    		Bukkit.getPluginManager().callEvent(new LogEvent(s));
+		        }
+		    });
+			
+			if(Bukkit.getPluginManager().getPlugin("ProtocolLib")!=null){
+				ProtocolManager pro = ProtocolLibrary.getProtocolManager();
+				PrintStream print = (PrintStream)UtilReflection.getValue("output", pro.getAsynchronousManager().getErrorReporter());
+				if(print!=null){
+					UtilReflection.setValue("output", pro.getAsynchronousManager().getErrorReporter(), new PrintStream(print) {
+				        @Override
+				        public void println(String s) {
+				            super.println(s);
+				    		Bukkit.getPluginManager().callEvent(new LogEvent(s));
+				        }
+				    });
+				}else{
+					System.out.println("[kCore] ProtocolLib PrintStream == NULL");
+				}
+			}else{
+				System.setErr(new PrintStream(System.err) {
+			        @Override
+			        public void println(String s) {
+			            super.println(s);
+			    		Bukkit.getPluginManager().callEvent(new LogEvent(s));
+			        }
+			    });
+			}
+		}
+	}
 	
 	public static void spawnRabbit(Location loc){
 		final Skeleton skel1 = loc.getWorld().spawn(loc, Skeleton.class);

@@ -18,10 +18,10 @@ public class CommandkFly implements CommandExecutor{
 		this.permManager=permManager;
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "kfly", sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "kfly",alias={"fly"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		Player player = (Player)sender;
-		if(permManager.hasPermission(player, Permission.kFLY)){
+		if(permManager.hasPermission(player, Permission.kFLY)||player.hasPermission("epicpvp.kfly")){
 			if(player.getAllowFlight()){
 				player.setAllowFlight(false);
 				player.setFlying(false);

@@ -19,6 +19,7 @@ import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.Tokens;
 import me.kingingo.kcore.Util.UtilEvent;
+import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
@@ -273,7 +274,7 @@ public class KitShop implements Listener {
 						kit.addPlayer(p);
 						p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_ADD.getText(kit.getName()));
 						p.closeInventory();
-						p.getInventory().remove(p.getItemInHand());
+						UtilInv.remove(p, UtilItem.RenameItem(new ItemStack(Material.CHEST), "§bKitShop"), 1);
 					}else if(ev.getCurrentItem().getType()==Material.GLOWSTONE_DUST){
 						p.openInventory(getKaufen(kit));
 					}
