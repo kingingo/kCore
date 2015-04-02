@@ -25,24 +25,23 @@ import org.bukkit.util.Vector;
 public class CommandJump extends kListener implements CommandExecutor {
 
 	private JavaPlugin hub;
-	private HashMap<Location,Location> list = new HashMap<>();
+	private HashMap<Location,JumpPad> list = new HashMap<>();
 	private Player player;
 	
+	//new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+i+".fromX"),hub.getConfig().getInt("Config.Jump."+i+".fromY"),hub.getConfig().getInt("Config.Jump."+i+".fromZ"))
+	//new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+i+".toX"),hub.getConfig().getInt("Config.Jump."+i+".toY"),hub.getConfig().getInt("Config.Jump."+i+".toZ"))
 	public CommandJump(JavaPlugin hub){
 		super(hub,"Jump");
 		this.hub=hub;
 		for(int i = 0; i<50; i++){
 			if(hub.getConfig().contains("Config.Jump."+i+".fromX")){
-				list.put(new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+i+".fromX"),hub.getConfig().getInt("Config.Jump."+i+".fromY"),hub.getConfig().getInt("Config.Jump."+i+".fromZ")), new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+i+".toX"),hub.getConfig().getInt("Config.Jump."+i+".toY"),hub.getConfig().getInt("Config.Jump."+i+".toZ") ));
+				JumpPad jump = new JumpPad(new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+i+".fromX"),hub.getConfig().getInt("Config.Jump."+i+".fromY"),hub.getConfig().getInt("Config.Jump."+i+".fromZ")),new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+i+".toX"),hub.getConfig().getInt("Config.Jump."+i+".toY"),hub.getConfig().getInt("Config.Jump."+i+".toZ")));
+				list.put(new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+i+".fromX"),hub.getConfig().getInt("Config.Jump."+i+".fromY"),hub.getConfig().getInt("Config.Jump."+i+".fromZ")), jump);
 				Log("Load Jump-"+i);
 			}else{
 				break;
 			}
 		}
-	}
-	
-	private Vector calculate(Location from,Location to){
-		return UtilLocation.calculateVector(from,to).setY(12).multiply(from.distance(to)*0.4);
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "setjump", sender = Sender.PLAYER)
@@ -67,10 +66,16 @@ public class CommandJump extends kListener implements CommandExecutor {
 		if(ev.getType()!=UpdateType.FASTER)return;
 		for(Player player : UtilServer.getPlayers()){
 			for(Location loc : list.keySet()){
-				if(loc.getBlockX()==player.getLocation().getBlockX()&&loc.getBlockY()==player.getLocation().getBlockY()-1&&loc.getBlockZ()==player.getLocation().getBlockZ()){
-					player.setVelocity(calculate(player.getLocation(), list.get(loc)));
+				if( (loc.getBlockX()==player.getLocation().getBlockX() || loc.getBlockX()+1==player.getLocation().getBlockX() || loc.getBlockX()-1==player.getLocation().getBlockX())
+						&&loc.getBlockY()==player.getLocation().getBlockY()-1
+							&& (loc.getBlockZ()==player.getLocation().getBlockZ() || loc.getBlockZ()+1==player.getLocation().getBlockZ() || loc.getBlockZ()-1==player.getLocation().getBlockZ())){
+					list.get(loc).jump(player,0);
 				}
 			}
+		}
+		
+		for(int j = 0; j>list.values().size(); j++){
+			if(!((JumpPad)list.values().toArray()[j]).getJump().isEmpty())for(int i = 0; i<((JumpPad)list.values().toArray()[j]).getJump().size(); i++)((JumpPad)list.values().toArray()[j]).jump(player, ((JumpPad)list.values().toArray()[j]).getJump().get(((Player)((JumpPad)list.values().toArray()[j]).getJump().keySet().toArray()[i]))+1);
 		}
 	}
 	
@@ -82,7 +87,8 @@ public class CommandJump extends kListener implements CommandExecutor {
 			hub.getConfig().set("Config.Jump."+list.size()+".toY", ev.getPlayer().getLocation().getBlockY()-1);
 			hub.saveConfig();
 			ev.getPlayer().sendMessage(Text.PREFIX.getText()+"§cDie Jump Platte "+list.size()+" wurde gesetzt!");
-			list.put(new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+list.size()+".fromX"),hub.getConfig().getInt("Config.Jump."+list.size()+".fromY"),hub.getConfig().getInt("Config.Jump."+list.size()+".fromZ")), new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+list.size()+".toX"),hub.getConfig().getInt("Config.Jump."+list.size()+".toY"),hub.getConfig().getInt("Config.Jump."+list.size()+".toZ") ));
+			JumpPad jump = new JumpPad(new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+list.size()+".fromX"),hub.getConfig().getInt("Config.Jump."+list.size()+".fromY"),hub.getConfig().getInt("Config.Jump."+list.size()+".fromZ")),new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+list.size()+".toX"),hub.getConfig().getInt("Config.Jump."+list.size()+".toY"),hub.getConfig().getInt("Config.Jump."+list.size()+".toZ")));
+			list.put(new Location(Bukkit.getWorld("world"),hub.getConfig().getInt("Config.Jump."+list.size()+".fromX"),hub.getConfig().getInt("Config.Jump."+list.size()+".fromY"),hub.getConfig().getInt("Config.Jump."+list.size()+".fromZ")), jump);
 			player=null;
 		}
 	}

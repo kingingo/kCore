@@ -196,7 +196,7 @@ public class Coins implements Listener{
 	}
 	
 	public void addCoins(UUID uuid,Integer coi){
-		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coi=coi*2;
+		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.OSTERN))coi=coi*2;
 		change_coins.remove(uuid);
 		int c = getCoins(uuid);
 		int co=c+coi;
@@ -227,7 +227,7 @@ public class Coins implements Listener{
 	
 	public void addCoins(Player p,boolean save,Integer coins){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
-		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coins=coins*2;
+		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.OSTERN))coins=coins*2;
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;

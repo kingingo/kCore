@@ -12,6 +12,7 @@ import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
 import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityEquipment;
+import me.kingingo.kcore.Permission.kPermission;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.EnumClientCommand;
 import net.minecraft.server.v1_7_R4.Packet;
@@ -32,14 +33,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import ru.tehkode.permissions.PermissionManager;
-import ru.tehkode.permissions.PermissionsUserData;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
-
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
-import com.earth2me.essentials.Essentials;
-import com.earth2me.essentials.User;
 import com.google.common.base.Charsets;
 
 public class UtilPlayer
@@ -48,10 +43,19 @@ public class UtilPlayer
 	public static void sendPacket(Player player,Packet packet){
 		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 	}
-	
 
-	public static void PermissionExChangeUUID(Player player){
-		PermissionExChangeUUID(player.getName(), getRealUUID(player));
+//	public static void PermissionExChangeUUID(Player player){
+//		PermissionExChangeUUID(player.getName(), getRealUUID(player));
+//	}
+	
+	public static boolean hasPermission(Player p,String perm){
+		if(p.hasPermission(perm) || p.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString()))return true;
+		return false;
+	}
+	
+	public static boolean hasPermission(Player p,kPermission perm){
+		if(p.hasPermission(perm.getPermissionToString()) || p.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString()))return true;
+		return false;
 	}
 	
 //	public static void EssentialsUser(UUID old,UUID uuid){
@@ -72,29 +76,29 @@ public class UtilPlayer
 //			old_user.remove();
 //		}
 //	}
-	
-	public static void PermissionExChangeUUID(UUID old,UUID uuid){
-		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null){
-			PermissionManager pex = ((PermissionsEx)Bukkit.getPluginManager().getPlugin("PermissionsEx")).getPermissionsManager();	
-			PermissionsUserData data = pex.getBackend().getUserData(old.toString());
-			data.setIdentifier(uuid.toString());
-			data.save();
-			pex.clearUserCache(uuid);
-	    	System.out.println("[kCore] PermissionEx from "+old+" change to "+uuid);
-		}
-	}
-	
-	public static void PermissionExChangeUUID(String playerName,UUID uuid){
-		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null){
-			PermissionManager pex = ((PermissionsEx)Bukkit.getPluginManager().getPlugin("PermissionsEx")).getPermissionsManager();
-			PermissionsUserData data = pex.getBackend().getUserData(playerName);
-			if(data.setIdentifier(uuid.toString())){
-				data.setOption("name", playerName, null);
-		        pex.resetUser(playerName);
-			}
-			data.save();
-		}
-	}
+//	
+//	public static void PermissionExChangeUUID(UUID old,UUID uuid){
+//		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null){
+//			PermissionManager pex = ((PermissionsEx)Bukkit.getPluginManager().getPlugin("PermissionsEx")).getPermissionsManager();	
+//			PermissionsUserData data = pex.getBackend().getUserData(old.toString());
+//			data.setIdentifier(uuid.toString());
+//			data.save();
+//			pex.clearUserCache(uuid);
+//	    	System.out.println("[kCore] PermissionEx from "+old+" change to "+uuid);
+//		}
+//	}
+//	
+//	public static void PermissionExChangeUUID(String playerName,UUID uuid){
+//		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null){
+//			PermissionManager pex = ((PermissionsEx)Bukkit.getPluginManager().getPlugin("PermissionsEx")).getPermissionsManager();
+//			PermissionsUserData data = pex.getBackend().getUserData(playerName);
+//			if(data.setIdentifier(uuid.toString())){
+//				data.setOption("name", playerName, null);
+//		        pex.resetUser(playerName);
+//			}
+//			data.save();
+//		}
+//	}
 	
 	public static void setWorldChangeUUID(World world,UUID old,UUID uuid){
 		File file = new File(world.getName() + "/playerdata/"+old+".dat");

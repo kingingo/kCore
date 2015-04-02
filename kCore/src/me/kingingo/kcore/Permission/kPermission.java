@@ -1,6 +1,6 @@
 package me.kingingo.kcore.Permission;
 
-public enum Permission {
+public enum kPermission {
 JOIN_FULL_SERVER("epicpvp.join_full_server"),
 ALL_PERMISSION("epicpvp.*"),
 START_SERVER("epicpvp.start_server"),
@@ -19,6 +19,14 @@ COMMAND_GIVE_ALL("epicpvp.command.giveall"),
 COMMAND_COMMAND_MUTE_ALL("epicpvp.command.commandmuteall"),
 COMMAND_COMMAND_MUTE_ALL_ALLOW("epicpvp.command.commandmuteall.allow"),
 kFLY("epicpvp.kfly"),
+REPAIR("epicpvp.repair"),
+REPAIR_ALL("epicpvp.repair.all"),
+REPAIR_BODY("epicpvp.repair.body"),
+REPAIR_HAND("epicpvp.repair.hand"),
+FEED("epicpvp.feed"),
+FEED_ALL("epicpvp.feed.all"),
+FEED_OTHER("epicpvp.feed.other"),
+CHAT_FARBIG("epicpvp.chat.farbig"),
 
 SPAWN_IGNORE_DELAY("epicpvp.spawn.ignore_delay"),
 SPAWN_SET("epicpvp.spawn.set"),
@@ -129,6 +137,9 @@ OneInTheChamber_KIT("epicpvp.oitc.kit"),
 OneInTheChamber_LIFE("epicpvp.oitc.life"),
 //One In The Chamber - ENDE -
 
+SKYBLOCK_PREMIUM_ISLAND("epicpvp.skyblock.schematic.premium"),
+SKYBLOCK_NORMAL_ISLAND("epicpvp.skyblock.schematic.normal"),
+
 //PETS
 PET_ALL("kpet.*"),
 PET_BLAZE("kpet.blaze"),
@@ -148,9 +159,9 @@ PET_SHEEP("kpet.sheep"),
 PET_OCELOT("kpet.ocelot");
 //PETS
 
-public static Permission isPerm(String perm){
-	Permission per=Permission.NONE;
-	for(Permission permission : Permission.values()){
+public static kPermission isPerm(String perm){
+	kPermission per=kPermission.NONE;
+	for(kPermission permission : kPermission.values()){
 		if(permission.getPermissionToString().equalsIgnoreCase(perm)){
 			per=permission;
 			break;
@@ -160,7 +171,7 @@ public static Permission isPerm(String perm){
 }
 
 private String perm;
-private Permission(String perm){
+private kPermission(String perm){
 	this.perm=perm;
 }
 

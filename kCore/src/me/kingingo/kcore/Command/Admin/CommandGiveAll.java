@@ -2,7 +2,7 @@ package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.UtilServer;
 
@@ -26,7 +26,7 @@ public class CommandGiveAll implements CommandExecutor, Listener{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		if(cs instanceof Player){
 			Player p = (Player)cs;
-			if(permManager.hasPermission(p, Permission.COMMAND_GIVE_ALL)){
+			if(permManager.hasPermission(p, kPermission.COMMAND_GIVE_ALL)){
 				for(Player player : UtilServer.getPlayers()){
 					if(player==p)continue;
 					player.getInventory().addItem(p.getItemInHand());

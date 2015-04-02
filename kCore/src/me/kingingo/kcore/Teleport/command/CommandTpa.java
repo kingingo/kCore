@@ -3,7 +3,7 @@ package me.kingingo.kcore.Teleport.command;
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.TeleportManager.TeleportManager;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -27,7 +27,7 @@ public class CommandTpa implements CommandExecutor{
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "tpa", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		player = (Player)cs;
-		if(getManager().getPermManager().hasPermission(player, Permission.PLAYER_TELEPORT_A)){
+		if(getManager().getPermManager().hasPermission(player, kPermission.PLAYER_TELEPORT_A)){
 			if(args.length==0){
 				player.sendMessage(Text.PREFIX.getText()+"§6/tpa [Player]");
 			}else{

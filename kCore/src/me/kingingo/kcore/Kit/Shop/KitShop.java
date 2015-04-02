@@ -12,7 +12,7 @@ import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.KitType;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.Perks.Event.PerkStartEvent;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Scoreboard.PlayerScoreboard;
 import me.kingingo.kcore.Util.Coins;
@@ -95,13 +95,13 @@ public class KitShop implements Listener {
 			p.openInventory(l.get(p));
 			return;
 		}
-		if(permManager.hasPermission(p, Permission.ADMIN_KIT)){
+		if(permManager.hasPermission(p, kPermission.ADMIN_KIT)){
 			Inventory inv = Bukkit.createInventory(null, getAdmininventory().getSize(), getAdmininventory().getTitle());
 			for(ItemStack i : getAdmininventory()){
 				if(i==null||i.getType()==Material.AIR)continue;
 				for(Kit k : getKits()){
 					if(UtilItem.ItemNameEquals(i, k.getItem())){
-						if(getPermManager().hasPermission(p, k.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+						if(getPermManager().hasPermission(p, k.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 							inv.addItem(UtilItem.addEnchantmentGlow(i.clone()));	
 						}else{
 							inv.addItem(i.clone());
@@ -118,7 +118,7 @@ public class KitShop implements Listener {
 				if(i==null||i.getType()==Material.AIR)continue;
 				for(Kit k : getKits()){
 					if(UtilItem.ItemNameEquals(i, k.getItem().clone())){
-						if(getPermManager().hasPermission(p, k.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+						if(getPermManager().hasPermission(p, k.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 							inv.addItem(UtilItem.addEnchantmentGlow(i.clone()));	
 						}else{
 							inv.addItem(i.clone());
@@ -154,7 +154,7 @@ public class KitShop implements Listener {
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
 			}else if(kit.getType()==KitType.ADMIN){
-				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
@@ -164,7 +164,7 @@ public class KitShop implements Listener {
 					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §cAdmin-Kit"} ,"§4Spezial-Kit"));
 				}
 			}else if(kit.getType()==KitType.SPEZIAL_KIT){
-				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
@@ -174,7 +174,7 @@ public class KitShop implements Listener {
 					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aSpezial-Kit","§7Nur erhältlich zu Besonderen anlässen!"} ,"§4Spezial-Kit"));
 				}
 			}else if(kit.getType()==KitType.PREMIUM){
-				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
@@ -184,7 +184,7 @@ public class KitShop implements Listener {
 					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aPremium-Kit","§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
 				}
 			}else{
-				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, Permission.ALL_KITS)){
+				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));

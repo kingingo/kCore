@@ -4,7 +4,7 @@ import java.io.File;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.lag.Lag;
 
@@ -36,7 +36,7 @@ public class CommandToggle implements CommandExecutor, Listener{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		if(cs instanceof Player){
 			Player p = (Player)cs;
-			if(permManager.hasPermission(p, Permission.COMMAND_TOGGLE)){
+			if(permManager.hasPermission(p, kPermission.COMMAND_TOGGLE)){
 				if(args.length == 0){
 					p.sendMessage(Text.PREFIX.getText()+"§a/toggle [Plugin]");
 					return false;

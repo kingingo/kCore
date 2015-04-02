@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.UtilTime;
 import me.kingingo.kcore.lag.Lag;
@@ -30,7 +30,7 @@ public class CommandMem implements CommandExecutor, Listener{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		if(cs instanceof Player){
 			Player p = (Player)cs;
-			if(permManager.hasPermission(p, Permission.COMMAND_MEM)){
+			if(permManager.hasPermission(p, kPermission.COMMAND_MEM)){
 				 Runtime run = Runtime.getRuntime();
 				 p.sendMessage("§7Online:§b "+UtilTime.formatMili(System.currentTimeMillis() - online)+"§7 TPS:§b "+Math.round( (Lag.getTPS()/20)*100 )+"%§7 Ram: §b" + run.totalMemory() / 1048576L + " MB§7 / §b" + run.maxMemory() / 1048576L + " MB");
 			}

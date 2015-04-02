@@ -11,7 +11,7 @@ import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.SalesPackageBase;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Pet.PetManager;
 import me.kingingo.kcore.Pet.Setting.PetSetting;
@@ -73,14 +73,14 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(14, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_OCELOT)||permManager.hasPermission(player, Permission.PET_ALL)){
+				if(permManager.hasPermission(player, kPermission.PET_OCELOT)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Ocelot", EntityType.OCELOT, player.getLocation());
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
 					@Override
 					public void onClick(Player player, ActionType type,Object object) {
-						permManager.addPermission(player, Permission.PET_OCELOT);
+						permManager.addPermission(player, kPermission.PET_OCELOT);
 					}
 					
 				},"Kaufen",coins,4000,tokens,100);
@@ -93,14 +93,14 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(16, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_ZOMBIE)||permManager.hasPermission(player, Permission.PET_ALL)){
+				if(permManager.hasPermission(player, kPermission.PET_ZOMBIE)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Zombie", EntityType.ZOMBIE, player.getLocation());
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
 					@Override
 					public void onClick(Player player, ActionType type,Object object) {
-						permManager.addPermission(player, Permission.PET_ZOMBIE);
+						permManager.addPermission(player, kPermission.PET_ZOMBIE);
 					}
 					
 				},"Kaufen",coins,7000,tokens,150);
@@ -113,14 +113,14 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(15, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_COW)||permManager.hasPermission(player, Permission.PET_ALL)){
+				if(permManager.hasPermission(player, kPermission.PET_COW)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Cow", EntityType.COW, player.getLocation());
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
 					@Override
 					public void onClick(Player player, ActionType type,Object object) {
-						permManager.addPermission(player, Permission.PET_COW);
+						permManager.addPermission(player, kPermission.PET_COW);
 					}
 					
 				},"Kaufen",coins,4000,tokens,100);
@@ -133,14 +133,14 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(10, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_IRON_GOLEM)||permManager.hasPermission(player, Permission.PET_ALL)){
+				if(permManager.hasPermission(player, kPermission.PET_IRON_GOLEM)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "IronGolem", EntityType.IRON_GOLEM, player.getLocation());
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
 					@Override
 					public void onClick(Player player, ActionType type,Object object) {
-						permManager.addPermission(player, Permission.PET_IRON_GOLEM);
+						permManager.addPermission(player, kPermission.PET_IRON_GOLEM);
 					}
 					
 				},"Kaufen",coins,10000,tokens,250);
@@ -153,7 +153,7 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(11, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_WOLF)||permManager.hasPermission(player, Permission.PET_ALL)){
+				if(permManager.hasPermission(player, kPermission.PET_WOLF)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Wolf", EntityType.WOLF, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -161,7 +161,7 @@ public class PetShop extends InventoryBase{
 
 						@Override
 						public void onClick(Player player, ActionType type,Object object) {
-							permManager.addPermission(player, Permission.PET_WOLF);
+							permManager.addPermission(player, kPermission.PET_WOLF);
 						}
 						
 					},"Kaufen",coins,4000,tokens,100);
@@ -174,7 +174,7 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(12, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_PIG)||permManager.hasPermission(player, Permission.PET_ALL)){
+				if(permManager.hasPermission(player, kPermission.PET_PIG)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Pig", EntityType.PIG, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -182,7 +182,7 @@ public class PetShop extends InventoryBase{
 
 					@Override
 					public void onClick(Player player, ActionType type,Object object) {
-						permManager.addPermission(player, Permission.PET_PIG);
+						permManager.addPermission(player, kPermission.PET_PIG);
 					}
 					
 					},"Kaufen",coins,4000,tokens,100);
@@ -195,7 +195,7 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(13, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_SHEEP)||permManager.hasPermission(player, Permission.PET_ALL)){
+				if(permManager.hasPermission(player, kPermission.PET_SHEEP)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Schaf", EntityType.SHEEP, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -203,7 +203,7 @@ public class PetShop extends InventoryBase{
 
 					@Override
 					public void onClick(Player player, ActionType type,Object object) {
-						permManager.addPermission(player, Permission.PET_SHEEP);
+						permManager.addPermission(player, kPermission.PET_SHEEP);
 					}
 					
 					},"Kaufen",coins,4000,tokens,100);
@@ -216,7 +216,7 @@ public class PetShop extends InventoryBase{
 		
 		getMain().addButton(19, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
-				if(permManager.hasPermission(player, Permission.PET_CREEPER)||permManager.hasPermission(player, Permission.PET_ALL)){
+				if(permManager.hasPermission(player, kPermission.PET_CREEPER)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Creeper", EntityType.CREEPER, player.getLocation());
 					player.closeInventory();
 				}else{
@@ -267,21 +267,21 @@ public class PetShop extends InventoryBase{
 		}
 	}
 	
-	public Permission getPerm(EntityType type){
+	public kPermission getPerm(EntityType type){
 		switch(type){
-		case CHICKEN: return Permission.PET_CHICKEN;
-		case CREEPER: return Permission.PET_CREEPER;
-		case COW: return Permission.PET_COW;
-		case IRON_GOLEM: return Permission.PET_IRON_GOLEM;
-		case OCELOT: return Permission.PET_OCELOT;
-		case ZOMBIE: return Permission.PET_ZOMBIE;
-		case WOLF: return Permission.PET_WOLF;
-		case SHEEP: return Permission.PET_SHEEP;
-		case PIG: return Permission.PET_PIG;
-		case PIG_ZOMBIE: return Permission.PET_PIGZOMBIE;
-		case SPIDER: return Permission.PET_SPIDER;
+		case CHICKEN: return kPermission.PET_CHICKEN;
+		case CREEPER: return kPermission.PET_CREEPER;
+		case COW: return kPermission.PET_COW;
+		case IRON_GOLEM: return kPermission.PET_IRON_GOLEM;
+		case OCELOT: return kPermission.PET_OCELOT;
+		case ZOMBIE: return kPermission.PET_ZOMBIE;
+		case WOLF: return kPermission.PET_WOLF;
+		case SHEEP: return kPermission.PET_SHEEP;
+		case PIG: return kPermission.PET_PIG;
+		case PIG_ZOMBIE: return kPermission.PET_PIGZOMBIE;
+		case SPIDER: return kPermission.PET_SPIDER;
 		default:
-			return Permission.NONE;
+			return kPermission.NONE;
 		}
 	}
 	
@@ -294,7 +294,7 @@ public class PetShop extends InventoryBase{
 		if(!sql.equalsIgnoreCase("null")){
 			int a = 1;
 			String[] split = sql.split("-/-");
-			if(permManager.hasPermission(player, getPerm(EntityType.valueOf( split[0].split(":")[1] ))) || permManager.hasPermission(player, Permission.PET_ALL)){
+			if(permManager.hasPermission(player, getPerm(EntityType.valueOf( split[0].split(":")[1] ))) || permManager.hasPermission(player, kPermission.PET_ALL)){
 				getManager().AddPetOwner(player, split[a].split(":")[1], EntityType.valueOf( split[0].split(":")[1] ), player.getLocation());
 			Creature c = getManager().getActivePetOwners().get(player.getName().toLowerCase());
 			

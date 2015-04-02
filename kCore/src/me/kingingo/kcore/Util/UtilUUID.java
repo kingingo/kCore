@@ -1,4 +1,5 @@
 package me.kingingo.kcore.Util;
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -11,6 +12,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -95,6 +99,31 @@ public class UtilUUID implements Callable<Map<String, UUID>> {
     }
 
     public static UUID getUUIDOf(String name) throws Exception {
-        return new UtilUUID(Arrays.asList(name)).call().get(name);
+    	HttpURLConnection connection = createConnection();
+        String body = JSONArray.toJSONString( Arrays.asList(name.toLowerCase()) );
+        writeBody(connection, body);
+        InputStreamReader inr = new InputStreamReader(connection.getInputStream());
+        BufferedReader reader = new BufferedReader(inr);
+        String s = null;
+        StringBuilder sb = new StringBuilder();
+        while ((s = reader.readLine()) != null) {
+           sb.append(s);
+        }
+        
+        if(sb.toString().length()<=2){
+          	 System.err.println("[EpicPvP] LEER PLAYER:"+name);
+        	return null;
+        }
+        try{
+	         JsonElement element = new JsonParser().parse(sb.toString());
+		     JsonObject obj = element.getAsJsonObject();
+		     s = obj.get("id").toString(); 
+        }catch(IllegalStateException e){
+       	 System.err.println("[EpicPvP] IllegalStateException RESULT:"+sb.toString());
+       	 s=sb.toString().substring(8, 40);
+        }
+        
+        
+    	return UtilUUID.getUUID(s);
     }
 }

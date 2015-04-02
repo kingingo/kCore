@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import lombok.Getter;
 import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerAddEvent;
 import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerRemoveEvent;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 
 import org.bukkit.Bukkit;
@@ -21,16 +21,16 @@ public class PerkManager extends PerkData{
 		for(Perk perk: perks)getPlayers().put(perk, new ArrayList<Player>());
 		registerPerks();
 		
-		setPermission("noHunger", Permission.PERK_NO_HUNGER);
-		setPermission("DoubleXP", Permission.PERK_DOUBLE_XP);
-		setPermission("Dropper", Permission.PERK_DROPPER);
-		setPermission("GetXP", Permission.PERK_GET_XP);
-		setPermission("PotionClear", Permission.PERK_GOLENAPPLE);
-		setPermission("noFiredamage", Permission.PERK_NO_FIRE);
-		setPermission("HealPotion", Permission.PERK_HEALER);
-		setPermission("ItemName", Permission.PERK_ITEM_NAME);
-		setPermission("DoubleJump", Permission.PERK_JUMP);
-		setPermission("Runner", Permission.PERK_RUNNER);
+		setPermission("noHunger", kPermission.PERK_NO_HUNGER);
+		setPermission("DoubleXP", kPermission.PERK_DOUBLE_XP);
+		setPermission("Dropper", kPermission.PERK_DROPPER);
+		setPermission("GetXP", kPermission.PERK_GET_XP);
+		setPermission("PotionClear", kPermission.PERK_GOLENAPPLE);
+		setPermission("noFiredamage", kPermission.PERK_NO_FIRE);
+		setPermission("HealPotion", kPermission.PERK_HEALER);
+		setPermission("ItemName", kPermission.PERK_ITEM_NAME);
+		setPermission("DoubleJump", kPermission.PERK_JUMP);
+		setPermission("Runner", kPermission.PERK_RUNNER);
 	}
 	
 	public void removePlayer(Player player){
@@ -48,7 +48,7 @@ public class PerkManager extends PerkData{
 		}
 	}
 	
-	public boolean setPermission(String perkString,Permission permission){
+	public boolean setPermission(String perkString,kPermission permission){
 		for(Perk perk : getPlayers().keySet()){
 			if(perk.getName().equalsIgnoreCase(perkString)){
 				perk.setPermission(permission);
@@ -77,7 +77,7 @@ public class PerkManager extends PerkData{
 	
 	public boolean hasPlayer(String perkString,Player player){
 		for(Perk perk : getPlayers().keySet()){
-			if(perkString.equalsIgnoreCase(perk.getName())&& (manager.hasPermission(player, perk.getPermission())||manager.hasPermission(player, Permission.PERK_ALL))){
+			if(perkString.equalsIgnoreCase(perk.getName())&& (manager.hasPermission(player, perk.getPermission())||manager.hasPermission(player, kPermission.PERK_ALL))){
 				return true;
 			}
 		}
@@ -86,7 +86,7 @@ public class PerkManager extends PerkData{
 	
 	public boolean hasPlayer(Player player){
 		for(Perk perk : getPlayers().keySet()){
-			if((manager.hasPermission(player, perk.getPermission())||manager.hasPermission(player, Permission.PERK_ALL)))return true;
+			if((manager.hasPermission(player, perk.getPermission())||manager.hasPermission(player, kPermission.PERK_ALL)))return true;
 		}
 		return false;
 	}

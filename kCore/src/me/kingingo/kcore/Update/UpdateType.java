@@ -8,6 +8,7 @@ public enum UpdateType
   MIN_64(3840000L), 
   MIN_32(1920000L), 
   MIN_16(960000L), 
+  MIN_10(10*60000L), 
   MIN_08(480000L), 
   MIN_04(240000L), 
   MIN_02(120000L), 

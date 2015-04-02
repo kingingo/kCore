@@ -74,6 +74,101 @@ public class UtilMap{
 		return start.getBlockX() + (r);
 	}
 	
+	public static int MaxZ(Location e,Location e1){
+		if(e.getBlockZ()<e1.getBlockZ()){
+			return e1.getBlockZ();
+		}else{
+			return e.getBlockZ();
+		}
+	}
+	
+	public static int MinZ(Location e,Location e1){
+		if(e.getBlockZ()>e1.getBlockZ()){
+			return e1.getBlockZ();
+		}else{
+			return e.getBlockZ();
+		}
+	}
+	
+	public static int MaxY(Location e,Location e1){
+		if(e.getBlockY()<e1.getBlockY()){
+			return e1.getBlockY();
+		}else{
+			return e.getBlockY();
+		}
+	}
+	
+	public static int MinY(Location e,Location e1){
+		if(e.getBlockY()>e1.getBlockY()){
+			return e1.getBlockY();
+		}else{
+			return e.getBlockY();
+		}
+	}
+	
+	public static int MaxX(Location e,Location e1){
+		if(e.getBlockX()<e1.getBlockX()){
+			return e1.getBlockX();
+		}else{
+			return e.getBlockX();
+		}
+	}
+	
+	public static int MinX(Location e,Location e1){
+		if(e.getBlockX()>e1.getBlockX()){
+			return e1.getBlockX();
+		}else{
+			return e.getBlockX();
+		}
+	}
+	
+	public static void QuadratWalls(Location ecke1,Location ecke2,Material material){
+		System.out.println("MinX: "+MinX(ecke1, ecke2)+" MaxX: "+MaxX(ecke1, ecke2));
+		System.out.println("MinY: "+MinY(ecke1, ecke2)+" MaxY: "+MaxY(ecke1, ecke2));
+		System.out.println("MinZ: "+MinZ(ecke1, ecke2)+" MaxZ: "+MaxZ(ecke1, ecke2));
+		int MaxX = MaxX(ecke1,ecke2);
+		int MaxZ = MaxZ(ecke1,ecke2);
+		int MinX = MinX(ecke1,ecke2);
+		int MinZ = MinZ(ecke1,ecke2);
+		int MinY = MinY(ecke1, ecke2);
+		int MaxY = MaxY(ecke1, ecke2);
+		
+		for(int x = MinX; x<MaxX; x++){
+			for(int z = MinZ; z<MaxZ; z++){
+				new Location(ecke1.getWorld(), x, MinY, z).getBlock().setType(material);
+				new Location(ecke1.getWorld(), x, MaxY, z).getBlock().setType(material);
+			}
+		}
+		
+		for (int y = MinY; y < MaxY; y++) {
+			for (int z = MinZ; z < MaxZ; z++) {
+				new Location(ecke1.getWorld(), MaxX, y, z).getBlock().setType(material);
+			}
+
+			for (int z = MaxZ; z > MinZ; z--) {
+				new Location(ecke1.getWorld(), MinX, y, z).getBlock().setType(material);
+			}
+			
+			for (int x = MaxX; x > MinX; x--) {
+				new Location(ecke1.getWorld(), x, y, MaxZ).getBlock().setType(material);
+			}
+
+			for (int x = MinX; x < MaxX; x++) {
+				new Location(ecke1.getWorld(), x, y, MinZ).getBlock().setType(material);
+			}
+		}
+	}
+	
+	public static void Quadrat(Location ecke1,Location ecke2,Material[] materials){
+		for(int x=MinX(ecke1, ecke2); x<MaxX(ecke1, ecke2); x++){
+			for(int z=MinZ(ecke1, ecke2); z<MaxZ(ecke1, ecke2); z++){
+				for(int y=MinY(ecke1, ecke2); y<MaxY(ecke1, ecke2); y++){
+					ecke1.getWorld().getBlockAt(x, y, z).setType(materials[UtilMath.r(materials.length)]);;
+				}
+			}
+		}
+	}
+	
 	public static List<Location> Quadrat(Location loc, int r) {
 		List<Location> list = new ArrayList<Location>();
 		int MaxX = MaxX(loc.clone(), r);
@@ -90,14 +185,14 @@ public class UtilMap{
 					list.add(l);
 			}
 
-			for (int x = MaxX; x > MinX; x--) {
-				Location l = new Location(loc.getWorld(), x, y, MaxZ);
+			for (int z = MaxZ; z > MinZ; z--) {
+				Location l = new Location(loc.getWorld(), MinX, y, z);
 				if (l.getBlock().getType() == Material.AIR)
 					list.add(l);
 			}
-
-			for (int z = MaxZ; z > MinZ; z--) {
-				Location l = new Location(loc.getWorld(), MinX, y, z);
+			
+			for (int x = MaxX; x > MinX; x--) {
+				Location l = new Location(loc.getWorld(), x, y, MaxZ);
 				if (l.getBlock().getType() == Material.AIR)
 					list.add(l);
 			}

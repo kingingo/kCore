@@ -8,7 +8,7 @@ import me.kingingo.kcore.Disguise.DisguiseManager;
 import me.kingingo.kcore.Disguise.DisguiseType;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Kit.Perks.Event.PerkHasPlayerEvent;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.Bukkit;
@@ -30,7 +30,7 @@ public class Kit extends PerkData{
 	@Getter
 	int preis;
 	@Getter
-	Permission permission;
+	kPermission permission;
 	@Getter
 	DisguiseType disguise=null;
 	@Getter
@@ -38,7 +38,7 @@ public class Kit extends PerkData{
 	@Getter
 	ItemStack[] items;
 	
-	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,Permission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,kPermission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.items=items;
@@ -86,7 +86,7 @@ public class Kit extends PerkData{
 		this.perks=perks;
 	}
 	
-	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,Permission permission,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,kPermission permission,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.permission=permission;
@@ -132,7 +132,7 @@ public class Kit extends PerkData{
 		this.perks=perks;
 	}
 	
-	public Kit(String Name,String[] desc,ItemStack item,Permission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,String[] desc,ItemStack item,kPermission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.permission=permission;
@@ -180,7 +180,7 @@ public class Kit extends PerkData{
 		this.perks=perks;
 	}
 	
-	public Kit(String Name,String[] desc,ItemStack item,Permission permission,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,String[] desc,ItemStack item,kPermission permission,KitType type,int preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.permission=permission;

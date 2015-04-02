@@ -2,7 +2,7 @@ package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 
 import org.bukkit.Bukkit;
@@ -29,7 +29,7 @@ public class CommandMute implements CommandExecutor, Listener{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		if(cs instanceof Player){
 			Player p = (Player)cs;
-			if(permManager.hasPermission(p, Permission.COMMAND_COMMAND_MUTE_ALL)){
+			if(permManager.hasPermission(p, kPermission.COMMAND_COMMAND_MUTE_ALL)){
 				if(chat){
 					chat=false;
 					p.sendMessage(Text.PREFIX.getText()+Text.CMD_MUTE.getText());
@@ -52,7 +52,7 @@ public class CommandMute implements CommandExecutor, Listener{
 
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void CMD(PlayerCommandPreprocessEvent ev){
-		if(!chat&&!permManager.hasPermission(ev.getPlayer(), Permission.COMMAND_COMMAND_MUTE_ALL_ALLOW)){
+		if(!chat&&!permManager.hasPermission(ev.getPlayer(), kPermission.COMMAND_COMMAND_MUTE_ALL_ALLOW)){
 			ev.setCancelled(true);
 		}
 	}

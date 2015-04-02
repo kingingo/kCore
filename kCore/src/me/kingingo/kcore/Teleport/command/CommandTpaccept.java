@@ -2,7 +2,7 @@ package me.kingingo.kcore.Teleport.command;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.TeleportManager.TeleportManager;
 import me.kingingo.kcore.TeleportManager.Teleporter;
 
@@ -24,7 +24,7 @@ public class CommandTpaccept implements CommandExecutor{
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "tpaccept",alias={"tpyes"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		player = (Player)cs;
-		if(getManager().getPermManager().hasPermission(player, Permission.PLAYER_TELEPORT_ACCEPT)){
+		if(getManager().getPermManager().hasPermission(player, kPermission.PLAYER_TELEPORT_ACCEPT)){
 			if(getManager().getTeleport_anfrage().containsKey(player)){
 				getManager().getTeleport().add(new Teleporter(getManager().getTeleport_anfrage().get(player),player,getManager().getSec()));
 			}

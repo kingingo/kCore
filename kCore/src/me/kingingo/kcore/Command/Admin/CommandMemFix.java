@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.UtilTime;
 import me.kingingo.kcore.lag.Lag;
@@ -31,7 +31,7 @@ public class CommandMemFix implements CommandExecutor, Listener{
 		if(cs instanceof Player){
 			Player p = (Player)cs;
 			
-			if(permManager.hasPermission(p, Permission.COMMAND_MEM)){
+			if(permManager.hasPermission(p, kPermission.COMMAND_MEM)){
 				System.gc();
 				p.sendMessage("§aMemory Fix wurde durchgeführt!");
 			}

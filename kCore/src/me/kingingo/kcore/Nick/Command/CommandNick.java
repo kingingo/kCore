@@ -3,7 +3,7 @@ package me.kingingo.kcore.Nick.Command;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Nick.NickManager;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 
 import org.bukkit.command.Command;
@@ -30,13 +30,13 @@ public class CommandNick implements CommandExecutor, Listener{
 			return false;
 		}
 		if(args[0].equalsIgnoreCase("random")){
-			if(pManager.hasPermission(p, Permission.NICK_RANDOM)){
+			if(pManager.hasPermission(p, kPermission.NICK_RANDOM)){
 				String n = nManager.setNick(p);
 				p.sendMessage(Text.PREFIX.getText()+Text.NICK.getText(n));
 				return false;
 			}
 		}else{
-			if(pManager.hasPermission(p, Permission.NICK_RANDOM)){
+			if(pManager.hasPermission(p, kPermission.NICK_RANDOM)){
 				nManager.setNick(p,args[0]);
 				p.sendMessage(Text.PREFIX.getText()+Text.NICK.getText(args[0]));
 				return false;

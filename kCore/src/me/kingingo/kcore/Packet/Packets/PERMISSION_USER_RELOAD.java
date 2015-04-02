@@ -27,7 +27,7 @@ public class PERMISSION_USER_RELOAD extends Packet{
 	}
 	
 	public String getName(){
-		return "PERMISSION_GROUP_RELOAD";
+		return "PERMISSION_USER_RELOAD";
 	}
 	
 	public void Set(String[] split){

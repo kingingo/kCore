@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import com.earth2me.essentials.Essentials;
 
 public class UtilServer{
 	
@@ -59,6 +60,22 @@ public class UtilServer{
 			        }
 			    });
 			}
+		}
+	}
+	
+	public static void essPermissionHandler(){
+		if(Bukkit.getPluginManager().getPlugin("Essentials")!=null&&Bukkit.getPluginManager().getPlugin("Essentials").isEnabled()){
+			Essentials ess = (Essentials)Bukkit.getPluginManager().getPlugin("Essentials");
+			
+			try{
+				boolean b =(boolean) UtilReflection.getValue("useSuperperms", ess.getPermissionsHandler());
+				System.out.println("[EpicPvP] Essentials PermissionHandler "+b);
+			}catch(Exception e){
+				System.out.println("[EpicPvP] Error: "+e.getMessage());
+			}
+			
+			ess.getPermissionsHandler().setUseSuperperms(true);
+			ess.getPermissionsHandler().checkPermissions();
 		}
 	}
 	

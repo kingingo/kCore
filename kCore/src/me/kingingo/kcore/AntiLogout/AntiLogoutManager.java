@@ -49,7 +49,7 @@ public class AntiLogoutManager extends kListener {
 	private boolean onDisable=false;
 	
 	public AntiLogoutManager(JavaPlugin instance,AntiLogoutType typ,int sec){
-		super(instance,"[AntiLogoutManager]");
+		super(instance,"AntiLogoutManager");
 		this.typ=typ;
 		this.time=TimeSpan.SECOND*sec;
 		this.instance=instance;

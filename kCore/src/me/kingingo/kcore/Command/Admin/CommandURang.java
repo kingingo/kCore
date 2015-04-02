@@ -1,6 +1,11 @@
 package me.kingingo.kcore.Command.Admin;
 
+import java.util.UUID;
+
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.MySQL.MySQL;
+import me.kingingo.kcore.Permission.PermissionManager;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -9,22 +14,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import ru.tehkode.permissions.PermissionManager;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
-
 public class CommandURang implements CommandExecutor{
 
-	Player p;
-	PermissionManager pex=null;
+	private PermissionManager manager;
+	private MySQL mysql;
 	
+	public CommandURang(PermissionManager manager,MySQL mysql){
+		this.manager=manager;
+		this.mysql=mysql;
+	}
+	
+	Player p;
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "urang", sender = Sender.CONSOLE)
-	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")==null){
-			System.out.println("PermissionsEx fehlt!");
-			return false;
-		}
-		
-		
+	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {	
 		boolean c = false;
 		
 		if(sender instanceof ConsoleCommandSender){
@@ -87,12 +89,9 @@ public class CommandURang implements CommandExecutor{
 	
 	public boolean setGroup(String player,String isGroup, String toGroup){
 		boolean ok = false;
-		if(pex==null)pex = PermissionsEx.getPermissionManager();
-		
-		if(pex.getUser(player).inGroup(isGroup)){
-			
-			Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "pex user " + player + " group set " + toGroup);  
-			
+		UUID uuid = UtilPlayer.getUUID(player, mysql);
+		if(manager.getGroup( uuid ).equalsIgnoreCase(isGroup) ){
+			manager.setGroup(uuid, toGroup);
 			ok = true;
 		}
 		

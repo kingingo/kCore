@@ -417,6 +417,22 @@ public class UtilInv
     }
   }
 
+  public static void repairInventory(Player player,boolean body){
+	  for(ItemStack item : player.getInventory().getContents()){
+		  if(item!=null&&item.getType()!=Material.AIR){
+			  UtilItem.RepairItem(item);
+		  }
+	  }
+	  
+	  if(body){
+		  for(ItemStack item : player.getInventory().getArmorContents()){
+			  if(item!=null&&item.getType()!=Material.AIR){
+				  UtilItem.RepairItem(item);
+			  }
+		  }
+	  }
+  }
+  
   public static ItemStack searchInventoryItem(Player player,Material material,String displayName){
 	  for(ItemStack item : player.getInventory().getContents()){
 		  if(item!=null&&item.getType()!=Material.AIR){

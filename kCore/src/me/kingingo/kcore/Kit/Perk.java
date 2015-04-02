@@ -2,7 +2,7 @@ package me.kingingo.kcore.Kit;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 
 import org.bukkit.event.Listener;
 
@@ -14,7 +14,7 @@ public abstract class Perk implements Listener{
 	PerkData perkData;
 	@Getter
 	@Setter
-	Permission permission;
+	kPermission permission;
 	
 	public Perk(String name){
 		this.name=name;

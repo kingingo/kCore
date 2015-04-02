@@ -62,6 +62,7 @@ public class GildenManager implements Listener {
 	@Setter
 	private boolean onDisable=false;
 	HashMap<Integer,String> ranking = new HashMap<>();
+	@Getter
 	HashMap<String,Integer> extra_prefix = new HashMap<>();
 	
 	public GildenManager(JavaPlugin instance,MySQL mysql,GildenType typ,CommandHandler cmd){
@@ -287,34 +288,34 @@ public class GildenManager implements Listener {
 		p.sendMessage(Text.PREFIX.getText()+Text.GILDE_TELEPORTET.getText());
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
-	public void onPlayerChat(AsyncPlayerChatEvent ev) {
-		Player p = ev.getPlayer();
-		if(isPlayerInGilde(p)){
-			String g = getPlayerGilde(p);
-			String tag = getTag(g);
-			g=g.toLowerCase();
-			if(extra_prefix.containsKey(g)){
-				if(extra_prefix.get(g)==1){
-					tag=tag.replaceAll("§7", "§4§l");
-				}else if(extra_prefix.get(g)==2){
-					tag=tag.replaceAll("§7", "§2§l");
-				}else if(extra_prefix.get(g)==3){
-					tag=tag.replaceAll("§7", "§e§l");
-				}else if(extra_prefix.get(g)>=4 && extra_prefix.get(g)<=6){
-					tag=tag.replaceAll("§7", "§3");
-				}else if(extra_prefix.get(g)>=7 && extra_prefix.get(g)<=9){
-					tag=tag.replaceAll("§7", "§d");
-				}else if(extra_prefix.get(g)>=10 && extra_prefix.get(g)<=12){
-					tag=tag.replaceAll("§7", "§a");
-				}else if(extra_prefix.get(g)>=13 && extra_prefix.get(g)<=15){
-					tag=tag.replaceAll("§7", "§b");
-				}
-			}
-			
-			p.setDisplayName(p.getDisplayName().replace(p.getName(), tag) + ChatColor.RESET + p.getName());
-		}
-	}
+//	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
+//	public void onPlayerChat(AsyncPlayerChatEvent ev) {
+//		Player p = ev.getPlayer();
+//		if(isPlayerInGilde(p)){
+//			String g = getPlayerGilde(p);
+//			String tag = getTag(getPlayerGilde(p));
+//			g=g.toLowerCase();
+//			if(extra_prefix.containsKey(g)){
+//				if(extra_prefix.get(g)==1){
+//					tag=tag.replaceAll("§7", "§4§l");
+//				}else if(extra_prefix.get(g)==2){
+//					tag=tag.replaceAll("§7", "§2§l");
+//				}else if(extra_prefix.get(g)==3){
+//					tag=tag.replaceAll("§7", "§e§l");
+//				}else if(extra_prefix.get(g)>=4 && extra_prefix.get(g)<=6){
+//					tag=tag.replaceAll("§7", "§3");
+//				}else if(extra_prefix.get(g)>=7 && extra_prefix.get(g)<=9){
+//					tag=tag.replaceAll("§7", "§d");
+//				}else if(extra_prefix.get(g)>=10 && extra_prefix.get(g)<=12){
+//					tag=tag.replaceAll("§7", "§a");
+//				}else if(extra_prefix.get(g)>=13 && extra_prefix.get(g)<=15){
+//					tag=tag.replaceAll("§7", "§b");
+//				}
+//			}
+//			
+//			p.setDisplayName(p.getDisplayName().replace(p.getName(), tag) + ChatColor.RESET + p.getName());
+//		}
+//	}
 	
 	@EventHandler
 	public void PlayerQuit(PlayerQuitEvent ev){

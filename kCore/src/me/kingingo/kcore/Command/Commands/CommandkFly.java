@@ -1,8 +1,8 @@
-package me.kingingo.kcore.Command.Admin;
+package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.Permission.Permission;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 
 import org.bukkit.command.Command;
@@ -21,7 +21,7 @@ public class CommandkFly implements CommandExecutor{
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "kfly",alias={"fly"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		Player player = (Player)sender;
-		if(permManager.hasPermission(player, Permission.kFLY)||player.hasPermission("epicpvp.kfly")){
+		if(permManager.hasPermission(player, kPermission.kFLY)||player.hasPermission("epicpvp.kfly")){
 			if(player.getAllowFlight()){
 				player.setAllowFlight(false);
 				player.setFlying(false);

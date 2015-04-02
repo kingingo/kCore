@@ -128,6 +128,21 @@ public class UtilItem {
 		    return is;
 	  }
 
+	  public static boolean RepairItem(ItemStack item){
+		  if(item!=null&&item.getType()!=Material.AIR){
+			  try {
+				  if (item.getDurability() != 0){
+					  item.setDurability((short)0);
+					  return true;
+				  }
+			  }catch (Exception i) {
+		           return false;
+		      }
+	           return false;
+		  }
+          return false;
+	  }
+	  
 	  public static org.bukkit.inventory.ItemStack RenameItem(org.bukkit.inventory.ItemStack i, String msg)
 	  {
 	    ItemMeta im = i.getItemMeta();

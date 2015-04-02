@@ -15,7 +15,7 @@ public class Group {
 	@Getter
 	private String group;
 	@Getter
-	private ArrayList<Permission> perms;
+	private ArrayList<String> perms;
 	
 	public Group(String group,GroupTyp typ){
 		this.group=group;
@@ -23,15 +23,23 @@ public class Group {
 		this.perms=new ArrayList<>();
 	}
 	
-	public void add(Permission perm){
-		perms.add(perm);
+	public void add(kPermission perm){
+		add(perm.getPermissionToString());
 	}
 	
-	public void del(Permission perm){
-		perms.remove(perm);
+	public void add(String perm){
+		if(!perms.contains(perm.toLowerCase()))perms.add(perm.toLowerCase());
 	}
 	
-	public boolean is(Permission perm){
+	public void del(String perm){
+		perms.remove(perm.toLowerCase());
+	}
+	
+	public void del(kPermission perm){
+		del(perm.getPermissionToString());
+	}
+	
+	public boolean is(kPermission perm){
 		return perms.contains(perm);
 	}
 	
