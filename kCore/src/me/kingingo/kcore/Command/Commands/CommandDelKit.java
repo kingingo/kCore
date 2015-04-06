@@ -3,6 +3,7 @@ package me.kingingo.kcore.Command.Commands;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Permission.kPermission;
+import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,12 +14,14 @@ public class CommandDelKit implements CommandExecutor{
 
 	private CommandKit kit;
 	private Player player;
+	private kConfig config;
 	
-	public CommandDelKit(CommandKit kit){
+	public CommandDelKit(CommandKit kit,kConfig config){
 		this.kit=kit;
+		this.config=config;
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "setkit", sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "delkit", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player=(Player)sender;
 		
@@ -29,8 +32,8 @@ public class CommandDelKit implements CommandExecutor{
 				if(kit.getKits().containsKey(args[0].toLowerCase())){
 					kit.getKits().remove(args[0].toLowerCase());
 					kit.getKits_delay().remove(args[0].toLowerCase());
-					kit.getConfig().set("kits."+args[0].toLowerCase(), null);
-					kit.getConfig().save();
+					config.set("kits."+args[0].toLowerCase(), null);
+					config.save();
 					player.sendMessage(Text.PREFIX.getText()+Text.KIT_DEL.getText(args[0]));
 				}else{
 					player.sendMessage(Text.PREFIX.getText()+Text.KIT_EXIST.getText());

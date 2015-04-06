@@ -214,6 +214,10 @@ KIT_SET("Das Kit % wurde gespeichert"),
 KIT_EXIST("Das Kit exestiert nicht."),
 KIT_DEL("Das Kit % wurde entfernt"),
 KIT_DELAY("Du kannst das Kit erst in % wieder benutzten."),
+CLEARINVENTORY("Dein Inventory wurde geleert"),
+CLEARINVENTORY_OTHER("Dein Inventory wurde von % geleert"),
+CLEARINVENTORY_FROM_OTHER("Du hast das Inventory von % geleert"),
+CLEARINVENTORY_ALL("Du hast das Inventory von allen Spieler geleert."),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 private String t;

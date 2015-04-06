@@ -5,6 +5,7 @@ import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilNumber;
+import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,9 +16,11 @@ public class CommandSetKit implements CommandExecutor{
 
 	private CommandKit kit;
 	private Player player;
+	private kConfig config;
 	
-	public CommandSetKit(CommandKit kit){
+	public CommandSetKit(CommandKit kit,kConfig config){
 		this.kit=kit;
+		this.config=config;
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "setkit", sender = Sender.PLAYER)
@@ -28,9 +31,9 @@ public class CommandSetKit implements CommandExecutor{
 			if(args.length<=1){
 				player.sendMessage(Text.PREFIX.getText()+"/setkit [Name] [Delay STD]");
 			}else{
-				this.kit.getConfig().setInventory("kits."+args[0].toLowerCase()+".Inventory", player.getInventory());
+				config.setInventory("kits."+args[0].toLowerCase()+".Inventory", player.getInventory());
 				if(UtilNumber.toInt(args[1])!=0){
-					this.kit.getConfig().set("kits."+args[0].toLowerCase()+".Delay", UtilNumber.toInt(args[1])*TimeSpan.HOUR );
+					config.set("kits."+args[0].toLowerCase()+".Delay", UtilNumber.toInt(args[1])*TimeSpan.HOUR );
 					this.kit.getKits_delay().put(args[0].toLowerCase(), UtilNumber.toInt(args[1])*TimeSpan.HOUR );
 				}
 				this.kit.getKits().put(args[0].toLowerCase(), player.getInventory().getContents().clone());

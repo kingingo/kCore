@@ -28,6 +28,7 @@ public class CommandHeal implements CommandExecutor{
 				if(s!=null){
 					player.sendMessage(Text.PREFIX.getText()+Text.USE_BEFEHL_TIME.getText(s));
 				}else{
+					player.setHealth(((CraftPlayer)player).getMaxHealth());
 					player.setFoodLevel(20);
 					player.sendMessage(Text.PREFIX.getText()+Text.HEAL.getText());
 					l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
@@ -40,6 +41,7 @@ public class CommandHeal implements CommandExecutor{
 					if(player.hasPermission(kPermission.HEAL_ALL.getPermissionToString())){
 						for(Player p : UtilServer.getPlayers()){
 							p.setHealth(((CraftPlayer)p).getMaxHealth());
+							p.setFoodLevel(20);
 							p.sendMessage(Text.PREFIX.getText()+Text.HEAL_ALL.getText(player.getName()));
 						}
 					}
@@ -47,6 +49,7 @@ public class CommandHeal implements CommandExecutor{
 					if(player.hasPermission(kPermission.HEAL_OTHER.getPermissionToString())){
 						if(Bukkit.getPlayer(args[0])!=null){
 							Bukkit.getPlayer(args[0]).setHealth(((CraftPlayer)Bukkit.getPlayer(args[0])).getMaxHealth());
+							Bukkit.getPlayer(args[0]).setFoodLevel(20);
 							Bukkit.getPlayer(args[0]).sendMessage(Text.PREFIX.getText()+Text.HEAL_ALL.getText(player.getName()));
 							player.sendMessage(Text.PREFIX.getText()+Text.HEAL_OTHER.getText(args[0]));
 						}else{

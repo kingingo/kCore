@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import lombok.Getter;
+import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Permission.kPermission;
@@ -30,13 +31,15 @@ public class CommandKit implements CommandExecutor{
 	@Getter
 	private HashMap<String,Long> kits_delay = new HashMap<>();
 	
-	public CommandKit(UserDataConfig userData){
+	public CommandKit(UserDataConfig userData,CommandHandler cmd){
 		this.config=new kConfig(new File("plugins"+File.separator+userData.getInstance().getPlugin(userData.getInstance().getClass()).getName()+File.separator+"kits.yml"));
 		this.userData=userData;
 		for(String kit : config.getPathList("kits").keySet()){
 			kits.put(kit, config.getInventory("kits."+kit+".Inventory").getContents());
 			if(config.isSet("kits."+kit+".Delay"))kits_delay.put(kit, config.getLong("kits."+kit+".Delay"));
 		}
+		cmd.register(CommandDelKit.class, new CommandDelKit(this,config));
+		cmd.register(CommandSetKit.class, new CommandSetKit(this,config));
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "kit", sender = Sender.PLAYER)
@@ -48,14 +51,14 @@ public class CommandKit implements CommandExecutor{
 				player.sendMessage(Text.PREFIX.getText()+"/kit [Name]");
 				String kits="";
 				for(String kit : this.kits.keySet())if(player.hasPermission(kPermission.KIT.getPermissionToString()+"."+kit))kits+=kit+",";
-				player.sendMessage("Kits: "+(kits.equalsIgnoreCase("") ? "Du hast keine Kits" : kits.substring(0, kits.length()-1)));
+				player.sendMessage(Text.PREFIX.getText()+"Kits: "+(kits.equalsIgnoreCase("") ? "Du hast keine Kits" : kits.substring(0, kits.length()-1)));
 			}else{
 				kit=args[0].toLowerCase();
 				if(kits.containsKey(kit)){
 					if(player.hasPermission(kPermission.KIT.getPermissionToString()+"."+kit)){
 						this.config=userData.getConfig(player);
 						
-						if(kits_delay.containsKey(kit)&&this.config.isSet("timestamps.kits."+kit)){
+						if(kits_delay.containsKey(kit)&&!player.hasPermission(kPermission.KIT_BYEPASS_DELAY.getPermissionToString())&&this.config.isSet("timestamps.kits."+kit)){
 							if(this.config.getLong("timestamps.kits."+kit) >= System.currentTimeMillis()){
 								player.sendMessage(Text.PREFIX.getText()+Text.KIT_DELAY.getText(UtilTime.formatMili(this.config.getLong("timestamps.kits."+kit)-System.currentTimeMillis())));
 								return false;
@@ -69,7 +72,7 @@ public class CommandKit implements CommandExecutor{
 						}
 						player.sendMessage(Text.PREFIX.getText()+Text.KIT_USE.getText(kit));
 						
-						if(kits_delay.containsKey(kit)){
+						if(kits_delay.containsKey(kit)&&!player.hasPermission(kPermission.KIT_BYEPASS_DELAY.getPermissionToString())){
 							this.config.set("timestamps.kits."+kit, kits_delay.get(kit)+System.currentTimeMillis());
 						}
 					}
