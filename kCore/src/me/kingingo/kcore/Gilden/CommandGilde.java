@@ -37,8 +37,11 @@ public class CommandGilde implements CommandExecutor{
 			p.sendMessage("§6/gilde kicken [Player] §8|§7 Kickt einen Spieler aus der Gilde.");
 			p.sendMessage("§6/gilde info [Gilde] §8|§7 Zeigt Infos über eine Gilde.");
 			if(manager.getTyp()==GildenType.PVP){
-				p.sendMessage("§6/gilde sethome §8|§7 setzt das Gilden-Home");
-				p.sendMessage("§6/gilde home §8|§7 Teleportiert dich zum Gilden-Home");
+				p.sendMessage("§6/gilde sethome §8|§7 setzt das Gilden-Home.");
+				p.sendMessage("§6/gilde home §8|§7 Teleportiert dich zum Gilden-Home.");
+			}else if(manager.getTyp()==GildenType.SKY){
+				p.sendMessage("§6/gilde island §8|§7 Teleportiert dich zur Gilden-Insel.");
+				p.sendMessage("§6/gilde createisland §8|§7 Erstellt eine Gilden-Insel.");
 			}
 			p.sendMessage("§b■■■■■■■■■■■■■■§6§l GILDE §b■■■■■■■■■■■■■■");
 		}else if(args.length > 0){
@@ -60,6 +63,10 @@ public class CommandGilde implements CommandExecutor{
 				Home.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.PVP&&args[0].equalsIgnoreCase("info")){
 				Info.use(p, args, manager);
+			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("island")){
+				Home.use(p, args, manager);
+			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("createisland")){
+				Home.useSet(p, args, manager);
 			}
 		}
 		return false;

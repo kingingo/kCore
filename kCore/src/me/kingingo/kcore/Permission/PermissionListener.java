@@ -1,9 +1,12 @@
 package me.kingingo.kcore.Permission;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
@@ -12,6 +15,7 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilList;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilReflection;
 import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
@@ -24,6 +28,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachment;
 
 public class PermissionListener implements Listener {
 	
@@ -51,7 +56,11 @@ public class PermissionListener implements Listener {
 					if(cloned.contains(uuid)){
 						if(UtilPlayer.getRealUUID(player).equals(uuid)){
 							if(!manager.getPlist().containsKey(uuid))manager.getPlist().put(uuid, player.addAttachment(manager.getInstance()));
+							Map<String,Boolean> list = reflectMap(manager.getPlist().get(uuid));
+							list.clear();
+							
 							if(manager.getLoad().containsKey(uuid)){
+								
 								for(String perm : manager.getLoad().get(uuid)){
 									if(perm.equalsIgnoreCase(kPermission.ALL_PERMISSION.getPermissionToString())){
 										player.setOp(true);
@@ -61,14 +70,14 @@ public class PermissionListener implements Listener {
 										if(Bukkit.getPluginManager().getPermission(perm)==null){
 							    			  Bukkit.getPluginManager().addPermission(new Permission(perm));
 							    		}
-										manager.getPlist().get(uuid).setPermission(perm.toLowerCase(), true);
+										list.put(perm.toLowerCase(), true);
 									}
 								}	
 								
 								for(String perm : manager.getLoad().get(uuid)){
 									if(perm.substring(0, 1).equalsIgnoreCase("-")){
-										manager.getPlist().get(uuid).unsetPermission(perm.substring(1, perm.length()).toLowerCase());
-										manager.getPlist().get(uuid).setPermission(perm.substring(1, perm.length()).toLowerCase(), false);
+										list.remove(perm.substring(1, perm.length()).toLowerCase());
+										list.put(perm.substring(1, perm.length()).toLowerCase(), false);
 									}
 								}
 							}
@@ -84,7 +93,7 @@ public class PermissionListener implements Listener {
 											if(Bukkit.getPluginManager().getPermission(perm)==null){
 								    			  Bukkit.getPluginManager().addPermission(new Permission(perm));
 								    		}
-											manager.getPlist().get(uuid).setPermission(perm.toLowerCase(), true);	
+											list.put(perm.toLowerCase(), true);	
 										}
 									}
 								}
@@ -92,15 +101,17 @@ public class PermissionListener implements Listener {
 								if(!player.isOp()){
 									for(String perm : manager.getGroups().get(manager.getPgroup().get(uuid)).getPerms()){
 										if(perm.substring(0, 1).equalsIgnoreCase("-")){
-											manager.getPlist().get(uuid).unsetPermission(perm.substring(1, perm.length()));
-											manager.getPlist().get(uuid).setPermission(perm.substring(1, perm.length()).toLowerCase(), false);
+											list.remove(perm.substring(1, perm.length()));
+											list.put(perm.substring(1, perm.length()).toLowerCase(), false);
 										}
 									}
 								}
 							}
+							
 							player.recalculatePermissions();
 							manager.getLoad().remove(uuid);
 							manager.getLoad_now().remove(uuid);
+							manager.setTabList(player);
 						}
 					}	
 				}	
@@ -110,19 +121,21 @@ public class PermissionListener implements Listener {
 		}
 	}
 	
-	boolean b = false;
+	private Map<String, Boolean> reflectMap(PermissionAttachment attachment){
+	    try
+	    {
+	        Field pField = PermissionAttachment.class.getDeclaredField("permissions");
+	        pField.setAccessible(true);
+	      
+	      return (Map)pField.get(attachment);
+	    } catch (Exception e) {
+	      throw new RuntimeException(e);
+	    }
+	  }
+	
 	@EventHandler
 	public void Update(UpdateEvent ev){
-		if(ev.getType()==UpdateType.MIN_10){
-			for(Player player : UtilServer.getPlayers()){
-				if(manager.getPlist().containsKey(UtilPlayer.getRealUUID(player))){
-//					player.removeAttachment(manager.getPlist().get(UtilPlayer.getRealUUID(player)));
-//					manager.getPlist().get(UtilPlayer.getRealUUID(player)).remove();
-//					manager.getPlist().remove(UtilPlayer.getRealUUID(player));
-					manager.loadPermission(UtilPlayer.getRealUUID(player));
-				}
-			}
-		}else if(ev.getType()==UpdateType.MIN_64){
+		if(ev.getType()==UpdateType.MIN_64){
 			UtilList.CleanList(manager.getPgroup());
 			UtilList.CleanList(manager.getPlist());
 			UtilList.CleanList(manager.getLoad());
@@ -176,6 +189,7 @@ public class PermissionListener implements Listener {
 			manager.getPlist().get(UtilPlayer.getRealUUID(ev.getPlayer())).remove();
 			manager.getPlist().remove(UtilPlayer.getRealUUID(ev.getPlayer()));
 		}
+		if(ev.getPlayer().isOp())ev.getPlayer().setOp(false);
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
@@ -185,10 +199,11 @@ public class PermissionListener implements Listener {
 			manager.getPlist().get(UtilPlayer.getRealUUID(ev.getPlayer())).remove();
 			manager.getPlist().remove(UtilPlayer.getRealUUID(ev.getPlayer()));
 		}
+		if(ev.getPlayer().isOp())ev.getPlayer().setOp(false);
 	}
 	
-	@EventHandler(priority=EventPriority.LOWEST)
-	public void Join(PlayerJoinEvent ev){
-		manager.setTabList(ev.getPlayer());
-	}
+//	@EventHandler(priority=EventPriority.LOWEST)
+//	public void Join(PlayerJoinEvent ev){
+//		manager.setTabList(ev.getPlayer());
+//	}
 }

@@ -17,6 +17,7 @@ import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Util.C;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
+import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.permissions.Permission;
 import org.bukkit.Bukkit;
@@ -48,6 +49,8 @@ public class PermissionManager {
 	private PacketManager packetManager;
 	@Getter
 	private GroupTyp typ;
+	@Getter
+	private PermissionListener listener;
 	
 	public PermissionManager(JavaPlugin instance,GroupTyp typ,PacketManager packetManager,MySQL mysql){
 		this.mysql=mysql;
@@ -55,7 +58,9 @@ public class PermissionManager {
 		this.packetManager=packetManager;
 		this.typ=typ;
 		UtilServer.essPermissionHandler();
-		Bukkit.getPluginManager().registerEvents(new PermissionListener(this), getInstance());
+		this.listener=new PermissionListener(this);
+		UtilTime.setTimeManager(this);
+		Bukkit.getPluginManager().registerEvents(listener, getInstance());
 	}
 	
 	public String getPrefix(Player p){
@@ -140,6 +145,7 @@ public class PermissionManager {
 		}
 		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&&!invisble){
 			String t = groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).getPrefix();
+			
 			int i = t.indexOf("§");
 			t=""+t.toCharArray()[i]+t.toCharArray()[i+1];
 			if(name.length()>13){
@@ -259,6 +265,8 @@ public class PermissionManager {
 	    	  if(!rs.getString(1).contains("epicpvp.perm.group.")){
 		    	  if(!load.containsKey(uuid))load.put(uuid, new ArrayList<String>());
 		    	  load.get(uuid).add(rs.getString(1));
+	    	  }else{
+	    		  transfareGroupPermissionToUser(uuid,rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[0],GroupTyp.get(rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[1]));
 	    	  }
 	      }
 	      rs.close();
@@ -276,6 +284,8 @@ public class PermissionManager {
 	      while (rs.next()){
 	    	  if(!rs.getString(1).contains("epicpvp.perm.group.")){
 	 		     groups.get(g).add(rs.getString(1));
+	    	  }else{
+	    		  transfareGroupPermissionToGroup(g,rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[0],GroupTyp.get(rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[1]));
 	    	  }
 	      }
 	      rs.close();

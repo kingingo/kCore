@@ -33,7 +33,7 @@ public class Kicken {
 				return;
 			}
 			manager.sendGildenChat(g, Text.GILDE_PREFIX.getText()+Text.GILDE_KICK_PLAYER.getText(kick_o));
-			manager.removePlayerEintrag(uuid);
+			manager.removePlayerEintrag(uuid,kick_o);
 		}else{
 			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde kicken [Player]");
 		}

@@ -5,10 +5,11 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.Command.Commands.CommandTpa;
+import me.kingingo.kcore.Command.Commands.CommandTpaHere;
+import me.kingingo.kcore.Command.Commands.CommandTpaccept;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.PermissionManager;
-import me.kingingo.kcore.Teleport.command.CommandTpa;
-import me.kingingo.kcore.Teleport.command.CommandTpaccept;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 
@@ -35,13 +36,14 @@ public class TeleportManager extends kListener{
 		this.sec=sec;
 		
 		cmd.register(CommandTpa.class, new CommandTpa(this));
+		cmd.register(CommandTpaHere.class, new CommandTpaHere(this));
 		cmd.register(CommandTpaccept.class, new CommandTpaccept(this));
 	}
 	
 	Teleporter tp;
 	@EventHandler
 	public void Updater(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.FASTEST)return;
+		if(ev.getType()!=UpdateType.FAST)return;
 		for(int i = 0; i < teleport.size(); i++){
 			tp=((Teleporter)teleport.get(i));
 			if(tp.TeleportDo()){

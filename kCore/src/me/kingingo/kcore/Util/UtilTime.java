@@ -3,13 +3,26 @@ package me.kingingo.kcore.Util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
+import me.kingingo.kcore.Permission.PermissionManager;
+import me.kingingo.kcore.TimeManager.TimeManager;
+
 public class UtilTime
 {
   public static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
   public static final String DATE_FORMAT_DAY = "yyyy-MM-dd";
+  private static TimeManager manager;
 
-  public static String now()
-  {
+  public static void setTimeManager(PermissionManager perm){
+	  manager=new TimeManager(perm);
+  }
+  
+  public static TimeManager getTimeManager(){
+	  return manager;
+  }
+  
+  public static String now(){
     Calendar cal = Calendar.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     return sdf.format(cal.getTime());

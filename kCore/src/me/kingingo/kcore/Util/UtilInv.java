@@ -119,6 +119,40 @@ public class UtilInv
       }
   }
   
+  public static ItemStack itemStackFromBase64(String data) throws IOException {
+	  	try {
+	          ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+	          BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+	  
+	          // Read the serialized inventory
+	          ItemStack item = (ItemStack) dataInput.readObject();
+	          
+	          dataInput.close();
+	          return item;
+	      } catch (ClassNotFoundException e) {
+	          throw new IOException("Unable to decode class type.", e);
+	      }
+	  }
+  
+  public static String itemStackToBase64(ItemStack item) throws IllegalStateException {
+	  	try {
+	          ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	          BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+	          
+	          // Write the size of the inventory
+	          dataOutput.writeInt(1);
+	          
+	          // Save every element in the list
+	          dataOutput.writeObject(item);
+	          
+	          // Serialize that array
+	          dataOutput.close();
+	          return Base64Coder.encodeLines(outputStream.toByteArray());
+	      } catch (Exception e) {
+	          throw new IllegalStateException("Unable to save item stacks.", e);
+	      }
+	  }
+  
   public static String itemStackArrayToBase64(ItemStack[] items) throws IllegalStateException {
   	try {
           ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

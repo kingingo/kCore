@@ -5,24 +5,20 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.Calendar.Calendar;
 import me.kingingo.kcore.Calendar.Calendar.CalendarType;
-import me.kingingo.kcore.Enum.GameState;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Game.Events.GameStartEvent;
 import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.KitType;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.Perks.Event.PerkStartEvent;
-import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
-import me.kingingo.kcore.Scoreboard.PlayerScoreboard;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.InventorySize;
-import me.kingingo.kcore.Util.Tokens;
 import me.kingingo.kcore.Util.UtilEvent;
+import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
-import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -32,7 +28,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -53,16 +48,13 @@ public class KitShop implements Listener {
 	PermissionManager permManager;
 	@Getter
 	Coins coins;
-	@Getter
-	Tokens tokens;
 	HashMap<Player,Inventory> l = new HashMap<>();
 	CalendarType holiday;
 	
-	public KitShop(JavaPlugin instance,Coins coins,Tokens tokens,PermissionManager manager,String name,InventorySize size,Kit[] kits){
+	public KitShop(JavaPlugin instance,Coins coins,PermissionManager manager,String name,InventorySize size,Kit[] kits){
 		this.name=name;
 		this.kits=kits;
 		this.coins=coins;
-		this.tokens=tokens;
 		this.permManager=manager;
 		this.holiday=Calendar.getHoliday();
 		if(kits.length>size.getSize())size=InventorySize._45;
@@ -222,17 +214,8 @@ public class KitShop implements Listener {
 		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName()+" §aKaufen");
 		switch(kit.getType()){
 		case KAUFEN:
-			inventory.setItem(0, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§eCoins"));
-			inventory.setItem(4, kit.getItem());
-			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.GOLD_INGOT), "§6Tokens"));
-			break;
-		case KAUFEN_COINS:
 			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§eCoins"));
 			inventory.setItem(0, kit.getItem());
-			break;
-		case KAUFEN_TOKENS:
-			inventory.setItem(0, kit.getItem());
-			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.GOLD_INGOT), "§6Tokens"));
 			break;
 		}
 		for(int i = 0 ; i < inventory.getSize(); i++){
@@ -292,15 +275,6 @@ public class KitShop implements Listener {
 							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_BUYED_KIT.getText(kit.getName()));
 						}else{
 							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_NO_MONEY.getText("Coins"));
-						}
-					}else if(ev.getCurrentItem().getType()==Material.GOLD_INGOT){
-						int c = getTokens().getTokens(p);
-						if(c>=kit.getPreis()){
-							getTokens().delTokens(p, true, kit.getPreis());
-							getPermManager().addPermission(p, kit.getPermission());
-							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_BUYED_KIT.getText(kit.getName()));
-						}else{
-							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_NO_MONEY.getText("Tokens"));
 						}
 					}
 					break;

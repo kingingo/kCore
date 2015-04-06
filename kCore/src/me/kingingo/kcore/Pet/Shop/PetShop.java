@@ -11,14 +11,13 @@ import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.SalesPackageBase;
-import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Pet.PetManager;
 import me.kingingo.kcore.Pet.Setting.PetSetting;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.Coins;
-import me.kingingo.kcore.Util.Tokens;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
@@ -52,7 +51,7 @@ public class PetShop extends InventoryBase{
 	private ArrayList<Player> change_settings = new ArrayList<>();
 	private HashMap<UUID,String> settings = new HashMap<>();
 	
-	public PetShop(final PetManager manager,final PermissionManager permManager,final Coins coins,final Tokens tokens){
+	public PetShop(final PetManager manager,final PermissionManager permManager,final Coins coins){
 		super(manager.getInstance(),36,"Pet-Shop");
 		this.manager=manager;
 		this.permManager=permManager;
@@ -83,7 +82,7 @@ public class PetShop extends InventoryBase{
 						permManager.addPermission(player, kPermission.PET_OCELOT);
 					}
 					
-				},"Kaufen",coins,4000,tokens,100);
+				},"Kaufen",coins,4000);
 				player.openInventory(buy);
 				addAnother(buy);
 				}
@@ -103,7 +102,7 @@ public class PetShop extends InventoryBase{
 						permManager.addPermission(player, kPermission.PET_ZOMBIE);
 					}
 					
-				},"Kaufen",coins,7000,tokens,150);
+				},"Kaufen",coins,7000);
 				player.openInventory(buy);
 				addAnother(buy);
 				}
@@ -123,7 +122,7 @@ public class PetShop extends InventoryBase{
 						permManager.addPermission(player, kPermission.PET_COW);
 					}
 					
-				},"Kaufen",coins,4000,tokens,100);
+				},"Kaufen",coins,4000);
 				player.openInventory(buy);
 				addAnother(buy);
 				}
@@ -143,7 +142,7 @@ public class PetShop extends InventoryBase{
 						permManager.addPermission(player, kPermission.PET_IRON_GOLEM);
 					}
 					
-				},"Kaufen",coins,10000,tokens,250);
+				},"Kaufen",coins,10000);
 				player.openInventory(buy);
 				addAnother(buy);
 				}
@@ -164,7 +163,7 @@ public class PetShop extends InventoryBase{
 							permManager.addPermission(player, kPermission.PET_WOLF);
 						}
 						
-					},"Kaufen",coins,4000,tokens,100);
+					},"Kaufen",coins,4000);
 					player.openInventory(buy);
 					addAnother(buy);
 				}
@@ -185,7 +184,7 @@ public class PetShop extends InventoryBase{
 						permManager.addPermission(player, kPermission.PET_PIG);
 					}
 					
-					},"Kaufen",coins,4000,tokens,100);
+					},"Kaufen",coins,4000);
 					player.openInventory(buy);
 					addAnother(buy);
 				}
@@ -206,7 +205,7 @@ public class PetShop extends InventoryBase{
 						permManager.addPermission(player, kPermission.PET_SHEEP);
 					}
 					
-					},"Kaufen",coins,4000,tokens,100);
+					},"Kaufen",coins,4000);
 					player.openInventory(buy);
 					addAnother(buy);
 				}

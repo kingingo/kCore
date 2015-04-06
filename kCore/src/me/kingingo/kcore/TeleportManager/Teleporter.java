@@ -3,6 +3,7 @@ package me.kingingo.kcore.TeleportManager;
 import lombok.Getter;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Util.TimeSpan;
+import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -11,7 +12,6 @@ import org.bukkit.util.Vector;
 
 public class Teleporter {
 
-	@Getter
 	private Player from;
 	private Location loc_from;
 	private Player player_to;
@@ -90,7 +90,7 @@ public class Teleporter {
 				}
 				
 				if(getTime() > System.currentTimeMillis()){
-					from.sendMessage(Text.PREFIX.getText()+Text.TELEPORT_VERZÖGERUNG.getText( (getTime()-System.currentTimeMillis()) + " milisekunden"));
+					from.sendMessage(Text.PREFIX.getText()+Text.TELEPORT_VERZÖGERUNG.getText( UtilTime.formatMili(getTime()-System.currentTimeMillis())));
 					return false;
 				}
 

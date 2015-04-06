@@ -23,14 +23,29 @@ REPAIR("epicpvp.repair"),
 REPAIR_ALL("epicpvp.repair.all"),
 REPAIR_BODY("epicpvp.repair.body"),
 REPAIR_HAND("epicpvp.repair.hand"),
+HEAL("epicpvp.heal"),
+HEAL_ALL("epicpvp.heal.all"),
+HEAL_OTHER("epicpvp.heal.other"),
 FEED("epicpvp.feed"),
 FEED_ALL("epicpvp.feed.all"),
 FEED_OTHER("epicpvp.feed.other"),
 CHAT_FARBIG("epicpvp.chat.farbig"),
-
+TAG("epicpvp.time.day"),
+NACHT("epicpvp.time.nacht"),
+SUN("epicpvp.time.sun"),
+HOME("epicpvp.home.use"),
+HOME_BYEPASS_DELAY("epicpvp.home.byepass.delay"),
+HOME_SET("epicpvp.home.set"),
+KIT("epicpvp.kit.use"),
+KIT_SET("epicpvp.kit.set"),
+KIT_BYEPASS_DELAY("epicpvp.kit.byepass.delay"),
+KSPAWN("kpvp.kspawn"),
+SPAWNMOB("epicpvp.spawnmob"),
+SPAWNMOB_ALL("epicpvp.spawnmob.*"),
+SPAWNER("epicpvp.spawner"),
+SPAWNER_ALL("epicpvp.spawner.*"),
 SPAWN_IGNORE_DELAY("epicpvp.spawn.ignore_delay"),
 SPAWN_SET("epicpvp.spawn.set"),
-
 PERK_NO_HUNGER("epicpvp.perk.nohunger"),
 PERK_JUMP("epicpvp.perk.jump"),
 PERK_NO_FIRE("epicpvp.perk.nofire"),
@@ -44,18 +59,16 @@ PERK_DROPPER("epicpvp.perk.dropper"),
 PERK_HEALER("epicpvp.perk.healer"),
 PERK_GOLENAPPLE("epicpvp.perk.goldenapple"),
 PERK_ALL("epicpvp.perk.*"),
-
 PLAYER_TELEPORT_A("epicpvp.player.tpa"),
 PLAYER_TELEPORT_AHERE("epicpvp.player.tpahere"),
-
 PLAYER_TELEPORT("epicpvp.player.tp"),
 PLAYER_TELEPORT_HERE("epicpvp.player.tphere"),
 PLAYER_TELEPORT_ACCEPT("epicpvp.player.tpaccept"),
-
-SET_WARP("epicpvp.setwarp"),
+WARP_SET("epicpvp.home.set"),
 WARP("epicpvp.warp"),
+WARP_BYEPASS_DELAY("epicpvp.home.byepass.delay"),
 WARP_LIST("epicpvp.warp.list"),
-
+//TS
 TEAMSPEAK_QUERY("epicpvp.ts.query"),
 TEAMSPEAK_OWNER("epicpvp.ts.owner"),
 TEAMSPEAK_DEV_OWNER("epicpvp.ts.dev_owner"),
@@ -83,7 +96,8 @@ TEAMSPEAK_NICHT_ANSTUPSBART("epicpvp.ts.nicht_anstupsbart"),
 TEAMSPEAK_NICHT_ANSCHREIBBAR("epicpvp.ts.nicht_anschreibbar"),
 TEAMSPEAK_VERIFIZIERT("epicpvp.ts.verifiziert"),
 TEAMSPEAK_AUFNAHME("epicpvp.ts.aufnahme"),
-
+//TS
+//Kits
 DEATHGAMES_KIT_ANKER("epicpvp.kit.dg.anker"),
 DEATHGAMES_KIT_BOMBER("epicpvp.kit.dg.bomber"),
 DEATHGAMES_KIT_FIREMAN("epicpvp.kit.dg.fireman"),
@@ -102,8 +116,6 @@ DEATHGAMES_KIT_RITTER("epicpvp.kit.dg.ritter"),
 DEATHGAMES_KIT_SUPERMAN("epicpvp.kit.dg.superman"),
 DEATHGAMES_KIT_TELEPORTER("epicpvp.kit.dg.teleporter"),
 DEATHGAMES_KIT_SWITCHER("epicpvp.kit.dg.switcher"),
-
-//Kits
 ADMIN_KIT("epicpvp.admin.kit"),
 SHEEPWARS_KIT_OLD_RUSH("epicpvp.kit.old_rush"),
 SHEEPWARS_KIT_STARTER("epicpvp.kit.starter"),
@@ -124,22 +136,18 @@ SHEEPWARS_KIT_IRONGOLEM("epicpvp.kit.irongolem"),
 SHEEPWARS_KIT_PIGZOMBIE("epicpvp.kit.pigzombie"),
 SHEEPWARS_KIT_CREEPER("epicpvp.kit.creeper"),
 SHEEPWARS_KIT_ZOMBIE("epicpvp.kit.zombie"),
-
 ALL_KITS("epicpvp.kit.*"),
 //Kits
-
 //SkyPvP - START -
 SkyPvP_Mehr_Leben("epicpvp.skypvp.more_life"),
 //SkyPvP - ENDE -
-
 //One In The Chamber - START -
 OneInTheChamber_KIT("epicpvp.oitc.kit"),
 OneInTheChamber_LIFE("epicpvp.oitc.life"),
 //One In The Chamber - ENDE -
-
+SKYBLOCK_GILDEN_ISLAND("epicpvp.skyblock.gilden.island"),
 SKYBLOCK_PREMIUM_ISLAND("epicpvp.skyblock.schematic.premium"),
 SKYBLOCK_NORMAL_ISLAND("epicpvp.skyblock.schematic.normal"),
-
 //PETS
 PET_ALL("kpet.*"),
 PET_BLAZE("kpet.blaze"),

@@ -43,6 +43,12 @@ public class CommandGroup implements CommandExecutor{
 				}
 			}
 			
+			if(args[0].equalsIgnoreCase("permtest")){
+				if(UtilPlayer.isOnline(args[1])){
+					System.out.println("[EpicPvP] Player: "+Bukkit.getPlayer(args[1]).getName()+" BOOLEAN:"+Bukkit.getPlayer(args[1]).hasPermission(args[2]));
+				}
+			}
+			
 			if(args[0].equalsIgnoreCase("r1")){
 				if(UtilPlayer.isOnline(args[1])){
 					UUID uuid=UtilPlayer.getRealUUID(Bukkit.getPlayer(args[1]));

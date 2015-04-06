@@ -12,6 +12,7 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -63,12 +64,14 @@ public class RestartScheduler implements Listener{
 		case 23:
 			if(UtilServer.getPlayers().length!=0)start=26;
 			break;
-		case 20:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
-		case 10:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
-		case 5:
+		case 20:
 			if(stats!=null)stats.SaveAllData();	
 			if(gilden!=null)gilden.AllUpdateGilde();
-		break;
+			break;
+		case 10:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
+		case 5:
+			for(World world : Bukkit.getWorlds())world.save();
+			break;
 		case 4:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
 		case 3:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
 		case 2:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
