@@ -61,7 +61,7 @@ public class CommandPermissionsExConverter implements CommandExecutor, Listener{
 							System.out.println("[EpicPvP] SPIELER:"+((PermissionUser)group.getUsers().toArray()[i]).getName()+" GROUP:"+group.getName()+" OFFLINE-UUID"+uuid);
 							ea++;
 						}
-						permManager.getMysql().Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','none','"+group.getName().toLowerCase()+"','"+typ.name().toLowerCase()+"','"+uuid+"');");
+						permManager.getMysql().Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','none','"+group.getName().toLowerCase()+"','"+typ.getName()+"','"+uuid+"');");
 					}
 			}
 			System.out.println("[EpicPvP] PermissionsEx Converter FERTIG["+a+"/"+ea+"]");

@@ -102,9 +102,9 @@ public class PermissionManager {
 	
 	public void setGroup(UUID uuid, String group,GroupTyp typ){
 		if(!getGroup(uuid).equalsIgnoreCase("default")){
-			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE uuid='" + uuid + "' AND permission='none' AND prefix='none' AND grouptyp='"+typ.name()+"'");
+			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE uuid='" + uuid + "' AND permission='none' AND prefix='none' AND grouptyp='"+typ.getName()+"'");
 		}else{
-			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','none','"+group+"','"+typ.name()+"','"+uuid+"');");
+			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','none','"+group+"','"+typ.getName()+"','"+uuid+"');");
 		}
 		pgroup.remove(uuid);
 		if(UtilPlayer.isOnline(uuid))loadPermission(uuid);

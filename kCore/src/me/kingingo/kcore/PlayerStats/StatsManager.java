@@ -14,6 +14,7 @@ import me.kingingo.kcore.PlayerStats.Event.PlayerStatsChangeEvent;
 import me.kingingo.kcore.PlayerStats.Event.PlayerStatsCreateEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
@@ -274,10 +275,10 @@ public class StatsManager implements Listener{
 		Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(s,p));
 	}
 	
-	public Double getDouble(Stats s,Player p){
+	public double getDouble(Stats s,Player p){
 		ExistPlayer(p);
 		if(list.containsKey(p)&&list.get(p).containsKey(s)){
-			return (Double)list.get(p).get(s);
+			return UtilNumber.toDouble(list.get(p).get(s));
 		}
 		
 		double i = -1;

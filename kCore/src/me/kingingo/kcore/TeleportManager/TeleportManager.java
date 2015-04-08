@@ -8,6 +8,7 @@ import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Command.Commands.CommandTpa;
 import me.kingingo.kcore.Command.Commands.CommandTpaHere;
 import me.kingingo.kcore.Command.Commands.CommandTpaccept;
+import me.kingingo.kcore.Command.Commands.CommandTpdeny;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Update.UpdateType;
@@ -25,7 +26,7 @@ public class TeleportManager extends kListener{
 	@Getter
 	private ArrayList<Teleporter> teleport = new ArrayList<>();
 	@Getter
-	private HashMap<Player,Player> teleport_anfrage = new HashMap<>();
+	private HashMap<Player,Teleporter> teleport_anfrage = new HashMap<>();
 	@Getter
 	private int sec;
 	
@@ -38,6 +39,7 @@ public class TeleportManager extends kListener{
 		cmd.register(CommandTpa.class, new CommandTpa(this));
 		cmd.register(CommandTpaHere.class, new CommandTpaHere(this));
 		cmd.register(CommandTpaccept.class, new CommandTpaccept(this));
+		cmd.register(CommandTpdeny.class, new CommandTpdeny(this));
 	}
 	
 	Teleporter tp;

@@ -5,6 +5,7 @@ import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.TeleportManager.TeleportManager;
+import me.kingingo.kcore.TeleportManager.Teleporter;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilTime;
 
@@ -40,8 +41,8 @@ public class CommandTpaHere implements CommandExecutor{
 				}else{
 					if(UtilPlayer.isOnline(args[0])){
 						tp=Bukkit.getPlayer(args[0]);
-						if(getManager().getTeleport_anfrage().containsKey(tp))getManager().getTeleport_anfrage().remove(tp);
-						getManager().getTeleport_anfrage().put(player,tp);
+						if(getManager().getTeleport_anfrage().containsKey(player))getManager().getTeleport_anfrage().remove(tp);
+						getManager().getTeleport_anfrage().put(tp,new Teleporter(tp, player));
 						player.sendMessage(Text.PREFIX.getText()+Text.TELEPORT_ANFRAGE_SENDER.getText(tp.getName()));
 						tp.sendMessage(Text.PREFIX.getText()+Text.TELEPORT_ANFRAGE_HERE_EMPFÄNGER.getText(player.getName()));
 						l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());

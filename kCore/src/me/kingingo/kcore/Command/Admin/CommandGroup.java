@@ -84,7 +84,7 @@ public class CommandGroup implements CommandExecutor{
 					UUID uuid=UtilPlayer.getRealUUID(Bukkit.getPlayer(args[1]));
 					System.out.println("[EpicPvP] Player: "+Bukkit.getPlayer(args[1]).getName());
 					for(String perm : manager.getPlist().get(uuid).getPermissions().keySet()){
-						System.out.println("[EpicPvP] Perm: "+perm);
+						System.out.println("[EpicPvP] Perm: "+perm+" "+manager.getPlist().get(uuid).getPermissions().get(perm));
 					}
 					
 					Bukkit.getPlayer(args[1]).recalculatePermissions();

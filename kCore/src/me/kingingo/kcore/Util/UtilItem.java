@@ -27,6 +27,22 @@ public class UtilItem {
 		return item;
 	}
 	
+	public static ItemStack[] convertItemStackArray(net.minecraft.server.v1_7_R4.ItemStack[] item){
+		ItemStack[] items = new ItemStack[item.length];
+		for(int i = 0; i<item.length;i++){
+			items[i]=CraftItemStack.asBukkitCopy(item[i]);
+		}
+		return items;
+	}
+	
+	public static net.minecraft.server.v1_7_R4.ItemStack[] convertItemStackArray(ItemStack[] item){
+		net.minecraft.server.v1_7_R4.ItemStack[] items = new net.minecraft.server.v1_7_R4.ItemStack[item.length];
+		for(int i = 0; i<item.length;i++){
+			items[i]=CraftItemStack.asNMSCopy(item[i]);
+		}
+		return items;
+	}
+	
 	public static org.bukkit.inventory.ItemStack SetDescriptions(org.bukkit.inventory.ItemStack i, List<String> msg){
 	    ItemMeta im = i.getItemMeta();
 	    im.setLore(msg);
@@ -132,6 +148,7 @@ public class UtilItem {
 		  if(item!=null&&item.getType()!=Material.AIR){
 			  try {
 				  if (item.getDurability() != 0){
+					  if(item.getType().getMaxDurability() < 1||item.getType().isBlock())return false;
 					  item.setDurability((short)0);
 					  return true;
 				  }

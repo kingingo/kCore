@@ -3,6 +3,7 @@ package me.kingingo.kcore.Command.Commands;
 import java.util.Map;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.Command.Commands.Events.PlayerHomeEvent;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.TeleportManager.TeleportManager;
@@ -10,6 +11,8 @@ import me.kingingo.kcore.TeleportManager.Teleporter;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 import me.kingingo.kcore.kConfig.kConfig;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,6 +25,7 @@ public class CommandHome implements CommandExecutor{
 	private kConfig config;
 	private Map<String, Object> list;
 	private TeleportManager teleport;
+	private Location home;
 	
 	public CommandHome(UserDataConfig userData,TeleportManager teleport){
 		this.userData=userData;
@@ -41,11 +45,19 @@ public class CommandHome implements CommandExecutor{
 				player.sendMessage(Text.PREFIX.getText()+ (homes.equalsIgnoreCase("") ? "Du hast keine Homes" : "Homes: "+homes.substring(0,homes.length()-1)) );
 			}else{
 				if(config.isSet("homes."+args[0])){
+					home = config.getLocation("homes."+args[0]);
+					PlayerHomeEvent ev = new PlayerHomeEvent(player, home, config);
+					Bukkit.getPluginManager().callEvent(ev);
+					if(ev.isCancelled()){
+						if(ev.getReason()!=null)player.sendMessage(Text.PREFIX.getText()+ev.getReason());
+						return false;
+					}
+					
 					if(player.hasPermission(kPermission.HOME_BYEPASS_DELAY.getPermissionToString())){
-						player.teleport(config.getLocation("homes."+args[0]));
+						player.teleport(home);
 						player.sendMessage(Text.PREFIX.getText()+Text.TELEPORT.getText());
 					}else{
-						teleport.getTeleport().add(new Teleporter(player,config.getLocation("homes."+args[0]),5));
+						teleport.getTeleport().add(new Teleporter(player,home,5));
 					}
 				}else{
 					player.sendMessage(Text.PREFIX.getText()+Text.HOME_EXIST.getText());

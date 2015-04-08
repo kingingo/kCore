@@ -61,7 +61,7 @@ public class CommandGilde implements CommandExecutor{
 				Home.useSet(p, args, manager);
 			}else if(manager.getTyp()==GildenType.PVP&&args[0].equalsIgnoreCase("home")){
 				Home.use(p, args, manager);
-			}else if(manager.getTyp()==GildenType.PVP&&args[0].equalsIgnoreCase("info")){
+			}else if(args[0].equalsIgnoreCase("info")){
 				Info.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("island")){
 				Home.use(p, args, manager);

@@ -43,12 +43,13 @@ public class CommandWarp implements CommandExecutor{
 					player.sendMessage(Text.PREFIX.getText()+ (warps.equalsIgnoreCase("") ? "Es exestieren noch keine Warps" : "Warps: "+warps.substring(0,warps.length()-1)) );
 				}
 			}else{
+				if(args[0].equalsIgnoreCase("premium")&&!player.hasPermission(kPermission.WARP.getPermissionToString()+".premium"))return false;
 				if(config.isSet("warps."+args[0])){
 					if(player.hasPermission(kPermission.WARP_BYEPASS_DELAY.getPermissionToString())){
 						player.teleport(config.getLocation("warps."+args[0]));
 						player.sendMessage(Text.PREFIX.getText()+Text.TELEPORT.getText());
 					}else{
-						teleport.getTeleport().add(new Teleporter(player,config.getLocation("homes."+args[0]),5));
+						teleport.getTeleport().add(new Teleporter(player,config.getLocation("warps."+args[0]),5));
 					}
 				}else{
 					player.sendMessage(Text.PREFIX.getText()+Text.WARP_EXIST.getText());

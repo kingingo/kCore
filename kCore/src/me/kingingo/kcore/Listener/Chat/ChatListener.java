@@ -43,7 +43,14 @@ public class ChatListener extends kListener{
 				return;
 			}
 			msg=msg.replaceAll("%","");
-			if(manager.hasPermission(p, kPermission.CHAT_FARBIG))msg=msg.replaceAll("&", "§");
+			if(manager.hasPermission(p, kPermission.CHAT_FARBIG)){
+				msg=msg.replaceAll("&", "§");
+				if(!p.hasPermission(kPermission.CHAT_NERV.getPermissionToString())){
+					msg=msg.replaceAll("§l", "");
+					msg=msg.replaceAll("§n", "");
+					msg=msg.replaceAll("§k", "");
+				}
+			}
 			
 			if(gildenmanager!=null&&gildenmanager.isPlayerInGilde(p)){
 				 g = gildenmanager.getPlayerGilde(p);

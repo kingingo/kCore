@@ -24,6 +24,7 @@ public class CommandKit implements CommandExecutor{
 	private Player player;
 	@Getter
 	private kConfig config;
+	private kConfig userconfig;
 	private UserDataConfig userData;
 	private String kit;
 	@Getter
@@ -56,11 +57,11 @@ public class CommandKit implements CommandExecutor{
 				kit=args[0].toLowerCase();
 				if(kits.containsKey(kit)){
 					if(player.hasPermission(kPermission.KIT.getPermissionToString()+"."+kit)){
-						this.config=userData.getConfig(player);
+						this.userconfig=userData.getConfig(player);
 						
-						if(kits_delay.containsKey(kit)&&!player.hasPermission(kPermission.KIT_BYEPASS_DELAY.getPermissionToString())&&this.config.isSet("timestamps.kits."+kit)){
-							if(this.config.getLong("timestamps.kits."+kit) >= System.currentTimeMillis()){
-								player.sendMessage(Text.PREFIX.getText()+Text.KIT_DELAY.getText(UtilTime.formatMili(this.config.getLong("timestamps.kits."+kit)-System.currentTimeMillis())));
+						if(kits_delay.containsKey(kit)&&!player.hasPermission(kPermission.KIT_BYEPASS_DELAY.getPermissionToString())&&this.userconfig.isSet("timestamps.kits."+kit)){
+							if(this.userconfig.getLong("timestamps.kits."+kit) >= System.currentTimeMillis()){
+								player.sendMessage(Text.PREFIX.getText()+Text.KIT_DELAY.getText(UtilTime.formatMili(this.userconfig.getLong("timestamps.kits."+kit)-System.currentTimeMillis())));
 								return false;
 							}
 						}
@@ -73,7 +74,7 @@ public class CommandKit implements CommandExecutor{
 						player.sendMessage(Text.PREFIX.getText()+Text.KIT_USE.getText(kit));
 						
 						if(kits_delay.containsKey(kit)&&!player.hasPermission(kPermission.KIT_BYEPASS_DELAY.getPermissionToString())){
-							this.config.set("timestamps.kits."+kit, kits_delay.get(kit)+System.currentTimeMillis());
+							this.userconfig.set("timestamps.kits."+kit, kits_delay.get(kit)+System.currentTimeMillis());
 						}
 					}
 				}else{

@@ -11,8 +11,8 @@ import org.bukkit.util.Vector;
 
 public class JumpPad {
 
-	private Location from;
-	private Location to;
+	protected Location from;
+	protected Location to;
 	@Getter
 	private Vector[] vectors;
 	private double m;
@@ -44,7 +44,7 @@ public class JumpPad {
 		this.vectors[3]=UtilLocation.FromToVector(from, new Location(from.getWorld(), from.getX()+(dis/4)*4,QuadratischeFunktionY(from.getX()+(dis/4)*4),LineareFunktionZ(from.getX()+(dis/4)*4)) );
 	}
 	
-	public void jump(Player player,int i){
+	public void doit(Player player,int i){
 		player.setVelocity(this.vectors[i]);
 		if(i==3)jump.remove(player);
 		if(i==0)jump.put(player, i);

@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.Command.Commands.Events.PlayerSetHomeEvent;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
@@ -8,6 +9,7 @@ import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.kConfig.kConfig;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +35,7 @@ public class CommandSetHome implements CommandExecutor{
 		if(args.length==0){
 			player.sendMessage(Text.PREFIX.getText()+"/sethome [Name]");
 		}else{
-			if(player.hasPermission(kPermission.HOME_SET.getPermissionToString())){
+			if(player.hasPermission(kPermission.HOME.getPermissionToString())){
 				int a=-1;
 				for(String perm : manager.getPlist().get(UtilPlayer.getRealUUID(player)).getPermissions().keySet()){
 					if(perm.contains("epicpvp.home.set.")){
@@ -44,6 +46,13 @@ public class CommandSetHome implements CommandExecutor{
 				
 				if(a!=-1&&config.getPathList("homes").size()>=a){
 					player.sendMessage(Text.PREFIX.getText()+Text.HOME_MAX.getText(a));
+					return false;
+				}
+				
+				PlayerSetHomeEvent ev = new PlayerSetHomeEvent(player,player.getLocation(),args[0]);
+				Bukkit.getPluginManager().callEvent(ev);
+				if(ev.isCancelled()){
+					if(ev.getReason()!=null)player.sendMessage(Text.PREFIX.getText()+ev.getReason());
 					return false;
 				}
 				

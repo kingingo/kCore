@@ -26,7 +26,7 @@ public class CommandDelKit implements CommandExecutor{
 		player=(Player)sender;
 		
 		if(player.hasPermission(kPermission.KIT_SET.getPermissionToString())){
-			if(args.length<=1){
+			if(args.length==0){
 				player.sendMessage(Text.PREFIX.getText()+"/delkit [Name]");
 			}else{
 				if(kit.getKits().containsKey(args[0].toLowerCase())){

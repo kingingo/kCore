@@ -12,24 +12,23 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandTpaccept implements CommandExecutor{
+public class CommandTpdeny implements CommandExecutor{
 	
 	@Getter
 	private TeleportManager manager;
 	private Player player;
 	
-	public CommandTpaccept(TeleportManager manager){
+	public CommandTpdeny(TeleportManager manager){
 		this.manager=manager;
 	}
 
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "tpaccept",alias={"tpyes"}, sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "tpdeny",alias={"tpno"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		player = (Player)cs;
 		if(getManager().getPermManager().hasPermission(player, kPermission.PLAYER_TELEPORT_ACCEPT)){
 			if(getManager().getTeleport_anfrage().containsKey(player)){
-				getManager().getTeleport().add(getManager().getTeleport_anfrage().get(player));
 				getManager().getTeleport_anfrage().remove(player);
-				player.sendMessage(Text.PREFIX.getText()+Text.ACCEPT.getText());
+				player.sendMessage(Text.PREFIX.getText()+Text.DENY.getText());
 			}else{
 				player.sendMessage(Text.PREFIX.getText()+Text.NO_ANFRAGE.getText());
 			}

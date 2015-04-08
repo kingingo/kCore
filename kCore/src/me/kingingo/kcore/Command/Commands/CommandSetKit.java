@@ -32,11 +32,11 @@ public class CommandSetKit implements CommandExecutor{
 				player.sendMessage(Text.PREFIX.getText()+"/setkit [Name] [Delay STD]");
 			}else{
 				config.setInventory("kits."+args[0].toLowerCase()+".Inventory", player.getInventory());
+				this.kit.getKits().put(args[0].toLowerCase(), player.getInventory().getContents().clone());
 				if(UtilNumber.toInt(args[1])!=0){
 					config.set("kits."+args[0].toLowerCase()+".Delay", UtilNumber.toInt(args[1])*TimeSpan.HOUR );
 					this.kit.getKits_delay().put(args[0].toLowerCase(), UtilNumber.toInt(args[1])*TimeSpan.HOUR );
 				}
-				this.kit.getKits().put(args[0].toLowerCase(), player.getInventory().getContents().clone());
 				kit.getConfig().save();
 				player.sendMessage(Text.PREFIX.getText()+Text.KIT_SET.getText(args[0]));
 			}

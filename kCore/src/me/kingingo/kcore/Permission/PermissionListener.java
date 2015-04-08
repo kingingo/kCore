@@ -11,6 +11,7 @@ import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_REMOVE_ALL;
+import me.kingingo.kcore.Permission.Event.PlayerLoadPermissionEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilList;
@@ -30,6 +31,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 
+import com.earth2me.essentials.Essentials;
+
 public class PermissionListener implements Listener {
 	
 	private PermissionManager manager;
@@ -46,6 +49,7 @@ public class PermissionListener implements Listener {
 	    manager.loadPermission(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
 	}
 	
+	String p;
 	@EventHandler
 	public void loadList(UpdateEvent ev){
 		if(ev.getType()==UpdateType.SEC_3){
@@ -55,6 +59,7 @@ public class PermissionListener implements Listener {
 					uuid=UtilPlayer.getRealUUID(player);
 					if(cloned.contains(uuid)){
 						if(UtilPlayer.getRealUUID(player).equals(uuid)){
+							if(player.isOp())player.setOp(false);
 							if(!manager.getPlist().containsKey(uuid))manager.getPlist().put(uuid, player.addAttachment(manager.getInstance()));
 							Map<String,Boolean> list = reflectMap(manager.getPlist().get(uuid));
 							list.clear();
@@ -71,15 +76,18 @@ public class PermissionListener implements Listener {
 							    			  Bukkit.getPluginManager().addPermission(new Permission(perm));
 							    		}
 										list.put(perm.toLowerCase(), true);
+										
+										if(perm.startsWith("epicpvp.timer.")){
+											p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
+											if(!manager.getPlist().get(uuid).getPermissions().containsKey(p)){
+												if(Bukkit.getPluginManager().getPermission(p)==null){
+													Bukkit.getPluginManager().addPermission(new Permission(p));
+												}
+												list.put(p.toLowerCase(), true);
+											}
+										}
 									}
 								}	
-								
-								for(String perm : manager.getLoad().get(uuid)){
-									if(perm.substring(0, 1).equalsIgnoreCase("-")){
-										list.remove(perm.substring(1, perm.length()).toLowerCase());
-										list.put(perm.substring(1, perm.length()).toLowerCase(), false);
-									}
-								}
 							}
 							
 							if(manager.getPgroup().containsKey(uuid)){
@@ -93,7 +101,18 @@ public class PermissionListener implements Listener {
 											if(Bukkit.getPluginManager().getPermission(perm)==null){
 								    			  Bukkit.getPluginManager().addPermission(new Permission(perm));
 								    		}
+											
 											list.put(perm.toLowerCase(), true);	
+											
+											if(perm.startsWith("epicpvp.timer.")){
+												p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
+												if(!manager.getPlist().get(uuid).getPermissions().containsKey(p)){
+													if(Bukkit.getPluginManager().getPermission(p)==null){
+														Bukkit.getPluginManager().addPermission(new Permission(p));
+													}
+													list.put(p.toLowerCase(), true);
+												}
+											}
 										}
 									}
 								}
@@ -102,16 +121,31 @@ public class PermissionListener implements Listener {
 									for(String perm : manager.getGroups().get(manager.getPgroup().get(uuid)).getPerms()){
 										if(perm.substring(0, 1).equalsIgnoreCase("-")){
 											list.remove(perm.substring(1, perm.length()));
-											list.put(perm.substring(1, perm.length()).toLowerCase(), false);
+											//list.put(perm.substring(1, perm.length()).toLowerCase(), false);
+										}
+									}
+									
+									if(manager.getLoad().containsKey(uuid)){
+										for(String perm : manager.getLoad().get(uuid)){
+											if(perm.substring(0, 1).equalsIgnoreCase("-")){
+												list.remove(perm.substring(1, perm.length()).toLowerCase());
+												//list.put(perm.substring(1, perm.length()).toLowerCase(), false);
+											}
 										}
 									}
 								}
 							}
 							
+//							if(Bukkit.getPluginManager().getPlugin("Essentials")!=null){
+//								Essentials ess = (Essentials)Bukkit.getPluginManager().getPlugin("Essentials");
+//								ess.getPermissionsHandler()
+//							}
+							
 							player.recalculatePermissions();
 							manager.getLoad().remove(uuid);
 							manager.getLoad_now().remove(uuid);
 							manager.setTabList(player);
+							Bukkit.getPluginManager().callEvent(new PlayerLoadPermissionEvent(manager, player));
 						}
 					}	
 				}	
@@ -165,20 +199,6 @@ public class PermissionListener implements Listener {
 			}
 			manager.getPlist().remove(packet.getUuid());
 			Bukkit.getServer().getOperators().remove(Bukkit.getOfflinePlayer(packet.getUuid()));
-//			if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null){
-//				ru.tehkode.permissions.PermissionManager pex = ((PermissionsEx)Bukkit.getPluginManager().getPlugin("PermissionEx")).getPermissionsManager();
-//				
-//				for(String world : pex.getUser(packet.getUuid()).getAllPermissions().keySet()){
-//					for(String permission : pex.getUser(packet.getUuid()).getAllPermissions().get(world)){
-//						pex.getUser(packet.getUuid()).removePermission(permission, world);
-//					}
-//				}
-//				for(String world : pex.getUser(packet.getUuid()).getAllGroups().keySet()){
-//					for(PermissionGroup group : pex.getUser(packet.getUuid()).getAllGroups().get(world)){
-//						pex.getUser(packet.getUuid()).removeGroup(group, world);
-//					}
-//				}
-//			}
 		}
 	}
 	
@@ -199,11 +219,6 @@ public class PermissionListener implements Listener {
 			manager.getPlist().get(UtilPlayer.getRealUUID(ev.getPlayer())).remove();
 			manager.getPlist().remove(UtilPlayer.getRealUUID(ev.getPlayer()));
 		}
-		if(ev.getPlayer().isOp())ev.getPlayer().setOp(false);
 	}
 	
-//	@EventHandler(priority=EventPriority.LOWEST)
-//	public void Join(PlayerJoinEvent ev){
-//		manager.setTabList(ev.getPlayer());
-//	}
 }

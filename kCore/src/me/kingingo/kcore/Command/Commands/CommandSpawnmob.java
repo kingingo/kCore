@@ -32,7 +32,7 @@ public class CommandSpawnmob implements CommandExecutor{
 					player.sendMessage(Text.PREFIX.getText()+"Mob Type nicht gefunden!");
 					return false;
 				}
-				if(!player.hasPermission(kPermission.SPAWNMOB+"."+mob.name.toLowerCase(Locale.ENGLISH))){
+				if(!player.hasPermission(kPermission.SPAWNMOB.getPermissionToString()+"."+mob.name.toLowerCase(Locale.ENGLISH))){
 					if(!player.hasPermission(kPermission.SPAWNMOB_ALL.getPermissionToString())){
 						player.sendMessage(Text.PREFIX.getText()+Text.NO_PERMISSION.getText());
 						return false;

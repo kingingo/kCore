@@ -2,6 +2,8 @@ package me.kingingo.kcore.Gilden.Commands;
 
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
+import me.kingingo.kcore.Gilden.GildenType;
+import me.kingingo.kcore.Gilden.SkyBlockGildenManager;
 import me.kingingo.kcore.PlayerStats.Stats;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -27,6 +29,16 @@ public class Erstellen {
 			if(manager.ExistGilde(g)){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EXIST.getText());
 				return;
+			}
+			
+			if(manager.getTyp()==GildenType.SKY&&manager instanceof SkyBlockGildenManager){
+				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
+				if(sky.getStats().getDouble(Stats.MONEY, p)>=500.0){
+					sky.getStats().setDouble(p, sky.getStats().getDouble(Stats.MONEY, p)-500.0, Stats.MONEY);
+				}else{
+					p.sendMessage(Text.PREFIX.getText()+"Du brauchst 500 Epics um eine Gilde zu erstellen.");
+					return;
+				}
 			}
 			
 			boolean o[] = new boolean[g.length()];

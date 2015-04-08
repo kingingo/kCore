@@ -10,6 +10,7 @@ import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.Events.GildenPlayerTeleportEvent;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.PlayerStats.Stats;
+import me.kingingo.kcore.PlayerStats.StatsManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -20,10 +21,13 @@ public class SkyBlockGildenManager extends GildenManager{
 
 	@Getter
 	private SkyBlockManager sky;
+	@Getter
+	private StatsManager stats;
 	
-	public SkyBlockGildenManager(SkyBlockManager manager, MySQL mysql,GildenType typ, CommandHandler cmd) {
+	public SkyBlockGildenManager(SkyBlockManager manager, MySQL mysql,GildenType typ, CommandHandler cmd,StatsManager stats) {
 		super(manager.getInstance(), mysql, typ, cmd);
 		this.sky=manager;
+		this.stats=stats;
 		manager.addGildenWorld("gilde", this);
 	}
 	

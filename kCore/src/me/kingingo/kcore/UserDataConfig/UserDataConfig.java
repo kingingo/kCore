@@ -8,6 +8,7 @@ import java.util.UUID;
 import lombok.Getter;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigAddDefaultEvent;
+import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.kConfig.kConfig;
 
@@ -98,10 +99,11 @@ public class UserDataConfig extends kListener{
 		configs=null;
 	}
 	
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void Quit(PlayerQuitEvent ev){
 		uuid=UtilPlayer.getRealUUID(ev.getPlayer());
 		if(configs.containsKey(uuid)){
+			Bukkit.getPluginManager().callEvent(new UserDataConfigRemoveEvent(configs.get(uuid), ev.getPlayer()));
 			saveConfig(uuid);
 			configs.remove(uuid);
 		}
