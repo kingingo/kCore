@@ -137,8 +137,15 @@ public class CommandGroup implements CommandExecutor{
 					
 					String player = args[1];
 					String rang = args[2];
+					UUID uuid;
 					
-					manager.setGroup(UtilPlayer.getUUID(player, manager.getMysql()), rang);
+					if(UtilPlayer.isOnline(player)){
+						uuid=UtilPlayer.getRealUUID(Bukkit.getPlayer(player));
+					}else{
+						uuid=UtilPlayer.getUUID(player, manager.getMysql());
+					}
+					
+					manager.setGroup(uuid, rang);
 					System.out.println("[kPermission] " + player + " hat den Rang " + rang + " erhalten");
 				}
 				

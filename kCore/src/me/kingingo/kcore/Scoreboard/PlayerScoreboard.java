@@ -102,6 +102,10 @@ public class PlayerScoreboard {
 	}
 	
 	public void addBoard(DisplaySlot typ,String DisplayName){
+		
+		if(typ==DisplaySlot.SIDEBAR&&DisplayName.length()>=32){
+			DisplayName=DisplayName.substring(0,31);
+		}
 		if(board.getObjective(typ.name())==null){
 			Objective o = board.registerNewObjective(typ.name(), "dummy");
 			o.setDisplaySlot(typ);

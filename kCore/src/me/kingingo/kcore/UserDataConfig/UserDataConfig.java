@@ -8,6 +8,7 @@ import java.util.UUID;
 import lombok.Getter;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigAddDefaultEvent;
+import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.kConfig.kConfig;
@@ -17,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -56,6 +58,26 @@ public class UserDataConfig extends kListener{
 		configs.put(uuid, config);
 	}
 	
+	@EventHandler
+	public void Join(PlayerJoinEvent ev){
+		if(configs.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
+			Bukkit.getPluginManager().callEvent(new UserDataConfigLoadEvent(configs.get(UtilPlayer.getRealUUID(ev.getPlayer())), ev.getPlayer()));
+		}
+	}
+	
+	public kConfig loadConfig(UUID uuid){
+		file = new File(getDataFolder(),uuid+".yml");
+		config=new kConfig(file);
+		Bukkit.getPluginManager().callEvent(new UserDataConfigAddDefaultEvent(getConfig(),uuid));
+		getConfig().options().copyDefaults(true);
+		try {
+			getConfig().save(file);
+		} catch (IOException e) {
+			Log("Die Config konnte nicht gespeichert werden Error: "+e.getMessage());
+		}
+		return config;
+	}
+	
 	public void saveConfig(Player player){
 		saveConfig(UtilPlayer.getRealUUID(player));
 	}
@@ -73,6 +95,9 @@ public class UserDataConfig extends kListener{
 	}
 	
 	public kConfig getConfig(UUID uuid){
+		if(!configs.containsKey(uuid)){
+			configs.put(uuid, loadConfig(uuid));
+		}
 		return configs.get(uuid);
 	}
 	

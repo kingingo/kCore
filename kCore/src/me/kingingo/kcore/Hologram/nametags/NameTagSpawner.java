@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Hologram.nametags;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import lombok.Getter;
@@ -16,6 +17,7 @@ import net.minecraft.server.v1_7_R4.DataWatcher;
 import net.minecraft.server.v1_7_R4.EnumEntitySize;
 import net.minecraft.server.v1_7_R4.MathHelper;
 import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_7_R4.World;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -174,8 +176,7 @@ public class NameTagSpawner {
 		teleportHorse.setY(location.getY() + Y_OFFSET);
 		teleportHorse.setZ(location.getZ());
 
-		WrapperPlayServerEntityTeleport teleportSkull = new WrapperPlayServerEntityTeleport(
-			teleportHorse.getHandle().deepClone());
+		WrapperPlayServerEntityTeleport teleportSkull = new WrapperPlayServerEntityTeleport(teleportHorse.getHandle().deepClone());
 		teleportHorse.setEntityID(teleportHorse.getEntityID() + 1);
 
 		teleportHorse.sendPacket(observer);

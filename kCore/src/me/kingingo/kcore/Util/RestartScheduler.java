@@ -30,6 +30,7 @@ public class RestartScheduler implements Listener{
 	@Setter
 	@Getter
 	private AntiLogoutManager anti;
+	private int i=0;
 	
 	public RestartScheduler(JavaPlugin instance){
 		this.instance=instance;
@@ -43,6 +44,7 @@ public class RestartScheduler implements Listener{
 	}
 	
 	public void broadcast(String msg){
+		System.out.println(msg);
 		UtilServer.broadcast(msg);
 	}
 	
@@ -62,7 +64,10 @@ public class RestartScheduler implements Listener{
 			for(Player p : UtilServer.getPlayers())UtilBG.sendToServer(p, "falldown",instance);
 			break;
 		case 23:
-			if(UtilServer.getPlayers().length!=0)start=26;
+			if(UtilServer.getPlayers().length!=0&&i<5){
+				start=26;
+				i++;
+			}
 			break;
 		case 20:
 			if(stats!=null)stats.SaveAllData();	
@@ -78,12 +83,7 @@ public class RestartScheduler implements Listener{
 		case 1:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
 		case 0: 
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "whitelist off");
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
-			try {
-				Runtime.getRuntime().exec("./start.sh");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
 			break;
 		}
 	}

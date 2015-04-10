@@ -6,6 +6,7 @@ import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Mob;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Permission.kPermission;
+import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,6 +16,8 @@ import org.bukkit.entity.Player;
 public class CommandSpawnmob implements CommandExecutor{
 	
 	private Player player;
+	private String s;
+	private Long l;
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "spawnmob", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
@@ -26,33 +29,44 @@ public class CommandSpawnmob implements CommandExecutor{
 				for(Mob mob : Mob.values())s+=mob.name()+",";
 				player.sendMessage(s.substring(0, s.length()-1));
 			}else{
-				Mob mob = Mob.fromName(args[0]);
-				
-				if(mob==null){
-					player.sendMessage(Text.PREFIX.getText()+"Mob Type nicht gefunden!");
-					return false;
-				}
-				if(!player.hasPermission(kPermission.SPAWNMOB.getPermissionToString()+"."+mob.name.toLowerCase(Locale.ENGLISH))){
-					if(!player.hasPermission(kPermission.SPAWNMOB_ALL.getPermissionToString())){
-						player.sendMessage(Text.PREFIX.getText()+Text.NO_PERMISSION.getText());
+				s=UtilTime.getTimeManager().check(cmd.getName(), player);
+				if(s!=null){
+					player.sendMessage(Text.PREFIX.getText()+Text.USE_BEFEHL_TIME.getText(s));
+				}else{
+					Mob mob = Mob.fromName(args[0]);
+					
+					if(mob==null){
+						player.sendMessage(Text.PREFIX.getText()+"Mob Type nicht gefunden!");
 						return false;
+					}
+					if(!player.hasPermission(kPermission.SPAWNMOB.getPermissionToString()+"."+mob.name.toLowerCase(Locale.ENGLISH))){
+						if(!player.hasPermission(kPermission.SPAWNMOB_ALL.getPermissionToString())){
+							player.sendMessage(Text.PREFIX.getText()+Text.NO_PERMISSION.getText());
+							return false;
+						}
+					}
+					
+					int a = 10;
+					
+					if(args.length==2&&player.hasPermission(kPermission.SPAWNMOB_ALL.getPermissionToString())){
+						try{
+							a=Integer.valueOf(args[1]);
+						}catch(NumberFormatException e){
+							player.sendMessage(Text.PREFIX.getText()+"Das ist keine Zahl!");
+							return false;
+						}
+					}
+
+					l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
+					if( l!=0 ){
+						UtilTime.getTimeManager().add(cmd.getName(), player, l);
+					}
+					
+					for(int i = 0; i<=a;i++){
+						player.getLocation().getWorld().spawnCreature(player.getLocation(), mob.getType());
 					}
 				}
 				
-				int a = 10;
-				
-				if(args.length==2&&player.hasPermission(kPermission.SPAWNMOB_ALL.getPermissionToString())){
-					try{
-						a=Integer.valueOf(args[1]);
-					}catch(NumberFormatException e){
-						player.sendMessage(Text.PREFIX.getText()+"Das ist keine Zahl!");
-						return false;
-					}
-				}
-				
-				for(int i = 0; i<=a;i++){
-					player.getLocation().getWorld().spawnCreature(player.getLocation(), mob.getType());
-				}
 			}
 		}
 		return false;

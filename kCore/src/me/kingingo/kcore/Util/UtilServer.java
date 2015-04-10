@@ -1,17 +1,32 @@
 package me.kingingo.kcore.Util;
 
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.List;
 
 import lombok.Getter;
 import me.kingingo.kcore.LogHandler.Event.LogEvent;
 import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
+import net.minecraft.server.v1_7_R4.DataWatcher;
+import net.minecraft.server.v1_7_R4.EntityHorse;
+import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.server.v1_7_R4.EntityWitherSkull;
+import net.minecraft.server.v1_7_R4.EnumEntitySize;
+import net.minecraft.server.v1_7_R4.MathHelper;
+import net.minecraft.server.v1_7_R4.PacketPlayOutAttachEntity;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_7_R4.WorldServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.ItemStack;
@@ -25,10 +40,75 @@ public class UtilServer{
 	@Getter
 	private static boolean loghandleradded = false;
 	
+	public static List<Integer> showLine(Location loc, String text) {
+		
+	      WorldServer world = ((CraftWorld) loc.getWorld()).getHandle();
+	      EntityWitherSkull skull = new EntityWitherSkull(world);
+	      skull.setLocation(loc.getX(), loc.getY() + 1 + 55, loc.getZ(), 0, 0);
+	      PacketPlayOutSpawnEntity skull_packet = new PacketPlayOutSpawnEntity(skull,skull.getId());
+	 
+	      EntityHorse horse = new EntityHorse(world);
+	      horse.setLocation(loc.getX(), loc.getY() + 55, loc.getZ(), 0, 0);
+	      horse.setAge(-1700000);
+	      horse.setCustomName(text);
+	      horse.setCustomNameVisible(true);
+	      PacketPlayOutSpawnEntityLiving packedt = new PacketPlayOutSpawnEntityLiving(horse);
+	      for (Player player : loc.getWorld().getPlayers()) {
+	         EntityPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
+	         nmsPlayer.playerConnection.sendPacket(packedt);
+	         nmsPlayer.playerConnection.sendPacket(skull_packet);
+	 
+	         PacketPlayOutAttachEntity pa = new PacketPlayOutAttachEntity(0, horse, skull);
+	         nmsPlayer.playerConnection.sendPacket(pa);
+	      }
+	      return Arrays.asList(skull.getId(), horse.getId());
+	   }
+	
+	public static PacketPlayOutSpawnEntityLiving getCreateHorse(Location location,String text){
+		PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
+	    UtilReflection.setValue("a", packet, 100);
+	    UtilReflection.setValue("b", packet, ((byte)EntityType.HORSE.getTypeId()));
+	    UtilReflection.setValue("c", packet, EnumEntitySize.SIZE_2.a(location.getBlockX()));
+	    UtilReflection.setValue("d", packet, MathHelper.floor(location.getBlockY() * 32.0D));
+	    UtilReflection.setValue("e", packet, EnumEntitySize.SIZE_2.a(location.getBlockZ()));
+	    UtilReflection.setValue("i", packet, ((byte)(int)(location.getYaw() * 256.0F / 360.0F)));
+	    UtilReflection.setValue("j", packet, ((byte)(int)(location.getPitch() * 256.0F / 360.0F)));
+	    DataWatcher d = new DataWatcher(null);
+        d.a(10, text);
+        d.a(11, (byte) 1);
+        d.a(12, -1700000);
+        UtilReflection.setValue("l", packet,d);
+        return packet;
+	}
+	
+	public static PacketPlayOutSpawnEntity getCreateSkull(Location location){
+		PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity();
+		UtilReflection.setValue("a", packet, 66);
+	    UtilReflection.setValue("b", packet, MathHelper.floor(location.getX() * 32.0D));
+	    UtilReflection.setValue("c", packet, MathHelper.floor(location.getY() * 32.0D));
+	    UtilReflection.setValue("d", packet, MathHelper.floor(location.getZ() * 32.0D));
+	    UtilReflection.setValue("h", packet, MathHelper.d(location.getPitch() * 256.0F / 360.0F));
+	    UtilReflection.setValue("i", packet, MathHelper.d(location.getYaw() * 256.0F / 360.0F));
+	    UtilReflection.setValue("j", packet, MathHelper.d(location.getYaw() * 256.0F / 360.0F));
+	    UtilReflection.setValue("k", packet, MathHelper.d(location.getYaw() * 256.0F / 360.0F));
+        return packet;
+	}
+	
+	public static void spawnHologram(String text,Player player,Location location) {
+		PacketPlayOutSpawnEntity skull = getCreateSkull(location);
+		PacketPlayOutSpawnEntityLiving horse = getCreateHorse(location, text);
+		PacketPlayOutAttachEntity attach = new PacketPlayOutAttachEntity();
+		
+		UtilReflection.setValue("a", attach, 1);
+		UtilReflection.setValue("b", attach, UtilReflection.getValue("a", horse));
+		UtilReflection.setValue("c", attach, (skull != null ? UtilReflection.getValue("a", skull) : -1));
+		((CraftPlayer)player).getHandle().playerConnection.sendPacket(horse);
+		((CraftPlayer)player).getHandle().playerConnection.sendPacket(skull);
+		((CraftPlayer)player).getHandle().playerConnection.sendPacket(attach);
+	}
+	
 	public static void addLogHandler(){
 		if(!isLoghandleradded()){
-		//s	Bukkit.getLogger().getLogger("Minecraft").addHandler(arg0);
-			
 			System.setOut(new PrintStream(System.out) {
 		        @Override
 		        public void println(String s) {
@@ -37,8 +117,8 @@ public class UtilServer{
 		        }
 		    });
 			
-			if(Bukkit.getPluginManager().getPlugin("ProtocolLib")!=null){
 				ProtocolManager pro = ProtocolLibrary.getProtocolManager();
+				
 				PrintStream print = (PrintStream)UtilReflection.getValue("output", pro.getAsynchronousManager().getErrorReporter());
 				if(print!=null){
 					UtilReflection.setValue("output", pro.getAsynchronousManager().getErrorReporter(), new PrintStream(print) {
@@ -51,7 +131,7 @@ public class UtilServer{
 				}else{
 					System.out.println("[kCore] ProtocolLib PrintStream == NULL");
 				}
-			}else{
+				
 				System.setErr(new PrintStream(System.err) {
 			        @Override
 			        public void println(String s) {
@@ -59,7 +139,7 @@ public class UtilServer{
 			    		Bukkit.getPluginManager().callEvent(new LogEvent(s));
 			        }
 			    });
-			}
+				
 		}
 	}
 	

@@ -54,6 +54,13 @@ public class CommandMoney implements CommandExecutor{
 							player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[1]));
 						}
 					}
+				}else{
+					if(UtilPlayer.isOnline(args[0])){
+						target=Bukkit.getPlayer(args[0]);
+						player.sendMessage(Text.PREFIX_GAME.getText(GameType.SKYBLOCK.getTyp())+target.getName()+" Kontostand beträgt:§3 " + stats.getDouble(Stats.MONEY, target));
+					}else{
+						player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[0]));
+					}
 				}
 			}
 		}

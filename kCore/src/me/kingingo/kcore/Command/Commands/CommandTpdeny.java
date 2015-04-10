@@ -27,6 +27,12 @@ public class CommandTpdeny implements CommandExecutor{
 		player = (Player)cs;
 		if(getManager().getPermManager().hasPermission(player, kPermission.PLAYER_TELEPORT_ACCEPT)){
 			if(getManager().getTeleport_anfrage().containsKey(player)){
+				if(getManager().getTeleport_anfrage().get(player).getPlayer_to()!=null&&!getManager().getTeleport_anfrage().get(player).getPlayer_to().getName().equalsIgnoreCase(player.getName())){
+					getManager().getTeleport_anfrage().get(player).getPlayer_to().sendMessage(Text.PREFIX.getText()+Text.DENY_FROM.getText(player.getName()));
+				}
+				if(getManager().getTeleport_anfrage().get(player).getFrom()!=null&&!getManager().getTeleport_anfrage().get(player).getFrom().getName().equalsIgnoreCase(player.getName())){
+					getManager().getTeleport_anfrage().get(player).getFrom().sendMessage(Text.PREFIX.getText()+Text.DENY_FROM.getText(player.getName()));
+				}
 				getManager().getTeleport_anfrage().remove(player);
 				player.sendMessage(Text.PREFIX.getText()+Text.DENY.getText());
 			}else{

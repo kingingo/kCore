@@ -7,6 +7,9 @@ import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerAddEvent;
 import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerRemoveEvent;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
+import me.kingingo.kcore.UserDataConfig.UserDataConfig;
+import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,9 +18,11 @@ public class PerkManager extends PerkData{
 	
 	@Getter
 	public PermissionManager manager;
+	public UserDataConfig userData;
 	
-	public PerkManager(PermissionManager manager,Perk[] perks){
+	public PerkManager(PermissionManager manager,UserDataConfig userData,Perk[] perks){
 		this.manager=manager;
+		this.userData=userData;
 		for(Perk perk: perks)getPlayers().put(perk, new ArrayList<Player>());
 		registerPerks();
 		
@@ -73,6 +78,32 @@ public class PerkManager extends PerkData{
 			}
 		}
 		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player,perkString));
+	}
+	
+	public void configPlayer(Player player){
+		if(userData!=null&&userData.getConfigs().containsKey(UtilPlayer.getRealUUID(player))){
+			configPlayer(player, userData.getConfig(player));
+		}
+	}
+	
+	public void configPlayer(Player player,UserDataConfig userData){
+		if(userData.getConfigs().containsKey(UtilPlayer.getRealUUID(player))){
+			configPlayer(player, userData.getConfig(player));
+		}
+	}
+	
+	public void configPlayer(Player player,kConfig config){
+		for(Perk perk : getPlayers().keySet()){
+			if(player.hasPermission(perk.getPermission().getPermissionToString())){
+				if(config.isSet("perks."+perk.getName())){
+					if(!config.getString("perks."+perk.getName()).equalsIgnoreCase("true")){
+						getPlayers().get(perk).remove(player);
+					}
+				}else{
+					config.set("perks."+perk.getName(), "true");
+				}
+			}
+		}
 	}
 	
 	public boolean hasPlayer(String perkString,Player player){

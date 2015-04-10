@@ -79,6 +79,7 @@ public class Hologram implements Listener{
 			list.put(message, time);
 			return message;
 		} catch (Exception error) {
+			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -92,6 +93,7 @@ public class Hologram implements Listener{
 			message.sendToPlayer(p, loc);
 			return message;
 		} catch (Exception error) {
+			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -106,6 +108,7 @@ public class Hologram implements Listener{
 			list.put(message, time);
 			return message;
 		} catch (Exception error) {
+			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -119,6 +122,7 @@ public class Hologram implements Listener{
 			message.sendToPlayer(p, loc);
 			return message;
 		} catch (Exception error) {
+			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -137,6 +141,7 @@ public class Hologram implements Listener{
 			
 			return message;
 		} catch (Exception error) {
+			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -153,6 +158,7 @@ public class Hologram implements Listener{
 			
 			return message;
 		} catch (Exception error) {
+			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -170,6 +176,7 @@ public class Hologram implements Listener{
 			
 			return message;
 		} catch (Exception error) {
+			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -187,6 +194,7 @@ public class Hologram implements Listener{
 			
 			return message;
 		} catch (Exception error) {
+			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;

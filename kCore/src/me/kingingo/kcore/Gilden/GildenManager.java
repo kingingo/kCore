@@ -334,7 +334,7 @@ public class GildenManager implements Listener {
 		ArrayList<UUID> l = new ArrayList<>();
 		getMember(name);
 		for(UUID n : getGilden_player().keySet()){
-			if( getGilden_player().get(n).equalsIgnoreCase(name)){
+			if( getGilden_player().get(n).equalsIgnoreCase(name) ){
 				l.add(n);
 			}
 		}

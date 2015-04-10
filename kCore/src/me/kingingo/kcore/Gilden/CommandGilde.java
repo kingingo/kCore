@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Gilden;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.Commands.Annehmen;
 import me.kingingo.kcore.Gilden.Commands.Einladen;
 import me.kingingo.kcore.Gilden.Commands.Erstellen;
@@ -9,6 +10,7 @@ import me.kingingo.kcore.Gilden.Commands.Info;
 import me.kingingo.kcore.Gilden.Commands.Kicken;
 import me.kingingo.kcore.Gilden.Commands.Ranking;
 import me.kingingo.kcore.Gilden.Commands.Verlassen;
+import me.kingingo.kcore.Permission.kPermission;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -67,6 +69,10 @@ public class CommandGilde implements CommandExecutor{
 				Home.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("createisland")){
 				Home.useSet(p, args, manager);
+			}else if(manager.getTyp()==GildenType.SKY&&p.hasPermission(kPermission.GILDE_NEWISLAND.getPermissionToString())&&args[0].equalsIgnoreCase("newisland")){
+				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
+				sky.getSky().getGilden_world().newIsland(args[1]);
+				p.sendMessage(Text.GILDE_PREFIX.getText()+"§aDone.");
 			}
 		}
 		return false;

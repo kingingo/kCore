@@ -58,9 +58,8 @@ public class PermissionManager {
 		this.packetManager=packetManager;
 		this.typ=typ;
 		UtilServer.essPermissionHandler();
-		this.listener=new PermissionListener(this);
 		UtilTime.setTimeManager(this);
-		Bukkit.getPluginManager().registerEvents(listener, getInstance());
+		this.listener=new PermissionListener(this);
 	}
 	
 	public String getPrefix(Player p){
@@ -102,10 +101,12 @@ public class PermissionManager {
 	
 	public void setGroup(UUID uuid, String group,GroupTyp typ){
 		if(!getGroup(uuid).equalsIgnoreCase("default")){
-			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE uuid='" + uuid + "' AND permission='none' AND prefix='none' AND grouptyp='"+typ.getName()+"'");
+			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE uuid='" + uuid + "' AND permission='none' AND prefix='none' AND (grouptyp='"+typ.name()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
 		}else{
 			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','none','"+group+"','"+typ.getName()+"','"+uuid+"');");
 		}
+		load.remove(uuid);
+		plist.remove(uuid);
 		pgroup.remove(uuid);
 		if(UtilPlayer.isOnline(uuid))loadPermission(uuid);
 		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(uuid));
@@ -137,7 +138,7 @@ public class PermissionManager {
 		return setTabList(p, false);
 	}
 	
-	public boolean setTabList(Player p,boolean invisble){
+	public boolean setTabList(Player p,boolean invisble) {
 		if(!isAllowTab())return false;
 		String name = p.getName();
 		if(p.isCustomNameVisible()){

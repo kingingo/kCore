@@ -43,10 +43,6 @@ public class UtilPlayer
 	public static void sendPacket(Player player,Packet packet){
 		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 	}
-
-//	public static void PermissionExChangeUUID(Player player){
-//		PermissionExChangeUUID(player.getName(), getRealUUID(player));
-//	}
 	
 	public static boolean hasPermission(Player p,String perm){
 		if(p.hasPermission(perm) || p.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString()))return true;
@@ -57,48 +53,6 @@ public class UtilPlayer
 		if(p.hasPermission(perm.getPermissionToString()) || p.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString()))return true;
 		return false;
 	}
-	
-//	public static void EssentialsUser(UUID old,UUID uuid){
-//		if(Bukkit.getPluginManager().getPlugin("Essentials")!=null){
-//			Essentials essentials = (Essentials)Bukkit.getPluginManager().getPlugin("Essentials");
-//			User old_user = essentials.getUser(old);	
-//			User new_user = essentials.getUser(uuid);
-//			for(String home : old_user.getHomes()){
-//				try {
-//					new_user.setHome(home, old_user.getHome(home));
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					old_user=null;
-//					break;
-//				}
-//			}
-//			new_user.save();
-//			old_user.remove();
-//		}
-//	}
-//	
-//	public static void PermissionExChangeUUID(UUID old,UUID uuid){
-//		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null){
-//			PermissionManager pex = ((PermissionsEx)Bukkit.getPluginManager().getPlugin("PermissionsEx")).getPermissionsManager();	
-//			PermissionsUserData data = pex.getBackend().getUserData(old.toString());
-//			data.setIdentifier(uuid.toString());
-//			data.save();
-//			pex.clearUserCache(uuid);
-//	    	System.out.println("[kCore] PermissionEx from "+old+" change to "+uuid);
-//		}
-//	}
-//	
-//	public static void PermissionExChangeUUID(String playerName,UUID uuid){
-//		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null){
-//			PermissionManager pex = ((PermissionsEx)Bukkit.getPluginManager().getPlugin("PermissionsEx")).getPermissionsManager();
-//			PermissionsUserData data = pex.getBackend().getUserData(playerName);
-//			if(data.setIdentifier(uuid.toString())){
-//				data.setOption("name", playerName, null);
-//		        pex.resetUser(playerName);
-//			}
-//			data.save();
-//		}
-//	}
 	
 	public static void setWorldChangeUUID(World world,UUID old,UUID uuid){
 		File file = new File(world.getName() + "/playerdata/"+old+".dat");

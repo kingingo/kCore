@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import lombok.Getter;
-import lombok.Setter;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
@@ -16,24 +16,19 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilList;
 import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilReflection;
 import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 
-import com.earth2me.essentials.Essentials;
-
-public class PermissionListener implements Listener {
+public class PermissionListener extends kListener {
 	
 	private PermissionManager manager;
 	@Getter
@@ -41,6 +36,7 @@ public class PermissionListener implements Listener {
 	private UUID uuid;
 	
 	public PermissionListener(PermissionManager manager){
+		super(manager.getInstance(),"PermissionListener");
 		this.manager=manager;
 	}
 	
@@ -144,7 +140,12 @@ public class PermissionListener implements Listener {
 							player.recalculatePermissions();
 							manager.getLoad().remove(uuid);
 							manager.getLoad_now().remove(uuid);
-							manager.setTabList(player);
+							try{
+								manager.setTabList(player);
+							}catch(IllegalArgumentException e){
+								Log("TabList Spieler: "+player.getName()+" Error:"+e.getMessage());
+							}
+							
 							Bukkit.getPluginManager().callEvent(new PlayerLoadPermissionEvent(manager, player));
 						}
 					}	
@@ -215,7 +216,11 @@ public class PermissionListener implements Listener {
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Quit(PlayerQuitEvent ev){
 		if(manager.getPlist().containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
-			ev.getPlayer().removeAttachment(manager.getPlist().get(UtilPlayer.getRealUUID(ev.getPlayer())));
+			try{
+				ev.getPlayer().removeAttachment(manager.getPlist().get(UtilPlayer.getRealUUID(ev.getPlayer())));
+			}catch(IllegalArgumentException e){
+				Log("PlayerQuitEvent Fehler Spieler "+ev.getPlayer().getName()+" : "+e.getMessage());
+			}
 			manager.getPlist().get(UtilPlayer.getRealUUID(ev.getPlayer())).remove();
 			manager.getPlist().remove(UtilPlayer.getRealUUID(ev.getPlayer()));
 		}

@@ -31,6 +31,35 @@ public class Erstellen {
 				return;
 			}
 			
+//			boolean o[] = new boolean[g.length()];
+//			boolean n = true;
+//			char[] zeichen = g.toCharArray();
+//			char[] a = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
+//			
+//			for(int i = 0;i<zeichen.length;i++){
+//				for(int u=0;u<a.length;u++){
+//					
+//					if(zeichen[i] == a[u]){
+//						o[i] = true;
+//						break;
+//					}
+//					
+//				}
+//			}
+//			
+//			for (int i = 0; i < o.length; i++) {
+//				if (!o[i]) {
+//					n = false;
+//					break;
+//				}
+//			}
+			
+			
+			if(!g.matches("[a-zA-Z0-9]*")){
+				p.sendMessage(Text.GILDE_PREFIX.getText()+" §c§lDu hast ein Ungültiges Zeichen in deinen Clannamen!");
+				return;
+			}
+			
 			if(manager.getTyp()==GildenType.SKY&&manager instanceof SkyBlockGildenManager){
 				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
 				if(sky.getStats().getDouble(Stats.MONEY, p)>=500.0){
@@ -41,41 +70,14 @@ public class Erstellen {
 				}
 			}
 			
-			boolean o[] = new boolean[g.length()];
-			boolean n = true;
-			char[] zeichen = g.toCharArray();
-			char[] a = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
-			
-			for(int i = 0;i<zeichen.length;i++){
-				for(int u=0;u<a.length;u++){
-					
-					if(zeichen[i] == a[u]){
-						o[i] = true;
-						break;
-					}
-					
-				}
-			}
-			
-			for (int i = 0; i < o.length; i++) {
-				if (!o[i]) {
-					n = false;
-					break;
-				}
-			}
-			
-			
-			if(!n){
-				p.sendMessage(Text.GILDE_PREFIX.getText()+" §c§lDu hast ein Ungültiges Zeichen in deinen Clannamen!");
-				return;
-			}
-			
 			manager.createGildenEintrag(g, "§7"+g+"§b*§f", 10, UtilPlayer.getRealUUID(p));
 			manager.createPlayerEintrag(p, g);
-			manager.setInt(g, p.getLocation().getBlockX(), Stats.LOC_X);
-			manager.setInt(g, p.getLocation().getBlockY(), Stats.LOC_Y);
-			manager.setInt(g, p.getLocation().getBlockZ(), Stats.LOC_Z);
-			manager.setString(g, p.getLocation().getWorld().getName(), Stats.WORLD);
+			if(manager.getTyp()==GildenType.PVP){
+				manager.setInt(g, p.getLocation().getBlockX(), Stats.LOC_X);
+				manager.setInt(g, p.getLocation().getBlockY(), Stats.LOC_Y);
+				manager.setInt(g, p.getLocation().getBlockZ(), Stats.LOC_Z);
+				manager.setString(g, p.getLocation().getWorld().getName(), Stats.WORLD);
+			}
 			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_CREATE.getText(g));
 		}else{
 			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde erstellen [Gilde]");

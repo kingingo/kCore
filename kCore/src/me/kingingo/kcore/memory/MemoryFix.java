@@ -14,6 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MemoryFix
 {
   private JavaPlugin _plugin;
+  private HumanEntity entity;
+  private Iterator entityIterator;
 
   public MemoryFix(JavaPlugin plugin)
   {
@@ -26,46 +28,19 @@ public class MemoryFix
     	  
     	  for(World w : Bukkit.getWorlds()){
     		  for(Entity e : w.getEntities()){
-    			  if ((e instanceof IInventory))
-    	          {
-    	            Iterator entityIterator = ((IInventory)e).getViewers().iterator();
+    			  if ((e instanceof IInventory)){
+    	            entityIterator = ((IInventory)e).getViewers().iterator();
 
-    	            while (entityIterator.hasNext())
-    	            {
-    	              HumanEntity entity = (HumanEntity)entityIterator.next();
+    	            while (entityIterator.hasNext()){
+    	              entity = (HumanEntity)entityIterator.next();
 
-    	              if (((entity instanceof CraftPlayer)) && (!((CraftPlayer)entity).isOnline()))
-    	              {
+    	              if (((entity instanceof CraftPlayer)) && (!((CraftPlayer)entity).isOnline())){
     	                entityIterator.remove();
     	              }
     	            }
     	          }
     		  }
     	  }
-    	  
-//        Iterator localIterator2;
-//        for (Iterator localIterator1 = Bukkit.getWorlds().iterator(); localIterator1.hasNext(); 
-//          localIterator2.hasNext())
-//        {
-//          World world = (World)localIterator1.next();
-//
-//          localIterator2 = ((CraftWorld)world).getHandle().tileEntityList.iterator(); continue; Object tileEntity = localIterator2.next();
-//
-//          if ((tileEntity instanceof IInventory))
-//          {
-//            Iterator entityIterator = ((IInventory)tileEntity).getViewers().iterator();
-//
-//            while (entityIterator.hasNext())
-//            {
-//              HumanEntity entity = (HumanEntity)entityIterator.next();
-//
-//              if (((entity instanceof CraftPlayer)) && (!((CraftPlayer)entity).isOnline()))
-//              {
-//                entityIterator.remove();
-//              }
-//            }
-//          }
-//        }
       }
     }
     , 100L, 100L);

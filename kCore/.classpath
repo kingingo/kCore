@@ -7,8 +7,8 @@
 	<classpathentry kind="lib" path="C:/Dev/WorldEdit.jar"/>
 	<classpathentry kind="lib" path="C:/Dev/spigot.jar"/>
 	<classpathentry kind="lib" path="C:/Dev/Essentials.jar"/>
-	<classpathentry kind="lib" path="C:/Dev/ProtocolLib.jar"/>
 	<classpathentry kind="lib" path="C:/Dev/PermissionsEx.jar"/>
 	<classpathentry kind="lib" path="C:/Dev/kSkyBlock.jar"/>
+	<classpathentry kind="lib" path="C:/Dev/ProtocolLib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

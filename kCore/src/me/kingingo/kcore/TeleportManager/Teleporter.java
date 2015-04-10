@@ -12,9 +12,13 @@ import org.bukkit.util.Vector;
 
 public class Teleporter {
 
+	@Getter
 	private Player from;
+	@Getter
 	private Location loc_from;
+	@Getter
 	private Player player_to;
+	@Getter
 	private Location loc_to;
 	@Getter
 	private long time=0;
