@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kSkyblock.SkyBlockManager;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.Events.GildeLoadEvent;

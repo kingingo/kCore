@@ -4,6 +4,7 @@ import java.io.File;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.lag.Lag;
@@ -18,25 +19,24 @@ import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.UnknownDependencyException;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class CommandToggle implements CommandExecutor, Listener{
+public class CommandToggle extends kListener implements CommandExecutor{
 	
-	PermissionManager permManager;
 	boolean chat=true;
 	long online;
 	
-	public CommandToggle(PermissionManager permManager){
-		this.permManager=permManager;
+	public CommandToggle(JavaPlugin instance){
+		super(instance,"Toggle");
 		this.online=System.currentTimeMillis();
-		new Lag(permManager.getInstance());
-		Bukkit.getPluginManager().registerEvents(this, permManager.getInstance());
+		new Lag(instance);
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "toggle", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		if(cs instanceof Player){
 			Player p = (Player)cs;
-			if(permManager.hasPermission(p, kPermission.COMMAND_TOGGLE)){
+			if(p.hasPermission(kPermission.COMMAND_TOGGLE.getPermissionToString())){
 				if(args.length == 0){
 					p.sendMessage(Text.PREFIX.getText()+"§a/toggle [Plugin]");
 					return false;

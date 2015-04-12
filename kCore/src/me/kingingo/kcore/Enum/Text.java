@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Enum;
 
+import lombok.Setter;
 import me.kingingo.kcore.Util.C;
 
 public enum Text {
@@ -17,6 +18,8 @@ SPIELER_ENTFERNT_COMPASS("§7Der Spieler §b%§7 ist §b% §7Bloecke von dir enf
 AUßERHALB_DER_MAP("Du bist außerhalb der Map!"),
 CMD_MUTE("§aDie Commands wurden gesperrt!"),
 CMD_UNMUTE("§cDie Commands wurde entsperrt!"),
+PVP_MUTE("§cPvP wurde deaktiviert!"),
+PVP_UNMUTE("§aPvP wurde Aktiviert!"),
 CHAT_MUTE("§aDer Chat wurde gesperrt!"),
 CHAT_UNMUTE("§cDer Chat wurde entsperrt!"),
 ENDERGAMES_TELEPORT("§7Du hast deine Position mit §b% §7gewechselt!"),
@@ -240,6 +243,7 @@ MONEY_SEND_TO("§aDu hast den Spieler §b% §7%§a Epics gesendet."),
 MONEY_RECEIVE_FROM("§aDu hast von §b%§b %§a Epics erhalten."),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
+@Setter
 private String t;
 private String[] tt;
 private Text(String t){

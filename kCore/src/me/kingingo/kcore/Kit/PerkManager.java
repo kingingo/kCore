@@ -13,15 +13,16 @@ import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class PerkManager extends PerkData{
 	
-	@Getter
-	public PermissionManager manager;
 	public UserDataConfig userData;
+	@Getter
+	public JavaPlugin instance;
 	
-	public PerkManager(PermissionManager manager,UserDataConfig userData,Perk[] perks){
-		this.manager=manager;
+	public PerkManager(JavaPlugin instance,UserDataConfig userData,Perk[] perks){
+		this.instance=instance;
 		this.userData=userData;
 		for(Perk perk: perks)getPlayers().put(perk, new ArrayList<Player>());
 		registerPerks();
@@ -108,7 +109,7 @@ public class PerkManager extends PerkData{
 	
 	public boolean hasPlayer(String perkString,Player player){
 		for(Perk perk : getPlayers().keySet()){
-			if(perkString.equalsIgnoreCase(perk.getName())&& (manager.hasPermission(player, perk.getPermission())||manager.hasPermission(player, kPermission.PERK_ALL))){
+			if(perkString.equalsIgnoreCase(perk.getName())&& (player.hasPermission( perk.getPermission().getPermissionToString())||player.hasPermission( kPermission.PERK_ALL.getPermissionToString()))){
 				return true;
 			}
 		}
@@ -117,7 +118,7 @@ public class PerkManager extends PerkData{
 	
 	public boolean hasPlayer(Player player){
 		for(Perk perk : getPlayers().keySet()){
-			if((manager.hasPermission(player, perk.getPermission())||manager.hasPermission(player, kPermission.PERK_ALL)))return true;
+			if((player.hasPermission(perk.getPermission().getPermissionToString())||player.hasPermission( kPermission.PERK_ALL.getPermissionToString())))return true;
 		}
 		return false;
 	}
@@ -125,7 +126,7 @@ public class PerkManager extends PerkData{
 	public void registerPerks(){
 		for(Perk perk : getPlayers().keySet()){
 			perk.setPerkData(this);
-			Bukkit.getPluginManager().registerEvents(perk, manager.getInstance());
+			Bukkit.getPluginManager().registerEvents(perk, instance);
 		}
 	}
 	

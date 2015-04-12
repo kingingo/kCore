@@ -4,55 +4,60 @@ import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.Permission.PermissionManager;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CommandChatMute extends kListener implements CommandExecutor{
+public class CommandPvPMute extends kListener implements CommandExecutor{
 	
 	boolean chat=true;
 	
-	public CommandChatMute(JavaPlugin instance){
-		super(instance,"ChatMute");
+	public CommandPvPMute(JavaPlugin instance){
+		super(instance,"PvPMute");
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "chatmute", sender = Sender.EVERYONE)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "pvpmute", sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		if(cs instanceof Player){
 			Player p = (Player)cs;
-			if(p.hasPermission(kPermission.COMMAND_MUTE_ALL.getPermissionToString())){
+			if(p.hasPermission(kPermission.PVP_MUTE_ALL.getPermissionToString())){
 				if(chat){
 					chat=false;
-					p.sendMessage(Text.PREFIX.getText()+Text.CHAT_MUTE.getText());
+					p.sendMessage(Text.PREFIX.getText()+Text.PVP_MUTE.getText());
 				}else{
 					chat=true;
-					p.sendMessage(Text.PREFIX.getText()+Text.CHAT_UNMUTE.getText());
+					p.sendMessage(Text.PREFIX.getText()+Text.PVP_UNMUTE.getText());
 				}
 			}
 		}else{
 			if(chat){
 				chat=false;
-				System.out.println("[ChatMute] Chat mutet");
+				System.out.println("[PvPMute] PvP mutet");
 			}else{
 				chat=true;
-				System.out.println("[ChatMute] Chat unmutet");
+				System.out.println("[PvPMute] PvP unmutet");
 			}
 		}
 		return false;
 	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void Chat(EntityDamageEvent ev){
+		if(!chat){
+			ev.setCancelled(true);
+		}
+	}
 
 	@EventHandler(priority=EventPriority.LOWEST)
-	public void Chat(AsyncPlayerChatEvent ev){
-		if(!chat&&!ev.getPlayer().hasPermission(kPermission.COMMAND_MUTE_ALL_ALLOW.getPermissionToString())){
+	public void Chat(EntityDamageByEntityEvent ev){
+		if(!chat){
 			ev.setCancelled(true);
 		}
 	}

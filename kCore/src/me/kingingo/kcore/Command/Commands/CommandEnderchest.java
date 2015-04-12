@@ -20,6 +20,8 @@ public class CommandEnderchest implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player = (Player)sender;
 		
+		if(!player.hasPermission(kPermission.ENDERCHEST_USE.getPermissionToString()))return false;
+		
 		if(args.length==0){
 			if(player.hasPermission(kPermission.ENDERCHEST.getPermissionToString())){
 				player.openInventory(player.getEnderChest());

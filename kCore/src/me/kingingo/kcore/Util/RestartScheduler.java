@@ -10,6 +10,7 @@ import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.PlayerStats.StatsManager;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -27,6 +28,9 @@ public class RestartScheduler implements Listener{
 	@Setter
 	@Getter
 	private GildenManager gilden;
+	@Getter
+	@Setter
+	private UserDataConfig userData;
 	@Setter
 	@Getter
 	private AntiLogoutManager anti;
@@ -72,6 +76,7 @@ public class RestartScheduler implements Listener{
 		case 20:
 			if(stats!=null)stats.SaveAllData();	
 			if(gilden!=null)gilden.AllUpdateGilde();
+			if(userData!=null)userData.saveAllConfigs();
 			break;
 		case 10:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
 		case 5:

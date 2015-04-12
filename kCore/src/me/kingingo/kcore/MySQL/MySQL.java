@@ -129,6 +129,25 @@ public class MySQL
 	  return o;
   }
   
+  public Long getLong(String qry){
+	  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
+	  	Bukkit.getPluginManager().callEvent(ev);
+	    ResultSet rs = null;
+	    Long o = null;
+	    try
+	    {
+	      Statement stmt = connection.createStatement();
+	      rs = stmt.executeQuery(ev.getQuery());
+	      while(rs.next()){
+	    	  o=rs.getLong(1);
+	      }
+	    }
+	    catch (Exception ex) {
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
+	    }
+	  return o;
+  }
+  
   public Object getObject(String qry){
 	  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
 	  	Bukkit.getPluginManager().callEvent(ev);

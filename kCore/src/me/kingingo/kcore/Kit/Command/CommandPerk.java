@@ -33,7 +33,7 @@ public class CommandPerk  extends InventoryBase implements CommandExecutor{
 	HashMap<Player,String> perk = new HashMap<>();
 	
 	public CommandPerk(final PerkManager manager){
-		super(manager.getManager().getInstance(),"CommandPerk");
+		super(manager.getInstance(),"CommandPerk");
 		this.manager=manager;
 		
 		or = new InventoryYesNo("Perk An/Aus", new Click(){

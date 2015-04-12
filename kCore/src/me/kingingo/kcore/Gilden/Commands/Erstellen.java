@@ -26,6 +26,9 @@ public class Erstellen {
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_NAME_LENGTH_MAX.getText(5));
 				return;
 			}
+			
+			if(g.contains("'"))return;
+			
 			if(manager.ExistGilde(g)){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EXIST.getText());
 				return;

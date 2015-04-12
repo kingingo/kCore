@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigAddDefaultEvent;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
@@ -35,6 +35,9 @@ public class UserDataConfig extends kListener{
 	private kConfig config;
 	private UUID uuid;
 	private File file;
+	@Getter
+	@Setter
+	private boolean restart=false;
 	
 	public UserDataConfig(JavaPlugin instance){
 		super(instance,"UserDataConfig");
@@ -46,35 +49,24 @@ public class UserDataConfig extends kListener{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		uuid = UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId());
-		file = new File(getDataFolder(),uuid+".yml");
-		config=new kConfig(file);
-		Bukkit.getPluginManager().callEvent(new UserDataConfigAddDefaultEvent(getConfig(),uuid));
-		getConfig().options().copyDefaults(true);
-		try {
-			getConfig().save(file);
-		} catch (IOException e) {
-			Log("Die Config konnte nicht gespeichert werden Error: "+e.getMessage());
+		if(uuid!=null){
+			file = new File(getDataFolder(),uuid+".yml");
+			config=new kConfig(file);
+			configs.put(uuid, config);
 		}
-		configs.put(uuid, config);
 	}
 	
 	@EventHandler
 	public void Join(PlayerJoinEvent ev){
-		if(configs.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
-			Bukkit.getPluginManager().callEvent(new UserDataConfigLoadEvent(configs.get(UtilPlayer.getRealUUID(ev.getPlayer())), ev.getPlayer()));
+		uuid=UtilPlayer.getRealUUID(ev.getPlayer());
+		if(uuid!=null&&configs.containsKey(uuid)){
+			Bukkit.getPluginManager().callEvent(new UserDataConfigLoadEvent(configs.get(uuid), ev.getPlayer()));
 		}
 	}
 	
 	public kConfig loadConfig(UUID uuid){
 		file = new File(getDataFolder(),uuid+".yml");
 		config=new kConfig(file);
-		Bukkit.getPluginManager().callEvent(new UserDataConfigAddDefaultEvent(getConfig(),uuid));
-		getConfig().options().copyDefaults(true);
-		try {
-			getConfig().save(file);
-		} catch (IOException e) {
-			Log("Die Config konnte nicht gespeichert werden Error: "+e.getMessage());
-		}
 		return config;
 	}
 	
@@ -87,6 +79,8 @@ public class UserDataConfig extends kListener{
 			configs.get(uuid).save( new File(getDataFolder(),uuid+".yml") );
 		} catch (IOException e) {
 			Log("Die Config konnte nicht gespeichert werden Error: "+e.getMessage());
+		}catch(NullPointerException e){
+			Log("Die Config konnte nicht gespeichert werden NullpointerError: "+e.getMessage());
 		}
 	}
 	
@@ -95,7 +89,7 @@ public class UserDataConfig extends kListener{
 	}
 	
 	public kConfig getConfig(UUID uuid){
-		if(!configs.containsKey(uuid)){
+		if(configs!=null&&!configs.containsKey(uuid)){
 			configs.put(uuid, loadConfig(uuid));
 		}
 		return configs.get(uuid);
@@ -105,11 +99,6 @@ public class UserDataConfig extends kListener{
 		for(UUID uuid : configs.keySet()){
 			saveConfig(uuid);
 		}
-	}
-	
-	@EventHandler
-	public void addDefault(UserDataConfigAddDefaultEvent ev){
-		ev.getConfig().addDefault("uuid", ev.getUuid().toString());
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
@@ -126,8 +115,9 @@ public class UserDataConfig extends kListener{
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Quit(PlayerQuitEvent ev){
+		if(isRestart())return;
 		uuid=UtilPlayer.getRealUUID(ev.getPlayer());
-		if(configs.containsKey(uuid)){
+		if(uuid!=null&&configs!=null&&configs.containsKey(uuid)){
 			Bukkit.getPluginManager().callEvent(new UserDataConfigRemoveEvent(configs.get(uuid), ev.getPlayer()));
 			saveConfig(uuid);
 			configs.remove(uuid);
