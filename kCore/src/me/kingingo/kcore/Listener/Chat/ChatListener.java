@@ -7,6 +7,7 @@ import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.UtilString;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,16 +15,25 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
+
 public class ChatListener extends kListener{
 
 	@Getter
 	private PermissionManager manager;
+	private ru.tehkode.permissions.PermissionManager pex;
 	private GildenManager gildenmanager;
 	
 	public ChatListener(JavaPlugin instance,GildenManager gildenmanager,PermissionManager manager){
 		super(instance,"ChatListener");
 		this.manager=manager;
 		this.gildenmanager=gildenmanager;
+	}
+	
+	public ChatListener(JavaPlugin instance,GildenManager gildenmanager){
+		super(instance,"ChatListener");
+		this.gildenmanager=gildenmanager;
+		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null)pex=PermissionsEx.getPermissionManager();
 	}
 	
 	String g;
@@ -35,7 +45,7 @@ public class ChatListener extends kListener{
 		if (!event.isCancelled()) {
 			p = event.getPlayer();
 			 msg = event.getMessage();
-			if((!manager.hasPermission(p, kPermission.CHAT_LINK))&&
+			if((!p.hasPermission(kPermission.CHAT_LINK.getPermissionToString()))&&
 					(msg.toLowerCase().contains("minioncraft")||
 							msg.toLowerCase().contains("mastercraft")||
 							UtilString.checkForIP(msg))){
@@ -43,7 +53,7 @@ public class ChatListener extends kListener{
 				return;
 			}
 			msg=msg.replaceAll("%","");
-			if(manager.hasPermission(p, kPermission.CHAT_FARBIG)){
+			if(p.hasPermission(kPermission.CHAT_FARBIG.getPermissionToString())){
 				msg=msg.replaceAll("&", "§");
 				if(!p.hasPermission(kPermission.CHAT_NERV.getPermissionToString())){
 					msg=msg.replaceAll("§l", "");
@@ -74,9 +84,11 @@ public class ChatListener extends kListener{
 					}
 				}
 			
-				event.setFormat(manager.getPrefix(p)+ tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + "§7: "+ msg);
+				if(manager!=null)event.setFormat(manager.getPrefix(p)+ tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + "§7: "+ msg);
+				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§")+ tag + pex.getUser(p).getPrefix().replaceAll("&", "§").subSequence(0, 2) + p.getName() + "§7: "+ msg);
 			}else{
-				event.setFormat(manager.getPrefix(p) + p.getName() + "§7: "+ msg);				
+				if(manager!=null)event.setFormat(manager.getPrefix(p) + p.getName() + "§7: "+ msg);	
+				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§") + p.getName() + "§7: "+ msg);
 			}
 		}
 	}

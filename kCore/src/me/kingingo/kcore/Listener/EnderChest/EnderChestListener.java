@@ -53,18 +53,14 @@ public class EnderChestListener extends kListener{
 	@EventHandler
 	public void LoadPerm(PlayerLoadPermissionEvent ev){
 		if(ev.getPlayer().hasPermission(kPermission.ENDERCHEST_ADDON.getPermissionToString())&&userData.getConfigs().containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
-			Log("PlayerLoadPermissionEvent 1");
 			config=userData.getConfig(ev.getPlayer());
-			Log("PlayerLoadPermissionEvent 2");
 			if(!config.isSet("Enderchest")){
-				Log("PlayerLoadPermissionEvent 3");
 				ItemStack[] items = new ItemStack[54];
 				for(int i = 0; i< ev.getPlayer().getEnderChest().getContents().length;i++){
 					items[i]= ev.getPlayer().getEnderChest().getContents()[i];
 				}
 				config.setItemStackArray("Enderchest", items);
 			}
-			Log("PlayerLoadPermissionEvent 4");
 			setEnderchestAddon(ev.getPlayer(), UtilItem.convertItemStackArray(config.getItemStackArray("Enderchest")));
 		}
 		ev.getManager().getPlist().get(UtilPlayer.getRealUUID(ev.getPlayer())).setPermission(kPermission.ENDERCHEST_USE.getPermissionToString(), true);
@@ -72,8 +68,7 @@ public class EnderChestListener extends kListener{
 	
 	@EventHandler
 	public void Quit(UserDataConfigRemoveEvent ev){
-		if(ev.getPlayer().hasPermission(kPermission.ENDERCHEST_ADDON.getPermissionToString())){
-			Log("UserDataConfigRemoveEvent 1");
+		if(ev.getPlayer().getEnderChest().getContents().length==54){
 			ev.getConfig().setItemStackArray("Enderchest", ev.getPlayer().getEnderChest().getContents());
 		}
 	}

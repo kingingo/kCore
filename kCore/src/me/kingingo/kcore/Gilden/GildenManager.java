@@ -195,11 +195,11 @@ public class GildenManager implements Listener {
 			Player v = (Player)ev.getEntity();
 			if(isPlayerInGilde(v)){
 				g=getPlayerGilde(v);
-				setInt(g, getInt(Stats.DEATHS, g)+1, Stats.DEATHS);
+				if(g!=null)setInt(g, getInt(Stats.DEATHS, g)+1, Stats.DEATHS);
 			}
 			if(ev.getEntity().getKiller() instanceof Player&&isPlayerInGilde(ev.getEntity().getKiller())){
 				g=getPlayerGilde(ev.getEntity().getKiller());
-				setInt(g, getInt(Stats.KILLS, g)+1, Stats.KILLS);
+				if(g!=null)setInt(g, getInt(Stats.KILLS, g)+1, Stats.KILLS);
 			}
 		}
 	}

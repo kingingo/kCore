@@ -8,6 +8,8 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Listener.kListener;
+import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
+import me.kingingo.kcore.Packet.Packets.WORLD_CHANGE_DATA;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
@@ -101,6 +103,19 @@ public class UserDataConfig extends kListener{
 		}
 	}
 	
+	@EventHandler
+	public void PacketReceive(PacketReceiveEvent ev){
+		if(ev.getPacket() instanceof WORLD_CHANGE_DATA){
+			WORLD_CHANGE_DATA packet = (WORLD_CHANGE_DATA)ev.getPacket();
+			UtilPlayer.setWorldChangeUUID(Bukkit.getWorld(packet.getWorldName()), packet.getOld_uuid(), packet.getNew_uuid());
+			file = new File(getDataFolder(),packet.getOld_uuid()+".yml");
+			
+			if(file.exists()){
+				file.renameTo(new File(getDataFolder(),packet.getNew_uuid()+".yml"));
+			}
+		}
+	}
+	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Disable(PluginDisableEvent ev){
 		saveAllConfigs();
@@ -113,7 +128,7 @@ public class UserDataConfig extends kListener{
 		configs=null;
 	}
 	
-	@EventHandler(priority=EventPriority.LOWEST)
+	@EventHandler(priority=EventPriority.LOW)
 	public void Quit(PlayerQuitEvent ev){
 		if(isRestart())return;
 		uuid=UtilPlayer.getRealUUID(ev.getPlayer());

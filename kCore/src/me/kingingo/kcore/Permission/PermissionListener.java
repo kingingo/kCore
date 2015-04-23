@@ -46,6 +46,7 @@ public class PermissionListener extends kListener {
 	}
 	
 	String p;
+	Map<String,Boolean> list;
 	@EventHandler
 	public void loadList(UpdateEvent ev){
 		if(ev.getType()==UpdateType.SEC_3){
@@ -57,7 +58,7 @@ public class PermissionListener extends kListener {
 						if(UtilPlayer.getRealUUID(player).equals(uuid)){
 							if(player.isOp())player.setOp(false);
 							if(!manager.getPlist().containsKey(uuid))manager.getPlist().put(uuid, player.addAttachment(manager.getInstance()));
-							Map<String,Boolean> list = reflectMap(manager.getPlist().get(uuid));
+							list = reflectMap(manager.getPlist().get(uuid));
 							list.clear();
 							
 							if(manager.getLoad().containsKey(uuid)){
@@ -117,7 +118,6 @@ public class PermissionListener extends kListener {
 									for(String perm : manager.getGroups().get(manager.getPgroup().get(uuid)).getPerms()){
 										if(perm.substring(0, 1).equalsIgnoreCase("-")){
 											list.remove(perm.substring(1, perm.length()));
-											//list.put(perm.substring(1, perm.length()).toLowerCase(), false);
 										}
 									}
 									
@@ -125,17 +125,11 @@ public class PermissionListener extends kListener {
 										for(String perm : manager.getLoad().get(uuid)){
 											if(perm.substring(0, 1).equalsIgnoreCase("-")){
 												list.remove(perm.substring(1, perm.length()).toLowerCase());
-												//list.put(perm.substring(1, perm.length()).toLowerCase(), false);
 											}
 										}
 									}
 								}
 							}
-							
-//							if(Bukkit.getPluginManager().getPlugin("Essentials")!=null){
-//								Essentials ess = (Essentials)Bukkit.getPluginManager().getPlugin("Essentials");
-//								ess.getPermissionsHandler()
-//							}
 							
 							player.recalculatePermissions();
 							manager.getLoad().remove(uuid);
@@ -170,7 +164,7 @@ public class PermissionListener extends kListener {
 	
 	@EventHandler
 	public void Update(UpdateEvent ev){
-		if(ev.getType()==UpdateType.MIN_64){
+		if(ev.getType()==UpdateType.MIN_16){
 			UtilList.CleanList(manager.getPgroup());
 			UtilList.CleanList(manager.getPlist());
 			UtilList.CleanList(manager.getLoad());

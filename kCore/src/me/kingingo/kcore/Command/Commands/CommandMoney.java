@@ -38,6 +38,8 @@ public class CommandMoney implements CommandExecutor{
 							target=Bukkit.getPlayer(args[1]);
 							money=UtilNumber.toDouble(args[2]);
 							
+							if(money<0)return false;
+							
 							if(money!=0){
 								if(stats.getDouble(Stats.MONEY, player) >= money){
 									stats.setDouble(player, stats.getDouble(Stats.MONEY, player)-money, Stats.MONEY);

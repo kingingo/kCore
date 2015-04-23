@@ -27,6 +27,28 @@ public class UtilItem {
 		return item;
 	}
 	
+	public static boolean isWeapon(ItemStack item){
+		if(item.getTypeId()<=294&&item.getTypeId()>=290){
+			return true;
+		}else if(item.getTypeId()<=286&&item.getTypeId()>=283){
+			return true;
+		}else if(item.getTypeId()<=279&&item.getTypeId()>=267){
+			return true;
+		}else if(item.getTypeId()>=256&&item.getTypeId()<=258){
+			return true;
+		}else if(item.getType()==Material.BOW){
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isArmor(ItemStack item){
+		if(item.getTypeId()>=298&&item.getTypeId()<=317){
+			return true;
+		}
+		return false;
+	}
+	
 	public static ItemStack[] convertItemStackArray(net.minecraft.server.v1_7_R4.ItemStack[] item){
 		ItemStack[] items = new ItemStack[item.length];
 		for(int i = 0; i<item.length;i++){

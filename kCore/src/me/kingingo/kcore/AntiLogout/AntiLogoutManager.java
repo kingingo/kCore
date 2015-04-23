@@ -1,25 +1,6 @@
 package me.kingingo.kcore.AntiLogout;
 
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.DefaultFlag;
-import com.sk89q.worldguard.protection.managers.RegionManager;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,10 +9,31 @@ import me.kingingo.kcore.AntiLogout.Events.AntiLogoutDelPlayerEvent;
 import me.kingingo.kcore.AntiLogout.Events.AntiLogoutQuitPlayerEvent;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Listener.kListener;
+import me.kingingo.kcore.PlayerStats.Stats;
+import me.kingingo.kcore.PlayerStats.StatsManager;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilList;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 
 public class AntiLogoutManager extends kListener {
 
@@ -47,6 +49,9 @@ public class AntiLogoutManager extends kListener {
 	@Getter
 	@Setter
 	private boolean onDisable=false;
+	@Getter
+	@Setter
+	private StatsManager stats=null;
 	
 	public AntiLogoutManager(JavaPlugin instance,AntiLogoutType typ,int sec){
 		super(instance,"AntiLogoutManager");
@@ -83,9 +88,18 @@ public class AntiLogoutManager extends kListener {
 	}
 	
 	public void add(Player player){
-		if(getPlayers().containsKey(player))return;
-		getPlayers().put(player, System.currentTimeMillis());
-		Bukkit.getPluginManager().callEvent(new AntiLogoutAddPlayerEvent(player,this));
+		if(getPlayers().containsKey(player)){
+			getPlayers().remove(player);
+			getPlayers().put(player, System.currentTimeMillis());
+		}else{
+			getPlayers().put(player, System.currentTimeMillis());
+			Bukkit.getPluginManager().callEvent(new AntiLogoutAddPlayerEvent(player,this));
+			if(player.getAllowFlight()&&!player.isOp()){
+				player.setAllowFlight(false);
+				player.setFlying(false);
+			}
+			player.sendMessage(Text.PREFIX.getText()+Text.ANTI_LOGOUT_FIGHT.getText());
+		}
 	}
 	
 	public void del(Player player){
@@ -112,7 +126,35 @@ public class AntiLogoutManager extends kListener {
 		if(!is(ev.getPlayer())&&!onDisable){
 			switch(typ){
 			case KILL:
-				ev.getPlayer().setHealth(0);
+				if(ev.getPlayer().getInventory().getHelmet()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getHelmet());
+					ev.getPlayer().getInventory().setHelmet(null);
+				}
+				if(ev.getPlayer().getInventory().getChestplate()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getChestplate());
+					ev.getPlayer().getInventory().setChestplate(null);
+				}
+				if(ev.getPlayer().getInventory().getLeggings()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getLeggings());
+					ev.getPlayer().getInventory().setLeggings(null);
+				}
+				if(ev.getPlayer().getInventory().getBoots()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getBoots());
+					ev.getPlayer().getInventory().setBoots(null);
+				}
+				
+				for(ItemStack item : ev.getPlayer().getInventory().getContents()){
+					if(item!=null&&item.getType()!=Material.AIR){
+						ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), item);
+					}
+				}
+				
+				if(stats!=null){
+					stats.setInt(ev.getPlayer(), stats.getInt(Stats.DEATHS, ev.getPlayer())+1, Stats.DEATHS);
+				}
+				
+				ev.getPlayer().getInventory().clear();
+				ev.getPlayer().teleport(Bukkit.getWorld("world").getSpawnLocation());
 				break;
 			default:
 				if(ev.getPlayer().getInventory().getHelmet()!=null){
@@ -142,7 +184,35 @@ public class AntiLogoutManager extends kListener {
 		if(!is(ev.getPlayer())&&!onDisable){
 			switch(typ){
 			case KILL:
-				ev.getPlayer().setHealth(0);
+				if(ev.getPlayer().getInventory().getHelmet()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getHelmet());
+					ev.getPlayer().getInventory().setHelmet(null);
+				}
+				if(ev.getPlayer().getInventory().getChestplate()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getChestplate());
+					ev.getPlayer().getInventory().setChestplate(null);
+				}
+				if(ev.getPlayer().getInventory().getLeggings()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getLeggings());
+					ev.getPlayer().getInventory().setLeggings(null);
+				}
+				if(ev.getPlayer().getInventory().getBoots()!=null){
+					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getBoots());
+					ev.getPlayer().getInventory().setBoots(null);
+				}
+				
+				for(ItemStack item : ev.getPlayer().getInventory().getContents()){
+					if(item!=null&&item.getType()!=Material.AIR){
+						ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), item);
+					}
+				}
+				
+				if(stats!=null){
+					stats.setInt(ev.getPlayer(), stats.getInt(Stats.DEATHS, ev.getPlayer())+1, Stats.DEATHS);
+				}
+				
+				ev.getPlayer().getInventory().clear();
+				ev.getPlayer().teleport(Bukkit.getWorld("world").getSpawnLocation());
 				break;
 			default:
 				if(ev.getPlayer().getInventory().getHelmet()!=null){
@@ -174,19 +244,8 @@ public class AntiLogoutManager extends kListener {
 		if(ev.getEntity() instanceof Player&&ev.getDamager() instanceof Player&&!ev.isCancelled()){
 			v = (Player)ev.getEntity();
 			d = (Player)ev.getDamager();
-			if(getPlayers().containsKey(v)){
-				getPlayers().remove(v);
-			}else{
-				v.sendMessage(Text.PREFIX.getText()+Text.ANTI_LOGOUT_FIGHT.getText());
-			}
-			getPlayers().put(v, System.currentTimeMillis());
-			
-			if(getPlayers().containsKey(d)){
-				getPlayers().remove(d);
-			}else{
-				d.sendMessage(Text.PREFIX.getText()+Text.ANTI_LOGOUT_FIGHT.getText());
-			}
-			getPlayers().put(d, System.currentTimeMillis());
+			add(v);
+			add(d);
 		}
 	}
 	

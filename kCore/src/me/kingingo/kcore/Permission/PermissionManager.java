@@ -15,6 +15,7 @@ import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Util.C;
+import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.Util.UtilTime;
@@ -204,6 +205,7 @@ public class PermissionManager {
 		String g=getGroup(uuid);
 		ResultSet rs;
 		System.err.println("UUID: "+uuid+" group:"+g);
+		
 		if(!groups.containsKey(g)){
 				groups.put(g, new Group(g,typ));
 				try
@@ -237,25 +239,31 @@ public class PermissionManager {
 		}
 		if(!pgroup.containsKey(uuid))pgroup.put(uuid, g);
 		
-		try
-	    {
-	      rs = mysql.Query("SELECT permission FROM game_perm WHERE permission!='none' AND uuid='"+uuid+"' AND prefix='none' AND pgroup='none' AND (grouptyp='"+getTyp().getName()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
-	      while (rs.next()){
-	    	  if(rs.getString(1).contains("epicpvp.perm.group.")){
-	    		  transfareGroupPermissionToUser(uuid,rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[0],GroupTyp.get(rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[1]));
-	    	  }else{
-		    	  if(!load.containsKey(uuid))load.put(uuid, new ArrayList<String>());
-		    	  load.get(uuid).add(rs.getString(1));
-	    	  }
-	      }
-	      rs.close();
-	    }
-	    catch (SQLException e)
-	    {
-	      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
-	    }
+		if(!load.containsKey(uuid)){
+			try
+		    {
+		      rs = mysql.Query("SELECT permission FROM game_perm WHERE permission!='none' AND uuid='"+uuid+"' AND prefix='none' AND pgroup='none' AND (grouptyp='"+getTyp().getName()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
+		      while (rs.next()){
+		    	  if(rs.getString(1).contains("epicpvp.perm.group.")){
+		    		  transfareGroupPermissionToUser(uuid,rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[0],GroupTyp.get(rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[1]));
+		    	  }else if(rs.getString(1).contains("epicpvp.timer.group.")){
+		    		 if(System.currentTimeMillis() > UtilNumber.toLong(rs.getString(1).substring("epicpvp.timer.group.".length(), rs.getString(1).length()).split(":")[1])){
+		    			  setGroup(uuid, rs.getString(1).substring("epicpvp.timer.group.".length(), rs.getString(1).length()).split(":")[0]);
+		    			  removePermission(uuid, rs.getString(1));
+		    		  }
+		    	  }else{
+			    	  if(!load.containsKey(uuid))load.put(uuid, new ArrayList<String>());
+			    	  load.get(uuid).add(rs.getString(1));
+		    	  }
+		      }
+		      rs.close();
+		    }
+		    catch (SQLException e){
+		      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
+		    }
+		}
 		
-		getLoad_now().add(uuid);
+		if(!getLoad_now().contains(uuid))getLoad_now().add(uuid);
 	}
 	
 	public void transfareGroupPermissionToUser(UUID uuid,String group,GroupTyp typ){

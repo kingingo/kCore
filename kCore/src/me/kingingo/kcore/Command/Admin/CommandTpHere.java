@@ -15,12 +15,12 @@ public class CommandTpHere implements CommandExecutor{
 	
 	private Player player;
 	private Player tp;
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "tpahere", sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "tphere", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		player = (Player)cs;
 		if(player.hasPermission(kPermission.PLAYER_TELEPORT_HERE.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Text.PREFIX.getText()+"§6/tpahere [Player]");
+				player.sendMessage(Text.PREFIX.getText()+"§6/tphere [Player]");
 			}else{
 					if(UtilPlayer.isOnline(args[0])){
 						tp=Bukkit.getPlayer(args[0]);

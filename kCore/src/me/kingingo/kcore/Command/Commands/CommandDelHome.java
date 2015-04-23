@@ -2,10 +2,8 @@ package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
-import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.command.Command;
@@ -30,10 +28,11 @@ public class CommandDelHome implements CommandExecutor{
 		
 		if(args.length==0){
 			player.sendMessage(Text.PREFIX.getText()+"/delhome [Name]");
-		}else{
-			if(player.hasPermission(kPermission.HOME_SET.getPermissionToString())){
+		}else if(args.length>=1){
+			if(player.hasPermission(kPermission.HOME_DEL.getPermissionToString())){
 				if(config.isSet("homes."+args[0])){
 					config.set("homes."+args[0], null);
+					config.save();
 					player.sendMessage(Text.PREFIX.getText()+Text.HOME_DEL.getText(args[0]));
 				}else{
 					player.sendMessage(Text.PREFIX.getText()+Text.HOME_EXIST.getText());

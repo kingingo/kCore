@@ -1,12 +1,17 @@
 package me.kingingo.kcore.Command.Admin;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.UUID;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.MySQL.MySQLErr;
+import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Permission.GroupTyp;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
+import me.kingingo.kcore.Util.TimeSpan;
+import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilReflection;
 
@@ -146,6 +151,33 @@ public class CommandGroup implements CommandExecutor{
 					}
 					
 					manager.setGroup(uuid, rang);
+					System.out.println("[kPermission] " + player + " hat den Rang " + rang + " erhalten");
+				}
+				
+				return false;
+			}
+			
+			if(args[0].equalsIgnoreCase("addwithtime")){
+				
+				if(args.length <=3){
+					System.out.println("[kPermission] /k add [Player] [Rang] [Time in Tagen]");	
+				}
+				
+				if(args.length == 4){
+					
+					String player = args[1];
+					String rang = args[2];
+					long time = System.currentTimeMillis()+(TimeSpan.DAY*UtilNumber.toInt(args[3]));
+					UUID uuid;
+					
+					if(UtilPlayer.isOnline(player)){
+						uuid=UtilPlayer.getRealUUID(Bukkit.getPlayer(player));
+					}else{
+						uuid=UtilPlayer.getUUID(player, manager.getMysql());
+					}
+					
+					manager.setGroup(uuid, rang);
+					manager.addPermission(uuid, "epicpvp.timer.group."+rang+":"+time, manager.getTyp());
 					System.out.println("[kPermission] " + player + " hat den Rang " + rang + " erhalten");
 				}
 				

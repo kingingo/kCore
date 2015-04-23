@@ -57,6 +57,7 @@ public class CommandSetHome implements CommandExecutor{
 				}
 				
 				config.setLocation("homes."+args[0], player.getLocation());
+				config.save();
 				player.sendMessage(Text.PREFIX.getText()+Text.HOME_SET.getText(args[0]));
 			}
 		}
