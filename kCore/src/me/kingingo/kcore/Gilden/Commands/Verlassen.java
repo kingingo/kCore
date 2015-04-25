@@ -32,13 +32,13 @@ public class Verlassen {
 						for(UUID n : manager.getGilden_player().keySet()){
 							if(sky.getSky().getInstance().getUserData().getConfigs().containsKey(n)&&UtilPlayer.isOnline(n)){
 								config=sky.getSky().getInstance().getUserData().getConfig(Bukkit.getPlayer(n));
-								if(Bukkit.getPlayer(n).getWorld()==sky.getSky().getGilden_world().getWorld())Bukkit.getPlayer(n).teleport(Bukkit.getWorld("world").getSpawnLocation());
+								if(Bukkit.getPlayer(n).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName()))Bukkit.getPlayer(n).teleport(Bukkit.getWorld("world").getSpawnLocation());
 							}else{
 								config=sky.getSky().getInstance().getUserData().loadConfig(n);
 							}
 							
 							for(String path : config.getPathList("homes").keySet()){
-								if(config.getLocation("homes."+path).getWorld()==sky.getSky().getGilden_world().getWorld()){
+								if(config.getLocation("homes."+path).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName())){
 									config.set("homes."+path, null);
 								}
 							}
@@ -47,19 +47,19 @@ public class Verlassen {
 					}
 					
 					manager.sendGildenChat(g, Text.GILDE_PREFIX.getText()+Text.GILDE_CLOSED.getText());
-					manager.removeGildenEintrag(g);
+					manager.removeGildenEintrag(p,g);
 				}else{
 					
 					if(manager.getTyp()==GildenType.SKY&&manager instanceof SkyBlockGildenManager){
 						SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
 						kConfig config=sky.getSky().getInstance().getUserData().getConfig(p);
 						for(String path : config.getPathList("homes").keySet()){
-							if(config.getLocation("homes."+path).getWorld()==sky.getSky().getGilden_world().getWorld()){
+							if(config.getLocation("homes."+path).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName())){
 								config.set("homes."+path, null);
 							}
 						}
 						config.save();
-						if(p.getWorld()==sky.getSky().getGilden_world().getWorld())p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+						if(p.getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName()))p.teleport(Bukkit.getWorld("world").getSpawnLocation());
 					}
 					
 					manager.sendGildenChat(g, Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_GO_OUT.getText(p.getName()));

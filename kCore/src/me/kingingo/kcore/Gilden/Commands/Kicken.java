@@ -49,7 +49,7 @@ public class Kicken {
 				}
 				
 				for(String path : config.getPathList("homes").keySet()){
-					if(config.getLocation("homes."+path).getWorld()==sky.getSky().getGilden_world().getWorld()){
+					if(config.getLocation("homes."+path).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName())){
 						config.set("homes."+path, null);
 					}
 				}

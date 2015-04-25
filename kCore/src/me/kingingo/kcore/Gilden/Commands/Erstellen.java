@@ -34,30 +34,6 @@ public class Erstellen {
 				return;
 			}
 			
-//			boolean o[] = new boolean[g.length()];
-//			boolean n = true;
-//			char[] zeichen = g.toCharArray();
-//			char[] a = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
-//			
-//			for(int i = 0;i<zeichen.length;i++){
-//				for(int u=0;u<a.length;u++){
-//					
-//					if(zeichen[i] == a[u]){
-//						o[i] = true;
-//						break;
-//					}
-//					
-//				}
-//			}
-//			
-//			for (int i = 0; i < o.length; i++) {
-//				if (!o[i]) {
-//					n = false;
-//					break;
-//				}
-//			}
-			
-			
 			if(!g.matches("[a-zA-Z0-9]*")){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+" §c§lDu hast ein Ungültiges Zeichen in deinen Clannamen!");
 				return;

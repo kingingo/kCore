@@ -23,13 +23,11 @@ public class CommandkSpawn implements CommandExecutor{
 		if(args.length==0){
 			if(p.hasPermission(kPermission.KSPAWN.getPermissionToString())){
 				s=UtilTime.getTimeManager().check(cmd.getName(), p);
-				System.out.println("KSPAWN: "+s);
 				if(s!=null){
 					p.sendMessage(Text.PREFIX.getText()+Text.USE_BEFEHL_TIME.getText(s));
 				}else{
 					p.teleport(Bukkit.getWorld("world").getSpawnLocation());
 					l=UtilTime.getTimeManager().hasPermission(p, cmd.getName());
-					System.out.println("KSPAWN1: "+l);
 					if( l!=0 ){
 						UtilTime.getTimeManager().add(cmd.getName(), p, l);
 					}

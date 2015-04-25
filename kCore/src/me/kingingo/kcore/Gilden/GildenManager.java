@@ -329,7 +329,7 @@ public class GildenManager implements Listener {
 		return kdr;
 	}
 
-	public void removeGildenEintrag(String name){
+	public void removeGildenEintrag(Player player,String name){
 		ArrayList<UUID> l = new ArrayList<>();
 		getMember(name);
 		for(UUID n : getGilden_player().keySet()){

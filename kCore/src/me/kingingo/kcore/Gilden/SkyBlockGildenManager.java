@@ -42,7 +42,7 @@ public class SkyBlockGildenManager extends GildenManager{
 		}
 	}
 	
-	public void removeGildenEintrag(String name){
+	public void removeGildenEintrag(Player player,String name){
 		ArrayList<UUID> l = new ArrayList<>();
 		getMember(name);
 		for(UUID n : getGilden_player().keySet()){
@@ -55,7 +55,7 @@ public class SkyBlockGildenManager extends GildenManager{
 		}
 		
 		if(getTyp()==GildenType.SKY){
-			sky.getGilden_world().removeIsland(name);
+			sky.getGilden_world().removeIsland(player,name);
 		}
 		
 		super.mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+" WHERE gilde='" + name.toLowerCase() + "'");
