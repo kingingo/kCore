@@ -249,6 +249,7 @@ MONEY_NO_DOUBLE("§cEntweder ist das keine Zahl oder 0."),
 MONEY_ENOUGH_MONEY("§cDu hast nicht genug Epics."),
 MONEY_SEND_TO("§aDu hast den Spieler §b% §7%§a Epics gesendet."),
 MONEY_RECEIVE_FROM("§aDu hast von §b%§b %§a Epics erhalten."),
+FALLDOWN_BREWITEM_BLOCKED("§cDu kannst erst in §b%§c dein Item benutzten."),
 NO_PERMISSION("§cDu hast dafür keine Permission!");
 
 @Setter

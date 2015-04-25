@@ -3,6 +3,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -26,12 +27,16 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
@@ -52,6 +57,13 @@ public class UtilPlayer
 	public static boolean hasPermission(Player p,kPermission perm){
 		if(p.hasPermission(perm.getPermissionToString()) || p.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString()))return true;
 		return false;
+	}
+	
+	public static void Knockback(Location center, Player player,double speed, double high) {
+		Vector unitVector = center.toVector().subtract(player.getLocation().toVector()).normalize();
+		player.setVelocity(unitVector.multiply(speed));
+		unitVector.setY(unitVector.getY() + high);
+		player.setVelocity(unitVector);
 	}
 	
 	public static void setWorldChangeUUID(World world,UUID old,UUID uuid){
@@ -456,8 +468,33 @@ public class UtilPlayer
     return players;
   }
   
+  public static void damage(LivingEntity player, double prozent){
+	  health(player, -((prozent/100)*((CraftLivingEntity)player).getHealth()));
+  }
+  
   public static void damage(Player player, double prozent){
 	  health(player, -((prozent/100)*((CraftPlayer)player).getHealth()));
+  }
+  
+  public static void health(LivingEntity player, double mod)
+  {
+    if (player.isDead()) {
+      return;
+    }
+    
+    if(mod<0){
+    	player.damage(0);
+    }
+    
+    double health = ((CraftPlayer)player).getHealth() + mod;
+
+    if (health < 0.0D) {
+      health = 0.0D;
+    }
+    if (health > ((CraftPlayer)player).getMaxHealth()) {
+      health = ((CraftPlayer)player).getMaxHealth();
+    }
+    player.setHealth(health);
   }
   
   public static void health(Player player, double mod)
