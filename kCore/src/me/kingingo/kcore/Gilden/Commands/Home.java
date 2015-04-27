@@ -38,6 +38,11 @@ public class Home {
 			if(manager.getTyp()==GildenType.SKY){
 				if(manager instanceof SkyBlockGildenManager){
 					SkyBlockGildenManager skymanager = (SkyBlockGildenManager)manager;
+					
+					if(skymanager.getSky().getGilden_world().getIslands().containsKey(g.toLowerCase())){
+						return;
+					}
+					
 					if(p.hasPermission(kPermission.SKYBLOCK_GILDEN_ISLAND.getPermissionToString())){
 						skymanager.getSky().addGildenIsland(p, g);
 						p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_SETISLAND.getText());
