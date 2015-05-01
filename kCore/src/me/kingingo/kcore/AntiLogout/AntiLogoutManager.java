@@ -7,6 +7,7 @@ import lombok.Setter;
 import me.kingingo.kcore.AntiLogout.Events.AntiLogoutAddPlayerEvent;
 import me.kingingo.kcore.AntiLogout.Events.AntiLogoutDelPlayerEvent;
 import me.kingingo.kcore.AntiLogout.Events.AntiLogoutQuitPlayerEvent;
+import me.kingingo.kcore.Command.Commands.Events.PlayerHomeEvent;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.PlayerStats.Stats;
@@ -62,6 +63,14 @@ public class AntiLogoutManager extends kListener {
 	    if (plugin != null || (plugin instanceof WorldGuardPlugin)) {
 	    	worldGuard=(WorldGuardPlugin)Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 	    }
+	}
+	
+	@EventHandler
+	public void Home(PlayerHomeEvent ev){
+		if(getPlayers().containsKey(ev.getPlayer())){
+			ev.setCancelled(true);
+			ev.setReason(Text.ANTI_LOGOUT_FIGHT.getText());
+		}
 	}
 	
 	Location loc;

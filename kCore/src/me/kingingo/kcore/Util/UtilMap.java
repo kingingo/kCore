@@ -29,7 +29,7 @@ public class UtilMap{
 		int h = 5000;
 	      for (int i = 0; i <= 150; i++) {
 	        h -= 100;
-	        setCrystalQuadrat(loc, 25, h);
+	        setCrystalCricle(loc, 25, h);
 	        if (h == 400)
 	        {
 	          break;
@@ -37,8 +37,30 @@ public class UtilMap{
 	      }
 	  }
 	
+	public static void setCrystalCricle(Location loc,int radius, int high){
+		 	int cx = loc.getBlockX();
+	        int cy = high;
+	        int cz = loc.getBlockZ();
+	        int r = 40;
+	        int rSquared = r * r;
+		    int zufall = 0;
+		    Location cylBlock;
+	        for (int x = cx - r; x <= cx + r; x++) {
+	            for (int z = cz - r; z <= cz + r; z++) {
+	                if ((cx - x) * (cx - x) + (cz - z) * (cz - z) <= rSquared) {
+	                    cylBlock = new Location(loc.getWorld(), x, cy, z);
+	        	        zufall = (int)(1.0D + (Math.random() * 10.0D - 1.0D));
+	                    if (zufall == 1) {
+	                    	cylBlock.getChunk().load();
+	          	          Entity en = cylBlock.getWorld().spawnEntity(cylBlock,EntityType.ENDER_CRYSTAL);
+	          	          en.teleport(cylBlock);
+	          	        } 
+	                }
+	            }
+	        }
+	}
+	
 	public static void setCrystalQuadrat(Location loc, int radius, int high){
-		List<Entity> l = new ArrayList<Entity>();
 	    int y = high;
 	    int minx = loc.getBlockX() - radius;
 	    int minz = loc.getBlockZ() - radius;
@@ -51,9 +73,9 @@ public class UtilMap{
 	        b = new Location(loc.getWorld(), x, y, z);
 	        zufall = (int)(1.0D + (Math.random() * 10.0D - 1.0D));
 	        if (zufall == 1) {
+	          b.getChunk().load();
 	          Entity en = b.getWorld().spawnEntity(b,EntityType.ENDER_CRYSTAL);
 	          en.teleport(b);
-	          l.add(en);
 	        }
 	      }
 	  }
