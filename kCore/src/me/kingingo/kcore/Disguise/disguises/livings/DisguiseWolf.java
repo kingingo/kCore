@@ -1,7 +1,6 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
-import me.kingingo.kcore.Disguise.disguises.DisguiseTameableAnimal;
-import net.minecraft.server.v1_7_R4.BlockCloth;
 
+import me.kingingo.kcore.Disguise.disguises.DisguiseTameableAnimal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
@@ -13,7 +12,8 @@ public class DisguiseWolf extends DisguiseTameableAnimal
 
     this.DataWatcher.a(18, new Float(20.0F));
     this.DataWatcher.a(19, new Byte((byte)0));
-    this.DataWatcher.a(20, new Byte((byte)BlockCloth.b(1)));
+//    this.DataWatcher.a(20, new Byte((byte)BlockCloth.));
+//    this.DataWatcher.a(20, new Byte((byte)BlockCloth.b(1)));
   }
 
   public boolean isAngry()

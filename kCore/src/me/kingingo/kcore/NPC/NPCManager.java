@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
-import me.kingingo.kcore.Nick.NickManager;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayClientUseEntity;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +19,6 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 
 public class NPCManager implements Listener {
@@ -28,12 +27,11 @@ public class NPCManager implements Listener {
 	HashMap<Integer,NPC> NPCList = new HashMap<>();
 	@Getter
 	JavaPlugin instance;
-	@Getter
-	NickManager nManager;
+//	@Getter
+//	NickManager nManager;
 	
 	public NPCManager(JavaPlugin instance){
 		this.instance=instance;
-		this.nManager=nManager;
 		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY){
 		    public void onPacketReceiving(PacketEvent event){
 		        if(event.getPacketType() == PacketType.Play.Client.USE_ENTITY){
@@ -58,12 +56,12 @@ public class NPCManager implements Listener {
 	@EventHandler
 	public void Respawn(PlayerRespawnEvent ev){
 		for(NPC npc : NPCList.values()){
-			npc.SendPlayer(ev.getPlayer());
+			((CraftPlayer) ev.getPlayer()).getHandle().playerConnection.sendPacket(npc.getSpawn_packet());
 		}
 	}
 	
-	public NPC createNPC(String Name){
-		NPC npc = new NPC(Name,this);
+	public NPC createNPC(String name,Location loc){
+		NPC npc = new NPC(this,name,loc);
 		return npc;
 	}
 	

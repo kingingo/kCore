@@ -100,12 +100,6 @@ public class WrapperPlayServerSpawnEntityLiving extends AbstractPacket {
      * Set the type of mob.
      * @param value - new value.
     */
-    
-    @SuppressWarnings("deprecation")
-   	public void setType(int value) {
-           handle.getIntegers().write(1, (int) value);
-       }
-    
     @SuppressWarnings("deprecation")
 	public void setType(EntityType value) {
         handle.getIntegers().write(1, (int) value.getTypeId());

@@ -64,7 +64,7 @@ public class UtilEvent
     if (!(projectile.getShooter() instanceof LivingEntity)) {
       return null;
     }
-    return projectile.getShooter();
+    return (LivingEntity)projectile.getShooter();
   }
 
   public static enum ActionType

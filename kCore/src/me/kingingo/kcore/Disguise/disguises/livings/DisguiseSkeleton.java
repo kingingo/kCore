@@ -1,6 +1,6 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
 import me.kingingo.kcore.Disguise.disguises.DisguiseMonster;
-import net.minecraft.server.v1_7_R4.DataWatcher;
+import net.minecraft.server.v1_8_R2.DataWatcher;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;

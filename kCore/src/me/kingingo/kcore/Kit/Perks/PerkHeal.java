@@ -1,14 +1,12 @@
 package me.kingingo.kcore.Kit.Perks;
 
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 
 public class PerkHeal extends Perk{
 

@@ -1,28 +1,15 @@
 package me.kingingo.kcore.Hologram.nametags;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import lombok.Getter;
-import me.kingingo.kcore.Disguise.disguises.DummyEntity;
 import me.kingingo.kcore.Hologram.nametags.Events.HologramCreateEvent;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerAttachEntity;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityDestroy;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityTeleport;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntity;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
-import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_7_R4.DataWatcher;
-import net.minecraft.server.v1_7_R4.EnumEntitySize;
-import net.minecraft.server.v1_7_R4.MathHelper;
-import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_7_R4.World;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -39,10 +26,7 @@ import com.google.common.collect.MapMaker;
  * @author Kristian
  */
 public class NameTagSpawner {
-	private static final int Y_OFFSET = 55;
-
-	private static final int WITHER_SKULL = 66;
-
+	private static final Byte ENTITY_INVISIBLE = Byte.valueOf((byte) 32);
 	// Shared entity ID allocator
 	private static int SHARED_ENTITY_ID = Short.MAX_VALUE;
 
@@ -51,11 +35,7 @@ public class NameTagSpawner {
 	private int nameTagCount;
 	
 	@Getter
-	private WrapperPlayServerAttachEntity attach;
-	@Getter
-	private WrapperPlayServerSpawnEntityLiving horse;
-	@Getter
-	private WrapperPlayServerSpawnEntity skull;
+	private WrapperPlayServerSpawnEntityLiving ArmorStand;
 
 	// Previous locations
 	private Map<Player, Vector[]> playerLocations = new MapMaker().weakKeys().makeMap();
@@ -111,8 +91,8 @@ public class NameTagSpawner {
 		// The entities to remove
 		for (int i = 0; i < indices.length; i++) {
 			Preconditions.checkPositionIndex(indices[i], nameTagCount, "indices");
-			ids[i * 2] = getHorseId(indices[i]);
-			ids[i * 2 + 1] = getSkullId(indices[i] * 2);
+			ids[i * 2] = getArmorStandId(indices[i]);
+			//ids[i * 2 + 1] = getSkullId(indices[i] * 2);
 		}
 		destroy.setEntities(ids);
 		destroy.sendPacket(observer);
@@ -145,19 +125,11 @@ public class NameTagSpawner {
 	 * @param message - the message to display.
 	 */
 	public void setNameTag(int index, Player observer, Location location, double dY, String message) {
-			 attach = new WrapperPlayServerAttachEntity();
-			 horse = createHorsePacket(index, location, dY, message);
-			 skull = createSkullPacket(index, location, dY);
-
-			// The horse is riding on the skull
-			attach.setEntityId(horse.getEntityID());
-			attach.setVehicleId(skull.getEntityID());
+			 ArmorStand = createArmorStandPacket(index, location, dY, message);
 			
 			Bukkit.getPluginManager().callEvent(new HologramCreateEvent(this));
 			
-			horse.sendPacket(observer);
-			skull.sendPacket(observer);
-			attach.sendPacket(observer);
+			ArmorStand.sendPacket(observer);
 
 			// Save location
 			getLocations(observer)[index] = new Vector(location.getX(), location.getY() + dY,location.getZ());
@@ -170,17 +142,13 @@ public class NameTagSpawner {
 	 * @param location - the new location.
 	 */
 	public void moveNameTag(int index, Player observer, Location location) {
-		WrapperPlayServerEntityTeleport teleportHorse = new WrapperPlayServerEntityTeleport();
-		teleportHorse.setEntityID(getHorseId(index));
-		teleportHorse.setX(location.getX());
-		teleportHorse.setY(location.getY() + Y_OFFSET);
-		teleportHorse.setZ(location.getZ());
-
-		WrapperPlayServerEntityTeleport teleportSkull = new WrapperPlayServerEntityTeleport(teleportHorse.getHandle().deepClone());
-		teleportHorse.setEntityID(teleportHorse.getEntityID() + 1);
-
-		teleportHorse.sendPacket(observer);
-		teleportSkull.sendPacket(observer);
+		WrapperPlayServerEntityTeleport teleportArmorStand = new WrapperPlayServerEntityTeleport();
+		teleportArmorStand.setEntityID(getArmorStandId(index));
+		teleportArmorStand.setX(location.getX());
+		teleportArmorStand.setY(location.getY()-2);
+		teleportArmorStand.setZ(location.getZ());
+		
+		teleportArmorStand.sendPacket(observer);
 		getLocations(observer)[index] = location.toVector();
 	}
 
@@ -200,40 +168,24 @@ public class NameTagSpawner {
 		return result;
 	}
 	
-	// Construct the invisible horse packet
-	private WrapperPlayServerSpawnEntityLiving createHorsePacket(int index, Location location,
-			double dY, String message) {
-		WrapperPlayServerSpawnEntityLiving horse = new WrapperPlayServerSpawnEntityLiving();
-		horse.setEntityID(getHorseId(index));
-		horse.setType(EntityType.HORSE);
-		horse.setX(location.getX());
-		horse.setY(location.getY() + dY + Y_OFFSET);
-		horse.setZ(location.getZ());
-
-		WrappedDataWatcher wdw = new WrappedDataWatcher();
-		wdw.setObject(10, message);
-		wdw.setObject(11, (byte) 1);//wdw.setObject(11, (byte) 1);
-		wdw.setObject(12, -1700000);
-		horse.setMetadata(wdw);
-		return horse;
+	// Construct the invisible ArmorStand packet
+	private WrapperPlayServerSpawnEntityLiving createArmorStandPacket(int index, Location location,double dY, String message) {
+		WrapperPlayServerSpawnEntityLiving ArmorStand = new WrapperPlayServerSpawnEntityLiving();
+		ArmorStand.setEntityID(getArmorStandId(index));
+		ArmorStand.setType(EntityType.ARMOR_STAND);
+		ArmorStand.setX(location.getX());
+		ArmorStand.setY(location.getY() + dY - 2);
+		ArmorStand.setZ(location.getZ());
+		
+		WrappedDataWatcher wdw = new WrappedDataWatcher();	
+		wdw.setObject(0, ENTITY_INVISIBLE);
+		wdw.setObject(2,message);
+		wdw.setObject(3, (byte) 1);
+		ArmorStand.setMetadata(wdw);
+		return ArmorStand;
 	}
 
-	// Construct the wither skull packet
-	private WrapperPlayServerSpawnEntity createSkullPacket(int index, Location location, double dY) {
-		WrapperPlayServerSpawnEntity skull = new WrapperPlayServerSpawnEntity();
-		skull.setEntityID(getSkullId(index));
-		skull.setType(WITHER_SKULL);
-		skull.setX(location.getX());
-		skull.setY(location.getY() + dY + Y_OFFSET);
-		skull.setZ(location.getZ());
-		return skull;
-	}
-
-	private int getHorseId(int index) {
+	private int getArmorStandId(int index) {
 		return startEntityId + index * 2;
-	}
-
-	private int getSkullId(int index) {
-		return startEntityId + index * 2 + 1;
 	}
 }

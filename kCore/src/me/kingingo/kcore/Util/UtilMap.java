@@ -9,15 +9,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.server.v1_7_R4.MinecraftServer;
-import net.minecraft.server.v1_7_R4.RegionFile;
-import net.minecraft.server.v1_7_R4.RegionFileCache;
+import net.minecraft.server.v1_8_R2.MinecraftServer;
+import net.minecraft.server.v1_8_R2.RegionFile;
+import net.minecraft.server.v1_8_R2.RegionFileCache;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_7_R4.CraftServer;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.world.WorldUnloadEvent;
@@ -320,7 +320,7 @@ public class UtilMap{
 
 	    while (chunkIterator.hasNext())
 	    {
-	      net.minecraft.server.v1_7_R4.Chunk chunk = (net.minecraft.server.v1_7_R4.Chunk)chunkIterator.next();
+	      net.minecraft.server.v1_8_R2.Chunk chunk = (net.minecraft.server.v1_8_R2.Chunk)chunkIterator.next();
 	      chunk.removeEntities();
 	    }
 

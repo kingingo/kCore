@@ -1,18 +1,16 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
-import java.util.UUID;
 
+import java.util.UUID;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-
 import me.kingingo.kcore.Disguise.disguises.DisguiseHuman;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerNamedEntitySpawn;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
 import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_7_R4.MathHelper;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.server.v1_8_R2.MathHelper;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
 
 public class DisguisePlayer extends DisguiseHuman
 {

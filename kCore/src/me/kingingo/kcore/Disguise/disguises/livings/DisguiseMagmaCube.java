@@ -7,10 +7,9 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
 import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_7_R4.EnumEntitySize;
-import net.minecraft.server.v1_7_R4.MathHelper;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_8_R2.MathHelper;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntityLiving;
 
 public class DisguiseMagmaCube extends DisguiseInsentient
 {

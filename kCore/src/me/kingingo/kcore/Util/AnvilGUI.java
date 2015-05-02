@@ -2,19 +2,23 @@ package me.kingingo.kcore.Util;
 
 import java.util.HashMap;
 
-import net.minecraft.server.v1_7_R4.ContainerAnvil;
-import net.minecraft.server.v1_7_R4.EntityHuman;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.PacketPlayOutOpenWindow;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerOpenWindow;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.ChatMessage;
+import net.minecraft.server.v1_8_R2.ContainerAnvil;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.PacketPlayOutOpenWindow;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AnvilGUI {
     private class AnvilContainer extends ContainerAnvil {
         public AnvilContainer(EntityHuman entity){
-            super(entity.inventory, entity.world, 0, 0, 0, entity);
+            super(entity.inventory, entity.world,new BlockPosition(0,0,0), entity);
         }
  
         @Override
@@ -200,9 +204,8 @@ public class AnvilGUI {
         //Counter stuff that the game uses to keep track of inventories
         int c = p.nextContainerCounter();
  
-        //Send the packet
-        p.playerConnection.sendPacket(new PacketPlayOutOpenWindow(c, 8, "Repairing", 9, true));
- 
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutOpenWindow(c, "minecraft:anvil", new ChatMessage("Repairing", new Object[]{}), 0));
+        
         //Set their active container to the container
         p.activeContainer = container;
  
@@ -211,6 +214,12 @@ public class AnvilGUI {
  
         //Add the slot listener
         p.activeContainer.addSlotListener(p);
+        
+        //Set their active container to the container
+        p.activeContainer = container;
+ 
+        //Set their active container window id to that counter stuff
+        p.activeContainer.windowId = c;
     }
  
     public void destroy(){

@@ -15,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -226,12 +227,11 @@ public class SignShop extends kListener{
 		return i;
 	}
 	
-	
 		//[shop]
 		//KaufPreis:VerkaufPreis
 		//anzahl
 		//ID:ZAHL
-		@EventHandler
+		@EventHandler(priority=EventPriority.LOWEST)
 		public void onInteract(PlayerInteractEvent ev){
 			Player p = ev.getPlayer();
 			Action a = ev.getAction();
@@ -240,9 +240,7 @@ public class SignShop extends kListener{
 				ev.setCancelled(true);
 				p.sendMessage(Text.PREFIX.getText()+"§cNicht so Schnell ...");
 				return;
-			}
-			
-			else if(Action.RIGHT_CLICK_BLOCK == a){
+			}else if(Action.RIGHT_CLICK_BLOCK == a){
 				
 				if(ev.getClickedBlock().getState() instanceof Sign){
 					

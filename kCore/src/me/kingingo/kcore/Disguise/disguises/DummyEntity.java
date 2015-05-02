@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Disguise.disguises;
-import net.minecraft.server.v1_7_R4.Entity;
-import net.minecraft.server.v1_7_R4.NBTTagCompound;
-import net.minecraft.server.v1_7_R4.World;
+import net.minecraft.server.v1_8_R2.Entity;
+import net.minecraft.server.v1_8_R2.NBTTagCompound;
+import net.minecraft.server.v1_8_R2.World;
 
 public class DummyEntity extends Entity
 {
@@ -21,4 +21,9 @@ public class DummyEntity extends Entity
   protected void b(NBTTagCompound nbttagcompound)
   {
   }
+
+  protected void h()
+  {
+  }
+  
 }

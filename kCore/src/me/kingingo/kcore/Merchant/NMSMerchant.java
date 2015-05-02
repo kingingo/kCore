@@ -6,7 +6,16 @@ import java.util.ArrayList;
 import lombok.Getter;
 import me.kingingo.kcore.Merchant.ReflectionUtils.NMSMerchantRecipe;
 import me.kingingo.kcore.Merchant.ReflectionUtils.NMSMerchantRecipeList;
+import me.kingingo.kcore.Util.UtilReflection;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.IMerchant;
+import net.minecraft.server.v1_8_R2.ItemStack;
+import net.minecraft.server.v1_8_R2.MerchantRecipe;
+import net.minecraft.server.v1_8_R2.MerchantRecipeList;
 
+import org.bukkit.craftbukkit.v1_8_R2.util.CraftChatMessage;
 import org.bukkit.entity.Player;
 
 public class NMSMerchant implements java.lang.reflect.InvocationHandler {
@@ -15,7 +24,8 @@ public class NMSMerchant implements java.lang.reflect.InvocationHandler {
 	ArrayList<Object> offerslist = new ArrayList<>();
 	private transient Object c; //EntityHuman
 	public Object proxy;
-
+	public String title;
+	
 	@Override
 	public Object invoke(Object proxy, Method m, Object[] args) {
 		try {
@@ -23,16 +33,26 @@ public class NMSMerchant implements java.lang.reflect.InvocationHandler {
 			Class entityHuman = ReflectionUtils.getClassByName(ReflectionUtils.getNMSPackageName() + ".EntityHuman");
 			if (m.getName().equals("a_") && args.length == 1 && args[0] != null && args[0].getClass().isInstance(entityHuman))
 				this.a_(args[0]);
-			else if (m.getName().equals("b") || m.getName().equals("m_")) //m_ = 1.6.4, b = 1.7.4
-				return this.b();
+			else if (m.getName().equals("b") || m.getName().equals("m_") || m.getName().equals("u_") || m.getName().equals("v_")) //m_ = 1.6.4, b = 1.7.4, u_ = Spigot 1.8, v_ = Spigot 1.8.3
+				return this.getEntityHuman();
 			else if (m.getName().equals("getOffers") && args.length == 1)
 				return this.getOffers(args[0]);
-			else if (m.getName().equals("a"))
+			else if (m.getName().equals("a") && args.length == 1)
 				this.a(args[0]);
+			else if (m.getName().equals("getScoreboardDisplayName"))
+				return this.getScoreboardDisplayName();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public Object getEntityHuman() { // Return Class = EntityHuman
+		return this.c;
+	}
+	
+	public EntityHuman v_(){
+		return ((EntityHuman)c);
 	}
 
 	public void a_(Object player) {  //Class = EntityHuman
@@ -68,6 +88,10 @@ public class NMSMerchant implements java.lang.reflect.InvocationHandler {
 			return null;
 		}
 	}
+	
+	public Object getScoreboardDisplayName() {
+		return UtilReflection.createNMSTextComponent(this.title);
+	}
 
 	public void clearRecipes() {
 		this.o.clear();
@@ -77,20 +101,36 @@ public class NMSMerchant implements java.lang.reflect.InvocationHandler {
 		this.o = recipes;
 	}
 
-	public void openTrading(Object player, String title) { //player Class = EntityPlayer
+	public void openTrading(Object player,String t) { //player Class = EntityPlayer
 		this.c = player;
-
+		this.title=t;
+		
 		try {
 			Class classs = ReflectionUtils.getClassByName(ReflectionUtils.getNMSPackageName() + ".EntityPlayer");
-			Method m = classs.getDeclaredMethod("openTrade",
-					ReflectionUtils.getClassByName(ReflectionUtils.getNMSPackageName() + ".IMerchant"),
-					String.class);
-			m.setAccessible(true);
-			m.invoke(player, this.proxy, title);
+			Method m;
+			if (this.getMethodArgs(classs, "openTrade") == 2) {
+				// Older than Spigot 1.8 (maybe Bukkit 1.7.10)
+				m = classs.getDeclaredMethod("openTrade", ReflectionUtils.getClassByName(ReflectionUtils.getNMSPackageName() + ".IMerchant"), String.class);
+				m.setAccessible(true);
+				m.invoke(player, this.proxy, this.title);
+			} else {
+				// Spigot 1.8 and newer
+				m = classs.getDeclaredMethod("openTrade", ReflectionUtils.getClassByName(ReflectionUtils.getNMSPackageName() + ".IMerchant"));
+				m.setAccessible(true);
+				m.invoke(player, this.proxy);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//this.c.openTrade(this, title);
 	}
 
+	private int getMethodArgs(Class classs, String methodName) {
+		for (Method method : classs.getDeclaredMethods()) {
+			if (method.getName().equals(methodName)) {
+				return method.getParameterTypes().length;
+			}
+		}
+		return -1;
+	}
+	
 }

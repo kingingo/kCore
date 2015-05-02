@@ -1,5 +1,4 @@
 package me.kingingo.kcore.Disguise.disguises;
-import net.minecraft.server.v1_7_R4.DataWatcher;
 import org.bukkit.entity.Entity;
 
 public abstract class DisguiseTameableAnimal extends DisguiseAnimal

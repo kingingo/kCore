@@ -110,7 +110,7 @@ public class TreasureChest extends kListener{
 		if(!blocke.containsKey(player))blocke.put(player, new ArrayList<BlockState>());
 		blocke.get(player).add(l.getBlock().getState());
 		l.getBlock().setType(m);
-		UtilParticle.displayBlockCrack(l.getBlock().getTypeId(), l.getBlock().getData(), 1F, 1F, 1F, 20, l, 5.0);
+	//	UtilParticle.displayBlockCrack(l.getBlock().getTypeId(), l.getBlock().getData(), 1F, 1F, 1F, 20, l, 5.0);
 	}
 	
 	@EventHandler

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import lombok.Getter;
 import me.kingingo.kcore.Inventory.Item.IButton;
-import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryCustom;
+import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftInventoryCustom;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -24,7 +24,7 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 	private ArrayList<IButton> buttons;
 	
 	public InventoryPageBase(JavaPlugin instance,int size,String title){
-		super(null, size, title);
+		super(null,size,title);
 		this.buttons=new ArrayList<>();
 		register(instance);
 	}

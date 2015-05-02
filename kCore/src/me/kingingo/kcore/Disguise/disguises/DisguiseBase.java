@@ -1,21 +1,21 @@
 package me.kingingo.kcore.Disguise.disguises;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguiseEnderman;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
-import net.minecraft.server.v1_7_R4.DataWatcher;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_7_R4.World;
+import net.minecraft.server.v1_8_R2.DataWatcher;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntityMetadata;
+import net.minecraft.server.v1_8_R2.World;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
 import org.bukkit.entity.EntityType;
 
 import com.comphenix.protocol.events.PacketContainer;
 
 public abstract class DisguiseBase
 {
-  protected net.minecraft.server.v1_7_R4.Entity Entity;
+  protected net.minecraft.server.v1_8_R2.Entity Entity;
   protected DataWatcher DataWatcher;
   private DisguiseBase _soundDisguise;
 
@@ -67,12 +67,12 @@ public abstract class DisguiseBase
     this.Entity.world.makeSound(location.getX(), location.getY(), location.getZ(), this._soundDisguise.getHurtSound(), this._soundDisguise.getVolume(), this._soundDisguise.getPitch());
   }
 
-  public void UpdateEntity(net.minecraft.server.v1_7_R4.Entity entity)
+  public void UpdateEntity(net.minecraft.server.v1_8_R2.Entity entity)
   {
     this.Entity = entity;
   }
 
-  public net.minecraft.server.v1_7_R4.Entity GetEntity()
+  public net.minecraft.server.v1_8_R2.Entity GetEntity()
   {
     return this.Entity;
   }

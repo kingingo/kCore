@@ -57,7 +57,13 @@ public class UtilWorldEdit {
 	}
 	
 	private static void loadArea(World world, File file,Vector origin) throws DataException, IOException, MaxChangedBlocksException{
-	    CuboidClipboard cc = CuboidClipboard.loadSchematic(file);
+	    CuboidClipboard cc = null;
+		try {
+			cc = CuboidClipboard.loadSchematic(file);
+		} catch (com.sk89q.worldedit.world.DataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    cc.paste(editSession, origin, false);
 	    cc=null;
 	}

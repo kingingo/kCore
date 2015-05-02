@@ -1,10 +1,10 @@
 package me.kingingo.kcore.Disguise.disguises;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.server.v1_7_R4.DataWatcher;
-import net.minecraft.server.v1_7_R4.ItemStack;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityEquipment;
+import net.minecraft.server.v1_8_R2.DataWatcher;
+import net.minecraft.server.v1_8_R2.ItemStack;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntityEquipment;
 
 public abstract class DisguiseInsentient extends DisguiseLiving
 {

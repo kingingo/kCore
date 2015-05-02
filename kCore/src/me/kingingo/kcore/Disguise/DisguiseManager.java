@@ -15,15 +15,15 @@ import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilServer;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_7_R4.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R2.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntityLiving;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -77,28 +77,28 @@ public class DisguiseManager implements Listener {
 //	    }
 //	});
 		
-		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.HIGHEST, PacketType.Play.Server.NAMED_ENTITY_SPAWN){
-		 	@Override
-			public void onPacketSending(PacketEvent event) {
-	        if(event.getPacketType() == PacketType.Play.Server.NAMED_ENTITY_SPAWN){
-	            Player player = event.getPlayer();
-	            System.err.println("PLAYER: "+player.getName());
-	            try {
-	                PacketContainer packet = event.getPacket();
-	                WrapperPlayServerNamedEntitySpawn pa = new WrapperPlayServerNamedEntitySpawn(packet);
-	                	for(DisguiseBase db : disguise){
-	                		if(db.GetEntityId()==pa.getEntityID()){
-	                			event.schedule(new ScheduledPacket(new WrapperPlayServerEntityDestroy(new int[] { db.GetEntityId() }).getHandle(),player,false));
-	                			event.schedule(new ScheduledPacket(db.GetSpawnPacket(),player,false));
-	                		}
-	                }
-	            } catch (Exception e){
-	            	System.err.println("[DisguiseManager] Error: ");
-	            	e.printStackTrace();
-	            }
-	        }
-	    }
-	});
+//		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.HIGHEST, PacketType.Play.Server.NAMED_ENTITY_SPAWN){
+//		 	@Override
+//			public void onPacketSending(PacketEvent event) {
+//	        if(event.getPacketType() == PacketType.Play.Server.NAMED_ENTITY_SPAWN){
+//	            Player player = event.getPlayer();
+//	            System.err.println("PLAYER: "+player.getName());
+//	            try {
+//	                PacketContainer packet = event.getPacket();
+//	                WrapperPlayServerNamedEntitySpawn pa = new WrapperPlayServerNamedEntitySpawn(packet);
+//	                	for(DisguiseBase db : disguise){
+//	                		if(db.GetEntityId()==pa.getEntityID()){
+//	                			event.schedule(new ScheduledPacket(new WrapperPlayServerEntityDestroy(new int[] { db.GetEntityId() }).getHandle(),player,false));
+//	                			event.schedule(new ScheduledPacket(db.GetSpawnPacket(),player,false));
+//	                		}
+//	                }
+//	            } catch (Exception e){
+//	            	System.err.println("[DisguiseManager] Error: ");
+//	            	e.printStackTrace();
+//	            }
+//	        }
+//	    }
+//	});
 		
 		Bukkit.getPluginManager().registerEvents(this, getInstance());
 	}

@@ -68,7 +68,7 @@ public class RestartScheduler implements Listener{
 			for(Player p : UtilServer.getPlayers())UtilBG.sendToServer(p, "falldown",instance);
 			break;
 		case 23:
-			if(UtilServer.getPlayers().length!=0&&i<5){
+			if(UtilServer.getPlayers().size()!=0&&i<5){
 				start=26;
 				i++;
 			}

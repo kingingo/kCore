@@ -3,7 +3,6 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,12 +12,11 @@ import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
 import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityEquipment;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerPlayerInfo;
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerTabComplete;
 import me.kingingo.kcore.Permission.kPermission;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.EnumClientCommand;
-import net.minecraft.server.v1_7_R4.Packet;
-import net.minecraft.server.v1_7_R4.PacketPlayInClientCommand;
-import net.minecraft.server.v1_7_R4.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_8_R2.Packet;
+import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,10 +24,9 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -145,6 +142,10 @@ public class UtilPlayer
 		sendPacket(to, packet.getHandle());
 	}
 	
+	public static double getMaxHealth(Player player){
+		return ((CraftPlayer)player).getMaxHealth();
+	}
+	
 	public static double getHealth(Player player){
 		return ((CraftPlayer)player).getHealth();
 	}
@@ -161,20 +162,25 @@ public class UtilPlayer
 		return p.hasPotionEffect(PotionEffectType.SLOW);
   }
   
-  public static int getVersion(Player player){
-	  return ((CraftPlayer)player).getHandle().playerConnection.networkManager.getVersion();
-  }
+//  public static int getVersion(Player player){
+//	  return ((CraftPlayer)player).getHandle().playerConnection.
+//  }
   
-  public static void setTab(String tab,Player p,boolean b){
-	  PacketPlayOutPlayerInfo t = new PacketPlayOutPlayerInfo();
-	  UtilReflection.setValue("username", t, tab);
-	  UtilReflection.setValue("ping", t, 9999);
-	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
-  }
-  
-  public static void setTab(String[] tab,Player p){
-	  for(String t : tab)setTab(t, p,true);
-  }
+//  public static void setTab(String tab,Player p){
+//	  WrapperPlayServerPlayerInfo t = new WrapperPlayServerPlayerInfo();
+//	  t.setPlayerName(tab);
+//	  t.setPing(((short)9999));
+//	  t.sendPacket(p);
+//	  
+////	  PacketPlayOutPlayerInfo t = new PacketPlayOutPlayerInfo();
+////	  UtilReflection.setValue("username", t, tab);
+////	  UtilReflection.setValue("ping", t, 9999);
+////	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
+//  }
+//  
+//  public static void setTab(String[] tab,Player p){
+//	  for(String t : tab)setTab(t, p);
+//  }
   
   public static void setPlayerListName(Player player,String nick){
 	  PlayerListNameChangeEvent ev = new PlayerListNameChangeEvent(player,nick);
@@ -183,13 +189,9 @@ public class UtilPlayer
   }
   
   public static void RespawnNow(final Player p,JavaPlugin plugin){
-	  if(getVersion(p)>=47)return;
       Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-    	  
     	   public void run() {
-    		   PacketPlayInClientCommand in = new PacketPlayInClientCommand(EnumClientCommand.PERFORM_RESPAWN); // Gets the packet class
-    	        EntityPlayer cPlayer = ((CraftPlayer)p).getHandle(); // Gets the EntityPlayer class
-    	        cPlayer.playerConnection.a(in); // Handles the rest of it
+    		   p.spigot().respawn();
     	   }
     	   
     	  }, 10L);

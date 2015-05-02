@@ -9,22 +9,23 @@ import me.kingingo.kcore.Pet.Shop.PetShop;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Pet.Event.PetWithOutOwnerLocationEvent;
-import net.minecraft.server.v1_7_R4.EntityCreature;
-import net.minecraft.server.v1_7_R4.EntityHuman;
-import net.minecraft.server.v1_7_R4.EntityInsentient;
-import net.minecraft.server.v1_7_R4.Navigation;
-import net.minecraft.server.v1_7_R4.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_7_R4.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_7_R4.PathfinderGoalSelector;
-import net.minecraft.server.v1_7_R4.EntityLiving;
-import net.minecraft.server.v1_7_R4.PathEntity;
+import net.minecraft.server.v1_8_R2.EntityCreature;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.EntityInsentient;
+import net.minecraft.server.v1_8_R2.Navigation;
+import net.minecraft.server.v1_8_R2.NavigationAbstract;
+import net.minecraft.server.v1_8_R2.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_8_R2.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_8_R2.PathfinderGoalSelector;
+import net.minecraft.server.v1_8_R2.EntityLiving;
+import net.minecraft.server.v1_8_R2.PathEntity;
 import org.bukkit.entity.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -189,7 +190,7 @@ public class PetManager implements Listener{
 	  Player owner;
 	  Creature pet;
 	  EntityCreature ec;
-	  Navigation nav;
+	  NavigationAbstract nav;
 	  int xDiff;
 	  int yDiff;
 	  int zDiff;
@@ -249,30 +250,30 @@ public class PetManager implements Listener{
 	    }
 	  }
 	  
-	  public boolean moveEntity(Entity e,Location l,float speed){
-		   if(((CraftEntity)e).getHandle() instanceof EntityCreature || ((CraftEntity)e) instanceof CraftCreature || e instanceof CraftCreature){
-		     EntityCreature entity = ((CraftCreature) e).getHandle();
-		     Navigation nav = entity.getNavigation();
-		     nav.a(true);
-		     PathEntity path = nav.a(l.getX(),l.getY(),l.getZ());
-		     entity.pathEntity = path;
-		     return nav.a(path, speed);
-		   }else if(((CraftEntity)e).getHandle() instanceof EntityInsentient){
-		    EntityInsentient ei = ((EntityInsentient)((CraftEntity) e).getHandle());
-		    Navigation nav = ei.getNavigation();
-		    nav.a(true);
-		    ei.getControllerMove().a(l.getX(),l.getY(),l.getZ(),(float)speed);
-		    return nav.a(l.getX(),l.getY(),l.getZ(),(float)speed);
-		   }else if(((CraftEntity)e).getHandle() instanceof EntityLiving){
-		    EntityLiving entity = (EntityLiving)((CraftEntity)e).getHandle();
-		    entity.move(l.getX(), l.getY(),l.getZ());
-		    entity.e((float)l.getX(), (float)l.getZ());
-		    return true;
-		   }else{
-		    System.out.println("Keiner");
-		    return false;
-		   }
-		  }
+//	  public boolean moveEntity(Entity e,Location l,float speed){
+//		   if(((CraftEntity)e).getHandle() instanceof EntityCreature || ((CraftEntity)e) instanceof CraftCreature || e instanceof CraftCreature){
+//		     EntityCreature entity = ((CraftCreature) e).getHandle();
+//		     NavigationAbstract nav = entity.getNavigation();
+//		     nav.a(true);
+//		     PathEntity path = nav.a(l.getX(),l.getY(),l.getZ());
+//		     entity.pathEntity = path;
+//		     return nav.a(path, speed);
+//		   }else if(((CraftEntity)e).getHandle() instanceof EntityInsentient){
+//		    EntityInsentient ei = ((EntityInsentient)((CraftEntity) e).getHandle());
+//		    NavigationAbstract nav = ei.getNavigation();
+//		    nav.a(true);
+//		    ei.getControllerMove().a(l.getX(),l.getY(),l.getZ(),(float)speed);
+//		    return nav.a(l.getX(),l.getY(),l.getZ(),(float)speed);
+//		   }else if(((CraftEntity)e).getHandle() instanceof EntityLiving){
+//		    EntityLiving entity = (EntityLiving)((CraftEntity)e).getHandle();
+//		    entity.move(l.getX(), l.getY(),l.getZ());
+//		    entity.e((float)l.getX(), (float)l.getZ());
+//		    return true;
+//		   }else{
+//		    System.out.println("Keiner");
+//		    return false;
+//		   }
+//		  }
 	 
 	  @EventHandler
 	  public void onUpdate(UpdateEvent event){

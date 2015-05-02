@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import net.minecraft.server.v1_7_R4.TileEntityBeacon;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.TileEntityBeacon;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.inventory.ItemStack;
 
 public class UtilBlock
@@ -36,7 +37,7 @@ public class UtilBlock
 
   public static void setBeaconActive(Block block, boolean state) {
 	  	block.setType(Material.BEACON);
-		TileEntityBeacon beacon = (TileEntityBeacon) ((CraftWorld) block.getWorld()).getHandle().getTileEntity(block.getX(),block.getY(), block.getZ());
+		TileEntityBeacon beacon = (TileEntityBeacon) ((CraftWorld) block.getWorld()).getHandle().getTileEntity(new BlockPosition(block.getX(),block.getY(), block.getZ()));
 		UtilReflection.setValue("a", beacon, state);
 	}
   

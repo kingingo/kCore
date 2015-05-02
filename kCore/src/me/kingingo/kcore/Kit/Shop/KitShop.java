@@ -11,6 +11,7 @@ import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.KitType;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.Perks.Event.PerkStartEvent;
+import me.kingingo.kcore.Kit.Shop.Events.KitShopPlayerDeleteEvent;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.Coins;
@@ -125,6 +126,13 @@ public class KitShop implements Listener {
 	}
 	
 	@EventHandler
+	public void Delete(KitShopPlayerDeleteEvent ev){
+		for(Kit kit : getKits()){
+			kit.removePlayer(ev.getPlayer());
+		}
+	}
+	
+	@EventHandler
 	public void ShopOpen(PlayerInteractEvent ev){
 		if(UtilEvent.isAction(ev, ActionType.R)){
 			if(ev.getPlayer().getItemInHand()!=null&&UtilItem.ItemNameEquals(ev.getPlayer().getItemInHand(), UtilItem.RenameItem(new ItemStack(Material.CHEST), "§bKitShop"))){
@@ -139,17 +147,17 @@ public class KitShop implements Listener {
 		if(holiday!=null&&holiday==CalendarType.GEBURSTAG&&kit.getType()!=KitType.ADMIN){
 			inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 			inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-			inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+			inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
 		}else{
 			if(kit.getType()==KitType.STARTER){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
 			}else if(kit.getType()==KitType.ADMIN){
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
@@ -159,7 +167,7 @@ public class KitShop implements Listener {
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
@@ -169,7 +177,7 @@ public class KitShop implements Listener {
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
@@ -179,7 +187,7 @@ public class KitShop implements Listener {
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.FIRE), "§aAuswählen"));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
@@ -253,7 +261,7 @@ public class KitShop implements Listener {
 					if(ev.getCurrentItem().getType()==Material.IRON_DOOR||ev.getCurrentItem().getType()==Material.REDSTONE){
 						p.closeInventory();
 						getInv(p);
-					}else if(ev.getCurrentItem().getType()==Material.FIRE){
+					}else if(ev.getCurrentItem().getType()==Material.EMERALD){
 						kit.addPlayer(p);
 						p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_ADD.getText(kit.getName()));
 						p.closeInventory();

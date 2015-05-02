@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Util;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -159,6 +160,34 @@ public class UtilReflection {
 	    return null;
 	  }
 
+	  public static Object createNMSTextComponent(String text) {
+			if (text == null || text.isEmpty()) {
+				return null;
+			}
+
+			Class c = getClassByName(getNMSPackageName() + ".ChatComponentText");
+			try {
+				Constructor constructor = c.getDeclaredConstructor(String.class);
+				return constructor.newInstance(text);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				return null;
+			}
+		}
+	  
+	  public static Class getClassByName(String name) {
+			try {
+				return Class.forName(name);
+			} catch (Exception e) {
+				// Class not found
+				return null;
+			}
+		}
+	  
+	  public static String getNMSPackageName() {
+			return "net.minecraft.server." + Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+		}
+	  
 	  public static Method getMethod(Class<?> cl, String method, Integer args) {
 	    for (Method m : cl.getMethods()) {
 	      if ((m.getName().equals(method)) && (args.equals(new Integer(m.getParameterTypes().length)))) {

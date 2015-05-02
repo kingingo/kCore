@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Command.Commands;
 
+import java.util.HashSet;
 import java.util.Locale;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
@@ -46,7 +47,7 @@ public class CommandSpawner implements CommandExecutor{
 					}
 				}
 				
-				Block block = player.getTargetBlock(null,20);
+				Block block = player.getTargetBlock((HashSet<Byte>) null, 100);
 				if(block!=null&&block.getType()==Material.MOB_SPAWNER){
 					l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
 					if( l!=0 ){

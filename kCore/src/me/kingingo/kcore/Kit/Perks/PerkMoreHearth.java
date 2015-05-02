@@ -1,9 +1,8 @@
 package me.kingingo.kcore.Kit.Perks;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Util.UtilPlayer;
 
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -28,7 +27,7 @@ public class PerkMoreHearth extends Perk{
 		   a=(Player)e.getDamager();
 		   
 		   if(this.getPerkData().hasPlayer(this,a)){
-			   if(((CraftPlayer)a).getHealth()<=herz){
+			   if(UtilPlayer.getHealth(a)<=herz){
 				   e.setDamage( e.getDamage()+((e.getDamage()/100)*prozent) );  
 			   }
 		   }

@@ -72,14 +72,14 @@ public class Hologram implements Listener{
 	//--
 	public NameTagMessage sendText(final Player p, Location loc,int time, String... msg) {
 		if(!this.protocollib)return null;
-		if(UtilPlayer.getVersion(p)>=47)return null;
+		
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			message.sendToPlayer(p, loc);
 			list.put(message, time);
 			return message;
 		} catch (Exception error) {
-			System.out.println("TEST");
+
 			error.printStackTrace();
 		}
 		return null;
@@ -87,13 +87,12 @@ public class Hologram implements Listener{
 	
 	public NameTagMessage sendText(final Player p, Location loc, String... msg) {
 		if(!this.protocollib)return null;
-		if(UtilPlayer.getVersion(p)>=47)return null;
+		
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			message.sendToPlayer(p, loc);
 			return message;
 		} catch (Exception error) {
-			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -101,14 +100,13 @@ public class Hologram implements Listener{
 	
 	public NameTagMessage sendText(final Player p, Location loc,int time, String msg) {
 		if(!this.protocollib)return null;
-		if(UtilPlayer.getVersion(p)>=47)return null;
+		
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			message.sendToPlayer(p, loc);
 			list.put(message, time);
 			return message;
 		} catch (Exception error) {
-			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -116,13 +114,12 @@ public class Hologram implements Listener{
 	
 	public NameTagMessage sendText(final Player p, Location loc, String msg) {
 		if(!this.protocollib)return null;
-		if(UtilPlayer.getVersion(p)>=47)return null;
+		
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			message.sendToPlayer(p, loc);
 			return message;
 		} catch (Exception error) {
-			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -135,13 +132,12 @@ public class Hologram implements Listener{
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			for (Player ps : UtilServer.getPlayers()){
-				if(UtilPlayer.getVersion(ps)>=47)continue;
+				
 				message.sendToPlayer(ps, loc);
 			}
 			
 			return message;
 		} catch (Exception error) {
-			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -152,13 +148,12 @@ public class Hologram implements Listener{
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			for (Player ps : UtilServer.getPlayers()){
-				if(UtilPlayer.getVersion(ps)>=47)continue;
+				
 				message.sendToPlayer(ps, loc);
 			}
 			
 			return message;
 		} catch (Exception error) {
-			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -170,13 +165,12 @@ public class Hologram implements Listener{
 			final NameTagMessage message = new NameTagMessage(msg);
 			list.put(message, time);
 			for (Player ps : UtilServer.getPlayers()){
-				if(UtilPlayer.getVersion(ps)>=47)continue;
+				
 				message.sendToPlayer(ps, loc);
 			}
 			
 			return message;
 		} catch (Exception error) {
-			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;
@@ -188,13 +182,12 @@ public class Hologram implements Listener{
 			final NameTagMessage message = new NameTagMessage(msg);
 			list.put(message, time);
 			for (Player ps : UtilServer.getPlayers()){
-				if(UtilPlayer.getVersion(ps)>=47)continue;
+				
 				message.sendToPlayer(ps, loc);
 			}
 			
 			return message;
 		} catch (Exception error) {
-			System.out.println("TEST");
 			error.printStackTrace();
 		}
 		return null;

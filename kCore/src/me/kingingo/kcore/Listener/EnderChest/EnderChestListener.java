@@ -8,23 +8,21 @@ import me.kingingo.kcore.Permission.Event.PlayerLoadPermissionEvent;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import me.kingingo.kcore.Util.UtilEvent;
-import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
+import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.kConfig.kConfig;
-import net.minecraft.server.v1_7_R4.EntityHuman;
-import net.minecraft.server.v1_7_R4.EntityLiving;
-import net.minecraft.server.v1_7_R4.InventoryEnderChest;
-import net.minecraft.server.v1_7_R4.InventorySubcontainer;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.EntityLiving;
+import net.minecraft.server.v1_8_R2.InventoryEnderChest;
+import net.minecraft.server.v1_8_R2.InventorySubcontainer;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
 
@@ -73,9 +71,9 @@ public class EnderChestListener extends kListener{
 		}
 	}
 	
-	public void setEnderchestAddon(Player player,net.minecraft.server.v1_7_R4.ItemStack[] itemStack){
+	public void setEnderchestAddon(Player player,net.minecraft.server.v1_8_R2.ItemStack[] itemStack){
 		CraftEntity ep = ((CraftEntity)((CraftPlayer)player));
-		net.minecraft.server.v1_7_R4.Entity e = get(ep);
+		net.minecraft.server.v1_8_R2.Entity e = get(ep);
 		EntityLiving living = (EntityLiving)e;
 		EntityHuman human =(EntityHuman)living;
 		InventoryEnderChest echest = human.getEnderChest();
@@ -83,7 +81,7 @@ public class EnderChestListener extends kListener{
 		set(s,itemStack);
 	}
 	
-	private void set(InventorySubcontainer s,net.minecraft.server.v1_7_R4.ItemStack[] item){
+	private void set(InventorySubcontainer s,net.minecraft.server.v1_8_R2.ItemStack[] item){
 	    try
 	    {
 	        Field pField = InventorySubcontainer.class.getDeclaredField("b");
@@ -99,24 +97,24 @@ public class EnderChestListener extends kListener{
 	    }
 	  }
 	
-	private net.minecraft.server.v1_7_R4.ItemStack[] get(InventorySubcontainer s){
+	private net.minecraft.server.v1_8_R2.ItemStack[] get(InventorySubcontainer s){
 	    try
 	    {
 	        Field pField = InventorySubcontainer.class.getDeclaredField("items");
 	        pField.setAccessible(true);
-	      return (net.minecraft.server.v1_7_R4.ItemStack[])pField.get(s);
+	      return (net.minecraft.server.v1_8_R2.ItemStack[])pField.get(s);
 	    } catch (Exception e) {
 	      throw new RuntimeException(e);
 	    }
 	  }
 	
-	private net.minecraft.server.v1_7_R4.Entity get(CraftEntity ep){
+	private net.minecraft.server.v1_8_R2.Entity get(CraftEntity ep){
 	    try
 	    {
 	        Field pField = CraftEntity.class.getDeclaredField("entity");
 	        pField.setAccessible(true);
 	      
-	      return (net.minecraft.server.v1_7_R4.Entity)pField.get(ep);
+	      return (net.minecraft.server.v1_8_R2.Entity)pField.get(ep);
 	    } catch (Exception e) {
 	      throw new RuntimeException(e);
 	    }

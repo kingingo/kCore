@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import me.kingingo.kcore.PacketWrapper.WrapperPlayServerWorldParticles;
+import net.minecraft.server.v1_8_R2.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,77 +18,67 @@ import org.bukkit.entity.Player;
  
 public enum UtilParticle {
 	
-	HUGE_EXPLOSION("hugeexplosion"),
-	LARGE_EXPLODE("largeexplode"),
-	FIREWORKS_SPARK("fireworksSpark"),
-	BUBBLE("bubble", true),
-	SUSPEND("suspend", true),
-	DEPTH_SUSPEND("depthSuspend"),
-	TOWN_AURA("townaura"),
-	CRIT("crit"),
-	MAGIC_CRIT("magicCrit"),
-	SMOKE("smoke"),
-	MOB_SPELL("mobSpell"),
-	MOB_SPELL_AMBIENT("mobSpellAmbient"),
-	SPELL("spell"),
-	INSTANT_SPELL("instantSpell"),
-	WITCH_MAGIC("witchMagic"),
-	NOTE("note"),
-	PORTAL("portal"),
-	ENCHANTMENT_TABLE("enchantmenttable"),
-	EXPLODE("explode"),
-	FLAME("flame"),
-	LAVA("lava"),
-	FOOTSTEP("footstep"),
-	SPLASH("splash"),
-	WAKE("wake"),
-	LARGE_SMOKE("largesmoke"),
-	CLOUD("cloud"),
-	RED_DUST("reddust"),
-	SNOWBALL_POOF("snowballpoof"),
-	DRIP_WATER("dripWater"),
-	DRIP_LAVA("dripLava"),
-	SNOW_SHOVEL("snowshovel"),
-	SLIME("slime"),
-	HEART("heart"),
-	ANGRY_VILLAGER("angryVillager"),
-	HAPPY_VILLAGER("happyVillager");
+	HUGE_EXPLOSION(EnumParticle.EXPLOSION_HUGE),
+	LARGE_EXPLODE(EnumParticle.EXPLOSION_LARGE),
+	FIREWORKS_SPARK(EnumParticle.FIREWORKS_SPARK),
+	BUBBLE(EnumParticle.WATER_BUBBLE, true),
+	SUSPEND(EnumParticle.SUSPENDED, true),
+	DEPTH_SUSPEND(EnumParticle.SUSPENDED_DEPTH),
+	TOWN_AURA(EnumParticle.TOWN_AURA),
+	CRIT(EnumParticle.CRIT),
+	MAGIC_CRIT(EnumParticle.CRIT_MAGIC),
+	SMOKE(EnumParticle.SMOKE_NORMAL),
+	MOB_SPELL(EnumParticle.SPELL_MOB),
+	MOB_SPELL_AMBIENT(EnumParticle.SPELL_MOB_AMBIENT),
+	SPELL(EnumParticle.SPELL),
+	INSTANT_SPELL(EnumParticle.SPELL_INSTANT),
+	WITCH_MAGIC(EnumParticle.SPELL_WITCH),
+	NOTE(EnumParticle.NOTE),
+	PORTAL(EnumParticle.PORTAL),
+	ENCHANTMENT_TABLE(EnumParticle.ENCHANTMENT_TABLE),
+	EXPLODE(EnumParticle.EXPLOSION_NORMAL),
+	FLAME(EnumParticle.FLAME),
+	LAVA(EnumParticle.LAVA),
+	FOOTSTEP(EnumParticle.FOOTSTEP),
+	SPLASH(EnumParticle.WATER_SPLASH),
+	WAKE(EnumParticle.WATER_WAKE),
+	LARGE_SMOKE(EnumParticle.SMOKE_LARGE),
+	CLOUD(EnumParticle.CLOUD),
+	RED_DUST(EnumParticle.REDSTONE),
+	SNOWBALL_POOF(EnumParticle.SNOWBALL),
+	DRIP_WATER(EnumParticle.DRIP_WATER),
+	DRIP_LAVA(EnumParticle.DRIP_LAVA),
+	SNOW_SHOVEL(EnumParticle.SNOW_SHOVEL),
+	SLIME(EnumParticle.SLIME),
+	HEART(EnumParticle.HEART),
+	ANGRY_VILLAGER(EnumParticle.VILLAGER_ANGRY),
+	HAPPY_VILLAGER(EnumParticle.VILLAGER_HAPPY);
  
-	private static final Map<String, UtilParticle> NAME_MAP = new HashMap<String, UtilParticle>();
-	private final String name;
+	private static final Map<EnumParticle, UtilParticle> NAME_MAP = new HashMap<EnumParticle, UtilParticle>();
+	private final EnumParticle particle;
 	private final boolean requiresWater;
 	
 	static {
 		for (UtilParticle effect : values()) {
-			NAME_MAP.put(effect.name, effect);
+			NAME_MAP.put(effect.particle, effect);
 		}
 	}
  
-	private UtilParticle(String name, boolean requiresWater) {
-		this.name = name;
+	private UtilParticle(EnumParticle particle, boolean requiresWater) {
+		this.particle = particle;
 		this.requiresWater = requiresWater;
 	}
  
-	private UtilParticle(String name) {
-		this(name, false);
+	private UtilParticle(EnumParticle particle) {
+		this(particle, false);
 	}
 	
-	public String getName() {
-		return name;
+	public EnumParticle getParticle() {
+		return particle;
 	}
 	
 	public boolean getRequiresWater() {
 		return requiresWater;
-	}
-
-	public static UtilParticle fromName(String name) {
-		for (Entry<String, UtilParticle> entry : NAME_MAP.entrySet()) {
-			if (!entry.getKey().equalsIgnoreCase(name)) {
-				continue;
-			}
-			return entry.getValue();
-		}
-		return null;
 	}
  
 	private static boolean isWater(Location location) {
@@ -103,58 +96,58 @@ public enum UtilParticle {
 		if (requiresWater && !isWater(center)) {
 			throw new IllegalArgumentException("There is no water at the center location");
 		}
-		new UtilParticlePacket(name, 0,0,0, speed, amount).sendTo(center, range);
+		new UtilParticlePacket(particle, 0,0,0, speed, amount).sendTo(center, range);
 	}
  
 	public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws IllegalArgumentException {
 		if (requiresWater && !isWater(center)) {
 			throw new IllegalArgumentException("There is no water at the center location");
 		}
-		new UtilParticlePacket(name, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
+		new UtilParticlePacket(particle, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
 	}
  
 	public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws IllegalArgumentException {
 		if (requiresWater && !isWater(center)) {
 			throw new IllegalArgumentException("There is no water at the center location");
 		}
-		new UtilParticlePacket(name, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
+		new UtilParticlePacket(particle, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
 	}
  
-	public static void displayIconCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) {
-		new UtilParticlePacket("iconcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
-	}
- 
-	public static void displayIconCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) {
-		new UtilParticlePacket("iconcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
-	}
- 
-	public static void displayBlockCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, int amount, Location center, double range) throws IllegalArgumentException {
-		if (!isBlock(id)) {
-			throw new IllegalArgumentException("Invalid block id");
-		}
-		new UtilParticlePacket("blockcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, 0, amount).sendTo(center, range);
-	}
- 
-	public static void displayBlockCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, int amount, Location center, List<Player> players) throws IllegalArgumentException {
-		if (!isBlock(id)) {
-			throw new IllegalArgumentException("Invalid block id");
-		}
-		new UtilParticlePacket("blockcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, 0, amount).sendTo(center, players);
-	}
- 
-	public static void displayBlockDust(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws IllegalArgumentException {
-		if (!isBlock(id)) {
-			throw new IllegalArgumentException("Invalid block id");
-		}
-		new UtilParticlePacket("blockdust_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
-	}
- 
-	public static void displayBlockDust(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws IllegalArgumentException {
-		if (!isBlock(id)) {
-			throw new IllegalArgumentException("Invalid block id");
-		}
-		new UtilParticlePacket("blockdust_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
-	}
+//	public static void displayIconCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) {
+//		new UtilParticlePacket("iconcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
+//	}
+// 
+//	public static void displayIconCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) {
+//		new UtilParticlePacket("iconcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
+//	}
+// 
+//	public static void displayBlockCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, int amount, Location center, double range) throws IllegalArgumentException {
+//		if (!isBlock(id)) {
+//			throw new IllegalArgumentException("Invalid block id");
+//		}
+//		new UtilParticlePacket("blockcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, 0, amount).sendTo(center, range);
+//	}
+// 
+//	public static void displayBlockCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, int amount, Location center, List<Player> players) throws IllegalArgumentException {
+//		if (!isBlock(id)) {
+//			throw new IllegalArgumentException("Invalid block id");
+//		}
+//		new UtilParticlePacket("blockcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, 0, amount).sendTo(center, players);
+//	}
+// 
+//	public static void displayBlockDust(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws IllegalArgumentException {
+//		if (!isBlock(id)) {
+//			throw new IllegalArgumentException("Invalid block id");
+//		}
+//		new UtilParticlePacket("blockdust_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
+//	}
+// 
+//	public static void displayBlockDust(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws IllegalArgumentException {
+//		if (!isBlock(id)) {
+//			throw new IllegalArgumentException("Invalid block id");
+//		}
+//		new UtilParticlePacket("blockdust_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
+//	}
  
 	public static final class UtilParticlePacket {
 		private static Constructor<?> packetConstructor;
@@ -162,7 +155,7 @@ public enum UtilParticle {
 		private static Field playerConnection;
 		private static Method sendPacket;
 		private static boolean initialized;
-		private final String name;
+		private final EnumParticle particle;
 		private final float offsetX;
 		private final float offsetY;
 		private final float offsetZ;
@@ -170,7 +163,7 @@ public enum UtilParticle {
 		private final int amount;
 		private Object packet;
  
-		public UtilParticlePacket(String name, float offsetX, float offsetY, float offsetZ, float speed, int amount) throws IllegalArgumentException {
+		public UtilParticlePacket(EnumParticle particle, float offsetX, float offsetY, float offsetZ, float speed, int amount) throws IllegalArgumentException {
 			initialize();
 			if (speed < 0) {
 				throw new IllegalArgumentException("The speed is lower than 0");
@@ -178,7 +171,7 @@ public enum UtilParticle {
 			if (amount < 1) {
 				throw new IllegalArgumentException("The amount is lower than 1");
 			}
-			this.name = name;
+			this.particle = particle;
 			this.offsetX = offsetX;
 			this.offsetY = offsetY;
 			this.offsetZ = offsetZ;
@@ -522,7 +515,7 @@ public enum UtilParticle {
 			if (packet == null) {
 				try {
 					packet = packetConstructor.newInstance();
-					UtilReflection.setValue("a", packet, name);
+					UtilReflection.setValue("a", packet, particle);
 					UtilReflection.setValue("b", packet, (float) center.getX());
 					UtilReflection.setValue("c", packet, (float) center.getY());
 					UtilReflection.setValue("d", packet, (float) center.getZ());

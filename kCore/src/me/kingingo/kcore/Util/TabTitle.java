@@ -1,10 +1,13 @@
 package me.kingingo.kcore.Util;
-import net.minecraft.server.v1_7_R4.ChatSerializer;
-import net.minecraft.server.v1_7_R4.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent.ChatSerializer;
+
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.spigotmc.ProtocolInjector;
+
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -39,7 +42,6 @@ public class TabTitle
     public static void setHeaderAndFooter(Player p, String rawHeader, String rawFooter)
     {
         CraftPlayer player = (CraftPlayer) p;
-        if (!(UtilPlayer.getVersion(p) >= PROTOCOL_VERSION)) return;
         IChatBaseComponent header = ChatSerializer.a(TextConverter.convert(rawHeader));
         IChatBaseComponent footer = ChatSerializer.a(TextConverter.convert(rawFooter));
         if (header == null || footer == null)
@@ -68,9 +70,29 @@ public class TabTitle
             }
         }
         TabTitleCache.addTabTitle(p.getUniqueId(), new TabTitleCache(rawHeader, rawFooter));
-        ProtocolInjector.PacketTabHeader packet = new ProtocolInjector.PacketTabHeader(header, footer); 
-        player.getHandle().playerConnection.sendPacket(packet);
+        player.getHandle().playerConnection.sendPacket(getTabHeaderFooter(header, footer));
     }
+    
+    public static PacketPlayOutPlayerListHeaderFooter getTabHeaderFooter(IChatBaseComponent header, IChatBaseComponent footer){
+	    PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+
+	    try {
+	        Field headerField = packet.getClass().getDeclaredField("a");
+	        headerField.setAccessible(true);
+	        headerField.set(packet, header);
+	        headerField.setAccessible(!headerField.isAccessible());
+	     
+	        Field footerField = packet.getClass().getDeclaredField("b");
+	        footerField.setAccessible(true);
+	        footerField.set(packet, footer);
+	        footerField.setAccessible(!footerField.isAccessible());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return packet;
+    }
+    
     private static class TextConverter
     {
         public static String convert(String text)

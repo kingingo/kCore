@@ -1,4 +1,5 @@
 package me.kingingo.kcore.PacketWrapper;
+
 import java.util.HashMap;
 import java.util.Map;
 

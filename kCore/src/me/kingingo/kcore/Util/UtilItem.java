@@ -3,13 +3,13 @@ package me.kingingo.kcore.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_7_R4.NBTTagCompound;
-import net.minecraft.server.v1_7_R4.NBTTagList;
+import net.minecraft.server.v1_8_R2.NBTTagCompound;
+import net.minecraft.server.v1_8_R2.NBTTagList;
 
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -49,7 +49,7 @@ public class UtilItem {
 		return false;
 	}
 	
-	public static ItemStack[] convertItemStackArray(net.minecraft.server.v1_7_R4.ItemStack[] item){
+	public static ItemStack[] convertItemStackArray(net.minecraft.server.v1_8_R2.ItemStack[] item){
 		ItemStack[] items = new ItemStack[item.length];
 		for(int i = 0; i<item.length;i++){
 			items[i]=CraftItemStack.asBukkitCopy(item[i]);
@@ -57,8 +57,8 @@ public class UtilItem {
 		return items;
 	}
 	
-	public static net.minecraft.server.v1_7_R4.ItemStack[] convertItemStackArray(ItemStack[] item){
-		net.minecraft.server.v1_7_R4.ItemStack[] items = new net.minecraft.server.v1_7_R4.ItemStack[item.length];
+	public static net.minecraft.server.v1_8_R2.ItemStack[] convertItemStackArray(ItemStack[] item){
+		net.minecraft.server.v1_8_R2.ItemStack[] items = new net.minecraft.server.v1_8_R2.ItemStack[item.length];
 		for(int i = 0; i<item.length;i++){
 			items[i]=CraftItemStack.asNMSCopy(item[i]);
 		}
@@ -84,7 +84,7 @@ public class UtilItem {
 	  }
 	  
 	  public static ItemStack addEnchantmentGlow(ItemStack item){ 
-	        net.minecraft.server.v1_7_R4.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+	        net.minecraft.server.v1_8_R2.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
 	        NBTTagCompound tag = null;
 	        if (!nmsStack.hasTag()) {
 	            tag = new NBTTagCompound();
@@ -140,7 +140,7 @@ public class UtilItem {
 	      return i;
 	    }
 	    org.bukkit.inventory.ItemStack item = i.clone();
-	    net.minecraft.server.v1_7_R4.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+	    net.minecraft.server.v1_8_R2.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
 	    NBTTagCompound tag = null;
 	    if (!nmsStack.hasTag())
 	    {

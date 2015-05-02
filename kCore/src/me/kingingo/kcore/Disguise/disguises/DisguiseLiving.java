@@ -1,6 +1,6 @@
 package me.kingingo.kcore.Disguise.disguises;
 import java.util.Random;
-import net.minecraft.server.v1_7_R4.DataWatcher;
+import net.minecraft.server.v1_8_R2.DataWatcher;
 
 public abstract class DisguiseLiving extends DisguiseBase
 {

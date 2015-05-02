@@ -38,8 +38,8 @@ public class PerkSnowballSwitcher extends Perk{
 			if(getPerkData().hasPlayer(this, ((Player)snowball.getShooter()))){
 				if(ev.getEntity() instanceof Player){
 					loc=ev.getEntity().getLocation();
-					ev.getEntity().teleport(snowball.getShooter().getLocation());
-					snowball.getShooter().teleport(loc);
+					ev.getEntity().teleport(((Player)snowball.getShooter()).getLocation());
+					((Player)snowball.getShooter()).teleport(loc);
 				}
 			}
 		}
