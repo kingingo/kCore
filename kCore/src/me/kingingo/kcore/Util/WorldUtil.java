@@ -26,17 +26,28 @@ import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.spigotmc.SpigotConfig;
 
-public class WorldUtil
-{
-//	public static void setPlayerDataSave(boolean b){
-//		SpigotConfig.disableStatSaving=(b ? false : true);
-//	}
+public class WorldUtil{
 	
 	public static void setSave(boolean b){
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-"+(b ? "true" : "false"));
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-"+(b ? "on" : "off"));
 	}
 	
-  public static World LoadWorld(WorldCreator creator)
+	public void setWorldUnSave(World w){
+		WorldServer ws = ((CraftWorld)w).getHandle();
+		try{
+			Field field = ws.getClass().getDeclaredField("savingDisabled");
+			field.setAccessible(true);
+			field.set(ws, "false");
+		}catch(Exception e){
+			System.err.println("[WorldUtil] Error: "+e.getLocalizedMessage());
+		}
+	}
+	
+  public static World LoadWorld(WorldCreator creator){
+	  return LoadWorld(creator,null);
+  }
+	
+  public static World LoadWorld(WorldCreator creator,ChunkGenerator generator)
   {
     CraftServer server = (CraftServer)Bukkit.getServer();
     if (creator == null)
@@ -46,7 +57,7 @@ public class WorldUtil
 
     String name = creator.name();
     System.out.println("Loading world '" + name + "'");
-    ChunkGenerator generator = creator.generator();
+    if(generator==null)generator = creator.generator();
     File folder = new File(server.getWorldContainer(), name);
     World world = server.getWorld(name);
     WorldType type = WorldType.getType(creator.type().getName());

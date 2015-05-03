@@ -1,5 +1,4 @@
 package me.kingingo.kcore.Util;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,8 +11,10 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Bed;
 
 public class UtilBlock
 {
@@ -29,6 +30,53 @@ public class UtilBlock
   {
     if (block == null) return false;
     return solid(block.getTypeId());
+  }
+  
+  public static Location getTwinLocation(Block block){
+      if(((Bed)block.getState().getData()).isHeadOfBed()){
+          return (block.getRelative(((Bed)block.getState().getData()).getFacing())).getLocation();
+      }else{
+          return (block.getRelative(((Bed)block.getState().getData()).getFacing().getOppositeFace())).getLocation();
+      }
+  }
+  
+  public static void placeBed(Location location,BlockFace face){
+	  BlockState bedFoot = location.getBlock().getState();
+      BlockState bedHead = bedFoot.getBlock().getRelative(face).getState();
+      bedFoot.setType(Material.BED_BLOCK);
+      bedHead.setType(Material.BED_BLOCK);
+      
+      byte flags = ( byte )8;
+      byte direction = ( byte )( 0x0 );
+
+      switch( face )
+      {
+
+        case EAST:
+            flags = ( byte )( flags | 0x3 );
+            direction = ( byte )( 0x3 );
+            break;
+
+        case SOUTH:
+            flags = ( byte )( flags | 0x0 );
+            direction = ( byte )( 0x0 );
+            break;
+
+        case WEST:
+            flags = ( byte )( flags | 0x1 );
+            direction = ( byte )( 0x1 );
+            break;
+
+        case NORTH:
+            flags = ( byte )( flags | 0x2 );
+            direction = ( byte )( 0x2 );
+            break;
+        }
+      
+      bedFoot.setRawData((byte) direction);
+      bedHead.setRawData((byte) flags);
+      bedFoot.update(true, false);
+      bedHead.update(true, true);
   }
 
   public static boolean solid(int block) {
