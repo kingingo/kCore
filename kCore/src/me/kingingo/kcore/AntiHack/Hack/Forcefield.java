@@ -2,6 +2,7 @@ package me.kingingo.kcore.AntiHack.Hack;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -12,15 +13,28 @@ import me.kingingo.kcore.AntiHack.IHack;
 import me.kingingo.kcore.AntiHack.Level;
 import me.kingingo.kcore.AntiHack.Events.AntiHackPlayerDetectedEvent;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kGameProfile;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutBed;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityDestroy;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityEquipment;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityMetadata;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityTeleport;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutNamedEntitySpawn;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutPlayerInfo;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutRelEntityMoveLook;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutPlayerInfo.kPlayerInfoData;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayClientUseEntity;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_8_R2.BlockPosition;
 import net.minecraft.server.v1_8_R2.DataWatcher;
 import net.minecraft.server.v1_8_R2.PacketPlayOutBed;
 import net.minecraft.server.v1_8_R2.PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook;
+import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.PlayerInfoData;
 import net.minecraft.server.v1_8_R2.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_8_R2.PacketPlayOutEntityEquipment;
 import net.minecraft.server.v1_8_R2.PacketPlayOutEntityMetadata;
@@ -40,6 +54,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import com.mojang.authlib.GameProfile;
 
 public class Forcefield extends IHack{
 
@@ -119,9 +134,9 @@ public class Forcefield extends IHack{
 		   @Getter
 		   @Setter
 		   private long timer;
-		   
+
 		   @Getter
-		   private PacketPlayOutNamedEntitySpawn spawn_packet;
+		   private kPacketPlayOutNamedEntitySpawn spawn_packet;
 		   
 		   public NPC(Player player,String name, UUID uuid, int entityID, Location location, Material inHand) {
 		      this.location = location;
@@ -139,29 +154,25 @@ public class Forcefield extends IHack{
 		   }
 
 		   public void spawn() {
-		      try{
-		    	 spawn_packet = new PacketPlayOutNamedEntitySpawn();
-		         
-		         this.setValue(spawn_packet, "a", this.entityID);
-		         this.setValue(spawn_packet, "b", this.uuid);
-		         this.setValue(spawn_packet, "c", this.toFixedPoint(this.location.getX()));
-		         this.setValue(spawn_packet, "d", this.toFixedPoint(this.location.getY()));
-		         this.setValue(spawn_packet, "e", this.toFixedPoint(this.location.getZ()));
-		         this.setValue(spawn_packet, "f", this.toPackedByte(this.location.getYaw()));
-		         this.setValue(spawn_packet, "g", this.toPackedByte(this.location.getPitch()));
-		         this.setValue(spawn_packet, "h", this.inHand == null ? 0 : this.inHand.getId());
-		         this.setValue(spawn_packet, "i", this.watcher);
-		         
-		         UtilPlayer.sendPacket(player, spawn_packet);
-		      }catch(Exception e) {
-		         e.printStackTrace();
-		      }
-		   }
+			      try{
+			    	 spawn_packet = new kPacketPlayOutNamedEntitySpawn();
+			         
+			         spawn_packet.setEntityID(entityID);
+			         spawn_packet.setUUID(uuid);
+			         spawn_packet.setLocation(location);
+			         spawn_packet.setItemInHand(inHand);
+			         spawn_packet.setDataWatcher(watcher);
+
+			         UtilPlayer.sendPacket(player, spawn_packet);
+			      }catch(Exception e) {
+			         e.printStackTrace();
+			      }
+			   }
 		   
 
 		   public void despawn() {
-		      PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(new int[]{this.entityID});
-		      UtilPlayer.sendPacket(player, packet);
+		      kPacketPlayOutEntityDestroy packet = new kPacketPlayOutEntityDestroy(new int[]{this.entityID});
+		         UtilPlayer.sendPacket(player, packet);
 		   }
 		   
 		   public void walk(Location newLoc) {
@@ -177,19 +188,19 @@ public class Forcefield extends IHack{
 			   byte y = (byte)((newLoc.getBlockY() - getLocation().getBlockY()) * 32);
 			   byte z = (byte)((newLoc.getBlockZ() - getLocation().getBlockZ()) * 32);
 			   this.location.add((newLoc.getBlockX() - getLocation().getBlockX()), (newLoc.getBlockY() - getLocation().getBlockY()), (newLoc.getBlockZ() - getLocation().getBlockZ()));
-		       PacketPlayOutRelEntityMoveLook packet = new PacketPlayOutRelEntityMoveLook(this.entityID,x,y,z,getCompressedAngle(yaw),getCompressedAngle(pitch),true);
+		       kPacketPlayOutRelEntityMoveLook packet = new kPacketPlayOutRelEntityMoveLook(this.entityID,x,y,z,getCompressedAngle(yaw),getCompressedAngle(pitch),true);
 
 		       UtilPlayer.sendPacket(player, packet);
 		   }
 		   
 		   public void sleep(){
 				try {
-					PacketPlayOutBed packet = new PacketPlayOutBed();
+					kPacketPlayOutBed packet = new kPacketPlayOutBed();
 					
-					setValue(packet,"a", this.entityID);
-					setValue(packet,"b", new BlockPosition(this.toFixedPoint(this.location.getX()),this.toFixedPoint(this.location.getY()),this.toFixedPoint(this.location.getZ())));
-					
-					UtilPlayer.sendPacket(player, packet);
+					packet.setEntityID(entityID);
+					packet.setPosition(location);
+
+			         UtilPlayer.sendPacket(player, packet);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -197,15 +208,11 @@ public class Forcefield extends IHack{
 
 		   public void teleport(Location location) {
 		      try{
-		         PacketPlayOutEntityTeleport packet = new PacketPlayOutEntityTeleport();
+		         kPacketPlayOutEntityTeleport packet = new kPacketPlayOutEntityTeleport();
 		         
-		         this.setValue(packet, "a", this.entityID);
-		         this.setValue(packet, "b", this.toFixedPoint(location.getX()));
-		         this.setValue(packet, "c", this.toFixedPoint(location.getY()));
-		         this.setValue(packet, "d", this.toFixedPoint(location.getZ()));
-		         this.setValue(packet, "e", this.toPackedByte(location.getYaw()));
-		         this.setValue(packet, "f", this.toPackedByte(location.getPitch()));
-		         this.setValue(packet, "g", this.location.getBlock().getType() == Material.AIR ? false : true);
+		         packet.setEntityID(entityID);
+		         packet.setLocation(location);
+		         packet.setOnGround(this.location.getBlock().getType() == Material.AIR ? false : true);
 		         this.location = location;
 		         
 		         UtilPlayer.sendPacket(player, packet);
@@ -217,13 +224,9 @@ public class Forcefield extends IHack{
 
 		   public void setItemInHand(Material material) {
 		      try{
-		         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
-		         
-		         this.setValue(packet, "a", this.entityID);
-		         this.setValue(packet, "b", 0);
-		         this.setValue(packet, "c", material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
+		         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(this.entityID,0,material);
 		         this.inHand = material;
-		         
+
 		         UtilPlayer.sendPacket(player, packet);
 		      }catch(Exception e) {
 		         e.printStackTrace();
@@ -237,13 +240,9 @@ public class Forcefield extends IHack{
 
 		   public void setHelmet(Material material) {
 		      try{
-		         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
+		         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(this.entityID,4,material);
 		         
-		         this.setValue(packet, "a", this.entityID);
-		         this.setValue(packet, "b", 4);
-		         this.setValue(packet, "c", material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
-		         this.helmet = material;
-		         
+		         this.helmet=material;
 		         UtilPlayer.sendPacket(player, packet);
 		      }catch(Exception e) {
 		         e.printStackTrace();
@@ -257,13 +256,9 @@ public class Forcefield extends IHack{
 
 		   public void setChestplate(Material material) {
 		      try{
-		         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
+		         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(entityID,3,material);
 		         
-		         this.setValue(packet, "a", this.entityID);
-		         this.setValue(packet, "b", 3);
-		         this.setValue(packet, "c", material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
 		         this.chestplate = material;
-		         
 		         UtilPlayer.sendPacket(player, packet);
 		      }catch(Exception e) {
 		         e.printStackTrace();
@@ -276,8 +271,8 @@ public class Forcefield extends IHack{
 		       this.watcher.a(3, (Object) (byte) 0);
 		       this.watcher.a(2, (Object) (String) s);
 		       this.watcher.a(4, (Object) (byte) 0);
-		       PacketPlayOutEntityMetadata packet = new PacketPlayOutEntityMetadata(this.entityID, this.watcher, true);
-		       UtilPlayer.sendPacket(player, packet);
+		       kPacketPlayOutEntityMetadata packet = new kPacketPlayOutEntityMetadata(this.entityID, this.watcher);
+		         UtilPlayer.sendPacket(player, packet);
 		   }
 		   
 		   public Material getChestplate() {
@@ -287,13 +282,9 @@ public class Forcefield extends IHack{
 
 		   public void setLeggings(Material material) {
 		      try{
-		         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
+		         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(entityID,2,material);
 		         
-		         this.setValue(packet, "a", this.entityID);
-		         this.setValue(packet, "b", 2);
-		         this.setValue(packet, "c", material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
 		         this.leggings = material;
-		         
 		         UtilPlayer.sendPacket(player, packet);
 		      }catch(Exception e) {
 		         e.printStackTrace();
@@ -306,13 +297,8 @@ public class Forcefield extends IHack{
 		   
 		   public void setBoots(Material material) {
 		      try{
-		         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
-		         
-		         this.setValue(packet, "a", this.entityID);
-		         this.setValue(packet, "b", 1);
-		         this.setValue(packet, "c", material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
+		         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(entityID,1,material);
 		         this.boots = material;
-		         
 		         UtilPlayer.sendPacket(player, packet);
 		      }catch(Exception e) {
 		         e.printStackTrace();
@@ -337,24 +323,6 @@ public class Forcefield extends IHack{
 		   
 		   public String getName() {
 		      return this.name;
-		   }
-		   
-		   public String getPlayerlistName() {
-		      return this.tablist;
-		   }
-		   
-		   private void setValue(Object instance, String field, Object value) throws Exception {
-		      Field f = instance.getClass().getDeclaredField(field);
-		      f.setAccessible(true);
-		      f.set(instance, value);
-		   }
-		   
-		   private int toFixedPoint(double d) {
-		      return (int) (d * 32.0);
-		   }
-		   
-		   private byte toPackedByte(float f) {
-		      return (byte) ((int) (f * 256.0F / 360.0F));
 		   }
 		   
 		}

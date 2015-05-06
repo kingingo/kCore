@@ -1,15 +1,12 @@
 package me.kingingo.kcore.Disguise.disguises;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguiseEnderman;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
 import net.minecraft.server.v1_8_R2.DataWatcher;
 import net.minecraft.server.v1_8_R2.Packet;
 import net.minecraft.server.v1_8_R2.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_8_R2.World;
 
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
-import org.bukkit.entity.EntityType;
 
 import com.comphenix.protocol.events.PacketContainer;
 

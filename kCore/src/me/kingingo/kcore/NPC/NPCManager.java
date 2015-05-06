@@ -5,6 +5,7 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
 import me.kingingo.kcore.PacketWrapper.WrapperPlayClientUseEntity;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,8 +28,6 @@ public class NPCManager implements Listener {
 	HashMap<Integer,NPC> NPCList = new HashMap<>();
 	@Getter
 	JavaPlugin instance;
-//	@Getter
-//	NickManager nManager;
 	
 	public NPCManager(JavaPlugin instance){
 		this.instance=instance;
@@ -56,7 +55,7 @@ public class NPCManager implements Listener {
 	@EventHandler
 	public void Respawn(PlayerRespawnEvent ev){
 		for(NPC npc : NPCList.values()){
-			((CraftPlayer) ev.getPlayer()).getHandle().playerConnection.sendPacket(npc.getSpawn_packet());
+			UtilPlayer.sendPacket(ev.getPlayer(), npc.getSpawn_packet());
 		}
 	}
 	

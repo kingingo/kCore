@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import lombok.Getter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class UtilBG {
 
 	private static boolean isRegestiert=false;
+	@Getter
+	public static String hub = "hub1";
 	
 	public static void RegisterBungeeCord(JavaPlugin plugin){
 		Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
@@ -30,6 +34,10 @@ public class UtilBG {
 		 
 		}
 		 p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+	}
+	
+	public static void sendToServer(Player p,JavaPlugin plugin) {
+		sendToServer(p, getHub(), plugin);
 	}
 	
 	public static void sendToServer(Player p, String server,JavaPlugin plugin) {

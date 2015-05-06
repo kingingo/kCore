@@ -1,35 +1,32 @@
 package me.kingingo.kcore.NPC;
-import java.lang.reflect.Field;
+
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 import lombok.Getter;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kGameProfile;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutBed;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityDestroy;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityEquipment;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityMetadata;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityTeleport;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutNamedEntitySpawn;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutPlayerInfo;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutRelEntityMoveLook;
+import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
-import net.minecraft.server.v1_8_R2.BlockPosition;
 import net.minecraft.server.v1_8_R2.DataWatcher;
-import net.minecraft.server.v1_8_R2.PacketPlayOutBed;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityEquipment;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook;
 import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.PlayerInfoData;
-import net.minecraft.server.v1_8_R2.WorldSettings.EnumGamemode;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftItemStack;
-import org.bukkit.craftbukkit.v1_8_R2.util.CraftChatMessage;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import com.mojang.authlib.GameProfile;
+
 public class NPC {
    
    private NPCManager manager=null;
@@ -46,7 +43,7 @@ public class NPC {
    private UUID uuid;
    
    @Getter
-   private PacketPlayOutNamedEntitySpawn spawn_packet;
+   private kPacketPlayOutNamedEntitySpawn spawn_packet;
    
    public NPC(NPCManager manager,String name, String tablist, UUID uuid, int entityID, Location location, Material inHand) {
       this.location = location;
@@ -79,24 +76,18 @@ public class NPC {
 
    public void spawn() {
       try{
-    	 spawn_packet = new PacketPlayOutNamedEntitySpawn();
+    	 spawn_packet = new kPacketPlayOutNamedEntitySpawn();
          this.addToTablist();
          
-         this.setValue(spawn_packet, "a", this.entityID);
-         this.setValue(spawn_packet, "b", this.uuid);
-         this.setValue(spawn_packet, "c", this.toFixedPoint(this.location.getX()));
-         this.setValue(spawn_packet, "d", this.toFixedPoint(this.location.getY()));
-         this.setValue(spawn_packet, "e", this.toFixedPoint(this.location.getZ()));
-         this.setValue(spawn_packet, "f", this.toPackedByte(this.location.getYaw()));
-         this.setValue(spawn_packet, "g", this.toPackedByte(this.location.getPitch()));
-         this.setValue(spawn_packet, "h", this.inHand == null ? 0 : this.inHand.getId());
-         this.setValue(spawn_packet, "i", this.watcher);
+         spawn_packet.setEntityID(entityID);
+         spawn_packet.setUUID(uuid);
+         spawn_packet.setLocation(location);
+         spawn_packet.setItemInHand(inHand);
+         spawn_packet.setDataWatcher(watcher);
          
          if(manager!=null)this.manager.getNPCList().put(this.entityID, this);
          
-         for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(spawn_packet);
-         }
+         for(Player online : Bukkit.getOnlinePlayers())UtilPlayer.sendPacket(online, spawn_packet);
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -104,12 +95,10 @@ public class NPC {
    
 
    public void despawn() {
-      PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(new int[]{this.entityID});
+      kPacketPlayOutEntityDestroy packet = new kPacketPlayOutEntityDestroy(new int[]{this.entityID});
       this.removeFromTablist();
       if(manager!=null)this.manager.getNPCList().remove(this.entityID);
-      for(Player online : Bukkit.getOnlinePlayers()) {
-         ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-      }
+      for(Player online : Bukkit.getOnlinePlayers())UtilPlayer.sendPacket(online, packet);
    }
    
    public void walk(Location newLoc) {
@@ -125,23 +114,19 @@ public class NPC {
 	   byte y = (byte)((newLoc.getBlockY() - getLocation().getBlockY()) * 32);
 	   byte z = (byte)((newLoc.getBlockZ() - getLocation().getBlockZ()) * 32);
 	   this.location.add((newLoc.getBlockX() - getLocation().getBlockX()), (newLoc.getBlockY() - getLocation().getBlockY()), (newLoc.getBlockZ() - getLocation().getBlockZ()));
-       PacketPlayOutRelEntityMoveLook packet = new PacketPlayOutRelEntityMoveLook(this.entityID,x,y,z,getCompressedAngle(yaw),getCompressedAngle(pitch),true);
+       kPacketPlayOutRelEntityMoveLook packet = new kPacketPlayOutRelEntityMoveLook(this.entityID,x,y,z,getCompressedAngle(yaw),getCompressedAngle(pitch),true);
 
-       for (Player online : UtilServer.getPlayers()) {
-           ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-       }
+       for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
    }
    
    public void sleep(){
 		try {
-			PacketPlayOutBed packet = new PacketPlayOutBed();
+			kPacketPlayOutBed packet = new kPacketPlayOutBed();
 			
-			setValue(packet,"a", this.entityID);
-			setValue(packet,"b", new BlockPosition(this.toFixedPoint(this.location.getX()),this.toFixedPoint(this.location.getY()),this.toFixedPoint(this.location.getZ())));
+			packet.setEntityID(entityID);
+			packet.setPosition(location);
 			
-			for(Player online : Bukkit.getOnlinePlayers()) {
-	            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-	         }
+			for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -150,19 +135,17 @@ public class NPC {
 
    public void changePlayerlistName(String name) {
       try{
-         PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
+         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
          
-         PlayerInfoData data = packet.new PlayerInfoData(new GameProfile(this.uuid, this.name), 0, EnumGamemode.NOT_SET, CraftChatMessage.fromString(name)[0]);
-         @SuppressWarnings("unchecked") List<PlayerInfoData> players = (List<PlayerInfoData>) this.getValue(packet, "b");
+         PlayerInfoData data = packet.new kPlayerInfoData(packet, new kGameProfile(getUUID(), name),name);
+         List<PlayerInfoData> players = packet.getList();
          players.add(data);
-         
-         this.setValue(packet, "a", EnumPlayerInfoAction.UPDATE_DISPLAY_NAME);
-         this.setValue(packet, "b", players);
+
+         packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.UPDATE_DISPLAY_NAME);
+         packet.setList(players);
          this.tablist = name;
-         
-         for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-         }
+
+         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -171,17 +154,15 @@ public class NPC {
 
    private void addToTablist() {
       try {
-         PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
-         PlayerInfoData data = packet.new PlayerInfoData(new GameProfile(this.uuid, this.name), 0, EnumGamemode.NOT_SET, CraftChatMessage.fromString(this.tablist)[0]);
-         @SuppressWarnings("unchecked") List<PlayerInfoData> players = (List<PlayerInfoData>) this.getValue(packet, "b");
+         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
+         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.uuid, this.name), tablist);
+         List<PlayerInfoData> players = packet.getList();
          players.add(data);
          
-         this.setValue(packet, "a", EnumPlayerInfoAction.ADD_PLAYER);
-         this.setValue(packet, "b", players);
-         
-         for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-         }
+         packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
+         packet.setList(players);
+
+         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
       } catch (Exception e) {
          e.printStackTrace();
       }
@@ -189,40 +170,32 @@ public class NPC {
    
 
    private void removeFromTablist() {
-      try{
-         PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
-         PlayerInfoData data = packet.new PlayerInfoData(new GameProfile(this.uuid, this.name), 0, EnumGamemode.NOT_SET, CraftChatMessage.fromString(this.tablist)[0]);
-         @SuppressWarnings("unchecked") List<PlayerInfoData> players = (List<PlayerInfoData>) this.getValue(packet, "b");
-         players.add(data);
-         
-         this.setValue(packet, "a", EnumPlayerInfoAction.REMOVE_PLAYER);
-         this.setValue(packet, "b", players);
-         
-         for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-         }
-      }catch(Exception e) {
-         e.printStackTrace();
-      }
+	   try {
+	         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
+	         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.uuid, this.name), tablist);
+	         List<PlayerInfoData> players = packet.getList();
+	         players.add(data);
+	         
+	         packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
+	         packet.setList(players);
+	         
+	         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
    }
    
 
    public void teleport(Location location) {
       try{
-         PacketPlayOutEntityTeleport packet = new PacketPlayOutEntityTeleport();
+         kPacketPlayOutEntityTeleport packet = new kPacketPlayOutEntityTeleport();
          
-         this.setValue(packet, "a", this.entityID);
-         this.setValue(packet, "b", this.toFixedPoint(location.getX()));
-         this.setValue(packet, "c", this.toFixedPoint(location.getY()));
-         this.setValue(packet, "d", this.toFixedPoint(location.getZ()));
-         this.setValue(packet, "e", this.toPackedByte(location.getYaw()));
-         this.setValue(packet, "f", this.toPackedByte(location.getPitch()));
-         this.setValue(packet, "g", this.location.getBlock().getType() == Material.AIR ? false : true);
+         packet.setEntityID(entityID);
+         packet.setLocation(location);
+         packet.setOnGround(this.location.getBlock().getType() == Material.AIR ? false : true);
          this.location = location;
          
-         for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-         }
+         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -231,16 +204,9 @@ public class NPC {
 
    public void setItemInHand(Material material) {
       try{
-         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
-         
-         this.setValue(packet, "a", this.entityID);
-         this.setValue(packet, "b", 0);
-         this.setValue(packet, "c", material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
+         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(this.entityID,0,material);
          this.inHand = material;
-         
-         for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-         }
+         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -253,16 +219,10 @@ public class NPC {
 
    public void setHelmet(Material material) {
       try{
-         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
+         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(this.entityID,4,material);
          
-         this.setValue(packet, "a", this.entityID);
-         this.setValue(packet, "b", 4);
-         this.setValue(packet, "c", material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
-         this.helmet = material;
-         
-         for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-         }
+         this.helmet=material;
+         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -275,16 +235,10 @@ public class NPC {
 
    public void setChestplate(Material material) {
       try{
-         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
+         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(entityID,3,material);
          
-         this.setValue(packet, "a", this.entityID);
-         this.setValue(packet, "b", 3);
-         this.setValue(packet, "c", material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
          this.chestplate = material;
-         
-         for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-         }
+         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -296,8 +250,8 @@ public class NPC {
        this.watcher.a(3, (Object) (byte) 0);
        this.watcher.a(2, (Object) (String) s);
        this.watcher.a(4, (Object) (byte) 0);
-       PacketPlayOutEntityMetadata packet = new PacketPlayOutEntityMetadata(this.entityID, this.watcher, true);
-       for (Player online : Bukkit.getOnlinePlayers())((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
+       kPacketPlayOutEntityMetadata packet = new kPacketPlayOutEntityMetadata(this.entityID, this.watcher);
+       for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
    }
    
    public Material getChestplate() {
@@ -307,16 +261,10 @@ public class NPC {
 
    public void setLeggings(Material material) {
       try{
-         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
+         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(entityID,2,material);
          
-         this.setValue(packet, "a", this.entityID);
-         this.setValue(packet, "b", 2);
-         this.setValue(packet, "c", material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
          this.leggings = material;
-         
-         for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-         }
+         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -328,16 +276,9 @@ public class NPC {
    
    public void setBoots(Material material) {
       try{
-         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment();
-         
-         this.setValue(packet, "a", this.entityID);
-         this.setValue(packet, "b", 1);
-         this.setValue(packet, "c", material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
+         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(entityID,1,material);
          this.boots = material;
-         
-         for(Player online : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) online).getHandle().playerConnection.sendPacket(packet);
-         }
+         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -366,25 +307,4 @@ public class NPC {
    public String getPlayerlistName() {
       return this.tablist;
    }
-   
-   private void setValue(Object instance, String field, Object value) throws Exception {
-      Field f = instance.getClass().getDeclaredField(field);
-      f.setAccessible(true);
-      f.set(instance, value);
-   }
-   
-   private Object getValue(Object instance, String field) throws Exception {
-      Field f = instance.getClass().getDeclaredField(field);
-      f.setAccessible(true);
-      return f.get(instance);
-   }
-   
-   private int toFixedPoint(double d) {
-      return (int) (d * 32.0);
-   }
-   
-   private byte toPackedByte(float f) {
-      return (byte) ((int) (f * 256.0F / 360.0F));
-   }
-   
 }

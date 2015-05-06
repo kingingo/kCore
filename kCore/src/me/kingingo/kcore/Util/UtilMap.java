@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.server.v1_8_R2.EntityEnderCrystal;
 import net.minecraft.server.v1_8_R2.MinecraftServer;
 import net.minecraft.server.v1_8_R2.RegionFile;
 import net.minecraft.server.v1_8_R2.RegionFileCache;
@@ -19,17 +20,52 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R2.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class UtilMap{
+	
+	public static HashMap<Integer,ArrayList<EntityEnderCrystal>> list_entitys = new HashMap<>();
 
-	public static void setCrystals(Location loc, int radius, int high){
+	public static void loadParticle(HashMap<Integer, ArrayList<Location>> list,Location loc, int r){
+		int cx = loc.getBlockX();
+        int cy = 5000;
+        int cz = loc.getBlockZ();
+        int rSquared = r * r;
+	    int zufall = 0;
+	    Location cylBlock;
+		
+	      for (int i = 0; i <= 150; i++) {
+	    	cy -= 100;
+	        cx = loc.getBlockX();
+	        cz = loc.getBlockZ();
+		    zufall = 0;
+		    list.put(cy, new ArrayList<Location>());
+	        
+	        for (int x = cx - r; x <= cx + r; x++) {
+	            for (int z = cz - r; z <= cz + r; z++) {
+	                if ((cx - x) * (cx - x) + (cz - z) * (cz - z) <= rSquared) {
+	                    cylBlock = new Location(loc.getWorld(), x, cy, z);
+	        	        zufall = (int)(1.0D + (Math.random() * 10.0D - 1.0D));
+	                    if (zufall == 1) {
+	                    	list.get(cy).add(cylBlock);
+	          	        } 
+	                }
+	            }
+	        }
+	        
+	        if (cy == 400)
+	        {
+	          break;
+	        }
+	      }
+	}
+	
+	public static void setCrystals(Location loc, int radius){
 		int h = 5000;
 	      for (int i = 0; i <= 150; i++) {
 	        h -= 100;
-	        setCrystalCricle(loc, 25, h);
+	        setCrystalCricle(loc, radius, h);
 	        if (h == 400)
 	        {
 	          break;
@@ -37,13 +73,21 @@ public class UtilMap{
 	      }
 	  }
 	
-	public static void setCrystalCricle(Location loc,int radius, int high){
+	public static void spawnEnderCrystal(Location loc){		
+		CraftWorld cw = (CraftWorld) loc.getWorld(); 
+		EntityEnderCrystal e = new EntityEnderCrystal(cw.getHandle()); 
+		e.setPosition(loc.getX(), loc.getY(), loc.getZ());
+		if(!list_entitys.containsKey(loc.getBlockY()))list_entitys.put(loc.getBlockY(), new ArrayList<EntityEnderCrystal>());
+		list_entitys.get(loc.getBlockY()).add(e);
+	}
+	
+	public static void setCrystalCricle(Location loc,int r, int high){
 		 	int cx = loc.getBlockX();
 	        int cy = high;
 	        int cz = loc.getBlockZ();
-	        int r = 40;
 	        int rSquared = r * r;
 		    int zufall = 0;
+		    Entity en;
 		    Location cylBlock;
 	        for (int x = cx - r; x <= cx + r; x++) {
 	            for (int z = cz - r; z <= cz + r; z++) {
@@ -52,8 +96,9 @@ public class UtilMap{
 	        	        zufall = (int)(1.0D + (Math.random() * 10.0D - 1.0D));
 	                    if (zufall == 1) {
 	                    	cylBlock.getChunk().load();
-	          	          Entity en = cylBlock.getWorld().spawnEntity(cylBlock,EntityType.ENDER_CRYSTAL);
-	          	          en.teleport(cylBlock);
+//	                    	en = cylBlock.getWorld().spawnEntity(cylBlock,EntityType.ENDER_CRYSTAL);
+//	          	          	en.teleport(cylBlock);
+	                    	spawnEnderCrystal(cylBlock);
 	          	        } 
 	                }
 	            }
@@ -74,8 +119,9 @@ public class UtilMap{
 	        zufall = (int)(1.0D + (Math.random() * 10.0D - 1.0D));
 	        if (zufall == 1) {
 	          b.getChunk().load();
-	          Entity en = b.getWorld().spawnEntity(b,EntityType.ENDER_CRYSTAL);
-	          en.teleport(b);
+//	          Entity en = b.getWorld().spawnEntity(b,EntityType.ENDER_CRYSTAL);
+//	          en.teleport(b);
+	          spawnEnderCrystal(b);
 	        }
 	      }
 	  }

@@ -26,15 +26,6 @@ public abstract class DisguiseCreature extends DisguiseInsentient
 		pa.setMetadata(new WrappedDataWatcher(this.DataWatcher));
 		pa.setType(this.GetEntityTypeId());
 		return pa.getHandle();
-//	WrapperPlayServerSpawnEntityLiving pa = new WrapperPlayServerSpawnEntityLiving();
-//	pa.setEntityID(this.Entity.getId());
-//	pa.setZ(EnumEntitySize.SIZE_2.a(this.Entity.locZ));
-//	pa.setX(EnumEntitySize.SIZE_2.a(this.Entity.locX));
-//	pa.setY(MathHelper.floor(this.Entity.locY * 32.0D));
-//	pa.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
-//	pa.setMetadata(new WrappedDataWatcher(this.DataWatcher));
-//	pa.setType(this.GetEntityTypeId());
-//	return pa.getHandle();
 		
 //    PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
 //    UtilReflection.setValue("a", packet, this.Entity.getId());

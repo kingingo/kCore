@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.kingingo.kcore.Client.Client;
 import me.kingingo.kcore.Packet.Events.PacketSendEvent;
 import me.kingingo.kcore.Packet.Packets.BROADCAST;
+import me.kingingo.kcore.Packet.Packets.HUB_ONLINE;
 import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
@@ -29,25 +30,14 @@ public class PacketManager {
 	private JavaPlugin instance;
 	@Getter
 	private Client c;
-	//private HashMap<String,Packet> packet_list=new HashMap<>();
 	
 	public PacketManager(JavaPlugin instance,Client c){
 		this.instance=instance;
 		this.c=c;
 		new PacketListener(this);
-//		packet_list.put("SERVER_STATUS",new SERVER_STATUS());
-//		packet_list.put("BROADCAST",new BROADCAST());
-//		packet_list.put("SEND_MESSAGE",new SEND_MESSAGE());
-//		packet_list.put("SERVER_INFO_ALL",new SERVER_INFO_ALL());
 	}
 	
 	public Packet getPacket(String packet) {	
-		
-//		for(String n : packet_list.keySet()){
-//			if(packet.contains(n)){
-//				return packet_list.get(n).create(packet.split("-/-"));
-//			}
-//		}
 		if (packet.contains("SERVER_STATUS")) {
 		return new SERVER_STATUS(packet);
 		}else if (packet.contains("BROADCAST")) {
@@ -82,6 +72,8 @@ public class PacketManager {
 			return new PERMISSION_USER_REMOVE_ALL(packet.split("-/-"));
 		}else if(packet.contains("WORLD_CHANGE_DATA")){
 			return new WORLD_CHANGE_DATA(packet.split("-/-"));
+		}else if(packet.contains("HUB_ONLINE")){
+			return new HUB_ONLINE(packet.split("-/-"));
 		}
 	 return null;
 	}

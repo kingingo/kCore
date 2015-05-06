@@ -1,8 +1,5 @@
 package me.kingingo.kcore.Util;
 import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,12 +8,10 @@ import java.util.UUID;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
 import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityEquipment;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerPlayerInfo;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerTabComplete;
+import me.kingingo.kcore.PacketAPI.kPacket;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityEquipment;
 import me.kingingo.kcore.Permission.kPermission;
 import net.minecraft.server.v1_8_R2.Packet;
-import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,8 +30,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketContainer;
 import com.google.common.base.Charsets;
 
 public class UtilPlayer
@@ -72,26 +65,9 @@ public class UtilPlayer
 	    }
 	}
 	
-	public static void sendPacket(Player p, Object packet)
-	  {
-	    try {
-	      Object nmsPlayer = UtilReflection.getHandle(p);
-	      Field con_field = nmsPlayer.getClass().getField("playerConnection");
-	      Object con = con_field.get(nmsPlayer);
-	      Method packet_method = UtilReflection.getMethod(con.getClass(), "sendPacket");
-	      packet_method.invoke(con, new Object[] { packet });
-	    } catch (SecurityException e) {
-	      e.printStackTrace();
-	    } catch (IllegalArgumentException e) {
-	      e.printStackTrace();
-	    } catch (IllegalAccessException e) {
-	      e.printStackTrace();
-	    } catch (InvocationTargetException e) {
-	      e.printStackTrace();
-	    } catch (NoSuchFieldException e) {
-	      e.printStackTrace();
-	    }
-	  }
+	public static void sendPacket(Player player,kPacket packet){
+		sendPacket(player, packet.getPacket());
+	}
 	
 	public static UUID getRealUUID(String player,UUID uuid){
 		if(UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player).toString().getBytes(Charsets.UTF_8)).equals(uuid)){
@@ -135,11 +111,11 @@ public class UtilPlayer
 	}
 
 	public static void setPlayerFakeEquipment(Player player,Player to,ItemStack item,short slot){
-		WrapperPlayServerEntityEquipment packet = new WrapperPlayServerEntityEquipment();
-		packet.setEntityId(player.getEntityId());
-		packet.setItem(item);
+		kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment();
+		packet.setEntityID(player.getEntityId());
+		packet.setItemStack(item);
 		packet.setSlot(slot);
-		sendPacket(to, packet.getHandle());
+		UtilPlayer.sendPacket(to, packet);
 	}
 	
 	public static double getMaxHealth(Player player){
@@ -150,13 +126,13 @@ public class UtilPlayer
 		return ((CraftPlayer)player).getHealth();
 	}
 	
-  public static void sendPacket(Player player,PacketContainer packet){
-	  try {
-		ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-	} catch (InvocationTargetException e) {
-		e.printStackTrace();
-	}
-  }
+//  public static void sendPacket(Player player,PacketContainer packet){
+//	  try {
+//		ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+//	} catch (InvocationTargetException e) {
+//		e.printStackTrace();
+//	}
+//  }
 	
   public static boolean isZoom(Player p){
 		return p.hasPotionEffect(PotionEffectType.SLOW);

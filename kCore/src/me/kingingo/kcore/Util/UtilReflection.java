@@ -12,8 +12,12 @@ import org.bukkit.entity.Entity;
 public class UtilReflection {
 	
 	public static void setValue(String name, Object instance, Object value){
+		setValue(instance.getClass(),name, instance, value);
+	}
+	
+	public static void setValue(Class c,String name, Object instance, Object value){
 		try{
-			Field field = instance.getClass().getDeclaredField(name);
+			Field field = c.getDeclaredField(name);
 			field.setAccessible(true);
 			field.set(instance, value);
 		}catch(Exception e){
@@ -90,10 +94,14 @@ public class UtilReflection {
 	    }
 	    return nms_entity;
 	  }
-	
-	public static Object getValue(String name, Object instance){
+
+	public static Object getValue( String name, Object instance){
+		return getValue(instance.getClass(), name, instance);
+	}
+	  
+	public static Object getValue(Class c, String name, Object instance){
 		try{
-			Field field = instance.getClass().getDeclaredField(name);
+			Field field = c.getDeclaredField(name);
 			field.setAccessible(true);
 			return field.get(instance);
 		}catch(Exception e){

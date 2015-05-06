@@ -4,9 +4,12 @@ import java.util.Map;
 
 import lombok.Getter;
 import me.kingingo.kcore.Hologram.nametags.Events.HologramCreateEvent;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityDestroy;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityTeleport;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kDataWatcher;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityDestroy;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityLiving;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityTeleport;
+import me.kingingo.kcore.Util.UtilMath;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,7 +17,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.MapMaker;
 // These can be found in the following project:
@@ -35,7 +37,7 @@ public class NameTagSpawner {
 	private int nameTagCount;
 	
 	@Getter
-	private WrapperPlayServerSpawnEntityLiving ArmorStand;
+	private kPacketPlayOutEntityLiving ArmorStand;
 
 	// Previous locations
 	private Map<Player, Vector[]> playerLocations = new MapMaker().weakKeys().makeMap();
@@ -85,7 +87,7 @@ public class NameTagSpawner {
 	 * @param observer - the observer.
 	 */
 	public void clearNameTags(Player observer, int... indices) {
-		WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
+		kPacketPlayOutEntityDestroy destroy = new kPacketPlayOutEntityDestroy();
 		int[] ids = new int[indices.length * 2];
 
 		// The entities to remove
@@ -94,8 +96,8 @@ public class NameTagSpawner {
 			ids[i * 2] = getArmorStandId(indices[i]);
 			//ids[i * 2 + 1] = getSkullId(indices[i] * 2);
 		}
-		destroy.setEntities(ids);
-		destroy.sendPacket(observer);
+		destroy.setIDs(ids);
+		UtilPlayer.sendPacket(observer, destroy);
 	}
 
 	/**
@@ -129,7 +131,7 @@ public class NameTagSpawner {
 			
 			Bukkit.getPluginManager().callEvent(new HologramCreateEvent(this));
 			
-			ArmorStand.sendPacket(observer);
+			UtilPlayer.sendPacket(observer, ArmorStand);
 
 			// Save location
 			getLocations(observer)[index] = new Vector(location.getX(), location.getY() + dY,location.getZ());
@@ -142,13 +144,20 @@ public class NameTagSpawner {
 	 * @param location - the new location.
 	 */
 	public void moveNameTag(int index, Player observer, Location location) {
-		WrapperPlayServerEntityTeleport teleportArmorStand = new WrapperPlayServerEntityTeleport();
-		teleportArmorStand.setEntityID(getArmorStandId(index));
-		teleportArmorStand.setX(location.getX());
-		teleportArmorStand.setY(location.getY()-2);
-		teleportArmorStand.setZ(location.getZ());
+//		WrapperPlayServerEntityTeleport teleportArmorStand = new WrapperPlayServerEntityTeleport();
+//		teleportArmorStand.setEntityID(getArmorStandId(index));
+//		teleportArmorStand.setX(location.getX());
+//		teleportArmorStand.setY(location.getY()-2);
+//		teleportArmorStand.setZ(location.getZ());
+//		
+//		teleportArmorStand.sendPacket(observer);
+		kPacketPlayOutEntityTeleport teleport = new kPacketPlayOutEntityTeleport();
+		teleport.setEntityID(getArmorStandId(index));
+		teleport.setX(location.getX());
+		teleport.setY(location.getY()-2);
+		teleport.setZ(location.getZ());
 		
-		teleportArmorStand.sendPacket(observer);
+		UtilPlayer.sendPacket(observer, teleport);
 		getLocations(observer)[index] = location.toVector();
 	}
 
@@ -169,19 +178,29 @@ public class NameTagSpawner {
 	}
 	
 	// Construct the invisible ArmorStand packet
-	private WrapperPlayServerSpawnEntityLiving createArmorStandPacket(int index, Location location,double dY, String message) {
-		WrapperPlayServerSpawnEntityLiving ArmorStand = new WrapperPlayServerSpawnEntityLiving();
-		ArmorStand.setEntityID(getArmorStandId(index));
-		ArmorStand.setType(EntityType.ARMOR_STAND);
-		ArmorStand.setX(location.getX());
+	private kPacketPlayOutEntityLiving createArmorStandPacket(int index, Location location,double dY, String message) {
+//		WrapperPlayServerSpawnEntityLiving ArmorStand = new WrapperPlayServerSpawnEntityLiving();
+//		ArmorStand.setEntityID(getArmorStandId(index));
+//		ArmorStand.setType(EntityType.ARMOR_STAND);
+//		ArmorStand.setX(location.getX());
+//		ArmorStand.setY(location.getY() + dY - 2);
+//		ArmorStand.setZ(location.getZ());
+//		
+//		WrappedDataWatcher wdw = new WrappedDataWatcher();	
+//		wdw.setObject(0, ENTITY_INVISIBLE);
+//		wdw.setObject(2,message);
+//		wdw.setObject(3, (byte) 1);
+//		ArmorStand.setMetadata(wdw);
+		kPacketPlayOutEntityLiving ArmorStand = new kPacketPlayOutEntityLiving(UtilMath.r(1000), EntityType.ARMOR_STAND, location);
 		ArmorStand.setY(location.getY() + dY - 2);
-		ArmorStand.setZ(location.getZ());
 		
-		WrappedDataWatcher wdw = new WrappedDataWatcher();	
-		wdw.setObject(0, ENTITY_INVISIBLE);
-		wdw.setObject(2,message);
-		wdw.setObject(3, (byte) 1);
-		ArmorStand.setMetadata(wdw);
+		kDataWatcher watcher = new kDataWatcher();
+		watcher.setCustomName(message);
+		watcher.setCustomNameVisible(true);
+		watcher.setVisible(false);
+		
+		ArmorStand.setDataWatcher(watcher);
+		
 		return ArmorStand;
 	}
 

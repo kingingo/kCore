@@ -1,592 +1,596 @@
 package me.kingingo.kcore.Util;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerWorldParticles;
-import net.minecraft.server.v1_8_R2.EnumParticle;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
- 
-public enum UtilParticle {
-	
-	HUGE_EXPLOSION(EnumParticle.EXPLOSION_HUGE),
-	LARGE_EXPLODE(EnumParticle.EXPLOSION_LARGE),
-	FIREWORKS_SPARK(EnumParticle.FIREWORKS_SPARK),
-	BUBBLE(EnumParticle.WATER_BUBBLE, true),
-	SUSPEND(EnumParticle.SUSPENDED, true),
-	DEPTH_SUSPEND(EnumParticle.SUSPENDED_DEPTH),
-	TOWN_AURA(EnumParticle.TOWN_AURA),
-	CRIT(EnumParticle.CRIT),
-	MAGIC_CRIT(EnumParticle.CRIT_MAGIC),
-	SMOKE(EnumParticle.SMOKE_NORMAL),
-	MOB_SPELL(EnumParticle.SPELL_MOB),
-	MOB_SPELL_AMBIENT(EnumParticle.SPELL_MOB_AMBIENT),
-	SPELL(EnumParticle.SPELL),
-	INSTANT_SPELL(EnumParticle.SPELL_INSTANT),
-	WITCH_MAGIC(EnumParticle.SPELL_WITCH),
-	NOTE(EnumParticle.NOTE),
-	PORTAL(EnumParticle.PORTAL),
-	ENCHANTMENT_TABLE(EnumParticle.ENCHANTMENT_TABLE),
-	EXPLODE(EnumParticle.EXPLOSION_NORMAL),
-	FLAME(EnumParticle.FLAME),
-	LAVA(EnumParticle.LAVA),
-	FOOTSTEP(EnumParticle.FOOTSTEP),
-	SPLASH(EnumParticle.WATER_SPLASH),
-	WAKE(EnumParticle.WATER_WAKE),
-	LARGE_SMOKE(EnumParticle.SMOKE_LARGE),
-	CLOUD(EnumParticle.CLOUD),
-	RED_DUST(EnumParticle.REDSTONE),
-	SNOWBALL_POOF(EnumParticle.SNOWBALL),
-	DRIP_WATER(EnumParticle.DRIP_WATER),
-	DRIP_LAVA(EnumParticle.DRIP_LAVA),
-	SNOW_SHOVEL(EnumParticle.SNOW_SHOVEL),
-	SLIME(EnumParticle.SLIME),
-	HEART(EnumParticle.HEART),
-	ANGRY_VILLAGER(EnumParticle.VILLAGER_ANGRY),
-	HAPPY_VILLAGER(EnumParticle.VILLAGER_HAPPY);
- 
-	private static final Map<EnumParticle, UtilParticle> NAME_MAP = new HashMap<EnumParticle, UtilParticle>();
-	private final EnumParticle particle;
-	private final boolean requiresWater;
-	
-	static {
-		for (UtilParticle effect : values()) {
-			NAME_MAP.put(effect.particle, effect);
+
+public enum UtilParticle
+{
+  HUGE_EXPLOSION(
+    "hugeexplosion", 
+    "EXPLOSION_HUGE"), 
+  SMOKE(
+	"smoke",
+    "SMOKE"),
+  LARGE_EXPLODE(
+    "largeexplode", 
+    "EXPLOSION_LARGE"), 
+  BUBBLE(
+    "bubble", 
+    "WATER_BUBBLE"), 
+  SUSPEND(
+    "suspended", 
+    "SUSPENDED"), 
+  DEPTH_SUSPEND(
+    "depthsuspend", 
+    "SUSPENDED_DEPTH"), 
+  MAGIC_CRIT(
+    "magicCrit", 
+    "CRIT_MAGIC"), 
+  MOB_SPELL(
+    "mobSpell", 
+    "SPELL_MOB", 
+    true), 
+  MOB_SPELL_AMBIENT(
+    "mobSpellAmbient", 
+    "SPELL_MOB_AMBIENT"), 
+  INSTANT_SPELL(
+    "instantSpell", 
+    "SPELL_INSTANT"), 
+  WITCH_MAGIC(
+    "witchMagic", 
+    "SPELL_WITCH"), 
+  EXPLODE(
+    "explode", 
+    "EXPLOSION_NORMAL"), 
+  SPLASH(
+    "splash", 
+    "WATER_SPLASH"), 
+  LARGE_SMOKE(
+    "largesmoke", 
+    "SMOKE_LARGE"), 
+  RED_DUST(
+    "reddust", 
+    "REDSTONE", 
+    true), 
+  SNOWBALL_POOF(
+    "snowballpoof", 
+    "SNOWBALL"), 
+  ANGRY_VILLAGER(
+    "angryVillager", 
+    "VILLAGER_ANGRY"), 
+  HAPPY_VILLAGER(
+    "happyVillager", 
+    "VILLAGER_HAPPY"), 
+  EXPLOSION_NORMAL(
+    EXPLODE.getName()), 
+  EXPLOSION_LARGE(
+    LARGE_EXPLODE.getName()), 
+  EXPLOSION_HUGE(
+    HUGE_EXPLOSION.getName()), 
+  FIREWORKS_SPARK(
+    "fireworksSpark"), 
+  WATER_BUBBLE(
+    BUBBLE.getName()), 
+  WATER_SPLASH(
+    SPLASH.getName()), 
+  WATER_WAKE(
+    "wake"), 
+  SUSPENDED(
+    SUSPEND.getName()), 
+  SUSPENDED_DEPTH(
+    DEPTH_SUSPEND.getName()), 
+  CRIT(
+    "crit"), 
+  CRIT_MAGIC(
+    MAGIC_CRIT.getName()), 
+  SMOKE_NORMAL(
+    "smoke"), 
+  SMOKE_LARGE(
+    LARGE_SMOKE.getName()), 
+  SPELL(
+    "spell"), 
+  SPELL_INSTANT(
+    INSTANT_SPELL.getName()), 
+  SPELL_MOB(
+    MOB_SPELL.getName(), 
+    true), 
+  SPELL_MOB_AMBIENT(
+    MOB_SPELL_AMBIENT.getName()), 
+  SPELL_WITCH(
+    WITCH_MAGIC.getName()), 
+  DRIP_WATER(
+    "dripWater"), 
+  DRIP_LAVA(
+    "dripLava"), 
+  VILLAGER_ANGRY(
+    ANGRY_VILLAGER.getName()), 
+  VILLAGER_HAPPY(
+    HAPPY_VILLAGER.getName()), 
+  TOWN_AURA(
+    "townaura"), 
+  NOTE(
+    "note", 
+    true), 
+  PORTAL(
+    "portal"), 
+  ENCHANTMENT_TABLE(
+    "enchantmenttable"), 
+  FLAME(
+    "flame"), 
+  LAVA(
+    "lava"), 
+  FOOTSTEP(
+    "footstep"), 
+  CLOUD(
+    "cloud"), 
+  REDSTONE(
+    "reddust", 
+    true), 
+  SNOWBALL(
+    "snowballpoof"), 
+  SNOW_SHOVEL(
+    "snowshovel"), 
+  SLIME(
+    "slime"), 
+  HEART(
+    "heart"), 
+  BARRIER(
+    "barrier"), 
+  ITEM_CRACK(
+    "iconcrack_"), 
+  BLOCK_CRACK(
+    "blockcrack_"), 
+  BLOCK_DUST(
+    "blockdust_"), 
+  WATER_DROP(
+    "droplet"), 
+  ITEM_TAKE(
+    "take"), 
+  MOB_APPEARANCE(
+    "mobappearance");
+
+  private String particleName;
+  private String enumValue;
+  private boolean hasColor;
+  private static Class<?> nmsPacketPlayOutParticle;
+  private static Class<?> nmsEnumParticle;
+  private static int particleRange;
+  private static Class<?> nmsPlayerConnection;
+  private static Class<?> nmsEntityPlayer;
+  private static Class<?> ioNettyChannel;
+  private static Method nmsNetworkGetVersion;
+  private static Field nmsFieldPlayerConnection;
+  private static Field nmsFieldNetworkManager;
+  private static Field nmsFieldNetworkManagerI;
+  private static Field nmsFieldNetworkManagerM;
+
+  static
+  {
+    nmsPacketPlayOutParticle = ReflectionUtilities.getNMSClass("PacketPlayOutWorldParticles");
+
+    particleRange = 25;
+
+    String ver = ReflectionUtilities.getVersion();
+    try {
+      nmsPlayerConnection = ReflectionUtilities.getNMSClass("PlayerConnection");
+      nmsEntityPlayer = ReflectionUtilities.getNMSClass("EntityPlayer");
+      ioNettyChannel = ver.contains("1_7") ? Class.forName("net.minecraft.util.io.netty.channel.Channel") : Class.forName("io.netty.channel.Channel");
+
+      nmsFieldPlayerConnection = ReflectionUtilities.getField(nmsEntityPlayer, "playerConnection");
+      nmsFieldNetworkManager = ReflectionUtilities.getField(nmsPlayerConnection, "networkManager");
+      nmsFieldNetworkManagerI = ReflectionUtilities.getField(nmsFieldNetworkManager.getType(), "i");
+      nmsFieldNetworkManagerM = ReflectionUtilities.getField(nmsFieldNetworkManager.getType(), "m");
+
+      nmsNetworkGetVersion = ReflectionUtilities.getMethod(nmsFieldNetworkManager.getType(), "getVersion", new Class[] { ioNettyChannel });
+    }
+    catch (Exception e) {
+      System.err.println("[ParticleLIB] Error while loading: " + e.getMessage());
+      e.printStackTrace(System.err);
+      Bukkit.getPluginManager().disablePlugin(Bukkit.getPluginManager().getPlugin("ParticleLIB"));
+    }
+  }
+
+  private UtilParticle(String particleName, String enumValue, boolean hasColor)
+  {
+    this.particleName = particleName;
+    this.enumValue = enumValue;
+    this.hasColor = hasColor;
+  }
+
+  private UtilParticle(String particleName, String enumValue) {
+    this(particleName, enumValue, false);
+  }
+
+  private UtilParticle(String particleName) {
+    this(particleName, null);
+  }
+
+  private UtilParticle(String particleName, boolean hasColor) {
+    this(particleName, null, hasColor);
+  }
+
+  private UtilParticle() {
+    this(null, null);
+  }
+
+  public String getName() {
+    return this.particleName;
+  }
+
+  public static void setRange(int range)
+  {
+    if (range < 0) throw new IllegalArgumentException("Range must be positive!");
+    if (range > 2147483647) throw new IllegalArgumentException("Range is too big!");
+    particleRange = range;
+  }
+
+  public static int getRange()
+  {
+    return particleRange;
+  }
+
+  private void sendToPlayer(Player player, Location location, float offsetX, float offsetY, float offsetZ, float speed, int count, int[] extra)
+    throws Exception
+  {
+    if (!isPlayerInRange(player, location)) return;
+    if (ReflectionUtilities.getVersion().contains("v1_8"))
+      try {
+        if (nmsEnumParticle == null) {
+          nmsEnumParticle = ReflectionUtilities.getNMSClass("EnumParticle");
+        }
+        if (this == BLOCK_CRACK) {
+          int id = 0;
+          int data = 0;
+          if (extra.length > 0) {
+            id = extra[0];
+          }
+          if (extra.length > 1) {
+            data = extra[1];
+          }
+          extra = new int[] { id, id | data << 12 };
+        }
+        Object packet = nmsPacketPlayOutParticle.getConstructor(new Class[] { nmsEnumParticle, Boolean.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Integer.TYPE, int[].class })
+          .newInstance(new Object[] { 
+          getEnum(nmsEnumParticle.getName() + "." + (this.enumValue != null ? this.enumValue : name().toUpperCase())), Boolean.valueOf(true), Float.valueOf((float)location.getX()), Float.valueOf((float)location.getY()), Float.valueOf((float)location.getZ()), Float.valueOf(offsetX), Float.valueOf(offsetY), Float.valueOf(offsetZ), Float.valueOf(speed), Integer.valueOf(count), extra });
+        Object handle = ReflectionUtilities.getHandle(player);
+        Object connection = ReflectionUtilities.getField(handle.getClass(), "playerConnection").get(handle);
+        ReflectionUtilities.getMethod(connection.getClass(), "sendPacket", new Class[0]).invoke(connection, new Object[] { packet });
+      }
+      catch (Exception e) {
+        throw e;
+      }
+    else
+      try {
+        if (this.particleName == null) {
+          this.particleName = name().toLowerCase();
+        }
+        String name = this.particleName;
+        if ((this == BLOCK_CRACK) || (this == ITEM_CRACK) || (this == BLOCK_DUST)) {
+          int id = 0;
+          int data = 0;
+          if (extra.length > 0) {
+            id = extra[0];
+          }
+          if (extra.length > 1) {
+            data = extra[1];
+          }
+          name = name + id + "_" + data;
+        }
+        Object packet = nmsPacketPlayOutParticle.getConstructor(new Class[] { String.class, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Integer.TYPE }).newInstance(new Object[] { name, Float.valueOf((float)location.getX()), Float.valueOf((float)location.getY()), Float.valueOf((float)location.getZ()), Float.valueOf(offsetX), Float.valueOf(offsetY), Float.valueOf(offsetZ), Float.valueOf(speed), Integer.valueOf(count) });
+        Object handle = ReflectionUtilities.getHandle(player);
+        Object connection = ReflectionUtilities.getField(handle.getClass(), "playerConnection").get(handle);
+        ReflectionUtilities.getMethod(connection.getClass(), "sendPacket", new Class[0]).invoke(connection, new Object[] { packet });
+      }
+      catch (Exception e) {
+        throw e;
+      }
+  }
+
+  public void display(float speed, int amount, Location center, double range) throws IllegalArgumentException {
+	  	setRange(UtilNumber.toInt(range));
+		try {
+			for(Player player : UtilServer.getPlayers())sendToPlayer(player, center, 0, 0, 0, speed, amount);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-	}
- 
-	private UtilParticle(EnumParticle particle, boolean requiresWater) {
-		this.particle = particle;
-		this.requiresWater = requiresWater;
-	}
- 
-	private UtilParticle(EnumParticle particle) {
-		this(particle, false);
-	}
-	
-	public EnumParticle getParticle() {
-		return particle;
-	}
-	
-	public boolean getRequiresWater() {
-		return requiresWater;
-	}
- 
-	private static boolean isWater(Location location) {
-		Material material = location.getBlock().getType();
-		return material == Material.WATER || material == Material.STATIONARY_WATER;
-	}
- 
-	@SuppressWarnings("deprecation")
-	private static boolean isBlock(int id) {
-		Material material = Material.getMaterial(id);
-		return material != null && material.isBlock();
-	}
-	
-	public void display(float speed, int amount, Location center, double range) throws IllegalArgumentException {
-		if (requiresWater && !isWater(center)) {
-			throw new IllegalArgumentException("There is no water at the center location");
+  }
+
+  public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws IllegalArgumentException {
+	  setRange(UtilNumber.toInt(range));
+		try {
+			for(Player player : UtilServer.getPlayers())sendToPlayer(player, center, offsetX, offsetY, offsetZ, speed, amount);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		new UtilParticlePacket(particle, 0,0,0, speed, amount).sendTo(center, range);
-	}
- 
-	public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws IllegalArgumentException {
-		if (requiresWater && !isWater(center)) {
-			throw new IllegalArgumentException("There is no water at the center location");
+  }
+
+  public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws IllegalArgumentException {
+		try {
+			for(Player player : players)sendToPlayer(player, center, offsetX, offsetY, offsetZ, speed, amount);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		new UtilParticlePacket(particle, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
-	}
- 
-	public void display(float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws IllegalArgumentException {
-		if (requiresWater && !isWater(center)) {
-			throw new IllegalArgumentException("There is no water at the center location");
-		}
-		new UtilParticlePacket(particle, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
-	}
- 
-//	public static void displayIconCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) {
-//		new UtilParticlePacket("iconcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
-//	}
-// 
-//	public static void displayIconCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) {
-//		new UtilParticlePacket("iconcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
-//	}
-// 
-//	public static void displayBlockCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, int amount, Location center, double range) throws IllegalArgumentException {
-//		if (!isBlock(id)) {
-//			throw new IllegalArgumentException("Invalid block id");
-//		}
-//		new UtilParticlePacket("blockcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, 0, amount).sendTo(center, range);
-//	}
-// 
-//	public static void displayBlockCrack(int id, byte data, float offsetX, float offsetY, float offsetZ, int amount, Location center, List<Player> players) throws IllegalArgumentException {
-//		if (!isBlock(id)) {
-//			throw new IllegalArgumentException("Invalid block id");
-//		}
-//		new UtilParticlePacket("blockcrack_" + id + "_" + data, offsetX, offsetY, offsetZ, 0, amount).sendTo(center, players);
-//	}
-// 
-//	public static void displayBlockDust(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, double range) throws IllegalArgumentException {
-//		if (!isBlock(id)) {
-//			throw new IllegalArgumentException("Invalid block id");
-//		}
-//		new UtilParticlePacket("blockdust_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, range);
-//	}
-// 
-//	public static void displayBlockDust(int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int amount, Location center, List<Player> players) throws IllegalArgumentException {
-//		if (!isBlock(id)) {
-//			throw new IllegalArgumentException("Invalid block id");
-//		}
-//		new UtilParticlePacket("blockdust_" + id + "_" + data, offsetX, offsetY, offsetZ, speed, amount).sendTo(center, players);
-//	}
- 
-	public static final class UtilParticlePacket {
-		private static Constructor<?> packetConstructor;
-		private static Method getHandle;
-		private static Field playerConnection;
-		private static Method sendPacket;
-		private static boolean initialized;
-		private final EnumParticle particle;
-		private final float offsetX;
-		private final float offsetY;
-		private final float offsetZ;
-		private final float speed;
-		private final int amount;
-		private Object packet;
- 
-		public UtilParticlePacket(EnumParticle particle, float offsetX, float offsetY, float offsetZ, float speed, int amount) throws IllegalArgumentException {
-			initialize();
-			if (speed < 0) {
-				throw new IllegalArgumentException("The speed is lower than 0");
-			}
-			if (amount < 1) {
-				throw new IllegalArgumentException("The amount is lower than 1");
-			}
-			this.particle = particle;
-			this.offsetX = offsetX;
-			this.offsetY = offsetY;
-			this.offsetZ = offsetZ;
-			this.speed = speed;
-			this.amount = amount;
-		}
- 
-		public enum PackageType {
-			MINECRAFT_SERVER("net.minecraft.server." + getServerVersion()),
-			CRAFTBUKKIT("org.bukkit.craftbukkit." + getServerVersion()),
-			CRAFTBUKKIT_BLOCK(CRAFTBUKKIT, "block"),
-			CRAFTBUKKIT_CHUNKIO(CRAFTBUKKIT, "chunkio"),
-			CRAFTBUKKIT_COMMAND(CRAFTBUKKIT, "command"),
-			CRAFTBUKKIT_CONVERSATIONS(CRAFTBUKKIT, "conversations"),
-			CRAFTBUKKIT_ENCHANTMENS(CRAFTBUKKIT, "enchantments"),
-			CRAFTBUKKIT_ENTITY(CRAFTBUKKIT, "entity"),
-			CRAFTBUKKIT_EVENT(CRAFTBUKKIT, "event"),
-			CRAFTBUKKIT_GENERATOR(CRAFTBUKKIT, "generator"),
-			CRAFTBUKKIT_HELP(CRAFTBUKKIT, "help"),
-			CRAFTBUKKIT_INVENTORY(CRAFTBUKKIT, "inventory"),
-			CRAFTBUKKIT_MAP(CRAFTBUKKIT, "map"),
-			CRAFTBUKKIT_METADATA(CRAFTBUKKIT, "metadata"),
-			CRAFTBUKKIT_POTION(CRAFTBUKKIT, "potion"),
-			CRAFTBUKKIT_PROJECTILES(CRAFTBUKKIT, "projectiles"),
-			CRAFTBUKKIT_SCHEDULER(CRAFTBUKKIT, "scheduler"),
-			CRAFTBUKKIT_SCOREBOARD(CRAFTBUKKIT, "scoreboard"),
-			CRAFTBUKKIT_UPDATER(CRAFTBUKKIT, "updater"),
-			CRAFTBUKKIT_UTIL(CRAFTBUKKIT, "util");
-	 
-			private final String path;
-	 
-			private PackageType(String path) {
-				this.path = path;
-			}
-	 
-			private PackageType(PackageType parent, String path) {
-				this(parent + "." + path);
-			}
-	 
-			public String getPath() {
-				return path;
-			}
-	 
-			public Class<?> getClass(String className) throws ClassNotFoundException {
-				return Class.forName(this + "." + className);
-			}
-	 
-			// Override for convenience
-			@Override
-			public String toString() {
-				return path;
-			}
-			
-			public static String getServerVersion() {
-				return Bukkit.getServer().getClass().getPackage().getName().substring(23);
-			}
-		}
-		
-		public enum PacketType {
-			HANDSHAKING_IN_SET_PROTOCOL("PacketHandshakingInSetProtocol"),
-			LOGIN_IN_ENCRYPTION_BEGIN("PacketLoginInEncryptionBegin"),
-			LOGIN_IN_START("PacketLoginInStart"),
-			LOGIN_OUT_DISCONNECT("PacketLoginOutDisconnect"),
-			LOGIN_OUT_ENCRYPTION_BEGIN("PacketLoginOutEncryptionBegin"),
-			LOGIN_OUT_SUCCESS("PacketLoginOutSuccess"),
-			PLAY_IN_ABILITIES("PacketPlayInAbilities"),
-			PLAY_IN_ARM_ANIMATION("PacketPlayInArmAnimation"),
-			PLAY_IN_BLOCK_DIG("PacketPlayInBlockDig"),
-			PLAY_IN_BLOCK_PLACE("PacketPlayInBlockPlace"),
-			PLAY_IN_CHAT("PacketPlayInChat"),
-			PLAY_IN_CLIENT_COMMAND("PacketPlayInClientCommand"),
-			PLAY_IN_CLOSE_WINDOW("PacketPlayInCloseWindow"),
-			PLAY_IN_CUSTOM_PAYLOAD("PacketPlayInCustomPayload"),
-			PLAY_IN_ENCHANT_ITEM("PacketPlayInEnchantItem"),
-			PLAY_IN_ENTITY_ACTION("PacketPlayInEntityAction"),
-			PLAY_IN_FLYING("PacketPlayInFlying"),
-			PLAY_IN_HELD_ITEM_SLOT("PacketPlayInHeldItemSlot"),
-			PLAY_IN_KEEP_ALIVE("PacketPlayInKeepAlive"),
-			PLAY_IN_LOOK("PacketPlayInLook"),
-			PLAY_IN_POSITION("PacketPlayInPosition"),
-			PLAY_IN_POSITION_LOOK("PacketPlayInPositionLook"),
-			PLAY_IN_SET_CREATIVE_SLOT("PacketPlayInSetCreativeSlot "),
-			PLAY_IN_SETTINGS("PacketPlayInSettings"),
-			PLAY_IN_STEER_VEHICLE("PacketPlayInSteerVehicle"),
-			PLAY_IN_TAB_COMPLETE("PacketPlayInTabComplete"),
-			PLAY_IN_TRANSACTION("PacketPlayInTransaction"),
-			PLAY_IN_UPDATE_SIGN("PacketPlayInUpdateSign"),
-			PLAY_IN_USE_ENTITY("PacketPlayInUseEntity"),
-			PLAY_IN_WINDOW_CLICK("PacketPlayInWindowClick"),
-			PLAY_OUT_ABILITIES("PacketPlayOutAbilities"),
-			PLAY_OUT_ANIMATION("PacketPlayOutAnimation"),
-			PLAY_OUT_ATTACH_ENTITY("PacketPlayOutAttachEntity"),
-			PLAY_OUT_BED("PacketPlayOutBed"),
-			PLAY_OUT_BLOCK_ACTION("PacketPlayOutBlockAction"),
-			PLAY_OUT_BLOCK_BREAK_ANIMATION("PacketPlayOutBlockBreakAnimation"),
-			PLAY_OUT_BLOCK_CHANGE("PacketPlayOutBlockChange"),
-			PLAY_OUT_CHAT("PacketPlayOutChat"),
-			PLAY_OUT_CLOSE_WINDOW("PacketPlayOutCloseWindow"),
-			PLAY_OUT_COLLECT("PacketPlayOutCollect"),
-			PLAY_OUT_CRAFT_PROGRESS_BAR("PacketPlayOutCraftProgressBar"),
-			PLAY_OUT_CUSTOM_PAYLOAD("PacketPlayOutCustomPayload"),
-			PLAY_OUT_ENTITY("PacketPlayOutEntity"),
-			PLAY_OUT_ENTITY_DESTROY("PacketPlayOutEntityDestroy"),
-			PLAY_OUT_ENTITY_EFFECT("PacketPlayOutEntityEffect"),
-			PLAY_OUT_ENTITY_EQUIPMENT("PacketPlayOutEntityEquipment"),
-			PLAY_OUT_ENTITY_HEAD_ROTATION("PacketPlayOutEntityHeadRotation"),
-			PLAY_OUT_ENTITY_LOOK("PacketPlayOutEntityLook"),
-			PLAY_OUT_ENTITY_METADATA("PacketPlayOutEntityMetadata"),
-			PLAY_OUT_ENTITY_STATUS("PacketPlayOutEntityStatus"),
-			PLAY_OUT_ENTITY_TELEPORT("PacketPlayOutEntityTeleport"),
-			PLAY_OUT_ENTITY_VELOCITY("PacketPlayOutEntityVelocity"),
-			PLAY_OUT_EXPERIENCE("PacketPlayOutExperience"),
-			PLAY_OUT_EXPLOSION("PacketPlayOutExplosion"),
-			PLAY_OUT_GAME_STATE_CHANGE("PacketPlayOutGameStateChange"),
-			PLAY_OUT_HELD_ITEM_SLOT("PacketPlayOutHeldItemSlot"),
-			PLAY_OUT_KEEP_ALIVE("PacketPlayOutKeepAlive"),
-			PLAY_OUT_KICK_DISCONNECT("PacketPlayOutKickDisconnect"),
-			PLAY_OUT_LOGIN("PacketPlayOutLogin"),
-			PLAY_OUT_MAP("PacketPlayOutMap"),
-			PLAY_OUT_MAP_CHUNK("PacketPlayOutMapChunk"),
-			PLAY_OUT_MAP_CHUNK_BULK("PacketPlayOutMapChunkBulk"),
-			PLAY_OUT_MULTI_BLOCK_CHANGE("PacketPlayOutMultiBlockChange"),
-			PLAY_OUT_NAMED_ENTITY_SPAWN("PacketPlayOutNamedEntitySpawn"),
-			PLAY_OUT_NAMED_SOUND_EFFECT("PacketPlayOutNamedSoundEffect"),
-			PLAY_OUT_OPEN_SIGN_EDITOR("PacketPlayOutOpenSignEditor"),
-			PLAY_OUT_OPEN_WINDOW("PacketPlayOutOpenWindow"),
-			PLAY_OUT_PLAYER_INFO("PacketPlayOutPlayerInfo"),
-			PLAY_OUT_POSITION("PacketPlayOutPosition"),
-			PLAY_OUT_REL_ENTITY_MOVE("PacketPlayOutRelEntityMove"),
-			PLAY_OUT_REL_ENTITY_MOVE_LOOK("PacketPlayOutRelEntityMoveLook"),
-			PLAY_OUT_REMOVE_ENTITY_EFFECT("PacketPlayOutRemoveEntityEffect"),
-			PLAY_OUT_RESPAWN("PacketPlayOutRespawn"),
-			PLAY_OUT_SCOREBOARD_DISPLAY_OBJECTIVE("PacketPlayOutScoreboardDisplayObjective"),
-			PLAY_OUT_SCOREBOARD_OBJECTIVE("PacketPlayOutScoreboardObjective"),
-			PLAY_OUT_SCOREBOARD_SCORE("PacketPlayOutScoreboardScore"),
-			PLAY_OUT_SCOREBOARD_TEAM("PacketPlayOutScoreboardTeam"),
-			PLAY_OUT_SET_SLOT("PacketPlayOutSetSlot"),
-			PLAY_OUT_SPAWN_ENTITY("PacketPlayOutSpawnEntity"),
-			PLAY_OUT_SPAWN_ENTITY_EXPERIENCE_ORB("PacketPlayOutSpawnEntityExperienceOrb"),
-			PLAY_OUT_SPAWN_ENTITY_LIVING("PacketPlayOutSpawnEntityLiving"),
-			PLAY_OUT_SPAWN_ENTITY_PAINTING("PacketPlayOutSpawnEntityPainting"),
-			PLAY_OUT_SPAWN_ENTITY_WEATHER("PacketPlayOutSpawnEntityWeather"),
-			PLAY_OUT_SPAWN_POSITION("PacketPlayOutSpawnPosition"),
-			PLAY_OUT_STATISTIC("PacketPlayOutStatistic"),
-			PLAY_OUT_TAB_COMPLETE("PacketPlayOutTabComplete"),
-			PLAY_OUT_TILE_ENTITY_DATA("PacketPlayOutTileEntityData"),
-			PLAY_OUT_TRANSACTION("PacketPlayOutTransaction"),
-			PLAY_OUT_UPDATE_ATTRIBUTES("PacketPlayOutUpdateAttributes"),
-			PLAY_OUT_UPDATE_HEALTH("PacketPlayOutUpdateHealth"),
-			PLAY_OUT_UPDATE_SIGN("PacketPlayOutUpdateSign"),
-			PLAY_OUT_UPDATE_TIME("PacketPlayOutUpdateTime"),
-			PLAY_OUT_WINDOW_ITEMS("PacketPlayOutWindowItems"),
-			PLAY_OUT_WORLD_EVENT("PacketPlayOutWorldEvent"),
-			PLAY_OUT_WORLD_PARTICLES("PacketPlayOutWorldParticles"),
-			STATUS_IN_PING("PacketStatusInPing"),
-			STATUS_IN_START("PacketStatusInStart"),
-			STATUS_OUT_PONG("PacketStatusOutPong"),
-			STATUS_OUT_SERVER_INFO("PacketStatusOutServerInfo");
-	 
-			private static final Map<String, PacketType> NAME_MAP = new HashMap<String, PacketType>();
-			private final String name;
-			private Class<?> packet;
-	 
-			static {
-				for (PacketType type : values()) {
-					NAME_MAP.put(type.name, type);
-				}
-			}
-	 
-			private PacketType(String name) {
-				this.name = name;
-			}
-	 
-			public String getName() {
-				return name;
-			}
-	 
-			public Class<?> getPacket() throws ClassNotFoundException {
-				return packet == null ? (packet = PackageType.MINECRAFT_SERVER.getClass(name)) : packet;
-			}
-		}
-		
-		public enum DataType {
-			BYTE(byte.class, Byte.class),
-			SHORT(short.class, Short.class),
-			INTEGER(int.class, Integer.class),
-			LONG(long.class, Long.class),
-			CHARACTER(char.class, Character.class),
-			FLOAT(float.class, Float.class),
-			DOUBLE(double.class, Double.class),
-			BOOLEAN(boolean.class, Boolean.class);
-	 
-			private static final Map<Class<?>, DataType> CLASS_MAP = new HashMap<Class<?>, DataType>();
-			private final Class<?> primitive;
-			private final Class<?> reference;
-	 
-			static {
-				for (DataType type : values()) {
-					CLASS_MAP.put(type.primitive, type);
-					CLASS_MAP.put(type.reference, type);
-				}
-			}
-	 
-			private DataType(Class<?> primitive, Class<?> reference) {
-				this.primitive = primitive;
-				this.reference = reference;
-			}
-	 
-			public Class<?> getPrimitive() {
-				return primitive;
-			}
-	 
-			public Class<?> getReference() {
-				return reference;
-			}
-	 
-			public static DataType fromClass(Class<?> clazz) {
-				return CLASS_MAP.get(clazz);
-			}
-	 
-			public static Class<?> getPrimitive(Class<?> clazz) {
-				DataType type = fromClass(clazz);
-				return type == null ? clazz : type.getPrimitive();
-			}
-	 
-			public static Class<?> getReference(Class<?> clazz) {
-				DataType type = fromClass(clazz);
-				return type == null ? clazz : type.getReference();
-			}
-	 
-			public static Class<?>[] getPrimitive(Class<?>[] classes) {
-				int length = classes == null ? 0 : classes.length;
-				Class<?>[] types = new Class<?>[length];
-				for (int index = 0; index < length; index++) {
-					types[index] = getPrimitive(classes[index]);
-				}
-				return types;
-			}
-	 
-			public static Class<?>[] getReference(Class<?>[] classes) {
-				int length = classes == null ? 0 : classes.length;
-				Class<?>[] types = new Class<?>[length];
-				for (int index = 0; index < length; index++) {
-					types[index] = getReference(classes[index]);
-				}
-				return types;
-			}
-	 
-			public static Class<?>[] getPrimitive(Object[] objects) {
-				int length = objects == null ? 0 : objects.length;
-				Class<?>[] types = new Class<?>[length];
-				for (int index = 0; index < length; index++) {
-					types[index] = getPrimitive(objects[index].getClass());
-				}
-				return types;
-			}
-	 
-			public static Class<?>[] getReference(Object[] objects) {
-				int length = objects == null ? 0 : objects.length;
-				Class<?>[] types = new Class<?>[length];
-				for (int index = 0; index < length; index++) {
-					types[index] = getReference(objects[index].getClass());
-				}
-				return types;
-			}
-	 
-			public static boolean compare(Class<?>[] primary, Class<?>[] secondary) {
-				if (primary == null || secondary == null || primary.length != secondary.length) {
-					return false;
-				}
-				for (int index = 0; index < primary.length; index++) {
-					Class<?> primaryClass = primary[index];
-					Class<?> secondaryClass = secondary[index];
-					if (primaryClass.equals(secondaryClass) || primaryClass.isAssignableFrom(secondaryClass)) {
-						continue;
-					}
-					return false;
-				}
-				return true;
-			}
-		}
-		
-		public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... parameterTypes) throws NoSuchMethodException {
-			Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
-			for (Constructor<?> constructor : clazz.getConstructors()) {
-				if (!DataType.compare(DataType.getPrimitive(constructor.getParameterTypes()), primitiveTypes)) {
-					continue;
-				}
-				return constructor;
-			}
-			throw new NoSuchMethodException("There is no such constructor in this class with the specified parameter types");
-		}
-		
-		public static Field getField(Class<?> clazz, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException {
-			Field field = declared ? clazz.getDeclaredField(fieldName) : clazz.getField(fieldName);
-			field.setAccessible(true);
-			return field;
-		}
-		
-		public static Field getField(String className, PackageType packageType, boolean declared, String fieldName) throws NoSuchFieldException, SecurityException, ClassNotFoundException {
-			return getField(packageType.getClass(className), declared, fieldName);
-		}
-		
-		public static Method getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
-			Class<?>[] primitiveTypes = DataType.getPrimitive(parameterTypes);
-			for (Method method : clazz.getMethods()) {
-				if (!method.getName().equals(methodName) || !DataType.compare(DataType.getPrimitive(method.getParameterTypes()), primitiveTypes)) {
-					continue;
-				}
-				return method;
-			}
-			throw new NoSuchMethodException("There is no such method in this class with the specified name and parameter types");
-		}
-		
-		public static Method getMethod(String className, PackageType packageType, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException, ClassNotFoundException {
-			return getMethod(packageType.getClass(className), methodName, parameterTypes);
-		}
-		
-		public static void initialize() throws VersionIncompatibleException {
-			if (initialized) {
-				return;
-			}
-			try {
-				int version = Integer.parseInt(Character.toString(PackageType.getServerVersion().charAt(3)));
-				Class<?> packetClass = PackageType.MINECRAFT_SERVER.getClass(version < 7 ? "Packet63WorldParticles" : PacketType.PLAY_OUT_WORLD_PARTICLES.getName());
-				packetConstructor = getConstructor(packetClass);
-				getHandle = getMethod("CraftPlayer", PackageType.CRAFTBUKKIT_ENTITY, "getHandle");
-				playerConnection = getField("EntityPlayer", PackageType.MINECRAFT_SERVER, false, "playerConnection");
-				sendPacket = getMethod(playerConnection.getType(), "sendPacket", PackageType.MINECRAFT_SERVER.getClass("Packet"));
-			} catch (Exception exception) {
-				throw new VersionIncompatibleException("Your current bukkit version seems to be incompatible with this library", exception);
-			}
-			initialized = true;
-		}
-		
-		public static boolean isInitialized() {
-			return initialized;
-		}
- 
-		public void sendTo(Location center, Player player) throws PacketInstantiationException, PacketSendingException {
-			if (packet == null) {
-				try {
-					packet = packetConstructor.newInstance();
-					UtilReflection.setValue("a", packet, particle);
-					UtilReflection.setValue("b", packet, (float) center.getX());
-					UtilReflection.setValue("c", packet, (float) center.getY());
-					UtilReflection.setValue("d", packet, (float) center.getZ());
-					UtilReflection.setValue("e", packet, offsetX);
-					UtilReflection.setValue("f", packet, offsetY);
-					UtilReflection.setValue("g", packet, offsetZ);
-					UtilReflection.setValue("h", packet, speed);
-					UtilReflection.setValue("i", packet, amount);
-//					ReflectionUtils.setValue(packet, true, "a", name);
-//					ReflectionUtils.setValue(packet, true, "b", (float) center.getX());
-//					ReflectionUtils.setValue(packet, true, "c", (float) center.getY());
-//					ReflectionUtils.setValue(packet, true, "d", (float) center.getZ());
-//					ReflectionUtils.setValue(packet, true, "e", offsetX);
-//					ReflectionUtils.setValue(packet, true, "f", offsetY);
-//					ReflectionUtils.setValue(packet, true, "g", offsetZ);
-//					ReflectionUtils.setValue(packet, true, "h", speed);
-//					ReflectionUtils.setValue(packet, true, "i", amount);
-				} catch (Exception exception) {
-					throw new PacketInstantiationException("Packet instantiation failed", exception);
-				}
-			}
-			try {
-				sendPacket.invoke(playerConnection.get(getHandle.invoke(player)), packet);
-			} catch (Exception exception) {
-				throw new PacketSendingException("Failed to send the packet to player '" + player.getName() + "'", exception);
-			}
-		}
- 
-		public void sendTo(Location center, List<Player> players) throws IllegalArgumentException {
-			if (players.isEmpty()) {
-				throw new IllegalArgumentException("The player list is empty");
-			}
-			for (Player player : players) {
-				sendTo(center, player);
-			}
-		}
- 
-		@SuppressWarnings("deprecation")
-		public void sendTo(Location center, double range) throws IllegalArgumentException {
-			if (range < 1) {
-				throw new IllegalArgumentException("The range is lower than 1");
-			}
-			String worldName = center.getWorld().getName();
-			double squared = range * range;
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (!player.getWorld().getName().equals(worldName) || player.getLocation().distanceSquared(center) > squared) {
-					continue;
-				}
-				sendTo(center, player);
-			}
-		}
- 
-		private static final class VersionIncompatibleException extends RuntimeException {
-			private static final long serialVersionUID = 3203085387160737484L;
-			public VersionIncompatibleException(String message, Throwable cause) {
-				super(message, cause);
-			}
-		}
-		
-		private static final class PacketInstantiationException extends RuntimeException {
-			private static final long serialVersionUID = 3203085387160737484L;
-			public PacketInstantiationException(String message, Throwable cause) {
-				super(message, cause);
-			}
-		}
- 
-		private static final class PacketSendingException extends RuntimeException {
-			private static final long serialVersionUID = 3203085387160737484L;
-			public PacketSendingException(String message, Throwable cause) {
-				super(message, cause);
-			}
-		}
-	}
+  }
+  
+  public void sendToPlayer(Player player, Location location, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    sendToPlayer(player, location, offsetX, offsetY, offsetZ, speed, count, new int[0]);
+  }
+
+  public void sendToPlayers(Collection<? extends Player> players, Location location, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    for (Player p : players)
+      sendToPlayer(p, location, offsetX, offsetY, offsetZ, speed, count);
+  }
+
+  public void sendToPlayers(Player[] players, Location location, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    for (Player p : players)
+      sendToPlayer(p, location, offsetX, offsetY, offsetZ, speed, count);
+  }
+
+  public void sendColor(Player p, Location location, org.bukkit.Color color)
+    throws Exception
+  {
+    if (!this.hasColor) return;
+    sendToPlayer(p, location, getColor(color.getRed()), getColor(color.getGreen()), getColor(color.getBlue()), 1.0F, 0);
+  }
+
+  public void sendColor(Player p, Location location, java.awt.Color color)
+    throws Exception
+  {
+    if (!this.hasColor) return;
+    sendToPlayer(p, location, getColor(color.getRed()), getColor(color.getGreen()), getColor(color.getBlue()), 1.0F, 0);
+  }
+
+  public void sendColor(Collection<? extends Player> players, Location location, java.awt.Color color)
+    throws Exception
+  {
+    if (!this.hasColor) return;
+    for (Player p : players)
+      sendColor(p, location, color);
+  }
+
+  public void sendColor(Collection<? extends Player> players, Location location, org.bukkit.Color color)
+    throws Exception
+  {
+    if (!this.hasColor) return;
+    for (Player p : players)
+      sendColor(p, location, color);
+  }
+
+  public void sendColor(Player[] players, Location location, org.bukkit.Color color)
+    throws Exception
+  {
+    if (!this.hasColor) return;
+    for (Player p : players)
+      sendColor(p, location, color);
+  }
+
+  public void sendColor(Player[] players, Location location, java.awt.Color color)
+    throws Exception
+  {
+    if (!this.hasColor) return;
+    for (Player p : players)
+      sendColor(p, location, color);
+  }
+
+  protected float getColor(float value)
+  {
+    if (value <= 0.0F) {
+      value = -1.0F;
+    }
+    return value / 255.0F;
+  }
+
+  public void sendBlockCrack(Player player, Location location, int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    if (this != BLOCK_CRACK) throw new IllegalArgumentException("This method is only available for BLOCK_CRACK!");
+    sendToPlayer(player, location, offsetX, offsetY, offsetZ, speed, count, new int[] { id, data });
+  }
+
+  public void sendBlockCrack(Collection<? extends Player> players, Location location, int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    if (this != BLOCK_CRACK) throw new IllegalArgumentException("This method is only available for BLOCK_CRACK!");
+    for (Player p : players)
+      sendBlockCrack(p, location, id, data, offsetX, offsetY, offsetZ, speed, count);
+  }
+
+  public void sendBlockCrack(Player[] players, Location location, int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    if (this != BLOCK_CRACK) throw new IllegalArgumentException("This method is only available for BLOCK_CRACK!");
+    for (Player p : players)
+      sendBlockCrack(p, location, id, data, offsetX, offsetY, offsetZ, speed, count);
+  }
+
+  public void sendItemCrack(Player player, Location location, int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    if (this != ITEM_CRACK) throw new IllegalArgumentException("This method is only available for ITEM_CRACK!");
+    sendToPlayer(player, location, offsetX, offsetY, offsetZ, speed, count, new int[] { id, data });
+  }
+
+  public void sendItemCrack(Collection<? extends Player> players, Location location, int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    if (this != ITEM_CRACK) throw new IllegalArgumentException("This method is only available for ITEM_CRACK!");
+    for (Player p : players)
+      sendItemCrack(p, location, id, data, offsetX, offsetY, offsetZ, speed, count);
+  }
+
+  public void sendItemCrack(Player[] players, Location location, int id, byte data, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    if (this != ITEM_CRACK) throw new IllegalArgumentException("This method is only available for ITEM_CRACK!");
+    for (Player p : players)
+      sendItemCrack(p, location, id, data, offsetX, offsetY, offsetZ, speed, count);
+  }
+
+  public void sendBlockDust(Player p, Location location, int id, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    if (this != BLOCK_DUST) throw new IllegalArgumentException("This method is only available for BLOCK_DUST!");
+    sendToPlayer(p, location, offsetX, offsetY, offsetZ, speed, count, new int[] { id });
+  }
+
+  public void sendBlockDust(Collection<? extends Player> players, Location location, int id, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    if (this != BLOCK_DUST) throw new IllegalArgumentException("This method is only available for BLOCK_DUST!");
+    for (Player p : players)
+      sendBlockDust(p, location, id, offsetX, offsetY, offsetZ, speed, count);
+  }
+
+  public void sendBlockDust(Player[] players, Location location, int id, float offsetX, float offsetY, float offsetZ, float speed, int count)
+    throws Exception
+  {
+    if (this != BLOCK_DUST) throw new IllegalArgumentException("This method is only available for BLOCK_DUST!");
+    for (Player p : players)
+      sendBlockDust(p, location, id, offsetX, offsetY, offsetZ, speed, count);
+  }
+
+  protected static int getVersion(Player p)
+  {
+    try
+    {
+      Object handle = ReflectionUtilities.getHandle(p);
+      Object connection = nmsFieldPlayerConnection.get(handle);
+      Object network = nmsFieldNetworkManager.get(connection);
+      Object channel;
+      if (ReflectionUtilities.getVersion().contains("1_7"))
+        channel = nmsFieldNetworkManagerM.get(network);
+      else {
+        channel = nmsFieldNetworkManagerI.get(network);
+      }
+      Object version = ReflectionUtilities.getVersion().contains("1_7") ? nmsNetworkGetVersion.invoke(network, new Object[] { channel }) : Integer.valueOf(47);
+      return ((Integer)version).intValue();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+  private static Enum<?> getEnum(String enumFullName)
+  {
+    String[] x = enumFullName.split("\\.(?=[^\\.]+$)");
+    if (x.length == 2) {
+      String enumClassName = x[0];
+      String enumName = x[1];
+      try {
+        Class cl = Class.forName(enumClassName);
+        return Enum.valueOf(cl, enumName);
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+      }
+    }
+    return null;
+  }
+
+  private static boolean isPlayerInRange(Player p, Location center) {
+    double distance = 0.0D;
+    if (!p.getLocation().getWorld().equals(center.getWorld())) return false;
+    if ((distance = center.distanceSquared(p.getLocation())) > 1.7976931348623157E+308D) return false;
+    return distance < particleRange * particleRange;
+  }
+
+  public static class ReflectionUtilities
+  {
+    public static void setValue(Object instance, String fieldName, Object value)
+      throws Exception
+    {
+      Field field = instance.getClass().getDeclaredField(fieldName);
+      field.setAccessible(true);
+      field.set(instance, value);
+    }
+
+    public static Object getValue(Object instance, String fieldName)
+      throws Exception
+    {
+      Field field = instance.getClass().getDeclaredField(fieldName);
+      field.setAccessible(true);
+      return field.get(instance);
+    }
+
+    public static String getVersion() {
+      String name = Bukkit.getServer().getClass().getPackage().getName();
+      String version = name.substring(name.lastIndexOf('.') + 1) + ".";
+      return version;
+    }
+
+    public static Class<?> getNMSClass(String className) {
+      String fullName = "net.minecraft.server." + getVersion() + className;
+      Class clazz = null;
+      try {
+        clazz = Class.forName(fullName);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return clazz;
+    }
+
+    public static Class<?> getOBCClass(String className) {
+      String fullName = "org.bukkit.craftbukkit." + getVersion() + className;
+      Class clazz = null;
+      try {
+        clazz = Class.forName(fullName);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return clazz;
+    }
+
+    public static Object getHandle(Object obj) {
+      try {
+        return getMethod(obj.getClass(), "getHandle", new Class[0]).invoke(obj, new Object[0]);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return null;
+    }
+
+    public static Field getField(Class<?> clazz, String name) {
+      try {
+        Field field = clazz.getDeclaredField(name);
+        field.setAccessible(true);
+        return field;
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return null;
+    }
+
+    public static Method getMethod(Class<?> clazz, String name, Class<?>[] args) {
+      for (Method m : clazz.getMethods()) {
+        if ((m.getName().equals(name)) && ((args.length == 0) || (ClassListEqual(args, m.getParameterTypes())))) {
+          m.setAccessible(true);
+          return m;
+        }
+      }
+      return null;
+    }
+
+    public static boolean ClassListEqual(Class<?>[] l1, Class<?>[] l2) {
+      boolean equal = true;
+      if (l1.length != l2.length) return false;
+      for (int i = 0; i < l1.length; i++) {
+        if (l1[i] != l2[i]) {
+          equal = false;
+          break;
+        }
+      }
+      return equal;
+    }
+  }
 }

@@ -87,7 +87,7 @@ public class Home {
 			manager.getTeleport_loc().put(p, p.getLocation());
 			manager.getTeleport().put(p, (System.currentTimeMillis()+(TimeSpan.SECOND*5)) );
 			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_HOME.getText(5+" sekunden"));
-		}else if(args.length==2&&manager instanceof SkyBlockGildenManager){
+		}else if(args.length==2&&manager instanceof SkyBlockGildenManager&&p.isOp()){
 			SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
 			
 			if(sky.getSky().getGilden_world().getIslands().containsKey(args[1].toLowerCase())){

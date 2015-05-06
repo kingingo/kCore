@@ -1,19 +1,21 @@
 package me.kingingo.kcore.Util;
+import gnu.trove.map.TIntObjectMap;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityDestroy;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityMetadata;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityTeleport;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kDataWatcher;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityDestroy;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityLiving;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityMetadata;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_8_R2.DataWatcher;
 
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 
 public class UtilDisplay {
  
@@ -33,7 +35,7 @@ public class UtilDisplay {
     public float health;
     public String name;
     public Location sloc;
-    private WrapperPlayServerSpawnEntityLiving dragon;
+    private kPacketPlayOutEntityLiving dragon;
  
     public UtilDisplay(String name, int EntityID, Location loc){
         this(name, EntityID, (int) Math.floor(loc.getBlockX() * 32.0D), (int) Math.floor(loc.getBlockY() * 32.0D), (int) Math.floor(loc.getBlockZ() * 32.0D));
@@ -60,55 +62,57 @@ public class UtilDisplay {
     }
  
     public void getSpawnPacket(Player player){
-      dragon = new WrapperPlayServerSpawnEntityLiving();
+      dragon = new kPacketPlayOutEntityLiving();
       dragon.setEntityID( EntityID );
-      dragon.setType(EntityType.ENDER_DRAGON);
+      dragon.setEntityType(EntityType.ENDER_DRAGON);
       dragon.setX(Integer.valueOf(x));
       dragon.setY(Integer.valueOf(y));
       dragon.setZ(Integer.valueOf(z));
-      WrappedDataWatcher wdw = new WrappedDataWatcher();	
-      wdw.setObject(0, Byte.valueOf((byte) 32));
-      wdw.setObject(2,name);
-      wdw.setObject(3, (byte) 1);
-      wdw.setObject(6, Float.valueOf(this.health));
-      wdw.setObject(7, Integer.valueOf(0));
-      wdw.setObject(8,  Byte.valueOf("0"));
-      dragon.setMetadata(wdw);
-      dragon.sendPacket(player);
+      kDataWatcher wdw = new kDataWatcher();	
+      wdw.setVisible(false);
+      wdw.setCustomName(name);
+      wdw.setCustomNameVisible(true);
+      wdw.a(6, Float.valueOf(this.health));
+      wdw.a(7, Integer.valueOf(0));
+      wdw.a(8,  Byte.valueOf("0"));
+      dragon.setDataWatcher(wdw);
+      UtilPlayer.sendPacket(player, dragon);
     }
 
     public void getDestroyPacket(Player player){
-      WrapperPlayServerEntityDestroy packet = new WrapperPlayServerEntityDestroy();
-      packet.setEntities(new int[]{EntityID});
-      packet.sendPacket(player);
+      kPacketPlayOutEntityDestroy packet = new kPacketPlayOutEntityDestroy();
+      packet.setID(EntityID);
+      UtilPlayer.sendPacket(player, packet);
     }
     
-    public void getMetaPacket(Player player,WrappedDataWatcher watcher){
-      WrapperPlayServerEntityMetadata packet = new WrapperPlayServerEntityMetadata();
-      packet.setEntityId(EntityID);
-      packet.setEntityMetadata(watcher.getWatchableObjects());
-      packet.sendPacket(player);
+    public void getMetaPacket(Player player,DataWatcher watcher){
+      kPacketPlayOutEntityMetadata packet = new kPacketPlayOutEntityMetadata();
+      packet.setEntityID(EntityID);
+      packet.setList(watcher.b());
+      UtilPlayer.sendPacket(player, packet);
     }
 
     public void getTeleportPacket(Player player,int entityid,Location loc){
-    	WrapperPlayServerEntityTeleport packet = new WrapperPlayServerEntityTeleport();
+    	kPacketPlayOutEntityTeleport packet = new kPacketPlayOutEntityTeleport();
     	packet.setEntityID(entityid);
     	packet.setX(loc.getX());
     	packet.setY(loc.getY());
     	packet.setZ(loc.getZ());
     	packet.setYaw(loc.getYaw());
     	packet.setPitch(loc.getPitch());
-      	packet.sendPacket(player);
+        UtilPlayer.sendPacket(player, packet);
     }
     
-    public WrappedDataWatcher getWatcher(){
-        dragon.getMetadata().setObject(0, Byte.valueOf((byte) 32));
-        dragon.getMetadata().setObject(2,name);
-        dragon.getMetadata().setObject(3, (byte) 1);
-        dragon.getMetadata().setObject(6, Float.valueOf(this.health));
-        dragon.getMetadata().setObject(7, Integer.valueOf(0));
-        dragon.getMetadata().setObject(8,  Byte.valueOf("0"));
-      return dragon.getMetadata();
+    public kDataWatcher getWatcher(){
+    	kDataWatcher w = new kDataWatcher();
+        w.a(0, Byte.valueOf((byte) 32));
+        w.a(2,name);
+        w.a(3, (byte) 1);
+        w.a(6, Float.valueOf(this.health));
+        w.a(7, Integer.valueOf(0));
+        w.a(8,  Byte.valueOf("0"));
+        dragon.setDataWatcher(w);
+      return w;
     }
     
     public static void setStatus(Player player, String text, int healthpercent){
