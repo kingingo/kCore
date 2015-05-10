@@ -5,10 +5,11 @@ Laden("Laden"),
 LobbyPhase("LobbyPhase"),
 SchutzModus("SchutzModus"),
 DeathMatch("DeathMatch"),
+StartDeathMatch("StartDeathMatch"),
 StartGame("StartGame"),
 InGame("InGame"),
 Restart("Restart"),
-Beenden("Beenden"),
+MultiGame("MultiGame"),
 NONE("NONE");
 
 String state;

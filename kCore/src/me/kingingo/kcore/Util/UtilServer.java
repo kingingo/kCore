@@ -1,18 +1,14 @@
 package me.kingingo.kcore.Util;
 
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import lombok.Getter;
-import me.kingingo.kcore.LogHandler.Event.LogEvent;
 import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
-import net.minecraft.server.v1_8_R2.DataWatcher;
 import net.minecraft.server.v1_8_R2.EntityHorse;
 import net.minecraft.server.v1_8_R2.EntityPlayer;
 import net.minecraft.server.v1_8_R2.EntityWitherSkull;
-import net.minecraft.server.v1_8_R2.MathHelper;
 import net.minecraft.server.v1_8_R2.PacketPlayOutAttachEntity;
 import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntity;
 import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntityLiving;
@@ -26,13 +22,10 @@ import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.ItemStack;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import com.earth2me.essentials.Essentials;
 
 public class UtilServer{
@@ -106,42 +99,42 @@ public class UtilServer{
 //		((CraftPlayer)player).getHandle().playerConnection.sendPacket(skull);
 //		((CraftPlayer)player).getHandle().playerConnection.sendPacket(attach);
 //	}
-	
-	public static void addLogHandler(){
-		if(!isLoghandleradded()){
-			System.setOut(new PrintStream(System.out) {
-		        @Override
-		        public void println(String s) {
-		            super.println(s);
-		    		Bukkit.getPluginManager().callEvent(new LogEvent(s));
-		        }
-		    });
-			
-				ProtocolManager pro = ProtocolLibrary.getProtocolManager();
-				
-				PrintStream print = (PrintStream)UtilReflection.getValue("output", pro.getAsynchronousManager().getErrorReporter());
-				if(print!=null){
-					UtilReflection.setValue("output", pro.getAsynchronousManager().getErrorReporter(), new PrintStream(print) {
-				        @Override
-				        public void println(String s) {
-				            super.println(s);
-				    		Bukkit.getPluginManager().callEvent(new LogEvent(s));
-				        }
-				    });
-				}else{
-					System.out.println("[kCore] ProtocolLib PrintStream == NULL");
-				}
-				
-				System.setErr(new PrintStream(System.err) {
-			        @Override
-			        public void println(String s) {
-			            super.println(s);
-			    		Bukkit.getPluginManager().callEvent(new LogEvent(s));
-			        }
-			    });
-				
-		}
-	}
+//	
+//	public static void addLogHandler(){
+//		if(!isLoghandleradded()){
+//			System.setOut(new PrintStream(System.out) {
+//		        @Override
+//		        public void println(String s) {
+//		            super.println(s);
+//		    		Bukkit.getPluginManager().callEvent(new LogEvent(s));
+//		        }
+//		    });
+//			
+//				ProtocolManager pro = ProtocolLibrary.getProtocolManager();
+//				
+//				PrintStream print = (PrintStream)UtilReflection.getValue("output", pro.getAsynchronousManager().getErrorReporter());
+//				if(print!=null){
+//					UtilReflection.setValue("output", pro.getAsynchronousManager().getErrorReporter(), new PrintStream(print) {
+//				        @Override
+//				        public void println(String s) {
+//				            super.println(s);
+//				    		Bukkit.getPluginManager().callEvent(new LogEvent(s));
+//				        }
+//				    });
+//				}else{
+//					System.out.println("[kCore] ProtocolLib PrintStream == NULL");
+//				}
+//				
+//				System.setErr(new PrintStream(System.err) {
+//			        @Override
+//			        public void println(String s) {
+//			            super.println(s);
+//			    		Bukkit.getPluginManager().callEvent(new LogEvent(s));
+//			        }
+//			    });
+//				
+//		}
+//	}
 	
 	public static void essPermissionHandler(){
 		if(Bukkit.getPluginManager().getPlugin("Essentials")!=null&&Bukkit.getPluginManager().getPlugin("Essentials").isEnabled()){

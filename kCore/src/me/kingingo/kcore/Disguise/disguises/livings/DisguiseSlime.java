@@ -1,15 +1,9 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
-import org.bukkit.entity.EntityType;
-
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-
 import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
-import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_8_R2.MathHelper;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityLiving;
 import net.minecraft.server.v1_8_R2.Packet;
-import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntityLiving;
+
+import org.bukkit.entity.EntityType;
 
 public class DisguiseSlime extends DisguiseInsentient
 {
@@ -30,17 +24,30 @@ public class DisguiseSlime extends DisguiseInsentient
     return this.DataWatcher.getByte(16);
   }
 
-  public PacketContainer GetSpawnPacket()
+  public Packet GetSpawnPacket()
   {
-	WrapperPlayServerSpawnEntityLiving pa = new WrapperPlayServerSpawnEntityLiving();
-	pa.setEntityID(this.Entity.getId());
-	pa.setZ(this.Entity.locZ);
-	pa.setX(this.Entity.locX);
-	pa.setY(this.Entity.locY);
-	pa.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
-	pa.setMetadata(new WrappedDataWatcher(this.DataWatcher));
-	pa.setType(EntityType.SLIME);
-	return pa.getHandle();
+//	WrapperPlayServerSpawnEntityLiving pa = new WrapperPlayServerSpawnEntityLiving();
+//	pa.setEntityID(this.Entity.getId());
+//	pa.setZ(this.Entity.locZ);
+//	pa.setX(this.Entity.locX);
+//	pa.setY(this.Entity.locY);
+//	pa.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
+//	pa.setMetadata(new WrappedDataWatcher(this.DataWatcher));
+//	pa.setType(EntityType.SLIME);
+//	return pa.getHandle();
+	  
+	  kPacketPlayOutEntityLiving packet = new kPacketPlayOutEntityLiving();
+	  packet.setEntityID(this.Entity.getId());
+	  packet.setX(this.Entity.locX);
+	  packet.setY(this.Entity.locY);
+	  packet.setZ(this.Entity.locZ);
+	  packet.setYaw(this.Entity.yaw);
+	  packet.setPitch(this.Entity.pitch);
+	  packet.setDataWatcher(this.DataWatcher);
+	  packet.setEntityType(EntityType.SLIME);
+	  packet.setEntityID(this.Entity.getId());
+	  return packet.getPacket();
+	  
 //    PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
 //    UtilReflection.setValue("a", packet, this.Entity.getId());
 //    UtilReflection.setValue("b", packet, 55);

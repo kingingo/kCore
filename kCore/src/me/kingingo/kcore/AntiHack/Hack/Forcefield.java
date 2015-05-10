@@ -1,8 +1,6 @@
 package me.kingingo.kcore.AntiHack.Hack;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -12,49 +10,24 @@ import me.kingingo.kcore.AntiHack.AntiHack;
 import me.kingingo.kcore.AntiHack.IHack;
 import me.kingingo.kcore.AntiHack.Level;
 import me.kingingo.kcore.AntiHack.Events.AntiHackPlayerDetectedEvent;
-import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kGameProfile;
 import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutBed;
 import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityDestroy;
 import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityEquipment;
 import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityMetadata;
 import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityTeleport;
 import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutNamedEntitySpawn;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutPlayerInfo;
 import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutRelEntityMoveLook;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutPlayerInfo.kPlayerInfoData;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayClientUseEntity;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilServer;
-import net.minecraft.server.v1_8_R2.BlockPosition;
 import net.minecraft.server.v1_8_R2.DataWatcher;
-import net.minecraft.server.v1_8_R2.PacketPlayOutBed;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook;
-import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
-import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.PlayerInfoData;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityEquipment;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.inventory.ItemStack;
-
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-import com.mojang.authlib.GameProfile;
 
 public class Forcefield extends IHack{
 
@@ -65,21 +38,21 @@ public class Forcefield extends IHack{
 		super(antiHack, "Forcefield");
 		this.max_hits=max_hits;
 		
-		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter( getAntiHack().getInstance() , ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY){
-		    public void onPacketReceiving(PacketEvent event){
-		        if(event.getPacketType() == PacketType.Play.Client.USE_ENTITY){
-		            try {
-		                if(list.containsKey(event.getPlayer())){
-		                	NPC npc = list.get(event.getPlayer());
-		                	npc.setHits(npc.getHits()+1);
-		                	event.setCancelled(true);
-		                }
-		            } catch (Exception e){
-		            	Log("Error: "+e.getLocalizedMessage());
-		            }
-		        }
-		    }
-		});
+//		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter( getAntiHack().getInstance() , ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY){
+//		    public void onPacketReceiving(PacketEvent event){
+//		        if(event.getPacketType() == PacketType.Play.Client.USE_ENTITY){
+//		            try {
+//		                if(list.containsKey(event.getPlayer())){
+//		                	NPC npc = list.get(event.getPlayer());
+//		                	npc.setHits(npc.getHits()+1);
+//		                	event.setCancelled(true);
+//		                }
+//		            } catch (Exception e){
+//		            	Log("Error: "+e.getLocalizedMessage());
+//		            }
+//		        }
+//		    }
+//		});
 		
 	}
 	

@@ -41,6 +41,14 @@ public class UtilString
 
       return img;
     }
+    
+  public static String cut(String t){
+	  if(t.length()>16){
+		  return t.substring(0,15);
+	  }else{
+		  return t;
+	  }
+  }
   
   public static List<String> stringArrayToList(String[] arg1) {
     List<String> toreturn = new ArrayList<>();
@@ -135,6 +143,10 @@ public class UtilString
       }
     }
     return toreturn;
+  }
+  
+  public static String toUpperCase(String g){
+	  return g.substring(0, 1).toUpperCase()+g.substring(1,g.length());
   }
 
   public static boolean checkForIP(String text) {

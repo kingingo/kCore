@@ -8,8 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
 
-import com.comphenix.protocol.events.PacketContainer;
-
 public abstract class DisguiseBase
 {
   protected net.minecraft.server.v1_8_R2.Entity Entity;
@@ -38,7 +36,7 @@ public abstract class DisguiseBase
     }
   }
 
-  public abstract PacketContainer GetSpawnPacket();
+  public abstract Packet GetSpawnPacket();
 
   public Packet GetMetaDataPacket()
   {

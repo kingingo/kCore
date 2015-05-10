@@ -4,18 +4,18 @@ import lombok.Getter;
 import me.kingingo.kcore.PlayerStats.Stats;
 
 public enum GameType {
+ONE_VS_ONE("1VS1","1VS1",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
+QuickSurvivalGames("QuickSurvivalGames","QSG",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 SurvivalGames("SurvivalGames","SG",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 OneInTheChamber("OneInTheChamber","OITC",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 SkyPvP("SkyPvP","SK",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 Falldown("Falldown","FD",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.POWER,Stats.WIN,Stats.LOSE}),
-TroubleMine("TroubleMine","TIMV",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.TTT_KARMA,Stats.TTT_PÄSSE,Stats.TTT_TESTS,Stats.TTT_TRAITOR_PUNKTE,Stats.TTT_DETECTIVE_PUNKTE}),
 TroubleInMinecraft("TroubleInMinecraft","TTT",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.TTT_KARMA,Stats.TTT_PÄSSE,Stats.TTT_TESTS,Stats.TTT_TRAITOR_PUNKTE,Stats.TTT_DETECTIVE_PUNKTE}),
 DeathGames("DeathGames","DG",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 BedWars("BedWars","BW",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.BEDWARS_ZERSTOERTE_BEDs}),
 SheepWars("SheepWars","SW",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),
 MarioParty("MarioParty","MP",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 PVP("PvP-Server", "PvP", ServerType.PVP,new Stats[] { Stats.KILLS, Stats.DEATHS, Stats.MONEY }), 
-ArcadeGames("ArcadeGames","AG",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 SKYBLOCK("SkyBlock", "Sky", ServerType.SKYBLOCK,new Stats[] { Stats.KILLS, Stats.DEATHS, Stats.MONEY }), 
 WARZ("WarZ-Server", "WarZ", ServerType.WARZ,new Stats[] { Stats.KILLS, Stats.DEATHS,Stats.ANIMAL_KILLS,Stats.ANIMAL_DEATHS,Stats.MONSTER_KILLS,Stats.MONSTER_DEATHS }),
 CaveWars("CaveWars","CW",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),

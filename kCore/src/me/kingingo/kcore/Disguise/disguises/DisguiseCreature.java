@@ -1,10 +1,8 @@
 package me.kingingo.kcore.Disguise.disguises;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityLiving;
+import net.minecraft.server.v1_8_R2.Packet;
 
 import org.bukkit.entity.EntityType;
-
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 
 public abstract class DisguiseCreature extends DisguiseInsentient
 {
@@ -15,18 +13,26 @@ public abstract class DisguiseCreature extends DisguiseInsentient
 
   protected abstract EntityType GetEntityTypeId();
 
-  public PacketContainer GetSpawnPacket()
+  public Packet GetSpawnPacket()
   {
-	  WrapperPlayServerSpawnEntityLiving pa = new WrapperPlayServerSpawnEntityLiving();
-		pa.setEntityID(this.Entity.getId());
-		pa.setZ(this.Entity.locZ);
-		pa.setX(this.Entity.locX);
-		pa.setY(this.Entity.locY);
-		pa.setYaw(this.Entity.yaw);
-		pa.setMetadata(new WrappedDataWatcher(this.DataWatcher));
-		pa.setType(this.GetEntityTypeId());
-		return pa.getHandle();
-		
+//	  WrapperPlayServerSpawnEntityLiving pa = new WrapperPlayServerSpawnEntityLiving();
+//		pa.setEntityID(this.Entity.getId());
+//		pa.setZ(this.Entity.locZ);
+//		pa.setX(this.Entity.locX);
+//		pa.setY(this.Entity.locY);
+//		pa.setYaw(this.Entity.yaw);
+//		pa.setMetadata(new WrappedDataWatcher(this.DataWatcher));
+//		pa.setType(this.GetEntityTypeId());
+//		return pa.getHandle();
+	  kPacketPlayOutEntityLiving living = new kPacketPlayOutEntityLiving();
+	  living.setX(this.Entity.locX);
+	  living.setY(this.Entity.locY);
+	  living.setZ(this.Entity.locZ);
+	  living.setYaw(this.Entity.yaw);
+	  living.setPitch(this.Entity.pitch);
+	  living.setDataWatcher(this.DataWatcher);
+	  living.setEntityID(this.GetEntityId());
+	  return living.getPacket();
 //    PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
 //    UtilReflection.setValue("a", packet, this.Entity.getId());
 //    UtilReflection.setValue("b", packet, ((byte)GetEntityTypeId()));

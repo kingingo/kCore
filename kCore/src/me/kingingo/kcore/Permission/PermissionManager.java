@@ -17,25 +17,23 @@ import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Util.C;
 import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilScoreboard;
 import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.Util.UtilTime;
 
-import org.bukkit.permissions.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
 
 public class PermissionManager {
 	@Getter
 	private HashMap<UUID,PermissionAttachment> plist = new HashMap<>();
-	
-
 	@Getter
 	private HashMap<UUID,ArrayList<String>> load = new HashMap<>();
 	@Getter
 	private ArrayList<UUID> load_now = new ArrayList<>();
-	
 	@Getter
 	private HashMap<UUID,String> pgroup = new HashMap<>();
 	@Getter
@@ -139,36 +137,58 @@ public class PermissionManager {
 		return setTabList(p, false);
 	}
 	
+	public Scoreboard getScoreboard(){
+		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+		
+		for(String g : getGroups().keySet()){
+			UtilScoreboard.addTeam(board, g, getGroups().get(g).getPrefix());
+		}
+		
+		for(Player player : UtilServer.getPlayers()){
+			if(board.getTeam(getGroup(player))==null&&getGroups().containsKey(getGroup(player)))UtilScoreboard.addTeam(board, getGroup(player), getGroups().get(getGroup(player)).getPrefix());
+			board.getTeam(getGroup(player)).addPlayer(player);
+		}
+		return board;
+	}
+	
 	public boolean setTabList(Player p,boolean invisble) {
 		if(!isAllowTab())return false;
-		String name = p.getName();
-		if(p.isCustomNameVisible()){
-			name=p.getCustomName();
-		}
-		if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&&!invisble){
-			String t = groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).getPrefix();
+		UtilScoreboard.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard(), p);
+		
+		try{
+			if(pgroup.containsKey(UtilPlayer.getRealUUID(p))&&!invisble){
+				String group = getGroup(p);
+				
+				for(String g : getGroups().keySet()){
+					UtilScoreboard.addTeam(p.getScoreboard(), g, getGroups().get(g).getPrefix());
+				}
+				p.getScoreboard().getTeam(group).addPlayer(p);
+				
+				for(Player player : UtilServer.getPlayers()){
+					if(p.getScoreboard().getTeam(getGroup(player))==null&&getGroups().containsKey(getGroup(player)))UtilScoreboard.addTeam(p.getScoreboard(), getGroup(player), getGroups().get(getGroup(player)).getPrefix());
+					p.getScoreboard().getTeam(getGroup(player)).addPlayer(player);
+					
+					if(player.getScoreboard().getTeam(group)==null)UtilScoreboard.addTeam(player.getScoreboard(), group, getGroups().get(group).getPrefix());
+					player.getScoreboard().getTeam(group).addPlayer(p);
+				}
+				
+			}else{
+				
+				for(String g : getGroups().keySet()){
+					UtilScoreboard.addTeam(p.getScoreboard(), g, getGroups().get(g).getPrefix());
+				}
+				p.getScoreboard().getTeam("default").addPlayer(p);
+				
+				for(Player player : UtilServer.getPlayers()){
+					if(p.getScoreboard().getTeam(getGroup(player))==null&&getGroups().containsKey(getGroup(player)))UtilScoreboard.addTeam(p.getScoreboard(), getGroup(player), getGroups().get(getGroup(player)).getPrefix());
+					p.getScoreboard().getTeam(getGroup(player)).addPlayer(player);
+					if(player.getScoreboard().getTeam("default")==null)UtilScoreboard.addTeam(player.getScoreboard(), "default", getGroups().get("default").getPrefix());
+					player.getScoreboard().getTeam("default").addPlayer(p);
+				}
+
+			}
+		}catch(NullPointerException e){
 			
-			int i = t.indexOf("§");
-			t=""+t.toCharArray()[i]+t.toCharArray()[i+1];
-			if(name.length()>13){
-				try{
-					UtilPlayer.setPlayerListName(p,t+name.subSequence(0, 13));
-				}catch(IllegalArgumentException e){
-					UtilPlayer.setPlayerListName(p,t+name.subSequence(0, 12));
-				}
-			}else{
-				UtilPlayer.setPlayerListName(p,t+name);
-			}
-		}else{
-			if(name.length()>13){
-				try{
-					UtilPlayer.setPlayerListName(p,"§7"+name.subSequence(0, 13));
-				}catch(IllegalArgumentException e){
-					UtilPlayer.setPlayerListName(p,"§7"+name.subSequence(0, 12));
-				}
-			}else{
-				UtilPlayer.setPlayerListName(p,"§7"+name);
-			}
 		}
 		return true;
 	}

@@ -10,6 +10,7 @@ import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
 import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityEquipment;
+import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import net.minecraft.server.v1_8_R2.Packet;
 
@@ -28,6 +29,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.util.Vector;
 
 import com.google.common.base.Charsets;
@@ -54,6 +56,26 @@ public class UtilPlayer
 		player.setVelocity(unitVector.multiply(speed));
 		unitVector.setY(unitVector.getY() + high);
 		player.setVelocity(unitVector);
+	}
+	
+	public static void setScoreboard(Player player,Coins coins,PermissionManager permManager){
+		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
+		UtilScoreboard.setScore(player.getScoreboard(),"§e§lCoins:", DisplaySlot.SIDEBAR, 15);
+		UtilScoreboard.setScore(player.getScoreboard(),""+coins.getCoins(player), DisplaySlot.SIDEBAR, 14);
+		UtilScoreboard.setScore(player.getScoreboard(),"    ", DisplaySlot.SIDEBAR, 13);
+		UtilScoreboard.setScore(player.getScoreboard(),"§6§lRang:", DisplaySlot.SIDEBAR, 12);
+		UtilScoreboard.setScore(player.getScoreboard(), (permManager.getGroup(player).equalsIgnoreCase("default") ? "Kein Rang" : UtilString.toUpperCase(permManager.getGroup(player)) ),DisplaySlot.SIDEBAR , 11);
+		UtilScoreboard.setScore(player.getScoreboard(),"   ", DisplaySlot.SIDEBAR, 10);
+		UtilScoreboard.setScore(player.getScoreboard(),"§c§lForum:", DisplaySlot.SIDEBAR, 9);
+		UtilScoreboard.setScore(player.getScoreboard(),"www.EpicPvP.me", DisplaySlot.SIDEBAR, 8);
+		UtilScoreboard.setScore(player.getScoreboard(),"  ", DisplaySlot.SIDEBAR, 7);
+		UtilScoreboard.setScore(player.getScoreboard(),"§a§lOnline-Shop:", DisplaySlot.SIDEBAR, 6);
+		UtilScoreboard.setScore(player.getScoreboard(),"Shop.EpicPvP.de", DisplaySlot.SIDEBAR, 5);
+		UtilScoreboard.setScore(player.getScoreboard()," ", DisplaySlot.SIDEBAR, 4);
+		UtilScoreboard.setScore(player.getScoreboard(),"§d§lTeamspeak:", DisplaySlot.SIDEBAR, 3);
+		UtilScoreboard.setScore(player.getScoreboard(),"Ts.EpicPvP.de", DisplaySlot.SIDEBAR, 2);
+		UtilScoreboard.setScore(player.getScoreboard(),"----------------", DisplaySlot.SIDEBAR, 1);
+		player.setScoreboard(player.getScoreboard());
 	}
 	
 	public static void setWorldChangeUUID(World world,UUID old,UUID uuid){

@@ -5,9 +5,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 public class UtilReflection {
 	
@@ -23,6 +27,10 @@ public class UtilReflection {
 		}catch(Exception e){
 			System.err.println(e);
 		}
+	}
+	
+	public static EntityPlayer getNMSPlayer(Player p) {
+	    return ((CraftPlayer)p).getHandle();
 	}
 	
 	public static void setStaticValue(Field field, Object value){

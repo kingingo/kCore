@@ -137,7 +137,8 @@ public class PermissionListener extends kListener {
 							try{
 								manager.setTabList(player);
 							}catch(IllegalArgumentException e){
-								Log("TabList Spieler: "+player.getName()+" Error:"+e.getMessage());
+								Log("TabList Spieler: "+player.getName()+" Error:");
+								e.printStackTrace();
 							}
 							
 							Bukkit.getPluginManager().callEvent(new PlayerLoadPermissionEvent(manager, player));
@@ -217,6 +218,10 @@ public class PermissionListener extends kListener {
 			}
 			manager.getPlist().get(UtilPlayer.getRealUUID(ev.getPlayer())).remove();
 			manager.getPlist().remove(UtilPlayer.getRealUUID(ev.getPlayer()));
+		}
+		
+		if(manager.isAllowTab()){
+			ev.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
 	}
 	

@@ -2,9 +2,9 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import java.util.Random;
 
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntity;
-
-import com.comphenix.protocol.events.PacketContainer;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutRelEntityMoveLook;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_8_R2.Packet;
 
 public class DisguiseBlock extends DisguiseBase
 {
@@ -27,16 +27,28 @@ public class DisguiseBlock extends DisguiseBase
     return (byte)this._blockData;
   }
 
-  public PacketContainer GetSpawnPacket(){
-	WrapperPlayServerSpawnEntity pa = new WrapperPlayServerSpawnEntity();
-	pa.setEntityID(this.Entity.getId());
-	pa.setZ(this.Entity.locZ);
-	pa.setX(this.Entity.locX);
-	pa.setY(this.Entity.locY);
-	pa.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
-	pa.setType(70);
-	pa.setObjectData((this._blockId | this._blockData << 16));
-	return pa.getHandle();
+  public Packet GetSpawnPacket(){
+//	WrapperPlayServerSpawnEntity pa = new WrapperPlayServerSpawnEntity();
+//	pa.setEntityID(this.Entity.getId());
+//	pa.setZ(this.Entity.locZ);
+//	pa.setX(this.Entity.locX);
+//	pa.setY(this.Entity.locY);
+//	pa.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
+//	pa.setType(70);
+//	pa.setObjectData((this._blockId | this._blockData << 16));
+//	return pa.getHandle();
+	  
+	  kPacketPlayOutSpawnEntity spawn = new kPacketPlayOutSpawnEntity();
+	  spawn.setX(this.Entity.locX);
+	  spawn.setY(this.Entity.locY);
+	  spawn.setZ(this.Entity.locZ);
+	  spawn.setYaw(this.Entity.yaw);
+	  spawn.setPitch(this.Entity.pitch);
+	  spawn.setEntityID(this.Entity.getId());
+	  spawn.setEntityType(70);
+	  spawn.setObjectData((this._blockId | this._blockData << 16));
+	  return spawn.getPacket();
+	  
 //    PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity();
 //    UtilReflection.setValue("a", packet, this.Entity.getId());
 //    UtilReflection.setValue("b", packet, MathHelper.floor(this.Entity.locX * 32.0D));

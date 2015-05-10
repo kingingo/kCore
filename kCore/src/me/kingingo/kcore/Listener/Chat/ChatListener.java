@@ -84,11 +84,11 @@ public class ChatListener extends kListener{
 					}
 				}
 			
-				if(manager!=null)event.setFormat(manager.getPrefix(p)+ tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + "§7: "+ msg);
-				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§")+ tag + pex.getUser(p).getPrefix().replaceAll("&", "§").subSequence(0, 2) + p.getName() + "§7: "+ msg);
+				if(manager!=null)event.setFormat(manager.getPrefix(p)+ tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + "§7:§f "+ msg);
+				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§")+ tag + pex.getUser(p).getPrefix().replaceAll("&", "§").subSequence(0, 2) + p.getName() + "§7:§f "+ msg);
 			}else{
-				if(manager!=null)event.setFormat(manager.getPrefix(p) + p.getName() + "§7: "+ msg);	
-				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§") + p.getName() + "§7: "+ msg);
+				if(manager!=null)event.setFormat(manager.getPrefix(p) + p.getName() + "§7:§f "+ msg);	
+				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§") + p.getName() + "§7:§f "+ msg);
 			}
 		}
 	}

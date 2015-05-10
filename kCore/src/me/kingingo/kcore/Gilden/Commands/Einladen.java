@@ -34,6 +34,7 @@ public class Einladen {
 				return;
 			}
 			
+			System.out.println("DEBUG GILDE_ANZAHL: "+manager.getAnzahl(manager.getPlayerGilde(p)));
 			if(manager.getAnzahl(manager.getPlayerGilde(p)) >= 10){
 				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_COUNT.getText());
 				return;

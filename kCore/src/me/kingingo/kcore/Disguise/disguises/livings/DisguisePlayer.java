@@ -1,16 +1,10 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
 
 import java.util.UUID;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
+
 import me.kingingo.kcore.Disguise.disguises.DisguiseHuman;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerNamedEntitySpawn;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
-import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_8_R2.MathHelper;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_8_R2.Packet;
-import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
 
 public class DisguisePlayer extends DisguiseHuman
 {
@@ -28,17 +22,30 @@ public class DisguisePlayer extends DisguiseHuman
     this._name = name;
   }
 
-  public PacketContainer GetSpawnPacket(){
-	  WrapperPlayServerNamedEntitySpawn packet = new WrapperPlayServerNamedEntitySpawn();
+  public Packet GetSpawnPacket(){
+//	  WrapperPlayServerNamedEntitySpawn packet = new WrapperPlayServerNamedEntitySpawn();
+//	  packet.setEntityID(this.Entity.getId());
+//	  packet.setProfile(new WrappedGameProfile(UUID.randomUUID(),this._name));
+//	  packet.setX(MathHelper.floor(this.Entity.locX * 32.0D));
+//	  packet.setY(MathHelper.floor(this.Entity.locY * 32.0D));
+//	  packet.setZ(MathHelper.floor(this.Entity.locZ * 32.0D));
+//	  packet.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
+//	  packet.setPitch(((byte)(int)(this.Entity.pitch * 256.0F / 360.0F)));
+//	  packet.setMetadata(new WrappedDataWatcher(this.DataWatcher));
+//	  return packet.getHandle();
+	  
+	  kPacketPlayOutNamedEntitySpawn packet = new kPacketPlayOutNamedEntitySpawn();
 	  packet.setEntityID(this.Entity.getId());
-	  packet.setProfile(new WrappedGameProfile(UUID.randomUUID(),this._name));
-	  packet.setX(MathHelper.floor(this.Entity.locX * 32.0D));
-	  packet.setY(MathHelper.floor(this.Entity.locY * 32.0D));
-	  packet.setZ(MathHelper.floor(this.Entity.locZ * 32.0D));
-	  packet.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
-	  packet.setPitch(((byte)(int)(this.Entity.pitch * 256.0F / 360.0F)));
-	  packet.setMetadata(new WrappedDataWatcher(this.DataWatcher));
-	  return packet.getHandle();
+	  packet.setUUID(UUID.randomUUID());
+	  packet.setX(this.Entity.locX);
+	  packet.setY(this.Entity.locY);
+	  packet.setZ(this.Entity.locZ);
+	  packet.setYaw(this.Entity.yaw);
+	  packet.setPitch(this.Entity.pitch);
+	  packet.setDataWatcher(this.DataWatcher);
+	  
+	  return packet.getPacket();
+	  
 //    PacketPlayOutNamedEntitySpawn packet = new PacketPlayOutNamedEntitySpawn();
 //    UtilReflection.setValue("a", packet, this.Entity.getId());
 //    UtilReflection.setValue("b", packet, new GameProfile(UUID.randomUUID(), this._name));

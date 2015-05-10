@@ -21,6 +21,7 @@ public class kPacketPlayOutEntityLiving implements kPacket{
 	private String DATAWATCHER = "l";
 	private String TYPE = "b";
 	private String ID = "a";
+	
 	@Getter
 	private PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
 	

@@ -1,47 +1,26 @@
 package me.kingingo.kcore.Disguise;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import lombok.Getter;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
-import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
-import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerEntityDestroy;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerNamedEntitySpawn;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayServerSpawnEntityLiving;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilServer;
-import net.minecraft.server.v1_8_R2.EntityPlayer;
 import net.minecraft.server.v1_8_R2.Packet;
 import net.minecraft.server.v1_8_R2.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_8_R2.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntityLiving;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.events.ScheduledPacket;
 
 public class DisguiseManager implements Listener {
 
@@ -126,16 +105,7 @@ public class DisguiseManager implements Listener {
 	}
 	
 	public void sendPacket(Player player,Packet packet){
-			((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
-	}
-	
-	public void sendPacket(Player player,PacketContainer packet){
-		try {
-			ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-		} catch (InvocationTargetException e) {
-			System.err.println("[DisguiseManager] Error: ");
-			e.printStackTrace();
-		}
+		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 	}
 	
 	public void disguise(Player player,LivingEntity entity,DisguiseType type){

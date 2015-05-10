@@ -4,52 +4,99 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
-import me.kingingo.kcore.PacketWrapper.WrapperPlayClientUseEntity;
+import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
+import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
+import me.kingingo.kcore.PacketAPI.packetlistener.handler.PacketHandler;
+import me.kingingo.kcore.PacketAPI.packetlistener.handler.ReceivedPacket;
+import me.kingingo.kcore.PacketAPI.packetlistener.handler.SentPacket;
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayInUseEntity;
 import me.kingingo.kcore.Util.UtilPlayer;
+import net.minecraft.server.v1_8_R2.PacketPlayInUseEntity;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-
 public class NPCManager implements Listener {
 
 	@Getter
-	HashMap<Integer,NPC> NPCList = new HashMap<>();
+	private HashMap<Integer,NPC> NPCList = new HashMap<>();
 	@Getter
-	JavaPlugin instance;
+	private JavaPlugin instance;
+	private kPacketListener listener;
 	
 	public NPCManager(JavaPlugin instance){
 		this.instance=instance;
-		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY){
-		    public void onPacketReceiving(PacketEvent event){
-		        if(event.getPacketType() == PacketType.Play.Client.USE_ENTITY){
-		            Player player = event.getPlayer();
-		            try {
-		                WrapperPlayClientUseEntity packet = new WrapperPlayClientUseEntity(event.getPacket());
-		                if(NPCList.containsKey(packet.getTargetID())){
-		                	PlayerInteractNPCEvent ev = new PlayerInteractNPCEvent(player,getNPCList().get( packet.getTargetID() ));
-		                	Bukkit.getPluginManager().callEvent(ev);
-		                	event.setCancelled(true);
-		                }
-		            } catch (Exception e){
-		            	System.err.println("[NPCManager] Error: "+e.getMessage());
-		            }
-		        }
-		    }
-		});
+		this.listener=new kPacketListener(instance);
+//		
+//		this.listener.addPacketHandler(new PacketHandler() {
+//			
+//			@Override
+//			public void onSend(SentPacket packet) {
+//				
+//			}
+//			
+//			@Override
+//			public void onReceive(ReceivedPacket packet) {
+//				if(packet.getPacket() instanceof PacketPlayInUseEntity){
+//					 try {
+//			                kPacketPlayInUseEntity use = new kPacketPlayInUseEntity(packet.getPacket());
+//			                System.out.println("E: "+use.getEntityID()+ " "+packet.getPlayername());
+//			                if(NPCList.containsKey(use.getEntityID())){
+//			                	packet.setCancelled(true);
+//				                System.out.println("E1: "+use.getEntityID()+ " "+packet.getPlayername());
+//			                	PlayerInteractNPCEvent ev = new PlayerInteractNPCEvent(packet.getPlayer(),getNPCList().get( use.getEntityID() ));
+//			                	Bukkit.getPluginManager().callEvent(ev);
+//			                }
+//			            } catch (Exception e){
+//			            	System.err.println("[NPCManager] Error: "+e.getMessage());
+//			            }
+//				}
+//			}
+//			
+//		});
+		
+//		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY){
+//		    public void onPacketReceiving(PacketEvent event){
+//		        if(event.getPacketType() == PacketType.Play.Client.USE_ENTITY){
+//		            Player player = event.getPlayer();
+//		            try {
+//		                WrapperPlayClientUseEntity packet = new WrapperPlayClientUseEntity(event.getPacket());
+//		                if(NPCList.containsKey(packet.getTargetID())){
+//		                	PlayerInteractNPCEvent ev = new PlayerInteractNPCEvent(player,getNPCList().get( packet.getTargetID() ));
+//		                	Bukkit.getPluginManager().callEvent(ev);
+//		                	event.setCancelled(true);
+//		                }
+//		            } catch (Exception e){
+//		            	System.err.println("[NPCManager] Error: "+e.getMessage());
+//		            }
+//		        }
+//		    }
+//		});
+		
+		
 		
 		Bukkit.getPluginManager().registerEvents(this, instance);
+	}
+	
+	@EventHandler
+	public void Receive(PacketListenerReceiveEvent ev){
+		if(ev.getPacket() instanceof PacketPlayInUseEntity&&ev.getPlayer()!=null){
+			 try {
+	                kPacketPlayInUseEntity use = new kPacketPlayInUseEntity(ev.getPacket());
+	                if(NPCList.containsKey(use.getEntityID())){
+	                	ev.setCancelled(true);
+	                	PlayerInteractNPCEvent eve = new PlayerInteractNPCEvent(ev.getPlayer(),getNPCList().get( use.getEntityID() ));
+	                	Bukkit.getPluginManager().callEvent(eve);
+	                }
+	            } catch (Exception e){
+	            	System.err.println("[NPCManager] Error: ");
+	            	e.printStackTrace();
+	            }
+		}
 	}
 	
 	@EventHandler
