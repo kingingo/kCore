@@ -1,5 +1,8 @@
 package me.kingingo.kcore.Command.Commands;
 
+import java.sql.ResultSet;
+import java.util.HashMap;
+
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Enum.Text;
@@ -20,9 +23,11 @@ public class CommandMoney implements CommandExecutor{
 	private Player player;
 	private Player target;
 	private double money;
+	HashMap<Integer,String> ranking = new HashMap<>();
 	
 	public CommandMoney(StatsManager stats){
 		this.stats=stats;
+		stats.setRanking_Stats(Stats.MONEY);
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "money",alias = {"geld","konto","kontostand","stand"}, sender = Sender.PLAYER)
@@ -30,9 +35,21 @@ public class CommandMoney implements CommandExecutor{
 		if(cs instanceof Player){
 			player = (Player)cs;
 			if(args.length==0){
-				player.sendMessage(Text.PREFIX_GAME.getText(GameType.SKYBLOCK.getTyp())+"Dein Kontostand beträgt:§3 " + stats.getDouble(Stats.MONEY, player));
+				player.sendMessage(Text.PREFIX_GAME.getText(GameType.SKYBLOCK.getTyp())+"Dein Kontostand betrÃ¤gt:Â§3 " + stats.getDouble(Stats.MONEY, player));
 			}else{
-				if(args.length==3){
+				if(args.length==1){
+					if(args[0].equalsIgnoreCase("ranking")||args[0].equalsIgnoreCase("top")){
+						stats.Ranking(player);
+						return true;
+					}
+
+					if(UtilPlayer.isOnline(args[0])){
+						target=Bukkit.getPlayer(args[0]);
+						player.sendMessage(Text.PREFIX_GAME.getText(GameType.SKYBLOCK.getTyp())+target.getName()+" Kontostand betrÃ¤gt:Â§3 " + stats.getDouble(Stats.MONEY, target));
+					}else{
+						player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[0]));
+					}
+				}else if(args.length==3){
 					if(args[0].equalsIgnoreCase("send")){
 						if(UtilPlayer.isOnline(args[1])){
 							target=Bukkit.getPlayer(args[1]);
@@ -55,13 +72,6 @@ public class CommandMoney implements CommandExecutor{
 						}else{
 							player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[1]));
 						}
-					}
-				}else{
-					if(UtilPlayer.isOnline(args[0])){
-						target=Bukkit.getPlayer(args[0]);
-						player.sendMessage(Text.PREFIX_GAME.getText(GameType.SKYBLOCK.getTyp())+target.getName()+" Kontostand beträgt:§3 " + stats.getDouble(Stats.MONEY, target));
-					}else{
-						player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[0]));
 					}
 				}
 			}

@@ -292,7 +292,7 @@ public class SignShop extends kListener{
 	            				ItemStack i = new ItemStack(id, 32);
 	            				p.getInventory().addItem(i);
 	        					p.updateInventory();
-	        					p.sendMessage(Text.PREFIX.getText()+Text.SIGN_SHOP_GET.getText(new String[]{String.valueOf(anzahl), String.valueOf(id),String.valueOf(Preis)}));
+	        					p.sendMessage(Text.PREFIX.getText()+Text.SIGN_SHOP_GET.getText(new String[]{"32", String.valueOf(id),String.valueOf(Preis)}));
 	        					getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)-Preis, Stats.MONEY);
 	            				return;
 	                		}
@@ -419,7 +419,7 @@ public class SignShop extends kListener{
 	    						return;
 	    					}
 	        				p.updateInventory();	//"§6Du hast " + 32 + " mal " + id+":"+idnach + " Verkauft und hast " + VerkaufPreis+" Epic's erhalten."
-	        				p.sendMessage(Text.PREFIX.getText()+Text.SIGN_SHOP_VERKAUFT_.getText(new String[]{"32",String.valueOf(id),idnach,String.valueOf(VerkaufPreis)}));
+	        				p.sendMessage(Text.PREFIX.getText()+Text.SIGN_SHOP_VERKAUFT_.getText(new String[]{String.valueOf(anzahl),String.valueOf(id),idnach,String.valueOf(VerkaufPreis)}));
 	        				getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)+VerkaufPreis, Stats.MONEY);
 	                		return;
 	            		}
@@ -436,7 +436,7 @@ public class SignShop extends kListener{
 						}
 	            		
 						p.updateInventory();
-						p.sendMessage(Text.PREFIX.getText()+Text.SIGN_SHOP_VERKAUFT.getText(new String[]{String.valueOf(b),String.valueOf(id),String.valueOf(VerkaufPreis)}));
+						p.sendMessage(Text.PREFIX.getText()+Text.SIGN_SHOP_VERKAUFT.getText(new String[]{String.valueOf(anzahl),String.valueOf(id),String.valueOf(VerkaufPreis)}));
 						getStatsmanager().setDouble(p, getStatsmanager().getDouble(Stats.MONEY, p)+VerkaufPreis, Stats.MONEY);
 	    				return;
 	                }

@@ -38,6 +38,7 @@ public class StatsManager implements Listener{
 	@Setter
 	private boolean onDisable=false;
 	HashMap<Integer,String> ranking = new HashMap<>();
+	private Stats Ranking_Stats = Stats.KILLS;
 	
 	public StatsManager(JavaPlugin plugin,MySQL mysql,GameType typ){
 		this.plugin=plugin;
@@ -46,17 +47,22 @@ public class StatsManager implements Listener{
 		CreateTable();
 	}
 	
+	public void setRanking_Stats(Stats r){
+		Ranking_Stats=r;
+		ranking.clear();
+	}
+	
 	@EventHandler
 	public void Ranking(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.MIN_08)return;
 		ranking.clear();
 		try{
-		     ResultSet rs = getMysql().Query("SELECT `kills`,`player` FROM `users_"+getTyp().getKürzel()+"` ORDER BY kills DESC LIMIT 10;");
+		     ResultSet rs = getMysql().Query("SELECT `"+Ranking_Stats.getTYP()+"`,`player` FROM `users_"+getTyp().getKürzel()+"` ORDER BY "+Ranking_Stats.getTYP()+" DESC LIMIT 10;");
 
 		      int zahl = 1;
 		      
 		      while (rs.next()) {
-		        ranking.put(zahl, "§b#§a" + String.valueOf(zahl) + "§b | §a" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+		        ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
 		        zahl++;
 		      }
 
@@ -70,7 +76,7 @@ public class StatsManager implements Listener{
 		if(ranking.isEmpty()){
 			Bukkit.getPluginManager().registerEvents(this, plugin);
 			try{
-			     ResultSet rs = getMysql().Query("SELECT `kills`,`player` FROM `users_"+getTyp().getKürzel()+"` ORDER BY kills DESC LIMIT 10;");
+			     ResultSet rs = getMysql().Query("SELECT `"+Ranking_Stats.getTYP()+"`,`player` FROM `users_"+getTyp().getKürzel()+"` ORDER BY "+Ranking_Stats.getTYP()+" DESC LIMIT 10;");
 
 			      int zahl = 1;
 			      
@@ -85,7 +91,7 @@ public class StatsManager implements Listener{
 			 }
 		}
 		p.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top 10 §b■■■■■■■■");
-		p.sendMessage("§b Place | Kills | Player");
+		p.sendMessage("§b Platz | "+Ranking_Stats.getKÜRZEL()+" | Player");
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
 	

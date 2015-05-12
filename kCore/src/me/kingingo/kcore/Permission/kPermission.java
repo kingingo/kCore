@@ -188,6 +188,8 @@ PET_WITHERSKULL("kpet.witherskull"),
 PET_WOLF("kpet.wolf"),
 PET_ZOMBIE("kpet.zombie"),
 PET_SHEEP("kpet.sheep"),
+PET_HORSE("kpet.horse"),
+PET_RABBIT("kpet.rabbit"),
 PET_OCELOT("kpet.ocelot");
 //PETS
 

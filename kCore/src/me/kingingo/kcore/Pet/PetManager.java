@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Pet.Setting.PetSetting;
 import me.kingingo.kcore.Pet.Shop.PetShop;
+import me.kingingo.kcore.Pet.Events.PetCreateEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Pet.Event.PetWithOutOwnerLocationEvent;
@@ -115,6 +116,7 @@ public class PetManager implements Listener{
 	    this.petToLocation.put(pet,location);
 	    this.failedAttemptsToLocation.put(pet,Integer.valueOf(0));
 	    if(clear_goal)ClearPetGoals(pet);
+	    Bukkit.getPluginManager().callEvent(new PetCreateEvent(this,pet,null));
 	    return pet;
     }
 	
@@ -136,6 +138,7 @@ public class PetManager implements Listener{
 	    this.activePetOwners.put(player.getName().toLowerCase(),pet);
 	    this.failedAttempts.put(player.getName().toLowerCase(), Integer.valueOf(0));
 	    ClearPetGoals(pet);
+	    Bukkit.getPluginManager().callEvent(new PetCreateEvent(this,pet,player));
 	  }
 	
 	public org.bukkit.entity.Creature GetPet(Player player){
@@ -329,7 +332,7 @@ public class PetManager implements Listener{
 			}
 		}
 	}
-	  
+	
 	Creature c;
 	@EventHandler
 	public void Interdact(PlayerInteractEntityEvent ev){
@@ -341,6 +344,8 @@ public class PetManager implements Listener{
 						ev.getPlayer().openInventory( getSetting_list().get(c.getType()).getMain() );
 					}
 				}
+			 }else if(ev.getRightClicked() instanceof Horse){
+				 ev.setCancelled(true);
 			 }
 		 }
 	}

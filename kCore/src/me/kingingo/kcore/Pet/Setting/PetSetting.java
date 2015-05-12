@@ -18,17 +18,24 @@ import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftAgeable;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftCreeper;
+import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.MushroomCow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Spider;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
+import org.bukkit.entity.Horse.Variant;
+import org.bukkit.entity.Rabbit.Type;
 import org.bukkit.inventory.ItemStack;
+import org.fusesource.jansi.Ansi.Color;
 
 public class PetSetting extends InventoryBase{
 	
@@ -113,6 +120,117 @@ public class PetSetting extends InventoryBase{
 					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 				}
 			},Material.NETHER_STAR,"§aPowered An/Aus"));
+		}else if(type==EntityType.HORSE){
+			final InventoryChoose inv_armor=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Horse c = (Horse)manager.GetPet(player);
+						c.getInventory().setArmor( (((ItemStack)object).getItemMeta().getDisplayName().equalsIgnoreCase("Keine Armor") ? null : ((ItemStack)object)) );
+						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					}
+				}
+			},"Armor Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(417,1), "Iron Armor"),UtilItem.RenameItem(new ItemStack(418,1), "Gold Armor"),UtilItem.RenameItem(new ItemStack(419,1), "Diamond Armor"),UtilItem.RenameItem(new ItemStack(Material.ARMOR_STAND), "Keine Armor")});
+			addPage(inv_armor);
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					player.closeInventory();
+					player.openInventory(inv_armor);
+				}
+			},Material.IRON_BARDING,"Armor Ändern"));
+			
+			final InventoryChoose inv_color=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Horse c = (Horse)manager.GetPet(player);
+						c.setColor( Horse.Color.valueOf( ((ItemStack)object).getItemMeta().getDisplayName() ) );
+						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					}
+				}
+			},"Color Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), "CHESTNUT"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12), "BROWN"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)8), "CREAMY"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12), "DARK_BROWN"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1), "WHITE"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)15), "BLACK"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)7), "GRAY")});
+			addPage(inv_color);
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					player.closeInventory();
+					player.openInventory(inv_color);
+				}
+			},Material.WOOL,"Color Ändern"));
+			
+			final InventoryChoose inv_typ=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Horse c = (Horse)manager.GetPet(player);
+						c.setVariant( Variant.valueOf( ((ItemStack)object).getItemMeta().getDisplayName() ) );
+						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					}
+				}
+			},"Type Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.BONE,1), "UNDEAD_HORSE"),UtilItem.RenameItem(new ItemStack(Material.BONE,1), "SKELETON_HORSE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "MULE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "HORSE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "DONKEY")});
+			addPage(inv_typ);
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					player.closeInventory();
+					player.openInventory(inv_typ);
+				}
+			},Material.HAY_BLOCK,"Type Ändern"));
+			
+			final InventoryChoose inv_style=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Horse c = (Horse)manager.GetPet(player);
+						c.setStyle( Horse.Style.valueOf( ((ItemStack)object).getItemMeta().getDisplayName() ) );
+						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					}
+				}
+			},"Style Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "NONE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "WHITEFIELD"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "WHITE_DOTS"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "BLACK_DOTS"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "WHITE")});
+			addPage(inv_style);
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					player.closeInventory();
+					player.openInventory(inv_style);
+				}
+			},Material.CARROT_STICK,"Style Ändern"));
+			
+		}else if(type==EntityType.RABBIT){
+			final InventoryChoose inv_chest=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Rabbit c = (Rabbit)manager.GetPet(player);
+						c.setRabbitType( Type.valueOf( ((ItemStack)object).getItemMeta().getDisplayName() ) );
+						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					}
+				}
+			},"Rabbit Type Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "WHITE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "THE_KILLER_BUNNY"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "SALT_AND_PEPPER"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "GOLD"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "BROWN"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "BLACK_AND_WHITE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "BLACK")});
+			addPage(inv_chest);
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					player.closeInventory();
+					player.openInventory(inv_chest);
+				}
+			},Material.RABBIT,"§aRabbit Type"));
 		}else if(type==EntityType.WOLF){
 			
 			button++;
