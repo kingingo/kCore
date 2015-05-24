@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.Flag;
@@ -72,6 +73,11 @@ public class UtilWorldGuard {
 	
 	public static boolean RegionFlag(Player player,StateFlag flag){
 		return RegionFlag(player.getLocation(), flag);
+	}
+	
+	public static boolean canUse(Player player){
+		if(worldGuard==null&&!checkWorldGuard())return false;
+		return worldGuard.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation()).canUse( worldGuard.wrapPlayer(player) );
 	}
 	
 	public static boolean RegionFlag(Location location,StateFlag flag){

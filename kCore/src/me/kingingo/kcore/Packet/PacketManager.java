@@ -11,6 +11,9 @@ import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_REMOVE_ALL;
 import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
 import me.kingingo.kcore.Packet.Packets.SERVER_INFO_ALL;
+import me.kingingo.kcore.Packet.Packets.SERVER_READY;
+import me.kingingo.kcore.Packet.Packets.SERVER_RESET;
+import me.kingingo.kcore.Packet.Packets.SERVER_SETTINGS;
 import me.kingingo.kcore.Packet.Packets.SERVER_STATUS;
 import me.kingingo.kcore.Packet.Packets.SERVER_TYPE_CHANGE;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_ADD_CLIENT_GROUP;
@@ -74,6 +77,12 @@ public class PacketManager {
 			return new WORLD_CHANGE_DATA(packet.split("-/-"));
 		}else if(packet.contains("HUB_ONLINE")){
 			return new HUB_ONLINE(packet.split("-/-"));
+		}else if(packet.contains("SERVER_SETTINGS")){
+			return new SERVER_SETTINGS(packet.split("-/-"));
+		}else if(packet.contains("SERVER_READY")){
+			return new SERVER_READY(packet.split("-/-"));
+		}else if(packet.contains("SERVER_RESET")){
+			return new SERVER_RESET(packet.split("-/-"));
 		}
 	 return null;
 	}

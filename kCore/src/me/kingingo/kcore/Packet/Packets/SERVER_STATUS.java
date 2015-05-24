@@ -25,6 +25,8 @@ public class SERVER_STATUS extends Packet{
 	GameType typ;
 	@Getter
 	String id;
+	@Getter
+	boolean apublic=true;
 	
 	public SERVER_STATUS(){}
 	
@@ -40,13 +42,14 @@ public class SERVER_STATUS extends Packet{
 		Set(packet);
 	}
 	
-	public SERVER_STATUS(GameState state, int online, int max_online, String map, GameType typ, String id) {
+	public SERVER_STATUS(GameState state, int online, int max_online, String map, GameType typ, String id,boolean apublic) {
 	    this.online = online;
 	    this.state = state;
 	    this.max_online = max_online;
 	    this.map = map;
 	    this.typ = typ;
 	    this.id = id;
+	    this.apublic=apublic;
 	  }
 	
 	public String getName(){
@@ -55,13 +58,8 @@ public class SERVER_STATUS extends Packet{
 	
 	public void Set(String packet){
 		String[] split = packet.split("-/-");
-		 this.state = GameState.valueOf(split[1]);
-		 this.online = Integer.valueOf(split[2]).intValue();
-		 this.max_online = Integer.valueOf(split[3]).intValue();
-		 this.map = split[4];
-		 this.typ = GameType.valueOf(split[5]);
-		 this.id = split[6];
-		}
+		Set(split);
+	}
 
 	public void Set(String[] packet) {
 	 this.state = GameState.valueOf(packet[1]);
@@ -70,11 +68,12 @@ public class SERVER_STATUS extends Packet{
 	 this.map = packet[4];
 	 this.typ = GameType.valueOf(packet[5]);
 	 this.id = packet[6];
+	 this.apublic=Boolean.valueOf(packet[7]);
 	}
 	
 	public String toString(){
 		//SERVER_STATUS-/-STATE-/-ONLINE-/-MAX-/-MAP-/-TYP-/-SERVER
-		return String.format(getName() + "-/-%s-/-%d-/-%d-/-%s-/-%s-/-%s", new Object[] { this.state.string(), Integer.valueOf(this.online), Integer.valueOf(this.max_online), this.map, this.typ.getTyp(), this.id });
+		return String.format(getName() + "-/-%s-/-%d-/-%d-/-%s-/-%s-/-%s-/-%s", new Object[] { this.state.string(), Integer.valueOf(this.online), Integer.valueOf(this.max_online), this.map, this.typ.getTyp(), this.id,this.apublic });
 	}
 	
 }
