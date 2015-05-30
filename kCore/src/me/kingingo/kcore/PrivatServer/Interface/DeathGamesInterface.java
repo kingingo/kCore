@@ -1,14 +1,14 @@
-package me.kingingo.kcore.Interface;
+package me.kingingo.kcore.PrivatServer.Interface;
 
 import lombok.Getter;
-import me.kingingo.kcore.Interface.Button.GameInterface;
-import me.kingingo.kcore.Interface.Button.MainInterface;
-import me.kingingo.kcore.Interface.Button.UtilInterface;
 import me.kingingo.kcore.Inventory.Inventory.InventoryChoose;
 import me.kingingo.kcore.Inventory.Inventory.InventoryYesNo;
 import me.kingingo.kcore.Inventory.Item.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Packet.Packets.SERVER_SETTINGS;
+import me.kingingo.kcore.PrivatServer.Interface.Button.GameInterface;
+import me.kingingo.kcore.PrivatServer.Interface.Button.MainInterface;
+import me.kingingo.kcore.PrivatServer.Interface.Button.UtilInterface;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 

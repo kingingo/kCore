@@ -1,6 +1,6 @@
-package me.kingingo.kcore.Interface.Button;
+package me.kingingo.kcore.PrivatServer.Interface.Button;
 
-import me.kingingo.kcore.Interface.DeathGamesInterface;
+import me.kingingo.kcore.PrivatServer.Interface.DeathGamesInterface;
 
 public class UtilInterface {
 

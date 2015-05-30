@@ -271,80 +271,80 @@ public class UtilPlayer
     return (String)matchList.get(0);
   }
 
-  public static Player searchOnline(Player caller, String player, boolean inform)
-  {
-    LinkedList<Player> matchList = new LinkedList<>();
+//  public static Player searchOnline(Player caller, String player, boolean inform)
+//  {
+//    LinkedList<Player> matchList = new LinkedList<>();
+//
+//    for (Player cur : UtilServer.getPlayers())
+//    {
+//      if (cur.getName().equalsIgnoreCase(player)) {
+//        return cur;
+//      }
+//      if (cur.getName().toLowerCase().contains(player.toLowerCase())) {
+//        matchList.add(cur);
+//      }
+//    }
+//
+//    if (matchList.size() != 1)
+//    {
+//      if (!inform) {
+//        return null;
+//      }
+//
+////      message(caller, F.main("Online Player Search", 
+////        C.mCount + matchList.size() + 
+////        C.mBody + " matches for [" + 
+////        C.mElem + player + 
+////        C.mBody + "]."));
+//
+//      if (matchList.size() > 0)
+//      {
+//        String matchString = "";
+//        for (Player cur : matchList)
+//          matchString = matchString + F.elem(cur.getName()) + ", ";
+//        if (matchString.length() > 1) {
+//          matchString = matchString.substring(0, matchString.length() - 2);
+//        }
+////        message(caller, F.main("Online Player Search", 
+////          C.mBody + "Matches [" + 
+////          C.mElem + matchString + 
+////          C.mBody + "]."));
+//      }
+//
+//      return null;
+//    }
+//
+//    return (Player)matchList.get(0);
+//  }
 
-    for (Player cur : UtilServer.getPlayers())
-    {
-      if (cur.getName().equalsIgnoreCase(player)) {
-        return cur;
-      }
-      if (cur.getName().toLowerCase().contains(player.toLowerCase())) {
-        matchList.add(cur);
-      }
-    }
-
-    if (matchList.size() != 1)
-    {
-      if (!inform) {
-        return null;
-      }
-
-//      message(caller, F.main("Online Player Search", 
-//        C.mCount + matchList.size() + 
-//        C.mBody + " matches for [" + 
-//        C.mElem + player + 
-//        C.mBody + "]."));
-
-      if (matchList.size() > 0)
-      {
-        String matchString = "";
-        for (Player cur : matchList)
-          matchString = matchString + F.elem(cur.getName()) + ", ";
-        if (matchString.length() > 1) {
-          matchString = matchString.substring(0, matchString.length() - 2);
-        }
-//        message(caller, F.main("Online Player Search", 
-//          C.mBody + "Matches [" + 
-//          C.mElem + matchString + 
-//          C.mBody + "]."));
-      }
-
-      return null;
-    }
-
-    return (Player)matchList.get(0);
-  }
-
-  public static LinkedList<Player> matchOnline(Player caller, String players, boolean inform)
-  {
-    LinkedList matchList = new LinkedList();
-
-    String failList = "";
-
-    for (String cur : players.split(","))
-    {
-      Player match = searchOnline(caller, cur, inform);
-
-      if (match != null) {
-        matchList.add(match);
-      }
-      else {
-        failList = failList + cur + " ";
-      }
-    }
-    if ((inform) && (failList.length() > 0))
-    {
-      failList = failList.substring(0, failList.length() - 1);
-//      message(caller, F.main("Online Player(s) Search", 
-//        C.mBody + "Invalid [" + 
-//        C.mElem + failList + 
-//        C.mBody + "]."));
-    }
-
-    return matchList;
-  }
+//  public static LinkedList<Player> matchOnline(Player caller, String players, boolean inform)
+//  {
+//    LinkedList matchList = new LinkedList();
+//
+//    String failList = "";
+//
+//    for (String cur : players.split(","))
+//    {
+//      Player match = searchOnline(caller, cur, inform);
+//
+//      if (match != null) {
+//        matchList.add(match);
+//      }
+//      else {
+//        failList = failList + cur + " ";
+//      }
+//    }
+//    if ((inform) && (failList.length() > 0))
+//    {
+//      failList = failList.substring(0, failList.length() - 1);
+////      message(caller, F.main("Online Player(s) Search", 
+////        C.mBody + "Invalid [" + 
+////        C.mElem + failList + 
+////        C.mBody + "]."));
+//    }
+//
+//    return matchList;
+//  }
 
   public static LinkedList<Player> getNearby(Location loc, double maxDist)
   {

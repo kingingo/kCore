@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Interface.Button;
+package me.kingingo.kcore.PrivatServer.Interface.Button;
 
 import lombok.Getter;
 import lombok.Setter;

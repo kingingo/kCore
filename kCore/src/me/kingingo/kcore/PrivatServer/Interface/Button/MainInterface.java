@@ -1,18 +1,17 @@
-package me.kingingo.kcore.Interface.Button;
+package me.kingingo.kcore.PrivatServer.Interface.Button;
 
 import java.util.ArrayList;
 
 import lombok.Getter;
-import me.kingingo.kcore.Interface.DeathGamesInterface;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLoad;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.SERVER_READY;
 import me.kingingo.kcore.Packet.Packets.SERVER_SETTINGS;
+import me.kingingo.kcore.PrivatServer.Interface.DeathGamesInterface;
 import me.kingingo.kcore.Util.UtilBG;
 import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -22,18 +21,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class MainInterface {
 
+	/* MainInterface ist für Spieler Wahl zuständig  */
+	
 	@Getter
 	private JavaPlugin instance;
 	@Getter
 	private InventoryPageBase main_page;
 	@Getter
-	private InventoryLoad load;
+	private InventoryLoad load; // LADE Inventory (zb Wenn ein Server vorbereitet wird)
 	@Getter
-	private PacketManager packetManager;
+	private PacketManager packetManager; // Verschickt die Packet zu den Game Servern
 	@Getter
-	private ArrayList<String> wait_list = new ArrayList<>();
+	private ArrayList<String> wait_list = new ArrayList<>(); // Warte Liste ... für Non Profit User
 	@Getter
-	private String server;
+	private String server; // Der Server auf dem das Interface Benutzt wird.
 	
 	public MainInterface(JavaPlugin instance,String server,PacketManager packetManager){
 		this.instance=instance;

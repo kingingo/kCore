@@ -75,9 +75,22 @@ public class UtilWorldGuard {
 		return RegionFlag(player.getLocation(), flag);
 	}
 	
-	public static boolean canUse(Player player){
+	public static boolean canBuild(Player player){
+		return canBuild(player.getLocation(), player);
+	}
+	
+	public static boolean canBuild(Location loc ,Player player){
 		if(worldGuard==null&&!checkWorldGuard())return false;
-		return worldGuard.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation()).canUse( worldGuard.wrapPlayer(player) );
+		return worldGuard.getRegionManager(loc.getWorld()).getApplicableRegions(loc).canBuild( worldGuard.wrapPlayer(player) );
+	}
+	
+	public static boolean canUse(Player player){
+		return canUse(player.getLocation(), player);
+	}
+	
+	public static boolean canUse(Location loc, Player player){
+		if(worldGuard==null&&!checkWorldGuard())return false;
+		return worldGuard.getRegionManager(loc.getWorld()).getApplicableRegions(loc).canUse( worldGuard.wrapPlayer(player) );
 	}
 	
 	public static boolean RegionFlag(Location location,StateFlag flag){

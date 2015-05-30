@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Permission;
 
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
-import me.kingingo.kcore.Util.C;
 import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilScoreboard;
@@ -63,7 +63,7 @@ public class PermissionManager {
 	
 	public String getPrefix(Player p){
 		if(pgroup.containsKey(UtilPlayer.getRealUUID(p)))return groups.get(pgroup.get(UtilPlayer.getRealUUID(p))).getPrefix();
-		return C.cGray;
+		return Color.GRAY.toString();
 	}
 	
 	public List<kPermission> getPermissionList(Player p){
