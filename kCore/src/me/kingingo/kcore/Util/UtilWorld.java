@@ -2,12 +2,15 @@ package me.kingingo.kcore.Util;
 import java.io.File;
 import java.lang.reflect.Field;
 
+import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutWorldBorder;
 import net.minecraft.server.v1_8_R2.Convertable;
 import net.minecraft.server.v1_8_R2.EntityTracker;
 import net.minecraft.server.v1_8_R2.EnumDifficulty;
 import net.minecraft.server.v1_8_R2.IProgressUpdate;
 import net.minecraft.server.v1_8_R2.MinecraftServer;
+import net.minecraft.server.v1_8_R2.PacketPlayOutWorldBorder.EnumWorldBorderAction;
 import net.minecraft.server.v1_8_R2.ServerNBTManager;
+import net.minecraft.server.v1_8_R2.WorldBorder;
 import net.minecraft.server.v1_8_R2.WorldData;
 import net.minecraft.server.v1_8_R2.WorldLoaderServer;
 import net.minecraft.server.v1_8_R2.WorldManager;
@@ -21,12 +24,88 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.craftbukkit.v1_8_R2.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.entity.Player;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.spigotmc.SpigotConfig;
 
-public class WorldUtil{
+public class UtilWorld{
+	
+	public static void sendWorldBorder(Player p, double midX, double midZ, double oldRadius, double newRadius, int seconds, int portalteleportboundary, int warningTime, int warningBlocks)
+	  {
+	    WorldBorder w = new WorldBorder();
+	    w.setCenter(midX, midZ);
+	    w.transitionSizeBetween(oldRadius, newRadius, seconds*TimeSpan.SECOND);
+	    if (warningTime >= 0) w.setWarningTime(warningTime);
+	    if (warningBlocks >= 0) w.setWarningDistance(warningBlocks);
+	    if (portalteleportboundary >= 0) w.a(portalteleportboundary);
+	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.INITIALIZE));
+	  }
+
+	  public static void setWorldBorderCenter(Player p, double midX, double midZ, double radius) {
+	    WorldBorder w = new WorldBorder();
+	    w.setCenter(midX, midZ);
+	    w.setSize(radius);
+	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_CENTER));
+	  }
+
+	  public static void setWorldBorderSize(Player p, double radius) {
+	    WorldBorder w = new WorldBorder();
+	    w.setSize(radius);
+	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_SIZE));
+	  }
+
+	  public static void changeWorldBorderSize(Player p, double oldRadius, double newRadius, int seconds) {
+	    WorldBorder w = new WorldBorder();
+	    w.transitionSizeBetween(oldRadius, newRadius, seconds*TimeSpan.SECOND);
+	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.LERP_SIZE));
+	  }
+
+	  public static void setWorldBorderWarningTime(Player p, int warningTimeInSeconds) {
+	    WorldBorder w = new WorldBorder();
+	    w.setWarningTime(warningTimeInSeconds);
+	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_WARNING_TIME));
+	  }
+
+	  public static void setWorldBorderWarningBlocks(Player p, int warningBlocksDistance) {
+	    WorldBorder w = new WorldBorder();
+	    w.setWarningDistance(warningBlocksDistance);
+	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_WARNING_BLOCKS));
+	  }
+
+//	  public static void sendBlood(Player p, int strength, int seconds) {
+//	    sendWorldBorder(p, p.getLocation().getX(), p.getLocation().getZ(), 10000.0D, getDistance(strength) + 10, seconds, -1, seconds, getDistance(strength));
+//	    new BukkitSyncAutoTask(seconds * 20 + 5)
+//	    {
+//	      public void run() {
+//	        WorldBorderManager.setWorldBorderSize(this.val$p, 60000000.0D);
+//	      }
+//	    };
+//	  }
+
+	  private static int getDistance(int blood) {
+	    switch (blood) {
+	    case 0:
+	      return 10000;
+	    case 1:
+	      return 15000;
+	    case 2:
+	      return 24000;
+	    case 3:
+	      return 29000;
+	    case 4:
+	      return 35000;
+	    case 5:
+	      return 40000;
+	    }
+	    return 10000;
+	  }
+
+	  public static int getMaxStrength()
+	  {
+	    return 5;
+	  }
 	
 	public static void setSave(boolean b){
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-"+(b ? "on" : "off"));

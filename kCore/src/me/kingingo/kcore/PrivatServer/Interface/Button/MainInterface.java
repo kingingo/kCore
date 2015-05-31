@@ -3,6 +3,7 @@ package me.kingingo.kcore.PrivatServer.Interface.Button;
 import java.util.ArrayList;
 
 import lombok.Getter;
+import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLoad;
 import me.kingingo.kcore.Packet.PacketManager;
@@ -26,7 +27,7 @@ public class MainInterface {
 	@Getter
 	private JavaPlugin instance;
 	@Getter
-	private InventoryPageBase main_page;
+	private InventoryBase main_page;
 	@Getter
 	private InventoryLoad load; // LADE Inventory (zb Wenn ein Server vorbereitet wird)
 	@Getter
@@ -40,7 +41,7 @@ public class MainInterface {
 		this.instance=instance;
 		this.server=server;
 		this.packetManager=packetManager;
-		this.main_page= new InventoryPageBase(9, "Main:");
+		this.main_page= new InventoryBase(instance,9, "Main:");
 		this.load=new InventoryLoad(getInstance(), "Server wird Eingestellt...");
 		
 		new DeathGamesInterface(this);

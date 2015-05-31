@@ -20,15 +20,19 @@ public class InventoryLoad extends InventoryPageBase{
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
+	//BEWEGT DEN WOOL BLOCK IMMER EIN WEITER
 	@EventHandler
 	public void Updater(UpdateEvent ev){
 		if(ev.getType()==UpdateType.FAST){
-			if(slot-1>=1)setItem(slot-1, new ItemStack(Material.WOOL));
-			if(slot<=8){
+			//DER SLOT WIRD ZURÜCKGESETZT WENN DER SLOT-1 >=0
+			if(slot-1>=0)setItem(slot-1, new ItemStack(Material.WOOL));
+			if(slot<8){
 				slot=slot+1;
-				setItem(slot+1, new ItemStack(Material.WOOL,1,(byte)14));
+				setItem(slot, new ItemStack(Material.WOOL,1,(byte)14));
 			}else{
+				setItem(slot, new ItemStack(Material.WOOL));
 				slot=0;
+				setItem(slot, new ItemStack(Material.WOOL,1,(byte)14));
 			}
 		}
 	}

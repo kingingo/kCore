@@ -1,5 +1,7 @@
 package me.kingingo.kcore.PrivatServer.Interface;
 
+import java.util.HashMap;
+
 import lombok.Getter;
 import me.kingingo.kcore.Inventory.Inventory.InventoryChoose;
 import me.kingingo.kcore.Inventory.Inventory.InventoryYesNo;
@@ -20,23 +22,22 @@ public class DeathGamesInterface extends GameInterface{
 	@Getter
 	private InventoryYesNo On_Or_Off;
 	@Getter
-	private boolean kits=true;
+	private HashMap<Player,Boolean> kits = new HashMap<>();
 	@Getter
 	private InventoryChoose inv_chest_Anzahl;
 	@Getter
-	private int chest_anzahl=120;
+	private HashMap<Player,Integer> chest_anzahl = new HashMap<>();
 	private DeathGamesInterface m;
 	
 	public DeathGamesInterface(MainInterface main){
-		super(main);
+		super(main,Material.CHEST,"DeathGames");
 		this.m=this;
-		getMenu().setItem(0,UtilItem.Item(new ItemStack(Material.CHEST), new String[]{""}, "§6DeathGames"));
 		
 		getMenu().addButton(8, new ButtonBase(new Click(){
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
-				getMain().start(player,new SERVER_SETTINGS("DeathGames",UtilInterface.DGtoString(m),player.getName(),getMain().getServer(),isApublic()));
+				getMain().start(player,new SERVER_SETTINGS("DeathGames",UtilInterface.DGtoString(m,player),player.getName(),getMain().getServer(), (getApublic().containsKey(player) ? getApublic().get(player) : false) ));
 			}
 			
 		},UtilItem.Item(new ItemStack(Material.ARROW), new String[]{""}, "§aStart")));
@@ -45,18 +46,21 @@ public class DeathGamesInterface extends GameInterface{
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
-				kits=true;
+				if(kits.containsKey(player))kits.remove(player);
+				kits.put(player, true);
 				player.closeInventory();
 				player.openInventory(getMenu());
 			}}, new Click(){
 
 			@Override
 			public void onClick(Player player, ActionType type,Object object) {
-				kits=false;
+				if(kits.containsKey(player))kits.remove(player);
+				kits.put(player, false);
 				player.closeInventory();
 				player.openInventory(getMenu());
 			}}
 		);
+		getMain().getMain_page().addPage(On_Or_Off);
 		
 		getMenu().addButton(3, new ButtonBase(new Click(){
 
@@ -72,13 +76,15 @@ public class DeathGamesInterface extends GameInterface{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(object instanceof ItemStack){
-					chest_anzahl=((ItemStack)object).getAmount();
+					if(chest_anzahl.containsKey(player))chest_anzahl.remove(player);
+					chest_anzahl.put(player, ((ItemStack)object).getAmount());
 				}
 				player.closeInventory();
 				player.openInventory(getMenu());
 			}
 			
-		}, "Chest Anzahl:", 9, new ItemStack[]{new ItemStack(Material.CHEST,50),new ItemStack(Material.CHEST,60),new ItemStack(Material.CHEST,70),new ItemStack(Material.CHEST,80),new ItemStack(Material.CHEST,90),new ItemStack(Material.CHEST,100),new ItemStack(Material.CHEST,110),new ItemStack(Material.CHEST,120),new ItemStack(Material.CHEST,130)});
+		}, "Chest Anzahl:", 9, new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.CHEST), "50"),UtilItem.RenameItem(new ItemStack(Material.CHEST), "60"),UtilItem.RenameItem(new ItemStack(Material.CHEST), "70"),UtilItem.RenameItem(new ItemStack(Material.CHEST), "80"),UtilItem.RenameItem(new ItemStack(Material.CHEST), "90"),UtilItem.RenameItem(new ItemStack(Material.CHEST), "100"),UtilItem.RenameItem(new ItemStack(Material.CHEST), "110"),UtilItem.RenameItem(new ItemStack(Material.CHEST), "120"),UtilItem.RenameItem(new ItemStack(Material.CHEST), "130")});
+		getMain().getMain_page().addPage(inv_chest_Anzahl);
 		
 		getMenu().addButton(4, new ButtonBase(new Click(){
 
@@ -92,9 +98,9 @@ public class DeathGamesInterface extends GameInterface{
 		getMenu().fill(Material.STAINED_GLASS_PANE,(byte)15);
 	}
 	
-	public DeathGamesInterface(int chest,boolean kits){
-		super(null);
-		this.chest_anzahl=chest;
-		this.kits=kits;
-	}
+//	public DeathGamesInterface(){
+//		super(null,Material.APPLE,"null");
+//		
+//	}
+	
 }

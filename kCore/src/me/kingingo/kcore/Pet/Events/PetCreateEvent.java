@@ -6,6 +6,7 @@ import me.kingingo.kcore.Packet.Packet;
 import me.kingingo.kcore.Pet.PetManager;
 
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

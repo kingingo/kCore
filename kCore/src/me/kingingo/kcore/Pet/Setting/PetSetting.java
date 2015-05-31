@@ -51,7 +51,7 @@ public class PetSetting extends InventoryBase{
 
 					@Override
 					public void onAnvilClick(AnvilClickEvent event) {
-						Creature c = manager.getActivePetOwners().get(player.getName().toLowerCase());
+						Entity c = manager.getActivePetOwners().get(player.getName().toLowerCase());
 						c.setCustomName(event.getName().replaceAll("&", "§"));
 						c.setCustomNameVisible(true);
 					}
@@ -252,7 +252,7 @@ public class PetSetting extends InventoryBase{
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					if(object instanceof ItemStack){
-						Creature c = manager.GetPet(player);
+						Creature c = (Creature)manager.GetPet(player);
 						c.getEquipment().setHelmet( ((ItemStack)object) );
 						player.closeInventory();
 						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
@@ -265,7 +265,7 @@ public class PetSetting extends InventoryBase{
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					if(object instanceof ItemStack){
-						Creature c = manager.GetPet(player);
+						Creature c = (Creature)manager.GetPet(player);
 						c.getEquipment().setChestplate( ((ItemStack)object) );
 						player.closeInventory();
 						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
@@ -278,7 +278,7 @@ public class PetSetting extends InventoryBase{
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					if(object instanceof ItemStack){
-						Creature c = manager.GetPet(player);
+						Creature c = (Creature)manager.GetPet(player);
 						c.getEquipment().setLeggings( ((ItemStack)object) );
 						player.closeInventory();
 						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
@@ -291,7 +291,7 @@ public class PetSetting extends InventoryBase{
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					if(object instanceof ItemStack){
-						Creature c = manager.GetPet(player);
+						Creature c = (Creature)manager.GetPet(player);
 						c.getEquipment().setBoots( ((ItemStack)object) );
 						player.closeInventory();
 						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
@@ -324,7 +324,7 @@ public class PetSetting extends InventoryBase{
 											player.sendMessage(Text.PREFIX.getText()+"§cDas ist keine ID!");
 											return;
 										}
-										manager.GetPet(player).getEquipment().setItemInHand( new ItemStack(m) );;
+										((Creature)manager.GetPet(player)).getEquipment().setItemInHand( new ItemStack(m) );;
 									}catch(NumberFormatException e){
 										player.sendMessage(Text.PREFIX.getText()+"§cDas ist keine ID!");
 									}

@@ -30,6 +30,7 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftAgeable;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.PigZombie;
@@ -39,6 +40,7 @@ import org.bukkit.entity.Horse.Variant;
 import org.bukkit.entity.Rabbit.Type;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Spider;
+import org.bukkit.entity.Squid;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
@@ -47,6 +49,9 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 public class PetShop extends InventoryBase{
 
@@ -78,12 +83,14 @@ public class PetShop extends InventoryBase{
 		this.manager.getSetting_list().put(EntityType.SPIDER, new PetSetting(manager,EntityType.SPIDER,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 59), "§aSpider")));
 		this.manager.getSetting_list().put(EntityType.HORSE, new PetSetting(manager,EntityType.HORSE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 100), "§aHorse")));
 		this.manager.getSetting_list().put(EntityType.RABBIT, new PetSetting(manager,EntityType.RABBIT,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 101), "§aRabbit")));
+		this.manager.getSetting_list().put(EntityType.SQUID, new PetSetting(manager,EntityType.SQUID,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 94), "§aSquid")));
 		
 		
 		getMain().addButton(14, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_OCELOT)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Ocelot", EntityType.OCELOT, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
@@ -104,6 +111,7 @@ public class PetShop extends InventoryBase{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_ZOMBIE)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Zombie", EntityType.ZOMBIE, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
@@ -124,6 +132,7 @@ public class PetShop extends InventoryBase{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_COW)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Cow", EntityType.COW, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
@@ -144,6 +153,7 @@ public class PetShop extends InventoryBase{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_IRON_GOLEM)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "IronGolem", EntityType.IRON_GOLEM, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
@@ -164,6 +174,7 @@ public class PetShop extends InventoryBase{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_WOLF)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Wolf", EntityType.WOLF, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
@@ -185,6 +196,7 @@ public class PetShop extends InventoryBase{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_PIG)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Pig", EntityType.PIG, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
@@ -206,6 +218,7 @@ public class PetShop extends InventoryBase{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_SHEEP)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Schaf", EntityType.SHEEP, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
@@ -227,6 +240,7 @@ public class PetShop extends InventoryBase{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_CREEPER)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Creeper", EntityType.CREEPER, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					player.sendMessage(Text.PREFIX.getText()+Text.PREMIUM_PET.getText());
@@ -240,6 +254,7 @@ public class PetShop extends InventoryBase{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_SPIDER)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Spider", EntityType.SPIDER, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
@@ -260,6 +275,7 @@ public class PetShop extends InventoryBase{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_HORSE)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Horse", EntityType.HORSE, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
@@ -280,6 +296,7 @@ public class PetShop extends InventoryBase{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(permManager.hasPermission(player, kPermission.PET_RABBIT)||permManager.hasPermission(player, kPermission.PET_ALL)){
 					manager.AddPetOwner(player, "Rabbit", EntityType.RABBIT, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
 					InventoryBuy buy = new InventoryBuy(new Click(){
@@ -296,11 +313,36 @@ public class PetShop extends InventoryBase{
 			
 		}, Material.MONSTER_EGG,101, "§aRabbit", new String[]{"§6Kaufbares-Pet","§eCoins: 8000"}));
 		
+		getMain().addButton(23, new SalesPackageBase(new Click(){
+			public void onClick(Player player, ActionType type,Object object) {
+				if(permManager.hasPermission(player, kPermission.PET_SQUID)||permManager.hasPermission(player, kPermission.PET_ALL)){
+					manager.AddPetOwner(player, "Squid", EntityType.OCELOT, player.getLocation());
+					manager.GetPet(player).setCustomName("Squid");
+					((Creature)manager.GetPet(player)).addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,100000*20, 2));
+					manager.GetPet(player).setPassenger( player.getLocation().getWorld().spawnEntity(player.getLocation(), EntityType.SQUID) );
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					player.closeInventory();
+				}else{
+					InventoryBuy buy = new InventoryBuy(new Click(){
+					@Override
+					public void onClick(Player player, ActionType type,Object object) {
+						permManager.addPermission(player, kPermission.PET_SQUID);
+					}
+					
+				},"Kaufen",coins,8000);
+				player.openInventory(buy);
+				addAnother(buy);
+				}
+			}
+			
+		}, Material.MONSTER_EGG,94, "§aSquid", new String[]{"§6Kaufbares-Pet","§eCoins: 8000"}));
+		
 		getMain().fill(Material.STAINED_GLASS_PANE,(byte)7);
 	}
 	
-	public String toString(Creature c){
-		String sql = "ENTITYTYPE:"+c.getType().name()+"-/-CUSTOMNAME:"+c.getCustomName()+"-/-";
+	public String toString(Entity c){
+		
+		String sql = "ENTITYTYPE:"+(c.getPassenger()!=null&&c.getPassenger().getType()!=EntityType.PLAYER ? c.getPassenger().getType().name() : c.getType().name())+"-/-CUSTOMNAME:"+c.getCustomName()+"-/-";
 		
 		if(c instanceof CraftAgeable){
 			CraftAgeable ca = (CraftAgeable)c;
@@ -315,8 +357,8 @@ public class PetShop extends InventoryBase{
 			Sheep s = (Sheep)c;
 			sql=sql+"SHEEP:"+s.getColor().name()+"-/-";
 		}else if(c instanceof Zombie||c instanceof PigZombie){
-			sql=sql+"EQUIP:"+UtilInv.itemStackArrayToBase64(c.getEquipment().getArmorContents())+"-/-";
-			sql=sql+"ITEM:"+c.getEquipment().getItemInHand().getTypeId()+"-/-";
+			sql=sql+"EQUIP:"+UtilInv.itemStackArrayToBase64(((Creature)c).getEquipment().getArmorContents())+"-/-";
+			sql=sql+"ITEM:"+((Creature)c).getEquipment().getItemInHand().getTypeId()+"-/-";
 		}else if(c instanceof Wolf){
 			sql=sql+"ANGRY:"+((Wolf)c).isAngry()+"-/-";
 		}else if(c instanceof Creeper){
@@ -338,7 +380,7 @@ public class PetShop extends InventoryBase{
 	
 	public void InsertPetSettings(Player player){
 		if(manager.getActivePetOwners().containsKey(player.getName().toLowerCase())){
-			Creature c = manager.getActivePetOwners().get(player.getName().toLowerCase());
+			Entity c = manager.getActivePetOwners().get(player.getName().toLowerCase());
 			getPermManager().getMysql().Update("INSERT INTO list_pet (uuid,pet) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+toString(c)+"');");
 		}
 	}
@@ -356,6 +398,7 @@ public class PetShop extends InventoryBase{
 		case PIG: return kPermission.PET_PIG;
 		case PIG_ZOMBIE: return kPermission.PET_PIGZOMBIE;
 		case SPIDER: return kPermission.PET_SPIDER;
+		case SQUID: return kPermission.PET_SQUID;
 		default:
 			return kPermission.NONE;
 		}
@@ -371,8 +414,14 @@ public class PetShop extends InventoryBase{
 			int a = 1;
 			String[] split = sql.split("-/-");
 			if(permManager.hasPermission(player, getPerm(EntityType.valueOf( split[0].split(":")[1] ))) || permManager.hasPermission(player, kPermission.PET_ALL)){
-				getManager().AddPetOwner(player, split[a].split(":")[1], EntityType.valueOf( split[0].split(":")[1] ), player.getLocation());
-			Creature c = getManager().getActivePetOwners().get(player.getName().toLowerCase());
+				getManager().AddPetOwner(player, split[a].split(":")[1], ( EntityType.valueOf( split[0].split(":")[1] )==EntityType.SQUID ? EntityType.OCELOT : EntityType.valueOf( split[0].split(":")[1] ) ) , player.getLocation());
+				Entity c = getManager().getActivePetOwners().get(player.getName().toLowerCase());
+			
+			if(EntityType.valueOf( split[0].split(":")[1] ) == EntityType.SQUID){
+				((Creature)manager.GetPet(player)).addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,100000*20, 2));
+				c=player.getLocation().getWorld().spawnEntity(player.getLocation(), EntityType.SQUID);
+				manager.GetPet(player).setPassenger( c );
+			}
 			
 			if(c instanceof CraftAgeable){
 				CraftAgeable ca = (CraftAgeable)c;
@@ -395,13 +444,13 @@ public class PetShop extends InventoryBase{
 			}else if(c instanceof Zombie||c instanceof PigZombie){
 				a++;
 				try {
-					if(split[a]!=null)c.getEquipment().setArmorContents( UtilInv.itemStackArrayFromBase64(split[a].split(":")[1]) );
+					if(split[a]!=null)((Creature)c).getEquipment().setArmorContents( UtilInv.itemStackArrayFromBase64(split[a].split(":")[1]) );
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				a++;
 				try {
-					if(split[a]!=null)c.getEquipment().setItemInHand( new ItemStack( Integer.valueOf(split[a].split(":")[1]) ) );
+					if(split[a]!=null)((Creature)c).getEquipment().setItemInHand( new ItemStack( Integer.valueOf(split[a].split(":")[1]) ) );
 				} catch (NumberFormatException e) {
 				a--;
 				}
@@ -431,7 +480,7 @@ public class PetShop extends InventoryBase{
 		}
 	}
 	
-	Creature c;
+	Entity c;
 	@EventHandler
 	public void Ve(VehicleEnterEvent ev){
 		if(ev.getVehicle() instanceof Horse&&ev.getEntered() instanceof Player){

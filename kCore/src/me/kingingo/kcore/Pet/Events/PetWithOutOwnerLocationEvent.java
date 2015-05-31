@@ -1,9 +1,10 @@
-package me.kingingo.kcore.Pet.Event;
+package me.kingingo.kcore.Pet.Events;
 
 import lombok.Getter;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

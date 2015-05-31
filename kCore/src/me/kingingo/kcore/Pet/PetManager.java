@@ -7,9 +7,9 @@ import lombok.Setter;
 import me.kingingo.kcore.Pet.Setting.PetSetting;
 import me.kingingo.kcore.Pet.Shop.PetShop;
 import me.kingingo.kcore.Pet.Events.PetCreateEvent;
+import me.kingingo.kcore.Pet.Events.PetWithOutOwnerLocationEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
-import me.kingingo.kcore.Pet.Event.PetWithOutOwnerLocationEvent;
 import net.minecraft.server.v1_8_R2.EntityCreature;
 import net.minecraft.server.v1_8_R2.EntityHuman;
 import net.minecraft.server.v1_8_R2.EntityInsentient;
@@ -90,6 +90,9 @@ public class PetManager implements Listener{
 	    if (this.activePetOwners.containsKey(player.getName().toLowerCase()))
 	    {
 	      org.bukkit.entity.Creature pet = (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase());
+	      if(pet.getPassenger()!=null&&pet.getPassenger().getType() != EntityType.PLAYER){
+	    	  pet.getPassenger().remove();
+	      }
 	      pet.remove();
 
 	      if (removeOwner)
@@ -191,6 +194,7 @@ public class PetManager implements Listener{
 	  }
 	  
 	  Player owner;
+	  Entity passenger;
 	  Creature pet;
 	  EntityCreature ec;
 	  NavigationAbstract nav;
@@ -240,7 +244,17 @@ public class PetManager implements Listener{
 	 	        }
 	 	        
 	 	       if (((Integer)this.failedAttempts.get(playerName)).intValue() > 4){
-		          pet.teleport(owner);
+	 	    	  if(pet.getPassenger() != null){
+		        	  passenger = pet.getPassenger();
+		        	  passenger.leaveVehicle();
+		        	  
+		        	  passenger.teleport(owner);
+		        	  pet.teleport(owner);
+		        	  pet.setPassenger(passenger);
+		          }else{
+		        	  pet.teleport(owner);
+		          }
+	 	    	  
 		          this.failedAttempts.put(playerName, Integer.valueOf(0));
 	 	      }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.2D)){
 		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>distance){
@@ -309,7 +323,17 @@ public class PetManager implements Listener{
 		        }
 		        
 		        if (((Integer)this.failedAttemptsToLocation.get(pet)).intValue() > 6){
-		          pet.teleport(ownerSpot);
+		          if(pet.getPassenger() != null){
+		        	  passenger = pet.getPassenger();
+		        	  passenger.leaveVehicle();
+		        	  
+		        	  passenger.teleport(ownerSpot);
+		        	  pet.teleport(ownerSpot);
+		        	  pet.setPassenger(passenger);
+		          }else{
+		        	  pet.teleport(ownerSpot);
+		          }
+		          
 		          Bukkit.getPluginManager().callEvent(new PetWithOutOwnerLocationEvent(pet,ownerSpot));
 		          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
 		        }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.2D)){
@@ -340,8 +364,10 @@ public class PetManager implements Listener{
 			 if(getActivePetOwners().containsKey(ev.getPlayer().getName().toLowerCase())){
 				c=getActivePetOwners().get(ev.getPlayer().getName().toLowerCase());
 				if(c.getEntityId()==ev.getRightClicked().getEntityId()){
-					if(getSetting_list().containsKey(c.getType())){
-						ev.getPlayer().openInventory( getSetting_list().get(c.getType()).getMain() );
+					if(c.getPassenger() == null){
+						if(getSetting_list().containsKey(c.getType())){
+							ev.getPlayer().openInventory( getSetting_list().get(c.getType()).getMain() );
+						}
 					}
 				}
 			 }else if(ev.getRightClicked() instanceof Horse){

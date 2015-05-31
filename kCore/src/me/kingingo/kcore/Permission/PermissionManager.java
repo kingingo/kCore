@@ -1,6 +1,5 @@
 package me.kingingo.kcore.Permission;
 
-import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
+import me.kingingo.kcore.Util.Color;
 import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilScoreboard;
