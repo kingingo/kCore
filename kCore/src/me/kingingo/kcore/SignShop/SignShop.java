@@ -5,12 +5,14 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.PlayerStats.Stats;
-import me.kingingo.kcore.PlayerStats.StatsManager;
+import me.kingingo.kcore.SignShop.Events.SignShopUseEvent;
+import me.kingingo.kcore.StatsManager.Stats;
+import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -47,9 +49,12 @@ public class SignShop extends kListener{
 	@EventHandler
 	public void onSign (SignChangeEvent ev){
 		Player p = ev.getPlayer();
-		if(ev.getLine(0).equalsIgnoreCase("[shop]")){
+		if(ev.getLine(0).toLowerCase().contains("[shop]")){
 			if(!p.isOp()){
-				ev.setCancelled(true);
+				ev.setLine(0, "Nö!");
+				ev.setLine(1, "Nö!");
+				ev.setLine(2, "Nö!");
+				ev.setLine(3, "Nö!");
 				return;
 			}
 			ev.setLine(0, ChatColor.AQUA + "[Shop]");
@@ -231,10 +236,14 @@ public class SignShop extends kListener{
 		//KaufPreis:VerkaufPreis
 		//anzahl
 		//ID:ZAHL
+		Player p;
+		Sign sign;
+		Action a;
+		SignShopUseEvent event;
 		@EventHandler(priority=EventPriority.LOWEST)
 		public void onInteract(PlayerInteractEvent ev){
-			Player p = ev.getPlayer();
-			Action a = ev.getAction();
+			p = ev.getPlayer();
+			a = ev.getAction();
 			
 			if(Action.RIGHT_CLICK_BLOCK == a && Action.LEFT_CLICK_BLOCK == a){
 				ev.setCancelled(true);
@@ -244,9 +253,13 @@ public class SignShop extends kListener{
 				
 				if(ev.getClickedBlock().getState() instanceof Sign){
 					
-	                Sign sign = (Sign) ev.getClickedBlock().getState();
+	                sign = (Sign) ev.getClickedBlock().getState();
 	                
-	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")){
+	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")){	
+	    				event = new SignShopUseEvent(sign, p, ev);
+	    				Bukkit.getPluginManager().callEvent(event);
+	    				if(event.isCancelled())return;
+	                	
 	                	ev.setCancelled(true);
 	                	if(shop.containsKey(p)){
 	                		
@@ -336,11 +349,12 @@ public class SignShop extends kListener{
 				
 				if(ev.getClickedBlock().getState() instanceof Sign){
 					
-					
-					
-	                Sign sign = (Sign) ev.getClickedBlock().getState();
+	                sign = (Sign) ev.getClickedBlock().getState();
 	                
 	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")){
+	                	event = new SignShopUseEvent(sign, p, ev);
+	    				Bukkit.getPluginManager().callEvent(event);
+	    				if(event.isCancelled())return;
 	                	ev.setCancelled(true);
 	            
 	                	

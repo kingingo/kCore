@@ -6,8 +6,8 @@ import java.util.HashMap;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.PlayerStats.Stats;
-import me.kingingo.kcore.PlayerStats.StatsManager;
+import me.kingingo.kcore.StatsManager.Stats;
+import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilPlayer;
 

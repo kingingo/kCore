@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Enum;
 
 import lombok.Getter;
-import me.kingingo.kcore.PlayerStats.Stats;
+import me.kingingo.kcore.StatsManager.Stats;
 
 public enum GameType {
 ONE_VS_ONE("1VS1","1VS1",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),

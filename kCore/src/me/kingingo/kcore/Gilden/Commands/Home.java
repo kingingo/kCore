@@ -8,7 +8,7 @@ import me.kingingo.kcore.Gilden.GildenType;
 import me.kingingo.kcore.Gilden.SkyBlockGildenManager;
 import me.kingingo.kcore.Gilden.Events.GildenPlayerTeleportEvent;
 import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.PlayerStats.Stats;
+import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilPlayer;
 

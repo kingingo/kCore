@@ -9,8 +9,8 @@ import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.Events.GildenPlayerTeleportEvent;
 import me.kingingo.kcore.MySQL.MySQL;
-import me.kingingo.kcore.PlayerStats.Stats;
-import me.kingingo.kcore.PlayerStats.StatsManager;
+import me.kingingo.kcore.StatsManager.Stats;
+import me.kingingo.kcore.StatsManager.StatsManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

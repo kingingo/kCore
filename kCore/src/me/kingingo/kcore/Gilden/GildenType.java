@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Gilden;
 
 import lombok.Getter;
-import me.kingingo.kcore.PlayerStats.Stats;
+import me.kingingo.kcore.StatsManager.Stats;
 
 public enum GildenType {
 PVP("PvP-Server","PvP",new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.LOC_X,Stats.LOC_Y,Stats.LOC_Z,Stats.WORLD}),

@@ -1,4 +1,4 @@
-package me.kingingo.kcore.PlayerStats;
+package me.kingingo.kcore.StatsManager;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
@@ -10,8 +10,8 @@ import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
-import me.kingingo.kcore.PlayerStats.Event.PlayerStatsChangeEvent;
-import me.kingingo.kcore.PlayerStats.Event.PlayerStatsCreateEvent;
+import me.kingingo.kcore.StatsManager.Event.PlayerStatsChangeEvent;
+import me.kingingo.kcore.StatsManager.Event.PlayerStatsCreateEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilNumber;

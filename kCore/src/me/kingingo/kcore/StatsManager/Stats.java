@@ -1,4 +1,4 @@
-package me.kingingo.kcore.PlayerStats;
+package me.kingingo.kcore.StatsManager;
 
 import lombok.Getter;
 

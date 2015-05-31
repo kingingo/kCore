@@ -1,8 +1,8 @@
-package me.kingingo.kcore.PlayerStats.Event;
+package me.kingingo.kcore.StatsManager.Event;
 
 import lombok.Getter;
-import me.kingingo.kcore.PlayerStats.Stats;
-import me.kingingo.kcore.PlayerStats.StatsManager;
+import me.kingingo.kcore.StatsManager.Stats;
+import me.kingingo.kcore.StatsManager.StatsManager;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
