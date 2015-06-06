@@ -91,7 +91,9 @@ public class PetManager implements Listener{
 	    {
 	      org.bukkit.entity.Creature pet = (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase());
 	      if(pet.getPassenger()!=null&&pet.getPassenger().getType() != EntityType.PLAYER){
-	    	  pet.getPassenger().remove();
+	    	  Entity e = pet.getPassenger();
+	    	  e.leaveVehicle();
+	    	  e.remove();
 	      }
 	      pet.remove();
 
@@ -127,7 +129,8 @@ public class PetManager implements Listener{
 	  {
 	    if (this.activePetOwners.containsKey(player.getName().toLowerCase()))
 	    {
-	      if (((org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase())).getType() != entityType)
+	      if (((org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase())).getType() != entityType ||
+	    		  (((org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase())).getPassenger()!=null&& ((org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase())).getPassenger().getType() != entityType) )
 	      {
 	        RemovePet(player, true);
 	      }else {

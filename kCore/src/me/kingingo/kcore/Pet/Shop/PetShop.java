@@ -11,6 +11,7 @@ import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.SalesPackageBase;
+import me.kingingo.kcore.NPC.NPCManager;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Pet.PetManager;
@@ -32,6 +33,7 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
@@ -39,6 +41,7 @@ import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Horse.Variant;
 import org.bukkit.entity.Rabbit.Type;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Slime;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Wolf;
@@ -62,6 +65,7 @@ public class PetShop extends InventoryBase{
 	@Getter
 	private ArrayList<Player> change_settings = new ArrayList<>();
 	private HashMap<UUID,String> settings = new HashMap<>();
+//	private NPCManager npc;
 	
 	public PetShop(final PetManager manager,final PermissionManager permManager,final Coins coins){
 		super(manager.getInstance(),36,"Pet-Shop");
@@ -69,7 +73,7 @@ public class PetShop extends InventoryBase{
 		this.permManager=permManager;
 		this.manager.setShop(this);
 		this.manager.setSetting(true);
-		
+//		this.npc=new NPCManager(permManager.getInstance());
 		this.permManager.getMysql().Update("CREATE TABLE IF NOT EXISTS list_pet(uuid varchar(100),pet varchar(100))");
 		
 		this.manager.getSetting_list().put(EntityType.IRON_GOLEM, new PetSetting(manager,EntityType.IRON_GOLEM,UtilItem.RenameItem(new ItemStack(Material.IRON_BLOCK), "§aIronGolem")));
@@ -84,7 +88,8 @@ public class PetShop extends InventoryBase{
 		this.manager.getSetting_list().put(EntityType.HORSE, new PetSetting(manager,EntityType.HORSE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 100), "§aHorse")));
 		this.manager.getSetting_list().put(EntityType.RABBIT, new PetSetting(manager,EntityType.RABBIT,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 101), "§aRabbit")));
 		this.manager.getSetting_list().put(EntityType.SQUID, new PetSetting(manager,EntityType.SQUID,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 94), "§aSquid")));
-		
+		this.manager.getSetting_list().put(EntityType.BLAZE, new PetSetting(manager,EntityType.BLAZE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 61), "§aBlaze")));
+		//this.manager.getSetting_list().put(EntityType.PLAYER, new PetSetting(manager,EntityType.PLAYER,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 1), "§aPlayer")));
 		
 		getMain().addButton(14, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -337,6 +342,28 @@ public class PetShop extends InventoryBase{
 			
 		}, Material.MONSTER_EGG,94, "§aSquid", new String[]{"§6Kaufbares-Pet","§eCoins: 8000"}));
 		
+		getMain().addButton(24, new SalesPackageBase(new Click(){
+			public void onClick(Player player, ActionType type,Object object) {
+				if(permManager.hasPermission(player, kPermission.PET_BLAZE)||permManager.hasPermission(player, kPermission.PET_ALL)){
+					manager.AddPetOwner(player, "Blaze", EntityType.BLAZE, player.getLocation());
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					player.closeInventory();
+				}
+			}
+			
+		}, Material.MONSTER_EGG,61, "§aBlaze", new String[]{"§cNicht Kaufbar"}));
+		
+//		getMain().addButton(25, new SalesPackageBase(new Click(){
+//			public void onClick(Player player, ActionType type,Object object) {
+//				if(permManager.hasPermission(player, kPermission.PET_PLAYER)||permManager.hasPermission(player, kPermission.PET_ALL)){
+//					npc.createNPCWithOwner(player,"ManiiLP");
+//					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+//					player.closeInventory();
+//				}
+//			}
+//			
+//		}, Material.MONSTER_EGG,120, "§aPlayer", new String[]{"§cNicht Kaufbar"}));
+		
 		getMain().fill(Material.STAINED_GLASS_PANE,(byte)7);
 	}
 	
@@ -363,6 +390,8 @@ public class PetShop extends InventoryBase{
 			sql=sql+"ANGRY:"+((Wolf)c).isAngry()+"-/-";
 		}else if(c instanceof Creeper){
 			sql=sql+"POWERED:"+((Creeper)c).isPowered()+"-/-";
+		}else if(c instanceof Slime){
+			sql=sql+"SLIME_SIZE:"+((Slime)c).getSize()+"-/-";
 		}else if(c instanceof Rabbit){
 			sql=sql+"RABBITTYPE:"+((Rabbit)c).getRabbitType().name()+"-/-";
 		}else if(c instanceof Horse){
@@ -460,6 +489,9 @@ public class PetShop extends InventoryBase{
 			}else if(c instanceof Creeper){
 				a++;
 				if(split[a]!=null)((Creeper)c).setPowered( Boolean.valueOf( split[a].split(":")[1] ) );
+			}else if(c instanceof Slime){
+				a++;
+				if(split[a]!=null)((Slime)c).setSize( Integer.valueOf(String.valueOf( split[a].split(":")[1]) ) );
 			}else if(c instanceof Rabbit){
 				a++;
 				if(split[a]!=null)((Rabbit)c).setRabbitType( Type.valueOf( String.valueOf( split[a].split(":")[1] ) ) );

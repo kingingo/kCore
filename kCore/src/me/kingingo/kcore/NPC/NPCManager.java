@@ -6,15 +6,16 @@ import lombok.Getter;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
 import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
-import me.kingingo.kcore.PacketAPI.packetlistener.handler.PacketHandler;
-import me.kingingo.kcore.PacketAPI.packetlistener.handler.ReceivedPacket;
-import me.kingingo.kcore.PacketAPI.packetlistener.handler.SentPacket;
 import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayInUseEntity;
+import me.kingingo.kcore.Update.UpdateType;
+import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
 import net.minecraft.server.v1_8_R2.PacketPlayInUseEntity;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -27,58 +28,11 @@ public class NPCManager implements Listener {
 	@Getter
 	private JavaPlugin instance;
 	private kPacketListener listener;
+	private HashMap<NPC,Player> owner;
 	
 	public NPCManager(JavaPlugin instance){
 		this.instance=instance;
 		this.listener=new kPacketListener(instance);
-//		
-//		this.listener.addPacketHandler(new PacketHandler() {
-//			
-//			@Override
-//			public void onSend(SentPacket packet) {
-//				
-//			}
-//			
-//			@Override
-//			public void onReceive(ReceivedPacket packet) {
-//				if(packet.getPacket() instanceof PacketPlayInUseEntity){
-//					 try {
-//			                kPacketPlayInUseEntity use = new kPacketPlayInUseEntity(packet.getPacket());
-//			                System.out.println("E: "+use.getEntityID()+ " "+packet.getPlayername());
-//			                if(NPCList.containsKey(use.getEntityID())){
-//			                	packet.setCancelled(true);
-//				                System.out.println("E1: "+use.getEntityID()+ " "+packet.getPlayername());
-//			                	PlayerInteractNPCEvent ev = new PlayerInteractNPCEvent(packet.getPlayer(),getNPCList().get( use.getEntityID() ));
-//			                	Bukkit.getPluginManager().callEvent(ev);
-//			                }
-//			            } catch (Exception e){
-//			            	System.err.println("[NPCManager] Error: "+e.getMessage());
-//			            }
-//				}
-//			}
-//			
-//		});
-		
-//		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(getInstance(), ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY){
-//		    public void onPacketReceiving(PacketEvent event){
-//		        if(event.getPacketType() == PacketType.Play.Client.USE_ENTITY){
-//		            Player player = event.getPlayer();
-//		            try {
-//		                WrapperPlayClientUseEntity packet = new WrapperPlayClientUseEntity(event.getPacket());
-//		                if(NPCList.containsKey(packet.getTargetID())){
-//		                	PlayerInteractNPCEvent ev = new PlayerInteractNPCEvent(player,getNPCList().get( packet.getTargetID() ));
-//		                	Bukkit.getPluginManager().callEvent(ev);
-//		                	event.setCancelled(true);
-//		                }
-//		            } catch (Exception e){
-//		            	System.err.println("[NPCManager] Error: "+e.getMessage());
-//		            }
-//		        }
-//		    }
-//		});
-		
-		
-		
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
@@ -104,6 +58,74 @@ public class NPCManager implements Listener {
 		for(NPC npc : NPCList.values()){
 			UtilPlayer.sendPacket(ev.getPlayer(), npc.getSpawn_packet());
 		}
+	}
+	
+	NPC npc;
+	Location npcLoc;
+	Player player;
+	Location playerLoc;
+	int xDiff;
+	int yDiff;
+	int zDiff;
+	int xIndex;
+    int zIndex;
+    Block targetBlock;
+	@EventHandler
+	public void Move(UpdateEvent ev){
+		if(owner!=null&&!owner.isEmpty()&&ev.getType()==UpdateType.FASTER){
+			for(int i = 0 ; i<owner.size(); i++){
+				player=owner.get(i);
+				
+				if(player!=null&&player.isOnline()){
+					npc=((NPC)owner.keySet().toArray()[i]);
+					
+					npcLoc=npc.getLocation();
+			    	playerLoc=player.getLocation();
+			    	
+			    	xDiff = Math.abs(npcLoc.getBlockX() - playerLoc.getBlockX());
+			    	yDiff = Math.abs(npcLoc.getBlockY() - playerLoc.getBlockY());
+			    	zDiff = Math.abs(npcLoc.getBlockZ() - playerLoc.getBlockZ());
+			    	
+			    	if(xDiff+zDiff+yDiff > 4){
+			    		
+			    		
+			    		xIndex=-1;
+			    		zIndex=-1;
+			    		targetBlock = playerLoc.getBlock().getRelative(xIndex, -1, zIndex);
+			 	        while ((targetBlock.isEmpty()) || (targetBlock.isLiquid())){
+			 	          if (xIndex < 2) {
+			 	            xIndex++;
+			 	          } else if (zIndex < 2)
+			 	          {
+			 	            xIndex = -1;
+			 	            zIndex++;
+			 	          }
+			 	          else {
+			 	            return;
+			 	          }
+			 	          targetBlock = playerLoc.getBlock().getRelative(xIndex, -1, zIndex);
+			 	        }
+			 	        
+			 	       if ( npcLoc.distance(playerLoc)<8 ){
+			 	    	  npc.walk(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(),npcLoc.getYaw(),npcLoc.getPitch());
+				       }else{
+				    	   npc.teleport(playerLoc);
+				       }
+			    	}
+					
+				}else{
+					((NPC)owner.keySet().toArray()[i]).despawn();
+					owner.remove(i);
+				}
+			}
+		}
+	}
+	
+	public NPC createNPCWithOwner(Player player,String name){
+		if(owner==null)owner= new HashMap<>();
+		NPC npc = new NPC(this,name,player.getLocation());
+		owner.put(npc, player);
+		return npc;
 	}
 	
 	public NPC createNPC(String name,Location loc){

@@ -195,7 +195,7 @@ SKYBLOCK_PARTY_EINLADEN_INVITE("§aDu wurdest von §b%§a in seine Skyblock-Part
 SKYBLOCK_PARTY_EINLADEN_IS("§cDer Spieler§b % §cist bereits zur Party eingeladen."),
 SKYBLOCK_PARTY_ERSTELLT("§aDeine Skyblock-Party wurde erfolgreich erstellt!"),
 SKYBLOCK_PARTY_NO_OWNER("§cDu bist nicht der Owner einer Party."),
-SKYBLOCK_PARTY_EINLADEN("§aDu hast §b%§a zur Pary eingeladen."),
+SKYBLOCK_PARTY_EINLADEN("§aDu hast §b%§a zur Party eingeladen."),
 SKYBLOCK_PARTY_VERLASSEN("§cDu hast die Party verlassen."),
 SKYBLOCK_PARTY_KICKEN("§cDu hast §b%§c aus der Party gekickt."),
 SKYBLOCK_PARTY_SCHLIEßEN("§cDie Party wurde geschlossen."),

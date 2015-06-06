@@ -102,18 +102,22 @@ public class NPC {
    }
    
    public void walk(Location newLoc) {
-       walk(newLoc, getLocation().getYaw(), getLocation().getPitch());
+       walk(newLoc.getBlockX(),newLoc.getBlockY(),newLoc.getBlockZ(), getLocation().getYaw(), getLocation().getPitch());
+   }
+   
+   public void walk(Location newLoc,float yaw,float pitch) {
+	   walk(newLoc.getBlockX(),newLoc.getBlockY(),newLoc.getBlockZ(), yaw,pitch);
    }
 
    public byte getCompressedAngle(float value) {
 	   return (byte) ((value * 256.0F) / 360.0F);
    }
 
-   public void walk(Location newLoc, float yaw, float pitch) {
-	   byte x = (byte)((newLoc.getBlockX() - getLocation().getBlockX()) * 32);
-	   byte y = (byte)((newLoc.getBlockY() - getLocation().getBlockY()) * 32);
-	   byte z = (byte)((newLoc.getBlockZ() - getLocation().getBlockZ()) * 32);
-	   this.location.add((newLoc.getBlockX() - getLocation().getBlockX()), (newLoc.getBlockY() - getLocation().getBlockY()), (newLoc.getBlockZ() - getLocation().getBlockZ()));
+   public void walk(int xs ,int ys,int zs, float yaw, float pitch) {
+	   byte x = (byte)((xs - getLocation().getBlockX()) * 32);
+	   byte y = (byte)((ys - getLocation().getBlockY()) * 32);
+	   byte z = (byte)((zs - getLocation().getBlockZ()) * 32);
+	   this.location.add((xs - getLocation().getBlockX()), (ys - getLocation().getBlockY()), (zs - getLocation().getBlockZ()));
        kPacketPlayOutRelEntityMoveLook packet = new kPacketPlayOutRelEntityMoveLook(this.entityID,x,y,z,getCompressedAngle(yaw),getCompressedAngle(pitch),true);
 
        for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);

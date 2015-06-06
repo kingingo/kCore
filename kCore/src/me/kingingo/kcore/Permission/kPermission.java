@@ -182,15 +182,18 @@ PET_SNOWMAN("kpet.snowman"),
 PET_CREEPER("kpet.creeper"),
 PET_IRON_GOLEM("kpet.irongolem"),
 PET_PIG("kpet.pig"),
+PET_PLAYER("kpet.player"),
 PET_SPIDER("kpet.spider"),
 PET_PIGZOMBIE("kpet.pigzombie"),
 PET_WITHERSKULL("kpet.witherskull"),
+PET_SLIME("kpet.slime"),
 PET_WOLF("kpet.wolf"),
 PET_ZOMBIE("kpet.zombie"),
 PET_SHEEP("kpet.sheep"),
 PET_HORSE("kpet.horse"),
 PET_RABBIT("kpet.rabbit"),
 PET_SQUID("kpet.squid"),
+PET_GUARDIAN("kpet.guardian"),
 PET_OCELOT("kpet.ocelot");
 //PETS
 

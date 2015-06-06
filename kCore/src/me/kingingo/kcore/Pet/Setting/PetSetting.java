@@ -24,11 +24,13 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.MushroomCow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Slime;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
@@ -104,6 +106,46 @@ public class PetSetting extends InventoryBase{
 					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 				}
 			},Material.WOOL,"§aFarbe Ändern"));
+		}else if(type==EntityType.SLIME){
+			
+			final InventoryChoose inv_typ=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Slime c = (Slime)manager.GetPet(player);
+						c.setSize( Integer.valueOf(((ItemStack)object).getItemMeta().getDisplayName()) );
+						player.closeInventory();
+						if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+					}
+				}
+			},"Size Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "0"),UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "1"),UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "2"),UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "3")});
+			addPage(inv_typ);
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					player.closeInventory();
+					player.openInventory(inv_typ);
+				}
+			},Material.HAY_BLOCK,"Size Ändern"));
+			
+		}else if(type==EntityType.GUARDIAN){
+			
+			button++;
+			getMain().addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					Guardian w = (Guardian)manager.GetPet(player);
+					player.closeInventory();
+					if(w.isElder()){
+						w.setElder(false);
+					}else{
+						w.setElder(true);
+					}
+					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
+				}
+			},Material.FISHING_ROD,"§aElder An/Aus"));
 		}else if(type==EntityType.CREEPER){
 			
 			button++;
