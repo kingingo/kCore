@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Listener.Chat;
 
 import lombok.Getter;
+import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
@@ -36,6 +38,13 @@ public class ChatListener extends kListener{
 		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null)pex=PermissionsEx.getPermissionManager();
 	}
 	
+	@EventHandler
+	public void Command(PlayerCommandPreprocessEvent ev){
+		if(ev.getMessage().contains("/minecraft:")){
+			
+		}
+	}
+	
 	String g;
 	String tag;
 	Player p;
@@ -45,13 +54,13 @@ public class ChatListener extends kListener{
 		if (!event.isCancelled()) {
 			p = event.getPlayer();
 			 msg = event.getMessage();
-			if((!p.hasPermission(kPermission.CHAT_LINK.getPermissionToString()))&&
-					(msg.toLowerCase().contains("minioncraft")||
-							msg.toLowerCase().contains("mastercraft")||
-							UtilString.checkForIP(msg))){
-				event.setCancelled(true);
-				return;
+
+			 if((!p.hasPermission(kPermission.CHAT_LINK.getPermissionToString()))&&UtilString.isBadWord(msg)||UtilString.checkForIP(msg)){
+					event.getPlayer().sendMessage(Text.PREFIX.getText()+Text.CHAT_MESSAGE_BLOCK.getText());
+					event.setCancelled(true);
+					return;
 			}
+			 
 			msg=msg.replaceAll("%","");
 			if(p.hasPermission(kPermission.CHAT_FARBIG.getPermissionToString())){
 				msg=msg.replaceAll("&", "§");

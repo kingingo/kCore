@@ -11,32 +11,32 @@ public ItemStack[] inv;
 
 public ItemStack[] toItemArray(){
 	ItemStack[] items = new ItemStack[inv.length+4];
-	items[0]=helm;
-	items[1]=chestplate;
-	items[2]=leggings;
-	items[3]=boots;
-	
-	int i=4;
+	int i=0;
 	for(ItemStack item : inv){
 		items[i]=item;
 		i++;
 	}
+	
+	items[i]=helm;
+	items[i+1]=chestplate;
+	items[i+2]=leggings;
+	items[i+3]=boots;
 	return items;
 }
 
-public void fromItemArray(ItemStack[] items){
-	helm=items[0];
-	helm=items[1];
-	helm=items[2];
-	helm=items[3];
-	
+public VersusKit fromItemArray(ItemStack[] items){
 	inv = new ItemStack[items.length-4];
-	
-	int i = 4;
-	for(ItemStack item : items){
-		inv[i]=item;
+	int i = 0;
+	for(int e = 0; e < items.length-4; e++){
+		inv[i]=items[e];
 		i++;
 	}
+	
+	helm=items[i];
+	chestplate=items[i+1];
+	leggings=items[i+2];
+	boots=items[i+3];
+	return this;
 }
 
 }

@@ -113,9 +113,7 @@ public class ItemFakeManager implements Listener {
 	public void Remove(ItemFakeDestroyEvent ev){
 		list.remove(ev.getItemfake());
 		if(itemfake.containsKey(ev.getItemfake())){
-//			for(Player p : itemfake.get(ev.getItemfake()).keySet()){
-//				itemfake.get(ev.getItemfake()).get(p).clear(p);
-//			}
+			for(Player player : itemfake.get(ev.getItemfake()).keySet())itemfake.get(ev.getItemfake()).get(player).clear(player);
 			itemfake.remove(ev.getItemfake());
 		}
 	}

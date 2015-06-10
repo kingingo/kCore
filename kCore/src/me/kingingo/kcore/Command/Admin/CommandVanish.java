@@ -34,10 +34,10 @@ public class CommandVanish extends kListener implements CommandExecutor{
 			if(args.length==0){
 				if(invisible.contains(player)){
 					visible(player);
-					player.sendMessage(Text.PREFIX.getText()+Text.VANISH_AUS);
+					player.sendMessage(Text.PREFIX.getText()+Text.VANISH_AUS.getText());
 				}else{
 					invisible(player);
-					player.sendMessage(Text.PREFIX.getText()+Text.VANISH_AN);
+					player.sendMessage(Text.PREFIX.getText()+Text.VANISH_AN.getText());
 				}
 			}
 		}

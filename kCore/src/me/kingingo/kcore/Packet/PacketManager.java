@@ -3,6 +3,7 @@ package me.kingingo.kcore.Packet;
 import lombok.Getter;
 import me.kingingo.kcore.Client.Client;
 import me.kingingo.kcore.Packet.Events.PacketSendEvent;
+import me.kingingo.kcore.Packet.Packets.ARENA_STATUS;
 import me.kingingo.kcore.Packet.Packets.BROADCAST;
 import me.kingingo.kcore.Packet.Packets.HUB_ONLINE;
 import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
@@ -86,6 +87,8 @@ public class PacketManager {
 			return new SERVER_RESET(packet.split("-/-"));
 		}else if(packet.contains("VERSUS_SETTINGS")){
 			return new VERSUS_SETTINGS(packet.split("-/-"));
+		}else if(packet.contains("ARENA_STATUS")){
+			return new ARENA_STATUS(packet.split("-/-"));
 		}
 	 return null;
 	}

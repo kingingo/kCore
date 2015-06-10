@@ -3,6 +3,10 @@ package me.kingingo.kcore.StatsManager;
 import lombok.Getter;
 
 public enum Stats {
+KIT_RANDOM("kit_random varchar(30)","kit_random","Kit-Egal",true),
+KIT("kit varchar(1000)","kit","Kit",true),
+TEAM_MIN("team_min int","team_min","TeamMin",true),
+TEAM_MAX("team_max int","team_max","TeamMax",true),
 WORLD("world varchar(30)","world","World",true),
 LOC_X("x double","x","X",true),
 LOC_Y("y double","y","Y",true),

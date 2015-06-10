@@ -11,6 +11,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -25,6 +26,107 @@ public class UtilItem {
 			item.addEnchantment(en, lvl);
 		}
 		return item;
+	}
+	
+	public static ItemStack[] setArmorColor(ItemStack[] armor,Color color){
+		if(armor[0]==null||armor[0].getType()!=Material.LEATHER_HELMET){
+			armor[0]=UtilItem.LSetColor(new ItemStack(Material.LEATHER_HELMET), color);
+			armor[1]=UtilItem.LSetColor(new ItemStack(Material.LEATHER_CHESTPLATE), color);
+			armor[2]=UtilItem.LSetColor(new ItemStack(Material.LEATHER_LEGGINGS), color);
+			armor[3]=UtilItem.LSetColor(new ItemStack(Material.LEATHER_BOOTS), color);
+		}else{
+			armor[0]=UtilItem.LSetColor(armor[0], color);
+			armor[1]=UtilItem.LSetColor(armor[1], color);
+			armor[2]=UtilItem.LSetColor(armor[2], color);
+			armor[3]=UtilItem.LSetColor(armor[3], color);
+		}
+		return armor;
+	}
+	
+	public static ItemStack[] colorRunArmor(ItemStack[] armor,Color[] colors){
+		//WENN KEINE ARMOR GESETZT IST!
+		if(armor[0]==null||armor[0].getType()!=Material.LEATHER_HELMET)setArmorColor(armor,colors[0]);
+		
+		for(int i = 0; i<armor.length; i++){
+			//SUCHT DAS LETZTE RÜSTUNGSTEIL
+			if( ((LeatherArmorMeta)armor[i].getItemMeta()).getColor().equals(colors[0]) ){
+				//SETZT DIE AMOR WIEDER AUF COLOR[0]
+				setArmorColor(armor,colors[0]);
+				//SETZT DAS NÄCHSTE AMOR TEIL AUF COLOR[1]
+				armor[ (i==3 ? 0 : (i+1)) ]=LSetColor(armor[ (i==3 ? 0 : (i+1)) ], colors[1] );
+				break;
+			}
+		}
+		colors[0]=colors[1];
+		//COLOR[1] == SETZT DEN NÄCHSTEN COLOR CODE EIN!
+		colors[1]=nextColor( colors[0] );
+		return armor;
+	}
+	
+	public static Material rdmWerkzeug(){
+		switch(UtilMath.r(5)){
+		case 0: return rdmAxt();
+		case 1: return rdmSchwert();
+		case 2: return rdmHoe();
+		case 3: return rdmSpitzhacke();
+		case 4: return rdmSchaufel();
+		default: return null;
+		}
+	}
+	
+	public static Material rdmHoe(){
+		switch(UtilMath.r(5)){
+		case 0: return Material.IRON_HOE;
+		case 1: return Material.DIAMOND_HOE;
+		case 2: return Material.WOOD_HOE;
+		case 3: return Material.GOLD_HOE;
+		case 4: return Material.STONE_HOE;
+		default: return null;
+		}
+	}
+	
+	public static Material rdmSpitzhacke(){
+		switch(UtilMath.r(5)){
+		case 0: return Material.IRON_PICKAXE;
+		case 1: return Material.DIAMOND_PICKAXE;
+		case 2: return Material.WOOD_PICKAXE;
+		case 3: return Material.GOLD_PICKAXE;
+		case 4: return Material.STONE_PICKAXE;
+		default: return null;
+		}
+	}
+	
+	public static Material rdmSchaufel(){
+		switch(UtilMath.r(5)){
+		case 0: return Material.IRON_SPADE;
+		case 1: return Material.DIAMOND_SPADE;
+		case 2: return Material.WOOD_SPADE;
+		case 3: return Material.GOLD_SPADE;
+		case 4: return Material.STONE_SPADE;
+		default: return null;
+		}
+	}
+	
+	public static Material rdmAxt(){
+		switch(UtilMath.r(5)){
+		case 0: return Material.IRON_AXE;
+		case 1: return Material.DIAMOND_AXE;
+		case 2: return Material.WOOD_AXE;
+		case 3: return Material.GOLD_AXE;
+		case 4: return Material.STONE_AXE;
+		default: return null;
+		}
+	}
+	
+	public static Material rdmSchwert(){
+		switch(UtilMath.r(5)){
+		case 0: return Material.IRON_SWORD;
+		case 1: return Material.DIAMOND_SWORD;
+		case 2: return Material.WOOD_SWORD;
+		case 3: return Material.GOLD_SWORD;
+		case 4: return Material.STONE_SWORD;
+		default: return null;
+		}
 	}
 	
 	public static boolean isWeapon(ItemStack item){
@@ -193,6 +295,40 @@ public class UtilItem {
 	    return i;
 	  }
 
+	  public static ItemStack[] rainbowArmor(ItemStack[] armor){
+		if(armor[0]==null||armor[0].getType()!=Material.LEATHER_HELMET)setArmorColor(armor,Color.RED);
+		
+		Color c=nextColor( ((LeatherArmorMeta)armor[0].getItemMeta()).getColor() );
+		for(int i = 0; i<armor.length; i++)armor[i]=LSetColor(armor[i], c);
+		return armor;
+	  }
+	  
+	  public static Color nextColor(Color c) {
+	    return Color.fromBGR(mixColor(c.getBlue()),mixColor(c.getGreen()),mixColor(c.getRed()));
+	  }
+
+	  private static boolean rIncrease = Math.random() > 0.5;
+	  private static int mixColor(int r){
+		  if (rIncrease) {
+		      r += (int) (Math.random() * 20);
+		      if (r >= 255) {
+		        rIncrease = false;
+		        r = 255;
+		      }
+		    } else {
+		      r -= (int) (Math.random() * 20);
+		      if (r <= 0) {
+		        rIncrease = true;
+		        r = 0;
+		      }
+		    }
+		  return r;
+	  }
+	  
+	  public static org.bukkit.inventory.ItemStack LSetColor(org.bukkit.inventory.ItemStack i, DyeColor c) {
+		  return LSetColor(i, c.getColor());
+	  }
+	  
 	  public static org.bukkit.inventory.ItemStack LSetColor(org.bukkit.inventory.ItemStack i, Color c) {
 	    LeatherArmorMeta lam = (LeatherArmorMeta)i.getItemMeta();
 	    lam.setColor(c);

@@ -4,7 +4,7 @@ import lombok.Getter;
 import me.kingingo.kcore.StatsManager.Stats;
 
 public enum GameType {
-Versus("VERSUS","VS",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
+Versus("VERSUS","VS",ServerType.GAME,new Stats[]{Stats.KIT,Stats.KIT_RANDOM,Stats.TEAM_MAX,Stats.TEAM_MIN ,Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 QuickSurvivalGames("QuickSurvivalGames","QSG",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 SurvivalGames("SurvivalGames","SG",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 OneInTheChamber("OneInTheChamber","OITC",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),

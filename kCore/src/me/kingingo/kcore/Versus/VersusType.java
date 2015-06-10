@@ -26,4 +26,9 @@ private VersusType(Team[] team){
 	this.team=team;
 }
 
+public static VersusType byInt(int i){
+	for(VersusType type : values())if(type.team.length==i)return type;
+	return null;
+}
+
 }

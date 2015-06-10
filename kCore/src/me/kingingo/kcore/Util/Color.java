@@ -1,5 +1,7 @@
 package me.kingingo.kcore.Util;
 
+import org.bukkit.DyeColor;
+
 public class Color {
 
 	public static String GRAY = "§7";
@@ -13,6 +15,13 @@ public class Color {
 	public static String ORANGE = "§6";
 	public static String PURPLE = "§5";
 	public static String PINK = "§d";
-	
 	public static String BOLD = "§l";
+	
+	public static org.bukkit.Color rdmColor(){
+		return rdmDyeColor().getColor();
+	}
+	
+	public static DyeColor rdmDyeColor(){
+		return DyeColor.values()[ UtilMath.r(DyeColor.values().length) ];
+	}
 }
