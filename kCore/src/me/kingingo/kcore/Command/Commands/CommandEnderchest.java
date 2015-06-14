@@ -2,6 +2,7 @@ package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -10,11 +11,20 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.material.EnderChest;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class CommandEnderchest implements CommandExecutor{
-	
+public class CommandEnderchest extends kListener implements CommandExecutor{
+
 	private Player player;
 	private Player target;
+	
+	public CommandEnderchest(JavaPlugin plugin) {
+		super(plugin, "CommandEnderchest");
+	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "enderchest", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
@@ -37,6 +47,15 @@ public class CommandEnderchest implements CommandExecutor{
 			}
 		}
 		return false;
+	}
+	
+	@EventHandler
+	public void Click(InventoryClickEvent ev){
+		if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
+		if(ev.getInventory().getName().equalsIgnoreCase("Ender Chest")){
+			if(ev.getInventory()==((Player)ev.getWhoClicked()).getEnderChest())return;
+			if(! ((Player)ev.getWhoClicked()).hasPermission(kPermission.ENDERCHEST_CLICK.getPermissionToString()) )ev.setCancelled(true);
+		}
 	}
 
 }

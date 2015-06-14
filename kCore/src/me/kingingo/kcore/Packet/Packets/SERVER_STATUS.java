@@ -27,6 +27,9 @@ public class SERVER_STATUS extends Packet{
 	String id;
 	@Getter
 	boolean apublic=true;
+	@Getter
+	@Setter
+	private int sign=0;
 	
 	public SERVER_STATUS(){}
 	
@@ -69,11 +72,12 @@ public class SERVER_STATUS extends Packet{
 	 this.typ = GameType.valueOf(packet[5]);
 	 this.id = packet[6];
 	 this.apublic=Boolean.valueOf(packet[7]);
+	 this.sign=Integer.valueOf(packet[8]);
 	}
 	
 	public String toString(){
 		//SERVER_STATUS-/-STATE-/-ONLINE-/-MAX-/-MAP-/-TYP-/-SERVER
-		return String.format(getName() + "-/-%s-/-%d-/-%d-/-%s-/-%s-/-%s-/-%s", new Object[] { this.state.string(), Integer.valueOf(this.online), Integer.valueOf(this.max_online), this.map, this.typ.getTyp(), this.id,this.apublic });
+		return String.format(getName() + "-/-%s-/-%d-/-%d-/-%s-/-%s-/-%s-/-%s-/-%d", new Object[] { this.state.string(), Integer.valueOf(this.online), Integer.valueOf(this.max_online), this.map, this.typ.getTyp(), this.id,this.apublic,sign });
 	}
 	
 }

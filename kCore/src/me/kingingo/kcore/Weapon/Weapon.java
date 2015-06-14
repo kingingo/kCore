@@ -148,7 +148,7 @@ public class Weapon implements Listener{
 	}
 	
 	public ItemStack setWeaponToNormal(ItemStack i,Player p){
-		int ammo = UtilInv.AnzahlInInventory(p, Ammo.getTypeId());
+		int ammo = UtilInv.AnzahlInInventory(p, Ammo.getTypeId(), UtilInv.GetData(Ammo) );
 		int lauf=0;
 		if(ammo >= MaxInLauf){
 			lauf=MaxInLauf;

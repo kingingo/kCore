@@ -7,6 +7,7 @@ import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilString;
 import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.Bukkit;
@@ -42,6 +43,11 @@ public class CommandSetHome implements CommandExecutor{
 						a = Integer.valueOf(perm.substring(("epicpvp.home.set.").length(), perm.length() ));
 						break;
 					}
+				}
+				
+				if(!UtilString.isNormalCharakter(args[0])){
+					player.sendMessage(Text.PREFIX.getText()+Text.NO_CHARAKTER.getText());
+					return false;
 				}
 				
 				if(a!=-1&&config.getPathList("homes").size()>=a){

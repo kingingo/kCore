@@ -1,7 +1,8 @@
-package me.kingingo.kcore.Command.Commands;
+package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -10,9 +11,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class CommandInvsee implements CommandExecutor{
+public class CommandInvsee extends kListener implements CommandExecutor{
 	
+	public CommandInvsee(JavaPlugin plugin) {
+		super(plugin, "CommandInvsee");
+	}
+
 	private Player player;
 	private Player target;
 	
@@ -33,6 +42,14 @@ public class CommandInvsee implements CommandExecutor{
 			}
 		}
 		return false;
+	}
+	
+	@EventHandler
+	public void Click(InventoryClickEvent ev){
+		if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
+		if(ev.getInventory() instanceof PlayerInventory){
+			if(! ((Player)ev.getWhoClicked()).hasPermission(kPermission.INVSEE_CLICK.getPermissionToString()) )ev.setCancelled(true);
+		}
 	}
 
 }

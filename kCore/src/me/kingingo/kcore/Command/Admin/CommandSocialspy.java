@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Command.Commands;
+package me.kingingo.kcore.Command.Admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;

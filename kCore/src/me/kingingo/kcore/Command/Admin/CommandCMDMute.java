@@ -17,11 +17,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CommandMute extends kListener implements CommandExecutor{
+public class CommandCMDMute extends kListener implements CommandExecutor{
 	
 	boolean chat=true;
 	
-	public CommandMute(JavaPlugin instance){
+	public CommandCMDMute(JavaPlugin instance){
 		super(instance,"CMDMute");
 	}
 	

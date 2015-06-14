@@ -344,20 +344,6 @@ public class UtilInv
 		return a;
 	}
   
-  public static Integer AnzahlInInventory(Player p,Material m){
-		int a = 0;
-		
-		for(ItemStack i : p.getInventory()){
-			
-			if(i!=null && i.getType()==m){
-				a=a+i.getAmount();
-			}
-			
-		}
-		
-		return a;
-	}
-  
   	public static boolean isInventoryEmpty(Inventory inv){
   		boolean empty=true;
   			for(ItemStack i : inv.getContents()){
@@ -381,18 +367,20 @@ public class UtilInv
 		return false;
 	}
   
-  public static Integer AnzahlInInventory(Player p,int id){
+  public static Integer AnzahlInInventory(Player p,int id,byte data){
 		int a = 0;
 		
 		for(ItemStack i : p.getInventory()){
-			
-			if(i!=null && i.getTypeId()==id){
+			if(i!=null && i.getTypeId()==id && GetData(i) == data){
 				a=a+i.getAmount();
 			}
-			
 		}
 		
 		return a;
+	}
+  
+  public static Integer AnzahlInInventory(Player p,Material m,byte data){
+		return AnzahlInInventory(p, m.getId(),data);
 	}
 	
 	public static boolean isInInventory(Player p,int id){
@@ -465,6 +453,19 @@ public class UtilInv
 			  }
 		  }
 	  }
+  }
+  
+  public static ItemStack searchInventoryItem(Player player,Material material,byte data,int max_anzahl){
+	  for(ItemStack item : player.getInventory().getContents()){
+		  if(item!=null&&item.getType()!=Material.AIR){
+			  if(item.getType()==material){
+				  if(item.hasItemMeta()){
+					  if(GetData(item)==data&&item.getAmount() <= max_anzahl)return item;
+				  }
+			  }
+		  }
+	  }
+	  return null;
   }
   
   public static ItemStack searchInventoryItem(Player player,Material material,String displayName){

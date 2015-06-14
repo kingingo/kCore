@@ -5,6 +5,7 @@ import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilNumber;
+import me.kingingo.kcore.Util.UtilString;
 import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.command.Command;
@@ -31,6 +32,12 @@ public class CommandSetKit implements CommandExecutor{
 			if(args.length<=1){
 				player.sendMessage(Text.PREFIX.getText()+"/setkit [Name] [Delay STD]");
 			}else{
+				
+				if(!UtilString.isNormalCharakter(args[0])){
+					player.sendMessage(Text.PREFIX.getText()+Text.NO_CHARAKTER.getText());
+					return false;
+				}
+				
 				config.setInventory("kits."+args[0].toLowerCase()+".Inventory", player.getInventory());
 				this.kit.getKits().put(args[0].toLowerCase(), player.getInventory().getContents().clone());
 				if(UtilNumber.toInt(args[1])!=0){

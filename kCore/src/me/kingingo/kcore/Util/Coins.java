@@ -27,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Coins implements Listener{
+	@Getter
 	private MySQL mysql;
 	@Getter
 	private HashMap<UUID,Integer> coins = new HashMap<>();
