@@ -10,6 +10,7 @@ import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_REMOVE_ALL;
+import me.kingingo.kcore.Packet.Packets.PLAYER_VOTE;
 import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
 import me.kingingo.kcore.Packet.Packets.SERVER_INFO_ALL;
 import me.kingingo.kcore.Packet.Packets.SERVER_READY;
@@ -89,6 +90,8 @@ public class PacketManager {
 			return new VERSUS_SETTINGS(packet.split("-/-"));
 		}else if(packet.contains("ARENA_STATUS")){
 			return new ARENA_STATUS(packet.split("-/-"));
+		}else if(packet.contains("PLAYER_VOTE")){
+			return new PLAYER_VOTE(packet.split("-/-"));
 		}
 	 return null;
 	}

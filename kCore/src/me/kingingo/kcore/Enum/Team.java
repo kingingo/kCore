@@ -17,6 +17,8 @@ BLACK("BLACK", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)15), Colo
 WHITE("WHITE",UtilItem.RenameItem(new ItemStack(Material.WOOL,1), Color.WHITE+"Team - White"),Color.WHITE),
 PURPLE("PURPLE",UtilItem.RenameItem(new ItemStack(Material.WOOL, 1,(byte)10),Color.PURPLE+"Team - Lila"),Color.PURPLE ),
 ORANGE("ORANGE",UtilItem.RenameItem(new ItemStack(Material.WOOD,1,(byte)1), Color.ORANGE+"Team - Orange"),Color.ORANGE),
+AQUA("AQUA",UtilItem.RenameItem(new ItemStack(Material.WOOD,1,(byte)3), Color.AQUA+"Team - Hell Blau"),Color.AQUA),
+CYAN("CYAN",UtilItem.RenameItem(new ItemStack(Material.WOOD,1,(byte)3), Color.CYAN+"Team - Cyan"),Color.CYAN),
 
 VILLAGE_RED("VILLAGE_RED", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)14), Color.RED+"Villager - Rot"),Color.RED),
 VILLAGE_YELLOW("VILLAGE_YELLOW", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)4), Color.YELLOW+"Villager - Gelb"),Color.YELLOW),

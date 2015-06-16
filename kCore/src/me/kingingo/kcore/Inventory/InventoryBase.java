@@ -72,7 +72,9 @@ public class InventoryBase extends kListener{
 				return page;
 			}
 		}
-		if(main.getName().equalsIgnoreCase(inv.getName())&&main.getSize()==inv.getSize()&&isSameInventory(main,inv))return main;
+		if(main.getName().equalsIgnoreCase(inv.getName())
+				&&main.getSize()==inv.getSize()
+					&&isSameInventory(main,inv))return main;
 		return null;
 	}
 	

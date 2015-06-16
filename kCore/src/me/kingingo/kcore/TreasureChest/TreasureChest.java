@@ -139,7 +139,7 @@ public class TreasureChest extends kListener{
 			UtilParticle.PORTAL.display(1F, 1F, 1F, 0.002F, 200, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
 			break;
 		case SKY:
-			UtilParticle.SMOKE.display(1F, 1F, 1F, 0.0002F,50, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
+			UtilParticle.SMOKE_NORMAL.display(1F, 1F, 1F, 0.0002F,50, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
 			UtilParticle.HEART.display(1F, 1F, 1F, 0.0002F,50, ((BlockState)blocke.get(p).get( 0 )).getLocation() , 5.0);
 			break;
 		default:

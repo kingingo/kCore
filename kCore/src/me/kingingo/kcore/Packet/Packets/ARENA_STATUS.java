@@ -23,6 +23,8 @@ public class ARENA_STATUS extends Packet{
 	boolean apublic=true;
 	@Getter
 	private String server;
+	@Getter
+	private String map;
 	
 	public ARENA_STATUS(){}
 	
@@ -38,13 +40,14 @@ public class ARENA_STATUS extends Packet{
 		Set(packet);
 	}
 	
-	public ARENA_STATUS(GameState state, int teams,GameType typ, String server, String arena,boolean apublic) {
+	public ARENA_STATUS(GameState state, int teams,GameType typ, String server, String arena,boolean apublic,String map) {
 	    this.state = state;
 	    this.teams=teams;
 	    this.server=server;
 	    this.typ = typ;
 	    this.arena = arena;
 	    this.apublic=apublic;
+	    this.map=map;
 	  }
 	
 	public String getName(){
@@ -62,11 +65,12 @@ public class ARENA_STATUS extends Packet{
 	 this.arena = packet[4];
 	 this.apublic=Boolean.valueOf(packet[5]);
 	 this.server = packet[6];
+	 this.map= packet[7];
 	}
 	
 	public String toString(){
 		//ARENA_STATUS-/-STATE-/-TEAMS-/-TYP-/-ID-/-PUBLIC
-		return String.format(getName() + "-/-%s-/-%d-/-%s-/-%s-/-%s-/-%s", new Object[] { this.state.string(), Integer.valueOf(teams),typ.name(),arena,apublic,server });
+		return String.format(getName() + "-/-%s-/-%d-/-%s-/-%s-/-%s-/-%s-/-%s", new Object[] { this.state.string(), Integer.valueOf(teams),typ.name(),arena,apublic,server,map });
 	}
 	
 }

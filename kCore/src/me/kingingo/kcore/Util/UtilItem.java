@@ -43,6 +43,34 @@ public class UtilItem {
 		return armor;
 	}
 	
+	public static Enchantment[] enchantmentsBoots(){
+		return new Enchantment[]{Enchantment.DURABILITY,Enchantment.PROTECTION_ENVIRONMENTAL,Enchantment.PROTECTION_EXPLOSIONS,Enchantment.PROTECTION_PROJECTILE,Enchantment.PROTECTION_FIRE,Enchantment.THORNS};
+	}
+	
+	public static Enchantment[] enchantmentsLeggings(){
+		return new Enchantment[]{Enchantment.DURABILITY,Enchantment.PROTECTION_ENVIRONMENTAL,Enchantment.PROTECTION_EXPLOSIONS,Enchantment.PROTECTION_PROJECTILE,Enchantment.PROTECTION_FIRE,Enchantment.THORNS};
+	}
+	
+	public static Enchantment[] enchantmentsChestplate(){
+		return new Enchantment[]{Enchantment.DURABILITY,Enchantment.PROTECTION_ENVIRONMENTAL,Enchantment.PROTECTION_EXPLOSIONS,Enchantment.PROTECTION_PROJECTILE,Enchantment.PROTECTION_FIRE,Enchantment.THORNS};
+	}
+	
+	public static Enchantment[] enchantmentsHelm(){
+		return new Enchantment[]{Enchantment.DURABILITY,Enchantment.PROTECTION_ENVIRONMENTAL,Enchantment.PROTECTION_EXPLOSIONS,Enchantment.PROTECTION_PROJECTILE,Enchantment.PROTECTION_FIRE,Enchantment.WATER_WORKER,Enchantment.THORNS};
+	}
+	
+	public static Enchantment[] enchantmentsAxt(){
+		return new Enchantment[]{Enchantment.DAMAGE_ALL,Enchantment.DAMAGE_ARTHROPODS,Enchantment.DAMAGE_UNDEAD,Enchantment.SILK_TOUCH,Enchantment.DIG_SPEED};
+	}
+	
+	public static Enchantment[] enchantmentsSword(){
+		return new Enchantment[]{Enchantment.DAMAGE_ALL,Enchantment.DAMAGE_ARTHROPODS,Enchantment.KNOCKBACK,Enchantment.FIRE_ASPECT,Enchantment.LOOT_BONUS_MOBS,Enchantment.DAMAGE_UNDEAD};
+	}
+	
+	public static Enchantment[] enchantmentsBow(){
+		return new Enchantment[]{Enchantment.ARROW_DAMAGE,Enchantment.ARROW_FIRE,Enchantment.ARROW_INFINITE,Enchantment.ARROW_KNOCKBACK};
+	}
+	
 	public static ItemStack[] colorRunArmor(ItemStack[] armor,Color[] colors){
 		//WENN KEINE ARMOR GESETZT IST!
 		if(armor[0]==null||armor[0].getType()!=Material.LEATHER_HELMET)setArmorColor(armor,colors[0]);
@@ -129,6 +157,18 @@ public class UtilItem {
 		}
 	}
 	
+	public static boolean isPickaxe(ItemStack item){
+		return (item.getType()==Material.IRON_PICKAXE||item.getType()==Material.WOOD_PICKAXE||item.getType()==Material.DIAMOND_PICKAXE ||item.getType()==Material.GOLD_PICKAXE ||item.getType()==Material.STONE_PICKAXE);
+	}
+	
+	public static boolean isAxt(ItemStack item){
+		return (item.getType()==Material.IRON_AXE||item.getType()==Material.WOOD_AXE||item.getType()==Material.DIAMOND_AXE ||item.getType()==Material.GOLD_AXE ||item.getType()==Material.STONE_AXE);
+	}
+	
+	public static boolean isSword(ItemStack item){
+		return (item.getType()==Material.IRON_SWORD||item.getType()==Material.STONE_SWORD||item.getType()==Material.DIAMOND_SWORD ||item.getType()==Material.WOOD_SWORD ||item.getType()==Material.GOLD_SWORD);
+	}
+	
 	public static boolean isWeapon(ItemStack item){
 		if(item.getTypeId()<=294&&item.getTypeId()>=290){
 			return true;
@@ -142,6 +182,22 @@ public class UtilItem {
 			return true;
 		}
 		return false;
+	}
+	
+	public static boolean isChestplate(ItemStack item){
+		return (item.getType()==Material.LEATHER_CHESTPLATE||item.getType()==Material.DIAMOND_CHESTPLATE ||item.getType()==Material.GOLD_CHESTPLATE ||item.getType()==Material.IRON_CHESTPLATE);
+	}
+	
+	public static boolean isBoots(ItemStack item){
+		return (item.getType()==Material.LEATHER_BOOTS||item.getType()==Material.DIAMOND_BOOTS ||item.getType()==Material.GOLD_BOOTS ||item.getType()==Material.IRON_BOOTS);
+	}
+	
+	public static boolean isLeggings(ItemStack item){
+		return (item.getType()==Material.LEATHER_LEGGINGS||item.getType()==Material.DIAMOND_LEGGINGS ||item.getType()==Material.GOLD_LEGGINGS ||item.getType()==Material.IRON_LEGGINGS);
+	}
+	
+	public static boolean isHelm(ItemStack item){
+		return (item.getType()==Material.LEATHER_HELMET||item.getType()==Material.DIAMOND_HELMET ||item.getType()==Material.GOLD_HELMET ||item.getType()==Material.IRON_HELMET);
 	}
 	
 	public static boolean isArmor(ItemStack item){

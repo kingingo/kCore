@@ -14,9 +14,9 @@ public enum UtilParticle
   HUGE_EXPLOSION(
     "hugeexplosion", 
     "EXPLOSION_HUGE"), 
-  SMOKE(
-	"smoke",
-    "SMOKE"),
+//  SMOKE(
+//	"smoke",
+//    "SMOKE"),
   LARGE_EXPLODE(
     "largeexplode", 
     "EXPLOSION_LARGE"), 

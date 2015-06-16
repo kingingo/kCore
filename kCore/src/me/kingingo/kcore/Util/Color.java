@@ -16,6 +16,7 @@ public class Color {
 	public static String PURPLE = "§5";
 	public static String PINK = "§d";
 	public static String BOLD = "§l";
+	public static String CYAN = "§3";
 	
 	public static org.bukkit.Color rdmColor(){
 		return rdmDyeColor().getColor();

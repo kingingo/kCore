@@ -55,11 +55,11 @@ public class ChatListener extends kListener{
 			p = event.getPlayer();
 			 msg = event.getMessage();
 
-			 if((!p.hasPermission(kPermission.CHAT_LINK.getPermissionToString()))&&UtilString.isBadWord(msg)||UtilString.checkForIP(msg)){
-					event.getPlayer().sendMessage(Text.PREFIX.getText()+Text.CHAT_MESSAGE_BLOCK.getText());
-					event.setCancelled(true);
-					return;
-			}
+//			 if((!p.hasPermission(kPermission.CHAT_LINK.getPermissionToString()))&&UtilString.isBadWord(msg)||UtilString.checkForIP(msg)){
+//					event.getPlayer().sendMessage(Text.PREFIX.getText()+Text.CHAT_MESSAGE_BLOCK.getText());
+//					event.setCancelled(true);
+//					return;
+//			}
 			 
 			msg=msg.replaceAll("%","");
 			if(p.hasPermission(kPermission.CHAT_FARBIG.getPermissionToString())){
