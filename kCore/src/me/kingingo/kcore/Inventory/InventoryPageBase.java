@@ -3,6 +3,7 @@ package me.kingingo.kcore.Inventory;
 import java.util.ArrayList;
 
 import lombok.Getter;
+import me.kingingo.kcore.Inventory.Item.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
@@ -18,7 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public class InventoryPageBase extends CraftInventoryCustom implements Listener{
+public class InventoryPageBase extends CraftInventoryCustom{
  
 	@Getter
 	private ArrayList<IButton> buttons;
@@ -26,7 +27,6 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 	public InventoryPageBase(JavaPlugin instance,int size,String title){
 		super(null,size,title);
 		this.buttons=new ArrayList<>();
-		register(instance);
 	}
 	
 	public void useButton(Player player,ActionType type,ItemStack item,int slot){
@@ -42,7 +42,6 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 	public void remove(){
 		buttons.clear();
 		buttons=null;
-        HandlerList.unregisterAll(this);
 	}
 	
 	public int getSlotSort(){
@@ -90,8 +89,13 @@ public class InventoryPageBase extends CraftInventoryCustom implements Listener{
 		}
 	}
 	
-	public void register(JavaPlugin instance){
-		Bukkit.getPluginManager().registerEvents(this, instance);
+	public IButton getButton(int slot){
+		for(IButton button : getButtons()){
+			if(button.getSlot()==slot){
+				return button;
+			}
+		}
+		return null;
 	}
 	
 	public void addButton(IButton button){
