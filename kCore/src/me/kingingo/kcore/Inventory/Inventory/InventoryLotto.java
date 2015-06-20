@@ -8,12 +8,14 @@ import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilMath;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class InventoryLotto extends InventoryPageBase{
+public class InventoryLotto extends InventoryPageBase implements Listener{
 
 	private ItemStack[] items;
 	
@@ -23,6 +25,7 @@ public class InventoryLotto extends InventoryPageBase{
 		this.addButton(13,new ButtonBase(click));
 		setItem(4, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), " ") );
 		setItem(22, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), " ") );
+		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 
 	private ItemStack item;

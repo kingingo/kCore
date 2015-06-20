@@ -3,6 +3,7 @@ package me.kingingo.kcore.Inventory.Inventory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,7 +11,7 @@ import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 
-public class InventoryLoad extends InventoryPageBase{
+public class InventoryLoad extends InventoryPageBase implements Listener{
 
 	private int slot=0;
 	
