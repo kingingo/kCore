@@ -16,9 +16,9 @@ GRAY("GRAY",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)8), Color.GR
 BLACK("BLACK", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)15), Color.BLACK+"Team - Schwarz"),Color.BLACK),
 WHITE("WHITE",UtilItem.RenameItem(new ItemStack(Material.WOOL,1), Color.WHITE+"Team - White"),Color.WHITE),
 PURPLE("PURPLE",UtilItem.RenameItem(new ItemStack(Material.WOOL, 1,(byte)10),Color.PURPLE+"Team - Lila"),Color.PURPLE ),
-ORANGE("ORANGE",UtilItem.RenameItem(new ItemStack(Material.WOOD,1,(byte)1), Color.ORANGE+"Team - Orange"),Color.ORANGE),
-AQUA("AQUA",UtilItem.RenameItem(new ItemStack(Material.WOOD,1,(byte)3), Color.AQUA+"Team - Hell Blau"),Color.AQUA),
-CYAN("CYAN",UtilItem.RenameItem(new ItemStack(Material.WOOD,1,(byte)3), Color.CYAN+"Team - Cyan"),Color.CYAN),
+ORANGE("ORANGE",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), Color.ORANGE+"Team - Orange"),Color.ORANGE),
+AQUA("AQUA",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)3), Color.AQUA+"Team - Hell Blau"),Color.AQUA),
+CYAN("CYAN",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)9), Color.CYAN+"Team - Cyan"),Color.CYAN),
 
 VILLAGE_RED("VILLAGE_RED", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)14), Color.RED+"Villager - Rot"),Color.RED),
 VILLAGE_YELLOW("VILLAGE_YELLOW", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)4), Color.YELLOW+"Villager - Gelb"),Color.YELLOW),
@@ -37,6 +37,10 @@ SHEEP_PINK("SHEEP_PINK", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte
 SHEEP_ORANGE("SHEEP_ORANGE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), Color.ORANGE+"Sheep - Orange"),Color.ORANGE),
 SHEEP_PURPLE("SHEEP_PURPLE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)10), Color.PURPLE+"Sheep - Lila"),Color.PURPLE),
 SHEEP_GRAY("SHEEP_GRAY",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)8), Color.GRAY+"Sheep - Grau"),Color.GRAY),
+SHEEP_AQUA("SHEEP_AQUA", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)6), Color.AQUA+"Sheep - Hell Blau"),Color.AQUA),
+SHEEP_CYAN("SHEEP_CYAN", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)9), Color.CYAN+"Sheep - Cyan"),Color.CYAN),
+SHEEP_WHITE("SHEEP_WHITE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)10), Color.WHITE+"Sheep - Weiﬂ"),Color.WHITE),
+SHEEP_BLACK("SHEEP_BLACK",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)8), Color.BLACK+"Sheep - Schwarz"),Color.BLACK),
 
 
 GOLD("GOLD",UtilItem.RenameItem(new ItemStack(Material.GOLD_BLOCK,1), Color.YELLOW+"Gold"),Color.YELLOW),

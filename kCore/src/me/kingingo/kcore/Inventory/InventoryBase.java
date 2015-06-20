@@ -9,7 +9,7 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftInventory;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;

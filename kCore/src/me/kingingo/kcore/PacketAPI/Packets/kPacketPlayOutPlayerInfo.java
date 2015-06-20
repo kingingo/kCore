@@ -1,17 +1,17 @@
-package me.kingingo.kcore.PacketAPI.v1_8_R2;
+package me.kingingo.kcore.PacketAPI.Packets;
 
 import java.util.List;
 
 import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_8_R2.EntityPlayer;
-import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
-import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.PlayerInfoData;
-import net.minecraft.server.v1_8_R2.WorldSettings.EnumGamemode;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
+import net.minecraft.server.v1_8_R3.WorldSettings.EnumGamemode;
 
-import org.bukkit.craftbukkit.v1_8_R2.util.CraftChatMessage;
+import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
 
 public class kPacketPlayOutPlayerInfo implements kPacket{
 	@Getter

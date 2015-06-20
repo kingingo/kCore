@@ -37,6 +37,10 @@ public class PerkManager extends PerkData{
 		setPermission("ItemName", kPermission.PERK_ITEM_NAME);
 		setPermission("DoubleJump", kPermission.PERK_JUMP);
 		setPermission("Runner", kPermission.PERK_RUNNER);
+		setPermission("GoldenApple", kPermission.PERK_APPLE);
+		setPermission("Hat", kPermission.PERK_HAT);
+		setPermission("noWaterdamage", kPermission.PERK_WATER_DAMAGE);
+		setPermission("ArrowPotionEffect", kPermission.PERK_ARROW_POTIONEFFECT);
 	}
 	
 	public void removePlayer(Player player){

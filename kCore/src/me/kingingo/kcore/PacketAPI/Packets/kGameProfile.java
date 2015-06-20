@@ -1,4 +1,4 @@
-package me.kingingo.kcore.PacketAPI.v1_8_R2;
+package me.kingingo.kcore.PacketAPI.Packets;
 
 import java.util.UUID;
 

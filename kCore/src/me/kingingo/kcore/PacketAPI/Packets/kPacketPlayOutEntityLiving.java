@@ -1,53 +1,51 @@
-package me.kingingo.kcore.PacketAPI.v1_8_R2;
-
-import java.util.UUID;
+package me.kingingo.kcore.PacketAPI.Packets;
 
 import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.UtilPacket;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_8_R2.DataWatcher;
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R3.DataWatcher;
+import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 
-public class kPacketPlayOutNamedEntitySpawn implements kPacket{
-	@Getter
-	private PacketPlayOutNamedEntitySpawn packet;
+public class kPacketPlayOutEntityLiving implements kPacket{
+
 	private String X = "c";
 	private String Y = "d";
 	private String Z = "e";
-	private String YAW = "f";
-	private String PITCH = "g";
-	private String DATAWATCHER = "i";
-	private String UUID = "b";
+	private String YAW = "i";
+	private String PITCH = "j";
+	private String DATAWATCHER = "l";
+	private String TYPE = "b";
 	private String ID = "a";
-	private String ITEM = "h";
 	
-	public kPacketPlayOutNamedEntitySpawn(){
-		packet = new PacketPlayOutNamedEntitySpawn();
+	@Getter
+	private PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
+	
+	public kPacketPlayOutEntityLiving(){
+		packet = new PacketPlayOutSpawnEntityLiving();
 	}
 	
-	public kPacketPlayOutNamedEntitySpawn(EntityHuman human){
-		packet = new PacketPlayOutNamedEntitySpawn(human);
+	public kPacketPlayOutEntityLiving(int entityID ,EntityType type ,Location location){
+		packet = new PacketPlayOutSpawnEntityLiving();
+		setEntityID(entityID);
+		setEntityType(type);
+		setLocation(location);
 	}
 	
-	public int getItemInHand(){
-		return (int)UtilReflection.getValue(ITEM, packet);
+	public kPacketPlayOutEntityLiving(EntityLiving living){
+		packet = new PacketPlayOutSpawnEntityLiving(living);
 	}
 	
-	public void setItemInHand(Material item){
-		UtilReflection.setValue(ITEM, packet, item == null ? 0 : item.getId());
+	public EntityType getEntityType(){
+		return EntityType.fromId( ((int)UtilReflection.getValue(TYPE, packet )) );
 	}
 	
-	public UUID getUUID(){
-		return ((UUID)UtilReflection.getValue(UUID, packet ));
-	}
-	
-	public void setUUID(UUID uuid){
-		UtilReflection.setValue(UUID, packet, uuid);
+	public void setEntityType(EntityType type){
+		UtilReflection.setValue(TYPE, packet, (int) type.getTypeId());
 	}
 	
 	public int getEntityID(){

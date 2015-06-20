@@ -2,9 +2,9 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import java.util.Random;
 
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutRelEntityMoveLook;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutSpawnEntity;
-import net.minecraft.server.v1_8_R2.Packet;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutRelEntityMoveLook;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_8_R3.Packet;
 
 public class DisguiseBlock extends DisguiseBase
 {

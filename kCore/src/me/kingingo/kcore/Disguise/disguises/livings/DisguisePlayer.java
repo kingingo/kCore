@@ -3,8 +3,8 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import java.util.UUID;
 
 import me.kingingo.kcore.Disguise.disguises.DisguiseHuman;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R2.Packet;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R3.Packet;
 
 public class DisguisePlayer extends DisguiseHuman
 {

@@ -2,9 +2,9 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import java.util.Arrays;
 
 import me.kingingo.kcore.Disguise.disguises.DisguiseMonster;
-import net.minecraft.server.v1_8_R2.MobEffect;
-import net.minecraft.server.v1_8_R2.MobEffectList;
-import net.minecraft.server.v1_8_R2.PotionBrewer;
+import net.minecraft.server.v1_8_R3.MobEffect;
+import net.minecraft.server.v1_8_R3.MobEffectList;
+import net.minecraft.server.v1_8_R3.PotionBrewer;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;

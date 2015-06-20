@@ -1,46 +1,48 @@
-package me.kingingo.kcore.PacketAPI.v1_8_R2;
+package me.kingingo.kcore.PacketAPI.Packets;
 
 import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Entity;
 
-import net.minecraft.server.v1_8_R2.DataWatcher;
-import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntity;
 import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.UtilPacket;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 
-public class kPacketPlayOutSpawnEntity implements kPacket{
-	@Getter
-	private PacketPlayOutSpawnEntity packet;
+public class kPacketPlayOutEntityTeleport implements kPacket {
+
+	private String ID = "a";
 	private String X = "b";
 	private String Y = "c";
 	private String Z = "d";
-	private String YAW = "i";
-	private String PITCH = "h";
-	private String DATAWATCHER = "l";
-	private String TYPE = "b";
-	private String ID = "a";
-	private String OBJECT_DATA = "k";
+	private String YAW = "e";
+	private String PITCH = "f";
+	private String onGROUND = "g";
+	@Getter
+	private PacketPlayOutEntityTeleport packet;
 	
-	public kPacketPlayOutSpawnEntity(){
-		
+	public kPacketPlayOutEntityTeleport(){
+		packet = new PacketPlayOutEntityTeleport();
 	}
 	
-	public int getObjectData(){
-		return ((int)UtilReflection.getValue(OBJECT_DATA, packet ) );
+	public kPacketPlayOutEntityTeleport(Entity en){
+		packet = new PacketPlayOutEntityTeleport();
+		setEntityID(en.getEntityId());
+		setX(en.getLocation().getX());
+		setY(en.getLocation().getY());
+		setZ(en.getLocation().getZ());;
+		setYaw(en.getLocation().getYaw());;
+		setPitch(en.getLocation().getPitch());
+		setOnGround(en.isOnGround());
 	}
 	
-	public void setObjectData(int i){
-		UtilReflection.setValue(OBJECT_DATA, packet, i);
+	public boolean isOnGround(){
+		return Boolean.valueOf((boolean)UtilReflection.getValue(onGROUND, packet ));
 	}
 	
-	public int getEntityType(){
-		return ((int)UtilReflection.getValue(TYPE, packet ) );
-	}
-	
-	public void setEntityType(int i){
-		UtilReflection.setValue(TYPE, packet, i);
+	public void setOnGround(boolean flag){
+		UtilReflection.setValue(onGROUND, packet, flag);
 	}
 	
 	public int getEntityID(){
@@ -49,14 +51,6 @@ public class kPacketPlayOutSpawnEntity implements kPacket{
 	
 	public void setEntityID(int id){
 		UtilReflection.setValue(ID, packet, id);
-	}
-	
-	public DataWatcher getDataWatcher(){
-		return (DataWatcher) UtilReflection.getValue(DATAWATCHER, packet);
-	}
-	
-	public void setDataWatcher(DataWatcher watcher){
-		UtilReflection.setValue(DATAWATCHER, packet, watcher);
 	}
 	
 	public double getX(){

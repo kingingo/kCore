@@ -1,51 +1,46 @@
-package me.kingingo.kcore.PacketAPI.v1_8_R2;
-
-import lombok.Getter;
-import me.kingingo.kcore.PacketAPI.UtilPacket;
-import me.kingingo.kcore.PacketAPI.kPacket;
-import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_8_R2.DataWatcher;
-import net.minecraft.server.v1_8_R2.EntityLiving;
-import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntityLiving;
+package me.kingingo.kcore.PacketAPI.Packets;
 
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
-public class kPacketPlayOutEntityLiving implements kPacket{
+import net.minecraft.server.v1_8_R3.DataWatcher;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
+import lombok.Getter;
+import me.kingingo.kcore.PacketAPI.UtilPacket;
+import me.kingingo.kcore.PacketAPI.kPacket;
+import me.kingingo.kcore.Util.UtilReflection;
 
-	private String X = "c";
-	private String Y = "d";
-	private String Z = "e";
+public class kPacketPlayOutSpawnEntity implements kPacket{
+	@Getter
+	private PacketPlayOutSpawnEntity packet;
+	private String X = "b";
+	private String Y = "c";
+	private String Z = "d";
 	private String YAW = "i";
-	private String PITCH = "j";
+	private String PITCH = "h";
 	private String DATAWATCHER = "l";
 	private String TYPE = "b";
 	private String ID = "a";
+	private String OBJECT_DATA = "k";
 	
-	@Getter
-	private PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
-	
-	public kPacketPlayOutEntityLiving(){
-		packet = new PacketPlayOutSpawnEntityLiving();
+	public kPacketPlayOutSpawnEntity(){
+		
 	}
 	
-	public kPacketPlayOutEntityLiving(int entityID ,EntityType type ,Location location){
-		packet = new PacketPlayOutSpawnEntityLiving();
-		setEntityID(entityID);
-		setEntityType(type);
-		setLocation(location);
+	public int getObjectData(){
+		return ((int)UtilReflection.getValue(OBJECT_DATA, packet ) );
 	}
 	
-	public kPacketPlayOutEntityLiving(EntityLiving living){
-		packet = new PacketPlayOutSpawnEntityLiving(living);
+	public void setObjectData(int i){
+		UtilReflection.setValue(OBJECT_DATA, packet, i);
 	}
 	
-	public EntityType getEntityType(){
-		return EntityType.fromId( ((int)UtilReflection.getValue(TYPE, packet )) );
+	public int getEntityType(){
+		return ((int)UtilReflection.getValue(TYPE, packet ) );
 	}
 	
-	public void setEntityType(EntityType type){
-		UtilReflection.setValue(TYPE, packet, (int) type.getTypeId());
+	public void setEntityType(int i){
+		UtilReflection.setValue(TYPE, packet, i);
 	}
 	
 	public int getEntityID(){

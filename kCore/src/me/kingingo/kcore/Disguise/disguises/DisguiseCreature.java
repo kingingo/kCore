@@ -1,6 +1,6 @@
 package me.kingingo.kcore.Disguise.disguises;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityLiving;
-import net.minecraft.server.v1_8_R2.Packet;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityLiving;
+import net.minecraft.server.v1_8_R3.Packet;
 
 import org.bukkit.entity.EntityType;
 

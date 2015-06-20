@@ -3,20 +3,20 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import net.minecraft.server.v1_8_R2.EntityCreature;
-import net.minecraft.server.v1_8_R2.EntityInsentient;
-import net.minecraft.server.v1_8_R2.Navigation;
-import net.minecraft.server.v1_8_R2.NavigationAbstract;
-import net.minecraft.server.v1_8_R2.PathfinderGoalSelector;
+import net.minecraft.server.v1_8_R3.EntityCreature;
+import net.minecraft.server.v1_8_R3.EntityInsentient;
+import net.minecraft.server.v1_8_R3.Navigation;
+import net.minecraft.server.v1_8_R3.NavigationAbstract;
+import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Giant;

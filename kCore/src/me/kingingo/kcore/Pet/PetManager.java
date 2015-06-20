@@ -5,28 +5,28 @@ import java.util.HashMap;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Pet.Setting.PetSetting;
-import me.kingingo.kcore.Pet.Shop.PetShop;
+import me.kingingo.kcore.Pet.Shop.IPetShop;
 import me.kingingo.kcore.Pet.Events.PetCreateEvent;
 import me.kingingo.kcore.Pet.Events.PetWithOutOwnerLocationEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
-import net.minecraft.server.v1_8_R2.EntityCreature;
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.EntityInsentient;
-import net.minecraft.server.v1_8_R2.Navigation;
-import net.minecraft.server.v1_8_R2.NavigationAbstract;
-import net.minecraft.server.v1_8_R2.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_8_R2.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_8_R2.PathfinderGoalSelector;
-import net.minecraft.server.v1_8_R2.EntityLiving;
-import net.minecraft.server.v1_8_R2.PathEntity;
+import net.minecraft.server.v1_8_R3.EntityCreature;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.EntityInsentient;
+import net.minecraft.server.v1_8_R3.Navigation;
+import net.minecraft.server.v1_8_R3.NavigationAbstract;
+import net.minecraft.server.v1_8_R3.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_8_R3.PathfinderGoalRandomLookaround;
+import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
+import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.PathEntity;
 import org.bukkit.entity.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -67,7 +67,7 @@ public class PetManager implements Listener{
 	double distance=8;
 	@Getter
 	@Setter
-	private PetShop shop; 
+	private IPetShop shop; 
 	
 	public PetManager(JavaPlugin instance){
 		Bukkit.getPluginManager().registerEvents(this, instance);
@@ -220,6 +220,8 @@ public class PetManager implements Listener{
 	    	
 	    	petSpot=pet.getLocation();
 	    	ownerSpot=owner.getLocation();
+	    	
+	    	if(!petSpot.getWorld().getName().equalsIgnoreCase(ownerSpot.getWorld().getName()))pet.teleport(owner);
 	    	
 	    	xDiff = Math.abs(petSpot.getBlockX() - ownerSpot.getBlockX());
 	    	yDiff = Math.abs(petSpot.getBlockY() - ownerSpot.getBlockY());

@@ -4,10 +4,10 @@ import java.util.Map;
 
 import lombok.Getter;
 import me.kingingo.kcore.Hologram.nametags.Events.HologramCreateEvent;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kDataWatcher;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityDestroy;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityLiving;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayOutEntityTeleport;
+import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityLiving;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityTeleport;
 import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;
 

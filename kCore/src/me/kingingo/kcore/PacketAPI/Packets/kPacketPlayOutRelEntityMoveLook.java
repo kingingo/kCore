@@ -1,8 +1,8 @@
-package me.kingingo.kcore.PacketAPI.v1_8_R2;
+package me.kingingo.kcore.PacketAPI.Packets;
 
 import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.kPacket;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook;
 
 public class kPacketPlayOutRelEntityMoveLook implements kPacket{
 	@Getter

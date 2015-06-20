@@ -11,12 +11,12 @@ import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

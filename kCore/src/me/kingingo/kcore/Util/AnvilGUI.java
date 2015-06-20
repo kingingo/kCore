@@ -2,15 +2,15 @@ package me.kingingo.kcore.Util;
 
 import java.util.HashMap;
 
-import net.minecraft.server.v1_8_R2.BlockPosition;
-import net.minecraft.server.v1_8_R2.ChatMessage;
-import net.minecraft.server.v1_8_R2.ContainerAnvil;
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.EntityPlayer;
-import net.minecraft.server.v1_8_R2.PacketPlayOutOpenWindow;
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.ChatMessage;
+import net.minecraft.server.v1_8_R3.ContainerAnvil;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutOpenWindow;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;

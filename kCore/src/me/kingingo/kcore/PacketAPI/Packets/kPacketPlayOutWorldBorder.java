@@ -1,11 +1,11 @@
-package me.kingingo.kcore.PacketAPI.v1_8_R2;
+package me.kingingo.kcore.PacketAPI.Packets;
 
 import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_8_R2.PacketPlayOutWorldBorder;
-import net.minecraft.server.v1_8_R2.WorldBorder;
-import net.minecraft.server.v1_8_R2.PacketPlayOutWorldBorder.EnumWorldBorderAction;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldBorder;
+import net.minecraft.server.v1_8_R3.WorldBorder;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldBorder.EnumWorldBorderAction;
 
 public class kPacketPlayOutWorldBorder implements kPacket{
 	@Getter

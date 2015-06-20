@@ -3,13 +3,13 @@ package me.kingingo.kcore.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_8_R2.NBTTagCompound;
-import net.minecraft.server.v1_8_R2.NBTTagList;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_8_R3.NBTTagList;
 
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
@@ -184,6 +184,26 @@ public class UtilItem {
 		return false;
 	}
 	
+	public static boolean isLeatherArmor(ItemStack item){
+		return (item.getTypeId()>=298&&item.getTypeId()<=301);
+	}
+	
+	public static boolean isChainmailArmor(ItemStack item){
+		return (item.getTypeId()>=302&&item.getTypeId()<=305);
+	}
+	
+	public static boolean isIronArmor(ItemStack item){
+		return (item.getTypeId()>=306&&item.getTypeId()<=309);
+	}
+	
+	public static boolean isDiamondArmor(ItemStack item){
+		return (item.getTypeId()>=310&&item.getTypeId()<=313);
+	}
+	
+	public static boolean isGoldArmor(ItemStack item){
+		return (item.getTypeId()>=314&&item.getTypeId()<=317);
+	}
+	
 	public static boolean isChestplate(ItemStack item){
 		return (item.getType()==Material.LEATHER_CHESTPLATE||item.getType()==Material.DIAMOND_CHESTPLATE ||item.getType()==Material.GOLD_CHESTPLATE ||item.getType()==Material.IRON_CHESTPLATE);
 	}
@@ -207,7 +227,7 @@ public class UtilItem {
 		return false;
 	}
 	
-	public static ItemStack[] convertItemStackArray(net.minecraft.server.v1_8_R2.ItemStack[] item){
+	public static ItemStack[] convertItemStackArray(net.minecraft.server.v1_8_R3.ItemStack[] item){
 		ItemStack[] items = new ItemStack[item.length];
 		for(int i = 0; i<item.length;i++){
 			items[i]=CraftItemStack.asBukkitCopy(item[i]);
@@ -215,8 +235,8 @@ public class UtilItem {
 		return items;
 	}
 	
-	public static net.minecraft.server.v1_8_R2.ItemStack[] convertItemStackArray(ItemStack[] item){
-		net.minecraft.server.v1_8_R2.ItemStack[] items = new net.minecraft.server.v1_8_R2.ItemStack[item.length];
+	public static net.minecraft.server.v1_8_R3.ItemStack[] convertItemStackArray(ItemStack[] item){
+		net.minecraft.server.v1_8_R3.ItemStack[] items = new net.minecraft.server.v1_8_R3.ItemStack[item.length];
 		for(int i = 0; i<item.length;i++){
 			items[i]=CraftItemStack.asNMSCopy(item[i]);
 		}
@@ -242,7 +262,7 @@ public class UtilItem {
 	  }
 	  
 	  public static ItemStack addEnchantmentGlow(ItemStack item){ 
-	        net.minecraft.server.v1_8_R2.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+	        net.minecraft.server.v1_8_R3.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
 	        NBTTagCompound tag = null;
 	        if (!nmsStack.hasTag()) {
 	            tag = new NBTTagCompound();
@@ -298,7 +318,7 @@ public class UtilItem {
 	      return i;
 	    }
 	    org.bukkit.inventory.ItemStack item = i.clone();
-	    net.minecraft.server.v1_8_R2.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+	    net.minecraft.server.v1_8_R3.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
 	    NBTTagCompound tag = null;
 	    if (!nmsStack.hasTag())
 	    {
@@ -316,7 +336,7 @@ public class UtilItem {
 	  }
 	  
 	  public static ItemStack Head(String player){
-		   ItemStack is = new ItemStack(Material.SKULL_ITEM, 1);
+		   	ItemStack is = new ItemStack(Material.SKULL_ITEM, 1);
 		    is.setDurability((short)3);
 		    SkullMeta meta = (SkullMeta)is.getItemMeta();
 		    meta.setOwner(player);

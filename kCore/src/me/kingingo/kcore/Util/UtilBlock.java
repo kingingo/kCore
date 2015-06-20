@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import net.minecraft.server.v1_8_R2.BlockPosition;
-import net.minecraft.server.v1_8_R2.TileEntityBeacon;
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.TileEntityBeacon;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,7 +12,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Bed;
 

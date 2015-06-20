@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayInUseEntity;
 import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
-import me.kingingo.kcore.PacketAPI.v1_8_R2.kPacketPlayInUseEntity;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
-import net.minecraft.server.v1_8_R2.PacketPlayInUseEntity;
+import net.minecraft.server.v1_8_R3.PacketPlayInUseEntity;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

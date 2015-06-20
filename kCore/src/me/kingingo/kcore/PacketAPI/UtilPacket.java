@@ -11,11 +11,11 @@ import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.PacketHandler;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.ReceivedPacket;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.SentPacket;
-import net.minecraft.server.v1_8_R2.MathHelper;
-import net.minecraft.server.v1_8_R2.NetworkManager;
+import net.minecraft.server.v1_8_R3.MathHelper;
+import net.minecraft.server.v1_8_R3.NetworkManager;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;

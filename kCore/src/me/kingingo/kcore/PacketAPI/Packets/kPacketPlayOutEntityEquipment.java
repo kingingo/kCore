@@ -1,12 +1,12 @@
-package me.kingingo.kcore.PacketAPI.v1_8_R2;
+package me.kingingo.kcore.PacketAPI.Packets;
 
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityEquipment;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
 import lombok.Getter;
 
 public class kPacketPlayOutEntityEquipment implements kPacket{
@@ -28,7 +28,7 @@ public class kPacketPlayOutEntityEquipment implements kPacket{
 	}
 	
 	public ItemStack getMaterial(){
-		return CraftItemStack.asBukkitCopy(((net.minecraft.server.v1_8_R2.ItemStack) UtilReflection.getValue(ITEMSTACK, packet)));
+		return CraftItemStack.asBukkitCopy(((net.minecraft.server.v1_8_R3.ItemStack) UtilReflection.getValue(ITEMSTACK, packet)));
 	}
 	
 	public void setItemStack(ItemStack item){

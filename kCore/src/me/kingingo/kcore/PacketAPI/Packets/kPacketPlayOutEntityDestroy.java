@@ -1,9 +1,9 @@
-package me.kingingo.kcore.PacketAPI.v1_8_R2;
+package me.kingingo.kcore.PacketAPI.Packets;
 
 import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 
 public class kPacketPlayOutEntityDestroy implements kPacket{
 	@Getter

@@ -9,7 +9,7 @@ import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftInventoryCustom;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryCustom;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;

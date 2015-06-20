@@ -1,48 +1,53 @@
-package me.kingingo.kcore.PacketAPI.v1_8_R2;
+package me.kingingo.kcore.PacketAPI.Packets;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
+import java.util.UUID;
 
 import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.UtilPacket;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_8_R2.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_8_R3.DataWatcher;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
 
-public class kPacketPlayOutEntityTeleport implements kPacket {
+import org.bukkit.Location;
+import org.bukkit.Material;
 
-	private String ID = "a";
-	private String X = "b";
-	private String Y = "c";
-	private String Z = "d";
-	private String YAW = "e";
-	private String PITCH = "f";
-	private String onGROUND = "g";
+public class kPacketPlayOutNamedEntitySpawn implements kPacket{
 	@Getter
-	private PacketPlayOutEntityTeleport packet;
+	private PacketPlayOutNamedEntitySpawn packet;
+	private String X = "c";
+	private String Y = "d";
+	private String Z = "e";
+	private String YAW = "f";
+	private String PITCH = "g";
+	private String DATAWATCHER = "i";
+	private String UUID = "b";
+	private String ID = "a";
+	private String ITEM = "h";
 	
-	public kPacketPlayOutEntityTeleport(){
-		packet = new PacketPlayOutEntityTeleport();
+	public kPacketPlayOutNamedEntitySpawn(){
+		packet = new PacketPlayOutNamedEntitySpawn();
 	}
 	
-	public kPacketPlayOutEntityTeleport(Entity en){
-		packet = new PacketPlayOutEntityTeleport();
-		setEntityID(en.getEntityId());
-		setX(en.getLocation().getX());
-		setY(en.getLocation().getY());
-		setZ(en.getLocation().getZ());;
-		setYaw(en.getLocation().getYaw());;
-		setPitch(en.getLocation().getPitch());
-		setOnGround(en.isOnGround());
+	public kPacketPlayOutNamedEntitySpawn(EntityHuman human){
+		packet = new PacketPlayOutNamedEntitySpawn(human);
 	}
 	
-	public boolean isOnGround(){
-		return Boolean.valueOf((boolean)UtilReflection.getValue(onGROUND, packet ));
+	public int getItemInHand(){
+		return (int)UtilReflection.getValue(ITEM, packet);
 	}
 	
-	public void setOnGround(boolean flag){
-		UtilReflection.setValue(onGROUND, packet, flag);
+	public void setItemInHand(Material item){
+		UtilReflection.setValue(ITEM, packet, item == null ? 0 : item.getId());
+	}
+	
+	public UUID getUUID(){
+		return ((UUID)UtilReflection.getValue(UUID, packet ));
+	}
+	
+	public void setUUID(UUID uuid){
+		UtilReflection.setValue(UUID, packet, uuid);
 	}
 	
 	public int getEntityID(){
@@ -51,6 +56,14 @@ public class kPacketPlayOutEntityTeleport implements kPacket {
 	
 	public void setEntityID(int id){
 		UtilReflection.setValue(ID, packet, id);
+	}
+	
+	public DataWatcher getDataWatcher(){
+		return (DataWatcher) UtilReflection.getValue(DATAWATCHER, packet);
+	}
+	
+	public void setDataWatcher(DataWatcher watcher){
+		UtilReflection.setValue(DATAWATCHER, packet, watcher);
 	}
 	
 	public double getX(){

@@ -2,7 +2,7 @@ package me.kingingo.kcore.Util;
 import java.util.HashMap;
 
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftInventory;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventory;
 import org.bukkit.inventory.ItemStack;
 
 public class InventoryUtil

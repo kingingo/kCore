@@ -8,13 +8,13 @@ import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilServer;
-import net.minecraft.server.v1_8_R2.Packet;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_8_R2.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_8_R2.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityTeleport;
+import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
