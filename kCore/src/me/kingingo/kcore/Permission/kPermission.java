@@ -167,6 +167,17 @@ SHEEPWARS_KIT_CREEPER("epicpvp.kit.creeper"),
 SHEEPWARS_KIT_ZOMBIE("epicpvp.kit.zombie"),
 ALL_KITS("epicpvp.kit.*"),
 //Kits
+
+SKYWARS_KIT_JÄGER("epicpvp.skywars.kit.jäger"),
+SKYWARS_KIT_ENCHANTER("epicpvp.skywars.kit.enchanter"),
+SKYWARS_KIT_HEILER("epicpvp.skywars.kit.heiler"),
+SKYWARS_KIT_SPÄHER("epicpvp.skywars.kit.späher"),
+SKYWARS_KIT_KAMPFMEISTER("epicpvp.skywars.kit.kampfmeister"),
+SKYWARS_KIT_RITTER("epicpvp.skywars.kit.ritter"),
+SKYWARS_KIT_FEUERMEISTER("epicpvp.skywars.kit.feuermeister"),
+SKYWARS_KIT_DROIDE("epicpvp.skywars.kit.droide"),
+SKYWARS_KIT_STOßER("epicpvp.skywars.kit.stoßer"),
+
 //SkyPvP - START -
 SkyPvP_Mehr_Leben("epicpvp.skypvp.more_life"),
 //SkyPvP - ENDE -

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.Packets.kGameProfile;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutAnimation;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutBed;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
@@ -24,6 +25,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.mojang.authlib.GameProfile;
 
@@ -205,6 +207,15 @@ public class NPC {
       }
    }
    
+   public void setItemInHand(ItemStack item) {
+	      try{
+	         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(this.entityID,0,item.getType());
+	         packet.setItemStack(item);
+	         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+	      }catch(Exception e) {
+	         e.printStackTrace();
+	      }
+	   }
 
    public void setItemInHand(Material material) {
       try{
@@ -218,6 +229,17 @@ public class NPC {
    
    public Material getItemInHand() {
       return this.inHand;
+   }
+   
+   public void setAnimation(NPCAnimation animation){
+	      try{
+	          kPacketPlayOutAnimation packet = new kPacketPlayOutAnimation();
+	          packet.setEntityID(entityID);
+	          packet.setNPCAnimation(animation);
+	          for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+	       }catch(Exception e) {
+	          e.printStackTrace();
+	       }
    }
    
 

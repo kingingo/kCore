@@ -13,11 +13,26 @@ import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 public class UtilItem {
+	
+	public static ItemStack getEnchantmentBook(Enchantment ench ,int lvl){
+		ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
+		item.addUnsafeEnchantment(ench, lvl);
+		EnchantmentStorageMeta meta = (EnchantmentStorageMeta)item.getItemMeta();
+		meta.addEnchant(ench, lvl, true);
+		item.setItemMeta(meta);
+		return item;
+	}
+	
+	public static ItemStack EnchantItem(ItemStack item,Enchantment ench,int lvl){
+		item.addEnchantment(ench, lvl);
+		return item;
+	}
 	
 	public static ItemStack EnchantItem(ItemStack item, String... ench){
 		for(String e : ench){

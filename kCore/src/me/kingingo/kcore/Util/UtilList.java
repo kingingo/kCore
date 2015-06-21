@@ -12,7 +12,6 @@ import java.util.zip.GZIPOutputStream;
 import org.apache.commons.codec.binary.Base64InputStream;
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -21,6 +20,38 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class UtilList {
+	
+  public static HashMap<String,Integer> getRanked(HashMap<String,Integer> list,int ranked){
+	  HashMap<String,Integer> rank = new HashMap<>();
+	  int a=0;
+	  int k=0;
+	  String p;
+	  boolean b=false;
+	  for(int i = 0; i<list.size(); i++){
+		  p=(String)list.keySet().toArray()[i];
+		  k=list.get(p);
+		  b=true;
+		  for(String p1 : list.keySet()){
+			  if(p1.equalsIgnoreCase(p))continue;
+			  if(list.get(p1) > k){
+				  b=false;
+				  break;
+			  }
+		  }
+		  
+		  if(b){
+			  rank.put(p, k);
+			  list.remove(p);
+			  a++;
+			  
+			  if(a==ranked){
+				  break;
+			  }
+		  }
+	  }
+	  
+	  return rank;
+  }
 	
   //UtilList.serialize( HASHMAP ) || UtilList.serialize( String )
   public static String serialize(Object object) throws IOException {
