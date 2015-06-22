@@ -15,7 +15,6 @@ TroubleInMinecraft("TroubleInMinecraft","TTT",ServerType.GAME,new Stats[]{Stats.
 DeathGames("DeathGames","DG",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 BedWars("BedWars","BW",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.BEDWARS_ZERSTOERTE_BEDs}),
 SheepWars("SheepWars","SW",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),
-MarioParty("MarioParty","MP",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 PVP("PvP-Server", "PvP", ServerType.PVP,new Stats[] { Stats.KILLS, Stats.DEATHS, Stats.MONEY }), 
 SKYBLOCK("SkyBlock", "Sky", ServerType.SKYBLOCK,new Stats[] { Stats.KILLS, Stats.DEATHS, Stats.MONEY }), 
 WARZ("WarZ-Server", "WarZ", ServerType.WARZ,new Stats[] { Stats.KILLS, Stats.DEATHS,Stats.ANIMAL_KILLS,Stats.ANIMAL_DEATHS,Stats.MONSTER_KILLS,Stats.MONSTER_DEATHS }),
