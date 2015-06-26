@@ -20,7 +20,6 @@ public class ButtonBase implements IButton{
 	@Setter
 	@Getter
 	private String[] description;
-	@Setter
 	@Getter
 	private ItemStack itemStack;
 	@Getter
@@ -65,6 +64,20 @@ public class ButtonBase implements IButton{
 	public ButtonBase(Click click){
 		this.click=click;
 		this.itemStack=null;
+	}
+	
+	public void remove(){
+		this.click=null;
+		this.name=null;
+		this.description=null;
+		this.itemStack=null;
+		this.slot=0;
+		this.inventoryPageBase=null;
+	}
+	
+	public void setItemStack(ItemStack item){
+		this.inventoryPageBase.setItem(slot, item);
+		this.itemStack=item;
 	}
 	
 	public void Clicked(Player player, ActionType type,Object object) {

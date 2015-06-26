@@ -9,5 +9,7 @@
 	<classpathentry kind="lib" path="C:/Dev/kSkyBlock.jar"/>
 	<classpathentry kind="lib" path="C:/Dev/Essentials.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Dev/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Dev/pscmerchant1.0.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

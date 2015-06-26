@@ -18,4 +18,5 @@ public abstract interface IButton{
   public abstract void setName(String name);
   public abstract void setDescription(String[] desc);
   public abstract String[] getDescription();
+  public abstract void remove();
 }

@@ -61,4 +61,13 @@ public class BooleanButton implements IButton{
 		click.onClick(player, type,object);
 	}
 
+	public void remove(){
+		this.click=null;
+		this.name=null;
+		this.description=null;
+		this.itemStack=null;
+		this.slot=0;
+		this.inventoryPageBase=null;
+	}
+	
 }

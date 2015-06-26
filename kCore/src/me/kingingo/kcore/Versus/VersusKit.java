@@ -25,7 +25,7 @@ public ItemStack[] toItemArray(){
 }
 
 public VersusKit fromItemArray(ItemStack[] items){
-	inv = new ItemStack[items.length-4];
+	inv = new ItemStack[ ((items.length-4)<5 ? 5 : items.length-4) ];
 	int i = 0;
 	for(int e = 0; e < items.length-4; e++){
 		inv[i]=items[e];
