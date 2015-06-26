@@ -66,7 +66,18 @@ public class PermissionManager {
 		return Color.GRAY.toString();
 	}
 	
-	public List<kPermission> getPermissionList(Player p){
+	public List<String> getPermissionList(Player p){
+		
+		ArrayList<String> list = new ArrayList<>();
+		if(plist.containsKey(UtilPlayer.getRealUUID(p))){
+			for(String perm : plist.get(UtilPlayer.getRealUUID(p)).getPermissions().keySet()){
+				list.add(perm);
+			}
+		}
+		return list;
+	}
+	
+	public List<kPermission> getkPermissionList(Player p){
 		
 		ArrayList<kPermission> list = new ArrayList<>();
 		if(plist.containsKey(UtilPlayer.getRealUUID(p))){
