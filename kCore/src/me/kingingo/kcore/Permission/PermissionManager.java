@@ -111,6 +111,18 @@ public class PermissionManager {
 		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(uuid));
 	}
 	
+	public void removeGroup(UUID uuid,String group){
+		removeGroup(uuid, group, getTyp());
+	}
+	
+	public void removeGroup(Player player,String group){
+		removeGroup(UtilPlayer.getRealUUID(player), group, getTyp());
+	}
+	
+	public void removeGroup(UUID uuid,String group,GroupTyp typ){
+		 mysql.Update("DELETE FROM game_perm WHERE uuid='" + uuid + "' AND pgroup='"+group+"' AND prefix='none' AND permission='none' AND (grouptyp='"+typ.name()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
+	}
+	
 	public void addPermission(UUID uuid, kPermission perm,GroupTyp typ){
 		addPermission(uuid, perm.getPermissionToString(), typ);
 	}
@@ -268,8 +280,9 @@ public class PermissionManager {
 		    		  transfareGroupPermissionToUser(uuid,rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[0],GroupTyp.get(rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[1]));
 		    	  }else if(rs.getString(1).contains("epicpvp.timer.group.")){
 		    		 if(System.currentTimeMillis() > UtilNumber.toLong(rs.getString(1).substring("epicpvp.timer.group.".length(), rs.getString(1).length()).split(":")[1])){
-		    			  setGroup(uuid, rs.getString(1).substring("epicpvp.timer.group.".length(), rs.getString(1).length()).split(":")[0]);
-		    			  removePermission(uuid, rs.getString(1));
+		    			 removeGroup(uuid, rs.getString(1).substring("epicpvp.timer.group.".length(), rs.getString(1).length()).split(":")[0]);
+//		    			 setGroup(uuid, rs.getString(1).substring("epicpvp.timer.group.".length(), rs.getString(1).length()).split(":")[0]);
+		    			 removePermission(uuid, rs.getString(1));
 		    		  }
 		    	  }else{
 			    	  if(!load.containsKey(uuid))load.put(uuid, new ArrayList<String>());
