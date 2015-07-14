@@ -6,6 +6,11 @@ import java.util.List;
 
 import lombok.Getter;
 import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
+import me.kingingo.kcore.Packet.PacketListener;
+import me.kingingo.kcore.Packet.PacketManager;
+import me.kingingo.kcore.Packet.Packets.TEAM_MESSAGE;
+import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
+import me.kingingo.kcore.Permission.kPermission;
 import net.minecraft.server.v1_8_R3.EntityHorse;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EntityWitherSkull;
@@ -25,6 +30,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.earth2me.essentials.Essentials;
 
@@ -32,6 +38,11 @@ public class UtilServer{
 	
 	@Getter
 	private static boolean loghandleradded = false;
+	private static kPacketListener listener;
+	
+	public static void createPacketListener(JavaPlugin instance){
+		if(listener==null)listener=new kPacketListener(instance);
+	}
 	
 	public static List<Integer> showLine(Location loc, String text) {
 		
@@ -56,6 +67,20 @@ public class UtilServer{
 	      }
 	      return Arrays.asList(skull.getId(), horse.getId());
 	   }
+	
+	public static void sendTeamMessage(String message,PacketManager packetManager){
+		
+		if(message.contains("%=%")){
+			String[] split = message.split("%=%");
+			for(String msg : split){
+				for(Player p : getPlayers())if(p.hasPermission(kPermission.TEAM_MESSAGE.getPermissionToString()))p.sendMessage(msg);
+			}
+		}else{
+			for(Player p : getPlayers())if(p.hasPermission(kPermission.TEAM_MESSAGE.getPermissionToString()))p.sendMessage(message);
+		}
+		
+		packetManager.SendPacket("BG", new TEAM_MESSAGE(message));
+	}
 	
 //	public static PacketPlayOutSpawnEntityLiving getCreateHorse(Location location,String text){
 //		PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();

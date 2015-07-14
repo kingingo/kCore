@@ -10,6 +10,7 @@ import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEve
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_8_R3.PacketPlayInUseEntity;
 
 import org.bukkit.Bukkit;
@@ -27,12 +28,11 @@ public class NPCManager implements Listener {
 	private HashMap<Integer,NPC> NPCList = new HashMap<>();
 	@Getter
 	private JavaPlugin instance;
-	private kPacketListener listener;
 	private HashMap<NPC,Player> owner;
 	
 	public NPCManager(JavaPlugin instance){
 		this.instance=instance;
-		this.listener=new kPacketListener(instance);
+		UtilServer.createPacketListener(instance);
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	

@@ -8,6 +8,7 @@ import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.PacketHandler;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.ReceivedPacket;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.SentPacket;
+import net.minecraft.server.v1_8_R3.PacketPlayInTabComplete;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -80,7 +81,6 @@ public class kPacketListener extends kListener implements IPacketEventHandler {
 		
 		PacketListenerReceiveEvent event = new PacketListenerReceiveEvent(packet, cancellable, p);
 		UtilPacket.callEvent(event);
-
 		ReceivedPacket pckt = new ReceivedPacket(packet, cancellable, p);
 		PacketHandler.notifyHandlers(pckt);
 		return pckt.getPacket();

@@ -13,6 +13,7 @@ import me.kingingo.kcore.PacketAPI.packetlistener.handler.ReceivedPacket;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.SentPacket;
 import net.minecraft.server.v1_8_R3.MathHelper;
 import net.minecraft.server.v1_8_R3.NetworkManager;
+import net.minecraft.server.v1_8_R3.PacketPlayInTabComplete;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -49,7 +50,7 @@ public class UtilPacket {
 		return channelField;
 	}
 	
-	public static void callEvent(final Event e) {
+	public static void callAsnycEvent(final Event e) {
 		Bukkit.getScheduler().runTaskAsynchronously(instance, new Runnable() {
 
 			@Override
@@ -61,6 +62,14 @@ public class UtilPacket {
 				}
 			}
 		});
+	}
+	
+	public static void callEvent(final Event e) {
+		try {
+			Bukkit.getPluginManager().callEvent(e);
+		} catch (IllegalStateException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public static Object onPacketReceive(Player p, Object packet, Cancellable cancellable) {
@@ -78,7 +87,7 @@ public class UtilPacket {
 		if (!packet.getClass().getName().startsWith("net.minecraft.server.")) return packet;
 		
 		PacketListenerSendEvent event = new PacketListenerSendEvent(packet, cancellable, p);
-		callEvent(event);
+		callAsnycEvent(event);
 
 		SentPacket pckt = new SentPacket(packet, cancellable, p);
 		PacketHandler.notifyHandlers(pckt);
