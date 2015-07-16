@@ -1,7 +1,6 @@
 package me.kingingo.kcore.AACHack;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
@@ -24,8 +23,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import sun.util.logging.resources.logging;
 
 public class AACHack extends kListener{
 
@@ -59,6 +56,7 @@ public class AACHack extends kListener{
 		this.df2.format(MyDate);
 	
 		getMysql().Update("CREATE TABLE IF NOT EXISTS AAC_HACK(name varchar(30),ip varchar(30),uuid varchar(100),server varchar(30),time varchar(30),hackType varchar(30),violations int)");
+		Log("AACHack System aktiviert");
 	}
 	
 	int anzahl=0;
@@ -72,14 +70,24 @@ public class AACHack extends kListener{
 		if(ev.getHackType()==HackType.FLY
 			||	ev.getHackType()==HackType.FASTBOW
 			|| ev.getHackType()==HackType.FIGHTSPEED
-			|| ev.getHackType()==HackType.FORCEFIELD
-			|| ev.getHackType()==HackType.KNOCKBACK
-			|| ev.getHackType()==HackType.CRITICALS
-			|| ev.getHackType()==HackType.SPEED){
+			|| ev.getHackType()==HackType.FORCEFIELD){
 			anzahl=getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='"+ev.getHackType().getName()+"' AND name='"+ev.getPlayer().getName().toLowerCase()+"' AND ip='"+ev.getPlayer().getAddress().getAddress().getHostAddress()+"' AND uuid='"+UtilPlayer.getRealUUID(ev.getPlayer())+"'");
 			
-			if(anzahl>=3){
-				setZeitBan(ev.getPlayer(), anzahl*2, "tag", ev.getHackType().getName());
+			if(anzahl>=5){
+				String type="";
+				int a = 0;
+				if(anzahl<=15){
+					a=anzahl*2;
+					type="min";
+				}else if(anzahl<=20){
+					a=anzahl;
+					type="std";
+				}else{
+					a=anzahl/2;
+					type="tag";
+				}
+				
+				setZeitBan(ev.getPlayer(), a, type, ev.getHackType().getName());
 				ev.setCancelled(true);
 			}
 		}

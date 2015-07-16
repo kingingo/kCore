@@ -63,6 +63,10 @@ public class ListenerCMD extends kListener{
 	        			ev.setCancelled(true);
 	        		}else if(use.getChatMessage().contains("/minecraft:")){
 	        			ev.setCancelled(true);
+	        		}else if(use.getChatMessage().contains("/ver")){
+	        			ev.setCancelled(true);
+	        		}else if(use.getChatMessage().equalsIgnoreCase("/")){
+	        			ev.setCancelled(true);
 	        		}
 	                
 	            } catch (Exception e){
