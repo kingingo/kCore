@@ -75,6 +75,10 @@ public class ButtonBase implements IButton{
 		this.inventoryPageBase=null;
 	}
 	
+	public void refreshItemStack(){
+		this.inventoryPageBase.setItem(slot, itemStack);
+	}
+	
 	public void setItemStack(ItemStack item){
 		this.inventoryPageBase.setItem(slot, item);
 		this.itemStack=item;

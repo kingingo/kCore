@@ -47,6 +47,10 @@ public class SalesPackageBase implements IButton{
 		click.onClick(player, type,object);
 	}
 	
+	public void refreshItemStack(){
+		this.inventoryPageBase.setItem(slot, itemStack);
+	}
+	
 	public void remove(){
 		this.click=null;
 		this.name=null;

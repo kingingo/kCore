@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Kit.InventorySetting;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
@@ -247,16 +248,25 @@ public class KitSettingInventorys extends InventoryBase{
 		this.enchant=new InventoryChoose(new Click(){
 
 			@Override
-			public void onClick(Player player, ActionType a, Object object) {
-				player.openInventory( inventorys.get(player) );
+			public void onClick(Player player, ActionType a, Object obj) {
+				if(inventorys.containsKey(player)&&enchant_list.containsKey(player)){
+					try{
+						inventorys.get(player).getButton(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
+						inventorys.get(player).getButton(enchant_list.get(player)).refreshItemStack();
+					}catch(IllegalArgumentException e){
+						
+					}
+					
+					player.openInventory(inventorys.get(player));
+				}
 			}
 			
 		}, "Enchanten", InventorySize._45.getSize(), loadEnchant());
 		enchant.addButton(0, new ButtonBase(new Click(){
 
 			@Override
-			public void onClick(Player player, ActionType type, Object object) {
-				player.openInventory(inventorys.get(player));
+			public void onClick(Player player, ActionType type, Object obj) {
+				player.openInventory( inventorys.get(player) );
 			}
 			
 		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
@@ -340,6 +350,8 @@ public class KitSettingInventorys extends InventoryBase{
 			inventorys.get(ev.getPlayer()).clear();
 			for(IButton b : inventorys.get(ev.getPlayer()).getButtons())b.remove();
 			inventorys.get(ev.getPlayer()).getButtons().clear();
+			inventorys.get(ev.getPlayer()).remove();
+			enchant_list.remove(ev.getPlayer());
 		}
 	}
 	
@@ -363,17 +375,39 @@ public class KitSettingInventorys extends InventoryBase{
 				kit.inv[3]=page.getItem(second_place_2);
 				kit.inv[4]=page.getItem(potion_place);
 				statsManager.setString(player, UtilInv.itemStackArrayToBase64(kit.toItemArray()), Stats.KIT);
-//				statsManager.SaveAllPlayerData(player);
+				statsManager.SaveAllPlayerData(player);
 				player.closeInventory();
 			}
 			
-		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)5), "§aKit Speichern")));
+		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)4), "§aKit Speichern")));
+		
+		page.addButton(9, new ButtonBase(new Click(){
+
+			@Override
+			public void onClick(Player player, ActionType type, Object object) {
+				if(UtilInv.GetData(page.getButton(9).getItemStack()) == 14){
+					page.getButton(9).setItemStack(UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)5), "§aEnchantment Mode AN"));
+					enchant_list.put(player, -1);
+				}else{
+					page.getButton(9).setItemStack(UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§aEnchantment Mode AUS"));
+					enchant_list.remove(player);
+				}
+			}
+			
+		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§aEnchantment Mode AUS")));
+		
 		page.addButton(helm_place, new ButtonBase(new Click(){
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					player.openInventory(helm_choose);
+					if(enchant_list.containsKey(player)){
+						enchant_list.remove(player);
+						enchant_list.put(player, helm_place);
+						player.openInventory(enchant);
+					}else{
+						player.openInventory(helm_choose);
+					}
 				}
 			}
 			
@@ -383,7 +417,13 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					player.openInventory(chestplate_choose);
+					if(enchant_list.containsKey(player)){
+						enchant_list.remove(player);
+						enchant_list.put(player, chestplate_place);
+						player.openInventory(enchant);
+					}else{
+						player.openInventory(chestplate_choose);
+					}
 				}
 			}
 			
@@ -393,7 +433,13 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					player.openInventory(leggings_choose);
+					if(enchant_list.containsKey(player)){
+						enchant_list.remove(player);
+						enchant_list.put(player, leggings_place);
+						player.openInventory(enchant);
+					}else{
+						player.openInventory(leggings_choose);
+					}
 				}
 			}
 			
@@ -403,7 +449,13 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					player.openInventory(boots_choose);
+					if(enchant_list.containsKey(player)){
+						enchant_list.remove(player);
+						enchant_list.put(player, boots_place);
+						player.openInventory(enchant);
+					}else{
+						player.openInventory(boots_choose);
+					}
 				}
 			}
 			
@@ -413,7 +465,13 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					player.openInventory(main_item_inventory1);
+					if(enchant_list.containsKey(player)){
+						enchant_list.remove(player);
+						enchant_list.put(player, main_place_1);
+						player.openInventory(enchant);
+					}else{
+						player.openInventory(main_item_inventory1);
+					}
 				}
 			}
 			
@@ -423,7 +481,13 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					player.openInventory(main_item_inventory2);
+					if(enchant_list.containsKey(player)){
+						enchant_list.remove(player);
+						enchant_list.put(player, main_place_2);
+						player.openInventory(enchant);
+					}else{
+						player.openInventory(main_item_inventory2);
+					}
 				}
 			}
 			
@@ -433,7 +497,13 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					player.openInventory(second_item1);
+					if(enchant_list.containsKey(player)){
+						enchant_list.remove(player);
+						enchant_list.put(player, second_place_1);
+						player.openInventory(enchant);
+					}else{
+						player.openInventory(second_item1);
+					}
 				}
 			}
 			
@@ -443,7 +513,13 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					player.openInventory(second_item2);
+					if(enchant_list.containsKey(player)){
+						enchant_list.remove(player);
+						enchant_list.put(player, second_place_2);
+						player.openInventory(enchant);
+					}else{
+						player.openInventory(second_item2);
+					}
 				}
 			}
 			
@@ -453,11 +529,18 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					player.openInventory(potion);
+					if(enchant_list.containsKey(player)){
+						enchant_list.remove(player);
+						enchant_list.put(player, potion_place);
+						player.openInventory(enchant);
+					}else{
+						player.openInventory(potion);
+					}
 				}
 			}
 			
 		}, (kit.inv[4]!=null ? kit.inv[4] : UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)6), " "))));
+
 		page.fill(Material.STAINED_GLASS_PANE, 15);
 		base.addPage(page);
 		player.openInventory(page);

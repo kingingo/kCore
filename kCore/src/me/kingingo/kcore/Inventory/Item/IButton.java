@@ -19,4 +19,5 @@ public abstract interface IButton{
   public abstract void setDescription(String[] desc);
   public abstract String[] getDescription();
   public abstract void remove();
+  public abstract void refreshItemStack();
 }

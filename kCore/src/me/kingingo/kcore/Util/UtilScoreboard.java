@@ -59,7 +59,8 @@ public class UtilScoreboard {
 	public static Team addTeam(Scoreboard board,String Team, String prefix){
 		if(board.getTeam(Team)!=null)return null;
 		Team r = board.registerNewTeam(Team);
-		if(prefix!=null)r.setPrefix(UtilString.cut(prefix));
+		String pr = UtilString.cut(prefix);
+		if(prefix!=null)r.setPrefix(pr);
 		return r;
 	}
 	

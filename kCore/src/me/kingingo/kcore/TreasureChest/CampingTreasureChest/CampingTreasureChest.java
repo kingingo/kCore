@@ -1,4 +1,4 @@
-package me.kingingo.kcore.TreasureChest;
+package me.kingingo.kcore.TreasureChest.CampingTreasureChest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,12 +27,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class TreasureChest extends kListener{
+public class CampingTreasureChest extends kListener{
 
 	@Getter
 	private JavaPlugin instance;
 	@Getter
-	private TreasureChestType type;
+	private CampingTreasureChestType type;
 	@Getter
 	private ItemStack treasurechest;
 	private HashMap<Player,TreasureChestHandler> list = new HashMap<>();
@@ -43,7 +43,7 @@ public class TreasureChest extends kListener{
         public InventoryBase getInventory();
     }
 	
-	public TreasureChest(JavaPlugin instance,TreasureChestType type){
+	public CampingTreasureChest(JavaPlugin instance,CampingTreasureChestType type){
 		super(instance,"[TreasureChest]");
 		this.instance=instance;
 		this.type=type;

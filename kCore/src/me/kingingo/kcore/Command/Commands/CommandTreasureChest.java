@@ -4,9 +4,9 @@ import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto;
 import me.kingingo.kcore.Inventory.Item.Click;
-import me.kingingo.kcore.TreasureChest.TreasureChest;
-import me.kingingo.kcore.TreasureChest.TreasureChest.TreasureChestHandler;
-import me.kingingo.kcore.TreasureChest.TreasureChestType;
+import me.kingingo.kcore.TreasureChest.CampingTreasureChest.CampingTreasureChest;
+import me.kingingo.kcore.TreasureChest.CampingTreasureChest.CampingTreasureChestType;
+import me.kingingo.kcore.TreasureChest.CampingTreasureChest.CampingTreasureChest.TreasureChestHandler;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -21,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandTreasureChest implements CommandExecutor{
 	
-	private TreasureChest chest;
+	private CampingTreasureChest chest;
 	private JavaPlugin instance;
 	
 	public CommandTreasureChest(JavaPlugin instance){
@@ -30,7 +30,7 @@ public class CommandTreasureChest implements CommandExecutor{
 
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "treasurechest", sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
-		if(chest==null)chest=new TreasureChest(instance,TreasureChestType.SKY);
+		if(chest==null)chest=new CampingTreasureChest(instance,CampingTreasureChestType.SKY);
 		if(cs instanceof Player){
 			Player p = (Player)cs;
 			if(args.length==0){

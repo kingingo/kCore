@@ -87,8 +87,8 @@ public class PermissionListener extends kListener {
 								}	
 							}
 							
-							if(manager.getPgroup().containsKey(uuid)){
-								if(!player.isOp()){
+								if(manager.getPgroup().containsKey(uuid)){
+									if(!player.isOp()){
 									for(String perm : manager.getGroups().get(manager.getPgroup().get(uuid)).getPerms() ){
 										if(perm.equalsIgnoreCase(kPermission.ALL_PERMISSION.getPermissionToString())){
 											player.setOp(true);
@@ -117,6 +117,10 @@ public class PermissionListener extends kListener {
 								if(!player.isOp()){
 									for(String perm : manager.getGroups().get(manager.getPgroup().get(uuid)).getPerms()){
 										if(perm.substring(0, 1).equalsIgnoreCase("-")){
+											if(perm.substring(1, perm.length()).contains("epicpvp.timer.")){
+												p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
+												list.remove(p);
+											}
 											list.remove(perm.substring(1, perm.length()));
 										}
 									}
@@ -124,6 +128,10 @@ public class PermissionListener extends kListener {
 									if(manager.getLoad().containsKey(uuid)){
 										for(String perm : manager.getLoad().get(uuid)){
 											if(perm.substring(0, 1).equalsIgnoreCase("-")){
+												if(perm.substring(1, perm.length()).contains("epicpvp.timer.")){
+													p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
+													list.remove(p);
+												}
 												list.remove(perm.substring(1, perm.length()).toLowerCase());
 											}
 										}

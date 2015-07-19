@@ -48,6 +48,8 @@ public class ListenerCMD extends kListener{
 	    	ev.setCancelled(true);
 	    }else if(cmd.contains("/minecraft:")){
 	    	ev.setCancelled(true);
+	    }else if(cmd.contains("/essentials:")){
+	    	ev.setCancelled(true);
 	    }
 	}
 	
@@ -62,6 +64,8 @@ public class ListenerCMD extends kListener{
 	        		}else if(use.getChatMessage().contains("/bukkit:")){
 	        			ev.setCancelled(true);
 	        		}else if(use.getChatMessage().contains("/minecraft:")){
+	        			ev.setCancelled(true);
+	        		}else if(use.getChatMessage().contains("/essentials:")){
 	        			ev.setCancelled(true);
 	        		}else if(use.getChatMessage().contains("/ver")){
 	        			ev.setCancelled(true);

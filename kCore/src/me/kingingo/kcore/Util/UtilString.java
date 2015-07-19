@@ -49,9 +49,13 @@ public class UtilString
       return img;
     }
     
+  public static String corect(String t){
+	  return (t.endsWith("§") ? t.substring(0, t.length()-1) : t );
+  }
+    
   public static String cut(String t){
 	  if(t.length()>16){
-		  return t.substring(0,15);
+		  return corect(t.substring(0,16));
 	  }else{
 		  return t;
 	  }
