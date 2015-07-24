@@ -26,16 +26,13 @@ public class Info {
 			}
 			manager.getMember(g);
 			p.sendMessage("§6Anzahl: §b"+manager.getAnzahl(g)+"/10");
-			
+			String[] players = manager.getGildenPlayersName(g);
 			String l = "§6List: ";
-			for(UUID n : manager.getGilden_player().keySet()){
-				if(manager.getGilden_player().get(n).equalsIgnoreCase(g)){
-					if(UtilPlayer.isOnline(n)){
-						l=l+" §a"+Bukkit.getPlayer(n).getName()+",";
-					}else{
-						if(Bukkit.getOfflinePlayer(n)==null)continue;
-						l=l+" §c"+Bukkit.getOfflinePlayer(n).getName()+",";
-					}
+			for(String player : players){
+				if(UtilPlayer.isOnline(player)){
+					l=l+" §a"+Bukkit.getPlayer(player).getName()+",";
+				}else{
+					l=l+" §c"+player+",";
 				}
 			}
 			l=l.substring(0, l.length()-1);
@@ -52,15 +49,13 @@ public class Info {
 				p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getInt(s, g, manager.getTyp()));
 			}
 			manager.getMember(g);
+			String[] players = manager.getGildenPlayersName(g);
 			String l = "§6List: ";
-			for(UUID n : manager.getGilden_player().keySet()){
-				if(manager.getGilden_player().get(n).equalsIgnoreCase(g)){
-					if(UtilPlayer.isOnline(n)){
-						l=l+" §a"+Bukkit.getPlayer(n).getName()+",";
-					}else{
-						if(Bukkit.getOfflinePlayer(n)==null&&Bukkit.getOfflinePlayer(n).getName().equalsIgnoreCase("null"))continue;
-						l=l+" §c"+Bukkit.getOfflinePlayer(n).getName()+",";
-					}
+			for(String player : players){
+				if(UtilPlayer.isOnline(player)){
+					l=l+" §a"+Bukkit.getPlayer(player).getName()+",";
+				}else{
+					l=l+" §c"+player+",";
 				}
 			}
 			l=l.substring(0, l.length()-1);

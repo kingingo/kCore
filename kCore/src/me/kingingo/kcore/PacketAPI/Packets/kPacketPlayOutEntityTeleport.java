@@ -1,14 +1,14 @@
 package me.kingingo.kcore.PacketAPI.Packets;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-
 import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.UtilPacket;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityTeleport;
-import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 
 public class kPacketPlayOutEntityTeleport implements kPacket {
 
@@ -24,6 +24,17 @@ public class kPacketPlayOutEntityTeleport implements kPacket {
 	
 	public kPacketPlayOutEntityTeleport(){
 		packet = new PacketPlayOutEntityTeleport();
+	}
+	
+	public kPacketPlayOutEntityTeleport(EntityPlayer en){
+		packet = new PacketPlayOutEntityTeleport();
+		setEntityID(en.getId());
+		setX(en.locX);
+		setY(en.locY);
+		setZ(en.locZ);;
+		setYaw(en.yaw);;
+		setPitch(en.pitch);
+		setOnGround(en.onGround);
 	}
 	
 	public kPacketPlayOutEntityTeleport(Entity en){

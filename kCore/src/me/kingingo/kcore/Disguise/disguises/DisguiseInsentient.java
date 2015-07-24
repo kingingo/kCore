@@ -1,10 +1,10 @@
 package me.kingingo.kcore.Disguise.disguises;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.server.v1_8_R3.DataWatcher;
+
+import me.kingingo.kcore.PacketAPI.kPacket;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
 import net.minecraft.server.v1_8_R3.ItemStack;
-import net.minecraft.server.v1_8_R3.Packet;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
 
 public abstract class DisguiseInsentient extends DisguiseLiving
 {
@@ -20,22 +20,22 @@ public abstract class DisguiseInsentient extends DisguiseLiving
 
   public void SetName(String name)
   {
-    this.DataWatcher.watch(10, name);
+    this.DataWatcher.setCustomName(name);
   }
 
   public boolean HasCustomName()
   {
-    return this.DataWatcher.getString(10).length() > 0;
+    return this.DataWatcher.hasCustomName();
   }
 
   public void SetCustomNameVisible(boolean visible)
   {
-    this.DataWatcher.watch(11, Byte.valueOf((byte)(visible ? 1 : 0)));
+    this.DataWatcher.setCustomNameVisible(visible);
   }
 
   public boolean GetCustomNameVisible()
   {
-    return this.DataWatcher.getByte(11) == 1;
+    return this.DataWatcher.isVisible();
   }
 
   public boolean armorVisible()
@@ -53,7 +53,7 @@ public abstract class DisguiseInsentient extends DisguiseLiving
     this._showArmor = false;
   }
 
-  public List<Packet> getArmorPackets()
+  public List<kPacket> getArmorPackets()
   {
     List p5 = new ArrayList();
     ItemStack[] armorContents = this.Entity.getEquipment();
@@ -64,7 +64,7 @@ public abstract class DisguiseInsentient extends DisguiseLiving
 
       if (armorSlot != null)
       {
-        p5.add(new PacketPlayOutEntityEquipment(this.Entity.getId(), i, armorSlot));
+        p5.add(new kPacketPlayOutEntityEquipment(this.Entity.getId(), i, armorSlot));
       }
     }
 

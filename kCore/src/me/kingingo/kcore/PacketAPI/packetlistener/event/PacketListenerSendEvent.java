@@ -2,6 +2,7 @@ package me.kingingo.kcore.PacketAPI.packetlistener.event;
 
 import java.lang.reflect.Field;
 
+import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.packetlistener.Cancellable;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.PacketHandler;
 
@@ -13,6 +14,7 @@ public class PacketListenerSendEvent extends Event {
 	private static HandlerList	handlers	= new HandlerList();
 	private Player				player;
 	private Object				packet;
+	@Getter
 	private Cancellable			cancel;
 
 	public PacketListenerSendEvent(Object packet, Cancellable cancel, Player player) {

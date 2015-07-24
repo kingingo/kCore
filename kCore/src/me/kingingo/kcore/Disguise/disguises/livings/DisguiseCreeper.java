@@ -12,6 +12,7 @@ public class DisguiseCreeper extends DisguiseMonster
 
     this.DataWatcher.a(16, Byte.valueOf((byte)-1));
     this.DataWatcher.a(17, Byte.valueOf((byte)0));
+    this.DataWatcher.a(18, Byte.valueOf((byte)0));
   }
 
   protected EntityType GetEntityTypeId()
@@ -29,14 +30,21 @@ public class DisguiseCreeper extends DisguiseMonster
     this.DataWatcher.watch(17, Byte.valueOf((byte)(powered ? 1 : 0)));
   }
 
-  public int bV()
-  {
-    return this.DataWatcher.getByte(16);
+  public int cm() {
+	  return this.DataWatcher.getByte(16);
   }
 
-  public void a(int i)
+  public void a(int i) {
+	  this.DataWatcher.watch(16, Byte.valueOf((byte)i));
+  }
+  
+  public boolean cn()
   {
-    this.DataWatcher.watch(16, Byte.valueOf((byte)i));
+    return this.DataWatcher.getByte(18) != 0;
+  }
+
+  public void co() {
+    this.DataWatcher.watch(18, Byte.valueOf((byte)1));
   }
 
   protected String getHurtSound()

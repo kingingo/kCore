@@ -13,14 +13,14 @@ public class DisguiseBat extends DisguiseAnimal
     this.DataWatcher.a(16, new Byte((byte)0));
   }
 
-  public boolean isSitting()
+  public boolean isAsleep()
   {
     return (this.DataWatcher.getByte(16) & 0x1) != 0;
   }
 
-  public void setSitting(boolean paramBoolean)
+  public void setAsleep(boolean paramBoolean)
   {
-    int i = this.DataWatcher.getByte(16);
+	byte i = this.DataWatcher.getByte(16);
     if (paramBoolean)
       this.DataWatcher.watch(16, Byte.valueOf((byte)(i | 0x1)));
     else

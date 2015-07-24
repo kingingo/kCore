@@ -1,6 +1,7 @@
 package me.kingingo.kcore.PacketAPI.Packets;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.PacketAPI.UtilPacket;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
@@ -11,7 +12,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
-public class kPacketPlayOutEntityLiving implements kPacket{
+public class kPacketPlayOutSpawnEntityLiving implements kPacket{
 
 	private String X = "c";
 	private String Y = "d";
@@ -23,20 +24,21 @@ public class kPacketPlayOutEntityLiving implements kPacket{
 	private String ID = "a";
 	
 	@Getter
+	@Setter
 	private PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
 	
-	public kPacketPlayOutEntityLiving(){
+	public kPacketPlayOutSpawnEntityLiving(){
 		packet = new PacketPlayOutSpawnEntityLiving();
 	}
 	
-	public kPacketPlayOutEntityLiving(int entityID ,EntityType type ,Location location){
+	public kPacketPlayOutSpawnEntityLiving(int entityID ,EntityType type ,Location location){
 		packet = new PacketPlayOutSpawnEntityLiving();
 		setEntityID(entityID);
 		setEntityType(type);
 		setLocation(location);
 	}
 	
-	public kPacketPlayOutEntityLiving(EntityLiving living){
+	public kPacketPlayOutSpawnEntityLiving(EntityLiving living){
 		packet = new PacketPlayOutSpawnEntityLiving(living);
 	}
 	

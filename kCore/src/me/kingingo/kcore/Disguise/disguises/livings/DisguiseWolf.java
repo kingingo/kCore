@@ -1,6 +1,8 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
 
 import me.kingingo.kcore.Disguise.disguises.DisguiseTameableAnimal;
+import net.minecraft.server.v1_8_R3.EnumColor;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
@@ -10,10 +12,9 @@ public class DisguiseWolf extends DisguiseTameableAnimal
   {
     super(entity);
 
-    this.DataWatcher.a(18, new Float(20.0F));
+    this.DataWatcher.a(18, new Float(getHealth()));
     this.DataWatcher.a(19, new Byte((byte)0));
-//    this.DataWatcher.a(20, new Byte((byte)BlockCloth.));
-//    this.DataWatcher.a(20, new Byte((byte)BlockCloth.b(1)));
+    this.DataWatcher.a(20, new Byte((byte)EnumColor.RED.getColorIndex()));
   }
 
   public boolean isAngry()
@@ -41,7 +42,7 @@ public class DisguiseWolf extends DisguiseTameableAnimal
     this.DataWatcher.watch(20, Byte.valueOf((byte)(i & 0xF)));
   }
 
-  public void m(boolean flag)
+  public void p(boolean flag)
   {
     if (flag)
       this.DataWatcher.watch(19, Byte.valueOf((byte)1));
@@ -49,7 +50,7 @@ public class DisguiseWolf extends DisguiseTameableAnimal
       this.DataWatcher.watch(19, Byte.valueOf((byte)0));
   }
 
-  public boolean ce()
+  public boolean cx()
   {
     return this.DataWatcher.getByte(19) == 1;
   }

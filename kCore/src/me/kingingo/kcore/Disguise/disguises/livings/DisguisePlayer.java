@@ -1,10 +1,23 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.entity.Player;
+
 import me.kingingo.kcore.Disguise.disguises.DisguiseHuman;
+import me.kingingo.kcore.PacketAPI.kPacket;
+import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
+import me.kingingo.kcore.PacketAPI.Packets.kGameProfile;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo.kPlayerInfoData;
+import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilServer;
+import net.minecraft.server.v1_8_R3.DataWatcher;
 import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 
 public class DisguisePlayer extends DisguiseHuman
 {
@@ -13,49 +26,60 @@ public class DisguisePlayer extends DisguiseHuman
   public DisguisePlayer(org.bukkit.entity.Entity entity, String name)
   {
     super(entity);
-
+    
     if (name.length() > 16)
     {
       name = name.substring(0, 16);
     }
 
     this._name = name;
+    this.DataWatcher.setCustomName(_name);
   }
+  
+  public kPacket getTabList() {
+      try {
+         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
+         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.Entity.getUniqueID(), this._name), this._name);
+         List<PlayerInfoData> players = packet.getList();
+         players.add(data);
+         
+         packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
+         packet.setList(players);
 
-  public Packet GetSpawnPacket(){
-//	  WrapperPlayServerNamedEntitySpawn packet = new WrapperPlayServerNamedEntitySpawn();
-//	  packet.setEntityID(this.Entity.getId());
-//	  packet.setProfile(new WrappedGameProfile(UUID.randomUUID(),this._name));
-//	  packet.setX(MathHelper.floor(this.Entity.locX * 32.0D));
-//	  packet.setY(MathHelper.floor(this.Entity.locY * 32.0D));
-//	  packet.setZ(MathHelper.floor(this.Entity.locZ * 32.0D));
-//	  packet.setYaw(((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
-//	  packet.setPitch(((byte)(int)(this.Entity.pitch * 256.0F / 360.0F)));
-//	  packet.setMetadata(new WrappedDataWatcher(this.DataWatcher));
-//	  return packet.getHandle();
-	  
+         return packet;
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+      return null;
+   }
+
+  public kPacket removeFromTablist() {
+	   try {
+	         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
+	         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.Entity.getUniqueID(), this._name), _name);
+	         List<PlayerInfoData> players = packet.getList();
+	         players.add(data);
+	         
+	         packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
+	         packet.setList(players);
+	         
+	         return packet;
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
+	   return null;
+  }
+  
+  public kPacket GetSpawnPacket(){
 	  kPacketPlayOutNamedEntitySpawn packet = new kPacketPlayOutNamedEntitySpawn();
 	  packet.setEntityID(this.Entity.getId());
-	  packet.setUUID(UUID.randomUUID());
+	  packet.setUUID(this.Entity.getUniqueID());
 	  packet.setX(this.Entity.locX);
 	  packet.setY(this.Entity.locY);
 	  packet.setZ(this.Entity.locZ);
 	  packet.setYaw(this.Entity.yaw);
 	  packet.setPitch(this.Entity.pitch);
 	  packet.setDataWatcher(this.DataWatcher);
-	  
-	  return packet.getPacket();
-	  
-//    PacketPlayOutNamedEntitySpawn packet = new PacketPlayOutNamedEntitySpawn();
-//    UtilReflection.setValue("a", packet, this.Entity.getId());
-//    UtilReflection.setValue("b", packet, new GameProfile(UUID.randomUUID(), this._name));
-//    UtilReflection.setValue("c", packet, MathHelper.floor(this.Entity.locX * 32.0D));
-//    UtilReflection.setValue("d", packet, MathHelper.floor(this.Entity.locY * 32.0D));
-//    UtilReflection.setValue("e", packet, MathHelper.floor(this.Entity.locZ * 32.0D));
-//    UtilReflection.setValue("f", packet, ((byte)(int)(this.Entity.yaw * 256.0F / 360.0F)));
-//    UtilReflection.setValue("g", packet, ((byte)(int)(this.Entity.pitch * 256.0F / 360.0F)));
-//    UtilReflection.setValue("i", packet, this.DataWatcher);
-//
-//    return packet;
+	  return packet;
   }
 }

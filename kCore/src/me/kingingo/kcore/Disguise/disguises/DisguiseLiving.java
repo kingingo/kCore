@@ -20,10 +20,18 @@ public abstract class DisguiseLiving extends DisguiseBase
   {
     super.UpdateDataWatcher();
 
-    this.DataWatcher.watch(6, Float.valueOf(this.Entity.getDataWatcher().getFloat(6)));
+    setHealth(Float.valueOf(this.Entity.getDataWatcher().getFloat(6)));
     this.DataWatcher.watch(7, Integer.valueOf(this.Entity.getDataWatcher().getInt(7)));
     this.DataWatcher.watch(8, Byte.valueOf(this.Entity.getDataWatcher().getByte(8)));
     this.DataWatcher.watch(9, Byte.valueOf(this.Entity.getDataWatcher().getByte(9)));
+  }
+  
+  public float getHealth(){
+	  return this.DataWatcher.getFloat(6);
+  }
+  
+  public void setHealth(float f){
+      this.DataWatcher.watch(6, Float.valueOf(f));
   }
 
   protected String getHurtSound()

@@ -23,6 +23,10 @@ public class kPacketPlayOutPlayerInfo implements kPacket{
 		packet=new PacketPlayOutPlayerInfo();
 	}
 	
+	public kPacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo packet){
+		this.packet=packet;
+	}
+	
 	public kPacketPlayOutPlayerInfo(EnumPlayerInfoAction action,EntityPlayer[] players){
 		packet=new PacketPlayOutPlayerInfo();
 	}

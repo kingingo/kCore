@@ -132,8 +132,7 @@ public enum UtilDirection
         }
     }
 	
-	public static UtilDirection getDirection(String direction)
-	{
+	public static UtilDirection getDirection(String direction){
 		for ( UtilDirection dir : UtilDirection.values() )
 		{
 			if ( dir.name().equalsIgnoreCase(direction) )
@@ -142,8 +141,11 @@ public enum UtilDirection
 		return UtilDirection.NORTH;
 	}
 	
-	public static UtilDirection getDirection(BlockFace face)
-	{
+	public static UtilDirection getDirection(Location from,Location to){
+		return UtilDirection.getDirection(from.getBlock().getFace(to.getBlock()));
+	}
+	
+	public static UtilDirection getDirection(BlockFace face){
 		for ( UtilDirection dir : UtilDirection.values() )
 		{
 			if ( face == dir.getBlockFace() )

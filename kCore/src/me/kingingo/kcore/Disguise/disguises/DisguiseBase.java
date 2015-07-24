@@ -1,5 +1,8 @@
 package me.kingingo.kcore.Disguise.disguises;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguiseEnderman;
+import me.kingingo.kcore.PacketAPI.kPacket;
+import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_8_R3.DataWatcher;
 import net.minecraft.server.v1_8_R3.Packet;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
@@ -11,13 +14,13 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 public abstract class DisguiseBase
 {
   protected net.minecraft.server.v1_8_R3.Entity Entity;
-  protected DataWatcher DataWatcher;
+  protected kDataWatcher DataWatcher;
   private DisguiseBase _soundDisguise;
 
   public DisguiseBase(org.bukkit.entity.Entity entity)
   {
     this.Entity = ((CraftEntity)entity).getHandle();
-    this.DataWatcher = new DataWatcher(new DummyEntity(((CraftWorld)entity.getWorld()).getHandle()));
+    this.DataWatcher = new kDataWatcher(new DummyEntity(((CraftWorld)entity.getWorld()).getHandle()));
 
     this.DataWatcher.a(0, Byte.valueOf((byte)0));
     this.DataWatcher.a(1, Short.valueOf((short)300));
@@ -36,12 +39,12 @@ public abstract class DisguiseBase
     }
   }
 
-  public abstract Packet GetSpawnPacket();
+  public abstract kPacket GetSpawnPacket();
 
-  public Packet GetMetaDataPacket()
+  public kPacket GetMetaDataPacket()
   {
     UpdateDataWatcher();
-    return new PacketPlayOutEntityMetadata(this.Entity.getId(), this.DataWatcher, true);
+    return new kPacketPlayOutEntityMetadata(this.Entity.getId(), this.DataWatcher);
   }
 
   public void setSoundDisguise(DisguiseBase soundDisguise)

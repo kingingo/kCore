@@ -25,10 +25,20 @@ WOLF,
 IRON_GOLEM,
 PIG,
 ZOMBIE,
+CAVE_SPIDER,
+SPIDER,
+GUARDIAN,
+MUSHROOM_COW,
+RABBIT,
+VILLAGER,
+WITHER,
+ENDERDRAGON,
 PLAYER;
 
 public static DisguiseBase newDisguise(LivingEntity entity,DisguiseType type,Object[] o){
 	switch(type){
+	case ENDERDRAGON:
+		return new DisguiseEnderdragon(entity);
 	case BLAZE: 
 		DisguiseBlaze d = new DisguiseBlaze(entity);
 		d.SetName((String)o[0]);
@@ -39,9 +49,9 @@ public static DisguiseBase newDisguise(LivingEntity entity,DisguiseType type,Obj
 		d1.SetName( (String)o[0] );
 		d1.SetCustomNameVisible(true);
 		return d1;
-//	case BLOCK:
-//		DisguiseBlock d2 = new DisguiseBlock(entity,((int)o[0]),((int)o[1]));
-//		return d2;
+	case BLOCK:
+		DisguiseBlock d2 = new DisguiseBlock(entity,((int)o[0])); // ,((int)o[1])
+		return d2;
 	case CAT: 
 		DisguiseCat d3=new DisguiseCat(entity);
 		d3.SetName((String)o[0]);
@@ -72,11 +82,11 @@ public static DisguiseBase newDisguise(LivingEntity entity,DisguiseType type,Obj
 		d8.SetName((String)o[0]);
 		d8.SetCustomNameVisible(true);
 		return d8;
-//	case MAGMA_CUBE:
-//		DisguiseMagmaCube d9 = new DisguiseMagmaCube(entity);
-//		d9.SetName( (String)o[0] );
-//		d9.SetCustomNameVisible(true);
-//		return d9;
+	case MAGMA_CUBE:
+		DisguiseMagmaCube d9 = new DisguiseMagmaCube(entity);
+		d9.SetName( (String)o[0] );
+		d9.SetCustomNameVisible(true);
+		return d9;
 	case PIG_ZOMBIE: 
 		DisguisePigZombie d10 = new DisguisePigZombie(entity);
 		d10.SetName( (String)o[0] );
@@ -97,17 +107,18 @@ public static DisguiseBase newDisguise(LivingEntity entity,DisguiseType type,Obj
 		d13.SetName( (String)o[0] );
 		d13.SetCustomNameVisible(true);
 		return d13;
-//	case SLIME:
-//		DisguiseSlime d14 = new DisguiseSlime(entity);
-//		d14.SetName( (String)o[0] );
-//		d14.SetCustomNameVisible(true);
-//		return d14;
+	case SLIME:
+		DisguiseSlime d14 = new DisguiseSlime(entity);
+		d14.SetName( (String)o[0] );
+		d14.SetCustomNameVisible(true);
+		return d14;
 	case WOLF: 
 		DisguiseWolf d15 = new DisguiseWolf(entity);
 		d15.SetName( (String)o[0] );
 		d15.SetCustomNameVisible(true);
 		return d15;
-	//case PLAYER: return new DisguisePlayer(entity,(String)o[0]);
+	case PLAYER:
+		return new DisguisePlayer(entity,(String)o[0]);
 	case IRON_GOLEM:
 		DisguiseIronGolem d17 = new DisguiseIronGolem(entity);
 		d17.SetName( (String)o[0] );
@@ -123,6 +134,41 @@ public static DisguiseBase newDisguise(LivingEntity entity,DisguiseType type,Obj
 		d19.SetName( (String)o[0] );
 		d19.SetCustomNameVisible(true);
 		return d19;
+	case CAVE_SPIDER: 
+		DisguiseCaveSpider d20 = new DisguiseCaveSpider(entity);
+		d20.SetName( (String)o[0] );
+		d20.SetCustomNameVisible(true);
+		return d20;
+	case SPIDER: 
+		DisguiseSpider d21 = new DisguiseSpider(entity);
+		d21.SetName( (String)o[0] );
+		d21.SetCustomNameVisible(true);
+		return d21;
+	case GUARDIAN:
+		DisguiseGuardian d22 = new DisguiseGuardian(entity);
+		d22.SetName( (String)o[0] );
+		d22.SetCustomNameVisible(true);
+		return d22;
+	case MUSHROOM_COW:
+		DisguiseMushroomCow d23 = new DisguiseMushroomCow(entity);
+		d23.SetName( (String)o[0] );
+		d23.SetCustomNameVisible(true);
+		return d23;
+	case RABBIT:
+		DisguiseRabbit d24 = new DisguiseRabbit(entity);
+		d24.SetName( (String)o[0] );
+		d24.SetCustomNameVisible(true);
+		return d24;
+	case VILLAGER:
+		DisguiseVillager d25 = new DisguiseVillager(entity);
+		d25.SetName( (String)o[0] );
+		d25.SetCustomNameVisible(true);
+		return d25;
+	case WITHER:
+		DisguiseWither d26 = new DisguiseWither(entity);
+		d26.SetName( (String)o[0] );
+		d26.SetCustomNameVisible(true);
+		return d26;
 	default:
 		return new DisguisePig(entity);
 	}

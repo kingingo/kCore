@@ -71,6 +71,10 @@ public class UtilLocation {
 	    return Math.floor(f) == f;
 	  }
 	
+	public static boolean isSameLocation(Location loc,Location loc1){
+		return (loc.getBlockX()==loc1.getBlockX()&&loc.getBlockY()==loc1.getBlockY()&&loc.getBlockZ()==loc1.getBlockZ());
+	}
+	
 	public static Block[] searchBlocks(Material material,int radius, Location startloc){
 		List<Block> list = getScans(radius,true, startloc);
 		Block block = null;

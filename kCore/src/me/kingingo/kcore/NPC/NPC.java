@@ -1,10 +1,12 @@
 package me.kingingo.kcore.NPC;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.PacketAPI.Packets.kGameProfile;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutAnimation;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutBed;
@@ -40,9 +42,13 @@ public class NPC {
    private Material helmet;
    private Material boots;
    private String tablist;
+   @Setter
    private int entityID;
    private String name;
    private UUID uuid;
+   @Getter
+   @Setter
+   private ArrayList<Player> notsend;
    
    @Getter
    private kPacketPlayOutNamedEntitySpawn spawn_packet;
@@ -74,7 +80,6 @@ public class NPC {
    public NPC(NPCManager manager,String name, String tablist, Location location, Material inHand) {
       this(manager,name, tablist, UUID.randomUUID(), new Random().nextInt(10000), location, inHand);
    }
-   
 
    public void spawn() {
       try{
@@ -89,7 +94,10 @@ public class NPC {
          
          if(manager!=null)this.manager.getNPCList().put(this.entityID, this);
          
-         for(Player online : Bukkit.getOnlinePlayers())UtilPlayer.sendPacket(online, spawn_packet);
+         for(Player online : UtilServer.getPlayers()){
+        	 if(notsend!=null&&notsend.contains(online))continue;
+        	 UtilPlayer.sendPacket(online, spawn_packet);
+         }
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -100,7 +108,10 @@ public class NPC {
       kPacketPlayOutEntityDestroy packet = new kPacketPlayOutEntityDestroy(new int[]{this.entityID});
       this.removeFromTablist();
       if(manager!=null)this.manager.getNPCList().remove(this.entityID);
-      for(Player online : Bukkit.getOnlinePlayers())UtilPlayer.sendPacket(online, packet);
+      for(Player online : UtilServer.getPlayers()){
+     	 if(notsend!=null&&notsend.contains(online))continue;
+     	 UtilPlayer.sendPacket(online, packet);
+      }
    }
    
    public void walk(Location newLoc) {
@@ -122,7 +133,10 @@ public class NPC {
 	   this.location.add((xs - getLocation().getBlockX()), (ys - getLocation().getBlockY()), (zs - getLocation().getBlockZ()));
        kPacketPlayOutRelEntityMoveLook packet = new kPacketPlayOutRelEntityMoveLook(this.entityID,x,y,z,getCompressedAngle(yaw),getCompressedAngle(pitch),true);
 
-       for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+       for(Player online : UtilServer.getPlayers()){
+       	 if(notsend!=null&&notsend.contains(online))continue;
+       	 UtilPlayer.sendPacket(online, packet);
+        }
    }
    
    public void sleep(){
@@ -132,7 +146,10 @@ public class NPC {
 			packet.setEntityID(entityID);
 			packet.setPosition(location);
 			
-			for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+			for(Player online : UtilServer.getPlayers()){
+		     	 if(notsend!=null&&notsend.contains(online))continue;
+		     	 UtilPlayer.sendPacket(online, packet);
+		      }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -151,7 +168,10 @@ public class NPC {
          packet.setList(players);
          this.tablist = name;
 
-         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+         for(Player online : UtilServer.getPlayers()){
+         	 if(notsend!=null&&notsend.contains(online))continue;
+         	 UtilPlayer.sendPacket(online, packet);
+          }
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -168,7 +188,10 @@ public class NPC {
          packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
          packet.setList(players);
 
-         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+         for(Player online : UtilServer.getPlayers()){
+         	 if(notsend!=null&&notsend.contains(online))continue;
+         	 UtilPlayer.sendPacket(online, packet);
+          }
       } catch (Exception e) {
          e.printStackTrace();
       }
@@ -185,7 +208,10 @@ public class NPC {
 	         packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
 	         packet.setList(players);
 	         
-	         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+	         for(Player online : UtilServer.getPlayers()){
+	         	 if(notsend!=null&&notsend.contains(online))continue;
+	         	 UtilPlayer.sendPacket(online, packet);
+	          }
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	      }
@@ -201,7 +227,10 @@ public class NPC {
          packet.setOnGround(this.location.getBlock().getType() == Material.AIR ? false : true);
          this.location = location;
          
-         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+         for(Player online : UtilServer.getPlayers()){
+         	 if(notsend!=null&&notsend.contains(online))continue;
+         	 UtilPlayer.sendPacket(online, packet);
+          }
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -211,7 +240,11 @@ public class NPC {
 	      try{
 	         kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(this.entityID,0,item.getType());
 	         packet.setItemStack(item);
-	         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+	         
+	         for(Player online : UtilServer.getPlayers()){
+	         	 if(notsend!=null&&notsend.contains(online))continue;
+	         	 UtilPlayer.sendPacket(online, packet);
+	          }
 	      }catch(Exception e) {
 	         e.printStackTrace();
 	      }
@@ -221,7 +254,11 @@ public class NPC {
       try{
          kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(this.entityID,0,material);
          this.inHand = material;
-         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+         
+         for(Player online : UtilServer.getPlayers()){
+         	 if(notsend!=null&&notsend.contains(online))continue;
+         	 UtilPlayer.sendPacket(online, packet);
+          }
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -236,7 +273,11 @@ public class NPC {
 	          kPacketPlayOutAnimation packet = new kPacketPlayOutAnimation();
 	          packet.setEntityID(entityID);
 	          packet.setNPCAnimation(animation);
-	          for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+	          
+	          for(Player online : UtilServer.getPlayers()){
+	          	 if(notsend!=null&&notsend.contains(online))continue;
+	          	 UtilPlayer.sendPacket(online, packet);
+	           }
 	       }catch(Exception e) {
 	          e.printStackTrace();
 	       }
@@ -248,7 +289,10 @@ public class NPC {
          kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(this.entityID,4,material);
          
          this.helmet=material;
-         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+         for(Player online : UtilServer.getPlayers()){
+         	 if(notsend!=null&&notsend.contains(online))continue;
+         	 UtilPlayer.sendPacket(online, packet);
+          }
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -264,7 +308,10 @@ public class NPC {
          kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(entityID,3,material);
          
          this.chestplate = material;
-         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+         for(Player online : UtilServer.getPlayers()){
+         	 if(notsend!=null&&notsend.contains(online))continue;
+         	 UtilPlayer.sendPacket(online, packet);
+          }
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -277,7 +324,10 @@ public class NPC {
        this.watcher.a(2, (Object) (String) s);
        this.watcher.a(4, (Object) (byte) 0);
        kPacketPlayOutEntityMetadata packet = new kPacketPlayOutEntityMetadata(this.entityID, this.watcher);
-       for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+       for(Player online : UtilServer.getPlayers()){
+       	 if(notsend!=null&&notsend.contains(online))continue;
+       	 UtilPlayer.sendPacket(online, packet);
+        }
    }
    
    public Material getChestplate() {
@@ -290,7 +340,10 @@ public class NPC {
          kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(entityID,2,material);
          
          this.leggings = material;
-         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+         for(Player online : UtilServer.getPlayers()){
+         	 if(notsend!=null&&notsend.contains(online))continue;
+         	 UtilPlayer.sendPacket(online, packet);
+          }
       }catch(Exception e) {
          e.printStackTrace();
       }
@@ -304,7 +357,10 @@ public class NPC {
       try{
          kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment(entityID,1,material);
          this.boots = material;
-         for (Player online : UtilServer.getPlayers()) UtilPlayer.sendPacket(online, packet);
+         for(Player online : UtilServer.getPlayers()){
+         	 if(notsend!=null&&notsend.contains(online))continue;
+         	 UtilPlayer.sendPacket(online, packet);
+          }
       }catch(Exception e) {
          e.printStackTrace();
       }

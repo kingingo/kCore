@@ -1,5 +1,12 @@
 package me.kingingo.kcore.Disguise.disguises;
+import java.util.UUID;
+
+import me.kingingo.kcore.Util.UtilPlayer;
+import net.minecraft.server.v1_8_R3.EntityLiving;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 public abstract class DisguiseTameableAnimal extends DisguiseAnimal
 {
@@ -41,13 +48,26 @@ public abstract class DisguiseTameableAnimal extends DisguiseAnimal
       this.DataWatcher.watch(16, Byte.valueOf((byte)(i | 0xFFFFFFFE)));
   }
 
-  public void setOwnerName(String name)
+  public void setOwnerUUID(String uuid)
   {
-    this.DataWatcher.watch(17, name);
+    this.DataWatcher.watch(17, uuid);
   }
 
-  public String getOwnerName()
+  public String getOwnerUUID()
   {
     return this.DataWatcher.getString(17);
+  }
+  
+  public Player getOwner()
+  {
+    try {
+      UUID uuid = UUID.fromString(getOwnerUUID());
+      if (uuid == null || UtilPlayer.isOnline(uuid)) {
+        return null;
+      }
+      return Bukkit.getPlayer(uuid);
+      } catch (IllegalArgumentException e) {
+    }
+    return null;
   }
 }

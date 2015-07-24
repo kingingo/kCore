@@ -4,6 +4,7 @@ import me.kingingo.kcore.Disguise.disguises.DisguiseAnimal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
+import org.bukkit.inventory.ItemStack;
 
 public class DisguiseHorse extends DisguiseAnimal
 {
@@ -50,41 +51,53 @@ public class DisguiseHorse extends DisguiseAnimal
 
   public void kick()
   {
-    b(32, false);
-    b(64, true);
+    c(32, false);
+    c(64, true);
   }
 
+  public boolean isTame() {
+	return w(2);
+  }
+  
+  public void setTame(boolean flag) {
+	  c(2, flag);
+  }
+  
   public void stopKick()
   {
-    b(64, false);
+    c(64, false);
   }
 
-  private void b(int i, boolean flag)
-  {
-    int j = this.DataWatcher.getInt(16);
+  private void c(int i, boolean flag) {
+	int j = this.DataWatcher.getInt(16);
 
-    if (flag)
-      this.DataWatcher.watch(16, Integer.valueOf(j | i));
-    else
-      this.DataWatcher.watch(16, Integer.valueOf(j & (i ^ 0xFFFFFFFF)));
+	if (flag)
+	this.DataWatcher.watch(16, Integer.valueOf(j | i));
+	else
+	this.DataWatcher.watch(16, Integer.valueOf(j & (i ^ 0xFFFFFFFF)));
+	}
+
+  public void setHasChest(boolean flag) {
+	c(8, flag);
+  }
+  
+  public String getOwnerUUID() {
+	  return this.DataWatcher.getString(21);
   }
 
-  public String getOwnerName()
-  {
-    return this.DataWatcher.getString(21);
+  public void setOwnerUUID(String s) {
+	  this.DataWatcher.watch(21, s);
   }
 
-  public void setOwnerName(String s)
-  {
-    this.DataWatcher.watch(21, s);
+  public int cx() {
+	return this.DataWatcher.getInt(22);
   }
 
-  public int cf()
-  {
-    return this.DataWatcher.getInt(22);
+  public void e(ItemStack i){
+	  e(i.getTypeId());
   }
-
-  public void r(int i)
+  
+  public void e(int i)
   {
     this.DataWatcher.watch(22, Integer.valueOf(i));
   }

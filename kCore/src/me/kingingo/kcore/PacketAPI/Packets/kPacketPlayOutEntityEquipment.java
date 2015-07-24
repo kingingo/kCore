@@ -8,9 +8,11 @@ import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
 import lombok.Getter;
+import lombok.Setter;
 
 public class kPacketPlayOutEntityEquipment implements kPacket{
 	@Getter
+	@Setter
 	private PacketPlayOutEntityEquipment packet;
 	private String ID = "a";
 	private String SLOT = "b";
@@ -27,8 +29,19 @@ public class kPacketPlayOutEntityEquipment implements kPacket{
 		setMaterial(material);
 	}
 	
+	public kPacketPlayOutEntityEquipment(int entityID,int slot,net.minecraft.server.v1_8_R3.ItemStack item){
+		packet = new PacketPlayOutEntityEquipment();
+		setEntityID(entityID);
+		setSlot(slot);
+		setItemStack(item);
+	}
+	
 	public ItemStack getMaterial(){
 		return CraftItemStack.asBukkitCopy(((net.minecraft.server.v1_8_R3.ItemStack) UtilReflection.getValue(ITEMSTACK, packet)));
+	}
+	
+	public void setItemStack(net.minecraft.server.v1_8_R3.ItemStack item){
+		UtilReflection.setValue(ITEMSTACK, packet, item);
 	}
 	
 	public void setItemStack(ItemStack item){

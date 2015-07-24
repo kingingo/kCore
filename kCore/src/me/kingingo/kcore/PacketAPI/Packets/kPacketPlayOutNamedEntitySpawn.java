@@ -3,6 +3,7 @@ package me.kingingo.kcore.PacketAPI.Packets;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.PacketAPI.UtilPacket;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
@@ -15,6 +16,7 @@ import org.bukkit.Material;
 
 public class kPacketPlayOutNamedEntitySpawn implements kPacket{
 	@Getter
+	@Setter
 	private PacketPlayOutNamedEntitySpawn packet;
 	private String X = "c";
 	private String Y = "d";
@@ -28,6 +30,10 @@ public class kPacketPlayOutNamedEntitySpawn implements kPacket{
 	
 	public kPacketPlayOutNamedEntitySpawn(){
 		packet = new PacketPlayOutNamedEntitySpawn();
+	}
+	
+	public kPacketPlayOutNamedEntitySpawn(PacketPlayOutNamedEntitySpawn packet){
+		this.packet = packet;
 	}
 	
 	public kPacketPlayOutNamedEntitySpawn(EntityHuman human){

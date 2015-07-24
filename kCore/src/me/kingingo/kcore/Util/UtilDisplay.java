@@ -1,14 +1,12 @@
 package me.kingingo.kcore.Util;
-import gnu.trove.map.TIntObjectMap;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityLiving;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityTeleport;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
 import net.minecraft.server.v1_8_R3.DataWatcher;
 
 import org.bukkit.Location;
@@ -35,7 +33,7 @@ public class UtilDisplay {
     public float health;
     public String name;
     public Location sloc;
-    private kPacketPlayOutEntityLiving dragon;
+    private kPacketPlayOutSpawnEntityLiving dragon;
  
     public UtilDisplay(String name, int EntityID, Location loc){
         this(name, EntityID, (int) Math.floor(loc.getBlockX() * 32.0D), (int) Math.floor(loc.getBlockY() * 32.0D), (int) Math.floor(loc.getBlockZ() * 32.0D));
@@ -62,7 +60,7 @@ public class UtilDisplay {
     }
  
     public void getSpawnPacket(Player player){
-      dragon = new kPacketPlayOutEntityLiving();
+      dragon = new kPacketPlayOutSpawnEntityLiving();
       dragon.setEntityID( EntityID );
       dragon.setEntityType(EntityType.ENDER_DRAGON);
       dragon.setX(Integer.valueOf(x));

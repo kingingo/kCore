@@ -2,6 +2,8 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import java.util.Arrays;
 
 import me.kingingo.kcore.Disguise.disguises.DisguiseMonster;
+import net.minecraft.server.v1_8_R3.Block;
+import net.minecraft.server.v1_8_R3.IBlockData;
 import net.minecraft.server.v1_8_R3.MobEffect;
 import net.minecraft.server.v1_8_R3.MobEffectList;
 import net.minecraft.server.v1_8_R3.PotionBrewer;
@@ -15,7 +17,7 @@ public class DisguiseEnderman extends DisguiseMonster
   {
     super(entity);
 
-    this.DataWatcher.a(16, new Byte((byte)0));
+    this.DataWatcher.a(16, new Short((short)0));
     this.DataWatcher.a(17, new Byte((byte)0));
     this.DataWatcher.a(18, new Byte((byte)0));
 
@@ -24,11 +26,19 @@ public class DisguiseEnderman extends DisguiseMonster
     this.DataWatcher.watch(7, Integer.valueOf(i));
   }
 
-  public void SetCarriedId(int i)
-  {
-    this.DataWatcher.watch(16, Byte.valueOf((byte)(i & 0xFF)));
+  public void setCarried(int id){
+	  setCarried( Block.getByCombinedId(id) );
   }
-
+  
+  public void setCarried(IBlockData iblockdata)
+  {
+    this.DataWatcher.watch(16, Short.valueOf((short)(Block.getCombinedId(iblockdata) & 0xFFFF)));
+  }
+  
+  public IBlockData getCarried() {
+	return Block.getByCombinedId(this.DataWatcher.getShort(16) & 0xFFFF);
+  }
+  
   public int GetCarriedId()
   {
     return this.DataWatcher.getByte(16);
@@ -44,12 +54,12 @@ public class DisguiseEnderman extends DisguiseMonster
     return this.DataWatcher.getByte(17);
   }
 
-  public boolean bX()
+  public boolean co()
   {
     return this.DataWatcher.getByte(18) > 0;
   }
-  public void a(boolean flag)
-  {
+
+  public void a(boolean flag) {
     this.DataWatcher.watch(18, Byte.valueOf((byte)(flag ? 1 : 0)));
   }
 

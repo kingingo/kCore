@@ -19,7 +19,7 @@ public class DisguiseBlaze extends DisguiseMonster
     return EntityType.BLAZE;
   }
 
-  public boolean bT()
+  public boolean n()
   {
     return (this.DataWatcher.getByte(16) & 0x1) != 0;
   }

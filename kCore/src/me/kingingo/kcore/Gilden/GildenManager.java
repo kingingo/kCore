@@ -38,6 +38,8 @@ public class GildenManager implements Listener {
 	@Getter
 	private JavaPlugin instance;
 	@Getter
+	private HashMap<String,String[]> gilden_players = new HashMap<>();
+	@Getter
 	private HashMap<UUID,String> gilden_player = new HashMap<>();
 	@Getter
 	protected HashMap<String,String> gilden_tag = new HashMap<>();
@@ -197,9 +199,11 @@ public class GildenManager implements Listener {
 				g=getPlayerGilde(v);
 				if(g!=null)setInt(g, getInt(Stats.DEATHS, g)+1, Stats.DEATHS);
 			}
-			if(ev.getEntity().getKiller() instanceof Player&&isPlayerInGilde(ev.getEntity().getKiller())){
-				g=getPlayerGilde(ev.getEntity().getKiller());
-				if(g!=null)setInt(g, getInt(Stats.KILLS, g)+1, Stats.KILLS);
+			if(ev.getEntity().getKiller() instanceof Player){
+				if(isPlayerInGilde(((Player)ev.getEntity().getKiller()))){
+					g=getPlayerGilde(ev.getEntity().getKiller());
+					if(g!=null)setInt(g, getInt(Stats.KILLS, g)+1, Stats.KILLS);
+				}
 			}
 		}
 	}
@@ -625,6 +629,29 @@ public class GildenManager implements Listener {
 	
 	public void setString(String gilde,String i, Stats s){
 		setString(gilde, getTyp(), i, s);
+	}
+	
+	public String[] getGildenPlayersName(String gilde){
+		gilde=gilde.toLowerCase();
+		if(gilden_players.containsKey(gilde))return gilden_players.get(gilde);
+		int anzahl = 0;
+		for(UUID n : getGilden_player().keySet())if(getGilden_player().get(n).equalsIgnoreCase(gilde))anzahl++;
+		if(anzahl==0)return null;
+		String[] players = new String[anzahl];
+			
+		try{
+			anzahl=0;
+			ResultSet rs = mysql.Query("SELECT player FROM `list_gilden_"+typ.getKürzel()+"_user` WHERE gilde= '"+gilde.toLowerCase()+"'");
+			while(rs.next()){
+				players[anzahl]=rs.getString(1);
+				anzahl++;
+			}
+			rs.close();
+		}catch (Exception err){
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
+		}
+		gilden_players.put(gilde, players);
+		return players;
 	}
 	
 	public void setString(String gilde,GildenType typ,String i,Stats s){

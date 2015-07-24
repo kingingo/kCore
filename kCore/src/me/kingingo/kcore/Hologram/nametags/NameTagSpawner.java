@@ -6,9 +6,8 @@ import lombok.Getter;
 import me.kingingo.kcore.Hologram.nametags.Events.HologramCreateEvent;
 import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityLiving;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityTeleport;
-import me.kingingo.kcore.Util.UtilMath;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
 import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
@@ -37,7 +36,7 @@ public class NameTagSpawner {
 	private int nameTagCount;
 	
 	@Getter
-	private kPacketPlayOutEntityLiving ArmorStand;
+	private kPacketPlayOutSpawnEntityLiving ArmorStand;
 
 	// Previous locations
 	private Map<Player, Vector[]> playerLocations = new MapMaker().weakKeys().makeMap();
@@ -93,7 +92,7 @@ public class NameTagSpawner {
 		// The entities to remove
 		for (int i = 0; i < indices.length; i++) {
 			Preconditions.checkPositionIndex(indices[i], nameTagCount, "indices");
-			ids[i * 2] = getArmorStandId(indices[i]);
+			ids[i * 2 + 1] = getArmorStandId(indices[i]);
 			//ids[i * 2 + 1] = getSkullId(indices[i] * 2);
 		}
 		destroy.setIDs(ids);
@@ -178,7 +177,7 @@ public class NameTagSpawner {
 	}
 	
 	// Construct the invisible ArmorStand packet
-	private kPacketPlayOutEntityLiving createArmorStandPacket(int index, Location location,double dY, String message) {
+	private kPacketPlayOutSpawnEntityLiving createArmorStandPacket(int index, Location location,double dY, String message) {
 //		WrapperPlayServerSpawnEntityLiving ArmorStand = new WrapperPlayServerSpawnEntityLiving();
 //		ArmorStand.setEntityID(getArmorStandId(index));
 //		ArmorStand.setType(EntityType.ARMOR_STAND);
@@ -191,7 +190,7 @@ public class NameTagSpawner {
 //		wdw.setObject(2,message);
 //		wdw.setObject(3, (byte) 1);
 //		ArmorStand.setMetadata(wdw);
-		kPacketPlayOutEntityLiving ArmorStand = new kPacketPlayOutEntityLiving(UtilMath.r(1000), EntityType.ARMOR_STAND, location);
+		kPacketPlayOutSpawnEntityLiving ArmorStand = new kPacketPlayOutSpawnEntityLiving(getArmorStandId(index), EntityType.ARMOR_STAND, location);
 		ArmorStand.setY(location.getY() + dY - 2);
 		
 		kDataWatcher watcher = new kDataWatcher();

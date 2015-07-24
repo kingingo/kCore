@@ -74,6 +74,15 @@ public class UtilWorld{
 	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_WARNING_BLOCKS));
 	  }
 
+	  public static void resetWorldBoarder(Player player){
+		  WorldBorder w = new WorldBorder();
+		  w.setCenter(player.getWorld().getWorldBorder().getCenter().getX(), player.getWorld().getWorldBorder().getCenter().getZ());
+		  w.setWarningDistance(player.getWorld().getWorldBorder().getWarningDistance());
+		  w.setWarningTime(player.getWorld().getWorldBorder().getWarningTime());
+		  w.setSize(player.getWorld().getWorldBorder().getSize());
+		  UtilPlayer.sendPacket(player, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.INITIALIZE));
+	  }
+	  
 //	  public static void sendBlood(Player p, int strength, int seconds) {
 //	    sendWorldBorder(p, p.getLocation().getX(), p.getLocation().getZ(), 10000.0D, getDistance(strength) + 10, seconds, -1, seconds, getDistance(strength));
 //	    new BukkitSyncAutoTask(seconds * 20 + 5)

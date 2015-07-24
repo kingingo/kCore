@@ -12,9 +12,12 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Bed;
+import org.bukkit.material.DirectionalContainer;
+import org.bukkit.material.EnderChest;
 
 public class UtilBlock
 {
@@ -38,6 +41,24 @@ public class UtilBlock
       }else{
           return (block.getRelative(((Bed)block.getState().getData()).getFacing().getOppositeFace())).getLocation();
       }
+  }
+  
+  public static Location getBlockCenterUP(Location loc) {
+	    if (loc != null) {
+	      return new Location(loc.getWorld(), loc.getX() + 0.5D, loc.getY() + 1.0D, loc.getZ() + 0.5D);
+	    }
+	    return loc;
+	  }
+  
+  public static void setChestFace(Block block,BlockFace face){
+	  if(face==null||block==null)return;
+	  if(block.getType() == Material.ENDER_CHEST || block.getType() == Material.CHEST){
+		  BlockState state = block.getState();
+		  DirectionalContainer c = new DirectionalContainer(block.getType());
+		  c.setFacingDirection(face);
+		  state.setRawData(c.getData());
+		  state.update();
+	  }
   }
   
   public static void placeBed(Location location,BlockFace face){

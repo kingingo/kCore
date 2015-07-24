@@ -18,9 +18,8 @@ public class DisguiseIronGolem extends DisguiseGolem
     return EntityType.IRON_GOLEM;
   }
 
-  public boolean bW()
-  {
-    return (this.DataWatcher.getByte(16) & 0x1) != 0;
+  public boolean isPlayerCreated() {
+	  return (this.DataWatcher.getByte(16) & 0x1) != 0;
   }
 
   public void setPlayerCreated(boolean flag)

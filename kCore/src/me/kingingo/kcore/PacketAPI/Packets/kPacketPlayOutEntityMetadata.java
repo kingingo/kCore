@@ -3,6 +3,7 @@ package me.kingingo.kcore.PacketAPI.Packets;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
 import net.minecraft.server.v1_8_R3.DataWatcher;
@@ -11,6 +12,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 
 public class kPacketPlayOutEntityMetadata implements kPacket{
 	@Getter
+	@Setter
 	private PacketPlayOutEntityMetadata packet;
 	private String ID = "a";
 	private String WATCHABLE = "b";

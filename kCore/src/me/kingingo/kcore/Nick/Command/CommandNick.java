@@ -15,28 +15,26 @@ import org.bukkit.event.Listener;
 public class CommandNick implements CommandExecutor, Listener{
 	
 	NickManager nManager;
-	PermissionManager pManager;
 	
-	public CommandNick(NickManager nManager,PermissionManager pManager){
+	public CommandNick(NickManager nManager){
 		this.nManager=nManager;
-		this.pManager=pManager;
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "nick", sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "knick", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		Player p =(Player)cs;
 		if(args.length==0){
-			p.sendMessage(Text.PREFIX.getText()+"§c/nick [Name/Random]");
+			p.sendMessage(Text.PREFIX.getText()+"§c/knick [Name/Random]");
 			return false;
 		}
 		if(args[0].equalsIgnoreCase("random")){
-			if(pManager.hasPermission(p, kPermission.NICK_RANDOM)){
+			if(p.hasPermission(kPermission.NICK_RANDOM.getPermissionToString())){
 				String n = nManager.setNick(p);
 				p.sendMessage(Text.PREFIX.getText()+Text.NICK.getText(n));
 				return false;
 			}
 		}else{
-			if(pManager.hasPermission(p, kPermission.NICK_RANDOM)){
+			if(p.hasPermission( kPermission.NICK_RANDOM.getPermissionToString())){
 				nManager.setNick(p,args[0]);
 				p.sendMessage(Text.PREFIX.getText()+Text.NICK.getText(args[0]));
 				return false;

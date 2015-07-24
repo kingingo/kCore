@@ -6,12 +6,14 @@ import org.bukkit.entity.EntityType;
 import net.minecraft.server.v1_8_R3.DataWatcher;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.PacketAPI.UtilPacket;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
 
 public class kPacketPlayOutSpawnEntity implements kPacket{
 	@Getter
+	@Setter
 	private PacketPlayOutSpawnEntity packet;
 	private String X = "b";
 	private String Y = "c";
@@ -24,7 +26,11 @@ public class kPacketPlayOutSpawnEntity implements kPacket{
 	private String OBJECT_DATA = "k";
 	
 	public kPacketPlayOutSpawnEntity(){
-		
+		this.packet=new PacketPlayOutSpawnEntity();
+	}
+	
+	public kPacketPlayOutSpawnEntity(PacketPlayOutSpawnEntity packet){
+		this.packet=packet;
 	}
 	
 	public int getObjectData(){

@@ -230,8 +230,7 @@ public class Kit extends PerkData{
 		for(Perk perk : getPlayers().keySet()){
 			for(Player p : getPlayers().get(perk)){
 				if(!list.containsKey(p))continue;
-				DisguiseBase d = DisguiseType.newDisguise(p, getDisguise(), new Object[]{list.get(p)+p.getName()});
-				getDmanager().disguise(p,d);
+				getDmanager().disguise(p,getDisguise(),new Object[]{list.get(p)+p.getName()});
 			}
 		}
 	}
@@ -261,8 +260,7 @@ public class Kit extends PerkData{
 		if(getDisguise()==null)return;
 		for(Perk perk : getPlayers().keySet()){
 			for(Player p : getPlayers().get(perk)){
-				DisguiseBase d = DisguiseType.newDisguise(p, getDisguise(), new Object[]{p.getName()});
-				getDmanager().disguise(p,d);
+				getDmanager().disguise(p,getDisguise(),new Object[]{p.getName()});
 			}
 		}
 	}

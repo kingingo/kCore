@@ -6,8 +6,10 @@ import net.minecraft.server.v1_8_R3.Entity;
 public class kDataWatcher extends DataWatcher{
 
 	private int VISIBLE = 0;
+	private int AIR_TICKS = 1;
 	private int NAME = 2;
 	private int CUSTOM_NAME_VISIBLE = 3;
+	private int KP = 4;
 	
 	public kDataWatcher(Entity entity) {
 		super(entity);
@@ -15,15 +17,22 @@ public class kDataWatcher extends DataWatcher{
 	
 	public kDataWatcher(){
 		super(null);
-//		setVisible(false);
-//	    this.a(1, Short.valueOf((short)300));
-//	    setCustomNameVisible(false);
-//	    setCustomName("");
-//	    this.a(4, Byte.valueOf((byte)0));
 	}
 	
 	public void setVisible(boolean flag){
 		this.a(VISIBLE, Byte.valueOf( ((byte) (flag ? 0 : Byte.valueOf((byte) 32)) ) )  );
+	}
+	
+	public boolean isVisible() {
+		return (this.getByte(VISIBLE)==0);
+	}
+	
+	public void setAirTicks(int i) {
+		this.a(AIR_TICKS, Short.valueOf((short)i));
+	}
+
+	public int getAirTicks() {
+		return this.getShort(AIR_TICKS);
 	}
 	
 	public void setCustomName(String s) {

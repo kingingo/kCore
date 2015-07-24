@@ -28,7 +28,7 @@ public class DisguiseWitch extends DisguiseMonster
     this.DataWatcher.watch(21, Byte.valueOf((byte)(flag ? 1 : 0)));
   }
 
-  public boolean bT()
+  public boolean n()
   {
     return this.DataWatcher.getByte(21) == 1;
   }
