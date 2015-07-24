@@ -53,6 +53,10 @@ public class kPacketPlayOutPlayerInfo implements kPacket{
 			packetPlayOutPlayerInfo.getPacket().super(profile, 0, EnumGamemode.NOT_SET, CraftChatMessage.fromString(tabName)[0]);
 		}
 		
+		public kGameProfile getGameProfile(){
+			return (kGameProfile)UtilReflection.getValue("d", this);
+		}
+		
 	}
 	
 }

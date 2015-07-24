@@ -1,195 +1,174 @@
 package me.kingingo.kcore.Nick;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import lombok.Getter;
-import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
 import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.NPC.NPC;
-import me.kingingo.kcore.NPC.NPCManager;
-import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
-import me.kingingo.kcore.Nick.Command.CommandNick;
 import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
-import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
 import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
-import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
-import me.kingingo.kcore.PacketAPI.Packets.kGameProfile;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayInUseEntity;
+import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
+import me.kingingo.kcore.Packet.Packets.NICK_DEL;
+import me.kingingo.kcore.Packet.Packets.NICK_SET;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo.kPlayerInfoData;
-import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
-import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilReflection;
-import me.kingingo.kcore.Util.UtilScoreboard;
 import me.kingingo.kcore.Util.UtilServer;
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.PacketPlayInUseEntity;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
-
-import com.mojang.authlib.GameProfile;
 
 public class NickManager extends kListener{
 
 	@Getter
-	private HashMap<Player,NPC> name = new HashMap<>();
-	@Getter
-	private CommandHandler cmd;
-	@Getter
-	private JavaPlugin instance;
-	private NPCManager npcManager;
+	private HashMap<Integer,DisguisePlayer> nicks = new HashMap<>();
 	
-	
-	public String[] nick = new String[]{"king","Exteme","Steve","Buddy","Flex","Apex","Captain","Tim"
-			,"Gigga","AdamHD","Jesus","xgen","BTW","Robin","checker","dc","ingo","Style"
-			,"Jonny","leon","Manii","Ginkis","eco","ungadunga","John","Samir","Pika","fredwa",
-			"Dox","Dove","Ole","Crypt","Bro","zocker","jman","coder","win"};
-	
-	public NickManager(JavaPlugin instance,CommandHandler cmd,PermissionManager permManager){
+	public NickManager(JavaPlugin instance){
 		super(instance,"NickManager");
-		this.cmd=cmd;
-		this.instance=instance;
-		cmd.register(CommandNick.class, new CommandNick(this));
+		UtilServer.createPacketListener(instance);
 	}
 	
-	kPacketPlayOutNamedEntitySpawn p2;
-	kPacketPlayOutPlayerInfo info;
-	PlayerInfoData data;
-	List<PlayerInfoData> players;
-	@EventHandler
-	public void Receive(PacketListenerSendEvent ev){
-		if(ev.getPacket() instanceof PacketPlayOutNamedEntitySpawn&&ev.getPlayer()!=null){
-			p2=new kPacketPlayOutNamedEntitySpawn( ((PacketPlayOutNamedEntitySpawn)ev.getPacket()) );
-			for(Player p : name.keySet()){
-				if(p2.getUUID() == p.getUniqueId()){
-					Log("SEND NAME " + (ev.getPlayer()!=null?ev.getPlayer().getName():"NULL"));
-			        UtilPlayer.sendPacket(ev.getPlayer(), name.get(p).getSpawn_packet());
-			        ev.setCancelled(true);
-			        break;
-				}
-			}
-		}else if(ev.getPacket() instanceof kPacketPlayOutPlayerInfo&&ev.getPlayer()!=null){
-//			Log("SEND INFo");
-//	        info=new kPacketPlayOutPlayerInfo( ((PacketPlayOutPlayerInfo)ev.getPacket()) );
-//	        
-//	        for(Player p : name.keySet()){
-//				if(info.getList() == p.getUniqueId()){
-//					
-//			        ev.setPacket(name.get(p).getSpawn_packet().getPacket());
-//			        break;
-//				}
-//			}
-//	        
-//	        data = info.new kPlayerInfoData(info, new kGameProfile(ev.getPlayer().getUniqueId(), name.get(ev.getPlayer()).getName()),name.get(ev.getPlayer()).getName());
-//			 players = info.getList();
-//	         players.clear();
-//	         players.add(data);
-//	         
-//	        ev.setPacket(info.getPacket());
-		}
-	}
-	
-	public String setNick(Player player){
-		if(name.containsKey(player))name.remove(player);
-		String n=RandomNick();
-		return setNick(player, n);
-	}
-	
-	public String RandomNick(){
-		String n = nick[UtilMath.r(nick.length)];
-		int len = UtilMath.RandomInt(3, 1);
-		for(int i=0; i<len; i++){
-			n=n+UtilMath.r(9);
-		}
-		return n;
+	public boolean hasNick(LivingEntity entity){
+		return getNicks().containsKey(entity.getEntityId());
 	}
 	
 	public String setNick(Player player,String nick){
-		if(name.containsKey(player))name.remove(player);
+		if(hasNick(player))delNick(player);
 		
-		try{
-	         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-	         
-	         PlayerInfoData data1 = packet.new kPlayerInfoData(packet, new kGameProfile(player.getUniqueId(), player.getName()),player.getName());
-	         List<PlayerInfoData> players = packet.getList();
-	         players.add(data1);
-
-	         packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
-	         packet.setList(players);
-      
-		 for(Player o : Bukkit.getOnlinePlayers()){
-           if(!o.getName().equals(player.getName())){
-            UtilPlayer.sendPacket(o, packet);
-           }
-		 }
-		 
-		}catch(Exception e) {
-	        e.printStackTrace();
-	     }
+		DisguisePlayer disguise = new DisguisePlayer(player,nick);
+		kPacketPlayOutEntityDestroy destroy = new kPacketPlayOutEntityDestroy(player.getEntityId());
+		getNicks().put(player.getEntityId(), disguise);
+		for(Player p : UtilServer.getPlayers()){
+			if(disguise.GetEntity() != ((CraftPlayer)p).getHandle()){
+				if(!p.hasPermission(kPermission.NICK_SEE.getPermissionToString())){
+					UtilPlayer.sendPacket(p, destroy);
+					UtilPlayer.sendPacket(p, disguise.getTabList());
+					UtilPlayer.sendPacket(p, disguise.GetSpawnPacket());
+				}
+			}
+		}
 		
-		NPC npc = npcManager.createNPC("§7"+nick, player.getLocation());
-		npc.setEntityID(player.getEntityId());
-		npc.setNotsend(new ArrayList<Player>());
-		npc.getNotsend().add(player);
-		npc.despawn();
-		npc.spawn();
-		name.put(player, npc);
- 		
 		return nick;
 	}
 	
-	public void delNick(Player player){
-		if(name.containsKey(player))name.remove(player);
-		
+	public DisguisePlayer getNick(LivingEntity entity){
+		if(!hasNick(entity))return null;
+		return getNicks().get(entity.getEntityId());
 	}
 	
-//	@EventHandler(priority=EventPriority.LOWEST)
-//	public void PlayerListName(PlayerListNameChangeEvent ev){
-//		if(name.containsKey(ev.getPlayer()))ev.setNick(ev.getNick().replaceAll(ev.getPlayer().getName(), name.get(ev.getPlayer())));
-//	}
-//	
-//	@EventHandler(priority=EventPriority.LOWEST)
-//	public void AsyncChat(AsyncPlayerChatEvent ev){
-//		if(name.containsKey(ev.getPlayer()))ev.setMessage(ev.getMessage().replaceAll(ev.getPlayer().getName(), name.get(ev.getPlayer())));
-//	}
-//	
-//	@EventHandler(priority=EventPriority.LOWEST)
-//	public void SendMessage(PlayerSendMessageEvent ev){
-//		for(Player player : name.keySet()){
-//			if(ev.getMessage().equalsIgnoreCase(player.getName())){
-//				ev.setMessage(ev.getMessage().replaceAll(player.getName(), name.get(player)));
-//			}
-//		}
-//	}
-//	
-//	@EventHandler(priority=EventPriority.LOWEST)
-//	public void BroadcastMessage(BroadcastMessageEvent ev){
-//		for(Player player : name.keySet()){
-//			if(ev.getMessage().equalsIgnoreCase(player.getName())){
-//				ev.setMessage(ev.getMessage().replaceAll(player.getName(), name.get(player)));
-//			}
-//		}
-//	}
+	public void delNick(Player entity){
+		if(hasNick(entity)){
+			DisguiseBase disguise = getNick(entity);
+		    kPacketPlayOutEntityDestroy de = new kPacketPlayOutEntityDestroy(new int[] { entity.getEntityId() });
+		    kPacketPlayOutNamedEntitySpawn s = new kPacketPlayOutNamedEntitySpawn( ((CraftPlayer)entity).getHandle() );
+			for(Player player : UtilServer.getPlayers()){
+				if(entity!=player){
+					UtilPlayer.sendPacket(player, de);
+					if(disguise instanceof DisguisePlayer)UtilPlayer.sendPacket(player, ((DisguisePlayer)disguise).removeFromTablist());
+					UtilPlayer.sendPacket(player, s);
+					if(entity instanceof Player){
+						player.showPlayer(((Player)entity));
+					}
+				}
+			}
+			getNicks().remove(disguise);
+		}
+	}
+	
+	kPacketPlayOutSpawnEntityLiving entityLiving;
+	kPacketPlayOutNamedEntitySpawn namedEntitySpawn;
+	kPacketPlayOutEntityMetadata entityMetadata;
+	kPacketPlayOutPlayerInfo info;
+	kPlayerInfoData data;
+	@EventHandler
+	public void Send(PacketListenerSendEvent ev){
+		if(ev.getPlayer()!=null&&!ev.getPlayer().hasPermission(kPermission.NICK_SEE.getPermissionToString())){
+			if(ev.getPacket() instanceof PacketPlayOutSpawnEntityLiving){
+				if( entityLiving == null )entityLiving=new kPacketPlayOutSpawnEntityLiving();
+				entityLiving.setPacket(((PacketPlayOutSpawnEntityLiving)ev.getPacket()));
+				if(ev.getPlayer().getEntityId()!=entityLiving.getEntityID()&&getNicks().containsKey(entityLiving.getEntityID())){
+					ev.setPacket(getNicks().get(entityLiving.getEntityID()).GetSpawnPacket().getPacket());
+				}
+			}else if(ev.getPacket() instanceof PacketPlayOutNamedEntitySpawn){
+				if( namedEntitySpawn == null )namedEntitySpawn=new kPacketPlayOutNamedEntitySpawn();
+				namedEntitySpawn.setPacket(((PacketPlayOutNamedEntitySpawn)ev.getPacket()));
+				if(ev.getPlayer().getEntityId()!=namedEntitySpawn.getEntityID()&&getNicks().containsKey(namedEntitySpawn.getEntityID())){
+					if(getNicks().get(namedEntitySpawn.getEntityID()) instanceof DisguisePlayer)UtilPlayer.sendPacket(ev.getPlayer(), ((DisguisePlayer)getNicks().get(namedEntitySpawn.getEntityID())).getTabList());
+					ev.setPacket(getNicks().get(namedEntitySpawn.getEntityID()).GetSpawnPacket().getPacket());
+				}
+			}else if(ev.getPacket() instanceof PacketPlayOutEntityMetadata){
+				if( entityMetadata == null )entityMetadata=new kPacketPlayOutEntityMetadata();
+				entityMetadata.setPacket(((PacketPlayOutEntityMetadata)ev.getPacket()));
+				if(ev.getPlayer().getEntityId()!=entityMetadata.getEntityID()&&getNicks().containsKey(entityMetadata.getEntityID())){
+					ev.setPacket( getNicks().get(entityMetadata.getEntityID()).GetMetaDataPacket().getPacket());
+				}
+			}
+		}
+	}
+	
+	NICK_DEL del;
+	NICK_SET set;
+	@EventHandler
+	public void receive(PacketReceiveEvent ev){
+		if(ev.getPacket() instanceof NICK_DEL){
+			del=(NICK_DEL)ev.getPacket();
+			if(UtilPlayer.isOnline(del.getUuid())){
+				delNick(Bukkit.getPlayer(del.getUuid()));
+			}
+		}else if(ev.getPacket() instanceof NICK_SET){
+			set=(NICK_SET)ev.getPacket();
+			if(UtilPlayer.isOnline(set.getUuid())){
+				setNick(Bukkit.getPlayer(set.getUuid()), set.getNick());
+			}
+		}
+	}
+	
+	@EventHandler
+	public void QUIT(PlayerQuitEvent ev){
+		if(hasNick(ev.getPlayer()))delNick(ev.getPlayer());
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void AsyncChat(AsyncPlayerChatEvent ev){
+		if(hasNick(ev.getPlayer()))ev.setMessage(ev.getMessage().replaceAll(ev.getPlayer().getName(), getNicks().get(ev.getPlayer().getEntityId()).getName()));
+	}
+	
+	Player player;
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void SendMessage(PlayerSendMessageEvent ev){
+		for(int id : getNicks().keySet()){
+			player=Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID());
+			if(ev.getMessage().equalsIgnoreCase(player.getName())){
+				ev.setMessage(ev.getMessage().replaceAll(player.getName(), getNicks().get(player).getName()));
+			}
+		}
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void BroadcastMessage(BroadcastMessageEvent ev){
+		for(Integer id : getNicks().keySet()){
+			player=Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID());
+			if(ev.getMessage().equalsIgnoreCase(player.getName())){
+				ev.setMessage(ev.getMessage().replaceAll(player.getName(), getNicks().get(id).getName()));
+			}
+		}
+	}
 	
 }

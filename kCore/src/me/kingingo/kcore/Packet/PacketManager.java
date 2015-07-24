@@ -6,6 +6,8 @@ import me.kingingo.kcore.Packet.Events.PacketSendEvent;
 import me.kingingo.kcore.Packet.Packets.ARENA_STATUS;
 import me.kingingo.kcore.Packet.Packets.BROADCAST;
 import me.kingingo.kcore.Packet.Packets.HUB_ONLINE;
+import me.kingingo.kcore.Packet.Packets.NICK_DEL;
+import me.kingingo.kcore.Packet.Packets.NICK_SET;
 import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
@@ -92,6 +94,10 @@ public class PacketManager {
 			return new ARENA_STATUS(packet.split("-/-"));
 		}else if(packet.contains("PLAYER_VOTE")){
 			return new PLAYER_VOTE(packet.split("-/-"));
+		}else if(packet.contains("NICK_DEL")){
+			return new NICK_DEL(packet.split("-/-"));
+		}else if(packet.contains("NICK_SET")){
+			return new NICK_SET(packet.split("-/-"));
 		}
 	 return null;
 	}

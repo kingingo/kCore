@@ -36,6 +36,10 @@ public class DisguisePlayer extends DisguiseHuman
     this.DataWatcher.setCustomName(_name);
   }
   
+  public String getName(){
+	  return this._name;
+  }
+  
   public kPacket getTabList() {
       try {
          kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();

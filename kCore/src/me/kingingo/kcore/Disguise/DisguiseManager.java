@@ -17,6 +17,8 @@ import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityTeleport;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityVelocity;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo.kPlayerInfoData;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntity;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
@@ -29,6 +31,8 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityVelocity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 
@@ -58,7 +62,8 @@ public class DisguiseManager extends kListener {
 	kPacketPlayOutSpawnEntityLiving entityLiving;
 	kPacketPlayOutNamedEntitySpawn namedEntitySpawn;
 	kPacketPlayOutEntityMetadata entityMetadata;
-	int entityid;
+	kPacketPlayOutPlayerInfo info;
+	kPlayerInfoData data;
 	@EventHandler
 	public void Send(PacketListenerSendEvent ev){
 		if(ev.getPlayer()!=null){
@@ -72,6 +77,7 @@ public class DisguiseManager extends kListener {
 				if( namedEntitySpawn == null )namedEntitySpawn=new kPacketPlayOutNamedEntitySpawn();
 				namedEntitySpawn.setPacket(((PacketPlayOutNamedEntitySpawn)ev.getPacket()));
 				if(ev.getPlayer().getEntityId()!=namedEntitySpawn.getEntityID()&&getDisguise().containsKey(namedEntitySpawn.getEntityID())){
+					if(getDisguise().get(namedEntitySpawn.getEntityID()) instanceof DisguisePlayer)sendPacket(ev.getPlayer(), ((DisguisePlayer)getDisguise().get(namedEntitySpawn.getEntityID())).getTabList());
 					ev.setPacket(getDisguise().get(namedEntitySpawn.getEntityID()).GetSpawnPacket().getPacket());
 				}
 			}else if(ev.getPacket() instanceof PacketPlayOutEntityMetadata){
@@ -122,6 +128,7 @@ public class DisguiseManager extends kListener {
 	
 	public void disguise(LivingEntity entity,DisguiseType type){
 		DisguiseBase disguise = DisguiseType.newDisguise(entity, type,new String[]{entity.getName()});
+		if(!getDisguise().containsKey(disguise.GetEntityId()))getDisguise().put(disguise.GetEntityId(),disguise);
 		for(Player player : UtilServer.getPlayers()){
 			if(disguise.GetEntity() != ((CraftPlayer)player).getHandle()){
 				disguise(player, disguise);
