@@ -1,16 +1,16 @@
 package me.kingingo.kcore.Nick;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import lombok.Getter;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
 import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
-import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.NICK_DEL;
 import me.kingingo.kcore.Packet.Packets.NICK_SET;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutChat;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
@@ -20,18 +20,24 @@ import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilReflection;
 import me.kingingo.kcore.Util.UtilServer;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.minecraft.server.v1_8_R3.ChatComponentText;
+import net.minecraft.server.v1_8_R3.ChatComponentUtils;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -39,6 +45,7 @@ public class NickManager extends kListener{
 
 	@Getter
 	private HashMap<Integer,DisguisePlayer> nicks = new HashMap<>();
+	private HashMap<UUID,String> wait = new HashMap<>();
 	
 	public NickManager(JavaPlugin instance){
 		super(instance,"NickManager");
@@ -97,8 +104,12 @@ public class NickManager extends kListener{
 	kPacketPlayOutEntityMetadata entityMetadata;
 	kPacketPlayOutPlayerInfo info;
 	kPlayerInfoData data;
+	kPacketPlayOutChat chat;
+	String txt;
+	ChatComponentText c;
 	@EventHandler
 	public void Send(PacketListenerSendEvent ev){
+		if(nicks.isEmpty())return;
 		if(ev.getPlayer()!=null&&!ev.getPlayer().hasPermission(kPermission.NICK_SEE.getPermissionToString())){
 			if(ev.getPacket() instanceof PacketPlayOutSpawnEntityLiving){
 				if( entityLiving == null )entityLiving=new kPacketPlayOutSpawnEntityLiving();
@@ -119,6 +130,32 @@ public class NickManager extends kListener{
 				if(ev.getPlayer().getEntityId()!=entityMetadata.getEntityID()&&getNicks().containsKey(entityMetadata.getEntityID())){
 					ev.setPacket( getNicks().get(entityMetadata.getEntityID()).GetMetaDataPacket().getPacket());
 				}
+			}else if(ev.getPacket() instanceof PacketPlayOutChat){
+				if(chat==null)chat = new kPacketPlayOutChat();
+				chat.setPacket( ((PacketPlayOutChat)ev.getPacket()) );
+				
+				if(chat.getIChatBaseComponent()!=null&&chat.getIChatBaseComponent() instanceof ChatComponentText){
+					for(IChatBaseComponent t : ((ChatComponentText)chat.getIChatBaseComponent())){
+						c=((ChatComponentText)t);
+						txt=c.getText();
+						
+						for(int id : getNicks().keySet()){
+							if(!UtilPlayer.isOnline(getNicks().get(id).GetEntity().getUniqueID()))continue;
+							if(c.getText().contains( Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName() )){
+								txt.replaceAll(Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName(), getNicks().get(id).getName());
+							}
+						}
+						
+						if(txt!=null){
+							t = new ChatComponentText(txt);
+							t.setChatModifier(c.getChatModifier());
+						}
+					}
+				}
+//				
+//				for (IChatBaseComponent component : CraftChatMessage.fromString(txt))chat.setIChatBaseComponent(component);
+//				
+//				ev.setPacket(chat.getPacket());
 			}
 		}
 	}
@@ -136,7 +173,17 @@ public class NickManager extends kListener{
 			set=(NICK_SET)ev.getPacket();
 			if(UtilPlayer.isOnline(set.getUuid())){
 				setNick(Bukkit.getPlayer(set.getUuid()), set.getNick());
+			}else{
+				wait.put(set.getUuid(), set.getNick());
 			}
+		}
+	}
+	
+	@EventHandler
+	public void join(PlayerJoinEvent ev){
+		if(wait.containsKey(ev.getPlayer().getUniqueId())){
+			setNick(ev.getPlayer(), wait.get(ev.getPlayer().getUniqueId()));
+			wait.remove(ev.getPlayer().getUniqueId());
 		}
 	}
 	
@@ -144,31 +191,4 @@ public class NickManager extends kListener{
 	public void QUIT(PlayerQuitEvent ev){
 		if(hasNick(ev.getPlayer()))delNick(ev.getPlayer());
 	}
-	
-	@EventHandler(priority=EventPriority.LOWEST)
-	public void AsyncChat(AsyncPlayerChatEvent ev){
-		if(hasNick(ev.getPlayer()))ev.setMessage(ev.getMessage().replaceAll(ev.getPlayer().getName(), getNicks().get(ev.getPlayer().getEntityId()).getName()));
-	}
-	
-	Player player;
-	@EventHandler(priority=EventPriority.LOWEST)
-	public void SendMessage(PlayerSendMessageEvent ev){
-		for(int id : getNicks().keySet()){
-			player=Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID());
-			if(ev.getMessage().equalsIgnoreCase(player.getName())){
-				ev.setMessage(ev.getMessage().replaceAll(player.getName(), getNicks().get(player).getName()));
-			}
-		}
-	}
-	
-	@EventHandler(priority=EventPriority.LOWEST)
-	public void BroadcastMessage(BroadcastMessageEvent ev){
-		for(Integer id : getNicks().keySet()){
-			player=Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID());
-			if(ev.getMessage().equalsIgnoreCase(player.getName())){
-				ev.setMessage(ev.getMessage().replaceAll(player.getName(), getNicks().get(id).getName()));
-			}
-		}
-	}
-	
 }

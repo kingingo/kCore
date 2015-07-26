@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.UUID;
 
 import me.kingingo.kcore.MySQL.MySQL;
-import me.kingingo.kcore.Nick.Events.PlayerListNameChangeEvent;
-import me.kingingo.kcore.Nick.Events.PlayerSendMessageEvent;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
 import me.kingingo.kcore.Permission.PermissionManager;
@@ -148,42 +146,12 @@ public class UtilPlayer
 		return ((CraftPlayer)player).getHealth();
 	}
 	
-//  public static void sendPacket(Player player,PacketContainer packet){
-//	  try {
-//		ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-//	} catch (InvocationTargetException e) {
-//		e.printStackTrace();
-//	}
-//  }
-	
   public static boolean isZoom(Player p){
 		return p.hasPotionEffect(PotionEffectType.SLOW);
   }
   
-//  public static int getVersion(Player player){
-//	  return ((CraftPlayer)player).getHandle().playerConnection.
-//  }
-  
-//  public static void setTab(String tab,Player p){
-//	  WrapperPlayServerPlayerInfo t = new WrapperPlayServerPlayerInfo();
-//	  t.setPlayerName(tab);
-//	  t.setPing(((short)9999));
-//	  t.sendPacket(p);
-//	  
-////	  PacketPlayOutPlayerInfo t = new PacketPlayOutPlayerInfo();
-////	  UtilReflection.setValue("username", t, tab);
-////	  UtilReflection.setValue("ping", t, 9999);
-////	  ((CraftPlayer)p).getHandle().playerConnection.sendPacket(t);
-//  }
-//  
-//  public static void setTab(String[] tab,Player p){
-//	  for(String t : tab)setTab(t, p);
-//  }
-  
   public static void setPlayerListName(Player player,String nick){
-	  PlayerListNameChangeEvent ev = new PlayerListNameChangeEvent(player,nick);
-	  Bukkit.getPluginManager().callEvent(ev);
-	  player.setPlayerListName(ev.getNick());
+	  player.setPlayerListName(nick);
   }
   
   public static void RespawnNow(final Player p,JavaPlugin plugin){
@@ -203,10 +171,7 @@ public class UtilPlayer
     if (!(client instanceof Player)) {
       return;
     }
-
-    PlayerSendMessageEvent ev = new PlayerSendMessageEvent(((Player)client),message);
-    Bukkit.getPluginManager().callEvent(ev);
-    ((Player)client).sendMessage(ev.getMessage());
+    ((Player)client).sendMessage(message);
   }
 
   public static Player searchExact(UUID uuid)

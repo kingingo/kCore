@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import lombok.Getter;
-import me.kingingo.kcore.Nick.Events.BroadcastMessageEvent;
-import me.kingingo.kcore.Packet.PacketListener;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.TEAM_MESSAGE;
 import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
@@ -218,22 +216,18 @@ public class UtilServer{
 
   public static void broadcast(String message)
   {
-	BroadcastMessageEvent ev = new BroadcastMessageEvent(message);
-	Bukkit.getPluginManager().callEvent(ev);  
     for (Player cur : getPlayers())
-    	UtilPlayer.sendMessage(cur, ev.getMessage());
+    	UtilPlayer.sendMessage(cur, message);
       //UtilPlayer.message(cur, message);
   }
 
   public static void broadcastSpecial(String event, String message)
   {
-	BroadcastMessageEvent ev = new BroadcastMessageEvent(message);
-	Bukkit.getPluginManager().callEvent(ev);  
     for (Player cur : getPlayers())
     {
     //  UtilPlayer.message(cur, "§b§l" + event);
     //  UtilPlayer.message(cur, message);
-    	UtilPlayer.sendMessage(cur, ev.getMessage());
+    	UtilPlayer.sendMessage(cur, message);
       cur.playSound(cur.getLocation(), Sound.ORB_PICKUP, 2.0F, 0.0F);
       cur.playSound(cur.getLocation(), Sound.ORB_PICKUP, 2.0F, 0.0F);
     }
