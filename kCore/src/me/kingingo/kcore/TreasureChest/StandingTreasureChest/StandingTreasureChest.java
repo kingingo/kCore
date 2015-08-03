@@ -18,9 +18,9 @@ import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilBlock;
+import me.kingingo.kcore.Util.UtilDirection;
 import me.kingingo.kcore.Util.UtilEvent;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
-import me.kingingo.kcore.Util.UtilDirection;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilLocation;
 import me.kingingo.kcore.Util.UtilMath;
@@ -54,18 +54,14 @@ public class StandingTreasureChest extends kListener{
 	@Getter
 	private Player player; //Der Spieler der momentan dran ist
 	@Getter
-	private String chest_type; // Den TreasureChest Type ( UNCOMMON,RARE,MYTHICAL)
+	private TreasureChestType chest_type; // Den TreasureChest Type ( UNCOMMON,RARE,MYTHICAL)
 	private long time; //WAIT TIME
 	@Getter
 	private String status = "NULL"; // Was er als nächstes tun muss ( SET CHEST, WAIT, DELETE)
 	@Getter
-	private ArrayList<ItemStack> uncommen; // UNCOMMON ITEMS
+	private HashMap<TreasureChestType,ArrayList<TreasureChestPackage>> itemList; // ITEM LIST
 	@Getter
-	private ArrayList<ItemStack> rare; // RARE ITEMS
-	@Getter
-	private ArrayList<ItemStack> mythical; // MYTHICAL ITEMS
-	@Getter
-	private HashMap<Block,ItemStack> list; // CHEST LIST
+	private HashMap<Block,TreasureChestPackage> list; // CHEST LIST
 	@Getter
 	private HashMap<Block,BlockFace> blockFaces; // CHEST LIST
 	@Getter
@@ -81,9 +77,6 @@ public class StandingTreasureChest extends kListener{
 		this.instance=instance;
 		this.location=location;
 		this.hologram=hologram;
-		this.uncommen=new ArrayList<>();
-		this.rare=new ArrayList<>();
-		this.mythical=new ArrayList<>();
 		this.dropped_items=new HashMap<>();
 		this.list=new HashMap<>();
 		this.blockFaces=new HashMap<>();
@@ -122,7 +115,7 @@ public class StandingTreasureChest extends kListener{
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
-				chest_type="uncommon";
+				chest_type=TreasureChestType.UNCOMMON;
 				start(player);
 			}
 			
@@ -131,7 +124,7 @@ public class StandingTreasureChest extends kListener{
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
-				chest_type="rare";
+				chest_type=TreasureChestType.RARE;
 				start(player);
 			}
 			
@@ -140,7 +133,7 @@ public class StandingTreasureChest extends kListener{
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
-				chest_type="mythical";
+				chest_type=TreasureChestType.MYTHICAL;
 				start(player);
 			}
 			
@@ -154,11 +147,23 @@ public class StandingTreasureChest extends kListener{
 		this.location.getBlock().setType(Material.AIR);
 		player.teleport(location);
 		this.player=player;
+		filter();
 		this.status="SET CHEST";
 		UtilWorld.setWorldBorderCenter(player, location.getX(), location.getZ(), location.getZ());
 		UtilWorld.setWorldBorderSize(player, 8);
 		UtilWorld.setWorldBorderWarningTime(player, 60*60);
 		
+	}
+	
+	public void filter(){
+		this.itemList=(HashMap<TreasureChestType,ArrayList<TreasureChestPackage>>)UtilItem.treasureChestItemList().clone();
+		for(TreasureChestType type : UtilItem.treasureChestItemList().keySet()){
+			for(TreasureChestPackage p : UtilItem.treasureChestItemList().get(type)){
+				if(p.hasPlayer(getPlayer())){
+					this.itemList.get(type).remove(p);
+				}
+			}
+		}
 	}
 	
 	Block b;
@@ -176,7 +181,7 @@ public class StandingTreasureChest extends kListener{
 						return;
 					}
 					
-					if(chest_type.equalsIgnoreCase("mythical")){
+					if(chest_type==TreasureChestType.MYTHICAL){
 						UtilParticle.PORTAL.display(0F, 0F, 0F, 0.002F, 200, ((Block)list.keySet().toArray()[i]).getLocation() , 5.0);
 						b=((Block)list.keySet().toArray()[i]);
 						b.setType(Material.ENDER_CHEST);
@@ -185,9 +190,9 @@ public class StandingTreasureChest extends kListener{
 						list.put(b, rdmItemStack());
 						i++;
 					}else{
-						if(chest_type.equalsIgnoreCase("uncommon")){
+						if(chest_type==TreasureChestType.UNCOMMON){
 							UtilParticle.LARGE_SMOKE.display(0F, 0F, 0F, 0.002F, 200, ((Block)list.keySet().toArray()[i]).getLocation() , 5.0);
-						}else if(chest_type.equalsIgnoreCase("rare")){
+						}else if(chest_type==TreasureChestType.RARE){
 							UtilParticle.LAVA.display(0F, 0F, 0F, 0.002F, 200, ((Block)list.keySet().toArray()[i]).getLocation() , 5.0);
 						}
 						b=((Block)list.keySet().toArray()[i]);
@@ -243,20 +248,9 @@ public class StandingTreasureChest extends kListener{
 		}
 	}
 	
-	public ItemStack rdmItemStack(){
-		ItemStack item = null;
-		
-		if(chest_type.equalsIgnoreCase("uncommon")){
-			item=this.uncommen.get( UtilMath.r(this.uncommen.size()) );
-		}else if(chest_type.equalsIgnoreCase("rare")){
-			item=this.rare.get( UtilMath.r(this.rare.size()) );
-		}else if(chest_type.equalsIgnoreCase("mythical")){
-			item=this.mythical.get( UtilMath.r(this.mythical.size()) );
-		}else{
-			item=new ItemStack(Material.BEDROCK);
-		}
-		
-		return item;
+	public TreasureChestPackage rdmItemStack(){
+		TreasureChestType r = TreasureChestType.rdm(chest_type);
+		return itemList.get(r).get( UtilMath.r(itemList.get(r).size()) );
 	}
 	
 	public void reset(){
@@ -271,6 +265,9 @@ public class StandingTreasureChest extends kListener{
 		}
 		dropped_items.clear();
 		UtilWorld.resetWorldBoarder(player);
+		for(TreasureChestType type : itemList.keySet())itemList.get(type).clear();
+		itemList.clear();
+		itemList=null;
 		this.player=null;
 	}
 	
@@ -298,7 +295,10 @@ public class StandingTreasureChest extends kListener{
 							for(int i = 0 ; i<list.size() ; i++){
 								b=(Block)list.keySet().toArray()[i];
 								if(ev.getClickedBlock().getLocation().getBlockX()==b.getLocation().getBlockX()&&ev.getClickedBlock().getLocation().getBlockY()==b.getLocation().getBlockY()&&ev.getClickedBlock().getLocation().getBlockZ()==b.getLocation().getBlockZ()){
-									if(this.status.equalsIgnoreCase("WAIT")&&list.get(b)!=null)drop(b, list.get(b),ev.getPlayer());
+									if(this.status.equalsIgnoreCase("WAIT")&&list.get(b)!=null){
+										drop(b, list.get(b).getItemStack(),ev.getPlayer());
+										list.get(b).click(getPlayer());
+									}
 									ev.setCancelled(true);
 								}
 							}

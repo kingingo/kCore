@@ -30,7 +30,7 @@ public class CommandMoney implements CommandExecutor{
 		stats.setRanking_Stats(Stats.MONEY);
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "money",alias = {"geld","konto","kontostand","stand"}, sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "money",alias = {"geld","konto","kontostand","stand"}, sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		if(cs instanceof Player){
 			player = (Player)cs;
@@ -72,6 +72,25 @@ public class CommandMoney implements CommandExecutor{
 						}else{
 							player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[1]));
 						}
+					}
+				}
+			}
+		}else{
+			if(args.length==3){
+				if(args[0].equalsIgnoreCase("add")){
+					if(UtilPlayer.isOnline(args[1])){
+						target=Bukkit.getPlayer(args[1]);
+						money=UtilNumber.toDouble(args[2]);
+						
+						if(money<0)return false;
+						
+						if(money!=0){
+							stats.setDouble(target, money+stats.getDouble(Stats.MONEY, target), Stats.MONEY);
+						}else{
+							System.out.println("[EpicPvP] ist kein Double.");
+						}
+					}else{
+						System.out.println("[EpicPvP] Der Spieler ist OFFLINE.");
 					}
 				}
 			}

@@ -15,7 +15,7 @@ public class DisguiseGuardian extends DisguiseMonster
     this.DataWatcher.a(17, Integer.valueOf(0));
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.GUARDIAN;
   }

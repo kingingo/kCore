@@ -11,7 +11,7 @@ public class DisguiseMushroomCow extends DisguiseCow
     super(entity);
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.MUSHROOM_COW;
   }

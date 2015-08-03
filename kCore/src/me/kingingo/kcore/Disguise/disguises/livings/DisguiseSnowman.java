@@ -11,7 +11,7 @@ public class DisguiseSnowman extends DisguiseGolem
     super(entity);
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.SNOWMAN;
   }

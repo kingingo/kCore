@@ -27,7 +27,7 @@ public class DisguiseBat extends DisguiseAnimal
       this.DataWatcher.watch(16, Byte.valueOf((byte)(i & 0xFFFFFFFE)));
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.BAT;
   }

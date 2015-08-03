@@ -3,6 +3,7 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import me.kingingo.kcore.Disguise.disguises.DisguiseHuman;
@@ -85,5 +86,9 @@ public class DisguisePlayer extends DisguiseHuman
 	  packet.setPitch(this.Entity.pitch);
 	  packet.setDataWatcher(this.DataWatcher);
 	  return packet;
+  }
+
+  public EntityType GetEntityTypeId() {
+	return EntityType.PLAYER;
   }
 }

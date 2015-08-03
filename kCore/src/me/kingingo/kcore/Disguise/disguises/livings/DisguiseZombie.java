@@ -16,7 +16,7 @@ public class DisguiseZombie extends DisguiseMonster
     this.DataWatcher.a(14, Byte.valueOf((byte)0));
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.ZOMBIE;
   }

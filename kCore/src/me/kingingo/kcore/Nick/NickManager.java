@@ -1,6 +1,8 @@
 package me.kingingo.kcore.Nick;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import lombok.Getter;
@@ -18,18 +20,25 @@ import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo.kPlayerInfoData;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
+import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilReflection;
 import me.kingingo.kcore.Util.UtilServer;
 import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
+import net.minecraft.server.v1_8_R3.ChatBaseComponent;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.ChatComponentUtils;
+import net.minecraft.server.v1_8_R3.ChatDeserializer;
+import net.minecraft.server.v1_8_R3.ChatModifier;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -46,10 +55,13 @@ public class NickManager extends kListener{
 	@Getter
 	private HashMap<Integer,DisguisePlayer> nicks = new HashMap<>();
 	private HashMap<UUID,String> wait = new HashMap<>();
+	@Getter
+	private PermissionManager permissionManager;
 	
-	public NickManager(JavaPlugin instance){
-		super(instance,"NickManager");
-		UtilServer.createPacketListener(instance);
+	public NickManager(PermissionManager permissionManager){
+		super(permissionManager.getInstance(),"NickManager");
+		UtilServer.createPacketListener(permissionManager.getInstance());
+		this.permissionManager=permissionManager;
 	}
 	
 	public boolean hasNick(LivingEntity entity){
@@ -106,7 +118,7 @@ public class NickManager extends kListener{
 	kPlayerInfoData data;
 	kPacketPlayOutChat chat;
 	String txt;
-	ChatComponentText c;
+	String prefix;
 	@EventHandler
 	public void Send(PacketListenerSendEvent ev){
 		if(nicks.isEmpty())return;
@@ -114,48 +126,40 @@ public class NickManager extends kListener{
 			if(ev.getPacket() instanceof PacketPlayOutSpawnEntityLiving){
 				if( entityLiving == null )entityLiving=new kPacketPlayOutSpawnEntityLiving();
 				entityLiving.setPacket(((PacketPlayOutSpawnEntityLiving)ev.getPacket()));
-				if(ev.getPlayer().getEntityId()!=entityLiving.getEntityID()&&getNicks().containsKey(entityLiving.getEntityID())){
+				if(ev.getPlayer().getEntityId()!=entityLiving.getEntityID()&&getNicks().containsKey(entityLiving.getEntityID())&&getNicks().get(entityMetadata.getEntityID())!=null){
 					ev.setPacket(getNicks().get(entityLiving.getEntityID()).GetSpawnPacket().getPacket());
 				}
 			}else if(ev.getPacket() instanceof PacketPlayOutNamedEntitySpawn){
 				if( namedEntitySpawn == null )namedEntitySpawn=new kPacketPlayOutNamedEntitySpawn();
 				namedEntitySpawn.setPacket(((PacketPlayOutNamedEntitySpawn)ev.getPacket()));
-				if(ev.getPlayer().getEntityId()!=namedEntitySpawn.getEntityID()&&getNicks().containsKey(namedEntitySpawn.getEntityID())){
+				if(ev.getPlayer().getEntityId()!=namedEntitySpawn.getEntityID()&&getNicks().containsKey(namedEntitySpawn.getEntityID())&&getNicks().get(entityMetadata.getEntityID())!=null){
 					if(getNicks().get(namedEntitySpawn.getEntityID()) instanceof DisguisePlayer)UtilPlayer.sendPacket(ev.getPlayer(), ((DisguisePlayer)getNicks().get(namedEntitySpawn.getEntityID())).getTabList());
 					ev.setPacket(getNicks().get(namedEntitySpawn.getEntityID()).GetSpawnPacket().getPacket());
 				}
 			}else if(ev.getPacket() instanceof PacketPlayOutEntityMetadata){
 				if( entityMetadata == null )entityMetadata=new kPacketPlayOutEntityMetadata();
 				entityMetadata.setPacket(((PacketPlayOutEntityMetadata)ev.getPacket()));
-				if(ev.getPlayer().getEntityId()!=entityMetadata.getEntityID()&&getNicks().containsKey(entityMetadata.getEntityID())){
-					ev.setPacket( getNicks().get(entityMetadata.getEntityID()).GetMetaDataPacket().getPacket());
+				if(ev.getPlayer().getEntityId()!=entityMetadata.getEntityID()&&getNicks().containsKey(entityMetadata.getEntityID())&&getNicks().get(entityMetadata.getEntityID())!=null){
+					ev.setPacket( getNicks().get(entityMetadata.getEntityID()).GetMetaDataPacket().getPacket() );
 				}
 			}else if(ev.getPacket() instanceof PacketPlayOutChat){
 				if(chat==null)chat = new kPacketPlayOutChat();
 				chat.setPacket( ((PacketPlayOutChat)ev.getPacket()) );
 				
-				if(chat.getIChatBaseComponent()!=null&&chat.getIChatBaseComponent() instanceof ChatComponentText){
-					for(IChatBaseComponent t : ((ChatComponentText)chat.getIChatBaseComponent())){
-						c=((ChatComponentText)t);
-						txt=c.getText();
-						
-						for(int id : getNicks().keySet()){
-							if(!UtilPlayer.isOnline(getNicks().get(id).GetEntity().getUniqueID()))continue;
-							if(c.getText().contains( Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName() )){
-								txt.replaceAll(Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName(), getNicks().get(id).getName());
-							}
-						}
-						
-						if(txt!=null){
-							t = new ChatComponentText(txt);
-							t.setChatModifier(c.getChatModifier());
+				if(chat.getIChatBaseComponent()!=null){
+					txt=CraftChatMessage.fromComponent(chat.getIChatBaseComponent());
+					for(int id : getNicks().keySet()){
+						if(!UtilPlayer.isOnline(getNicks().get(id).GetEntity().getUniqueID()))continue;
+						if(txt.contains(Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName())){
+							prefix=getPermissionManager().getPrefix(Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()));
+							if(prefix!=null&&txt.contains(prefix))txt=txt.replace(prefix, "");
+							txt=txt.replaceAll(Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName(), getNicks().get(id).getName());
 						}
 					}
+					prefix=null;
+					chat.setIChatBaseComponent( CraftChatMessage.fromString(txt)[0] );
+					ev.setPacket(chat.getPacket());
 				}
-//				
-//				for (IChatBaseComponent component : CraftChatMessage.fromString(txt))chat.setIChatBaseComponent(component);
-//				
-//				ev.setPacket(chat.getPacket());
 			}
 		}
 	}

@@ -23,7 +23,7 @@ public class DisguiseRabbit extends DisguiseAnimal
 	  this.DataWatcher.watch(18, Byte.valueOf((byte)type.ordinal()));
   }
   
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.RABBIT;
   }

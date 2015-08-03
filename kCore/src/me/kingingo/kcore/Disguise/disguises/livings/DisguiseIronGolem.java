@@ -13,7 +13,7 @@ public class DisguiseIronGolem extends DisguiseGolem
     this.DataWatcher.a(16, Byte.valueOf((byte)0));
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.IRON_GOLEM;
   }

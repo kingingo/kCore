@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.potion.PotionEffect;
@@ -13,6 +14,9 @@ import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerAddEvent;
 import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerRemoveEvent;
 import me.kingingo.kcore.Kit.Perks.Event.PerkStartEvent;
+import me.konsolas.aac.api.HackType;
+import me.konsolas.aac.api.PlayerViolationEvent;
+import me.konsolas.aac.api.PlayerViolationKickEvent;
 
 public class PerkRunner extends Perk{
 
@@ -34,6 +38,24 @@ public class PerkRunner extends Perk{
 	public void Remove(PerkPlayerRemoveEvent ev){
 		if(getPerkData().hasPlayer(this, ev.getPlayer()) && (ev.getPerkString()==null||ev.getPerkString().equalsIgnoreCase(getName())) ){
 			ev.getPlayer().setWalkSpeed(0.2F);
+		}
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void kick(PlayerViolationEvent ev){
+		if(ev.getHackType()==HackType.SPEED){
+			if(this.getPerkData().hasPlayer(this, ev.getPlayer())){
+				ev.setCancelled(true);
+			}
+		}
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void kick(PlayerViolationKickEvent ev){
+		if(ev.getHackType()==HackType.SPEED){
+			if(this.getPerkData().hasPlayer(this, ev.getPlayer())){
+				ev.setCancelled(true);
+			}
 		}
 	}
 	

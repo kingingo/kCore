@@ -10,6 +10,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.entity.EntityType;
 
 public abstract class DisguiseBase
 {
@@ -40,6 +41,8 @@ public abstract class DisguiseBase
   }
 
   public abstract kPacket GetSpawnPacket();
+
+  public abstract EntityType GetEntityTypeId();
 
   public kPacket GetMetaDataPacket()
   {

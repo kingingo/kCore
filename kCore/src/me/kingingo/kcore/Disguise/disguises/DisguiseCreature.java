@@ -11,8 +11,6 @@ public abstract class DisguiseCreature extends DisguiseInsentient
     super(entity);
   }
 
-  protected abstract EntityType GetEntityTypeId();
-
   public kPacket GetSpawnPacket(){
 	  kPacketPlayOutSpawnEntityLiving living = new kPacketPlayOutSpawnEntityLiving();
 	  living.setX(this.Entity.locX);

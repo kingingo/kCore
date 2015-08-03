@@ -11,6 +11,10 @@ public class DisguiseMagmaCube extends DisguiseSlime
     super(entity);
   }
 
+  public EntityType GetEntityTypeId() {
+	return EntityType.MAGMA_CUBE;
+  }
+
   public kPacket GetSpawnPacket(){
 	  kPacketPlayOutSpawnEntityLiving packet = new kPacketPlayOutSpawnEntityLiving();
 	  packet.setEntityID(this.Entity.getId());

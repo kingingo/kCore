@@ -19,7 +19,7 @@ public class DisguiseHorse extends DisguiseAnimal
     this.DataWatcher.a(22, Integer.valueOf(0));
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.HORSE;
   }

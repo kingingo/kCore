@@ -63,7 +63,7 @@ public class DisguiseEnderman extends DisguiseMonster
     this.DataWatcher.watch(18, Byte.valueOf((byte)(flag ? 1 : 0)));
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.ENDERMAN;
   }

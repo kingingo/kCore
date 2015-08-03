@@ -24,6 +24,10 @@ public class DisguiseSlime extends DisguiseInsentient
     return this.DataWatcher.getByte(16);
   }
 
+  public EntityType GetEntityTypeId() {
+	return EntityType.SLIME;
+  }
+
   public kPacket GetSpawnPacket() {
 	  kPacketPlayOutSpawnEntityLiving packet = new kPacketPlayOutSpawnEntityLiving();
 	  packet.setEntityID(this.Entity.getId());

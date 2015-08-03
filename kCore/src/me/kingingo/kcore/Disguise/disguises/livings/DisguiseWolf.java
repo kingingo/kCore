@@ -55,7 +55,7 @@ public class DisguiseWolf extends DisguiseTameableAnimal
     return this.DataWatcher.getByte(19) == 1;
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.WOLF;
   }

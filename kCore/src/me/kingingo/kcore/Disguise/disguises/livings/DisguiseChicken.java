@@ -11,7 +11,7 @@ public class DisguiseChicken extends DisguiseAnimal
     super(entity);
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.CHICKEN;
   }

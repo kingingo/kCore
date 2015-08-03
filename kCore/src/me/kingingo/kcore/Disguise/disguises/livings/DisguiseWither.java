@@ -32,7 +32,7 @@ public class DisguiseWither extends DisguiseMonster
 	  this.DataWatcher.watch(17 + i, Integer.valueOf(j));
   }
   
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.WITHER;
   }

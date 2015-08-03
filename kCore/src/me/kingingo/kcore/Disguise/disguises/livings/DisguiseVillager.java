@@ -13,7 +13,7 @@ public class DisguiseVillager extends DisguiseAgeable
     super(entity);
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.VILLAGER;
   }

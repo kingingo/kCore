@@ -14,7 +14,7 @@ public class DisguiseSheep extends DisguiseAnimal
     this.DataWatcher.a(16, new Byte((byte)0));
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.SHEEP;
   }

@@ -4,6 +4,8 @@ import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.konsolas.aac.api.HackType;
+import me.konsolas.aac.api.PlayerViolationKickEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,6 +23,15 @@ public class PerkNoKnockback extends Perk{
 	public PerkNoKnockback(JavaPlugin instance) {
 		super("noKnockback");
 		this.instance=instance;
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void kick(PlayerViolationKickEvent ev){
+		if(ev.getHackType()==HackType.KNOCKBACK){
+			if(this.getPerkData().hasPlayer(this, ev.getPlayer())){
+				ev.setCancelled(true);
+			}
+		}
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)

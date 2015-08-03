@@ -14,8 +14,9 @@ public abstract class DisguiseInsentient extends DisguiseLiving
   {
     super(entity);
 
-    this.DataWatcher.a(11, Byte.valueOf((byte)0));
-    this.DataWatcher.a(10, "");
+//    this.DataWatcher.a(11, Byte.valueOf((byte)0));
+//    this.DataWatcher.a(10, "");
+    this.DataWatcher.a(15, Byte.valueOf((byte)0));
   }
 
   public void SetName(String name)

@@ -21,6 +21,7 @@ public class SalesPackageBase implements IButton{
 	@Getter
 	@Setter
 	private ItemStack itemStack;
+	@Getter
 	private Click click;
 	@Getter
 	@Setter
@@ -28,6 +29,13 @@ public class SalesPackageBase implements IButton{
 	@Getter
 	@Setter
 	private InventoryPageBase inventoryPageBase;
+	
+	public SalesPackageBase(Click click,ItemStack itemStack){
+		this.name=(itemStack.hasItemMeta() ? (itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : "") : "");
+		this.description=(itemStack.hasItemMeta() ? ((String[]) itemStack.getItemMeta().getLore().toArray()) : new String[]{});
+		this.click=click;
+		this.itemStack=itemStack;
+	}
 	
 	public SalesPackageBase(Click click,Material material,String name,String[] description){
 		this.name=name;

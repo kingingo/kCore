@@ -40,6 +40,10 @@ public class DisguiseBlock extends DisguiseBase
   public byte GetBlockData(){
 	  return (byte)this._blockData;
   }
+
+  public EntityType GetEntityTypeId() {
+	return EntityType.FALLING_BLOCK;
+  }
 	  
   public kPacket GetSpawnPacket(){
 	  kPacketPlayOutSpawnEntity spawn = new kPacketPlayOutSpawnEntity();

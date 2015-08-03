@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
+import me.kingingo.kcore.Disguise.Events.DisguiseCreateEvent;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
 import me.kingingo.kcore.Listener.kListener;
@@ -66,7 +67,7 @@ public class DisguiseManager extends kListener {
 	kPlayerInfoData data;
 	@EventHandler
 	public void Send(PacketListenerSendEvent ev){
-		if(ev.getPlayer()!=null){
+		if(ev.getPlayer()!=null&&ev.getPacket()!=null){
 			if(ev.getPacket() instanceof PacketPlayOutSpawnEntityLiving){
 				if( entityLiving == null )entityLiving=new kPacketPlayOutSpawnEntityLiving();
 				entityLiving.setPacket(((PacketPlayOutSpawnEntityLiving)ev.getPacket()));
@@ -103,22 +104,6 @@ public class DisguiseManager extends kListener {
 		UtilPlayer.sendPacket(player, packet);
 	}
 	
-	private void disguise(Player player,LivingEntity entity,DisguiseType type){
-		DisguiseBase disguise = DisguiseType.newDisguise(entity, type, null);
-		if(!getDisguise().containsKey(entity.getEntityId()))getDisguise().put(entity.getEntityId(),disguise);
-		sendPacket(player, new kPacketPlayOutEntityDestroy(new int[] { disguise.GetEntityId() }));
-		if(type==DisguiseType.PLAYER)sendPacket(player, ((DisguisePlayer)disguise).getTabList());
-		sendPacket(player, disguise.GetSpawnPacket());
-	}
-	
-	private void disguise(Player player,LivingEntity entity,DisguiseType type,Object[] o){
-		DisguiseBase disguise = DisguiseType.newDisguise(entity, type, o);
-		if(!getDisguise().containsKey(entity.getEntityId()))getDisguise().put(entity.getEntityId(),disguise);
-		sendPacket(player, new kPacketPlayOutEntityDestroy(new int[] { disguise.GetEntityId() }));
-		if(type==DisguiseType.PLAYER)sendPacket(player, ((DisguisePlayer)disguise).getTabList());
-		sendPacket(player, disguise.GetSpawnPacket());
-	}
-	
 	private void disguise(Player player,DisguiseBase disguise){
 		if(!getDisguise().containsKey(disguise.GetEntityId()))getDisguise().put(disguise.GetEntityId(),disguise);
 		sendPacket(player, new kPacketPlayOutEntityDestroy(new int[] { disguise.GetEntityId() }));
@@ -127,7 +112,9 @@ public class DisguiseManager extends kListener {
 	}
 	
 	public void disguise(LivingEntity entity,DisguiseType type){
+		undisguise(entity);
 		DisguiseBase disguise = DisguiseType.newDisguise(entity, type,new String[]{entity.getName()});
+		Bukkit.getPluginManager().callEvent(new DisguiseCreateEvent(this, disguise, entity));
 		if(!getDisguise().containsKey(disguise.GetEntityId()))getDisguise().put(disguise.GetEntityId(),disguise);
 		for(Player player : UtilServer.getPlayers()){
 			if(disguise.GetEntity() != ((CraftPlayer)player).getHandle()){
@@ -137,7 +124,9 @@ public class DisguiseManager extends kListener {
 	}
 	
 	public void disguise(LivingEntity entity,DisguiseType type,Object[] o){
+		undisguise(entity);
 		DisguiseBase disguise = DisguiseType.newDisguise(entity, type, o);
+		Bukkit.getPluginManager().callEvent(new DisguiseCreateEvent(this, disguise, entity));
 		if(!getDisguise().containsKey(entity.getEntityId()))getDisguise().put(entity.getEntityId(),disguise);
 		for(Player player : UtilServer.getPlayers()){
 			if(disguise.GetEntity() != ((CraftPlayer)player).getHandle()){
@@ -165,10 +154,11 @@ public class DisguiseManager extends kListener {
 	public void undisguise(LivingEntity entity){
 		if(isDisguise(entity)){
 			DisguiseBase disguise = getDisguise(entity);
+			getDisguise().remove(entity.getEntityId());
 		    kPacketPlayOutEntityDestroy de = new kPacketPlayOutEntityDestroy(new int[] { entity.getEntityId() });
 		    kPacketPlayOutNamedEntitySpawn s = new kPacketPlayOutNamedEntitySpawn( ((CraftPlayer)entity).getHandle() );
 			for(Player player : UtilServer.getPlayers()){
-				if(entity!=player){
+				if(entity.getEntityId()!=player.getEntityId()){
 					sendPacket(player, de);
 					if(disguise instanceof DisguisePlayer)sendPacket(player, ((DisguisePlayer)disguise).removeFromTablist());
 					sendPacket(player, s);
@@ -177,7 +167,6 @@ public class DisguiseManager extends kListener {
 					}
 				}
 			}
-			getDisguise().remove(disguise);
 		}
 	}
 

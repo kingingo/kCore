@@ -219,6 +219,7 @@ SKYBLOCK_PREMIUM_ISLAND("epicpvp.skyblock.schematic.premium"),
 SKYBLOCK_NORMAL_ISLAND("epicpvp.skyblock.schematic.normal"),
 SKYBLOCK_HOME_OTHER("epicpvp.skyblock.home.other"),
 SKYBLOCK_ISLAND_BYPASS("epicpvp.skyblock.bypass"),
+
 //PETS
 PET_ALL("kpet.*"),
 PET_BLAZE("kpet.blaze"),
@@ -241,8 +242,33 @@ PET_HORSE("kpet.horse"),
 PET_RABBIT("kpet.rabbit"),
 PET_SQUID("kpet.squid"),
 PET_GUARDIAN("kpet.guardian"),
-PET_OCELOT("kpet.ocelot");
+PET_OCELOT("kpet.ocelot"),
 //PETS
+
+//DISGUISE
+DISGUISE_ALL("kdisguise.*"),
+DISGUISE_BLAZE("kdisguise.blaze"),
+DISGUISE_CHICKEN("kdisguise.chicken"),
+DISGUISE_COW("kdisguise.cow"),
+DISGUISE_ENDERMAN("kdisguise.enderman"),
+DISGUISE_SNOWMAN("kdisguise.snowman"),
+DISGUISE_CREEPER("kdisguise.creeper"),
+DISGUISE_IRON_GOLEM("kdisguise.irongolem"),
+DISGUISE_PIG("kdisguise.pig"),
+DISGUISE_PLAYER("kdisguise.player"),
+DISGUISE_SPIDER("kdisguise.spider"),
+DISGUISE_PIGZOMBIE("kdisguise.pigzombie"),
+DISGUISE_WITHERSKULL("kdisguise.witherskull"),
+DISGUISE_SLIME("kdisguise.slime"),
+DISGUISE_WOLF("kdisguise.wolf"),
+DISGUISE_ZOMBIE("kdisguise.zombie"),
+DISGUISE_SHEEP("kdisguise.sheep"),
+DISGUISE_HORSE("kdisguise.horse"),
+DISGUISE_RABBIT("kdisguise.rabbit"),
+DISGUISE_SQUID("kdisguise.squid"),
+DISGUISE_GUARDIAN("kdisguise.guardian"),
+DISGUISE_OCELOT("kdisguise.ocelot");
+//DISGUISE
 
 public static kPermission isPerm(String perm){
 	kPermission per=kPermission.NONE;

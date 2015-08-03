@@ -23,7 +23,7 @@ public class DisguiseCat extends DisguiseTameableAnimal
     this.DataWatcher.watch(18, Byte.valueOf((byte)i));
   }
 
-  protected EntityType GetEntityTypeId()
+  public EntityType GetEntityTypeId()
   {
     return EntityType.OCELOT;
   }
