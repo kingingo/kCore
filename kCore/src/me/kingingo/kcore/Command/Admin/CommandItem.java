@@ -1,10 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilNumber;
-import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

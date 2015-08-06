@@ -2,10 +2,10 @@ package me.kingingo.kcore.Gilden.Commands;
 
 import java.util.UUID;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.Gilden.GildenType;
 import me.kingingo.kcore.Gilden.SkyBlockGildenManager;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.kConfig.kConfig;
 
@@ -46,7 +46,7 @@ public class Verlassen {
 						}
 					}
 					
-					manager.sendGildenChat(g, Text.GILDE_PREFIX.getText()+Text.GILDE_CLOSED.getText());
+					manager.sendGildenChat(g, "GILDE_CLOSED");
 					manager.removeGildenEintrag(p,g);
 				}else{
 					
@@ -62,15 +62,15 @@ public class Verlassen {
 						if(p.getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName()))p.teleport(Bukkit.getWorld("world").getSpawnLocation());
 					}
 					
-					manager.sendGildenChat(g, Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_GO_OUT.getText(p.getName()));
+					manager.sendGildenChat(g, "GILDE_PLAYER_GO_OUT",p.getName());
 					manager.removePlayerEintrag(p);
 					p.setDisplayName(p.getName());
 				}
 			}else{
-				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_IN_GILDE.getText());
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_IN_GILDE"));
 			}
 		}else{
-			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde verlassen");
+			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde verlassen");
 		}
 	}
 	

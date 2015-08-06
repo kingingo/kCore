@@ -32,8 +32,10 @@ public class kConfig extends YamlConfiguration{
 		} catch (FileNotFoundException e) {
 			System.err.println("[EpicPvP] Config "+configFile.getPath()+" erstellt.");
 		} catch (IOException e) {
+			System.err.println("[EpicPvP] IOException:");
 			e.printStackTrace();
 		} catch (InvalidConfigurationException e) {
+			System.err.println("[EpicPvP] InvalidConfigurationException:");
 			e.printStackTrace();
 		}
 	}

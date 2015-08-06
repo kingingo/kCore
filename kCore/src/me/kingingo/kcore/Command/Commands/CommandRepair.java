@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
@@ -25,7 +25,7 @@ public class CommandRepair implements CommandExecutor{
 			
 			s=UtilTime.getTimeManager().check(cmd.getName(), player);
 			if(s!=null){
-				player.sendMessage(Text.PREFIX.getText()+Text.USE_BEFEHL_TIME.getText(s));
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "USE_BEFEHL_TIME",s));
 			}else{
 				
 				l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
@@ -36,7 +36,7 @@ public class CommandRepair implements CommandExecutor{
 				if(args.length==0){
 					if(player.hasPermission(kPermission.REPAIR_HAND.getPermissionToString())){
 						UtilItem.RepairItem(player.getItemInHand());
-						player.sendMessage(Text.PREFIX.getText()+Text.REPAIR_HAND.getText());
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "REPAIR_HAND"));
 					}
 				}else{
 					if(args[0].equalsIgnoreCase("all")){
@@ -46,7 +46,7 @@ public class CommandRepair implements CommandExecutor{
 							}else{
 								UtilInv.repairInventory(player, false);
 							}
-							player.sendMessage(Text.PREFIX.getText()+Text.REPAIR_ALL.getText());
+							player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "REPAIR_ALL"));
 						}
 					}
 				}

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import lombok.Getter;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.TEAM_MESSAGE;
 import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
@@ -214,23 +215,20 @@ public class UtilServer{
     return Bukkit.getServer();
   }
 
-  public static void broadcast(String message)
-  {
-    for (Player cur : getPlayers())
-    	UtilPlayer.sendMessage(cur, message);
-      //UtilPlayer.message(cur, message);
+  public static void broadcastLanguage(String name,Object input){
+	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, Language.getText("PREFIX")+Language.getText(cur, name,input));
   }
-
-  public static void broadcastSpecial(String event, String message)
-  {
-    for (Player cur : getPlayers())
-    {
-    //  UtilPlayer.message(cur, "§b§l" + event);
-    //  UtilPlayer.message(cur, message);
-    	UtilPlayer.sendMessage(cur, message);
-      cur.playSound(cur.getLocation(), Sound.ORB_PICKUP, 2.0F, 0.0F);
-      cur.playSound(cur.getLocation(), Sound.ORB_PICKUP, 2.0F, 0.0F);
-    }
+  
+  public static void broadcastLanguage(String name,Object[] input){
+	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, Language.getText("PREFIX")+Language.getText(cur, name,input));
+  }
+  
+  public static void broadcastLanguage(String name){
+	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, Language.getText("PREFIX")+Language.getText(cur, name));
+  }
+  
+  public static void broadcast(String message){
+    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, message);
   }
 
   public static double getFilledPercent()

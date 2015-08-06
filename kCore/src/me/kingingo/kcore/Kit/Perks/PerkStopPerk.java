@@ -2,9 +2,9 @@ package me.kingingo.kcore.Kit.Perks;
 
 import java.util.HashMap;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.Perks.Event.PerkHasPlayerEvent;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Util.TimeSpan;
 
 import org.bukkit.entity.Player;
@@ -12,7 +12,6 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class PerkStopPerk extends Perk{
 
@@ -45,13 +44,13 @@ public class PerkStopPerk extends Perk{
 				if(ev.getEntity() instanceof Player){
 					d=(Player)ev.getEntity();
 					if(!list.containsKey(d)){
-						d.sendMessage(Text.PREFIX.getText()+"§eDeine Perks wurden für §b"+time+" sec§e aufgehoben.");
+						d.sendMessage(Language.getText(d, "PREFIX")+"§eDeine Perks wurden für §b"+time+" sec§e aufgehoben.");
 						list.put(d, (TimeSpan.SECOND*time)+System.currentTimeMillis());	
 					}
 				}else if(ev.getEntity() instanceof Projectile){
 					d=(Player) ((Projectile)ev.getEntity()).getShooter();
 					if(!list.containsKey(d)){
-						d.sendMessage(Text.PREFIX.getText()+"§eDeine Perks wurden für §b"+time+" sec§e aufgehoben.");
+						d.sendMessage(Language.getText(d, "PREFIX")+"§eDeine Perks wurden für §b"+time+" sec§e aufgehoben.");
 						list.put(d, (TimeSpan.SECOND*time)+System.currentTimeMillis());	
 					}
 				}

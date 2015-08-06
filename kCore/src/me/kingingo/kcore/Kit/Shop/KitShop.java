@@ -5,13 +5,13 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.Calendar.Calendar;
 import me.kingingo.kcore.Calendar.Calendar.CalendarType;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Game.Events.GameStartEvent;
 import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.KitType;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.Perks.Event.PerkStartEvent;
 import me.kingingo.kcore.Kit.Shop.Events.KitShopPlayerDeleteEvent;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.Coins;
@@ -263,7 +263,7 @@ public class KitShop implements Listener {
 						getInv(p);
 					}else if(ev.getCurrentItem().getType()==Material.EMERALD){
 						kit.addPlayer(p);
-						p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_ADD.getText(kit.getName()));
+						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_ADD",kit.getName()));
 						p.closeInventory();
 						UtilInv.remove(p, UtilItem.RenameItem(new ItemStack(Material.CHEST), "§bKitShop"), 1);
 					}else if(ev.getCurrentItem().getType()==Material.GLOWSTONE_DUST){
@@ -280,9 +280,9 @@ public class KitShop implements Listener {
 						if(c>=kit.getPreis()){
 							getCoins().delCoins(p, true, kit.getPreis());
 							getPermManager().addPermission(p, kit.getPermission());
-							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_BUYED_KIT.getText(kit.getName()));
+							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
 						}else{
-							p.sendMessage(Text.PREFIX.getText()+Text.KIT_SHOP_NO_MONEY.getText("Coins"));
+							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_NO_MONEY","Coins"));
 						}
 					}
 					break;

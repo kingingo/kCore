@@ -1,11 +1,9 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.Util.UtilServer;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,7 +17,7 @@ public class CommandSonne implements CommandExecutor{
 		if(player.hasPermission(kPermission.SUN.getPermissionToString())){
 			if(args.length==0){
 				player.getWorld().setStorm(false);
-				player.sendMessage(Text.PREFIX.getText()+Text.SUN.getText());
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SUN"));
 			}
 		}
 		return false;

@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilServer;
 
@@ -21,7 +21,8 @@ public class CommandGiveAll implements CommandExecutor{
 					if(player==p)continue;
 					player.getInventory().addItem(p.getItemInHand());
 				}
-				UtilServer.broadcast(Text.PREFIX.getText()+Text.GIVEALL.getText(new String[]{p.getName(),String.valueOf(p.getItemInHand().getAmount()), String.valueOf(p.getItemInHand().getTypeId())}));
+				
+				UtilServer.broadcastLanguage("GIVEALL",new String[]{p.getName(),String.valueOf(p.getItemInHand().getAmount()), String.valueOf(p.getItemInHand().getTypeId())});
 			}
 		}
 		return false;

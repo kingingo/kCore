@@ -2,7 +2,7 @@ package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.AntiLogout.Events.AntiLogoutAddPlayerEvent;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
 
@@ -26,11 +26,11 @@ public class CommandFly extends kListener implements CommandExecutor{
 			if(player.getAllowFlight()){
 				player.setAllowFlight(false);
 				player.setFlying(false);
-				player.sendMessage(Text.PREFIX.getText()+Text.kFLY_OFF.getText());
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "kFLY_OFF"));
 			}else{
 				player.setAllowFlight(true);
 				player.setFlying(true);
-				player.sendMessage(Text.PREFIX.getText()+Text.kFLY_ON.getText());
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "kFLY_ON"));
 			}
 		}
 		return false;

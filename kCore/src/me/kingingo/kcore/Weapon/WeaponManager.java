@@ -48,29 +48,24 @@ public class WeaponManager extends kListener{
 	}
 	
 	double distance;
-	ArrayList<Bullet> s = new ArrayList<>();
+	Bullet b;
 	@EventHandler
 	public void Shoot(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.FAST)return;
-		for(Bullet b : getBullets().values()){
+		for(int i = 0 ; i<getBullets().size(); i++){
+			b=(Bullet)getBullets().get(i);
 			if(b.getSnowball()==null||b.getSnowball().getShooter()==null||b.getSnowball().isDead()){
-				s.add(b);
+				b.remove();
+				getBullets().remove(i);
 			}else{
 				distance=b.getSnowball().getLocation().distance(b.getStart_loc());
 				if(distance>=b.getWeapon().getDistance()){
-					s.add(b);
+					b.remove();
+					getBullets().remove(i);
 				}else{
 					b.getSnowball().setVelocity(b.getVector());
 				}
 			}
-		}
-		
-		if(!s.isEmpty()){
-			for(Bullet b : s){
-				getBullets().remove(b);
-				b.remove();
-			}
-			s.clear();
 		}
 	}
 }

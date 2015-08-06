@@ -1,15 +1,12 @@
 package me.kingingo.kcore.Listener.Chat;
 
 import lombok.Getter;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
-import me.kingingo.kcore.Util.UtilString;
+import me.kingingo.kcore.Permission.kPermission;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

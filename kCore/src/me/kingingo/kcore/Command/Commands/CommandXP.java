@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,16 +14,16 @@ public class CommandXP implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		Player p = (Player)cs;
 		if(args.length==0){
-			p.sendMessage(Text.PREFIX.getText()+"§9/Xp send <Spieler> <Level> : Spieler Level schicken");
+			p.sendMessage(Language.getText(p, "PREFIX")+"§9/Xp send <Spieler> <Level>");
 		}else{
 			if(args[0].equalsIgnoreCase("send")){
 				
 				if(args.length == 1){
-					p.sendMessage(Text.PREFIX.getText()+"§c/xp send <Player> <Level>");
+					p.sendMessage(Language.getText(p, "PREFIX")+"§c/xp send <Player> <Level>");
 					return false;
 				}
 				if(args.length == 2){
-					p.sendMessage(Text.PREFIX.getText()+"§c/xp send <Player> <Level>");
+					p.sendMessage(Language.getText(p, "PREFIX")+"§c/xp send <Player> <Level>");
 					return false;
 				}
 				if(args.length == 3){
@@ -35,7 +35,7 @@ public class CommandXP implements CommandExecutor{
 						exp = Integer.parseInt(args[2]);
 						
 					}catch(NumberFormatException e){					
-						p.sendMessage(Text.PREFIX.getText()+"§cDas ist keine Zahl " + exp);
+						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "NO_INTEGER"));
 						return false;
 					}
 					
@@ -47,25 +47,25 @@ public class CommandXP implements CommandExecutor{
 							throw new NullPointerException();
 						}
 					}catch(NullPointerException e){
-						p.sendMessage(Text.PREFIX.getText()+"§c" + args[1] + " ist offline. Abbruch.");
+						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "PLAYER_IS_OFFLINE",args[1]));
 						return false;
 					}
 					
 					if(exp < 1){
-						p.sendMessage(Text.PREFIX.getText()+"§cDu kannst keine Minus zahlen verschicken!");
+						p.sendMessage(Language.getText(p, "PREFIX")+"§cDu kannst keine Minus zahlen verschicken!");
 						return false;
 					}
 					
 					if(p.getLevel() < exp){
-						p.sendMessage(Text.PREFIX.getText()+"§cDu hast nicht genug Exp!");
+						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "NOT_ENOUGH_EXP"));
 						return false;
 					}
 					
 					target.setLevel(target.getLevel() + exp);
 					p.setLevel(p.getLevel() - exp);
 					
-					target.sendMessage(Text.PREFIX.getText()+ p.getName() + " hat dir " + exp + " Exp überwiesen!");
-					p.sendMessage(Text.PREFIX.getText()+" Du hast " + target.getName() + " " + exp + " Exp überwiesen ");
+					target.sendMessage(Language.getText(target, "PREFIX")+ Language.getText(target, "EXP_HIS_TO_ME",new String[]{p.getName(),String.valueOf(exp)}));
+					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(target, "EXP_ME_TO_HIS",new String[]{target.getName(),String.valueOf(exp)}));
 					
 					
 					return false;

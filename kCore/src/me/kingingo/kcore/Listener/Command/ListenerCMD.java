@@ -1,19 +1,13 @@
 package me.kingingo.kcore.Listener.Command;
 
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayInTabComplete;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayInUseEntity;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutTabComplete;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
 import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_8_R3.PacketPlayInTabComplete;
-import net.minecraft.server.v1_8_R3.PacketPlayInUseEntity;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTabComplete;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,6 +16,7 @@ public class ListenerCMD extends kListener{
 	public ListenerCMD(JavaPlugin instance) {
 		super(instance, "ListenerCMD");
 		UtilServer.createPacketListener(instance);
+		org.spigotmc.SpigotConfig.unknownCommandMessage=Language.getText("PREFIX")+Language.getText("UNKNOWN_CMD");
 	}
 	
 	String cmd;

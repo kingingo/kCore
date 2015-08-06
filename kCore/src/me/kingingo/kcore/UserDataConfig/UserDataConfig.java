@@ -28,7 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class UserDataConfig extends kListener{
 
 	@Getter
-	private HashMap<UUID,kConfig> configs = new HashMap<>();
+	private HashMap<UUID,kConfig> configs;
 	@Getter
 	private JavaPlugin instance;
 	@Getter
@@ -43,6 +43,7 @@ public class UserDataConfig extends kListener{
 	
 	public UserDataConfig(JavaPlugin instance){
 		super(instance,"UserDataConfig");
+		this.configs= new HashMap<>();
 		this.instance=instance;
 		this.dataFolder="plugins"+File.separator+instance.getPlugin(instance.getClass()).getName()+File.separator+"userdata";
 		new File(getDataFolder()).mkdirs();
@@ -53,15 +54,23 @@ public class UserDataConfig extends kListener{
 		uuid = UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId());
 		if(uuid!=null){
 			file = new File(getDataFolder(),uuid+".yml");
-			config=new kConfig(file);
-			configs.put(uuid, config);
+			if(file!=null){
+				config=new kConfig(file);
+				if(config!=null){
+					configs.put(uuid, config);
+				}else{
+					Log("AsyncPlayerPreLoginEvent config == NULL");
+				}
+			}else{
+				Log("AsyncPlayerPreLoginEvent File == NULL");
+			}
 		}
 	}
 	
 	@EventHandler
 	public void Join(PlayerJoinEvent ev){
 		uuid=UtilPlayer.getRealUUID(ev.getPlayer());
-		if(uuid!=null&&configs.containsKey(uuid)){
+		if(uuid!=null&&configs!=null&&configs.containsKey(uuid)){
 			Bukkit.getPluginManager().callEvent(new UserDataConfigLoadEvent(configs.get(uuid), ev.getPlayer()));
 		}
 	}
@@ -98,6 +107,7 @@ public class UserDataConfig extends kListener{
 	}
 	
 	public void saveAllConfigs(){
+		if(config==null)return;
 		for(UUID uuid : configs.keySet()){
 			saveConfig(uuid);
 		}
@@ -119,7 +129,7 @@ public class UserDataConfig extends kListener{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Disable(PluginDisableEvent ev){
 		saveAllConfigs();
-		configs.clear();
+		if(config!=null)configs.clear();
 		instance=null;
 		dataFolder=null;
 		uuid=null;

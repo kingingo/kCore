@@ -2,7 +2,7 @@ package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Command.Commands.Events.PlayerMsgSendEvent;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
@@ -21,7 +21,7 @@ public class CommandMsg implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player=(Player)sender;
 		if(args.length<=1){
-			player.sendMessage(Text.PREFIX.getText()+"/msg [Player] [Text]");
+			player.sendMessage(Language.getText(player, "PREFIX")+"/msg [Player] [Text]");
 		}else{
 			
 			if(args[0].equalsIgnoreCase(player.getName()))return false;
@@ -37,10 +37,10 @@ public class CommandMsg implements CommandExecutor{
 				sb.setLength(sb.length() - 1);
 				msg = sb.toString();
 				Bukkit.getPluginManager().callEvent(new PlayerMsgSendEvent(player, target, msg,true));
-				target.sendMessage(Text.PREFIX.getText()+player.getName()+"->mir: §b"+msg);
-				player.sendMessage(Text.PREFIX.getText()+"mir->"+target.getName()+": §b"+msg);
+				target.sendMessage(Language.getText(target, "PREFIX")+player.getName()+"->"+Language.getText(target, "ME")+": §b"+msg);
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ME")+"->"+player.getName()+": §b"+msg);
 			}else{
-				player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[0]));
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 			}
 		}
 		

@@ -1,9 +1,7 @@
 package me.kingingo.kcore.Gilden.Commands;
 
-import java.util.UUID;
-
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -15,14 +13,18 @@ public class Info {
 	public static void use(Player p,String[] args,GildenManager manager){
 		if(args.length==1){
 			if(!manager.isPlayerInGilde(p)){
-				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 				return;
 			}
-			p.sendMessage(Text.GILDE_STATS_PREFIX.getText());
+			p.sendMessage(Language.getText(p, "GILDE_STATS_PREFIX"));
 			String g = manager.getPlayerGilde(p);
 			for(Stats s : manager.getTyp().getStats()){
 				if(s==Stats.LOC_X||s==Stats.LOC_Y||s==Stats.LOC_Z||s==Stats.WORLD)continue;
-				p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getInt(s, g, manager.getTyp()));
+				if(s.getCREATE().contains("int")){
+					p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getInt(s, g, manager.getTyp()));
+				}else if(s.getCREATE().contains("double")){
+					p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getDouble(s, g, manager.getTyp()));
+				}
 			}
 			manager.getMember(g);
 			p.sendMessage("§6Anzahl: §b"+manager.getAnzahl(g)+"/10");
@@ -40,13 +42,17 @@ public class Info {
 		}else if(args.length==2){
 			String g = args[1];
 			if(!manager.ExistGilde(g)){
-				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_EXIST_NOT.getText());
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_EXIST_NOT"));
 				return;
 			}
-			p.sendMessage(Text.GILDE_STATS_PREFIXBY.getText(g));
+			p.sendMessage(Language.getText(p, "GILDE_STATS_PREFIXBY",g));
 			for(Stats s : manager.getTyp().getStats()){
 				if(s==Stats.LOC_X||s==Stats.LOC_Y||s==Stats.LOC_Z||s==Stats.WORLD)continue;
-				p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getInt(s, g, manager.getTyp()));
+				if(s.getCREATE().contains("int")){
+					p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getInt(s, g, manager.getTyp()));
+				}else if(s.getCREATE().contains("double")){
+					p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getDouble(s, g, manager.getTyp()));
+				}
 			}
 			manager.getMember(g);
 			String[] players = manager.getGildenPlayersName(g);
@@ -61,7 +67,7 @@ public class Info {
 			l=l.substring(0, l.length()-1);
 			p.sendMessage(l);
 		}else{
-			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde info oder /gilde info [Gilde]");
+			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde info oder /gilde info [Gilde]");
 		}
 	}
 	

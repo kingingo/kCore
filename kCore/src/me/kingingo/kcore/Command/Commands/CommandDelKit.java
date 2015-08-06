@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.kConfig.kConfig;
 
@@ -27,16 +27,16 @@ public class CommandDelKit implements CommandExecutor{
 		
 		if(player.hasPermission(kPermission.KIT_SET.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Text.PREFIX.getText()+"/delkit [Name]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"/delkit [Name]");
 			}else{
 				if(kit.getKits().containsKey(args[0].toLowerCase())){
 					kit.getKits().remove(args[0].toLowerCase());
 					kit.getKits_delay().remove(args[0].toLowerCase());
 					config.set("kits."+args[0].toLowerCase(), null);
 					config.save();
-					player.sendMessage(Text.PREFIX.getText()+Text.KIT_DEL.getText(args[0]));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_DEL",args[0]));
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.KIT_EXIST.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_EXIST"));
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
@@ -30,14 +30,14 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 		player = (Player)sender;
 		
 		if(args.length==0){
-			player.sendMessage(Text.PREFIX.getText()+"/invsee [Name]");
+			player.sendMessage(Language.getText(player, "PREFIX")+"/invsee [Name]");
 		}else{
 			if(player.hasPermission(kPermission.INVSEE.getPermissionToString())){
 				if(UtilPlayer.isOnline(args[0])){
 					target=Bukkit.getPlayer(args[0]);
 					player.openInventory(target.getInventory());
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[0]));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 				}
 			}
 		}

@@ -1,11 +1,8 @@
 package me.kingingo.kcore.Command.Commands;
 
-import java.io.File;
-
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.Util.UtilFile;
 import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.command.Command;
@@ -31,7 +28,7 @@ public class CommandSetSpawn implements CommandExecutor{
 			config.setLocation("spawn", player.getWorld().getSpawnLocation());
 			config.save();
 			spawn.setSpawn(player.getWorld().getSpawnLocation());
-			player.sendMessage(Text.PREFIX.getText()+Text.SPAWN_SET.getText());
+			player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SPAWN_SET"));
 		}
 		return false;
 	}

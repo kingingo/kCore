@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -21,14 +21,14 @@ public class CommandTp implements CommandExecutor{
 		player = (Player)cs;
 		if(player.hasPermission(kPermission.PLAYER_TELEPORT.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Text.PREFIX.getText()+"§6/tp [Player]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"§6/tp [Player]");
 			}else{
 				if(UtilPlayer.isOnline(args[0])){
 					tp=Bukkit.getPlayer(args[0]);
 					player.teleport(tp);
-					player.sendMessage(Text.PREFIX.getText()+Text.TELEPORT.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT"));
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[0]));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 				}
 			}
 		}

@@ -1,9 +1,6 @@
 package me.kingingo.kcore.Kit.Perks;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
-import me.kingingo.kcore.Update.UpdateType;
-import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.konsolas.aac.api.HackType;
 import me.konsolas.aac.api.PlayerViolationKickEvent;
 
@@ -12,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 

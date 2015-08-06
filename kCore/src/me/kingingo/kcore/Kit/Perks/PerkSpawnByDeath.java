@@ -1,6 +1,5 @@
 package me.kingingo.kcore.Kit.Perks;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Util.UtilMath;
 

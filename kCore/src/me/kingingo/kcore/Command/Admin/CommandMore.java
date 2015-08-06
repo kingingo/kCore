@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 
 import org.bukkit.Material;
@@ -22,15 +22,15 @@ public class CommandMore implements CommandExecutor{
 			if(args.length==0){
 				if(player.getItemInHand()!=null){
 					player.getItemInHand().setAmount(64);
-					player.sendMessage(Text.PREFIX.getText()+Text.MORE_HAND.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "MORE_HAND"));
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.NO_ITEM_IN_HAND.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_ITEM_IN_HAND"));
 				}
 			}else if(player.hasPermission(kPermission.MORE_ALL.getPermissionToString())&&args[0].equalsIgnoreCase("all")){
 				for(ItemStack item : player.getInventory().getContents())if(item!=null&&item.getType()!=Material.AIR)item.setAmount(64);
-				player.sendMessage(Text.PREFIX.getText()+Text.MORE_INV.getText());
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "MORE_INV"));
 			}else{
-				player.sendMessage(Text.PREFIX.getText()+"/more");
+				player.sendMessage(Language.getText(player, "PREFIX")+"/more");
 			}
 		}
 		return false;

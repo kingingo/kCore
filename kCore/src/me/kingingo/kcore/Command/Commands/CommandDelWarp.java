@@ -1,9 +1,8 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.command.Command;
@@ -25,15 +24,15 @@ public class CommandDelWarp implements CommandExecutor{
 		player = (Player)sender;
 		
 		if(args.length==0){
-			player.sendMessage(Text.PREFIX.getText()+"/delwarp [Name]");
+			player.sendMessage(Language.getText(player, "PREFIX")+"/delwarp [Name]");
 		}else{
 			if(player.hasPermission(kPermission.WARP_SET.getPermissionToString())){
 				if(config.isSet("warps."+args[0])){
 					config.set("warps."+args[0], null);
 					config.save();
-					player.sendMessage(Text.PREFIX.getText()+Text.WARP_DEL.getText(args[0]));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "WARP_DEL",args[0]));
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.WARP_EXIST.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "WARP_EXIST"));
 				}
 			}
 		}

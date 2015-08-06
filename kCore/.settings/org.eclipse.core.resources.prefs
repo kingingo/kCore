@@ -1,7 +1,10 @@
 eclipse.preferences.version=1
+encoding//src/me/kingingo/kcore/Command/CommandHandler.java=UTF-8
 encoding//src/me/kingingo/kcore/Command/Commands/CommandMoney.java=UTF-8
-encoding//src/me/kingingo/kcore/Enum/Text.java=UTF-8
 encoding//src/me/kingingo/kcore/Gilden/CommandGilde.java=UTF-8
 encoding//src/me/kingingo/kcore/Gilden/GildenManager.java=UTF-8
+encoding//src/me/kingingo/kcore/Gilden/SkyBlockGildenManager.java=UTF-8
+encoding//src/me/kingingo/kcore/Language/Language.java=UTF-8
 encoding//src/me/kingingo/kcore/StatsManager/StatsManager.java=UTF-8
+encoding//src/me/kingingo/kcore/Util/UtilZeichen.java=UTF-8
 encoding//src/me/kingingo/kcore/friend/CommandFriend.java=UTF-8

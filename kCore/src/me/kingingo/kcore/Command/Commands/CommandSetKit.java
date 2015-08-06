@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilNumber;
@@ -30,11 +30,11 @@ public class CommandSetKit implements CommandExecutor{
 		
 		if(player.hasPermission(kPermission.KIT_SET.getPermissionToString())){
 			if(args.length<=1){
-				player.sendMessage(Text.PREFIX.getText()+"/setkit [Name] [Delay STD]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"/setkit [Name] [Delay STD]");
 			}else{
 				
 				if(!UtilString.isNormalCharakter(args[0])){
-					player.sendMessage(Text.PREFIX.getText()+Text.NO_CHARAKTER.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_CHARAKTER"));
 					return false;
 				}
 				
@@ -45,7 +45,7 @@ public class CommandSetKit implements CommandExecutor{
 					this.kit.getKits_delay().put(args[0].toLowerCase(), UtilNumber.toInt(args[1])*TimeSpan.HOUR );
 				}
 				kit.getConfig().save();
-				player.sendMessage(Text.PREFIX.getText()+Text.KIT_SET.getText(args[0]));
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_SET",args[0]));
 			}
 		}
 		return false;

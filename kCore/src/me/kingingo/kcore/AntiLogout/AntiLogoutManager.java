@@ -8,7 +8,7 @@ import me.kingingo.kcore.AntiLogout.Events.AntiLogoutAddPlayerEvent;
 import me.kingingo.kcore.AntiLogout.Events.AntiLogoutDelPlayerEvent;
 import me.kingingo.kcore.AntiLogout.Events.AntiLogoutQuitPlayerEvent;
 import me.kingingo.kcore.Command.Commands.Events.PlayerHomeEvent;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
@@ -69,7 +69,7 @@ public class AntiLogoutManager extends kListener {
 	public void Home(PlayerHomeEvent ev){
 		if(getPlayers().containsKey(ev.getPlayer())){
 			ev.setCancelled(true);
-			ev.setReason(Text.ANTI_LOGOUT_FIGHT.getText());
+			ev.setReason(Language.getText(ev.getPlayer(),"ANTI_LOGOUT_FIGHT"));
 		}
 	}
 	
@@ -107,13 +107,13 @@ public class AntiLogoutManager extends kListener {
 				player.setAllowFlight(false);
 				player.setFlying(false);
 			}
-			player.sendMessage(Text.PREFIX.getText()+Text.ANTI_LOGOUT_FIGHT.getText());
+			player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ANTI_LOGOUT_FIGHT"));
 		}
 	}
 	
 	public void del(Player player){
 		if(getPlayers().containsKey(player)){
-			player.sendMessage(Text.PREFIX.getText()+Text.ANTI_LOGOUT_FIGHT_END.getText());
+			player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ANTI_LOGOUT_FIGHT_END"));
 			getPlayers().remove(player);
 			Bukkit.getPluginManager().callEvent(new AntiLogoutDelPlayerEvent(player,this));
 		}

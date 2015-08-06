@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 
 import org.bukkit.command.Command;
@@ -18,18 +18,18 @@ public class CommandFlyspeed implements CommandExecutor{
 		player = (Player)sender;
 		if(player.hasPermission(kPermission.FLYSPEED.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Text.PREFIX.getText()+"/flyspeed [1-10]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"/flyspeed [1-10]");
 			}else if(args.length==1){
 				if(player.getAllowFlight()){
 					try{
 						float speed = getRealMoveSpeed(getMoveSpeed(args[0]),true,false);
 						player.setFlySpeed(speed);
-						player.sendMessage(Text.PREFIX.getText()+Text.kFLY_SPEED.getText(args[0]));
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "kFLY_SPEED",args[0]));
 					}catch(NumberFormatException e){
-						player.sendMessage(Text.PREFIX.getText()+Text.NO_INTEGER.getText());
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_INTEGER"));
 					}
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.kFLY_NOT_ON.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "kFLY_NOT_ON"));
 				}
 			}
 		}

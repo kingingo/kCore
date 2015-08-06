@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 import me.kingingo.kcore.kConfig.kConfig;
@@ -27,15 +27,15 @@ public class CommandDelHome implements CommandExecutor{
 		config = userData.getConfig(player);
 		
 		if(args.length==0){
-			player.sendMessage(Text.PREFIX.getText()+"/delhome [Name]");
+			player.sendMessage(Language.getText(player, "PREFIX")+"/delhome [Name]");
 		}else if(args.length>=1){
 			if(player.hasPermission(kPermission.HOME_DEL.getPermissionToString())){
 				if(config.isSet("homes."+args[0])){
 					config.set("homes."+args[0], null);
 					config.save();
-					player.sendMessage(Text.PREFIX.getText()+Text.HOME_DEL.getText(args[0]));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "HOME_DEL",args[0]));
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.HOME_EXIST.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "HOME_EXIST"));
 				}
 			}
 		}

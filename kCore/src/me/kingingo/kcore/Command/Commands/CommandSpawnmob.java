@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Mob;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilTime;
 
@@ -24,24 +24,24 @@ public class CommandSpawnmob implements CommandExecutor{
 		player = (Player)sender;
 		if(player.hasPermission(kPermission.SPAWNMOB.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Text.PREFIX.getText()+"/spawnmob [Mob] [Anzahl]");
-				String s = Text.PREFIX.getText()+"";
+				player.sendMessage(Language.getText(player, "PREFIX")+"/spawnmob [Mob] [Anzahl]");
+				String s = Language.getText(player, "PREFIX")+"";
 				for(Mob mob : Mob.values())s+=mob.name()+",";
 				player.sendMessage(s.substring(0, s.length()-1));
 			}else{
 				s=UtilTime.getTimeManager().check(cmd.getName(), player);
 				if(s!=null){
-					player.sendMessage(Text.PREFIX.getText()+Text.USE_BEFEHL_TIME.getText(s));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "USE_BEFEHL_TIME",s));
 				}else{
 					Mob mob = Mob.fromName(args[0]);
 					
 					if(mob==null){
-						player.sendMessage(Text.PREFIX.getText()+"Mob Type nicht gefunden!");
+						player.sendMessage(Language.getText(player, "PREFIX")+"Mob Type nicht gefunden!");
 						return false;
 					}
 					if(!player.hasPermission(kPermission.SPAWNMOB.getPermissionToString()+"."+mob.name.toLowerCase(Locale.ENGLISH))){
 						if(!player.hasPermission(kPermission.SPAWNMOB_ALL.getPermissionToString())){
-							player.sendMessage(Text.PREFIX.getText()+Text.NO_PERMISSION.getText());
+							player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_PERMISSION"));
 							return false;
 						}
 					}
@@ -52,7 +52,7 @@ public class CommandSpawnmob implements CommandExecutor{
 						try{
 							a=Integer.valueOf(args[1]);
 						}catch(NumberFormatException e){
-							player.sendMessage(Text.PREFIX.getText()+"Das ist keine Zahl!");
+							player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_INTEGER"));
 							return false;
 						}
 					}

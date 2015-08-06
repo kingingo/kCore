@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryChoose;
 import me.kingingo.kcore.Inventory.Inventory.InventoryYesNo;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.PerkManager;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
@@ -78,7 +78,7 @@ public class CommandPerk  extends InventoryBase implements CommandExecutor{
 		if(manager.hasPlayer(p)){
 			p.openInventory(getMain());
 		}else{
-			p.sendMessage(Text.PREFIX.getText()+Text.PERK_NOT_BOUGHT.getText());
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "PERK_NOT_BOUGHT"));
 		}
 		return false;
 	}

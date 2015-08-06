@@ -27,7 +27,7 @@ public class CommandGroup implements CommandExecutor{
 		this.manager=manager;
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "group", alias = {"group","g","k"}, sender = Sender.EVERYONE, permissions = {"epicpvp.*"})
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "group", alias = {"group","g","k"}, sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender cs, Command cmd,String label, String[] args){
 		
 		if(cs instanceof ConsoleCommandSender){

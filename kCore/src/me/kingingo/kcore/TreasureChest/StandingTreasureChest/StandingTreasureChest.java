@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import lombok.Getter;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Hologram.Hologram;
 import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Item.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutBlockAction;
 import me.kingingo.kcore.Update.UpdateType;
@@ -207,7 +207,7 @@ public class StandingTreasureChest extends kListener{
 			}else if(status.equalsIgnoreCase("WAIT")){
 				if(ev.getType() == UpdateType.SEC_3){
 					if(System.currentTimeMillis() > time){
-						this.player.sendMessage(Text.PREFIX.getText()+Text.TREASURE_CHEST_TIME_AWAY.getText());
+						this.player.sendMessage(Language.getText(this.player, "PREFIX")+Language.getText(this.player, "TREASURE_CHEST_TIME_AWAY"));
 						reset();
 					}
 				}

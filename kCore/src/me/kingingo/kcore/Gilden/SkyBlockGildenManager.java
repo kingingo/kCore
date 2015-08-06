@@ -1,13 +1,14 @@
 package me.kingingo.kcore.Gilden;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.UUID;
 
 import lombok.Getter;
 import me.kingingo.kSkyblock.SkyBlockManager;
 import me.kingingo.kcore.Command.CommandHandler;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.Events.GildenPlayerTeleportEvent;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
@@ -25,7 +26,7 @@ public class SkyBlockGildenManager extends GildenManager{
 	private StatsManager stats;
 	
 	public SkyBlockGildenManager(SkyBlockManager manager, MySQL mysql,GildenType typ, CommandHandler cmd,StatsManager stats) {
-		super(manager.getInstance(), mysql, typ, cmd);
+		super(mysql, typ, cmd,stats);
 		this.sky=manager;
 		this.stats=stats;
 		manager.addGildenWorld("gilde", this);
@@ -34,10 +35,10 @@ public class SkyBlockGildenManager extends GildenManager{
 	@EventHandler
 	public void Teleport(GildenPlayerTeleportEvent ev){
 		if(!isPlayerInGilde(ev.getPlayer())){
-			ev.setReason(Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
+			ev.setReason(Language.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 			ev.setCancelled(true);
 		}else{
-			ev.setReason(Text.SKYBLOCK_NO_ISLAND.getText());
+			ev.setReason(Language.getText(p, "SKYBLOCK_NO_ISLAND"));
 			ev.setCancelled( sky.getGilden_world().getIslandHome(getPlayerGilde(ev.getPlayer()))==null );
 		}
 	}
@@ -58,24 +59,68 @@ public class SkyBlockGildenManager extends GildenManager{
 			sky.getGilden_world().removeIsland(player,name);
 		}
 		
-		super.mysql.Update("DELETE FROM list_gilden_"+typ.getK�rzel()+" WHERE gilde='" + name.toLowerCase() + "'");
-		super.mysql.Update("DELETE FROM list_gilden_"+typ.getK�rzel()+"_data WHERE gilde='" + name.toLowerCase() + "'");
-		super.mysql.Update("DELETE FROM list_gilden_"+typ.getK�rzel()+"_user WHERE gilde='" + name.toLowerCase() + "'");
+		super.mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+" WHERE gilde='" + name.toLowerCase() + "'");
+		super.mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+"_data WHERE gilde='" + name.toLowerCase() + "'");
+		super.mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+"_user WHERE gilde='" + name.toLowerCase() + "'");
 		super.gilden_data.remove(name);
 		super.gilden_tag.remove(name);
 		super.gilden_data_musst_saved.remove(name);
 	}
 	
+	public void LoadRanking(boolean b){
+		if(ranking.isEmpty()||b){
+			extra_prefix.clear();
+			try{
+			     ResultSet rs = getMysql().Query("SELECT `money`,`gilde` FROM `list_gilden_"+typ.getKürzel()+"_data` ORDER BY money DESC LIMIT 15;");
+
+			      int zahl = 1;
+			      
+			      while (rs.next()) {
+			    	  if(zahl==1){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
+			  			}else if(zahl==2){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
+			  			}else if(zahl==3){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
+			  			}else if(zahl>=4 && zahl<=6){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
+			  			}else if(zahl>=7 && zahl<=9){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
+			  			}else if(zahl>=10 && zahl<=12){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+			  			}else if(zahl>=13 && zahl<=15){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
+			  			}else{
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+			  			}
+				     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
+				     zahl++;
+			      }
+
+			      rs.close();
+			 } catch (Exception err) {
+			      System.out.println("MySQL-Error: " + err.getMessage());
+			 }
+		}
+	}
+	
+	public void Ranking(Player p){
+		p.sendMessage("§b■■■■■■■■ §6§lGilden Ranking | Top 15 §b■■■■■■■■");
+		p.sendMessage("§b Place | Money | Gilde");
+		LoadRanking(false);
+		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
+	}
+	
 	public void TeleportToHome(Player p){
 		if(!isPlayerInGilde(p)){
-			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
+			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 			return;
 		}
 		String g = getPlayerGilde(p);
 		
 		if(getTyp()==GildenType.SKY){
 			p.teleport(getSky().getGilden_world().getIslandHome(g));
-			p.sendMessage(Text.PREFIX.getText()+Text.GILDE_TELEPORTET.getText());
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "GILDE_TELEPORTET"));
 		}else{
 			String w = getString(Stats.WORLD, g, getTyp());
 			int x = getInt(Stats.LOC_X, g, super.getTyp());
@@ -85,7 +130,7 @@ public class SkyBlockGildenManager extends GildenManager{
 			if(x==0&&y==0&&z==0&&g.equalsIgnoreCase("0"))return;
 			Location loc = new Location(Bukkit.getWorld(w),x,y,z);
 			p.teleport(loc);
-			p.sendMessage(Text.PREFIX.getText()+Text.GILDE_TELEPORTET.getText());	
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "GILDE_TELEPORTET"));	
 		}
 	}
 

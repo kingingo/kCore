@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Gilden.Commands;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
+import me.kingingo.kcore.Language.Language;
 
 import org.bukkit.entity.Player;
 
@@ -11,7 +11,7 @@ public class Ranking {
 		if(args.length==1){
 		   manager.Ranking(p);
 		}else{
-			p.sendMessage(Text.GILDE_PREFIX.getText()+"/gilde ranking");
+			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+"/gilde ranking");
 		}
 	}
 	

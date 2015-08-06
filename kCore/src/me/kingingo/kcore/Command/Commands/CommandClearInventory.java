@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
@@ -26,7 +26,7 @@ public class CommandClearInventory implements CommandExecutor{
 			player.getInventory().setChestplate(null);
 			player.getInventory().setLeggings(null);
 			player.getInventory().setBoots(null);
-			player.sendMessage(Text.PREFIX.getText()+Text.CLEARINVENTORY.getText());
+			player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "CLEARINVENTORY"));
 		}else{
 			if(args[0].equalsIgnoreCase("all")&&player.hasPermission(kPermission.CLEARINVENTORY_ALL.getPermissionToString())){
 				for(Player p : UtilServer.getPlayers()){
@@ -36,9 +36,9 @@ public class CommandClearInventory implements CommandExecutor{
 					p.getInventory().setChestplate(null);
 					p.getInventory().setLeggings(null);
 					p.getInventory().setBoots(null);
-					p.sendMessage(Text.PREFIX.getText()+Text.CLEARINVENTORY_OTHER.getText(player.getName()));
+					p.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "CLEARINVENTORY_OTHER",player.getName()));
 				}
-				player.sendMessage(Text.PREFIX.getText()+Text.CLEARINVENTORY_ALL.getText());
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "CLEARINVENTORY_ALL"));
 			}else if(player.hasPermission(kPermission.CLEARINVENTORY_OTHER.getPermissionToString())){
 				if(UtilPlayer.isOnline(args[0])){
 					Bukkit.getPlayer(args[0]).getInventory().clear();
@@ -46,10 +46,10 @@ public class CommandClearInventory implements CommandExecutor{
 					Bukkit.getPlayer(args[0]).getInventory().setChestplate(null);
 					Bukkit.getPlayer(args[0]).getInventory().setLeggings(null);
 					Bukkit.getPlayer(args[0]).getInventory().setBoots(null);
-					player.sendMessage(Text.PREFIX.getText()+Text.CLEARINVENTORY_FROM_OTHER.getText(args[0]));
-					player.sendMessage(Text.PREFIX.getText()+Text.CLEARINVENTORY_OTHER.getText(player.getName()));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "CLEARINVENTORY_FROM_OTHER",args[0]));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "CLEARINVENTORY_OTHER",player.getName()));
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[0]));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 				}
 			}
 		}

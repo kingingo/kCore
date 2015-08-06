@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -72,8 +72,8 @@ public class FriendManager implements Listener {
 				if(getFriendList().containsKey(UtilPlayer.getRealUUID(a)))getFriendList().remove(UtilPlayer.getRealUUID(a));
 				continue;
 			}
-			if(f.isOnline())f.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_DEL_IN.getText(new String[]{String.valueOf(i),a.getName()}));
-			if(a.isOnline())a.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_DEL_IN.getText(new String[]{String.valueOf(i),f.getName()}));
+			if(f.isOnline())f.sendMessage(Language.getText(f, "FRIEND_PREFIX")+Language.getText(f, "FRIEND_DEL_IN",new String[]{String.valueOf(i),a.getName()}));
+			if(a.isOnline())a.sendMessage(Language.getText(a, "FRIEND_PREFIX")+Language.getText(a, "FRIEND_DEL_IN",new String[]{String.valueOf(i),f.getName()}));
 			i--;
 			del_friend_timer.put(f, i);
 		}
@@ -134,7 +134,7 @@ public class FriendManager implements Listener {
 			if(getFriendList().containsKey(UtilPlayer.getRealUUID(attack))&&getFriendList().get(UtilPlayer.getRealUUID(attack)).contains(UtilPlayer.getRealUUID(defend))){
 				if(getFriendList().containsKey(UtilPlayer.getRealUUID(defend))&&getFriendList().get(UtilPlayer.getRealUUID(defend)).contains(UtilPlayer.getRealUUID(attack))){
 					ev.setCancelled(true);
-					attack.sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_HIT.getText());
+					attack.sendMessage(Language.getText(attack, "FRIEND_PREFIX")+Language.getText(attack, "FRIEND_HIT"));
 				}
 			}
 		}else if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Projectile){
@@ -148,7 +148,7 @@ public class FriendManager implements Listener {
 			if(getFriendList().containsKey(UtilPlayer.getRealUUID(((Player)attack_projectile.getShooter())))&&getFriendList().get(UtilPlayer.getRealUUID(((Player)attack_projectile.getShooter()))).contains(UtilPlayer.getRealUUID(defend))){
 				if(getFriendList().containsKey(UtilPlayer.getRealUUID(defend))&&getFriendList().get(UtilPlayer.getRealUUID(defend)).contains(UtilPlayer.getRealUUID(((Player)attack_projectile.getShooter())))){
 					ev.setCancelled(true);
-					((Player)attack_projectile.getShooter()).sendMessage(Text.FRIEND_PREFIX.getText()+Text.FRIEND_HIT.getText());
+					((Player)attack_projectile.getShooter()).sendMessage(Language.getText(((Player)attack_projectile.getShooter()), "FRIEND_PREFIX")+Language.getText(((Player)attack_projectile.getShooter()), "FRIEND_HIT"));
 				}
 			}
 		}

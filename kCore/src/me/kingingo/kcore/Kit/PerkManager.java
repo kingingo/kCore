@@ -86,7 +86,7 @@ public class PerkManager extends PerkData{
 	}
 	
 	public void configPlayer(Player player){
-		if(userData!=null&&userData.getConfigs().containsKey(UtilPlayer.getRealUUID(player))){
+		if(player!=null&&userData!=null&&userData.getConfigs().containsKey(UtilPlayer.getRealUUID(player))){
 			configPlayer(player, userData.getConfig(player));
 		}
 	}

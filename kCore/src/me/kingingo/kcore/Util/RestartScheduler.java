@@ -1,12 +1,10 @@
 package me.kingingo.kcore.Util;
 
-import java.io.IOException;
-
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.AntiLogout.AntiLogoutManager;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
@@ -47,24 +45,24 @@ public class RestartScheduler implements Listener{
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
-	public void broadcast(String msg){
-		System.out.println(msg);
-		UtilServer.broadcast(msg);
+	public void broadcast(String name,Object input){
+		System.out.println(Language.getText(name, input));
+		UtilServer.broadcastLanguage(name, input);
 	}
 	
 	@EventHandler
 	public void Update(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC)return;
 		start--;
-		for(Player p : UtilServer.getPlayers())UtilDisplay.displayTextBar(p, Text.RESTART_IN.getText(start));
+		for(Player p : UtilServer.getPlayers())UtilDisplay.displayTextBar(p, Language.getText(p, "RESTART_IN",start));
 		
 		switch(start){
 		case 30:
-			broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));
+			broadcast("RESTART_IN",start);
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "whitelist on");
 			break;
 		case 25:
-			broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));
+			broadcast("RESTART_IN",start);
 			for(Player p : UtilServer.getPlayers())UtilBG.sendToServer(p,instance);
 			break;
 		case 23:
@@ -78,14 +76,14 @@ public class RestartScheduler implements Listener{
 			if(gilden!=null)gilden.AllUpdateGilde();
 			if(userData!=null)userData.saveAllConfigs();
 			break;
-		case 10:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
+		case 10:broadcast("RESTART_IN",start);break;
 		case 5:
 			for(World world : Bukkit.getWorlds())world.save();
 			break;
-		case 4:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
-		case 3:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
-		case 2:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
-		case 1:broadcast(Text.PREFIX.getText()+Text.RESTART_IN.getText(start));break;
+		case 4:broadcast("RESTART_IN",start);break;
+		case 3:broadcast("RESTART_IN",start);break;
+		case 2:broadcast("RESTART_IN",start);break;
+		case 1:broadcast("RESTART_IN",start);break;
 		case 0: 
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "whitelist off");
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");

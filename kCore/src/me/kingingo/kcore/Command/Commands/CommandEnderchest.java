@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
@@ -13,8 +13,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.material.EnderChest;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandEnderchest extends kListener implements CommandExecutor{
@@ -42,7 +40,7 @@ public class CommandEnderchest extends kListener implements CommandExecutor{
 					target=Bukkit.getPlayer(args[0]);
 					player.openInventory(target.getEnderChest());
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[0]));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 				}
 			}
 		}

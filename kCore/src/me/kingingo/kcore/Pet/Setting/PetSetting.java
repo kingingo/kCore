@@ -1,11 +1,11 @@
 package me.kingingo.kcore.Pet.Setting;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryChoose;
 import me.kingingo.kcore.Inventory.Inventory.InventoryRename;
 import me.kingingo.kcore.Inventory.Item.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Pet.PetManager;
 import me.kingingo.kcore.Util.AnvilGUI.AnvilClickEvent;
 import me.kingingo.kcore.Util.AnvilGUI.AnvilClickEventHandler;
@@ -15,29 +15,22 @@ import me.kingingo.kcore.Util.UtilItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.SkullType;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftAgeable;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreeper;
-import org.bukkit.entity.AnimalTamer;
-import org.bukkit.entity.Cow;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Horse;
-import org.bukkit.entity.MushroomCow;
+import org.bukkit.entity.Horse.Variant;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Rabbit;
+import org.bukkit.entity.Rabbit.Type;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Slime;
-import org.bukkit.entity.Spider;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
-import org.bukkit.entity.Horse.Variant;
-import org.bukkit.entity.Rabbit.Type;
 import org.bukkit.inventory.ItemStack;
-import org.fusesource.jansi.Ansi.Color;
 
 public class PetSetting extends InventoryBase{
 	
@@ -363,12 +356,12 @@ public class PetSetting extends InventoryBase{
 									try{
 										Material m = Material.getMaterial(Integer.valueOf(event.getName()));
 										if(m==null){
-											player.sendMessage(Text.PREFIX.getText()+"§cDas ist keine ID!");
+											player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NOT_ENTITY_ID"));
 											return;
 										}
 										((Creature)manager.GetPet(player)).getEquipment().setItemInHand( new ItemStack(m) );;
 									}catch(NumberFormatException e){
-										player.sendMessage(Text.PREFIX.getText()+"§cDas ist keine ID!");
+										player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NOT_ENTITY_ID"));
 									}
 								}
 								

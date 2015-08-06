@@ -6,18 +6,17 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import lombok.Getter;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.SalesPackageBase;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Pet.PetManager;
 import me.kingingo.kcore.Pet.Events.PetCreateEvent;
 import me.kingingo.kcore.Pet.Setting.PetSetting;
-import me.kingingo.kcore.Pet.Shop.IPetShop;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.Coins;
@@ -255,7 +254,7 @@ public class PetShop extends InventoryPageBase implements IPetShop,Listener{
 					if(!manager.getShop().getChange_settings().contains(player))manager.getShop().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.PREMIUM_PET.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PREMIUM_PET"));
 					player.closeInventory();
 				}
 			}

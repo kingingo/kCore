@@ -1,15 +1,16 @@
 package me.kingingo.kcore.Gilden;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.Commands.Annehmen;
 import me.kingingo.kcore.Gilden.Commands.Einladen;
 import me.kingingo.kcore.Gilden.Commands.Erstellen;
 import me.kingingo.kcore.Gilden.Commands.Home;
 import me.kingingo.kcore.Gilden.Commands.Info;
 import me.kingingo.kcore.Gilden.Commands.Kicken;
+import me.kingingo.kcore.Gilden.Commands.Money;
 import me.kingingo.kcore.Gilden.Commands.Ranking;
 import me.kingingo.kcore.Gilden.Commands.Verlassen;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 
 import org.bukkit.command.Command;
@@ -44,6 +45,8 @@ public class CommandGilde implements CommandExecutor{
 			}else if(manager.getTyp()==GildenType.SKY){
 				p.sendMessage("§6/gilde island §8|§7 Teleportiert dich zur Gilden-Insel.");
 				p.sendMessage("§6/gilde createisland §8|§7 Erstellt eine Gilden-Insel.");
+				p.sendMessage("§6/gilde money abheben [Money] §8|§7 Vom Gilden-Konto abheben.");
+				p.sendMessage("§6/gilde money einzahlen [Money] §8|§7 Auf dem Gilden-Konto einzahlen.");
 			}
 			p.sendMessage("§b■■■■■■■■■■■■■■§6§l GILDE §b■■■■■■■■■■■■■■");
 		}else if(args.length > 0){
@@ -67,12 +70,14 @@ public class CommandGilde implements CommandExecutor{
 				Info.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("island")){
 				Home.use(p, args, manager);
+			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("money")){
+				Money.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("createisland")){
 				Home.useSet(p, args, manager);
 			}else if(manager.getTyp()==GildenType.SKY&&p.hasPermission(kPermission.GILDE_NEWISLAND.getPermissionToString())&&args[0].equalsIgnoreCase("newisland")){
 				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
 				sky.getSky().getGilden_world().newIsland(args[1]);
-				p.sendMessage(Text.GILDE_PREFIX.getText()+"§aDone.");
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+"§aDone.");
 			}
 		}
 		return false;

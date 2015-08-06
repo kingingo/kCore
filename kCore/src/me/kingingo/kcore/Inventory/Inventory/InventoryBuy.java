@@ -1,9 +1,9 @@
 package me.kingingo.kcore.Inventory.Inventory;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
@@ -19,7 +19,7 @@ public class InventoryBuy extends InventoryPageBase{
 			@Override
 			public void onClick(Player player, ActionType type,Object object) {
 				if(!coins.delCoins(player, true, c)){
-					player.sendMessage(Text.PREFIX.getText()+"§cDu hast nicht genug Coins!");
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NOT_ENOUGH_COINS"));
 				}else{
 					buyed.onClick(player, type,null);
 				}

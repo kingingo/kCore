@@ -10,7 +10,7 @@ import lombok.Setter;
 import me.kingingo.kcore.Calendar.Calendar;
 import me.kingingo.kcore.Calendar.Calendar.CalendarType;
 import me.kingingo.kcore.Enum.GameType;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
@@ -147,7 +147,7 @@ public class Coins implements Listener{
 			if(c<coins)return false;
 			int co=c-coins;
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
-			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_DEL.getText(coins));
+			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "COINS_DEL",coins));
 		}else{
 			int c = getCoins(UtilPlayer.getRealUUID(p));
 			if(c<coins)return false;
@@ -155,7 +155,7 @@ public class Coins implements Listener{
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			change_coins.remove(UtilPlayer.getRealUUID(p));
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
-			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_DEL.getText(coins));
+			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "COINS_DEL",coins));
 		}
 		return true;
 	}
@@ -168,7 +168,7 @@ public class Coins implements Listener{
 			int co=c+coins;
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
-			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_ADD.getText(coins));
+			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "COINS_ADD",coins));
 		}else{
 			int c = getCoins(p);
 			int co=c+coins;
@@ -176,7 +176,7 @@ public class Coins implements Listener{
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			change_coins.remove(UtilPlayer.getRealUUID(p));
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
-			p.sendMessage(Text.PREFIX_GAME.getText(typ.name())+Text.COINS_ADD.getText(coins));
+			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "COINS_ADD",coins));
 		}
 	}
 	
@@ -212,7 +212,7 @@ public class Coins implements Listener{
 			int co=c-coins;
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
-			p.sendMessage(Text.PREFIX.getText()+Text.COINS_DEL.getText(coins));
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_DEL",coins));
 		}else{
 			int c = getCoins(p);
 			if(c<coins)return false;
@@ -221,7 +221,7 @@ public class Coins implements Listener{
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
-			p.sendMessage(Text.PREFIX.getText()+Text.COINS_DEL.getText(coins));
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_DEL",coins));
 		}
 		return true;
 	}
@@ -234,7 +234,7 @@ public class Coins implements Listener{
 			int co=c+coins;
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
-			p.sendMessage(Text.PREFIX.getText()+Text.COINS_ADD.getText(coins));
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD",coins));
 		}else{
 			int c = getCoins(p);
 			int co=c+coins;
@@ -242,7 +242,7 @@ public class Coins implements Listener{
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
-			p.sendMessage(Text.PREFIX.getText()+Text.COINS_ADD.getText(coins));
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD",coins));
 		}
 	}
 	

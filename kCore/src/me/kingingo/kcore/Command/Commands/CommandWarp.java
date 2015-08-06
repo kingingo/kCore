@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.TeleportManager.TeleportManager;
 import me.kingingo.kcore.TeleportManager.Teleporter;
@@ -35,24 +35,24 @@ public class CommandWarp implements CommandExecutor{
 		
 		if(player.hasPermission(kPermission.WARP.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Text.PREFIX.getText()+"/warp [Name]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"/warp [Name]");
 				if(player.hasPermission(kPermission.WARP_LIST.getPermissionToString())){
 					String warps = "";
 					list = config.getPathList("warps");
 					for(String s : list.keySet())warps+=s+",";
-					player.sendMessage(Text.PREFIX.getText()+ (warps.equalsIgnoreCase("") ? "Es exestieren noch keine Warps" : "Warps: "+warps.substring(0,warps.length()-1)) );
+					player.sendMessage(Language.getText(player, "PREFIX")+ (warps.equalsIgnoreCase("") ? Language.getText(player, "WARPS_EMPTY") : "Warps: "+warps.substring(0,warps.length()-1)) );
 				}
 			}else{
 				if(args[0].equalsIgnoreCase("premium")&&!player.hasPermission(kPermission.WARP.getPermissionToString()+".premium"))return false;
 				if(config.isSet("warps."+args[0])){
 					if(player.hasPermission(kPermission.WARP_BYEPASS_DELAY.getPermissionToString())){
 						player.teleport(config.getLocation("warps."+args[0]));
-						player.sendMessage(Text.PREFIX.getText()+Text.TELEPORT.getText());
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT"));
 					}else{
 						teleport.getTeleport().add(new Teleporter(player,config.getLocation("warps."+args[0]),5));
 					}
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.WARP_EXIST.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "WARP_EXIST"));
 				}
 			}
 		}

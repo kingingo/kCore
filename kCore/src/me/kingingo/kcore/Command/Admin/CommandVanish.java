@@ -3,7 +3,7 @@ package me.kingingo.kcore.Command.Admin;
 import java.util.ArrayList;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilServer;
@@ -34,10 +34,10 @@ public class CommandVanish extends kListener implements CommandExecutor{
 			if(args.length==0){
 				if(invisible.contains(player)){
 					visible(player);
-					player.sendMessage(Text.PREFIX.getText()+Text.VANISH_AUS.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "VANISH_AUS"));
 				}else{
 					invisible(player);
-					player.sendMessage(Text.PREFIX.getText()+Text.VANISH_AN.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "VANISH_AN"));
 				}
 			}
 		}

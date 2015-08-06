@@ -2,7 +2,7 @@ package me.kingingo.kcore.Command.Commands;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.TeleportManager.TeleportManager;
 
@@ -28,15 +28,15 @@ public class CommandTpaccept implements CommandExecutor{
 			if(getManager().getTeleport_anfrage().containsKey(player)){
 				getManager().getTeleport().add(getManager().getTeleport_anfrage().get(player));
 				if(getManager().getTeleport_anfrage().get(player).getPlayer_to()!=null&&!getManager().getTeleport_anfrage().get(player).getPlayer_to().getName().equalsIgnoreCase(player.getName())){
-					getManager().getTeleport_anfrage().get(player).getPlayer_to().sendMessage(Text.PREFIX.getText()+Text.ACCEPT_FROM.getText(player.getName()));
+					getManager().getTeleport_anfrage().get(player).getPlayer_to().sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ACCEPT_FROM",player.getName()));
 				}
 				if(getManager().getTeleport_anfrage().get(player).getFrom()!=null&&!getManager().getTeleport_anfrage().get(player).getFrom().getName().equalsIgnoreCase(player.getName())){
-					getManager().getTeleport_anfrage().get(player).getFrom().sendMessage(Text.PREFIX.getText()+Text.ACCEPT_FROM.getText(player.getName()));
+					getManager().getTeleport_anfrage().get(player).getFrom().sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ACCEPT_FROM",player.getName()));
 				}
 				getManager().getTeleport_anfrage().remove(player);
-				player.sendMessage(Text.PREFIX.getText()+Text.ACCEPT.getText());
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ACCEPT"));
 			}else{
-				player.sendMessage(Text.PREFIX.getText()+Text.NO_ANFRAGE.getText());
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_ANFRAGE"));
 			}
 		}
 		return false;

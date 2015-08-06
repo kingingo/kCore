@@ -20,6 +20,7 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -65,7 +66,7 @@ public class UtilMap{
 		int h = 5000;
 	      for (int i = 0; i <= 150; i++) {
 	        h -= 100;
-	        setCrystalCricle(loc, radius, h);
+	        setCrystalQuadrat(loc, 25, i);
 	        if (h == 400)
 	        {
 	          break;
@@ -96,9 +97,9 @@ public class UtilMap{
 	        	        zufall = (int)(1.0D + (Math.random() * 10.0D - 1.0D));
 	                    if (zufall == 1) {
 	                    	cylBlock.getChunk().load();
-//	                    	en = cylBlock.getWorld().spawnEntity(cylBlock,EntityType.ENDER_CRYSTAL);
-//	          	          	en.teleport(cylBlock);
-	                    	spawnEnderCrystal(cylBlock);
+	                    	en = cylBlock.getWorld().spawnEntity(cylBlock,EntityType.ENDER_CRYSTAL);
+	          	          	en.teleport(cylBlock);
+	                    	//spawnEnderCrystal(cylBlock);
 	          	        } 
 	                }
 	            }
@@ -119,9 +120,9 @@ public class UtilMap{
 	        zufall = (int)(1.0D + (Math.random() * 10.0D - 1.0D));
 	        if (zufall == 1) {
 	          b.getChunk().load();
-//	          Entity en = b.getWorld().spawnEntity(b,EntityType.ENDER_CRYSTAL);
-//	          en.teleport(b);
-	          spawnEnderCrystal(b);
+	          Entity en = b.getWorld().spawnEntity(b,EntityType.ENDER_CRYSTAL);
+	          en.teleport(b);
+	          //spawnEnderCrystal(b);
 	        }
 	      }
 	  }

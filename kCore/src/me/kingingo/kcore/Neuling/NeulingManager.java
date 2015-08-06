@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Neuling.Events.NeulingEvent;
 import me.kingingo.kcore.Neuling.Events.NeulingSchutzEndEvent;
@@ -48,7 +48,7 @@ public class NeulingManager extends kListener{
 		if(getPlayers().containsKey(player)){
 			getPlayers().remove(player);
 			Bukkit.getPluginManager().callEvent(new NeulingSchutzEndEvent(player,this));
-			if(player.isOnline())player.sendMessage(Text.PREFIX.getText()+Text.NEULING_END.getText());
+			if(player.isOnline())player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NEULING_END"));
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class NeulingManager extends kListener{
 			if(getPlayers().containsKey(v)){
 				ev.setCancelled(true);
 				if(ev.getDamager() instanceof Player){
-					((Player)ev.getDamager()).sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ.getText(v.getName()));
+					((Player)ev.getDamager()).sendMessage(Language.getText(((Player)ev.getDamager()), "PREFIX")+Language.getText(((Player)ev.getDamager()), "NEULING_SCHUTZ",v.getName()));
 				}
 			}
 			
@@ -82,7 +82,7 @@ public class NeulingManager extends kListener{
 				a=(Player)ev.getDamager();
 				if(getPlayers().containsKey(a)){
 					ev.setCancelled(true);
-					a.sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ_YOU.getText());
+					a.sendMessage(Language.getText(a, "PREFIX")+Language.getText(a, "NEULING_SCHUTZ_YOU"));
 				}
 			}
 		}
@@ -91,7 +91,7 @@ public class NeulingManager extends kListener{
 	@EventHandler
 	public void Pickup(PlayerPickupItemEvent ev){
 		if(getPlayers().containsKey(ev.getPlayer())){
-			ev.getPlayer().sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ_YOU.getText());
+			ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+Language.getText(ev.getPlayer(), "NEULING_SCHUTZ_YOU"));
 			ev.setCancelled(true);
 		}
 	}
@@ -99,7 +99,7 @@ public class NeulingManager extends kListener{
 	@EventHandler
 	public void Drop(PlayerDropItemEvent ev){
 		if(getPlayers().containsKey(ev.getPlayer())){
-			ev.getPlayer().sendMessage(Text.PREFIX.getText()+Text.NEULING_SCHUTZ_YOU.getText());
+			ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+Language.getText(ev.getPlayer(), "NEULING_SCHUTZ_YOU"));
 			ev.setCancelled(true);
 		}
 	}

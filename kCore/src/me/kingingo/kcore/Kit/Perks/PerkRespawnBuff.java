@@ -1,14 +1,11 @@
 package me.kingingo.kcore.Kit.Perks;
 
-import org.bukkit.Bukkit;
+import me.kingingo.kcore.Kit.Perk;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
-
-import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.Kit.Perk;
 
 public class PerkRespawnBuff extends Perk{
 

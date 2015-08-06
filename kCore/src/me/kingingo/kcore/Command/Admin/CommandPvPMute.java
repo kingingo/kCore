@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
 
@@ -30,10 +30,10 @@ public class CommandPvPMute extends kListener implements CommandExecutor{
 			if(p.hasPermission(kPermission.PVP_MUTE_ALL.getPermissionToString())){
 				if(chat){
 					chat=false;
-					p.sendMessage(Text.PREFIX.getText()+Text.PVP_MUTE.getText());
+					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "PVP_MUTE"));
 				}else{
 					chat=true;
-					p.sendMessage(Text.PREFIX.getText()+Text.PVP_UNMUTE.getText());
+					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "PVP_UNMUTE"));
 				}
 			}
 		}else{

@@ -2,8 +2,8 @@ package me.kingingo.kcore.Kit.Perks;
 
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.Material;
@@ -52,13 +52,13 @@ public class PerkItemName extends Perk implements CommandExecutor{
 		
 		if(getPerkData().hasPlayer(this, p)){
 			if(args.length==0){
-				p.sendMessage(Text.PREFIX.getText()+"§c/itemname [Name]");
+				p.sendMessage(Language.getText(p, "PREFIX")+"§c/itemname [Name]");
 			}else{
 				if(p.getItemInHand()!=null&&p.getItemInHand().getType()!=Material.AIR){
 					UtilItem.RenameItem(p.getItemInHand(), args[0].replaceAll("&", "§"));
-					p.sendMessage(Text.PREFIX.getText()+"§aDas Item wurde umbenannt zu §e"+args[0].replaceAll("&", "§"));
+					p.sendMessage(Language.getText(p, "PREFIX")+"§aDas Item wurde umbenannt zu §e"+args[0].replaceAll("&", "§"));
 				}else{
-					p.sendMessage(Text.PREFIX.getText()+"§cDu musst ein Item in der Hand halten.");
+					p.sendMessage(Language.getText(p, "PREFIX")+"§cDu musst ein Item in der Hand halten.");
 				}
 			}
 		}

@@ -2,7 +2,7 @@ package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Command.Commands.Events.PlayerSetHomeEvent;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
@@ -34,7 +34,7 @@ public class CommandSetHome implements CommandExecutor{
 		config = userData.getConfig(player);
 		
 		if(args.length==0){
-			player.sendMessage(Text.PREFIX.getText()+"/sethome [Name]");
+			player.sendMessage(Language.getText(player, "PREFIX")+"/sethome [Name]");
 		}else{
 			if(player.hasPermission(kPermission.HOME.getPermissionToString())){
 				int a=-1;
@@ -46,25 +46,25 @@ public class CommandSetHome implements CommandExecutor{
 				}
 				
 				if(!UtilString.isNormalCharakter(args[0])){
-					player.sendMessage(Text.PREFIX.getText()+Text.NO_CHARAKTER.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_CHARAKTER"));
 					return false;
 				}
 				
 				if(a!=-1&&config.getPathList("homes").size()>=a){
-					player.sendMessage(Text.PREFIX.getText()+Text.HOME_MAX.getText(a));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player,"HOME_MAX",String.valueOf(a)));
 					return false;
 				}
 				
 				PlayerSetHomeEvent ev = new PlayerSetHomeEvent(player,player.getLocation(),args[0]);
 				Bukkit.getPluginManager().callEvent(ev);
 				if(ev.isCancelled()){
-					if(ev.getReason()!=null)player.sendMessage(Text.PREFIX.getText()+ev.getReason());
+					if(ev.getReason()!=null)player.sendMessage(Language.getText(player, "PREFIX")+ev.getReason());
 					return false;
 				}
 				
 				config.setLocation("homes."+args[0], player.getLocation());
 				config.save();
-				player.sendMessage(Text.PREFIX.getText()+Text.HOME_SET.getText(args[0]));
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "HOME_SET",args[0]));
 			}
 		}
 		return false;

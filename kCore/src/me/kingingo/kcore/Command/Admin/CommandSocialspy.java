@@ -1,15 +1,13 @@
 package me.kingingo.kcore.Command.Admin;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Command.Commands.Events.PlayerMsgSendEvent;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,10 +32,10 @@ public class CommandSocialspy extends kListener implements CommandExecutor{
 			if(player.hasPermission(kPermission.SOCIAL_SPY.getPermissionToString())){
 				if(list.contains(player)){
 					list.remove(player);
-					player.sendMessage(Text.PREFIX.getText()+Text.SOCIALSPY_OFF.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SOCIALSPY_OFF"));
 				}else{
 					list.add(player);
-					player.sendMessage(Text.PREFIX.getText()+Text.SOCIALSPY_ON.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SOCIALSPY_ON"));
 				}
 			}
 		}
@@ -46,7 +44,7 @@ public class CommandSocialspy extends kListener implements CommandExecutor{
 	
 	@EventHandler
 	public void Msg(PlayerMsgSendEvent ev){
-		for(Player player : list)player.sendMessage(Text.PREFIX.getText()+ev.getPlayer().getName()+"->"+ev.getTarget().getName()+":§b "+ev.getMessage());
+		for(Player player : list)player.sendMessage(Language.getText(player, "PREFIX")+ev.getPlayer().getName()+"->"+ev.getTarget().getName()+":§b "+ev.getMessage());
 	}
 	
 	@EventHandler

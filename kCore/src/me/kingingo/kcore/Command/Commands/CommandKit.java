@@ -6,7 +6,7 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 import me.kingingo.kcore.Util.UtilTime;
@@ -49,10 +49,10 @@ public class CommandKit implements CommandExecutor{
 		
 		if(player.hasPermission(kPermission.KIT.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Text.PREFIX.getText()+"/kit [Name]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"/kit [Name]");
 				String kits="";
 				for(String kit : this.kits.keySet())if(player.hasPermission(kPermission.KIT.getPermissionToString()+"."+kit))kits+=kit+",";
-				player.sendMessage(Text.PREFIX.getText()+"Kits: "+(kits.equalsIgnoreCase("") ? "Du hast keine Kits" : kits.substring(0, kits.length()-1)));
+				player.sendMessage(Language.getText(player, "PREFIX")+"Kits: "+(kits.equalsIgnoreCase("") ? "Du hast keine Kits" : kits.substring(0, kits.length()-1)));
 			}else{
 				kit=args[0].toLowerCase();
 				if(kits.containsKey(kit)){
@@ -61,7 +61,8 @@ public class CommandKit implements CommandExecutor{
 						
 						if(kits_delay.containsKey(kit)&&!player.hasPermission(kPermission.KIT_BYEPASS_DELAY.getPermissionToString())&&this.userconfig.isSet("timestamps.kits."+kit)){
 							if(this.userconfig.getLong("timestamps.kits."+kit) >= System.currentTimeMillis()){
-								player.sendMessage(Text.PREFIX.getText()+Text.KIT_DELAY.getText(UtilTime.formatMili(this.userconfig.getLong("timestamps.kits."+kit)-System.currentTimeMillis())));
+								
+								player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_DELAY",UtilTime.formatMili(this.userconfig.getLong("timestamps.kits."+kit)-System.currentTimeMillis())));
 								return false;
 							}
 						}
@@ -71,14 +72,14 @@ public class CommandKit implements CommandExecutor{
 								player.getInventory().addItem(i.clone());
 							}
 						}
-						player.sendMessage(Text.PREFIX.getText()+Text.KIT_USE.getText(kit));
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_USE"));
 						
 						if(kits_delay.containsKey(kit)&&!player.hasPermission(kPermission.KIT_BYEPASS_DELAY.getPermissionToString())){
 							this.userconfig.set("timestamps.kits."+kit, kits_delay.get(kit)+System.currentTimeMillis());
 						}
 					}
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+Text.KIT_EXIST.getText());
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_EXIST"));
 				}
 			}
 		}	

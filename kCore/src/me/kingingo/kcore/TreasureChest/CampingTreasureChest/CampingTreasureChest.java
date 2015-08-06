@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Inventory.InventoryBase;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
@@ -85,7 +85,7 @@ public class CampingTreasureChest extends kListener{
 			if(list.containsKey(ev.getPlayer())&&UtilItem.ItemNameEquals(ev.getPlayer().getItemInHand(), getTreasurechest())){
 				Location loc = ev.getClickedBlock().getLocation();
 				if(!Near(loc)){
-				  ev.getPlayer().sendMessage(Text.PREFIX.getText()+Text.TREASURE_CHEST_TOO_NEAR.getText());
+				  ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+Language.getText(ev.getPlayer(), "TREASURE_CHEST_TOO_NEAR"));
 				  ev.setCancelled(true);
 				  return;
 				}

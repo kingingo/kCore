@@ -5,7 +5,7 @@ import java.util.Locale;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.Mob;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilTime;
 
@@ -28,21 +28,21 @@ public class CommandSpawner implements CommandExecutor{
 		player = (Player)sender;
 		if(player.hasPermission(kPermission.SPAWNER.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Text.PREFIX.getText()+"/spawner [Mob]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"/spawner [Mob]");
 			}else{
 				s=UtilTime.getTimeManager().check(cmd.getName(), player);
 				if(s!=null){
-					player.sendMessage(Text.PREFIX.getText()+Text.USE_BEFEHL_TIME.getText(s));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "USE_BEFEHL_TIME",s));
 				}else{
 				Mob mob = Mob.fromName(args[0]);
 				
 				if(mob==null){
-					player.sendMessage(Text.PREFIX.getText()+"Mob Type nicht gefunden!");
+					player.sendMessage(Language.getText(player, "PREFIX")+"Mob Type nicht gefunden!");
 					return false;
 				}
 				if(!player.hasPermission(kPermission.SPAWNER.getPermissionToString()+"."+mob.name.toLowerCase(Locale.ENGLISH))){
 					if(!player.hasPermission(kPermission.SPAWNER_ALL.getPermissionToString())){
-						player.sendMessage(Text.PREFIX.getText()+Text.NO_PERMISSION.getText());
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_PERMISSION"));
 						return false;
 					}
 				}
@@ -57,7 +57,7 @@ public class CommandSpawner implements CommandExecutor{
 					spawner.setSpawnedType(mob.getType());
 					spawner.update();
 				}else{
-					player.sendMessage(Text.PREFIX.getText()+"Du musst einen MobSpawner ankucken.");
+					player.sendMessage(Language.getText(player, "PREFIX")+"Du musst einen MobSpawner ankucken.");
 				}
 				}
 			}

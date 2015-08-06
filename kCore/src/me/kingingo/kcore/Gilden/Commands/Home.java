@@ -2,11 +2,11 @@ package me.kingingo.kcore.Gilden.Commands;
 
 import java.util.UUID;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.Gilden.GildenType;
 import me.kingingo.kcore.Gilden.SkyBlockGildenManager;
 import me.kingingo.kcore.Gilden.Events.GildenPlayerTeleportEvent;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.Util.TimeSpan;
@@ -25,13 +25,13 @@ public class Home {
 	public static void useSet(Player p,Location loc,String[] args,GildenManager manager){
 		if(args.length==1){
 			if(!manager.isPlayerInGilde(p)){
-				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 				return;
 			}
 			String g = manager.getPlayerGilde(p);
 			UUID owner=manager.getOwner(g);
 			if(!owner.equals(UtilPlayer.getRealUUID(p))){
-				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_OWNER_NOT.getText());
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT"));
 				return;
 			}
 			
@@ -45,10 +45,10 @@ public class Home {
 					
 					if(p.hasPermission(kPermission.SKYBLOCK_GILDEN_ISLAND.getPermissionToString())){
 						skymanager.getSky().addGildenIsland(p, g);
-						p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_SETISLAND.getText());
+						p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_SETISLAND"));
 						return;
 					}else{
-						p.sendMessage(Text.GILDE_PREFIX.getText()+Text.NO_RANG.getText());
+						p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "NO_RANG"));
 						return;
 					}
 				}
@@ -60,10 +60,10 @@ public class Home {
 			manager.setString(g, manager.getTyp(), loc.getWorld().getName(), Stats.WORLD);
 			manager.UpdateGilde(g, manager.getTyp());
 			if(manager.getTyp()==GildenType.PVP){
-				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_SETHOME.getText());
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_SETHOME"));
 			}
 		}else{
-			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde sethome");
+			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde sethome");
 		}
 	}
 	
@@ -73,31 +73,31 @@ public class Home {
 				return;
 			}
 			if(!manager.isPlayerInGilde(p)){
-				p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_PLAYER_IS_NOT_IN_GILDE.getText());
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 				return;
 			}
 			GildenPlayerTeleportEvent ev = new GildenPlayerTeleportEvent(p,manager);
 			Bukkit.getPluginManager().callEvent(ev);
 			if(ev.isCancelled()){
 				if(ev.getReason()!=null){
-					p.sendMessage(Text.GILDE_PREFIX.getText()+ev.getReason());
+					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+ev.getReason());
 				}
 				return;
 			}
 			manager.getTeleport_loc().put(p, p.getLocation());
 			manager.getTeleport().put(p, (System.currentTimeMillis()+(TimeSpan.SECOND*5)) );
-			p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_HOME.getText(5+" sekunden"));
+			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_HOME",5+" sekunden"));
 		}else if(args.length==2&&manager instanceof SkyBlockGildenManager&&p.isOp()){
 			SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
 			
 			if(sky.getSky().getGilden_world().getIslands().containsKey(args[1].toLowerCase())){
 				p.teleport(sky.getSky().getGilden_world().getIslandHome(args[1].toLowerCase()));
-				p.sendMessage(Text.PREFIX.getText()+"§aDu wurdest Teleporiert.");
+				p.sendMessage(Language.getText(p, "PREFIX")+"§aDu wurdest Teleporiert.");
 			}else{
-				p.sendMessage(Text.PREFIX.getText()+"§cGilde nicht gefunden");
+				p.sendMessage(Language.getText(p, "PREFIX")+"§cGilde nicht gefunden");
 			}
 		}else{
-			p.sendMessage(Text.GILDE_PREFIX.getText()+" /gilde "+args[0]);
+			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde "+args[0]);
 		}
 	}
 	

@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -20,14 +20,14 @@ public class CommandTpHere implements CommandExecutor{
 		player = (Player)cs;
 		if(player.hasPermission(kPermission.PLAYER_TELEPORT_HERE.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Text.PREFIX.getText()+"§6/tphere [Player]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"§6/tphere [Player]");
 			}else{
 					if(UtilPlayer.isOnline(args[0])){
 						tp=Bukkit.getPlayer(args[0]);
 						tp.teleport(player);
-						player.sendMessage(Text.PREFIX.getText()+Text.TELEPORT_HERE.getText(tp.getName()));
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT_HERE",tp.getName()));
 					}else{
-						player.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(args[0]));
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}
 			}
 		}

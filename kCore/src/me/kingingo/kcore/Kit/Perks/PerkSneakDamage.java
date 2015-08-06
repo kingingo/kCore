@@ -1,12 +1,11 @@
 package me.kingingo.kcore.Kit.Perks;
 
+import me.kingingo.kcore.Kit.Perk;
+
 import org.bukkit.Effect;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-
-import me.kingingo.kcore.Enum.Text;
-import me.kingingo.kcore.Kit.Perk;
 
 public class PerkSneakDamage extends Perk{
 	

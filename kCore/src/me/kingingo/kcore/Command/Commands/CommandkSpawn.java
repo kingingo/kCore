@@ -1,7 +1,7 @@
 package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilTime;
 
@@ -24,7 +24,7 @@ public class CommandkSpawn implements CommandExecutor{
 			if(p.hasPermission(kPermission.KSPAWN.getPermissionToString())){
 				s=UtilTime.getTimeManager().check(cmd.getName(), p);
 				if(s!=null){
-					p.sendMessage(Text.PREFIX.getText()+Text.USE_BEFEHL_TIME.getText(s));
+					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "USE_BEFEHL_TIME",s));
 				}else{
 					p.teleport(Bukkit.getWorld("world").getSpawnLocation());
 					l=UtilTime.getTimeManager().hasPermission(p, cmd.getName());

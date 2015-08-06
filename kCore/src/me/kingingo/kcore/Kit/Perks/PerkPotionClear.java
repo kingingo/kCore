@@ -2,8 +2,8 @@ package me.kingingo.kcore.Kit.Perks;
 
 import java.util.HashMap;
 
-import me.kingingo.kcore.Enum.Text;
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilParticle;
 import me.kingingo.kcore.Util.UtilTime;
@@ -45,7 +45,7 @@ public class PerkPotionClear extends Perk{
 								if(e.getType()!=PotionEffectType.JUMP)((Player)ev.getRightClicked()).removePotionEffect(e.getType());
 							}
 							}else{
-								ev.getPlayer().sendMessage(Text.PREFIX.getText()+"§cDu musst noch §4"+UtilTime.formatMili( (timer.get(ev.getPlayer().getName())-System.currentTimeMillis()) )+"§c warten");
+								ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+"§cDu musst noch §4"+UtilTime.formatMili( (timer.get(ev.getPlayer().getName())-System.currentTimeMillis()) )+"§c warten");
 							}
 						}
 				}

@@ -1,7 +1,7 @@
 package me.kingingo.kcore.TeleportManager;
 
 import lombok.Getter;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilTime;
 
@@ -94,7 +94,7 @@ public class Teleporter {
 				}
 				
 				if(getTime() > System.currentTimeMillis()){
-					from.sendMessage(Text.PREFIX.getText()+Text.TELEPORT_VERZÖGERUNG.getText( UtilTime.formatMili(getTime()-System.currentTimeMillis())));
+					from.sendMessage(Language.getText(from, "PREFIX")+Language.getText(from, "TELEPORT_VERZÖGERUNG",UtilTime.formatMili(getTime()-System.currentTimeMillis())));
 					return false;
 				}
 
@@ -107,7 +107,7 @@ public class Teleporter {
 				from.setVelocity(new Vector(0,0,0));
 				
 				from.teleport(getTo(), TeleportCause.PLUGIN);
-				from.sendMessage(Text.PREFIX.getText()+Text.TELEPORT.getText());
+				from.sendMessage(Language.getText(from, "PREFIX")+Language.getText(from, "TELEPORT"));
 				
 				from=null;
 				loc_from=null;
@@ -119,7 +119,7 @@ public class Teleporter {
 				dif_z=0;
 				return true;
 			}else{
-				from.sendMessage(Text.PREFIX.getText()+Text.PLAYER_IS_OFFLINE.getText(player_to.getName()));
+				from.sendMessage(Language.getText(from, "PREFIX")+Language.getText(from, "PLAYER_IS_OFFLINE",player_to.getName()));
 				from=null;
 				loc_from=null;
 				player_to=null;

@@ -1,19 +1,16 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Enum.Text;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.Permission.PermissionManager;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,10 +29,10 @@ public class CommandCMDMute extends kListener implements CommandExecutor{
 			if(p.hasPermission(kPermission.COMMAND_COMMAND_MUTE_ALL.getPermissionToString())){
 				if(chat){
 					chat=false;
-					p.sendMessage(Text.PREFIX.getText()+Text.CMD_MUTE.getText());
+					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "CMD_MUTE"));
 				}else{
 					chat=true;
-					p.sendMessage(Text.PREFIX.getText()+Text.CMD_UNMUTE.getText());
+					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "CMD_UNMUTE"));
 				}
 			}
 		}else{
