@@ -42,7 +42,7 @@ public class CommandHome implements CommandExecutor{
 				String homes = "";
 				list = config.getPathList("homes");
 				for(String s : list.keySet())homes+=s+",";
-				player.sendMessage(Language.getText(player, "PREFIX")+ (homes.equalsIgnoreCase("") ? "Du hast keine Homes" : "Homes: "+homes.substring(0,homes.length()-1)) );
+				player.sendMessage(Language.getText(player, "PREFIX")+ (homes.equalsIgnoreCase("") ? Language.getText(player,"HOMES_EMPTY") : "Homes: "+homes.substring(0,homes.length()-1)) );
 			}else{
 				if(config.isSet("homes."+args[0])){
 					home = config.getLocation("homes."+args[0]);

@@ -13,4 +13,5 @@ public static String Wahl_X_FETT="✘";
 public static String HERZ="♥";
 public static String BIG_HERZ="❤";
 public static String ROTATE_HERZ="❥";
+public static String DOPPEL_PFEIL="»";
 }

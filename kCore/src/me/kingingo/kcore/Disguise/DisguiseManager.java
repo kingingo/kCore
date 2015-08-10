@@ -60,33 +60,39 @@ public class DisguiseManager extends kListener {
 		UtilServer.createPacketListener(instance);
 	}
 	
-	kPacketPlayOutSpawnEntityLiving entityLiving;
-	kPacketPlayOutNamedEntitySpawn namedEntitySpawn;
-	kPacketPlayOutEntityMetadata entityMetadata;
-	kPacketPlayOutPlayerInfo info;
-	kPlayerInfoData data;
+//	kPacketPlayOutSpawnEntityLiving entityLiving;
+//	kPacketPlayOutNamedEntitySpawn namedEntitySpawn;
+//	kPacketPlayOutEntityMetadata entityMetadata;
+//	kPacketPlayOutPlayerInfo info;
+//	kPlayerInfoData data;
 	@EventHandler
 	public void Send(PacketListenerSendEvent ev){
 		if(ev.getPlayer()!=null&&ev.getPacket()!=null){
 			if(ev.getPacket() instanceof PacketPlayOutSpawnEntityLiving){
-				if( entityLiving == null )entityLiving=new kPacketPlayOutSpawnEntityLiving();
+				kPacketPlayOutSpawnEntityLiving entityLiving=new kPacketPlayOutSpawnEntityLiving();
 				entityLiving.setPacket(((PacketPlayOutSpawnEntityLiving)ev.getPacket()));
-				if(ev.getPlayer().getEntityId()!=entityLiving.getEntityID()&&getDisguise().containsKey(entityLiving.getEntityID())){
+				if(ev.getPlayer().getEntityId()!=entityLiving.getEntityID()&&getDisguise().containsKey(entityLiving.getEntityID())&&getDisguise().get(entityLiving.getEntityID())!=null){
 					ev.setPacket(getDisguise().get(entityLiving.getEntityID()).GetSpawnPacket().getPacket());
 				}
+				entityLiving.setPacket(null);
+				entityLiving=null;
 			}else if(ev.getPacket() instanceof PacketPlayOutNamedEntitySpawn){
-				if( namedEntitySpawn == null )namedEntitySpawn=new kPacketPlayOutNamedEntitySpawn();
+				kPacketPlayOutNamedEntitySpawn namedEntitySpawn=new kPacketPlayOutNamedEntitySpawn();
 				namedEntitySpawn.setPacket(((PacketPlayOutNamedEntitySpawn)ev.getPacket()));
 				if(ev.getPlayer().getEntityId()!=namedEntitySpawn.getEntityID()&&getDisguise().containsKey(namedEntitySpawn.getEntityID())){
 					if(getDisguise().get(namedEntitySpawn.getEntityID()) instanceof DisguisePlayer)sendPacket(ev.getPlayer(), ((DisguisePlayer)getDisguise().get(namedEntitySpawn.getEntityID())).getTabList());
 					ev.setPacket(getDisguise().get(namedEntitySpawn.getEntityID()).GetSpawnPacket().getPacket());
 				}
+				namedEntitySpawn.setPacket(null);
+				namedEntitySpawn=null;
 			}else if(ev.getPacket() instanceof PacketPlayOutEntityMetadata){
-				if( entityMetadata == null )entityMetadata=new kPacketPlayOutEntityMetadata();
+				kPacketPlayOutEntityMetadata entityMetadata=new kPacketPlayOutEntityMetadata();
 				entityMetadata.setPacket(((PacketPlayOutEntityMetadata)ev.getPacket()));
 				if(ev.getPlayer().getEntityId()!=entityMetadata.getEntityID()&&getDisguise().containsKey(entityMetadata.getEntityID())){
 					ev.setPacket( getDisguise().get(entityMetadata.getEntityID()).GetMetaDataPacket().getPacket());
 				}
+				entityMetadata.setPacket(null);
+				entityMetadata=null;
 			}
 		}
 	}

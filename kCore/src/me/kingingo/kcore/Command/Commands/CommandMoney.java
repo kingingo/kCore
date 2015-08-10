@@ -34,7 +34,7 @@ public class CommandMoney implements CommandExecutor{
 		if(cs instanceof Player){
 			player = (Player)cs;
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX_GAME", GameType.SKYBLOCK.getTyp())+"Dein Kontostand beträgt:§3 " + stats.getDouble(Stats.MONEY, player));
+				player.sendMessage(Language.getText(player, "PREFIX_GAME", GameType.SKYBLOCK.getTyp())+ Language.getText(player, "MONEY") + stats.getDouble(Stats.MONEY, player));
 			}else{
 				if(args.length==1){
 					if(args[0].equalsIgnoreCase("ranking")||args[0].equalsIgnoreCase("top")){

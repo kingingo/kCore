@@ -88,7 +88,6 @@ public class kPacketListener extends kListener implements IPacketEventHandler {
 
 	public Object onPacketSend(Player p, Object packet, Cancellable cancellable) {
 		if (!packet.getClass().getName().startsWith("net.minecraft.server.")) return packet;
-		
 		PacketListenerSendEvent event = new PacketListenerSendEvent(packet, cancellable, p);
 		UtilPacket.callEvent(event);
 

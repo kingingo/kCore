@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import com.mojang.authlib.GameProfile;
+
 import me.kingingo.kcore.Disguise.disguises.DisguiseHuman;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
@@ -23,10 +25,13 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 public class DisguisePlayer extends DisguiseHuman
 {
   private String _name;
+  private GameProfile profile;
 
   public DisguisePlayer(org.bukkit.entity.Entity entity, String name)
   {
     super(entity);
+    
+    if(name==null)System.err.println("[DisguisePlayer] name ist gleich null");
     
     if (name.length() > 16)
     {
@@ -41,10 +46,11 @@ public class DisguisePlayer extends DisguiseHuman
 	  return this._name;
   }
   
-  public kPacket getTabList() {
+  public kPacket getTabList(kGameProfile g) {
+	  if(profile==null)profile=g;
       try {
          kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.Entity.getUniqueID(), this._name), this._name);
+         PlayerInfoData data = packet.new kPlayerInfoData(packet,g, this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
          
@@ -56,6 +62,29 @@ public class DisguisePlayer extends DisguiseHuman
          e.printStackTrace();
       }
       return null;
+   }
+  
+  public kPacket getTabList(GameProfile g) {
+	  if(profile==null)profile=g;
+      try {
+         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
+         PlayerInfoData data = packet.new kPlayerInfoData(packet,g, this._name);
+         List<PlayerInfoData> players = packet.getList();
+         players.add(data);
+         
+         packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
+         packet.setList(players);
+
+         return packet;
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+      return null;
+   }
+  
+  public kPacket getTabList() {
+	  if(profile==null)profile=new kGameProfile(this.Entity.getUniqueID(), this._name);
+      return getTabList(profile);
    }
 
   public kPacket removeFromTablist() {

@@ -52,7 +52,7 @@ public class CommandKit implements CommandExecutor{
 				player.sendMessage(Language.getText(player, "PREFIX")+"/kit [Name]");
 				String kits="";
 				for(String kit : this.kits.keySet())if(player.hasPermission(kPermission.KIT.getPermissionToString()+"."+kit))kits+=kit+",";
-				player.sendMessage(Language.getText(player, "PREFIX")+"Kits: "+(kits.equalsIgnoreCase("") ? "Du hast keine Kits" : kits.substring(0, kits.length()-1)));
+				player.sendMessage(Language.getText(player, "PREFIX")+"Kits: "+(kits.equalsIgnoreCase("") ? Language.getText(player, "KITS_EMPTY") : kits.substring(0, kits.length()-1)));
 			}else{
 				kit=args[0].toLowerCase();
 				if(kits.containsKey(kit)){

@@ -3,12 +3,8 @@ package me.kingingo.kcore.Language;
 import lombok.Getter;
 
 public enum LanguageType {
-ITALIA("it"),
-SPANISH("es"),
 GERMANY("de"),
-ENGLISH("en"),
-NETHERLANDS("nl"),
-FRANCE("fr");
+ENGLISH("en");
 
 @Getter
 private String def;
@@ -19,6 +15,11 @@ private LanguageType(String def){
 public static LanguageType get(String def){
 	for(LanguageType type : LanguageType.values())if(type.getDef().equalsIgnoreCase(def))return type;
 	return LanguageType.GERMANY;
+}
+
+public static LanguageType getByMCLanguage(String mcversion){
+	for(LanguageType type : LanguageType.values())if(mcversion.startsWith(type.getDef()))return type;
+	return LanguageType.ENGLISH;
 }
 
 }

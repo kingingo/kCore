@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 public enum Team {
 RED("RED", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)14), Color.RED+"Team - Rot"),Color.RED),
 YELLOW("YELLOW", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)4), Color.YELLOW+"Team - Gelb"),Color.YELLOW),
-BLUE("BLUE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)11), Color.BLUE+"Team - Blau"),Color.BLUE),
+BLUE("BLUE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)11), "§9Team - Blau"),"§9"),
 GREEN("GREEN",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)5), Color.GREEN+"Team - Grün"),Color.GREEN),
 PINK("PINK",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)6), Color.PINK+"Team - Pink"),Color.PINK),
 GRAY("GRAY",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)8), Color.GRAY+"Team - Gray"),Color.GRAY),

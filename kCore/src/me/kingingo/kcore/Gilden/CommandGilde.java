@@ -32,31 +32,31 @@ public class CommandGilde implements CommandExecutor{
 		p = (Player)cs;
 		if(args.length==0){
 			p.sendMessage("§b■■■■■■■■■■■■■■§6§l GILDE §b■■■■■■■■■■■■■■");
-			p.sendMessage("§6/gilde erstellen §8|§7 Erstellt eine neue Gilde.");
-			p.sendMessage("§6/gilde einladen [Player] §8§8|§7 Lädt einen Spieler in die Gilde ein");
-			p.sendMessage("§6/gilde annehmen §8|§7 Nimmt Einladung an.");
-			p.sendMessage("§6/gilde ranking §8|§7 Zeigt die Top Ten an Gilden.");
-			p.sendMessage("§6/gilde verlassen §8|§7 Zum Verlassen/Schließen der Gilde.");
-			p.sendMessage("§6/gilde kicken [Player] §8|§7 Kickt einen Spieler aus der Gilde.");
-			p.sendMessage("§6/gilde info [Gilde] §8|§7 Zeigt Infos über eine Gilde.");
+			p.sendMessage(Language.getText(p, "GILDE_CMD1"));
+			p.sendMessage(Language.getText(p, "GILDE_CMD2"));
+			p.sendMessage(Language.getText(p, "GILDE_CMD3"));
+			p.sendMessage(Language.getText(p, "GILDE_CMD4"));
+			p.sendMessage(Language.getText(p, "GILDE_CMD5"));
+			p.sendMessage(Language.getText(p, "GILDE_CMD6"));
+			p.sendMessage(Language.getText(p, "GILDE_CMD7"));
 			if(manager.getTyp()==GildenType.PVP){
-				p.sendMessage("§6/gilde sethome §8|§7 setzt das Gilden-Home.");
-				p.sendMessage("§6/gilde home §8|§7 Teleportiert dich zum Gilden-Home.");
+				p.sendMessage(Language.getText(p, "GILDE_CMD8"));
+				p.sendMessage(Language.getText(p, "GILDE_CMD9"));
 			}else if(manager.getTyp()==GildenType.SKY){
-				p.sendMessage("§6/gilde island §8|§7 Teleportiert dich zur Gilden-Insel.");
-				p.sendMessage("§6/gilde createisland §8|§7 Erstellt eine Gilden-Insel.");
-				p.sendMessage("§6/gilde money abheben [Money] §8|§7 Vom Gilden-Konto abheben.");
-				p.sendMessage("§6/gilde money einzahlen [Money] §8|§7 Auf dem Gilden-Konto einzahlen.");
+				p.sendMessage(Language.getText(p, "GILDE_CMD9"));
+				p.sendMessage(Language.getText(p, "GILDE_CMD10"));
+				p.sendMessage(Language.getText(p, "GILDE_CMD11"));
+				p.sendMessage(Language.getText(p, "GILDE_CMD12"));
 			}
 			p.sendMessage("§b■■■■■■■■■■■■■■§6§l GILDE §b■■■■■■■■■■■■■■");
 		}else if(args.length > 0){
 			if(args[0].equalsIgnoreCase("erstellen")){
 				Erstellen.use(p, args, manager);
-			}else if(args[0].equalsIgnoreCase("einladen")){
+			}else if(args[0].equalsIgnoreCase("einladen")||args[0].equalsIgnoreCase("create")){
 				Einladen.use(p, args, manager);
-			}else if(args[0].equalsIgnoreCase("annehmen")){
+			}else if(args[0].equalsIgnoreCase("annehmen")||args[0].equalsIgnoreCase("accept")){
 				Annehmen.use(p, args, manager);
-			}else if(args[0].equalsIgnoreCase("verlassen")){
+			}else if(args[0].equalsIgnoreCase("verlassen")||args[0].equalsIgnoreCase("leave")){
 				Verlassen.use(p, args, manager);
 			}else if(args[0].equalsIgnoreCase("ranking")){
 				Ranking.use(p, args, manager);

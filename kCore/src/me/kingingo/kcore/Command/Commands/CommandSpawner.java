@@ -57,7 +57,7 @@ public class CommandSpawner implements CommandExecutor{
 					spawner.setSpawnedType(mob.getType());
 					spawner.update();
 				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+"Du musst einen MobSpawner ankucken.");
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "LOOK_ON_SPAWNER"));
 				}
 				}
 			}

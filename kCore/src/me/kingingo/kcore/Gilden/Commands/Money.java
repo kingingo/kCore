@@ -20,7 +20,7 @@ public class Money {
 			}
 			String g = manager.getPlayerGilde(p);
 			
-			if(args[1].equalsIgnoreCase("abheben")){
+			if(args[1].equalsIgnoreCase("abheben")||args[1].equalsIgnoreCase("take")){
 				UUID owner=manager.getOwner(g);
 				if(!owner.equals(UtilPlayer.getRealUUID(p))){
 					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT"));
@@ -37,10 +37,10 @@ public class Money {
 					}else{
 						manager.setDouble(g, manager.getDouble(Stats.MONEY, g)-money, Stats.MONEY);
 						manager.getStatsManager().setDouble(p, manager.getStatsManager().getDouble(Stats.MONEY, p)+money, Stats.MONEY);
-						manager.sendGildenChat(g, Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT",new String[]{p.getName(),String.valueOf(money)}));
+						manager.sendGildenChat(g, "GILDE_OWNER_NOT",new String[]{p.getName(),String.valueOf(money)});
 					}
 				}
-			}else if(args[1].equalsIgnoreCase("einzahlen")){
+			}else if(args[1].equalsIgnoreCase("einzahlen")||args[1].equalsIgnoreCase("pay")){
 				double money = UtilNumber.toDouble(args[2]);
 				if(money==0){
 					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT"));
@@ -52,7 +52,7 @@ public class Money {
 					}else{
 						manager.setDouble(g, manager.getDouble(Stats.MONEY, g)+money, Stats.MONEY);
 						manager.getStatsManager().setDouble(p, manager.getStatsManager().getDouble(Stats.MONEY, p)-money, Stats.MONEY);
-						manager.sendGildenChat(g, Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT",new String[]{p.getName(),String.valueOf(money)}));
+						manager.sendGildenChat(g, "GILDE_OWNER_NOT",new String[]{p.getName(),String.valueOf(money)});
 					}
 				}	
 			}else{

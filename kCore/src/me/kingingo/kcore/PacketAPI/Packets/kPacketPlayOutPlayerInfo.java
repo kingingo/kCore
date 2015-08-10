@@ -6,12 +6,15 @@ import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 import net.minecraft.server.v1_8_R3.WorldSettings.EnumGamemode;
 
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
+
+import com.mojang.authlib.GameProfile;
 
 public class kPacketPlayOutPlayerInfo implements kPacket{
 	@Getter
@@ -28,7 +31,7 @@ public class kPacketPlayOutPlayerInfo implements kPacket{
 	}
 	
 	public kPacketPlayOutPlayerInfo(EnumPlayerInfoAction action,EntityPlayer[] players){
-		packet=new PacketPlayOutPlayerInfo();
+		packet=new PacketPlayOutPlayerInfo(action,players);
 	}
 	
 	public void setEnumPlayerInfoAction(EnumPlayerInfoAction action){
@@ -50,7 +53,11 @@ public class kPacketPlayOutPlayerInfo implements kPacket{
 	public class kPlayerInfoData extends PlayerInfoData{
 
 		public kPlayerInfoData(kPacketPlayOutPlayerInfo packetPlayOutPlayerInfo,kGameProfile profile,String tabName) {
-			packetPlayOutPlayerInfo.getPacket().super(profile, 0, EnumGamemode.NOT_SET, CraftChatMessage.fromString(tabName)[0]);
+			packetPlayOutPlayerInfo.getPacket().super(profile, 0, EnumGamemode.NOT_SET, ChatSerializer.a(tabName));
+		}
+		
+		public kPlayerInfoData(kPacketPlayOutPlayerInfo packetPlayOutPlayerInfo,GameProfile profile,String tabName) {
+			packetPlayOutPlayerInfo.getPacket().super(profile, 0, EnumGamemode.NOT_SET, ChatSerializer.a(tabName));
 		}
 		
 		public kGameProfile getGameProfile(){

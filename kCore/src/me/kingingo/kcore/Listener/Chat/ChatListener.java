@@ -22,6 +22,7 @@ public class ChatListener extends kListener{
 	private PermissionManager manager;
 	private ru.tehkode.permissions.PermissionManager pex;
 	private GildenManager gildenmanager;
+	private String suffix="§8 » §7";
 	
 	public ChatListener(JavaPlugin instance,GildenManager gildenmanager,PermissionManager manager){
 		super(instance,"ChatListener");
@@ -51,12 +52,6 @@ public class ChatListener extends kListener{
 		if (!event.isCancelled()) {
 			p = event.getPlayer();
 			 msg = event.getMessage();
-
-//			 if((!p.hasPermission(kPermission.CHAT_LINK.getPermissionToString()))&&UtilString.isBadWord(msg)||UtilString.checkForIP(msg)){
-//					event.getPlayer().sendMessage(Text.PREFIX.getText()+Text.CHAT_MESSAGE_BLOCK.getText());
-//					event.setCancelled(true);
-//					return;
-//			}
 			 
 			msg=msg.replaceAll("%","");
 			if(p.hasPermission(kPermission.CHAT_FARBIG.getPermissionToString())){
@@ -90,11 +85,11 @@ public class ChatListener extends kListener{
 					}
 				}
 			
-				if(manager!=null)event.setFormat(manager.getPrefix(p)+ tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + "§7:§f "+ msg);
-				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§")+ tag + pex.getUser(p).getPrefix().replaceAll("&", "§").subSequence(0, 2) + p.getName() + "§7:§f "+ msg);
+				if(manager!=null)event.setFormat(manager.getPrefix(p)+ tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + suffix + msg);
+				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§")+ tag + pex.getUser(p).getPrefix().replaceAll("&", "§").subSequence(0, 2) + p.getName() + suffix + msg);
 			}else{
-				if(manager!=null)event.setFormat(manager.getPrefix(p) + p.getName() + "§7:§f "+ msg);	
-				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§") + p.getName() + "§7:§f "+ msg);
+				if(manager!=null)event.setFormat(manager.getPrefix(p) + p.getName() + suffix + msg);	
+				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§") + p.getName() + suffix + msg);
 			}
 		}
 	}

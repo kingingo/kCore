@@ -66,7 +66,7 @@ public class AACHack extends kListener{
 			Date now = new GregorianCalendar().getTime();
 			getMysql().Update("INSERT INTO AAC_HACK (name,ip,uuid,server,time,hackType,violations) VALUES ('"+ev.getPlayer().getName().toLowerCase()+"','"+ev.getPlayer().getAddress().getAddress().getHostAddress()+"','"+UtilPlayer.getRealUUID(ev.getPlayer())+"','"+server+"','"+df2.format(now)+"','"+ev.getHackType().getName()+"','"+ev.getViolations()+"');");
 			
-			if(getAntiLogoutManager()!=null)getAntiLogoutManager().del(ev.getPlayer());
+			if(getAntiLogoutManager()!=null&&ev.getHackType()!=HackType.SPAM)getAntiLogoutManager().del(ev.getPlayer());
 			
 			if(ev.getHackType()==HackType.FLY
 				||	ev.getHackType()==HackType.FASTBOW

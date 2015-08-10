@@ -36,7 +36,7 @@ public class CommandSpawnmob implements CommandExecutor{
 					Mob mob = Mob.fromName(args[0]);
 					
 					if(mob==null){
-						player.sendMessage(Language.getText(player, "PREFIX")+"Mob Type nicht gefunden!");
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "MOB_TYPE_NOT_FOUND"));
 						return false;
 					}
 					if(!player.hasPermission(kPermission.SPAWNMOB.getPermissionToString()+"."+mob.name.toLowerCase(Locale.ENGLISH))){

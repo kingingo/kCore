@@ -52,7 +52,7 @@ public class CommandXP implements CommandExecutor{
 					}
 					
 					if(exp < 1){
-						p.sendMessage(Language.getText(p, "PREFIX")+"§cDu kannst keine Minus zahlen verschicken!");
+						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "EXP_MINUS"));
 						return false;
 					}
 					
