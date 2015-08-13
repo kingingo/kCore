@@ -41,24 +41,6 @@ public class PerkRunner extends Perk{
 		}
 	}
 	
-	@EventHandler(priority=EventPriority.LOWEST)
-	public void kick(PlayerViolationEvent ev){
-		if(ev.getHackType()==HackType.SPEED){
-			if(this.getPerkData().hasPlayer(this, ev.getPlayer())){
-				ev.setCancelled(true);
-			}
-		}
-	}
-	
-	@EventHandler(priority=EventPriority.LOWEST)
-	public void kick(PlayerViolationKickEvent ev){
-		if(ev.getHackType()==HackType.SPEED){
-			if(this.getPerkData().hasPlayer(this, ev.getPlayer())){
-				ev.setCancelled(true);
-			}
-		}
-	}
-	
 	@EventHandler
 	public void PotionSplash(PotionSplashEvent ev){
 		for(LivingEntity living : ev.getAffectedEntities()){

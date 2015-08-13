@@ -22,7 +22,11 @@ public class kPacketPlayOutScoreboardTeam implements kPacket{
 	private String NAMETAG = "e";
 	
 	public kPacketPlayOutScoreboardTeam(){
-		packet=new PacketPlayOutScoreboardTeam();
+		this.packet=new PacketPlayOutScoreboardTeam();
+	}
+	
+	public kPacketPlayOutScoreboardTeam(PacketPlayOutScoreboardTeam packet){
+		this.packet=packet;
 	}
 	
 	public kPacketPlayOutScoreboardTeam(String name,String prefix,int mode,String player){

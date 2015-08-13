@@ -12,6 +12,7 @@ import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_REMOVE_ALL;
+import me.kingingo.kcore.Packet.Packets.PLAYER_LANGUAGE_CHANGE;
 import me.kingingo.kcore.Packet.Packets.PLAYER_VOTE;
 import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
 import me.kingingo.kcore.Packet.Packets.SERVER_INFO_ALL;
@@ -98,6 +99,8 @@ public class PacketManager {
 			return new NICK_DEL(packet.split("-/-"));
 		}else if(packet.contains("NICK_SET")){
 			return new NICK_SET(packet.split("-/-"));
+		}else if(packet.contains("PLAYER_LANGUAGE_CHANGE")){
+			return new PLAYER_LANGUAGE_CHANGE(packet.split("-/-"));
 		}
 	 return null;
 	}

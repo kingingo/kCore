@@ -28,31 +28,43 @@ public class Money {
 				}
 				double money = UtilNumber.toDouble(args[2]);
 				if(money==0){
-					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT"));
+					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "NO_INTEGER"));
 				}else{
 					if(money<0)return;
 					
 					if(manager.getDouble(Stats.MONEY, g) < money){
-						p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT"));
+						p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_NOT_ENOUGH_MONEY"));
 					}else{
+						System.err.println("[GildenManager] Gilde:"+g);
+						System.err.println("[GildenManager] Kontostand-Gilde: "+manager.getDouble(Stats.MONEY, g));
+						System.err.println("[GildenManager] Kontostand-Player: "+manager.getStatsManager().getDouble(Stats.MONEY, p));
+						System.err.println("[GildenManager] Einzahlen: "+money);
 						manager.setDouble(g, manager.getDouble(Stats.MONEY, g)-money, Stats.MONEY);
 						manager.getStatsManager().setDouble(p, manager.getStatsManager().getDouble(Stats.MONEY, p)+money, Stats.MONEY);
-						manager.sendGildenChat(g, "GILDE_OWNER_NOT",new String[]{p.getName(),String.valueOf(money)});
+						manager.sendGildenChat(g, "GILDE_MONEY_LIFTED",new String[]{p.getName(),String.valueOf(money)});
+						System.err.println("[GildenManager] Kontostand-Gilde danach: "+manager.getDouble(Stats.MONEY, g));
+						System.err.println("[GildenManager] Kontostand-Player danach: "+manager.getStatsManager().getDouble(Stats.MONEY, p));
 					}
 				}
 			}else if(args[1].equalsIgnoreCase("einzahlen")||args[1].equalsIgnoreCase("pay")){
 				double money = UtilNumber.toDouble(args[2]);
 				if(money==0){
-					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT"));
+					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "NO_INTEGER"));
 				}else{
 					if(money<0)return;
 					
 					if(manager.getStatsManager().getDouble(Stats.MONEY, p) < money){
-						p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT"));
+						p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_NOT_ENOUGH_MONEY"));
 					}else{
+						System.err.println("[GildenManager] Gilde:"+g);
+						System.err.println("[GildenManager] Kontostand-Gilde: "+manager.getDouble(Stats.MONEY, g));
+						System.err.println("[GildenManager] Kontostand-Player: "+manager.getStatsManager().getDouble(Stats.MONEY, p));
+						System.err.println("[GildenManager] Einzahlen: "+money);
 						manager.setDouble(g, manager.getDouble(Stats.MONEY, g)+money, Stats.MONEY);
 						manager.getStatsManager().setDouble(p, manager.getStatsManager().getDouble(Stats.MONEY, p)-money, Stats.MONEY);
-						manager.sendGildenChat(g, "GILDE_OWNER_NOT",new String[]{p.getName(),String.valueOf(money)});
+						System.err.println("[GildenManager] Kontostand-Gilde danach: "+manager.getDouble(Stats.MONEY, g));
+						System.err.println("[GildenManager] Kontostand-Player danach: "+manager.getStatsManager().getDouble(Stats.MONEY, p));
+						manager.sendGildenChat(g, "GILDE_MONEY_DEPOSIT",new String[]{p.getName(),String.valueOf(money)});
 					}
 				}	
 			}else{

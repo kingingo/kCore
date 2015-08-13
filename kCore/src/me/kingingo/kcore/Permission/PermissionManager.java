@@ -217,12 +217,12 @@ public class PermissionManager {
 				for(Player player : UtilServer.getPlayers()){
 					if(p.getScoreboard().getTeam(getGroup(player))==null&&getGroups().containsKey(getGroup(player)))UtilScoreboard.addTeam(p.getScoreboard(), getGroup(player), getGroups().get(getGroup(player)).getPrefix());
 					if(nickManager!=null&&getNickManager().hasNick(player)){
-						if(p.hasPermission(kPermission.NICK_SEE.getPermissionToString())){
-							UtilScoreboard.addTeam(p.getScoreboard(), player.getName(), getGroups().get(getGroup(player)).getPrefix(), " §7"+getNickManager().getNicks().get(player.getEntityId()).getName());
-							p.getScoreboard().getTeam(player.getName()).addPlayer(player);
-						}else{
-							p.getScoreboard().getTeam("default").addEntry(getNickManager().getNicks().get(p.getEntityId()).getName());
-						}
+//						if(p.hasPermission(kPermission.NICK_SEE.getPermissionToString())){
+//							UtilScoreboard.addTeam(p.getScoreboard(), player.getName(), getGroups().get(getGroup(player)).getPrefix(), " §7"+getNickManager().getNicks().get(player.getEntityId()).getName());
+//							p.getScoreboard().getTeam(player.getName()).addPlayer(player);
+//						}else{
+							p.getScoreboard().getTeam("default").addPlayer(player);
+//						}
 						
 					}else{
 						p.getScoreboard().getTeam(getGroup(player)).addPlayer(player);
@@ -230,12 +230,12 @@ public class PermissionManager {
 					
 					if(player.getScoreboard().getTeam(group)==null)UtilScoreboard.addTeam(player.getScoreboard(), group, getGroups().get(group).getPrefix());
 					if(nickManager!=null&&getNickManager().hasNick(p)){
-						if(player.hasPermission(kPermission.NICK_SEE.getPermissionToString())){
-							UtilScoreboard.addTeam(player.getScoreboard(), p.getName(), getGroups().get(getGroup(p)).getPrefix(), " §7"+getNickManager().getNicks().get(p.getEntityId()).getName());
-							player.getScoreboard().getTeam(p.getName()).addPlayer(p);
-						}else{
-							player.getScoreboard().getTeam("default").addEntry(getNickManager().getNicks().get(p.getEntityId()).getName());
-						}
+//						if(player.hasPermission(kPermission.NICK_SEE.getPermissionToString())){
+//							UtilScoreboard.addTeam(player.getScoreboard(), p.getName(), getGroups().get(getGroup(p)).getPrefix(), " §7"+getNickManager().getNicks().get(p.getEntityId()).getName());
+//							player.getScoreboard().getTeam(p.getName()).addPlayer(p);
+//						}else{
+							player.getScoreboard().getTeam("default").addPlayer(p);
+//						}
 					}else{
 						player.getScoreboard().getTeam(group).addPlayer(p);
 					}
@@ -251,24 +251,24 @@ public class PermissionManager {
 				for(Player player : UtilServer.getPlayers()){
 					if(p.getScoreboard().getTeam(getGroup(player))==null&&getGroups().containsKey(getGroup(player)))UtilScoreboard.addTeam(p.getScoreboard(), getGroup(player), getGroups().get(getGroup(player)).getPrefix());
 					if(nickManager!=null&&getNickManager().hasNick(player)){
-						if(p.hasPermission(kPermission.NICK_SEE.getPermissionToString())){
-							UtilScoreboard.addTeam(p.getScoreboard(), player.getName(), getGroups().get(getGroup(player)).getPrefix(), " §7"+getNickManager().getNicks().get(player.getEntityId()).getName());
-							p.getScoreboard().getTeam(player.getName()).addPlayer(player);
-						}else{
-							p.getScoreboard().getTeam(getGroup(player)).addEntry(getNickManager().getNicks().get(p.getEntityId()).getName());
-						}
+//						if(p.hasPermission(kPermission.NICK_SEE.getPermissionToString())){
+//							UtilScoreboard.addTeam(p.getScoreboard(), player.getName(), getGroups().get(getGroup(player)).getPrefix(), " §7"+getNickManager().getNicks().get(player.getEntityId()).getName());
+//							p.getScoreboard().getTeam(player.getName()).addPlayer(player);
+//						}else{
+							p.getScoreboard().getTeam("default").addPlayer(player);
+//						}
 					}else{
 						p.getScoreboard().getTeam(getGroup(player)).addPlayer(player);
 					}
 					
 					if(player.getScoreboard().getTeam("default")==null)UtilScoreboard.addTeam(player.getScoreboard(), "default", getGroups().get("default").getPrefix());
 					if(nickManager!=null&&getNickManager().hasNick(p)){
-						if(player.hasPermission(kPermission.NICK_SEE.getPermissionToString())){
-							UtilScoreboard.addTeam(player.getScoreboard(), p.getName(), getGroups().get(getGroup(p)).getPrefix(), " §7"+getNickManager().getNicks().get(p.getEntityId()).getName());
-							player.getScoreboard().getTeam(p.getName()).addPlayer(p);
-						}else{
-							player.getScoreboard().getTeam(p.getName()).addEntry(getNickManager().getNicks().get(p.getEntityId()).getName());
-						}
+//						if(player.hasPermission(kPermission.NICK_SEE.getPermissionToString())){
+//							UtilScoreboard.addTeam(player.getScoreboard(), p.getName(), getGroups().get(getGroup(p)).getPrefix(), " §7"+getNickManager().getNicks().get(p.getEntityId()).getName());
+//							player.getScoreboard().getTeam(p.getName()).addPlayer(p);
+//						}else{
+							player.getScoreboard().getTeam("default").addPlayer(p);
+//						}
 					}else{
 						player.getScoreboard().getTeam("default").addPlayer(p);
 					}
@@ -278,6 +278,8 @@ public class PermissionManager {
 		}catch(NullPointerException e){
 			
 		}
+		
+//		if(nickManager!=null)getNickManager().updateScoreboard(p);
 		return true;
 	}
 	

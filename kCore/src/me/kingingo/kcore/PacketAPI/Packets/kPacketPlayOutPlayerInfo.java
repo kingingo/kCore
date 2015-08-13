@@ -53,11 +53,11 @@ public class kPacketPlayOutPlayerInfo implements kPacket{
 	public class kPlayerInfoData extends PlayerInfoData{
 
 		public kPlayerInfoData(kPacketPlayOutPlayerInfo packetPlayOutPlayerInfo,kGameProfile profile,String tabName) {
-			packetPlayOutPlayerInfo.getPacket().super(profile, 0, EnumGamemode.NOT_SET, ChatSerializer.a(tabName));
+			packetPlayOutPlayerInfo.getPacket().super(profile, 0, EnumGamemode.NOT_SET, CraftChatMessage.fromString(tabName)[0]);
 		}
 		
 		public kPlayerInfoData(kPacketPlayOutPlayerInfo packetPlayOutPlayerInfo,GameProfile profile,String tabName) {
-			packetPlayOutPlayerInfo.getPacket().super(profile, 0, EnumGamemode.NOT_SET, ChatSerializer.a(tabName));
+			packetPlayOutPlayerInfo.getPacket().super(profile, 0, EnumGamemode.NOT_SET, CraftChatMessage.fromString(tabName)[0]);
 		}
 		
 		public kGameProfile getGameProfile(){

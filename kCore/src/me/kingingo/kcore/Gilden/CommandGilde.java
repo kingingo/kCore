@@ -43,10 +43,10 @@ public class CommandGilde implements CommandExecutor{
 				p.sendMessage(Language.getText(p, "GILDE_CMD8"));
 				p.sendMessage(Language.getText(p, "GILDE_CMD9"));
 			}else if(manager.getTyp()==GildenType.SKY){
-				p.sendMessage(Language.getText(p, "GILDE_CMD9"));
 				p.sendMessage(Language.getText(p, "GILDE_CMD10"));
 				p.sendMessage(Language.getText(p, "GILDE_CMD11"));
 				p.sendMessage(Language.getText(p, "GILDE_CMD12"));
+				p.sendMessage(Language.getText(p, "GILDE_CMD13"));
 			}
 			p.sendMessage("§b■■■■■■■■■■■■■■§6§l GILDE §b■■■■■■■■■■■■■■");
 		}else if(args.length > 0){

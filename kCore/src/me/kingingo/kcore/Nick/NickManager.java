@@ -9,7 +9,10 @@ import lombok.Getter;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
 import me.kingingo.kcore.Enum.GameState;
+import me.kingingo.kcore.Enum.GameStateChangeReason;
 import me.kingingo.kcore.Game.Events.GameStartEvent;
+import me.kingingo.kcore.Game.Events.GameStateChangeEvent;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.NICK_DEL;
@@ -30,6 +33,7 @@ import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.Event.PlayerLoadPermissionEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilReflection;
 import me.kingingo.kcore.Util.UtilServer;
@@ -45,12 +49,14 @@ import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
 import org.bukkit.entity.LivingEntity;
@@ -59,6 +65,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Team;
 
 import com.mojang.authlib.GameProfile;
 
@@ -80,6 +87,35 @@ public class NickManager extends kListener{
 	}
 	
 	@EventHandler
+	public void s(GameStateChangeEvent ev){
+		if(ev.getTo()==GameState.Restart){
+			for(Player player : UtilServer.getPlayers()){
+				if(hasNick(player)){
+					delNick(player);
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_DISALLOW_TEMPORÄR"));
+				}
+			}
+		}
+	}
+	
+//	public void updateScoreboard(Player player){
+//		if(nicks.isEmpty()||player.hasPermission(kPermission.NICK_SEE.getPermissionToString()))return;
+//		for(Team team : player.getScoreboard().getTeams()){
+//			if(team.getPrefix()!=null){
+//				for(OfflinePlayer oplayer : team.getPlayers()){
+//					if(UtilPlayer.isOnline(oplayer.getUniqueId())){
+//						if(oplayer.getUniqueId()==player.getUniqueId())continue;
+//						if(nicks.containsKey(oplayer.getPlayer().getEntityId())){
+//							UtilPlayer.sendPacket(player, getNick(oplayer.getPlayer()).updateTabList(team.getPrefix()));
+//							team.addEntry(getNick(oplayer.getPlayer()).getName());
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+	
+	@EventHandler
 	public void t(GameStartEvent ev){
 		game=true;
 	}
@@ -99,6 +135,7 @@ public class NickManager extends kListener{
 	}
 	
 	public String setNick(Player player,String nick){
+		if(game)return null;
 		if(hasNick(player))delNick(player);
 		DisguisePlayer disguise = new DisguisePlayer(player,nick);
 		kPacketPlayOutEntityDestroy destroy = new kPacketPlayOutEntityDestroy(player.getEntityId());
@@ -112,6 +149,7 @@ public class NickManager extends kListener{
 				}
 			}
 		}
+		player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_SET_NICK",nick));
 		refresh=true;
 		return nick;
 	}
@@ -206,6 +244,22 @@ public class NickManager extends kListener{
 						chat=null;
 						txt=null;
 					}
+				}else if(ev.getPacket() instanceof PacketPlayOutScoreboardTeam){
+					kPacketPlayOutScoreboardTeam st = new kPacketPlayOutScoreboardTeam( ((PacketPlayOutScoreboardTeam)ev.getPacket()) );
+					int a = UtilMath.r(100);
+					st.setSuffix("§a " + String.valueOf(a));
+					String player;
+					for(int i = 0; i < st.getPlayers().size() ; i++){
+						player=(String)st.getPlayers().toArray()[i];
+						System.out.println("P: "+ev.getPlayer().getName()+" "+player+" "+a);
+						if(UtilPlayer.isOnline(player)&&st.getPrefix()!=null){
+							if(nicks.containsKey( Bukkit.getPlayer(player).getEntityId() )){
+								UtilPlayer.sendPacket(ev.getPlayer(), getNick(Bukkit.getPlayer(player)).updateTabList(st.getPrefix()));
+								st.addPlayer(getNick(Bukkit.getPlayer(player)).getName());
+								System.out.println("P4: "+ev.getPlayer().getName()+" "+player+" "+a);
+							}
+						}
+					}
 				}
 			}else{
 				if(ev.getPacket() instanceof PacketPlayOutChat){
@@ -225,6 +279,21 @@ public class NickManager extends kListener{
 						chat.setPacket(null);
 						chat=null;
 						txt=null;
+					}
+				}else if(ev.getPacket() instanceof PacketPlayOutScoreboardTeam){
+					kPacketPlayOutScoreboardTeam st = new kPacketPlayOutScoreboardTeam( ((PacketPlayOutScoreboardTeam)ev.getPacket()) );
+					if(st.getSuffix()!=null)return;
+					String player;
+					System.out.println("P11: "+ev.getPlayer().getName());
+					for(int i = 0; i < st.getPlayers().size() ; i++){
+						player=(String)st.getPlayers().toArray()[i];
+						if(UtilPlayer.isOnline(player)&&st.getPrefix()!=null){
+							if(nicks.containsKey( Bukkit.getPlayer(player).getEntityId() )){
+								System.out.println("P1: "+ev.getPlayer().getName()+" "+player);
+								st.removePlayer(player);
+								UtilPlayer.sendPacket(ev.getPlayer(), new kPacketPlayOutScoreboardTeam(player, st.getPrefix(), " §7"+getNick(Bukkit.getPlayer(player)).getName(), 0, player));
+							}
+						}
 					}
 				}
 			}

@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Permission;
 
 public enum kPermission {
+HUB_CHANGE_LANGUAGE("epicpvp.language.change"),
 KBAN("epicpvp.bg.kban"),
 ZEITBAN("epicpvp.bg.zeitban"),
 ZEITBAN_MAX_14TAGE("epicpvp.bg.zeitban.14tage"),

@@ -15,6 +15,7 @@ import me.kingingo.kcore.Client.Events.ClientErrorConnectEvent;
 import me.kingingo.kcore.Client.Events.ClientLostConnectionEvent;
 import me.kingingo.kcore.Client.Events.ClientReceiveMessageEvent;
 import me.kingingo.kcore.Client.Events.ClientSendMessageEvent;
+import me.kingingo.kcore.Enum.Zeichen;
 import me.kingingo.kcore.Update.Updater;
 
 import org.bukkit.Bukkit;

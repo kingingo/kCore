@@ -16,7 +16,6 @@ import org.bukkit.scoreboard.Team;
 public class UtilScoreboard {
 	
 	public static void setTeams(Scoreboard board,Set<Team> teams){
-		
 		Team tt;
 		for(Team team : teams){
 			if(!UtilScoreboard.existTeam(board,team.getName())){
