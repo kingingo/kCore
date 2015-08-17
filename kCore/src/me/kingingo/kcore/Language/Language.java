@@ -507,6 +507,7 @@ public class Language {
 			add(type,"KIT_SHOP_SPEZIAL2","§7You can get it by a event!");
 			add(type,"KIT_SHOP_PREMIUM","§7This kit is a premium-kit");
 			add(type,"KIT_BACK","§cback");
+	        add(type,"STATS_FAME","§6Fame: §7");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -523,6 +524,7 @@ public class Language {
 	        add(type, "STATS_PREFIX", "§b[===========§6 §lSTATS §b===========]");
 	        add(type, "STATS_PREFIXBY", "§b[=========== §6§lStats von {INPUT0}§b ===========]");
 	        add(type, "STATS_KILLS", "§6Kills : §7");
+	        add(type,"STATS_FAME","§6Fame: §7");
 	        add(type, "STATS_DEATHS", "§6Tode : §7");
 	        add(type, "STATS_MONEY", "§6Geld : §7");
 	        add(type, "STATS_KDR", "§6KDR : §7");

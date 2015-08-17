@@ -38,6 +38,7 @@ public class StatsManager implements Listener{
 	@Setter
 	private boolean onDisable=false;
 	HashMap<Integer,String> ranking = new HashMap<>();
+	@Getter
 	private Stats Ranking_Stats = Stats.KILLS;
 	
 	public StatsManager(JavaPlugin plugin,MySQL mysql,GameType typ){
