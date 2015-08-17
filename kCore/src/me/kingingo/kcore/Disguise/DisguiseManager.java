@@ -199,8 +199,8 @@ public class DisguiseManager extends kListener {
 	    }
 	  }
 	  
-	  @EventHandler
-	  public void PlayerQuit(PlayerQuitEvent event){
-	    undisguise(event.getPlayer());
-	  }
+//	  @EventHandler
+//	  public void PlayerQuit(PlayerQuitEvent event){
+//	    undisguise(event.getPlayer());
+//	  }
 }

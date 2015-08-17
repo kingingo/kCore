@@ -152,17 +152,6 @@ public class VillagerShop implements Listener {
 	    }
 	}
 	
-//	@EventHandler
-//	public void Exsit(UpdateEvent ev){
-//		if(ev.getType()!=UpdateType.SLOWEST)return;
-//		for(Villager e : getSpawn().getWorld().getEntitiesByClass(Villager.class)){
-//			if(e.getLocation().distance(getSpawn()) <= 2){
-//				this.villager=e;
-//				break;
-//			}
-//		}
-//	}
-	
 	@EventHandler
 	public void Move(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SLOW)return;

@@ -49,11 +49,28 @@ public class DisguisePlayer extends DisguiseHuman
   public kPacket updateTabList(String prefix) {
       try {
          kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.Entity.getUniqueID(), prefix+this._name),prefix+this._name);
+         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.Entity.getUniqueID(), this._name),prefix+this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
          
          packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.UPDATE_DISPLAY_NAME);
+         packet.setList(players);
+
+         return packet;
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+      return null;
+   }
+  
+  public kPacket getTabList(String prefix) {
+      try {
+         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
+         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.Entity.getUniqueID(), this._name), prefix+this._name);
+         List<PlayerInfoData> players = packet.getList();
+         players.add(data);
+         
+         packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
          packet.setList(players);
 
          return packet;

@@ -27,8 +27,8 @@ public class LanguageListener extends kListener{
 			if(!Language.getList().containsKey(LanguageType.get(def)))Language.loadLanguage(LanguageType.get(def));
 			Language.getLanguages().put(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()), LanguageType.get(def));
 		}else{
-			Language.getMysql().Update("INSERT INTO language_user (uuid,language) VALUES ('"+UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())+"','"+LanguageType.GERMANY.getDef()+"');");
-			Language.getLanguages().put(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()), LanguageType.GERMANY);
+			Language.getMysql().Update("INSERT INTO language_user (uuid,language) VALUES ('"+UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())+"','"+LanguageType.ENGLISH.getDef()+"');");
+			Language.getLanguages().put(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()), LanguageType.ENGLISH);
 		}
 	}
 

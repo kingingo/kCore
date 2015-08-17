@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ public class UtilBG {
 
 	private static boolean isRegestiert=false;
 	@Getter
+	@Setter
 	public static String hub = "hub1";
 	
 	public static void RegisterBungeeCord(JavaPlugin plugin){

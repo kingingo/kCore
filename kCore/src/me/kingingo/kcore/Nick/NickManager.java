@@ -1,7 +1,6 @@
 package me.kingingo.kcore.Nick;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,7 +8,6 @@ import lombok.Getter;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
 import me.kingingo.kcore.Enum.GameState;
-import me.kingingo.kcore.Enum.GameStateChangeReason;
 import me.kingingo.kcore.Game.Events.GameStartEvent;
 import me.kingingo.kcore.Game.Events.GameStateChangeEvent;
 import me.kingingo.kcore.Language.Language;
@@ -18,54 +16,36 @@ import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.NICK_DEL;
 import me.kingingo.kcore.Packet.Packets.NICK_SET;
 import me.kingingo.kcore.PacketAPI.kPacket;
-import me.kingingo.kcore.PacketAPI.Packets.kGameProfile;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutChat;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutScoreboardTeam;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo.kPlayerInfoData;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutScoreboardTeam.Modes;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.Event.PlayerLoadPermissionEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
-import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilReflection;
+import me.kingingo.kcore.Util.UtilScoreboard;
 import me.kingingo.kcore.Util.UtilServer;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.chat.ComponentSerializer;
-import net.minecraft.server.v1_8_R3.ChatBaseComponent;
-import net.minecraft.server.v1_8_R3.ChatComponentText;
-import net.minecraft.server.v1_8_R3.ChatComponentUtils;
-import net.minecraft.server.v1_8_R3.ChatDeserializer;
-import net.minecraft.server.v1_8_R3.ChatModifier;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
-import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
+import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Team;
 
 import com.mojang.authlib.GameProfile;
 
@@ -246,20 +226,23 @@ public class NickManager extends kListener{
 					}
 				}else if(ev.getPacket() instanceof PacketPlayOutScoreboardTeam){
 					kPacketPlayOutScoreboardTeam st = new kPacketPlayOutScoreboardTeam( ((PacketPlayOutScoreboardTeam)ev.getPacket()) );
-					int a = UtilMath.r(100);
-					st.setSuffix("§a " + String.valueOf(a));
-					String player;
-					for(int i = 0; i < st.getPlayers().size() ; i++){
-						player=(String)st.getPlayers().toArray()[i];
-						System.out.println("P: "+ev.getPlayer().getName()+" "+player+" "+a);
-						if(UtilPlayer.isOnline(player)&&st.getPrefix()!=null){
-							if(nicks.containsKey( Bukkit.getPlayer(player).getEntityId() )){
-								UtilPlayer.sendPacket(ev.getPlayer(), getNick(Bukkit.getPlayer(player)).updateTabList(st.getPrefix()));
-								st.addPlayer(getNick(Bukkit.getPlayer(player)).getName());
-								System.out.println("P4: "+ev.getPlayer().getName()+" "+player+" "+a);
+					if(st.getMode()==Modes.PLAYERS_ADDED&&st.getPrefix()!=null&&st.getPlayers().size()>0){
+						String player;
+						for(int i = 0; i < st.getPlayers().size() ; i++){
+							player=(String)st.getPlayers().toArray()[i];
+							if(UtilPlayer.isOnline(player)){
+								if(nicks.containsKey( Bukkit.getPlayer(player).getEntityId() )){
+									st.setPrefix( ev.getPlayer().getScoreboard().getTeam(st.getTeamName()).getPrefix() );
+									st.removePlayer(player);
+									st.addPlayer(getNick(Bukkit.getPlayer(player)).getName());
+									UtilPlayer.sendPacket(ev.getPlayer(), getNick(Bukkit.getPlayer(player)).updateTabList(st.getPrefix()));
+								}
 							}
 						}
+						ev.setPacket(st.getPacket());
+						player=null;
 					}
+					st=null;
 				}
 			}else{
 				if(ev.getPacket() instanceof PacketPlayOutChat){
@@ -282,19 +265,32 @@ public class NickManager extends kListener{
 					}
 				}else if(ev.getPacket() instanceof PacketPlayOutScoreboardTeam){
 					kPacketPlayOutScoreboardTeam st = new kPacketPlayOutScoreboardTeam( ((PacketPlayOutScoreboardTeam)ev.getPacket()) );
-					if(st.getSuffix()!=null)return;
-					String player;
-					System.out.println("P11: "+ev.getPlayer().getName());
-					for(int i = 0; i < st.getPlayers().size() ; i++){
-						player=(String)st.getPlayers().toArray()[i];
-						if(UtilPlayer.isOnline(player)&&st.getPrefix()!=null){
-							if(nicks.containsKey( Bukkit.getPlayer(player).getEntityId() )){
-								System.out.println("P1: "+ev.getPlayer().getName()+" "+player);
-								st.removePlayer(player);
-								UtilPlayer.sendPacket(ev.getPlayer(), new kPacketPlayOutScoreboardTeam(player, st.getPrefix(), " §7"+getNick(Bukkit.getPlayer(player)).getName(), 0, player));
+					if(st.getMode()==Modes.PLAYERS_ADDED&&st.getPrefix()!=null&&st.getPlayers().size()>0){
+						String player;
+						for(int i = 0; i < st.getPlayers().size() ; i++){
+							player=(String)st.getPlayers().toArray()[i];
+							if(UtilPlayer.isOnline(player)){
+								if(nicks.containsKey( Bukkit.getPlayer(player).getEntityId() )){
+									if(ev.getPlayer().getScoreboard().getTeam(st.getTeamName())==null){
+										System.out.println(st.getTeamName()+" == null "+ ev.getPlayer().getName()+" "+player);
+										continue;
+									}
+									st.setPrefix( ev.getPlayer().getScoreboard().getTeam(st.getTeamName()).getPrefix() );
+									if(ev.getPlayer().getScoreboard().getTeam(player)==null){
+										UtilScoreboard.addTeam(
+												ev.getPlayer().getScoreboard()
+												, player
+												, st.getPrefix()
+												, "§7 "+getNick(Bukkit.getPlayer(player)).getName());
+									}
+									st.setTeamName(player);
+								}
 							}
 						}
+						ev.setPacket(st.getPacket());
+						player=null;
 					}
+					st=null;
 				}
 			}
 		}
@@ -332,3 +328,4 @@ public class NickManager extends kListener{
 		if(hasNick(ev.getPlayer()))delNick(ev.getPlayer());
 	}
 }
+

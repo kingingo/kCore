@@ -32,7 +32,7 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	
 	public void useButton(Player player,ActionType type,ItemStack item,int slot){
 		for(IButton button : buttons){
-			if( /*UtilItem.ItemNameEquals(button.getItemStack(), item) && */slot==button.getSlot() ){
+			if(slot==button.getSlot() ){
 				button.Clicked(player, type,item);
 				break;
 			}

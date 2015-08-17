@@ -147,51 +147,51 @@ public class KitShop implements Listener {
 		if(holiday!=null&&holiday==CalendarType.GEBURSTAG&&kit.getType()!=KitType.ADMIN){
 			inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 			inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-			inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
+			inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
 		}else{
 			if(kit.getType()==KitType.STARTER){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
+				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
 			}else if(kit.getType()==KitType.ADMIN){
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §cAdmin-Kit"} ,"§4Spezial-Kit"));
+					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_ADMIN")} ,"§4Spezial-Kit"));
 				}
 			}else if(kit.getType()==KitType.SPEZIAL_KIT){
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aSpezial-Kit","§7Nur erhältlich zu Besonderen anlässen!"} ,"§4Spezial-Kit"));
+					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_SPEZIAL1"),Language.getText(p, "KIT_SHOP_SPEZIAL2")} ,"§4Spezial-Kit"));
 				}
 			}else if(kit.getType()==KitType.PREMIUM){
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{"§7Dieses Kit ist ein §aPremium-Kit","§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
+					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_PREMIUM"),"§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
 				}
 			}else{
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAuswählen"));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.GLOWSTONE_DUST) ,"§6Kaufen"));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.GLOWSTONE_DUST) ,Language.getText(p,"KIT_SHOP_BUY")));
 				}
 			}
 		}
@@ -206,7 +206,7 @@ public class KitShop implements Listener {
 				inventory.getItem(i).setItemMeta(im);
 			}
 		}
-		inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), "§cZurück"));
+		inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), Language.getText(p, "KIT_BACK")));
 		
 		return inventory;
 	}
@@ -218,8 +218,8 @@ public class KitShop implements Listener {
 		}
 	}
 	
-	public Inventory getKaufen(Kit kit){
-		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName()+" §aKaufen");
+	public Inventory getKaufen(Kit kit,Player p){
+		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName()+" "+Language.getText(p,"KIT_SHOP_BUY"));
 		switch(kit.getType()){
 		case KAUFEN:
 			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§eCoins"));
@@ -242,8 +242,8 @@ public class KitShop implements Listener {
 	@EventHandler
 	public void ClickInventory(InventoryClickEvent ev){
 	if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
+	Player p = (Player)ev.getWhoClicked();
 		if(ev.getInventory().getName().equalsIgnoreCase(getName())){
-			Player p = (Player)ev.getWhoClicked();
 			ev.setCancelled(true);
 			p.closeInventory();
 			for(Kit kit : getKits()){
@@ -255,7 +255,6 @@ public class KitShop implements Listener {
 		}else{
 			for(Kit kit : getKits()){
 				if(kit.getName().equalsIgnoreCase(ev.getInventory().getName())){
-					Player p = (Player)ev.getWhoClicked();
 					ev.setCancelled(true);
 					
 					if(ev.getCurrentItem().getType()==Material.IRON_DOOR||ev.getCurrentItem().getType()==Material.REDSTONE){
@@ -267,11 +266,10 @@ public class KitShop implements Listener {
 						p.closeInventory();
 						UtilInv.remove(p, UtilItem.RenameItem(new ItemStack(Material.CHEST), "§bKitShop"), 1);
 					}else if(ev.getCurrentItem().getType()==Material.GLOWSTONE_DUST){
-						p.openInventory(getKaufen(kit));
+						p.openInventory(getKaufen(kit,p));
 					}
 					break;
-				}else if(String.valueOf(kit.getName()+" §aKaufen").equalsIgnoreCase(ev.getInventory().getName())){
-					Player p = (Player)ev.getWhoClicked();
+				}else if(String.valueOf(kit.getName()+" "+Language.getText(p,"KIT_SHOP_BUY")).equalsIgnoreCase(ev.getInventory().getName())){
 					ev.setCancelled(true);
 					p.closeInventory();
 					

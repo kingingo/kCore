@@ -13,7 +13,6 @@ import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.PLAYER_LANGUAGE_CHANGE;
-import me.kingingo.kcore.Util.Color;
 import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
@@ -59,13 +58,13 @@ public class Language {
 		languages=new HashMap<>();
 		mysql.Update("CREATE TABLE IF NOT EXISTS language(type varchar(30),name varchar(30),msg varchar(30))");
 		mysql.Update("CREATE TABLE IF NOT EXISTS language_user(uuid varchar(100),language varchar(100))");
-		loadLanguage(LanguageType.GERMANY);
+		loadLanguage(LanguageType.ENGLISH);
 	}
 
 	public static LanguageType getLanguage(Player player){
 		if(player==null){
 			System.out.println("[Language] Spieler == null");
-			return LanguageType.GERMANY;
+			return LanguageType.ENGLISH;
 		}else if(!languages.containsKey(UtilPlayer.getRealUUID(player))){
 			
 			String def=Language.getMysql().getString("SELECT language FROM language_user WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
@@ -73,12 +72,12 @@ public class Language {
 				if(!Language.getList().containsKey(LanguageType.get(def)))Language.loadLanguage(LanguageType.get(def));
 				Language.getLanguages().put(UtilPlayer.getRealUUID(player), LanguageType.get(def));
 			}else{
-				Language.getMysql().Update("INSERT INTO language_user (uuid,language) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+LanguageType.GERMANY.getDef()+"');");
-				Language.getLanguages().put(UtilPlayer.getRealUUID(player), LanguageType.GERMANY);
+				Language.getMysql().Update("INSERT INTO language_user (uuid,language) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+LanguageType.ENGLISH.getDef()+"');");
+				Language.getLanguages().put(UtilPlayer.getRealUUID(player), LanguageType.ENGLISH);
 			}
 			
 			System.out.println("[Language] Spieler "+player.getName()+" nicht abgespeichert");
-			return LanguageType.GERMANY;
+			return LanguageType.ENGLISH;
 		}
 		return languages.get(UtilPlayer.getRealUUID(player));
 	}
@@ -92,27 +91,27 @@ public class Language {
 	}
 	
 	public static String getText(String name,Object input){
-		if(!list.get(LanguageType.GERMANY).containsKey(name)){
+		if(!list.get(LanguageType.ENGLISH).containsKey(name)){
 			System.out.println("[Language] Message nicht gefunden "+name);
 			return Language.getText("MSG_NOT_FOUND", name);
 		}
-		return toText(list.get(LanguageType.GERMANY).get(name), input);
+		return toText(list.get(LanguageType.ENGLISH).get(name), input);
 	}
 	
 	public static String getText(String name,Object[] input){
-		if(!list.get(LanguageType.GERMANY).containsKey(name)){
+		if(!list.get(LanguageType.ENGLISH).containsKey(name)){
 			System.out.println("[Language] Message nicht gefunden "+name);
 			return Language.getText("MSG_NOT_FOUND", name);
 		}
-		return toText(list.get(LanguageType.GERMANY).get(name), input);
+		return toText(list.get(LanguageType.ENGLISH).get(name), input);
 	}
 	
 	public static String getText(String name){
-		if(!list.get(LanguageType.GERMANY).containsKey(name)){
+		if(!list.get(LanguageType.ENGLISH).containsKey(name)){
 			System.out.println("[Language] Message nicht gefunden "+name);
 			return Language.getText("MSG_NOT_FOUND", name);
 		}
-		return list.get(LanguageType.GERMANY).get(name);
+		return list.get(LanguageType.ENGLISH).get(name);
 	}
 	
 	public static String getText(Player player,String name){
@@ -471,7 +470,7 @@ public class Language {
 			add(type, "HUB_ITEM_GREEN.DYE_PLAYERS_ON", "§aPlayer §8» §aOn");
 			add(type, "HUB_ITEM_GRAY.DYE_PLAYERS_OFF", "§cPlayer §8» §cOff");
 			add(type, "HUB_ITEM_NETHERSTAR", "§eLobby-Teleporter");
-			add(type,"GAME_START_MIN_PLAYER","§cEs sind zu wenig Spieler(min. {INPUT0}) online! Wartemodus wird neugestartet!");
+			add(type,"GAME_START_MIN_PLAYER","§cWaitmode are restartet!");
 			add(type,"GAME_HOLOGRAM_SERVER","Server: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_MAP","Map: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_KILLS","Kills: {INPUT0}");
@@ -483,6 +482,7 @@ public class Language {
 			add(type,"GAME_HOLOGRAM_GAMES","Games: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_STATS","§a{INPUT0} §6§l Stats");
 			add(type,"GAME_HOLOGRAM_POWER","Power: {INPUT0}");
+			add(type,"GAME_START_MIN_PLAYER2","§cWaitmode are restartet!");
 			add(type,"GAME_HOLOGRAM_KARMA","Karma: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_TESTS","Tests: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_TRAITOR_POINTS","Traitor-Points: {INPUT0}");
@@ -496,10 +496,21 @@ public class Language {
 	        add(type, "HOW_MANY_PLAYER_LEFT", "§e{INPUT0} §7players remaining!");
 			add(type,"PLAYER_SET_NICK","Your new name is now: {INPUT0}");
 			add(type,"PLAYER_DISALLOW_TEMPORÄR","Your nickname was temporary deactivated! You can now chat with your real name!");
+			add(type,"NO_KIT","no kit");
+			add(type,"NO_TEAMS_ALLOWED","§c§lTeams are not allow");
+			add(type,"GAME_HOLOGRAM_SHEEP","killed Sheeps: {INPUT0}");
+			add(type,"GAME_TEAM_ITEM","§bChoose a team");
+			add(type,"KIT_SHOP_CHOOSE","§aChoose");
+			add(type,"KIT_SHOP_BUY","§6Buy");
+			add(type,"KIT_SHOP_ADMIN","§7This kit is a admin-kit");
+			add(type,"KIT_SHOP_SPEZIAL1","§7This kit is a spezial-kit");
+			add(type,"KIT_SHOP_SPEZIAL2","§7You can get it by a event!");
+			add(type,"KIT_SHOP_PREMIUM","§7This kit is a premium-kit");
+			add(type,"KIT_BACK","§cback");
 		}
 		
-		if(type==LanguageType.GERMANY){
-			if(!list.containsKey(LanguageType.GERMANY))list.put(LanguageType.GERMANY, new HashMap<String,String>());
+		if(type==LanguageType.GERMAN){
+			if(!list.containsKey(LanguageType.GERMAN))list.put(LanguageType.GERMAN, new HashMap<String,String>());
 			add(type,"GAME_LEAVE","§a{INPUT0} §7hat das Spiel verlassen!");
 			add(type,"GAME_ENTER","§a{INPUT0} §7hat das Spiel betreten! §e({INPUT1}/{INPUT2})");
 			add(type, "MSG_NOT_FOUND", "§cDie Nachricht §e{INPUT0} §cwurde nicht gefunden! Bitte kontaktiere einen Administrator.");
@@ -824,6 +835,7 @@ public class Language {
 			add(type, "HUB_ITEM_GRAY.DYE_PLAYERS_OFF", "§cSpieler §8» §cAus");
 			add(type, "HUB_ITEM_NETHERSTAR", "§eLobby-Teleporter");
 			add(type,"GAME_START_MIN_PLAYER","§cEs sind zu wenig Spieler(min. {INPUT0}) online! Wartemodus wird neugestartet!");
+			add(type,"GAME_START_MIN_PLAYER2","§cEs sind zu wenig Spieler online! Wartemodus wird neugestartet!");
 			add(type,"GAME_HOLOGRAM_SERVER","Server: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_MAP","Map: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_KILLS","Kills: {INPUT0}");
@@ -833,6 +845,7 @@ public class Language {
 			add(type,"GAME_HOLOGRAM_WINS","Gewonnene Spiele: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_LOSE","Verlorene Spiele: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_GAMES","Gespielte Spiele: {INPUT0}");
+			add(type,"GAME_HOLOGRAM_SHEEP","getötete Schafe: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_STATS","§a{INPUT0} §6§l Stats");
 			add(type,"GAME_HOLOGRAM_POWER","Power: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_KARMA","Karma: {INPUT0}");
@@ -846,9 +859,18 @@ public class Language {
 			add(type,"SCOREBOARD_TS","§d§lTeamspeak:");
 			add(type,"SCOREBOARD_NO_RANK","kein rang");
 			add(type, "HOW_MANY_PLAYER_LEFT", "§e{INPUT0} §7verbleibende Spieler!");
-			
+			add(type,"NO_KIT","Kein Kit");
 			add(type,"PLAYER_SET_NICK","Dein aktueller Nickname lautet: {INPUT0}");
+			add(type,"NO_TEAMS_ALLOWED","§c§lKeine Teams erlaubt");
 			add(type,"PLAYER_DISALLOW_TEMPORÄR","Dein Nickname wurde kurzeitig deaktviert! Du kannst nun ungenickt in den Chat schreiben!");
+			add(type,"GAME_TEAM_ITEM","§bWähle dein Team");
+			add(type,"KIT_SHOP_CHOOSE","§aauwählen");
+			add(type,"KIT_SHOP_BUY","§6Kaufen");
+			add(type,"KIT_SHOP_ADMIN","§7Dieses Kit ist ein §cAdmin-Kit");
+			add(type,"KIT_SHOP_SPEZIAL1","§7Dieses Kit ist ein §aSpezial-Kit");
+			add(type,"KIT_SHOP_SPEZIAL2","§7Nur erhältlich zu Besonderen anlässen!");
+			add(type,"KIT_SHOP_PREMIUM","§7Dieses Kit ist ein Premium-Kit!");
+			add(type,"KIT_BACK","§czurück");
 		}
 	}
 	

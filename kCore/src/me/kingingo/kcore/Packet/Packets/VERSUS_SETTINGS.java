@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Packet.Packets;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Enum.Team;
 import me.kingingo.kcore.Packet.Packet;
 import me.kingingo.kcore.Versus.VersusType;
@@ -14,6 +15,7 @@ public class VERSUS_SETTINGS extends Packet{
 	@Getter
 	private String player;
 	@Getter
+	@Setter
 	private Team team;
 	@Getter
 	private String kit;
