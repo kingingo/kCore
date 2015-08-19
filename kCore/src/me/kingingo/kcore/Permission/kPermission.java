@@ -213,6 +213,7 @@ SKYWARS_KIT_STOﬂER("epicpvp.skywars.kit.stoﬂer"),
 SKYWARS_KIT_HASE("epicpvp.skywars.kit.hase"),
 SKYWARS_KIT_RUSHER("epicpvp.skywars.kit.rusher"),
 SKYWARS_KIT_POLIZIST("epicpvp.skywars.kit.polizist"),
+SKYWARS_KIT_SUPERMAN("epicpvp.skywars.kit.superman"),
 
 //SkyPvP - START -
 SkyPvP_Mehr_Leben("epicpvp.skypvp.more_life"),

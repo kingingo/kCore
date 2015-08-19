@@ -4,6 +4,9 @@ import java.awt.image.BufferedImage;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.google.common.base.Preconditions;
@@ -57,7 +60,7 @@ public class NameTagMessage extends ImageMessage {
 		super.appendText(text);
 		return this;
 	}
-
+	
 	public void setLocation(Location location) {
 		this.location = location;
 	}

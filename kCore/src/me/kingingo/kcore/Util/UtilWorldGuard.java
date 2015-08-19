@@ -90,7 +90,7 @@ public class UtilWorldGuard {
 	
 	public static boolean canUse(Location loc, Player player){
 		if(worldGuard==null&&!checkWorldGuard())return false;
-		return worldGuard.getRegionManager(loc.getWorld()).getApplicableRegions(loc).canUse( worldGuard.wrapPlayer(player) );
+		return !worldGuard.getRegionManager(loc.getWorld()).getApplicableRegions(loc).canUse(worldGuard.wrapPlayer(player));
 	}
 	
 	public static boolean RegionFlag(Location location,StateFlag flag){

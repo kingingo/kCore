@@ -12,6 +12,9 @@ public class HUB_ONLINE extends Packet{
 	@Getter
 	@Setter
 	private int online;
+	@Getter
+	@Setter
+	private double tps;
 	
 	public HUB_ONLINE(){}
 	
@@ -19,9 +22,10 @@ public class HUB_ONLINE extends Packet{
 		Set(packet);
 	}
 	
-	public HUB_ONLINE(String server,int online){
+	public HUB_ONLINE(String server,int online,double tps){
 		this.server=server;
 		this.online=online;
+		this.tps=tps;
 	}
 	
 	public HUB_ONLINE create(String[] packet){
@@ -33,18 +37,18 @@ public class HUB_ONLINE extends Packet{
 	}
 	
 	public void Set(String[] split){
-		server=split[1];
+		this.server=split[1];
 		this.online=Integer.valueOf(split[2]);
+		this.tps=Double.valueOf(split[3]);
 	}
 	
 	public void Set(String packet){
 		String[] split = packet.split("-/-");
-		server=split[1];
-		this.online=Integer.valueOf(split[2]);
+		Set(split);
 	}
 	
 	public String toString(){
-		return String.format(getName()+"-/-%s-/-%d", server,online);
+		return String.format(getName()+"-/-%s-/-%d-/-%d", server,online,tps);
 	}
 	
 }

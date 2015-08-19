@@ -6,7 +6,7 @@ import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.lag.Lag;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -27,7 +27,7 @@ public class CommandToggle extends kListener implements CommandExecutor{
 	public CommandToggle(JavaPlugin instance){
 		super(instance,"Toggle");
 		this.online=System.currentTimeMillis();
-		new Lag(instance);
+		UtilServer.createLagListener(instance);
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "toggle", sender = Sender.PLAYER)

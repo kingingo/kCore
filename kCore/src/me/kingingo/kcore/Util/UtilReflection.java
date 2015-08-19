@@ -45,20 +45,6 @@ public class UtilReflection {
 	    }
 	  }
 
-	  public static void setPrivateValue(Object obj, String name, Object value) {
-	    try {
-	      Field field = obj.getClass().getDeclaredField(name);
-	      field.setAccessible(true);
-	      field.set(obj, value);
-	    }
-	    catch (IllegalArgumentException ex) {
-	    }
-	    catch (IllegalAccessException ex) {
-	    }
-	    catch (Exception ex) {
-	    }
-	  }
-
 	  public static Object getPrivateValue(Object obj, String name) {
 	    Field field = null;
 	    Class clazz = obj.getClass();

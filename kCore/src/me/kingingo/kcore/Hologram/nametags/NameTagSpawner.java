@@ -143,13 +143,6 @@ public class NameTagSpawner {
 	 * @param location - the new location.
 	 */
 	public void moveNameTag(int index, Player observer, Location location) {
-//		WrapperPlayServerEntityTeleport teleportArmorStand = new WrapperPlayServerEntityTeleport();
-//		teleportArmorStand.setEntityID(getArmorStandId(index));
-//		teleportArmorStand.setX(location.getX());
-//		teleportArmorStand.setY(location.getY()-2);
-//		teleportArmorStand.setZ(location.getZ());
-//		
-//		teleportArmorStand.sendPacket(observer);
 		kPacketPlayOutEntityTeleport teleport = new kPacketPlayOutEntityTeleport();
 		teleport.setEntityID(getArmorStandId(index));
 		teleport.setX(location.getX());
@@ -178,18 +171,6 @@ public class NameTagSpawner {
 	
 	// Construct the invisible ArmorStand packet
 	private kPacketPlayOutSpawnEntityLiving createArmorStandPacket(int index, Location location,double dY, String message) {
-//		WrapperPlayServerSpawnEntityLiving ArmorStand = new WrapperPlayServerSpawnEntityLiving();
-//		ArmorStand.setEntityID(getArmorStandId(index));
-//		ArmorStand.setType(EntityType.ARMOR_STAND);
-//		ArmorStand.setX(location.getX());
-//		ArmorStand.setY(location.getY() + dY - 2);
-//		ArmorStand.setZ(location.getZ());
-//		
-//		WrappedDataWatcher wdw = new WrappedDataWatcher();	
-//		wdw.setObject(0, ENTITY_INVISIBLE);
-//		wdw.setObject(2,message);
-//		wdw.setObject(3, (byte) 1);
-//		ArmorStand.setMetadata(wdw);
 		kPacketPlayOutSpawnEntityLiving ArmorStand = new kPacketPlayOutSpawnEntityLiving(getArmorStandId(index), EntityType.ARMOR_STAND, location);
 		ArmorStand.setY(location.getY() + dY - 2);
 		

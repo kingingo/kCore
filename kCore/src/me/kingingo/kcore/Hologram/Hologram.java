@@ -2,29 +2,38 @@ package me.kingingo.kcore.Hologram;
 import java.util.HashMap;
 
 import lombok.Getter;
-import lombok.Setter;
 import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
 import me.kingingo.kcore.Hologram.nametags.Events.HologramRemoveEvent;
-import me.kingingo.kcore.LogHandler.Event.LogEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
-import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Hologram implements Listener{
 	
 	@Getter
 	private HashMap<NameTagMessage, Integer> list = new HashMap<NameTagMessage,Integer>();
+	@Getter
+	private HashMap<Integer, NameTagMessage> creatures = new HashMap<Integer, NameTagMessage>();
 	
 	public Hologram(JavaPlugin plugin){
 		Bukkit.getPluginManager().registerEvents(this, plugin);
+	}
+	
+	@EventHandler
+	public void Join(PlayerJoinEvent ev){
+		if(creatures.isEmpty())return;
+		for(NameTagMessage m : creatures.values()){
+			m.sendToPlayer(ev.getPlayer());
+		}
 	}
 	
 	HashMap<NameTagMessage,Integer> clone;
@@ -58,6 +67,19 @@ public class Hologram implements Listener{
 			}
 		}
 		list.clear();
+	}
+	
+	public void setName(final Creature c,String name) {
+		creatures.remove(c.getEntityId());
+		try {
+			final NameTagMessage message = new NameTagMessage(name);
+			message.setLocation(c.getLocation().add(0, 2.1, 0));
+			creatures.put(c.getEntityId(),message);
+			for(Player player : UtilServer.getPlayers())message.sendToPlayer(player);
+		} catch (Exception error) {
+
+			error.printStackTrace();
+		}
 	}
 	
 	//--

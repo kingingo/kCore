@@ -1,12 +1,14 @@
 package me.kingingo.kcore.Util;
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import net.minecraft.server.v1_8_R3.EntityCreature;
+import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityInsentient;
-import net.minecraft.server.v1_8_R3.Navigation;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.NavigationAbstract;
+import net.minecraft.server.v1_8_R3.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_8_R3.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
 
 import org.bukkit.GameMode;
@@ -18,6 +20,7 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.LivingEntity;
@@ -29,120 +32,65 @@ public class UtilEnt
   private static HashMap<String, EntityType> creatureMap = new HashMap();
   private static Field _goalSelector;
   private static Field _targetSelector;
-  private static Field _bsRestrictionGoal;
 
   public static HashMap<org.bukkit.entity.Entity, String> GetEntityNames()
   {
     return _nameMap;
   }
+  
+  //muss noch getestet werden!
+  public static void setSilent(Entity entity,boolean silent){
+	  net.minecraft.server.v1_8_R3.Entity nmsEn = ((CraftEntity) entity).getHandle();
+      NBTTagCompound compound = new NBTTagCompound();
+      nmsEn.c(compound);
+      compound.setBoolean("Silent", silent);
+      nmsEn.f(compound);
+  }
+  
+  //Freezt das Entity ein
+  public static void setNoAI(Entity entity,boolean noAI){
+	  net.minecraft.server.v1_8_R3.Entity nmsEn = ((CraftEntity) entity).getHandle();
+      NBTTagCompound compound = new NBTTagCompound();
+      nmsEn.c(compound);
+      compound.setByte("NoAI", (noAI ? (byte)1:(byte)0));
+      nmsEn.f(compound);
+  }
+  
+  public static void ClearGoals(org.bukkit.entity.Creature pet){
+	    try
+	    {
+	      _goalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
+	      _goalSelector.setAccessible(true);
+	      _targetSelector = EntityInsentient.class.getDeclaredField("targetSelector");
+	      _targetSelector.setAccessible(true);
 
-//  public static void silence(org.bukkit.entity.Entity entity, boolean silence)
-//  {
-//    ((CraftEntity)entity).getHandle().Silent = silence;
-//  }
-//
-//  public static void ghost(org.bukkit.entity.Entity entity, boolean ghost, boolean invisible)
-//  {
-//    if ((entity instanceof LivingEntity))
-//    {
-//      ((CraftLivingEntity)entity).getHandle().ghost = ghost;
-//    }
-//
-//    ((CraftEntity)entity).getHandle().Invisible = invisible;
-//    ((CraftEntity)entity).getHandle().setInvisible(invisible);
-//  }
-//
-//  public static void Leash(LivingEntity leashed, org.bukkit.entity.Entity holder, boolean pull, boolean breakable)
-//  {
-//    if ((((CraftEntity)leashed).getHandle() instanceof EntityInsentient))
-//    {
-//      EntityInsentient creature = (EntityInsentient)((CraftEntity)leashed).getHandle();
-//
-//      creature.PullWhileLeashed = pull;
-//      creature.BreakLeash = breakable;
-//    }
-//
-//    leashed.setLeashHolder(holder);
-//  }
-//
-//  public static void Vegetate(org.bukkit.entity.Entity entity)
-//  {
-//    Vegetate(entity, false);
-//  }
-//
-//  public static void Vegetate(org.bukkit.entity.Entity entity, boolean mute)
-//  {
-//    try
-//    {
-//      if (_goalSelector == null)
-//      {
-//        _goalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
-//        _goalSelector.setAccessible(true);
-//      }
-//
-//      if (_targetSelector == null)
-//      {
-//        _targetSelector = EntityInsentient.class.getDeclaredField("targetSelector");
-//        _targetSelector.setAccessible(true);
-//      }
-//
-//      if ((entity instanceof CraftCreature))
-//      {
-//        EntityCreature creature = ((CraftCreature)entity).getHandle();
-//
-//        if (_bsRestrictionGoal == null)
-//        {
-//          _bsRestrictionGoal = EntityCreature.class.getDeclaredField("bs");
-//          _bsRestrictionGoal.setAccessible(true);
-//        }
-//
-//        _bsRestrictionGoal.set(creature, new PathfinderGoalMoveTowardsRestriction(creature, 0.0D));
-//      }
-//
-//      if ((((CraftEntity)entity).getHandle() instanceof EntityInsentient))
-//      {
-//        EntityInsentient creature = (EntityInsentient)((CraftEntity)entity).getHandle();
-//        
-//        creature.Vegetated = true;
-//        creature.Silent = mute;
-//        PathfinderGoalSelector goalSelector = new PathfinderGoalSelector(((CraftWorld)entity.getWorld()).getHandle().methodProfiler);
-//
-//        goalSelector.a(7, new PathfinderGoalLookAtPlayer(creature, EntityHuman.class, 6.0F));
-//        goalSelector.a(7, new PathfinderGoalRandomLookaround(creature));
-//
-//        _goalSelector.set(creature, goalSelector);
-//        _targetSelector.set(creature, new PathfinderGoalSelector(((CraftWorld)entity.getWorld()).getHandle().methodProfiler));
-//      }
-//
-//      if ((((CraftEntity)entity).getHandle() instanceof EntityBat))
-//      {
-//        ((EntityBat)((CraftEntity)entity).getHandle()).Vegetated = true;
-//      }
-//
-//      if ((((CraftEntity)entity).getHandle() instanceof EntityEnderDragon))
-//      {
-//        EntityEnderDragon creature = (EntityEnderDragon)((CraftEntity)entity).getHandle();
-//
-//        creature.Vegetated = true;
-//      }
-//    }
-//    catch (IllegalArgumentException e)
-//    {
-//      e.printStackTrace();
-//    }
-//    catch (IllegalAccessException e)
-//    {
-//      e.printStackTrace();
-//    }
-//    catch (NoSuchFieldException e)
-//    {
-//      e.printStackTrace();
-//    }
-//    catch (SecurityException e)
-//    {
-//      e.printStackTrace();
-//    }
-//  }
+	      EntityCreature creature = ((CraftCreature)pet).getHandle();
+
+	      PathfinderGoalSelector goalSelector = new PathfinderGoalSelector(((CraftWorld)pet.getWorld()).getHandle().methodProfiler);
+
+	      goalSelector.a(0, new PathfinderGoalLookAtPlayer(creature, EntityHuman.class, 6.0F));
+	      goalSelector.a(1, new PathfinderGoalRandomLookaround(creature));
+
+	      _goalSelector.set(creature, goalSelector);
+	      _targetSelector.set(creature, new PathfinderGoalSelector(((CraftWorld)pet.getWorld()).getHandle().methodProfiler));
+	    }
+	    catch (IllegalArgumentException e)
+	    {
+	      e.printStackTrace();
+	    }
+	    catch (IllegalAccessException e)
+	    {
+	      e.printStackTrace();
+	    }
+	    catch (NoSuchFieldException e)
+	    {
+	      e.printStackTrace();
+	    }
+	    catch (SecurityException e)
+	    {
+	      e.printStackTrace();
+	    }
+	  }
 
   public static void removeGoalSelectors(org.bukkit.entity.Entity entity)
   {
@@ -251,104 +199,6 @@ public class UtilEnt
     }
     return type.getName();
   }
-
-//  public static String searchName(Player caller, String arg, boolean inform)
-//  {
-//    populate();
-//
-//    arg = arg.toLowerCase().replaceAll("_", " ");
-//    LinkedList<String> matchList = new LinkedList();
-//    for (String cur : creatureMap.keySet())
-//    {
-//      if (cur.equalsIgnoreCase(arg)) {
-//        return cur;
-//      }
-//      if (cur.toLowerCase().contains(arg)) {
-//        matchList.add(cur);
-//      }
-//
-//    }
-//
-//    if (matchList.size() != 1)
-//    {
-//      if (!inform) {
-//        return null;
-//      }
-//
-////      UtilPlayer.message(caller, F.main("Creature Search", 
-////        C.mCount + matchList.size() + 
-////        C.mBody + " matches for [" + 
-////        C.mElem + arg + 
-////        C.mBody + "]."));
-//
-//      if (matchList.size() > 0)
-//      {
-//        String matchString = "";
-//        for (String cur : matchList)
-//          matchString = matchString + F.elem(cur) + ", ";
-//        if (matchString.length() > 1) {
-//          matchString = matchString.substring(0, matchString.length() - 2);
-//        }
-////        UtilPlayer.message(caller, F.main("Creature Search", 
-////          C.mBody + "Matches [" + 
-////          C.mElem + matchString + 
-////          C.mBody + "]."));
-//      }
-//
-//      return null;
-//    }
-//
-//    return (String)matchList.get(0);
-//  }
-//
-//  public static EntityType searchEntity(Player caller, String arg, boolean inform)
-//  {
-//    populate();
-//
-//    arg = arg.toLowerCase();
-//    LinkedList<EntityType> matchList = new LinkedList();
-//    for (String cur : creatureMap.keySet())
-//    {
-//      if (cur.equalsIgnoreCase(arg)) {
-//        return (EntityType)creatureMap.get(cur);
-//      }
-//      if (cur.toLowerCase().contains(arg)) {
-//        matchList.add((EntityType)creatureMap.get(cur));
-//      }
-//
-//    }
-//
-//    if (matchList.size() != 1)
-//    {
-//      if (!inform) {
-//        return null;
-//      }
-////
-////      UtilPlayer.message(caller, F.main("Creature Search", 
-////        C.mCount + matchList.size() + 
-////        C.mBody + " matches for [" + 
-////        C.mElem + arg + 
-////        C.mBody + "]."));
-//
-//      if (matchList.size() > 0)
-//      {
-//        String matchString = "";
-//        for (EntityType cur : matchList)
-//          matchString = matchString + F.elem(cur.getName()) + ", ";
-//        if (matchString.length() > 1) {
-//          matchString = matchString.substring(0, matchString.length() - 2);
-//        }
-////        UtilPlayer.message(caller, F.main("Creature Search", 
-////          C.mBody + "Matches [" + 
-////          C.mElem + matchString + 
-////          C.mBody + "]."));
-//      }
-//
-//      return null;
-//    }
-//
-//    return (EntityType)matchList.get(0);
-//  }
 
   public static HashMap<LivingEntity, Double> getInRadius(Location loc, double dR)
   {

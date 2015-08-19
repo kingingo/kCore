@@ -27,7 +27,7 @@ public class CommandGilde implements CommandExecutor{
 		this.manager=manager;
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "gilde", alias = {"g","c","clan","gild","gilden"}, sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "gilde", alias = {"g","c","guild","clan","gild","gilden"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		p = (Player)cs;
 		if(args.length==0){

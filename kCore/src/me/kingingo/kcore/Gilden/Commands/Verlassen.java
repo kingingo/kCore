@@ -21,6 +21,9 @@ public class Verlassen {
 				UUID owner = manager.getOwner(g);
 				if(owner==null){
 					System.err.println("[GildenManager] Command Verlassen: Owner == NULL");
+					System.err.println("[GildenManager] Gilde: "+g);
+					System.err.println("[GildenManager] Spieler-UUID: "+UtilPlayer.getRealUUID(p));
+					System.err.println("[GildenManager] Spieler: "+p.getName());
 					return;
 				}
 				if(owner.equals(UtilPlayer.getRealUUID(p))){

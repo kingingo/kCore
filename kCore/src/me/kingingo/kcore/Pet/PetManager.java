@@ -1,9 +1,9 @@
 package me.kingingo.kcore.Pet;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Util.UtilEnt;
 import me.kingingo.kcore.Pet.Setting.PetSetting;
 import me.kingingo.kcore.Pet.Shop.IPetShop;
 import me.kingingo.kcore.Pet.Events.PetCreateEvent;
@@ -11,22 +11,12 @@ import me.kingingo.kcore.Pet.Events.PetWithOutOwnerLocationEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import net.minecraft.server.v1_8_R3.EntityCreature;
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.EntityInsentient;
-import net.minecraft.server.v1_8_R3.Navigation;
 import net.minecraft.server.v1_8_R3.NavigationAbstract;
-import net.minecraft.server.v1_8_R3.PathfinderGoalLookAtPlayer;
-import net.minecraft.server.v1_8_R3.PathfinderGoalRandomLookaround;
-import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.PathEntity;
 import org.bukkit.entity.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -53,8 +43,6 @@ public class PetManager implements Listener{
 	private HashMap<Creature,Integer> failedAttemptsToLocation;
 	@Getter
 	private HashMap<String, Integer> failedAttempts;
-	private Field _goalSelector;
-	private Field _targetSelector;
 	@Getter
 	private boolean setting=false;
 	@Getter
@@ -120,7 +108,7 @@ public class PetManager implements Listener{
 	    pet.setCustomName(name);
 	    this.petToLocation.put(pet,location);
 	    this.failedAttemptsToLocation.put(pet,Integer.valueOf(0));
-	    if(clear_goal)ClearPetGoals(pet);
+	    if(clear_goal)UtilEnt.ClearGoals(pet);
 	    Bukkit.getPluginManager().callEvent(new PetCreateEvent(this,pet,null));
 	    return pet;
     }
@@ -143,49 +131,13 @@ public class PetManager implements Listener{
 
 	    this.activePetOwners.put(player.getName().toLowerCase(),pet);
 	    this.failedAttempts.put(player.getName().toLowerCase(), Integer.valueOf(0));
-	    ClearPetGoals(pet);
+	    UtilEnt.ClearGoals(pet);
 	    Bukkit.getPluginManager().callEvent(new PetCreateEvent(this,pet,player));
 	  }
 	
 	public org.bukkit.entity.Creature GetPet(Player player){
 	    return (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase());
 	}
-	
-	private void ClearPetGoals(org.bukkit.entity.Creature pet){
-	    try
-	    {
-	      this._goalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
-	      this._goalSelector.setAccessible(true);
-	      this._targetSelector = EntityInsentient.class.getDeclaredField("targetSelector");
-	      this._targetSelector.setAccessible(true);
-
-	      EntityCreature creature = ((CraftCreature)pet).getHandle();
-
-	      PathfinderGoalSelector goalSelector = new PathfinderGoalSelector(((CraftWorld)pet.getWorld()).getHandle().methodProfiler);
-
-	      goalSelector.a(0, new PathfinderGoalLookAtPlayer(creature, EntityHuman.class, 6.0F));
-	      goalSelector.a(1, new PathfinderGoalRandomLookaround(creature));
-
-	      this._goalSelector.set(creature, goalSelector);
-	      this._targetSelector.set(creature, new PathfinderGoalSelector(((CraftWorld)pet.getWorld()).getHandle().methodProfiler));
-	    }
-	    catch (IllegalArgumentException e)
-	    {
-	      e.printStackTrace();
-	    }
-	    catch (IllegalAccessException e)
-	    {
-	      e.printStackTrace();
-	    }
-	    catch (NoSuchFieldException e)
-	    {
-	      e.printStackTrace();
-	    }
-	    catch (SecurityException e)
-	    {
-	      e.printStackTrace();
-	    }
-	  }
 	
 	  @EventHandler(priority=EventPriority.LOWEST)
 	  public void onEntityDamage(EntityDamageEvent event)

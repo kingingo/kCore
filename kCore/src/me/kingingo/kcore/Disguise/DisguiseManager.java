@@ -199,8 +199,18 @@ public class DisguiseManager extends kListener {
 	    }
 	  }
 	  
-//	  @EventHandler
-//	  public void PlayerQuit(PlayerQuitEvent event){
-//	    undisguise(event.getPlayer());
-//	  }
+	  @EventHandler
+	  public void PlayerQuit(PlayerQuitEvent event){
+		  if(isDisguise(event.getPlayer())){
+				DisguiseBase disguise = getDisguise(event.getPlayer());
+				getDisguise().remove(event.getPlayer().getEntityId());
+			    kPacketPlayOutEntityDestroy de = new kPacketPlayOutEntityDestroy(new int[] { event.getPlayer().getEntityId() });
+				for(Player player : UtilServer.getPlayers()){
+					if(event.getPlayer().getEntityId()!=player.getEntityId()){
+						sendPacket(player, de);
+						if(disguise instanceof DisguisePlayer)sendPacket(player, ((DisguisePlayer)disguise).removeFromTablist());
+					}
+				}
+			}
+	  }
 }

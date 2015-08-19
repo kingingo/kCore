@@ -1,10 +1,9 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
-import me.kingingo.kcore.Util.UtilTime;
-import me.kingingo.kcore.lag.Lag;
+import me.kingingo.kcore.Permission.kPermission;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -22,7 +21,7 @@ public class CommandMemFix implements CommandExecutor, Listener{
 	public CommandMemFix(PermissionManager permManager){
 		this.permManager=permManager;
 		this.online=System.currentTimeMillis();
-		new Lag(permManager.getInstance());
+		UtilServer.createLagListener(permManager.getInstance());
 		Bukkit.getPluginManager().registerEvents(this, permManager.getInstance());
 	}
 	

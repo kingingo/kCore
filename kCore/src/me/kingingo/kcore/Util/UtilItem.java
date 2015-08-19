@@ -311,7 +311,7 @@ public class UtilItem {
 	}
 	
 	public static ItemStack EnchantItem(ItemStack item,Enchantment ench,int lvl){
-		item.addEnchantment(ench, lvl);
+		item.addUnsafeEnchantment(ench, lvl);
 		return item;
 	}
 	
@@ -352,6 +352,28 @@ public class UtilItem {
 			armor[3]=UtilItem.LSetColor(armor[3], color);
 		}
 		return armor;
+	}
+	
+	public static Enchantment[] enchantmentsWeapon(){
+		Enchantment[] axt = enchantmentsAxt();
+		Enchantment[] sword = enchantmentsSword();
+		Enchantment[] bow = enchantmentsBow();
+		Enchantment[] en = new Enchantment[axt.length+sword.length+bow.length];
+		
+		int i = 0;
+		for(Enchantment e : axt){
+			en[i]=e;
+			i++;
+		}
+		for(Enchantment e : sword){
+			en[i]=e;
+			i++;
+		}
+		for(Enchantment e : bow){
+			en[i]=e;
+			i++;
+		}
+		return en;
 	}
 	
 	public static Enchantment[] enchantmentsBoots(){

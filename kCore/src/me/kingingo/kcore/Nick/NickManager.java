@@ -263,35 +263,36 @@ public class NickManager extends kListener{
 						chat=null;
 						txt=null;
 					}
-				}else if(ev.getPacket() instanceof PacketPlayOutScoreboardTeam){
-					kPacketPlayOutScoreboardTeam st = new kPacketPlayOutScoreboardTeam( ((PacketPlayOutScoreboardTeam)ev.getPacket()) );
-					if(st.getMode()==Modes.PLAYERS_ADDED&&st.getPrefix()!=null&&st.getPlayers().size()>0){
-						String player;
-						for(int i = 0; i < st.getPlayers().size() ; i++){
-							player=(String)st.getPlayers().toArray()[i];
-							if(UtilPlayer.isOnline(player)){
-								if(nicks.containsKey( Bukkit.getPlayer(player).getEntityId() )){
-									if(ev.getPlayer().getScoreboard().getTeam(st.getTeamName())==null){
-										System.out.println(st.getTeamName()+" == null "+ ev.getPlayer().getName()+" "+player);
-										continue;
-									}
-									st.setPrefix( ev.getPlayer().getScoreboard().getTeam(st.getTeamName()).getPrefix() );
-									if(ev.getPlayer().getScoreboard().getTeam(player)==null){
-										UtilScoreboard.addTeam(
-												ev.getPlayer().getScoreboard()
-												, player
-												, st.getPrefix()
-												, "§7 "+getNick(Bukkit.getPlayer(player)).getName());
-									}
-									st.setTeamName(player);
-								}
-							}
-						}
-						ev.setPacket(st.getPacket());
-						player=null;
-					}
-					st=null;
 				}
+//				else if(ev.getPacket() instanceof PacketPlayOutScoreboardTeam){
+//					kPacketPlayOutScoreboardTeam st = new kPacketPlayOutScoreboardTeam( ((PacketPlayOutScoreboardTeam)ev.getPacket()) );
+//					if(st.getMode()==Modes.PLAYERS_ADDED&&st.getPrefix()!=null&&st.getPlayers().size()>0){
+//						String player;
+//						for(int i = 0; i < st.getPlayers().size() ; i++){
+//							player=(String)st.getPlayers().toArray()[i];
+//							if(UtilPlayer.isOnline(player)){
+//								if(nicks.containsKey( Bukkit.getPlayer(player).getEntityId() )){
+//									if(ev.getPlayer().getScoreboard().getTeam(st.getTeamName())==null){
+//										System.out.println(st.getTeamName()+" == null "+ ev.getPlayer().getName()+" "+player);
+//										continue;
+//									}
+//									st.setPrefix( ev.getPlayer().getScoreboard().getTeam(st.getTeamName()).getPrefix() );
+//									if(ev.getPlayer().getScoreboard().getTeam(player)==null){
+//										UtilScoreboard.addTeam(
+//												ev.getPlayer().getScoreboard()
+//												, player
+//												, st.getPrefix()
+//												, "§7 "+getNick(Bukkit.getPlayer(player)).getName());
+//									}
+//									st.setTeamName(player);
+//								}
+//							}
+//						}
+//						ev.setPacket(st.getPacket());
+//						player=null;
+//					}
+//					st=null;
+//				}
 			}
 		}
 	}

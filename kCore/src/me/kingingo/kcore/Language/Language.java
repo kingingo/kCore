@@ -154,6 +154,7 @@ public class Language {
 			if(!list.containsKey(LanguageType.ENGLISH))list.put(LanguageType.ENGLISH, new HashMap<String,String>());
 			add(type, "TREASURE_CHEST_TIME_AWAY", "§cThe time has expired!");
 			add(type, "VERSUS_ADDED", "§aYou where added to the match making queue!");
+			add(type, "VERSUS_REMOVE", "§aYou removed from the list!");
 			add(type, "VERSUS_PLACE", "§7You are at position §e{INPUT0} in the queue.");
 			add(type, "TRACKING_RANGE", "§7The player tracking range ist now §e{INPUT0}§7.");
 			add(type, "NO_CHARAKTER", "§cThere are invalid characters in your name!");
@@ -420,6 +421,7 @@ public class Language {
 	        add(type, "GILDE_OWNER_NOT", "§cYou are not the owner of this guild.");
 	        add(type,"GILDE_PLAYER_IS_IN_GILDE","§cYou are allready in a guild.");
 	        add(type, "NOT_ENOUGH_MONEY", "§cYou do not have enough money!");
+	        add(type,"GILDE_PLAYER_IS_IN_GILDE1","§c{INPUT0} is in a guild.");
 	        add(type,"GILDE_CMD1","§6/guild create §8|§7 Creates a new guild.");
 			add(type,"GILDE_CMD2","§6/guild invite [Player] §8§8|§7 Invites a player to the guild.");
 			add(type,"GILDE_CMD3","§6/guild accept §8|§7 Accepts a guild invite.");
@@ -508,6 +510,13 @@ public class Language {
 			add(type,"KIT_SHOP_PREMIUM","§7This kit is a premium-kit");
 			add(type,"KIT_BACK","§cback");
 	        add(type,"STATS_FAME","§6Fame: §7");
+			add(type,"LANGUAGE_CHANGE","§aEpicPvP will now be displayed in §eEnglish§a!");
+			add(type,"HUB_VERSUS_1VS1_QUESTION","§7You invite §a{INPUT0}§7 to a 1vs1 round!");
+			add(type,"HUB_VERSUS_1VS1_FROM_QUESTION","§7You was invited from §a{INPUT0}§7 to a 1vs1 round!");
+			add(type,"HUB_VERSUS_1VS1_NO_FREE_ARENAS","§cPlease wait all arenas are in inGame mode!");
+			add(type,"OPEN_CHEST_WITH_WEAPON","§cYou cannot open chests with a weapon in your hand!");
+			add(type,"EXP_HIS_TO_ME","§7You recived §e{INPUT1} Exp§7 from §a{INPUT0}!");
+			add(type,"EXP_ME_TO_HIS","§7You send §e{INPUT1} Exp§7 to §a{INPUT0}§7!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -518,6 +527,7 @@ public class Language {
 			add(type, "NOT_ENOUGH_MONEY", "§cDu hast nicht genug Geld!");
 	        add(type, "TREASURE_CHEST_TIME_AWAY", "§cDie Zeit ist abgelaufen!");
 	        add(type, "VERSUS_ADDED", "§aDu wurdest zur Warteliste hinzugefuegt!");
+			add(type, "VERSUS_REMOVE", "§aDu wurdest von der Warteliste entfernt!");
 	        add(type, "VERSUS_PLACE", "§7Du befindest dich auf Platz §e{INPUT0}");
 	        add(type, "TRACKING_RANGE", "§7Die Player Tracking Range ist nun §e{INPUT0}§7.");
 	        add(type, "NO_CHARAKTER", "§cEs sind ungueltige Zeichen im Namen!");
@@ -787,8 +797,8 @@ public class Language {
 			add(type,"LOAD_PLAYER_DATA","§7Deine Spieler Informationen werden geladen...");
 			add(type,"PET_MUST_BUYED_IN_SHOP","§cDu musst das Pet im Online-Store kaufen! §6Shop.EpicPvP.de");
 			add(type,"GAME_TIME_CHANGE","§aDie Zeit wurde zu {INPUT0} geändert!");
-			add(type,"EXP_HIS_TO_ME","Du hast von §a{INPUT0} {INPUT1}§7 Exp erhalten.");
-			add(type,"EXP_ME_TO_HIS","Du hast §a{INPUT0} {INPUT1}§7 Exp gesendet.");
+			add(type,"EXP_HIS_TO_ME","§7Du hast von §a{INPUT0} §e{INPUT1} Exp§7 erhalten!");
+			add(type,"EXP_ME_TO_HIS","§7Du hast §a{INPUT0} §e{INPUT1} Exp§7 gesendet!");
 			add(type,"NOT_ENOUGH_COINS","§cDu hast nicht genug Coins.");
 			add(type,"GILDE_CMD1","§6/gilde erstellen §8|§7 Erstellt eine neue Gilde.");
 			add(type,"GILDE_CMD2","§6/gilde einladen [Player] §8§8|§7 Lädt einen Spieler in die Gilde ein");
@@ -873,6 +883,11 @@ public class Language {
 			add(type,"KIT_SHOP_SPEZIAL2","§7Nur erhältlich zu Besonderen anlässen!");
 			add(type,"KIT_SHOP_PREMIUM","§7Dieses Kit ist ein Premium-Kit!");
 			add(type,"KIT_BACK","§czurück");
+			add(type,"LANGUAGE_CHANGE","§aEpicPvP wird dir nun in §eDeutsch §aangezeigt!");
+			add(type,"HUB_VERSUS_1VS1_QUESTION","§7Du hast §a{INPUT0}§7 eine 1vs1 anfrage gesendet!");
+			add(type,"HUB_VERSUS_1VS1_FROM_QUESTION","§7Du hast von §a{INPUT0}§7 eine 1vs1 anfrage erhalten!");
+			add(type,"HUB_VERSUS_1VS1_NO_FREE_ARENAS","§cAlle Arenen sind momentan besetzt...!");
+			add(type,"OPEN_CHEST_WITH_WEAPON","§cDu kannst keine Kisten oeffnen, wenn du eine Waffe in der Hand hast.!");
 		}
 	}
 	

@@ -10,6 +10,7 @@ import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.TEAM_MESSAGE;
 import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
 import me.kingingo.kcore.Permission.kPermission;
+import me.kingingo.kcore.lag.Lag;
 import net.minecraft.server.v1_8_R3.EntityHorse;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EntityWitherSkull;
@@ -22,7 +23,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
-import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -38,6 +38,11 @@ public class UtilServer{
 	@Getter
 	private static boolean loghandleradded = false;
 	private static kPacketListener listener;
+	private static Lag lag;
+	
+	public static void createLagListener(JavaPlugin instance){
+		if(lag==null)lag=new Lag(instance);
+	}
 	
 	public static void createPacketListener(JavaPlugin instance){
 		if(listener==null)listener=new kPacketListener(instance);
