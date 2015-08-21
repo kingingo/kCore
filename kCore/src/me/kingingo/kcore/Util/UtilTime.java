@@ -15,6 +15,7 @@ public class UtilTime
   private static TimeManager manager;
 
   public static void setTimeManager(PermissionManager perm){
+	  if(manager!=null)return;
 	  manager=new TimeManager(perm);
   }
   
