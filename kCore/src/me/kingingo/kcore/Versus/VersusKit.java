@@ -3,6 +3,7 @@ package me.kingingo.kcore.Versus;
 import org.bukkit.inventory.ItemStack;
 
 public class VersusKit {
+public String name;
 public ItemStack helm;
 public ItemStack chestplate;
 public ItemStack leggings;

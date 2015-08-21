@@ -83,10 +83,18 @@ public class Language {
 	}
 	
 	public static void sendText(Player player,String name,Object[] input){
+		if(player==null){
+			System.out.println("[Language] Message "+name);
+			System.out.println("[Language] Spieler == null");
+		}
 		player.sendMessage( toText(list.get(getLanguage(player)).get(name), input) );
 	}
 	
 	public static void sendText(Player player,String name,Object input){
+		if(player==null){
+			System.out.println("[Language] Message "+name);
+			System.out.println("[Language] Spieler == null");
+		}
 		player.sendMessage( toText(list.get(getLanguage(player)).get(name), input) );
 	}
 	
@@ -115,6 +123,10 @@ public class Language {
 	}
 	
 	public static String getText(Player player,String name){
+		if(player==null){
+			System.out.println("[Language] Message "+name);
+			System.out.println("[Language] Spieler == null");
+		}
 		if(!list.get(getLanguage(player)).containsKey(name)){
 			System.out.println("[Language] Message nicht gefunden "+name+" "+getLanguage(player).getDef());
 			return Language.getText(player,"MSG_NOT_FOUND", name);
@@ -123,6 +135,10 @@ public class Language {
 	}
 	
 	public static String getText(Player player,String name,Object[] input){
+		if(player==null){
+			System.out.println("[Language] Message "+name);
+			System.out.println("[Language] Spieler == null");
+		}
 		if(!list.get(getLanguage(player)).containsKey(name)){
 			System.out.println("[Language] Message nicht gefunden "+name+" "+getLanguage(player).getDef());
 			return Language.getText(player,"MSG_NOT_FOUND", name);
@@ -131,6 +147,10 @@ public class Language {
 	}
 	
 	public static String getText(Player player,String name,Object input){
+		if(player==null){
+			System.out.println("[Language] Message "+name);
+			System.out.println("[Language] Spieler == null");
+		}
 		if(!list.get(getLanguage(player)).containsKey(name)){
 			System.out.println("[Language] Message nicht gefunden "+name+" "+getLanguage(player).getDef());
 			return Language.getText(player,"MSG_NOT_FOUND", name);
@@ -517,6 +537,8 @@ public class Language {
 			add(type,"OPEN_CHEST_WITH_WEAPON","§cYou cannot open chests with a weapon in your hand!");
 			add(type,"EXP_HIS_TO_ME","§7You recived §e{INPUT1} Exp§7 from §a{INPUT0}!");
 			add(type,"EXP_ME_TO_HIS","§7You send §e{INPUT1} Exp§7 to §a{INPUT0}§7!");
+			add(type,"GO","§a§lGO");
+			add(type,"TELEPORT_TO_DEATHMATCH_ARENA","§7You will get teleported to the Deathmatch-Arena in §e{INPUT0}§7!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -888,6 +910,8 @@ public class Language {
 			add(type,"HUB_VERSUS_1VS1_FROM_QUESTION","§7Du hast von §a{INPUT0}§7 eine 1vs1 anfrage erhalten!");
 			add(type,"HUB_VERSUS_1VS1_NO_FREE_ARENAS","§cAlle Arenen sind momentan besetzt...!");
 			add(type,"OPEN_CHEST_WITH_WEAPON","§cDu kannst keine Kisten oeffnen, wenn du eine Waffe in der Hand hast.!");
+			add(type,"GO","§a§lLOS");
+			add(type,"TELEPORT_TO_DEATHMATCH_ARENA","§7Du wirst in §e{INPUT0} §7in die Deathmatch-Arena geportet!");
 		}
 	}
 	

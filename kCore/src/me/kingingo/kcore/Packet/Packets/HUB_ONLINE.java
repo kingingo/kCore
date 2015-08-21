@@ -14,7 +14,7 @@ public class HUB_ONLINE extends Packet{
 	private int online;
 	@Getter
 	@Setter
-	private double tps;
+	private int tps;
 	
 	public HUB_ONLINE(){}
 	
@@ -22,7 +22,7 @@ public class HUB_ONLINE extends Packet{
 		Set(packet);
 	}
 	
-	public HUB_ONLINE(String server,int online,double tps){
+	public HUB_ONLINE(String server,int online,int tps){
 		this.server=server;
 		this.online=online;
 		this.tps=tps;
@@ -39,7 +39,7 @@ public class HUB_ONLINE extends Packet{
 	public void Set(String[] split){
 		this.server=split[1];
 		this.online=Integer.valueOf(split[2]);
-		this.tps=Double.valueOf(split[3]);
+		this.tps=Integer.valueOf(split[3]);
 	}
 	
 	public void Set(String packet){

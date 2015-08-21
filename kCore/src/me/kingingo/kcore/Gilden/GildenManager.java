@@ -94,38 +94,6 @@ public class GildenManager implements Listener {
 		if(ev.getType()!=UpdateType.MIN_08)return;
 		extra_prefix.clear();
 		LoadRanking(true);
-//		try{
-//		     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_"+typ.getKürzel()+"_data` ORDER BY kills DESC LIMIT 15;");
-//
-//		      int zahl = 1;
-//		      
-//		      while (rs.next()) {
-//		  			if(zahl==1){
-//		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
-//		  			}else if(zahl==2){
-//		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
-//		  			}else if(zahl==3){
-//		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
-//		  			}else if(zahl>=4 && zahl<=6){
-//		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
-//		  			}else if(zahl>=7 && zahl<=9){
-//		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
-//		  			}else if(zahl>=10 && zahl<=12){
-//		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
-//		  			}else if(zahl>=13 && zahl<=15){
-//		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
-//		  			}else{
-//		  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
-//		  			}
-//			     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
-//			     zahl++;
-//		      }
-//
-//		      rs.close();
-//		 } catch (Exception err) {
-//		      System.out.println("MySQL-Error: " + err.getMessage());
-//		 }
-		
 	}
 	
 	public void LoadRanking(boolean b){
@@ -217,27 +185,6 @@ public class GildenManager implements Listener {
 		}
 	}
 	
-//	ArrayList<Player> TP = new ArrayList<>();
-//	@EventHandler
-//	public void Update(UpdateEvent ev){
-//		if(ev.getType()!=UpdateType.FAST)return;
-//		if(teleport.isEmpty())return;
-//		for(Player p : teleport.keySet()){
-//			if(teleport.get(p) <= System.currentTimeMillis()){
-//				TP.add(p);
-//				if(teleport_loc.get(p).getX()==p.getLocation().getX()&&teleport_loc.get(p).getY()==p.getLocation().getY()&&teleport_loc.get(p).getZ()==p.getLocation().getZ()){
-//					TeleportToHome(p);
-//				}else{
-//					p.sendMessage(Text.GILDE_PREFIX.getText()+Text.GILDE_TELEPORT_CANCELLED.getText());
-//				}
-//			}
-//		}
-//		for(Player p : TP){
-//			teleport.remove(p);
-//			teleport_loc.remove(p);
-//		}
-//	}
-	
 	double dif_x;
 	double dif_y;
 	double dif_z;
@@ -274,7 +221,6 @@ public class GildenManager implements Listener {
 				}
 				
 				if(!hasMoved(teleport_loc.get(p), p)){
-				//if(teleport_loc.get(p).getX()==p.getLocation().getX()&&teleport_loc.get(p).getY()==p.getLocation().getY()&&teleport_loc.get(p).getZ()==p.getLocation().getZ()){
 					TeleportToHome(p);
 				}else{
 					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_TELEPORT_CANCELLED"));
@@ -429,7 +375,15 @@ public class GildenManager implements Listener {
 			if(gilden_player.get(uuid).equalsIgnoreCase("-"))return false;
 			return true;
 		}
-		return !getPlayerGilde(uuid).equalsIgnoreCase("-");
+		String g = getPlayerGilde(uuid);
+		
+		if(!ExistGilde(g)){
+			if(UtilPlayer.isOnline(uuid)){
+				removePlayerEintrag(Bukkit.getPlayer(uuid));
+			}
+		}
+		
+		return !g.equalsIgnoreCase("-");
 	}
 	
 	public boolean ExistGildeData(String gilde,GildenType typ){

@@ -21,13 +21,19 @@ public class VERSUS_SETTINGS extends Packet{
 	private String kit;
 	@Getter
 	private String arena;
+	@Getter
+	private int min_team;
+	@Getter
+	private int max_team;
 	
-	public VERSUS_SETTINGS(VersusType type,String arena,String kit,Player player,Team team){
+	public VERSUS_SETTINGS(VersusType type,String arena,String kit,Player player,Team team,int min_team,int max_team){
 		this.type=type;
 		this.player=player.getName();
 		this.kit=kit;
 		this.arena=arena;
 		this.team=team;
+		this.max_team=max_team;
+		this.min_team=min_team;
 	}
 	
 	public VERSUS_SETTINGS(String[] data){
@@ -52,6 +58,8 @@ public class VERSUS_SETTINGS extends Packet{
 		this.player=split[3];
 		this.team=Team.valueOf(split[4]);
 		this.arena=split[5];
+		this.min_team=Integer.valueOf(split[6]);
+		this.max_team=Integer.valueOf(split[7]);
 	}
 	
 	public String getName(){
@@ -60,7 +68,7 @@ public class VERSUS_SETTINGS extends Packet{
 	
 	//VERSUS_SETTINGS-/-TYPE-/-KIT-/-PLAYER-/-TEAM-/-ARENA
 	public String toString(){
-		return String.format(getName()+"-/-%s-/-%s-/-%s-/-%s-/-%s", type.name(), kit ,player,team.Name(),arena);
+		return String.format(getName()+"-/-%s-/-%s-/-%s-/-%s-/-%s-/-%d-/-%d", type.name(), kit ,player,team.Name(),arena,min_team,max_team);
 	}
 	
 }
