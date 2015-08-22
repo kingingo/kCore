@@ -5,6 +5,7 @@ ALL("all"),
 GAME("game"),
 PVP("pvp"),
 SKY("sky"),
+BUILD("build"),
 WARZ("warz");
 
 public static GroupTyp get(String perm){

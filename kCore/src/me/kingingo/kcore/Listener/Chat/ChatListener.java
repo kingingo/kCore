@@ -30,6 +30,11 @@ public class ChatListener extends kListener{
 		this.gildenmanager=gildenmanager;
 	}
 	
+	public ChatListener(JavaPlugin instance,PermissionManager manager){
+		super(instance,"ChatListener");
+		this.manager=manager;
+	}
+	
 	public ChatListener(JavaPlugin instance,GildenManager gildenmanager){
 		super(instance,"ChatListener");
 		this.gildenmanager=gildenmanager;

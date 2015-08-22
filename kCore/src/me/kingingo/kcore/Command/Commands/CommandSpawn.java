@@ -2,6 +2,7 @@ package me.kingingo.kcore.Command.Commands;
 
 import java.io.File;
 
+import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Listener.kListener;
@@ -18,12 +19,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.world.WorldLoadEvent;
 
 public class CommandSpawn extends kListener implements CommandExecutor{
 	
 	private TeleportManager teleport;
 	private Player player;
 	@Setter
+	@Getter
 	private Location spawn;
 	private kConfig config;
 	
@@ -31,13 +34,29 @@ public class CommandSpawn extends kListener implements CommandExecutor{
 		super(teleport.getPermManager().getInstance(),"CommandSpawn");
 		this.teleport=teleport;
 		this.config=new kConfig(new File("plugins"+File.separator+teleport.getPermManager().getInstance().getPlugin(teleport.getPermManager().getInstance().getClass()).getName()+File.separator+"spawn.yml"));
-		if(config.isSet("spawn")){
-			spawn=config.getLocation("spawn");
-			spawn.getWorld().setSpawnLocation(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());
-		}else{
-			spawn=Bukkit.getWorld("world").getSpawnLocation();
+		if(Bukkit.getWorld(config.getString("spawn.world"))!=null){
+			if(config.isSet("spawn")){
+				spawn=config.getLocation("spawn");
+				spawn.getWorld().setSpawnLocation(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());
+			}else{
+				spawn=Bukkit.getWorld("world").getSpawnLocation();
+			}
 		}
 		teleport.getCmd().register(CommandSetSpawn.class, new CommandSetSpawn(config,this));
+	}
+	
+	@EventHandler
+	public void load(WorldLoadEvent ev){
+		if(spawn==null){
+			if(ev.getWorld().getName().equalsIgnoreCase(config.getString("spawn.world"))){
+				if(config.isSet("spawn")){
+					spawn=config.getLocation("spawn");
+					spawn.getWorld().setSpawnLocation(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());
+				}else{
+					spawn=Bukkit.getWorld("world").getSpawnLocation();
+				}
+			}
+		}
 	}
 	
 	@EventHandler
