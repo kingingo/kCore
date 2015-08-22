@@ -46,7 +46,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 	private HashMap<UUID,String> settings = new HashMap<>();
 	
 	public DisguiseShop(final InventoryBase base,final PermissionManager permissionManager,final Coins coins,DisguiseManager disguiseManager) {
-		super(permissionManager.getInstance(), 36, "Disguise Shop");
+		super(36, "Disguise Shop");
 		Bukkit.getPluginManager().registerEvents(this, permissionManager.getInstance());
 		this.permissionManager=permissionManager;
 		this.coins=coins;

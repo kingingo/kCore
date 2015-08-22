@@ -91,7 +91,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		}, "Wähle einen Helm", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_HELMET),new ItemStack(Material.IRON_HELMET),new ItemStack(Material.GOLD_HELMET),new ItemStack(Material.DIAMOND_HELMET)});
+		}, "Wï¿½hle einen Helm", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_HELMET),new ItemStack(Material.IRON_HELMET),new ItemStack(Material.GOLD_HELMET),new ItemStack(Material.DIAMOND_HELMET)});
 		this.helm_choose.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -99,7 +99,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(helm_choose);
 		
 		this.chestplate_choose=new InventorySortChoose(new Click(){
@@ -112,7 +112,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		}, "Wähle ein Brustpanzer", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_CHESTPLATE),new ItemStack(Material.IRON_CHESTPLATE),new ItemStack(Material.GOLD_CHESTPLATE),new ItemStack(Material.DIAMOND_CHESTPLATE)});
+		}, "Wï¿½hle ein Brustpanzer", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_CHESTPLATE),new ItemStack(Material.IRON_CHESTPLATE),new ItemStack(Material.GOLD_CHESTPLATE),new ItemStack(Material.DIAMOND_CHESTPLATE)});
 		this.chestplate_choose.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -120,7 +120,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(chestplate_choose);
 		this.leggings_choose=new InventorySortChoose(new Click(){
 
@@ -132,7 +132,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		}, "Wähle eine Hose", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_LEGGINGS),new ItemStack(Material.IRON_LEGGINGS),new ItemStack(Material.GOLD_LEGGINGS),new ItemStack(Material.DIAMOND_LEGGINGS)});
+		}, "Wï¿½hle eine Hose", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_LEGGINGS),new ItemStack(Material.IRON_LEGGINGS),new ItemStack(Material.GOLD_LEGGINGS),new ItemStack(Material.DIAMOND_LEGGINGS)});
 		this.leggings_choose.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -140,7 +140,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(leggings_choose);
 		this.boots_choose=new InventorySortChoose(new Click(){
 
@@ -152,7 +152,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		}, "Wähle deine Schuhe", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_BOOTS),new ItemStack(Material.IRON_BOOTS),new ItemStack(Material.GOLD_BOOTS),new ItemStack(Material.DIAMOND_BOOTS)});
+		}, "Wï¿½hle deine Schuhe", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_BOOTS),new ItemStack(Material.IRON_BOOTS),new ItemStack(Material.GOLD_BOOTS),new ItemStack(Material.DIAMOND_BOOTS)});
 		this.boots_choose.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -160,7 +160,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(boots_choose);
 		this.main_item_inventory1=new InventoryChoose(new Click(){
 
@@ -172,7 +172,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		},9, "Wähle ein Main Item", InventorySize._27.getSize(), new ItemStack[]{new ItemStack(Material.BOW),new ItemStack(Material.DIAMOND_SWORD),new ItemStack(Material.STONE_SWORD),new ItemStack(Material.IRON_SWORD),new ItemStack(Material.GOLD_SWORD),new ItemStack(Material.WOOD_SWORD),new ItemStack(Material.DIAMOND_AXE),new ItemStack(Material.STONE_AXE),new ItemStack(Material.IRON_AXE),new ItemStack(Material.GOLD_AXE),new ItemStack(Material.WOOD_AXE)});
+		},9, "Wï¿½hle ein Main Item", InventorySize._27.getSize(), new ItemStack[]{new ItemStack(Material.BOW),new ItemStack(Material.DIAMOND_SWORD),new ItemStack(Material.STONE_SWORD),new ItemStack(Material.IRON_SWORD),new ItemStack(Material.GOLD_SWORD),new ItemStack(Material.WOOD_SWORD),new ItemStack(Material.DIAMOND_AXE),new ItemStack(Material.STONE_AXE),new ItemStack(Material.IRON_AXE),new ItemStack(Material.GOLD_AXE),new ItemStack(Material.WOOD_AXE)});
 		this.main_item_inventory1.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -180,7 +180,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(main_item_inventory1);
 		this.main_item_inventory2=new InventoryChoose(new Click(){
 
@@ -192,7 +192,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		},9, "Wähle ein Main Item", InventorySize._27.getSize(), new ItemStack[]{new ItemStack(Material.BOW),new ItemStack(Material.DIAMOND_SWORD),new ItemStack(Material.STONE_SWORD),new ItemStack(Material.IRON_SWORD),new ItemStack(Material.GOLD_SWORD),new ItemStack(Material.WOOD_SWORD),new ItemStack(Material.DIAMOND_AXE),new ItemStack(Material.STONE_AXE),new ItemStack(Material.IRON_AXE),new ItemStack(Material.GOLD_AXE),new ItemStack(Material.WOOD_AXE)});
+		},9, "Wï¿½hle ein Main Item", InventorySize._27.getSize(), new ItemStack[]{new ItemStack(Material.BOW),new ItemStack(Material.DIAMOND_SWORD),new ItemStack(Material.STONE_SWORD),new ItemStack(Material.IRON_SWORD),new ItemStack(Material.GOLD_SWORD),new ItemStack(Material.WOOD_SWORD),new ItemStack(Material.DIAMOND_AXE),new ItemStack(Material.STONE_AXE),new ItemStack(Material.IRON_AXE),new ItemStack(Material.GOLD_AXE),new ItemStack(Material.WOOD_AXE)});
 		main_item_inventory2.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -200,7 +200,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(main_item_inventory2);
 		second_item1=new InventoryChoose(new Click(){
 
@@ -212,7 +212,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		},9, "Wähle ein Second Item", InventorySize._18.getSize(), loadSecondItems());
+		},9, "Wï¿½hle ein Second Item", InventorySize._18.getSize(), loadSecondItems());
 		second_item1.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -220,7 +220,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(second_item1);
 		second_item2=new InventoryChoose(new Click(){
 
@@ -232,7 +232,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		},9, "Wähle ein Second Item", InventorySize._18.getSize(), loadSecondItems());
+		},9, "Wï¿½hle ein Second Item", InventorySize._18.getSize(), loadSecondItems());
 		second_item2.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -240,7 +240,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(second_item2);
 		ItemStack[] i = loadPotions();
 		potion=new InventoryChoose(new Click(){
@@ -253,7 +253,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		},(45-i.length), "Wähle ein Potion Item", InventorySize._45.getSize(),i);
+		},(45-i.length), "Wï¿½hle ein Potion Item", InventorySize._45.getSize(),i);
 		potion.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -261,7 +261,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(potion);
 		
 		this.helm_enchant=new InventoryChoose(new Click(){
@@ -287,7 +287,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(helm_enchant);
 		
 		this.chestplate_enchant=new InventoryChoose(new Click(){
@@ -313,7 +313,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(chestplate_enchant);
 		
 		this.leggings_enchant=new InventoryChoose(new Click(){
@@ -339,7 +339,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(leggings_enchant);
 		
 		this.boots_enchant=new InventoryChoose(new Click(){
@@ -365,7 +365,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(boots_enchant);
 		
 		this.main_item_bow_enchant=new InventoryChoose(new Click(){
@@ -391,7 +391,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(main_item_bow_enchant);
 		
 		this.main_item_sword_enchant=new InventoryChoose(new Click(){
@@ -417,7 +417,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(main_item_sword_enchant);
 		
 		this.amount=new InventoryChoose(new Click(){
@@ -443,7 +443,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "Â§cZurÃ¼ck")));
 		this.base.addPage(amount);
 	}
 
@@ -574,7 +574,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.closeInventory();
 			}
 			
-		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)4), "§aKit Speichern")));
+		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)4), "ï¿½aKit Speichern")));
 		
 		
 		page.addButton(helm_place, new ButtonBase(new Click(){

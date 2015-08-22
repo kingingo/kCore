@@ -64,7 +64,7 @@ public class PetShop extends InventoryPageBase implements IPetShop,Listener{
 	private HashMap<UUID,String> settings = new HashMap<>();
 
 	public PetShop(final InventoryBase base,final PetManager manager,final PermissionManager permManager,final Coins coins){
-		super(manager.getInstance(),36,"Pet-Shop");
+		super(36,"Pet-Shop");
 		Bukkit.getPluginManager().registerEvents(this, permManager.getInstance());
 		this.manager=manager;
 		this.permManager=permManager;

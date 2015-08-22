@@ -20,7 +20,7 @@ public class InventoryLotto extends InventoryPageBase implements Listener{
 	private ItemStack[] items;
 	
 	public InventoryLotto(JavaPlugin instance,Click click,ItemStack[] items) {
-		super(instance, 27, "Lotto:");
+		super(27, "Lotto:");
 		this.items=items;
 		this.addButton(13,new ButtonBase(click));
 		setItem(4, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), " ") );

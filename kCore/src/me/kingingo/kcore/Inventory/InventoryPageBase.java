@@ -3,21 +3,15 @@ package me.kingingo.kcore.Inventory;
 import java.util.ArrayList;
 
 import lombok.Getter;
-import me.kingingo.kcore.Inventory.Item.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
-import me.kingingo.kcore.Util.UtilItem;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryCustom;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 
 
 public class InventoryPageBase extends CraftInventoryCustom{
@@ -25,10 +19,15 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	@Getter
 	private ArrayList<IButton> buttons;
 	
-	public InventoryPageBase(JavaPlugin instance,int size,String title){
+	public InventoryPageBase(int size,String title){
 		super(null,size,(title==null?"Inventory":title));
 		this.buttons=new ArrayList<>();
 	}
+	
+//	public InventoryPageBase(int size,String title){
+//	super(null, size, title);
+//	this.buttons=new ArrayList<>();
+//}
 	
 	public void useButton(Player player,ActionType type,ItemStack item,int slot){
 		for(IButton button : buttons){
@@ -57,11 +56,6 @@ public class InventoryPageBase extends CraftInventoryCustom{
 			else if(getItem(0)==null)return 0;
 		}
 		return 0;
-	}
-	
-	public InventoryPageBase(int size,String title){
-		super(null, size, title);
-		this.buttons=new ArrayList<>();
 	}
 	
 	public void fill(Material material){

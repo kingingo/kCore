@@ -36,7 +36,7 @@ public class InventoryBase extends kListener{
 		this.name=name;
 		this.pages= new ArrayList<>();
 		this.another= new ArrayList<>();
-		this.main=new InventoryPageBase(instance,main_size,name);
+		this.main=new InventoryPageBase(main_size,name);
 	}
 	
 	public InventoryBase(JavaPlugin instance,String name){
