@@ -4,13 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class CleanroomChunkGenerator extends ChunkGenerator
 {

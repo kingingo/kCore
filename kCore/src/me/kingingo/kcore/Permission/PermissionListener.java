@@ -43,6 +43,7 @@ public class PermissionListener extends kListener {
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 	    manager.loadPermission(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
+	    System.out.println("NAME: "+ev.getName()+" IP: "+ev.getAddress().getHostAddress());
 	}
 	
 	String p;
