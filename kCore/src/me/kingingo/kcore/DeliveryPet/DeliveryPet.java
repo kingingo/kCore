@@ -23,6 +23,9 @@ import me.kingingo.kcore.Pet.PetManager;
 import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.UtilEnt;
+import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilTime;
+import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 public class DeliveryPet extends kListener{
 
@@ -36,6 +39,7 @@ public class DeliveryPet extends kListener{
 	private Entity entity;
 	private DeliveryObject[] objects;
 	private HashMap<Player,InventoryPageBase> players;
+	private ServerType serverType;
 	
 	public DeliveryPet(DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm, StatsManager statsManager,PermissionManager permissionManager) {
 		super(statsManager.getMysql().getInstance(), "DeliveryPet");
@@ -47,12 +51,24 @@ public class DeliveryPet extends kListener{
 		hm.setName(entity, name);
 		UtilEnt.setNoAI(entity, true);
 		
+		this.serverType=serverType;
 		this.permissionManager=permissionManager;
 		this.statsManager=statsManager;
 		this.objects=objects;
 		this.players=new HashMap<>();
 		
 		this.base=new InventoryBase(statsManager.getMysql().getInstance(), "Delivery");
+	}
+	
+	public void deliverlyUSE(Player player,String name){
+		for(DeliveryObject obj : objects){
+			if(obj.displayname.equalsIgnoreCase(name)){
+				
+				statsManager.getMysql().Update("INSERT INTO delivery_"+serverType.name()+" (player,uuid,date,obj,time) VALUES ('"+player.getName()+"','"+UtilPlayer.getRealUUID(player)+"','"+UtilTime.date()+"','"+name+"','"+(System.currentTimeMillis()+obj.time)+"');");
+				obj.click.onClick(player, ActionType.R, obj);
+				break;
+			}
+		}
 	}
 	
 	@EventHandler
