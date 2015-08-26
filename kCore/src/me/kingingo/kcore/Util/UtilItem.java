@@ -43,10 +43,10 @@ public class UtilItem {
 	}
 	
 	public static HashMap<TreasureChestType,ArrayList<TreasureChestPackage>> treasureChestItemList(){
-		return treasureChestItemList(null, null, null);
+		return treasureChestItemList(null, null, null,null);
 	}
 	
-	public static HashMap<TreasureChestType,ArrayList<TreasureChestPackage>> treasureChestItemList(ServerType type,final PermissionManager permissionManager,final StatsManager statsManager){
+	public static HashMap<TreasureChestType,ArrayList<TreasureChestPackage>> treasureChestItemList(ServerType type,final PermissionManager permissionManager,final StatsManager statsManager,Coins coins){
 		if(ItemList==null){
 			ItemList = new HashMap<>();
 			
@@ -55,256 +55,404 @@ public class UtilItem {
 			ItemList.put(TreasureChestType.MYTHICAL, new ArrayList<TreasureChestPackage>());
 			
 			if(type==ServerType.PVP){
-				// - RÜSTUNG -
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_HELMET), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthelm"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_LEGGINGS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthose"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_CHESTPLATE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_BOOTS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
+				//RÜSTUNG #########################################################
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null,null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_HELMET), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthelm"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_LEGGINGS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthose"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_CHESTPLATE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_BOOTS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
 				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_HELMET), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthelm"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_LEGGINGS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthose"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_CHESTPLATE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_BOOTS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
-				// - RÜSTUNG -
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_HELMET), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthelm"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_LEGGINGS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthose"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_CHESTPLATE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_BOOTS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
 				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_PICKAXE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SPADE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SWORD), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschwert"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.BOW), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Bow"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_HELMET), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthelm"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_LEGGINGS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthose"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_CHESTPLATE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_BOOTS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_HELMET), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthelm"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_LEGGINGS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthose"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_CHESTPLATE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_BOOTS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
+				
+				//RÜSTUNG #########################################################
+				
+				//WEAPONS #########################################################
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_PICKAXE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SPADE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SWORD), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschwert"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.BOW), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Bow"), new String[]{"all"})));
 				
 				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_PICKAXE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SPADE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SWORD), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschwert"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_PICKAXE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SPADE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SWORD), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschwert"), new String[]{"all"})));
 				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,32), new String[]{"§7TreasureChest Item"}, "§bBedrock")));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_PICKAXE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SPADE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SWORD), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschwert"), new String[]{"all"})));
+				//WEAPONS #########################################################
+				
+				//ITEMS #########################################################
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,64), new String[]{"§7TreasureChest Item"}, "§bBedrock")));
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,5), new String[]{"§7TreasureChest Item"}, "§bMob-spawner")));
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,48,(byte)1), new String[]{"§7TreasureChest Item"}, "§bOp Äpfel")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,32), new String[]{"§7TreasureChest Item"}, "§bBedrock")));
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,3), new String[]{"§7TreasureChest Item"}, "§bMob-spawner")));
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,32,(byte)1), new String[]{"§7TreasureChest Item"}, "§bOp Äpfel")));
+				
+				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,16), new String[]{"§7TreasureChest Item"}, "§bBedrock")));
 				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,1), new String[]{"§7TreasureChest Item"}, "§bMob-spawner")));
 				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,16,(byte)1), new String[]{"§7TreasureChest Item"}, "§bOp Äpfel")));
+				//ITEMS #########################################################
 				
+				//PERKS #########################################################
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(new Click(){
 
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
-					
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_JUMP);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_JUMP.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_JUMP);
 					}
-				},UtilItem.Item(new ItemStack(Material.IRON_BOOTS,1), new String[]{"§7TreasureChest Item"}, "§bPerk Double Jump")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
 					
+				},UtilItem.Item(new ItemStack(Material.IRON_BOOTS,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Double Jump")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_NO_HUNGER);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_NO_HUNGER.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_NO_HUNGER);
 					}
-				},UtilItem.Item(new ItemStack(Material.COOKIE,1), new String[]{"§7TreasureChest Item"}, "§bPerk No Hunger")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
 					
+				},UtilItem.Item(new ItemStack(Material.COOKIE,1), new String[]{"§7TreasureChest Perks"}, "§cPerk No Hunger")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_NO_FIRE);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_NO_FIRE.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_NO_FIRE);
 					}
-				},UtilItem.Item(new ItemStack(Material.FIRE,1), new String[]{"§7TreasureChest Item"}, "§bPerk Anti Fire")));
+					
+				},UtilItem.Item(new ItemStack(Material.FIRE,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Anti Fire")));
 				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
-					
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
-						permissionManager.addPermission(player, kPermission.PERK_RUNNER);
-					}
-				},new BooleanClick() {
-					
-					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_RUNNER.getPermissionToString());
-					}
-				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8226), new String[]{"§7TreasureChest Item"}, "§bPerk Runner")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
-					
-					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_DOUBLE_XP);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_DOUBLE_XP.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_DOUBLE_XP);
 					}
-				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE,1), new String[]{"§7TreasureChest Item"}, "§bPerk Double XP")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
 					
+				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"§7TreasureChest Perks"}, "§cPerk Double XP")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_GET_XP);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_GET_XP.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_GET_XP);
 					}
-				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE,1), new String[]{"§7TreasureChest Item"}, "§bPerk get XP")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
 					
+				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Get XP")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_ITEM_NAME);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_ITEM_NAME.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_ITEM_NAME);
 					}
-				},UtilItem.Item(new ItemStack(Material.NAME_TAG,1), new String[]{"§7TreasureChest Item"}, "§bPerk Item Name")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
 					
+				},UtilItem.Item(new ItemStack(Material.NAME_TAG,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Item Name")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_DROPPER);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_DROPPER.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_DROPPER);
 					}
-				},UtilItem.Item(new ItemStack(Material.WATER_BUCKET,1), new String[]{"§7TreasureChest Item"}, "§bPerk Dropper")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
 					
+				},UtilItem.Item(new ItemStack(Material.BUCKET,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Dropper")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_GOLENAPPLE);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_GOLENAPPLE.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_GOLENAPPLE);
 					}
-				},UtilItem.Item(new ItemStack(Material.POTION,1), new String[]{"§7TreasureChest Item"}, "§bPerk Potion Clear")));
+					
+				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8236), new String[]{"§7TreasureChest Perks"}, "§cPerk Potion Clear")));
 				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
-					
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
-						permissionManager.addPermission(player, kPermission.PERK_GOLENAPPLE);
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_HEALER);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_GOLENAPPLE.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_HEALER);
 					}
-				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)16421), new String[]{"§7TreasureChest Item"}, "§bPerk Heal Potion")));
+					
+				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)16389), new String[]{"§7TreasureChest Perks"}, "§cPerk Heal Potion")));
 				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
-					
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_HAT);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_HAT.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_HAT);
 					}
-				},UtilItem.Item(new ItemStack(Material.SKULL_ITEM,1), new String[]{"§7TreasureChest Item"}, "§bPerk EnemyHead")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
 					
+				},UtilItem.Item(new ItemStack(Material.SKULL_ITEM,1,(byte)3), new String[]{"§7TreasureChest Perks"}, "§cPerk EnemyHead")));
+				
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_RUNNER);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_RUNNER);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8194), new String[]{"§7TreasureChest Perks"}, "§cPerk Runner")));
+				
+				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_APPLE);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_APPLE.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_APPLE);
 					}
-				},UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,1), new String[]{"§7TreasureChest Item"}, "§bPerk Goldenapple")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
 					
+				},UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,1), new String[]{"§7TreasureChest Perks"}, "§cPerk GoldenApple")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_ARROW_POTIONEFFECT);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_ARROW_POTIONEFFECT.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_ARROW_POTIONEFFECT);
 					}
-				},UtilItem.Item(new ItemStack(Material.ARROW,1), new String[]{"§7TreasureChest Item"}, "§bPerk Arrow Potion Effect")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
 					
+				},UtilItem.Item(new ItemStack(Material.ARROW,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Arrow Potion Effect")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						permissionManager.addPermission(player, kPermission.PERK_WATER_DAMAGE);
 					}
-				},new BooleanClick() {
 					
+				}, new BooleanClick(){
+
 					@Override
-					public boolean onBooleanClick(Player player, ActionType type, Object object) {
-						return player.hasPermission(kPermission.PERK_WATER_DAMAGE.getPermissionToString());
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_WATER_DAMAGE);
 					}
-				},UtilItem.Item(new ItemStack(Material.WATER,1), new String[]{"§7TreasureChest Item"}, "§bPerk no Waterdamage")));
+					
+				},UtilItem.Item(new ItemStack(Material.WATER,1), new String[]{"§7TreasureChest Perks"}, "§cPerk noWaterdamage")));
+				//PERKS #########################################################
 				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
+				//COINS #########################################################
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
-						statsManager.setInt(player, 500+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 2500+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
 					}
-				},null,UtilItem.Item(new ItemStack(Material.GOLD_INGOT,1), new String[]{"§7TreasureChest Item"}, "§b500 Epics")));
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b2500 Epics")));
 				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
 					@Override
-					public void onClick(Player player, ActionType type, Object object) {
-						statsManager.setInt(player, 1000+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
-					}
-				},null,UtilItem.Item(new ItemStack(Material.GOLD_INGOT,1), new String[]{"§7TreasureChest Item"}, "§b1000 Epics")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
-					@Override
-					public void onClick(Player player, ActionType type, Object object) {
-						statsManager.setInt(player, 1500+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
-					}
-				},null,UtilItem.Item(new ItemStack(Material.GOLD_INGOT,1), new String[]{"§7TreasureChest Item"}, "§b1500 Epics")));
-				
-				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click() {
-					@Override
-					public void onClick(Player player, ActionType type, Object object) {
+					public void onClick(Player player, ActionType type,
+							Object object) {
 						statsManager.setInt(player, 2000+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
 					}
-				},null,UtilItem.Item(new ItemStack(Material.GOLD_INGOT,1), new String[]{"§7TreasureChest Item"}, "§b2000 Epics")));
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b2000 Epics")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 1500+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b1500 Epics")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 1250+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b1250 Epics")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 1000+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b1000 Epics")));
+				
+				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 1000+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b1000 Epics")));
+				
+				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 750+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b750 Epics")));
+				
+				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 500+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b500 Epics")));
+				
+				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 250+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b250 Epics")));
+				//COINS #########################################################
 			}
 		}
 		return ItemList;

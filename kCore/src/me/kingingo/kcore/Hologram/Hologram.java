@@ -11,6 +11,7 @@ import me.kingingo.kcore.Util.UtilServer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -69,7 +70,7 @@ public class Hologram implements Listener{
 		list.clear();
 	}
 	
-	public void setName(final Creature c,String name) {
+	public void setName(final Entity c,String name) {
 		creatures.remove(c.getEntityId());
 		try {
 			final NameTagMessage message = new NameTagMessage(name);
