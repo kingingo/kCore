@@ -9,6 +9,9 @@ import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import me.kingingo.kcore.Inventory.InventoryBase;
+import me.kingingo.kcore.Inventory.InventoryPageBase;
+
 import org.apache.commons.codec.binary.Base64InputStream;
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.bukkit.entity.Player;
@@ -167,6 +170,27 @@ public class UtilList {
 				}
 				
 				if(!b){
+					list.remove(i);
+				}
+			}
+		}
+	}
+	
+	public static void CleanList(HashMap<?,?> list,InventoryBase base){
+		if(list.isEmpty())return;
+		if(list.keySet().toArray()[0] instanceof Player&&list.values().toArray()[0] instanceof InventoryPageBase){
+			boolean b = false;
+			for(int i = 0; i<list.size(); i++){
+				b=false;
+				for(Player player : UtilServer.getPlayers()){
+					if(player.getName().equalsIgnoreCase( ((Player)list.keySet().toArray()[i]).getName() )){
+						b=true;
+						break;
+					}
+				}
+				
+				if(!b){
+					base.getPages().remove(list.get(i));
 					list.remove(i);
 				}
 			}

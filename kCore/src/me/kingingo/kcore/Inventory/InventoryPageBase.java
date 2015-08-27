@@ -24,10 +24,10 @@ public class InventoryPageBase extends CraftInventoryCustom{
 		this.buttons=new ArrayList<>();
 	}
 	
-//	public InventoryPageBase(int size,String title){
-//	super(null, size, title);
-//	this.buttons=new ArrayList<>();
-//}
+	public InventoryPageBase(InventorySize size,String title){
+		super(null, size.getSize(), title);
+		this.buttons=new ArrayList<>();
+	}
 	
 	public void useButton(Player player,ActionType type,ItemStack item,int slot){
 		for(IButton button : buttons){
