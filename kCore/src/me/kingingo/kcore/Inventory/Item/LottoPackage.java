@@ -1,5 +1,8 @@
 package me.kingingo.kcore.Inventory.Item;
 
+import lombok.Getter;
+import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2;
+import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2.InventoryLotto2Type;
 import me.kingingo.kcore.Inventory.Item.BooleanClick;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.SalesPackageBase;
@@ -12,10 +15,13 @@ public class LottoPackage extends SalesPackageBase{
 
 	//Überprüft ob der User dies schon besitzt!
 	private BooleanClick booleanClick;
+	@Getter
+	private InventoryLotto2.InventoryLotto2Type type;
 	
-	public LottoPackage(Click click,BooleanClick booleanClick,ItemStack itemStack) {
+	public LottoPackage(Click click,BooleanClick booleanClick,ItemStack itemStack,InventoryLotto2Type type) {
 		super(click, itemStack);
 		this.booleanClick=booleanClick;
+		this.type=type;
 	}
 	
 	public void click(Player player){

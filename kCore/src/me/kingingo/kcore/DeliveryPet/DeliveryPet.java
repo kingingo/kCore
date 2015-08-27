@@ -9,7 +9,11 @@ import me.kingingo.kcore.Hologram.Hologram;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Inventory.DeliveryInventoryPage;
+import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2;
 import me.kingingo.kcore.Inventory.Item.ButtonBase;
+import me.kingingo.kcore.Inventory.Item.ButtonOpenInventory;
+import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -20,6 +24,7 @@ import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.UtilEnt;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilList;
 import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilPlayer;
@@ -27,11 +32,13 @@ import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 import ru.tehkode.libs.net.gravitydevelopment.updater.Updater.UpdateResult;
 
@@ -45,6 +52,8 @@ public class DeliveryPet extends kListener{
 	private PermissionManager permissionManager;
 	@Getter
 	private InventoryBase base;
+	@Getter
+	private InventoryLotto2 lotto;
 	@Getter
 	private Entity entity;
 	private HashMap<String,DeliveryObject> objects;
@@ -70,6 +79,8 @@ public class DeliveryPet extends kListener{
 		this.players_obj=new HashMap<>();
 		this.players=new HashMap<>();
 		this.base=new InventoryBase(statsManager.getMysql().getInstance(), "Delivery");
+		this.lotto=new InventoryLotto2("Play a Round!", statsManager.getMysql().getInstance());
+		this.base.addPage(lotto);
 	}
 	
 	@EventHandler
@@ -77,6 +88,10 @@ public class DeliveryPet extends kListener{
 		if(ev.getType()==UpdateType.MIN_64){
 			UtilList.CleanList(players,base);
 			UtilList.CleanList(players_obj);
+		}
+		
+		if(ev.getType()==UpdateType.TICK){
+			
 		}
 		
 		if(ev.getType()==UpdateType.SEC){
@@ -112,6 +127,20 @@ public class DeliveryPet extends kListener{
 			if(!players.containsKey(ev.getPlayer())){
 				players.put(ev.getPlayer(), new DeliveryInventoryPage(InventorySize._45.getSize(), ev.getPlayer().getName()+" "+"Delivery",this));
 				base.addPage(players.get(ev.getPlayer()));
+				players.get(ev.getPlayer()).addButton(31, new ButtonBase(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type, Object object) {
+						if(lotto.getWin()==null){
+							ItemStack win = null;
+							
+							lotto.newRound(win);
+						}else{
+							player.sendMessage(Language.getText(player, "PREFIX")+" §cBESETZT");
+						}
+					}
+					
+				}, Material.JUKEBOX, "Lotto"));
 				if(!players_obj.containsKey(ev.getPlayer()))players_obj.put(ev.getPlayer(), new HashMap<String,Long>());
 				
 				try

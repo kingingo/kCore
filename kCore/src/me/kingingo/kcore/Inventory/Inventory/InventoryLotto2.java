@@ -1,24 +1,82 @@
 package me.kingingo.kcore.Inventory.Inventory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
+import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.LottoPackage;
+import me.kingingo.kcore.Update.UpdateType;
+import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
+import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 
-public class InventoryLotto2 extends InventoryPageBase{
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+import org.bukkit.plugin.java.JavaPlugin;
 
-	public InventoryLotto2(String title,HashMap<InventoryLotto2Type,ArrayList<LottoPackage>> list) {
+public class InventoryLotto2 extends InventoryPageBase implements Listener{
+
+	@Getter
+	@Setter
+	private ArrayList<LottoPackage> list;
+	@Getter
+	@Setter
+	private ItemStack win;
+	@Getter
+	@Setter
+	private int durchlauf;
+	private int list_i;
+	private Click win_click;
+	
+	public InventoryLotto2(String title,JavaPlugin instance) {
 		super(InventorySize._27, title);
+		this.list_i=0;
+		this.durchlauf=0;
 		if(list!=null&&!list.isEmpty()){
 			setItem(4, UtilItem.RenameItem(new ItemStack(Material.HOPPER), " "));
+			Bukkit.getPluginManager().registerEvents(this, instance);
 		}
+	}
+	
+	public void newRound(ItemStack win){
+		this.win=win;
+		this.list_i=0;
+		this.durchlauf=0;
+	}
+	
+	@EventHandler
+	public void UpdateEvent(UpdateEvent ev){
+		if(ev.getType()!=UpdateType.TICK||win==null)return;
+		for(int i = 9; i <= 17; i++){
+			setItemWithPlane(list.get(list_i),i);
+			list_i++;
+			
+			if(i==13&&UtilItem.ItemNameEquals(getItem(13), win)){
+				durchlauf++;
+				if(durchlauf>=2){
+					win_click.onClick(((Player)getViewers().get(0)), ActionType.R, win);
+					win=null;
+				}
+			}
+			
+			if(list.size()<list_i||list.size()==list_i){
+				list_i=0;
+			}
+		}
+	}
+	
+	public void setItemWithPlane(LottoPackage l,int slot){
+		if(getItem(slot-9).getType()==Material.STAINED_GLASS_PANE)getItem(slot-9).setData(new MaterialData(l.getType().getMaterial(), l.getType().getData()));
+		setItem(slot, l.getItemStack());
+		if(getItem(slot+9).getType()==Material.STAINED_GLASS_PANE)getItem(slot+9).setData(new MaterialData(l.getType().getMaterial(), l.getType().getData()));
 	}
 	
 	public enum InventoryLotto2Type{
