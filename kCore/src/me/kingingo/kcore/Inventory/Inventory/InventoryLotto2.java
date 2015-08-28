@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
-import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.LottoPackage;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
@@ -26,27 +25,26 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 
 	@Getter
 	@Setter
-	private ArrayList<LottoPackage> list;
+	private LottoPackage[] list;
 	@Getter
 	@Setter
-	private ItemStack win;
+	private LottoPackage win;
 	@Getter
 	@Setter
 	private int durchlauf;
 	private int list_i;
-	private Click win_click;
 	
 	public InventoryLotto2(String title,JavaPlugin instance) {
 		super(InventorySize._27, title);
 		this.list_i=0;
 		this.durchlauf=0;
-		if(list!=null&&!list.isEmpty()){
+		if(list!=null){
 			setItem(4, UtilItem.RenameItem(new ItemStack(Material.HOPPER), " "));
 			Bukkit.getPluginManager().registerEvents(this, instance);
 		}
 	}
 	
-	public void newRound(ItemStack win){
+	public void newRound(LottoPackage win){
 		this.win=win;
 		this.list_i=0;
 		this.durchlauf=0;
@@ -56,18 +54,18 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 	public void UpdateEvent(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.TICK||win==null)return;
 		for(int i = 9; i <= 17; i++){
-			setItemWithPlane(list.get(list_i),i);
+			setItemWithPlane(list[list_i],i);
 			list_i++;
 			
-			if(i==13&&UtilItem.ItemNameEquals(getItem(13), win)){
+			if(i==13&&UtilItem.ItemNameEquals(getItem(13), win.getItemStack())){
 				durchlauf++;
 				if(durchlauf>=2){
-					win_click.onClick(((Player)getViewers().get(0)), ActionType.R, win);
+					win.Clicked(((Player)getViewers().toArray()[0]), ActionType.R, win);
 					win=null;
 				}
 			}
 			
-			if(list.size()<list_i||list.size()==list_i){
+			if(list.length<list_i||list.length==list_i){
 				list_i=0;
 			}
 		}

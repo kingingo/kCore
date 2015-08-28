@@ -1,6 +1,7 @@
 package me.kingingo.kcore.DeliveryPet;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
@@ -10,9 +11,11 @@ import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Inventory.DeliveryInventoryPage;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2;
+import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2.InventoryLotto2Type;
 import me.kingingo.kcore.Inventory.Item.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.ButtonOpenInventory;
 import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Inventory.Item.LottoPackage;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQLErr;
@@ -26,6 +29,7 @@ import me.kingingo.kcore.Util.UtilEnt;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilList;
+import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilTime;
@@ -60,6 +64,8 @@ public class DeliveryPet extends kListener{
 	private HashMap<Player,DeliveryInventoryPage> players;
 	private HashMap<Player,HashMap<String,Long>> players_obj;
 	private ServerType serverType;
+	@Getter
+	private HashMap<InventoryLotto2Type, ArrayList<LottoPackage>> packages;
 	
 	public DeliveryPet(DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm, StatsManager statsManager,PermissionManager permissionManager) {
 		super(statsManager.getMysql().getInstance(), "DeliveryPet");
@@ -90,10 +96,6 @@ public class DeliveryPet extends kListener{
 			UtilList.CleanList(players_obj);
 		}
 		
-		if(ev.getType()==UpdateType.TICK){
-			
-		}
-		
 		if(ev.getType()==UpdateType.SEC){
 			for(Player player : players.keySet()){
 				if(player.isOnline()&&!players.get(player).getViewers().isEmpty()){
@@ -121,6 +123,84 @@ public class DeliveryPet extends kListener{
 		return new String[]{"Du kannst das Item in "+UtilTime.formatMili(players_obj.get(player).get(name)-System.currentTimeMillis())+" benutzten"};
 	}
 	
+	public LottoPackage[] randomPackages(Player player){
+		LottoPackage[] ps = new LottoPackage[18];
+		
+		int common=6;
+		int uncommon=5;
+		int rare=4;
+		int legendary=2;
+		int divine=0;
+		
+		if(UtilMath.r( 100000 ) == 5356){
+			divine++;
+		}else{
+			legendary++;
+		}
+		
+		for(int i = 0; i<ps.length; i++){
+			if(common != 0){
+				ps[i]=packages.get(InventoryLotto2Type.COMMON).get( UtilMath.r(packages.get(InventoryLotto2Type.COMMON).size()) );
+				
+				if(ps[i].hasPlayer(player)){
+					ps[i]=null;
+					i--;
+				}else{
+					common--;
+				}
+			}else if(uncommon != 0){
+				ps[i]=packages.get(InventoryLotto2Type.UNCOMMON).get( UtilMath.r(packages.get(InventoryLotto2Type.UNCOMMON).size()) );
+
+				if(ps[i].hasPlayer(player)){
+					ps[i]=null;
+					i--;
+				}else{
+					uncommon--;
+				}
+			}else if(rare != 0){
+				ps[i]=packages.get(InventoryLotto2Type.RARE).get( UtilMath.r(packages.get(InventoryLotto2Type.RARE).size()) );
+
+				if(ps[i].hasPlayer(player)){
+					ps[i]=null;
+					i--;
+				}else{
+					rare--;
+				}
+			}else if(legendary != 0){
+				ps[i]=packages.get(InventoryLotto2Type.LEGENDARY).get( UtilMath.r(packages.get(InventoryLotto2Type.LEGENDARY).size()) );
+				
+				if(ps[i].hasPlayer(player)){
+					ps[i]=null;
+					i--;
+				}else{
+					legendary--;
+				}
+			}else if(divine != 0){
+				ps[i]=packages.get(InventoryLotto2Type.DIVINE).get( UtilMath.r(packages.get(InventoryLotto2Type.DIVINE).size()) );
+				
+				if(ps[i].hasPlayer(player)){
+					ps[i]=null;
+					i--;
+				}else{
+					divine--;
+				}
+			}
+		}
+		
+		LottoPackage[] ps1 =new LottoPackage[18];
+		int r;
+		for(int i = 0; i<ps.length; i++){
+			r=UtilMath.r(ps.length);
+			if(ps1[r]!=null){
+				i--;
+				continue;
+			}
+			ps1[r]=ps[i];
+		}
+		
+		return ps1;
+	}
+	
 	@EventHandler
 	public void Open(PlayerInteractAtEntityEvent ev){
 		if(ev.getRightClicked().getEntityId() == entity.getEntityId()){
@@ -132,8 +212,9 @@ public class DeliveryPet extends kListener{
 					@Override
 					public void onClick(Player player, ActionType type, Object object) {
 						if(lotto.getWin()==null){
-							ItemStack win = null;
-							
+							LottoPackage[] list = randomPackages(player);
+							LottoPackage win = list[UtilMath.r(list.length)];
+							lotto.setList(list);
 							lotto.newRound(win);
 						}else{
 							player.sendMessage(Language.getText(player, "PREFIX")+" §cBESETZT");
