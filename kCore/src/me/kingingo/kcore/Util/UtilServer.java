@@ -6,11 +6,11 @@ import java.util.List;
 
 import lombok.Getter;
 import me.kingingo.kcore.Language.Language;
+import me.kingingo.kcore.Monitor.LagMeter;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.TEAM_MESSAGE;
 import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
 import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.lag.Lag;
 import net.minecraft.server.v1_8_R3.EntityHorse;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EntityWitherSkull;
@@ -37,15 +37,42 @@ public class UtilServer{
 	
 	@Getter
 	private static boolean loghandleradded = false;
+	@Getter
 	private static kPacketListener listener;
-	private static Lag lag;
+	@Getter
+	private static LagMeter lagMeter;
 	
-	public static void createLagListener(JavaPlugin instance){
-		if(lag==null)lag=new Lag(instance);
+	public static LagMeter createLagListener(JavaPlugin instance){
+		if(lagMeter==null)lagMeter=new LagMeter(instance);
+		return lagMeter;
 	}
 	
-	public static void createPacketListener(JavaPlugin instance){
+	public static kPacketListener createPacketListener(JavaPlugin instance){
 		if(listener==null)listener=new kPacketListener(instance);
+		return listener;
+	}
+	
+	public static void DebugLog(long time,String[] Reason,String c){
+		System.err.println("[DebugMode]: Class: "+c);
+		for(String r : Reason){
+			System.err.println("[DebugMode]: Reason: "+r);
+		}
+		System.err.println("[DebugMode]: Zeit: "+ ((System.currentTimeMillis()-time) / 1000.0D) + " Seconds");
+	}
+	
+	public static void DebugLog(long time,String Reason,String c){
+		System.err.println("[DebugMode]: Class: "+c);
+		System.err.println("[DebugMode]: Reason: "+Reason);
+		System.err.println("[DebugMode]: Zeit: "+ ((System.currentTimeMillis()-time) / 1000.0D) + " Seconds");
+	}
+	
+	public static void DebugLog(long time,String c){
+		System.err.println("[DebugMode]: Class: "+c);
+		System.err.println("[DebugMode]: Zeit: "+ ((System.currentTimeMillis()-time) / 1000.0D) + " Seconds");
+	}
+	
+	public static void DebugLog(String m){
+		System.err.println("[DebugMode]: "+m);
 	}
 	
 	public static List<Integer> showLine(Location loc, String text) {

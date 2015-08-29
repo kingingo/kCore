@@ -29,8 +29,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 
-import com.earth2me.essentials.OfflinePlayer;
-
 public class PermissionListener extends kListener {
 	
 	private PermissionManager manager;
@@ -60,7 +58,6 @@ public class PermissionListener extends kListener {
 			}
 		}
 	    manager.loadPermission(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
-	    System.out.println("NAME: "+ev.getName()+" IP: "+ev.getAddress().getHostAddress());
 	}
 	
 	String p;
@@ -69,110 +66,110 @@ public class PermissionListener extends kListener {
 	public void loadList(UpdateEvent ev){
 		if(ev.getType()==UpdateType.SEC_3){
 			if(!manager.getLoad_now().isEmpty()){
-				cloned=(ArrayList<UUID>)manager.getLoad_now().clone();
-				for(Player player : UtilServer.getPlayers()){
-					uuid=UtilPlayer.getRealUUID(player);
-					if(cloned.contains(uuid)){
-						if(UtilPlayer.getRealUUID(player).equals(uuid)){
-							if(player.isOp())player.setOp(false);
-							if(!manager.getPlist().containsKey(uuid))manager.getPlist().put(uuid, player.addAttachment(manager.getInstance()));
-							list = reflectMap(manager.getPlist().get(uuid));
-							list.clear();
-							
-							if(manager.getLoad().containsKey(uuid)){
-								
-								for(String perm : manager.getLoad().get(uuid)){
-									if(perm.equalsIgnoreCase(kPermission.ALL_PERMISSION.getPermissionToString())){
-										player.setOp(true);
-										break;
-									}
-									if(!player.isOp())if(!perm.substring(0, 1).equalsIgnoreCase("-")&&!manager.getPlist().get(uuid).getPermissions().containsKey(perm.toLowerCase())){
-										if(Bukkit.getPluginManager().getPermission(perm)==null){
-							    			  Bukkit.getPluginManager().addPermission(new Permission(perm));
-							    		}
-										list.put(perm.toLowerCase(), true);
+						cloned=(ArrayList<UUID>)manager.getLoad_now().clone();
+						for(Player player : UtilServer.getPlayers()){
+							uuid=UtilPlayer.getRealUUID(player);
+							if(cloned.contains(uuid)){
+								if(UtilPlayer.getRealUUID(player).equals(uuid)){
+									if(player.isOp())player.setOp(false);
+									if(!manager.getPlist().containsKey(uuid))manager.getPlist().put(uuid, player.addAttachment(manager.getInstance()));
+									list = reflectMap(manager.getPlist().get(uuid));
+									list.clear();
+									
+									if(manager.getLoad().containsKey(uuid)){
 										
-										if(perm.startsWith("epicpvp.timer.")){
-											p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
-											if(!manager.getPlist().get(uuid).getPermissions().containsKey(p)){
-												if(Bukkit.getPluginManager().getPermission(p)==null){
-													Bukkit.getPluginManager().addPermission(new Permission(p));
-												}
-												list.put(p.toLowerCase(), true);
+										for(String perm : manager.getLoad().get(uuid)){
+											if(perm.equalsIgnoreCase(kPermission.ALL_PERMISSION.getPermissionToString())){
+												player.setOp(true);
+												break;
 											}
-										}
-									}
-								}	
-							}
-							
-								if(manager.getPgroup().containsKey(uuid)){
-									if(!player.isOp()){
-									for(String perm : manager.getGroups().get(manager.getPgroup().get(uuid)).getPerms() ){
-										if(perm.equalsIgnoreCase(kPermission.ALL_PERMISSION.getPermissionToString())){
-											player.setOp(true);
-											break;
-										}
-										if(!perm.substring(0, 1).equalsIgnoreCase("-")&&!manager.getPlist().get(uuid).getPermissions().containsKey(perm.toLowerCase())){
-											if(Bukkit.getPluginManager().getPermission(perm)==null){
-								    			  Bukkit.getPluginManager().addPermission(new Permission(perm));
-								    		}
-											
-											list.put(perm.toLowerCase(), true);	
-											
-											if(perm.startsWith("epicpvp.timer.")){
-												p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
-												if(!manager.getPlist().get(uuid).getPermissions().containsKey(p)){
-													if(Bukkit.getPluginManager().getPermission(p)==null){
-														Bukkit.getPluginManager().addPermission(new Permission(p));
+											if(!player.isOp())if(!perm.substring(0, 1).equalsIgnoreCase("-")&&!manager.getPlist().get(uuid).getPermissions().containsKey(perm.toLowerCase())){
+												if(Bukkit.getPluginManager().getPermission(perm)==null){
+									    			  Bukkit.getPluginManager().addPermission(new Permission(perm));
+									    		}
+												list.put(perm.toLowerCase(), true);
+												
+												if(perm.startsWith("epicpvp.timer.")){
+													p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
+													if(!manager.getPlist().get(uuid).getPermissions().containsKey(p)){
+														if(Bukkit.getPluginManager().getPermission(p)==null){
+															Bukkit.getPluginManager().addPermission(new Permission(p));
+														}
+														list.put(p.toLowerCase(), true);
 													}
-													list.put(p.toLowerCase(), true);
+												}
+											}
+										}	
+									}
+									
+										if(manager.getPgroup().containsKey(uuid)){
+											if(!player.isOp()){
+											for(String perm : manager.getGroups().get(manager.getPgroup().get(uuid)).getPerms() ){
+												if(perm.equalsIgnoreCase(kPermission.ALL_PERMISSION.getPermissionToString())){
+													player.setOp(true);
+													break;
+												}
+												if(!perm.substring(0, 1).equalsIgnoreCase("-")&&!manager.getPlist().get(uuid).getPermissions().containsKey(perm.toLowerCase())){
+													if(Bukkit.getPluginManager().getPermission(perm)==null){
+										    			  Bukkit.getPluginManager().addPermission(new Permission(perm));
+										    		}
+													
+													list.put(perm.toLowerCase(), true);	
+													
+													if(perm.startsWith("epicpvp.timer.")){
+														p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
+														if(!manager.getPlist().get(uuid).getPermissions().containsKey(p)){
+															if(Bukkit.getPluginManager().getPermission(p)==null){
+																Bukkit.getPluginManager().addPermission(new Permission(p));
+															}
+															list.put(p.toLowerCase(), true);
+														}
+													}
 												}
 											}
 										}
-									}
-								}
-								
-								if(!player.isOp()){
-									for(String perm : manager.getGroups().get(manager.getPgroup().get(uuid)).getPerms()){
-										if(perm.substring(0, 1).equalsIgnoreCase("-")){
-											if(perm.substring(1, perm.length()).contains("epicpvp.timer.")){
-												p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
-												list.remove(p);
+										
+										if(!player.isOp()){
+											for(String perm : manager.getGroups().get(manager.getPgroup().get(uuid)).getPerms()){
+												if(perm.substring(0, 1).equalsIgnoreCase("-")){
+													if(perm.substring(1, perm.length()).contains("epicpvp.timer.")){
+														p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
+														list.remove(p);
+													}
+													list.remove(perm.substring(1, perm.length()));
+												}
 											}
-											list.remove(perm.substring(1, perm.length()));
+											
+											if(manager.getLoad().containsKey(uuid)){
+												for(String perm : manager.getLoad().get(uuid)){
+													if(perm.substring(0, 1).equalsIgnoreCase("-")){
+														if(perm.substring(1, perm.length()).contains("epicpvp.timer.")){
+															p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
+															list.remove(p);
+														}
+														list.remove(perm.substring(1, perm.length()).toLowerCase());
+													}
+												}
+											}
 										}
 									}
 									
-									if(manager.getLoad().containsKey(uuid)){
-										for(String perm : manager.getLoad().get(uuid)){
-											if(perm.substring(0, 1).equalsIgnoreCase("-")){
-												if(perm.substring(1, perm.length()).contains("epicpvp.timer.")){
-													p = perm.substring(0, ("epicpvp.timer.".length()+ perm.substring("epicpvp.timer.".length(),perm.length()).substring(0,perm.substring("epicpvp.timer.".length(),perm.length()).indexOf(".")).length())).toLowerCase();
-													list.remove(p);
-												}
-												list.remove(perm.substring(1, perm.length()).toLowerCase());
-											}
-										}
+									player.recalculatePermissions();
+									manager.getLoad().remove(uuid);
+									manager.getLoad_now().remove(uuid);
+									try{
+										manager.setTabList(player);
+									}catch(IllegalArgumentException e){
+										Log("TabList Spieler: "+player.getName()+" Error:");
+										e.printStackTrace();
 									}
+									
+									Bukkit.getPluginManager().callEvent(new PlayerLoadPermissionEvent(manager, player));
 								}
-							}
-							
-							player.recalculatePermissions();
-							manager.getLoad().remove(uuid);
-							manager.getLoad_now().remove(uuid);
-							try{
-								manager.setTabList(player);
-							}catch(IllegalArgumentException e){
-								Log("TabList Spieler: "+player.getName()+" Error:");
-								e.printStackTrace();
-							}
-							
-							Bukkit.getPluginManager().callEvent(new PlayerLoadPermissionEvent(manager, player));
-						}
-					}	
-				}	
-				cloned.clear();
-				cloned=null;
+							}	
+						}	
+						cloned.clear();
+						cloned=null;
 			}
 		}
 	}
