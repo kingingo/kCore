@@ -539,10 +539,18 @@ public class Language {
 			add(type,"EXP_ME_TO_HIS","§7You send §e{INPUT1} Exp§7 to §a{INPUT0}§7!");
 			add(type,"GO","§a§lGO");
 			add(type,"TELEPORT_TO_DEATHMATCH_ARENA","§7You will get teleported to the Deathmatch-Arena in §e{INPUT0}§7!");
+		    add(type, "CAPTCHA_ENTER", "§aPlease enter the Captcha Text §7/captcha [CAPTCHA]");
+		    add(type, "CAPTCHA_FALSE", "§cCaptcha is incorrect!");
+		    add(type, "CAPTCHA_FIRST_ENTER", "§cPlease enter the Captcha first, before register §7/captcha [CAPTCHA]");
+	        add(type, "CAPTCHA_CHANGE", "§cCaptcha changed!");
 		}
 		
 		if(type==LanguageType.GERMAN){
 			if(!list.containsKey(LanguageType.GERMAN))list.put(LanguageType.GERMAN, new HashMap<String,String>());
+			add(type, "CAPTCHA_ENTER", "§aBitte gib den Captcha Text §7/captcha [CAPTCHA]");
+	        add(type, "CAPTCHA_CHANGE", "§cDas Captcha wurde geaendert!");
+		    add(type, "CAPTCHA_FALSE", "§cDas Captcha ist falsch!");
+		    add(type, "CAPTCHA_FIRST_ENTER", "§cGib bitte erst das Captcha ein, bevor du dich registrierst §7/captcha [CAPTCHA]");
 			add(type,"GAME_LEAVE","§a{INPUT0} §7hat das Spiel verlassen!");
 			add(type,"GAME_ENTER","§a{INPUT0} §7hat das Spiel betreten! §e({INPUT1}/{INPUT2})");
 			add(type, "MSG_NOT_FOUND", "§cDie Nachricht §e{INPUT0} §cwurde nicht gefunden! Bitte kontaktiere einen Administrator.");

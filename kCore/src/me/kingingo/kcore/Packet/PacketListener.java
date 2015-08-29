@@ -21,5 +21,4 @@ public class PacketListener extends kListener{
 		Packet packet = pManager.getPacket(ev.getMessage());
 		if(packet!=null)Bukkit.getPluginManager().callEvent(new PacketReceiveEvent(packet));
 	}
-	
 }

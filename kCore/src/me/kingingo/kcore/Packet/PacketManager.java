@@ -14,6 +14,7 @@ import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_REMOVE_ALL;
 import me.kingingo.kcore.Packet.Packets.PLAYER_LANGUAGE_CHANGE;
 import me.kingingo.kcore.Packet.Packets.PLAYER_VOTE;
+import me.kingingo.kcore.Packet.Packets.PROTECTION_CAPTCHA;
 import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
 import me.kingingo.kcore.Packet.Packets.SERVER_INFO_ALL;
 import me.kingingo.kcore.Packet.Packets.SERVER_READY;
@@ -101,6 +102,8 @@ public class PacketManager {
 			return new NICK_SET(packet.split("-/-"));
 		}else if(packet.contains("PLAYER_LANGUAGE_CHANGE")){
 			return new PLAYER_LANGUAGE_CHANGE(packet.split("-/-"));
+		}else if(packet.contains("PROTECTION_CAPTCHA")){
+			return new PROTECTION_CAPTCHA(packet.split("-/-"));
 		}
 	 return null;
 	}

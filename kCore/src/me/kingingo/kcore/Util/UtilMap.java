@@ -1,16 +1,25 @@
 package me.kingingo.kcore.Util;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 import net.minecraft.server.v1_8_R3.EntityEnderCrystal;
+import net.minecraft.server.v1_8_R3.MapIcon;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutMap;
 import net.minecraft.server.v1_8_R3.RegionFile;
 import net.minecraft.server.v1_8_R3.RegionFileCache;
 
@@ -19,15 +28,99 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.map.RenderData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.world.WorldUnloadEvent;
+import org.bukkit.map.MapCursor;
+import org.bukkit.map.MapRenderer;
+import org.bukkit.map.MapView;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class UtilMap{
 	
 	public static HashMap<Integer,ArrayList<EntityEnderCrystal>> list_entitys = new HashMap<>();
 
+	public static File getMapPicture(){
+		File folder = new File("pictures");
+		if(!folder.exists())folder.mkdirs();
+		return folder.listFiles()[UtilMath.r(folder.listFiles().length)];
+	}
+	
+	public static File[] getMapPictures(){
+		File folder = new File("pictures");
+		if(!folder.exists())folder.mkdirs();
+		return folder.listFiles();
+	}
+	
+	public static PacketPlayOutMap getMap(File file){
+		RenderData data = getRenderData(file);
+		
+		 Collection icons = new ArrayList();
+		    for (MapCursor cursor : data.cursors) {
+		      if (cursor.isVisible()) {
+		        icons.add(new MapIcon(cursor.getRawType(), cursor.getX(), cursor.getY(), cursor.getDirection()));
+		      }
+		    }
+
+		return new PacketPlayOutMap(Bukkit.getMap((short)0).getId(), Bukkit.getMap((short)0).getScale().getValue(), icons, data.buffer, 0, 0, 0, 0);
+	}
+	
+	public static RenderData getRenderData(File file) {
+		Image image = null;
+	    try {
+	        image = ImageIO.read(file);
+	    } catch (IOException exc) {
+	        exc.printStackTrace();
+	    }
+		RenderData render = new RenderData();
+		MapRenderer mapRenderer = new ImageMapRenderer(image);
+		
+		Arrays.fill(render.buffer, (byte)0);
+		render.cursors.clear();
+		
+		FakeMapCanvas canvas = new FakeMapCanvas();
+		canvas.setBase(render.buffer);
+		mapRenderer.render(canvas.getMapView(), canvas, null);
+		
+		byte[] buf = canvas.getBuffer();
+		for (int i = 0; i < buf.length; i++) {
+			byte color = buf[i];
+			if ((color >= 0) || (color <= -113)) render.buffer[i] = color;
+		}
+		
+		return render;
+	}
+	
+	public static MapView MapRender(String pictureName){
+		return MapRender(new File("pictures"+File.separator+pictureName+".png"));
+	}
+	
+	public static MapView MapRender(File file){
+		Image image = null;
+        try {
+            image = ImageIO.read(file);
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+        
+        MapView v = Bukkit.getMap((short)0);
+        if(v==null){
+        	System.out.println("V==NULL");
+        	v=Bukkit.createMap(Bukkit.getWorlds().get(0));
+        }
+        
+        if(v!=null&&!v.getRenderers().isEmpty()){
+        	 for (MapRenderer renderer : v.getRenderers()){
+                 v.removeRenderer(renderer);
+             }
+        }
+       
+        v.addRenderer(new ImageMapRenderer(image));
+        
+        return v;
+	}
+	
 	public static void loadParticle(HashMap<Integer, ArrayList<Location>> list,Location loc, int r){
 		int cx = loc.getBlockX();
         int cy = 5000;

@@ -23,10 +23,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
+
+import com.earth2me.essentials.OfflinePlayer;
 
 public class PermissionListener extends kListener {
 	
@@ -42,6 +45,20 @@ public class PermissionListener extends kListener {
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
+		if(Bukkit.hasWhitelist()){
+			boolean b = false;
+			for(org.bukkit.OfflinePlayer of : Bukkit.getWhitelistedPlayers()){
+				if(of.getUniqueId().equals(ev.getUniqueId()) || ev.getName().equalsIgnoreCase(ev.getName())){
+					b=true;
+					break;
+				}
+			}
+			
+			if(!b){
+				ev.disallow(Result.KICK_WHITELIST, "§cWartungsmodus");
+				return;
+			}
+		}
 	    manager.loadPermission(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
 	    System.out.println("NAME: "+ev.getName()+" IP: "+ev.getAddress().getHostAddress());
 	}
