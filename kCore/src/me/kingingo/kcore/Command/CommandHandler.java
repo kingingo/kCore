@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.Getter;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
@@ -19,11 +21,13 @@ import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandHandler {
-private Plugin plugin;
+	@Getter
+	private JavaPlugin plugin;
 
-	public CommandHandler(Plugin p){
+	public CommandHandler(JavaPlugin p){
 		this.plugin = p;
 	}
 	

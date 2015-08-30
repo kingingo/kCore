@@ -12,6 +12,7 @@ import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.Packet;
 
 import org.bukkit.Bukkit;
@@ -45,6 +46,10 @@ public class UtilPlayer
 		if(p.hasPermission(perm) || p.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString()))return true;
 		return false;
 	}
+	
+	public static int getPlayerPing(Player player){
+		return (int)UtilReflection.getValue("ping", ((EntityPlayer)((CraftPlayer)player).getHandle()));
+    }
 	
 	public static boolean hasPermission(Player p,kPermission perm){
 		if(p.hasPermission(perm.getPermissionToString()) || p.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString()))return true;

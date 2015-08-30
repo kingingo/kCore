@@ -27,7 +27,7 @@ public class CommandTrackingRange implements CommandExecutor{
 			int i = UtilNumber.toInt(args[0]);
 			if(i<=0)return false;
 			player.world.spigotConfig.playerTrackingRange=i;
-			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "TRACKING_RANGE"));
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "TRACKING_RANGE",i));
 		}
 		return false;
 	}

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import lombok.Getter;
+import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Monitor.LagMeter;
 import me.kingingo.kcore.Packet.PacketManager;
@@ -42,8 +43,8 @@ public class UtilServer{
 	@Getter
 	private static LagMeter lagMeter;
 	
-	public static LagMeter createLagListener(JavaPlugin instance){
-		if(lagMeter==null)lagMeter=new LagMeter(instance);
+	public static LagMeter createLagListener(CommandHandler handler){
+		if(lagMeter==null&&handler!=null)lagMeter=new LagMeter(handler);
 		return lagMeter;
 	}
 	

@@ -27,7 +27,6 @@ public class CommandToggle extends kListener implements CommandExecutor{
 	public CommandToggle(JavaPlugin instance){
 		super(instance,"Toggle");
 		this.online=System.currentTimeMillis();
-		UtilServer.createLagListener(instance);
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "toggle", sender = Sender.PLAYER)
