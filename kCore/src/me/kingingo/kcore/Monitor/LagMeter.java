@@ -100,14 +100,12 @@ public class LagMeter extends kListener
   }
   
   public void sendUpdate(){
-	  	System.out.println("Online-Players: " + UtilServer.getPlayers().size());
-	  	System.out.println("Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }));
-	  	System.out.println("Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
-	  	System.out.println("Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB");
-	  	System.out.println("Max-Mem: "+(Runtime.getRuntime().maxMemory() / 1048576L)+"MB");
-	  	System.out.println("Time: "+ UtilTime.now());
-	  	System.out.println("Online-Time: "+ UtilTime.formatMili(this._startTime));
-	  	System.out.println("Worlds:");
+	  	System.out.println("Online-Players: "+ UtilServer.getPlayers().size());
+	  	System.out.println("Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
+	    System.out.println("Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Max-Mem: "+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
+	    System.out.println("Online-Time: "+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
+	    System.out.println("Time-Now: "+ UtilTime.now());
+	    System.out.println("Worlds:");
 	    
 	    for(World world : Bukkit.getWorlds()){
 	    	int tileEntities = 0;
@@ -132,16 +130,12 @@ public class LagMeter extends kListener
     player.sendMessage(" ");
     player.sendMessage(" ");
     player.sendMessage(" ");
-    player.sendMessage(Language.getText(player,"PREFIX")+ ChatColor.GRAY + "Online-Players: " + ChatColor.YELLOW + UtilServer.getPlayers().size());
-    player.sendMessage(Language.getText(player,"PREFIX")+ ChatColor.GRAY + "Live: " + ChatColor.YELLOW + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }));
-    player.sendMessage(Language.getText(player,"PREFIX")+  ChatColor.GRAY + "Avg: " + ChatColor.YELLOW + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
-    player.sendMessage(Language.getText(player,"PREFIX")+ ChatColor.GRAY + "Free-Mem: " + ChatColor.YELLOW + Runtime.getRuntime().freeMemory() / 1048576L + "MB");
-    player.sendMessage(Language.getText(player,"PREFIX")+ new StringBuilder().append(ChatColor.GRAY).append("Max-Mem: ").append(ChatColor.YELLOW).append(Runtime.getRuntime().maxMemory() / 1048576L).toString() + "MB");
-    player.sendMessage(Language.getText(player,"PREFIX")+ "Tracking-Player-Range: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.playerTrackingRange );
-    player.sendMessage(Language.getText(player,"PREFIX")+ "View-Distance: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.viewDistance );
-    player.sendMessage(Language.getText(player,"PREFIX")+ "Your-Ping: §e"+ UtilPlayer.getPlayerPing(player));
-    player.sendMessage(Language.getText(player,"PREFIX")+ "Time: §e"+ UtilTime.now());
+    player.sendMessage(Language.getText(player,"PREFIX")+"Online-Players: §e"+ UtilServer.getPlayers().size() + " §7Your-Ping: §e"+ UtilPlayer.getPlayerPing(player));
+    player.sendMessage(Language.getText(player,"PREFIX")+"Live: §e" + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " §7Avg:§e " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
+    player.sendMessage(Language.getText(player,"PREFIX")+"Free-Mem:§e " + Runtime.getRuntime().freeMemory() / 1048576L + "MB §7Max-Mem: §e"+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
+    player.sendMessage(Language.getText(player,"PREFIX")+"View-Distance: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.viewDistance+ "§7 Tracking-Player-Range: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.playerTrackingRange );
     player.sendMessage(Language.getText(player,"PREFIX")+ "Online-Time: §e"+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
+    player.sendMessage(Language.getText(player, "PREFIX")+"Time-Now: §e"+ UtilTime.now());
     player.sendMessage(Language.getText(player,"PREFIX")+ "Worlds:");
     
     for(World world : Bukkit.getWorlds()){
