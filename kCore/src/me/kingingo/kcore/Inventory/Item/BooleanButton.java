@@ -56,6 +56,10 @@ public class BooleanButton implements IButton{
 		this.inventoryPageBase.setItem(slot, itemStack);
 	}
 	
+	public void setMaterial(Material material){
+		this.itemStack.setType(material);
+	}
+	
 	public void Clicked(Player player, ActionType type,Object object) {
 		if(toggle){
 			onOroff(false);

@@ -5,6 +5,7 @@ import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,7 +21,7 @@ public class DeliveryInventoryPage extends InventoryPageBase{
 	
 	public void useButton(Player player,ActionType type,ItemStack item,int slot){
 		for(IButton button : this.getButtons()){
-			if(slot==button.getSlot() ){
+			if(slot==button.getSlot() && button.getItemStack().getType() != Material.REDSTONE_BLOCK){
 				delivery.deliverlyUSE(player, (!item.hasItemMeta()?"ITEMMETA NULL":(item.getItemMeta().hasDisplayName()?item.getItemMeta().getDisplayName():"DISPLAYNAME NULL")));
 				break;
 			}

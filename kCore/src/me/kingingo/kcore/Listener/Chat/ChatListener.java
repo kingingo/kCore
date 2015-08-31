@@ -52,7 +52,7 @@ public class ChatListener extends kListener{
 	String tag;
 	Player p;
 	String msg;
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		if (!event.isCancelled()) {
 			p = event.getPlayer();

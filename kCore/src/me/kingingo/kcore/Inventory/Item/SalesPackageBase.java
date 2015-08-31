@@ -59,6 +59,10 @@ public class SalesPackageBase implements IButton{
 		this.inventoryPageBase.setItem(slot, itemStack);
 	}
 	
+	public void setMaterial(Material material){
+		this.itemStack.setType(material);
+	}
+	
 	public void remove(){
 		this.click=null;
 		this.name=null;

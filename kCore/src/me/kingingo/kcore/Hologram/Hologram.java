@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -74,7 +75,7 @@ public class Hologram implements Listener{
 		creatures.remove(c.getEntityId());
 		try {
 			final NameTagMessage message = new NameTagMessage(name);
-			message.setLocation(c.getLocation().add(0, 2.1, 0));
+			message.setLocation( (c.getType()==EntityType.ENDERMAN ? c.getLocation().add(0, 3.1, 0) : c.getLocation().add(0, 2.1, 0)) );
 			creatures.put(c.getEntityId(),message);
 			for(Player player : UtilServer.getPlayers())message.sendToPlayer(player);
 		} catch (Exception error) {

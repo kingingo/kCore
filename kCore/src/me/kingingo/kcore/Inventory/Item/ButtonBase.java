@@ -66,6 +66,10 @@ public class ButtonBase implements IButton{
 		this.itemStack=null;
 	}
 	
+	public void setMaterial(Material material){
+		this.itemStack.setType(material);
+	}
+	
 	public void remove(){
 		this.click=null;
 		this.name=null;
