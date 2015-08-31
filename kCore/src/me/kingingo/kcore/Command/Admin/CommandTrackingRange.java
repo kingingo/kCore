@@ -16,19 +16,19 @@ public class CommandTrackingRange implements CommandExecutor{
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "trackingrange", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		Player p = (Player)sender;
-		if(!p.hasPermission(kPermission.COMMAND_MEM.getPermissionToString()))return false;
-		
-		EntityPlayer player = ((CraftPlayer)p).getHandle();
-		if(args.length==0){
-			p.sendMessage(Language.getText(p, "PREFIX")+" Player-Tracking-Range: "+player.world.spigotConfig.playerTrackingRange);
-			p.sendMessage(Language.getText(p, "PREFIX")+" /trackingrange [RANGE/Normale Range ist 48]");
-		}else{
-			int i = UtilNumber.toInt(args[0]);
-			if(i<=0)return false;
-			player.world.spigotConfig.playerTrackingRange=i;
-			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "TRACKING_RANGE",i));
-		}
+			Player p = (Player)sender;
+			if(p.hasPermission(kPermission.COMMAND_MEM.getPermissionToString())){
+				EntityPlayer player = ((CraftPlayer)p).getHandle();
+				if(args.length==0){
+					p.sendMessage(Language.getText(p, "PREFIX")+" Player-Tracking-Range: "+player.world.spigotConfig.playerTrackingRange);
+					p.sendMessage(Language.getText(p, "PREFIX")+" /trackingrange [RANGE/Normale Range ist 48]");
+				}else{
+					int i = UtilNumber.toInt(args[0]);
+					if(i<=0)return false;
+					player.world.spigotConfig.playerTrackingRange=i;
+					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "TRACKING_RANGE",i));
+				}
+			}
 		return false;
 	}
 	

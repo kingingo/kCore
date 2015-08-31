@@ -44,10 +44,13 @@ public class LagMeter extends kListener
   @Getter
   private long _lastAverage;
   @Getter
+  private long _startTime;
+  @Getter
   private HashSet<Player> _monitoring = new HashSet();
 
   public LagMeter(CommandHandler handler){
     super(handler.getPlugin(), "LagMeter");
+    this._startTime = System.currentTimeMillis();
     this._lastRun = System.currentTimeMillis();
     this._lastAverage = System.currentTimeMillis();
     handler.register(CommandLagg.class, new CommandLagg());
@@ -95,6 +98,33 @@ public class LagMeter extends kListener
       sendUpdate(player);
     }
   }
+  
+  public void sendUpdate(){
+	  	System.out.println("Online-Players: " + ChatColor.YELLOW + UtilServer.getPlayers().size());
+	  	System.out.println("Live: " + ChatColor.YELLOW + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }));
+	  	System.out.println("Avg: " + ChatColor.YELLOW + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
+	  	System.out.println("Free-Mem: " + ChatColor.YELLOW + Runtime.getRuntime().freeMemory() / 1048576L + "MB");
+	  	System.out.println("Max-Mem: "+(Runtime.getRuntime().maxMemory() / 1048576L)+"MB");
+	  	System.out.println("Time: §e"+ UtilTime.now());
+	  	System.out.println("Online-Time: §e"+ UtilTime.formatMili(this._startTime));
+	  	System.out.println("Worlds:");
+	    
+	    for(World world : Bukkit.getWorlds()){
+	    	int tileEntities = 0;
+	        try
+	        {
+	          for (Chunk chunk : world.getLoadedChunks())
+	          {
+	            tileEntities += chunk.getTileEntities().length;
+	          }
+	        }
+	        catch (ClassCastException ex)
+	        {
+	      	 ex.printStackTrace(); 
+	        }  
+	        System.out.println("       §e"+world.getName()+"§7: Chunks:§e"+world.getLoadedChunks().length+" §7Entities:§e"+world.getEntities().size()+" §7Tile:§e"+tileEntities);
+	    }
+	  }
 
   public void sendUpdate(Player player){
     player.sendMessage(" ");
@@ -111,6 +141,7 @@ public class LagMeter extends kListener
     player.sendMessage(Language.getText(player,"PREFIX")+ "View-Distance: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.viewDistance );
     player.sendMessage(Language.getText(player,"PREFIX")+ "Your-Ping: §e"+ UtilPlayer.getPlayerPing(player));
     player.sendMessage(Language.getText(player,"PREFIX")+ "Time: §e"+ UtilTime.now());
+    player.sendMessage(Language.getText(player,"PREFIX")+ "Online-Time: §e"+ UtilTime.formatMili(this._startTime));
     player.sendMessage(Language.getText(player,"PREFIX")+ "Worlds:");
     
     for(World world : Bukkit.getWorlds()){

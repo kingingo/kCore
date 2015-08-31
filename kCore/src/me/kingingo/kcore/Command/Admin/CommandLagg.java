@@ -11,12 +11,16 @@ import org.bukkit.entity.Player;
 
 public class CommandLagg implements CommandExecutor{
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "lagg", alias={"lag","mem","memory"}, sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "lagg", alias={"lag","mem","memory"}, sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		Player player = (Player)sender;
-		
-		if(player.hasPermission(kPermission.MONITOR.getPermissionToString())){
-			UtilServer.getLagMeter().sendUpdate(player);
+		if(sender instanceof Player){
+			Player player = (Player)sender;
+			
+			if(player.hasPermission(kPermission.MONITOR.getPermissionToString())){
+				UtilServer.getLagMeter().sendUpdate(player);
+			}
+		}else{
+			UtilServer.getLagMeter().sendUpdate();
 		}
 		return false;
 	}
