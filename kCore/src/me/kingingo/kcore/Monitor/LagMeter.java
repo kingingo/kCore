@@ -141,7 +141,7 @@ public class LagMeter extends kListener
     player.sendMessage(Language.getText(player,"PREFIX")+ "View-Distance: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.viewDistance );
     player.sendMessage(Language.getText(player,"PREFIX")+ "Your-Ping: §e"+ UtilPlayer.getPlayerPing(player));
     player.sendMessage(Language.getText(player,"PREFIX")+ "Time: §e"+ UtilTime.now());
-    player.sendMessage(Language.getText(player,"PREFIX")+ "Online-Time: §e"+ UtilTime.formatMili(this._startTime));
+    player.sendMessage(Language.getText(player,"PREFIX")+ "Online-Time: §e"+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
     player.sendMessage(Language.getText(player,"PREFIX")+ "Worlds:");
     
     for(World world : Bukkit.getWorlds()){
