@@ -3,6 +3,8 @@ package me.kingingo.kcore.StatsManager;
 import lombok.Getter;
 
 public enum Stats {
+TIME("time int","time","Time",true),
+TIME_ELO("time_elo int","time_elo","Elo",true),
 ELO("elo int","elo","Elo",true),
 KIT_RANDOM("kit_random varchar(30)","kit_random","Kit-Egal",true),
 KIT("kit varchar(1000)","kit","Kit",true),

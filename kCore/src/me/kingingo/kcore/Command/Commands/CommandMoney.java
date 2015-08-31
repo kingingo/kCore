@@ -1,10 +1,9 @@
 package me.kingingo.kcore.Command.Commands;
 
-import java.util.HashMap;
-
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Language.Language;
+import me.kingingo.kcore.StatsManager.Ranking;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Util.UtilNumber;
@@ -22,11 +21,12 @@ public class CommandMoney implements CommandExecutor{
 	private Player player;
 	private Player target;
 	private double money;
-	HashMap<Integer,String> ranking = new HashMap<>();
+	private Ranking ranking;
 	
 	public CommandMoney(StatsManager stats){
 		this.stats=stats;
-		stats.setRanking_Stats(Stats.MONEY);
+		this.ranking=new Ranking(stats, Stats.MONEY, -1, 10);
+		this.stats.addRanking(ranking);
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "money",alias = {"geld","konto","kontostand","stand"}, sender = Sender.EVERYONE)
@@ -38,7 +38,7 @@ public class CommandMoney implements CommandExecutor{
 			}else{
 				if(args.length==1){
 					if(args[0].equalsIgnoreCase("ranking")||args[0].equalsIgnoreCase("top")){
-						stats.Ranking(player);
+						stats.SendRankingMessage(player, ranking);
 						return true;
 					}
 

@@ -1,6 +1,7 @@
 package me.kingingo.kcore.StatsManager;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -20,11 +21,9 @@ import me.kingingo.kcore.Util.UtilPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class StatsManager implements Listener{
+public class StatsManager{
 
 	@Getter
 	private JavaPlugin plugin;
@@ -37,63 +36,43 @@ public class StatsManager implements Listener{
 	@Getter
 	@Setter
 	private boolean onDisable=false;
-	HashMap<Integer,String> ranking = new HashMap<>();
-	@Getter
-	private Stats Ranking_Stats = Stats.KILLS;
+	private ArrayList<Ranking> rankings;
 	
 	public StatsManager(JavaPlugin plugin,MySQL mysql,GameType typ){
 		this.plugin=plugin;
 		this.mysql=mysql;
 		this.typ=typ;
+		this.rankings=new ArrayList<>();
 		CreateTable();
 	}
 	
-	public void setRanking_Stats(Stats r){
-		Ranking_Stats=r;
-		ranking.clear();
+	public void addRanking(Ranking ranking){
+		rankings.add(ranking);
 	}
 	
 	@EventHandler
 	public void Ranking(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.MIN_08)return;
-		ranking.clear();
-		try{
-		     ResultSet rs = getMysql().Query("SELECT `"+Ranking_Stats.getTYP()+"`,`player` FROM `users_"+getTyp().getKürzel()+"` ORDER BY "+Ranking_Stats.getTYP()+" DESC LIMIT 10;");
-
-		      int zahl = 1;
-		      
-		      while (rs.next()) {
-		        ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
-		        zahl++;
-		      }
-
-		      rs.close();
-		 } catch (Exception err) {
-		      System.out.println("MySQL-Error: " + err.getMessage());
-		 }
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				for(Ranking ranking : rankings){
+					ranking.load();
+				}
+			}
+		});
 	}
 	
-	public void Ranking(Player p){
-		if(ranking.isEmpty()){
-			Bukkit.getPluginManager().registerEvents(this, plugin);
-			try{
-			     ResultSet rs = getMysql().Query("SELECT `"+Ranking_Stats.getTYP()+"`,`player` FROM `users_"+getTyp().getKürzel()+"` ORDER BY "+Ranking_Stats.getTYP()+" DESC LIMIT 10;");
-
-			      int zahl = 1;
-			      
-			      while (rs.next()) {
-			        ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
-			        zahl++;
-			      }
-
-			      rs.close();
-			 } catch (Exception err) {
-			      System.out.println("MySQL-Error: " + err.getMessage());
-			 }
-		}
-		p.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top 10 §b■■■■■■■■");
-		p.sendMessage("§b Platz | "+Ranking_Stats.getKÜRZEL()+" | Player");
-		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
+	public void SendRankingMessage(Player player,Ranking ranking,String Zeitraum){
+		player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | "+Zeitraum+" | Top "+ranking.getLength()+" §b■■■■■■■■");
+		player.sendMessage("§b Platz | "+ranking.getStats().getKÜRZEL()+" | Player");
+		for(Integer i : ranking.getRanking().keySet())player.sendMessage("§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player);
+	}
+	
+	public void SendRankingMessage(Player player,Ranking ranking){
+		player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top "+ranking.getLength()+" §b■■■■■■■■");
+		player.sendMessage("§b Platz | "+ranking.getStats().getKÜRZEL()+" | Player");
+		for(Integer i : ranking.getRanking().keySet())player.sendMessage("§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player);
 	}
 	
 	public HashMap<Integer,UUID> getRanking(Stats s,int i){
