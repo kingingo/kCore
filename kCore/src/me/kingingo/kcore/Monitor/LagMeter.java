@@ -100,13 +100,13 @@ public class LagMeter extends kListener
   }
   
   public void sendUpdate(){
-	  	System.out.println("Online-Players: " + ChatColor.YELLOW + UtilServer.getPlayers().size());
-	  	System.out.println("Live: " + ChatColor.YELLOW + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }));
-	  	System.out.println("Avg: " + ChatColor.YELLOW + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
-	  	System.out.println("Free-Mem: " + ChatColor.YELLOW + Runtime.getRuntime().freeMemory() / 1048576L + "MB");
+	  	System.out.println("Online-Players: " + UtilServer.getPlayers().size());
+	  	System.out.println("Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }));
+	  	System.out.println("Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
+	  	System.out.println("Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB");
 	  	System.out.println("Max-Mem: "+(Runtime.getRuntime().maxMemory() / 1048576L)+"MB");
-	  	System.out.println("Time: §e"+ UtilTime.now());
-	  	System.out.println("Online-Time: §e"+ UtilTime.formatMili(this._startTime));
+	  	System.out.println("Time: "+ UtilTime.now());
+	  	System.out.println("Online-Time: "+ UtilTime.formatMili(this._startTime));
 	  	System.out.println("Worlds:");
 	    
 	    for(World world : Bukkit.getWorlds()){
@@ -122,7 +122,7 @@ public class LagMeter extends kListener
 	        {
 	      	 ex.printStackTrace(); 
 	        }  
-	        System.out.println("       §e"+world.getName()+"§7: Chunks:§e"+world.getLoadedChunks().length+" §7Entities:§e"+world.getEntities().size()+" §7Tile:§e"+tileEntities);
+	        System.out.println("       "+world.getName()+": Chunks:"+world.getLoadedChunks().length+" Entities:"+world.getEntities().size()+" Tile:"+tileEntities);
 	    }
 	  }
 
