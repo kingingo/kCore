@@ -26,6 +26,8 @@ import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_ADD_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_CLIENT;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_CLIENT_GROUP;
+import me.kingingo.kcore.Packet.Packets.TWIITTER_IS_PLAYER_FOLLOWER;
+import me.kingingo.kcore.Packet.Packets.TWITTER_PLAYER_FOLLOW;
 import me.kingingo.kcore.Packet.Packets.VERSUS_SETTINGS;
 import me.kingingo.kcore.Packet.Packets.WORLD_CHANGE_DATA;
 import me.kingingo.kcore.Packet.Packets.YOUTUBE_GET_DATA;
@@ -104,6 +106,10 @@ public class PacketManager {
 			return new PLAYER_LANGUAGE_CHANGE(packet.split("-/-"));
 		}else if(packet.contains("PROTECTION_CAPTCHA")){
 			return new PROTECTION_CAPTCHA(packet.split("-/-"));
+		}else if(packet.contains("TWIITTER_IS_PLAYER_FOLLOWER")){
+			return new TWIITTER_IS_PLAYER_FOLLOWER(packet.split("-/-"));
+		}else if(packet.contains("TWITTER_PLAYER_FOLLOW")){
+			return new TWITTER_PLAYER_FOLLOW(packet.split("-/-"));
 		}
 	 return null;
 	}
