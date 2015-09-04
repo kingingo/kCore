@@ -23,6 +23,7 @@ import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Permission.PermissionManager;
+import me.kingingo.kcore.Pet.PetManager;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
@@ -46,10 +47,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import ru.tehkode.libs.net.gravitydevelopment.updater.Updater.UpdateResult;
@@ -87,7 +90,7 @@ public class DeliveryPet extends kListener{
 		this.type=type;
 		this.location=location;
 		this.name=name;
-		getMysql().Update("CREATE TABLE IF NOT EXISTS delivery_"+serverType.name()+"(player varchar(30),uuid varchar(100), obj varchar(30), time varchar(100))");
+		getMysql().Update("CREATE TABLE IF NOT EXISTS delivery_"+serverType.name()+"(player varchar(30),uuid varchar(100), obj varchar(30), time varchar(100), date varchar(100))");
 		this.serverType=serverType;
 		this.hologramm=hm;
 		this.objects=new HashMap<>();
@@ -102,19 +105,25 @@ public class DeliveryPet extends kListener{
 	@EventHandler
 	public void join(PlayerJoinEvent ev){
 		if(this.entity==null||this.entity.isDead()){
-			this.entity=(Creature)location.getWorld().spawnCreature(location, type);
+			this.entity=(Creature)getLocation().getWorld().spawnCreature(getLocation(), getType());
 			this.entity.setCustomName("");
 			this.entity.setCustomNameVisible(true);
 			getHologramm().setName(entity, name);
 			UtilEnt.setNoAI(entity, true);
-			UtilEnt.ClearGoals(entity);
 			
 			if(entity.getType()==EntityType.ENDERMAN){
 				Enderman e = (Enderman) this.entity;
 				e.setCanPickupItems(false);
 				e.setRemoveWhenFarAway(false);
+				e.setTarget(null);
 			}
 		}
+	}
+	
+	@EventHandler
+	public void quit(PlayerQuitEvent ev){
+		if(players.containsKey(ev.getPlayer()))players.remove(ev.getPlayer());
+		if(players_obj.containsKey(UtilPlayer.getRealUUID(ev.getPlayer())))players_obj.remove(UtilPlayer.getRealUUID(ev.getPlayer()));
 	}
 	
 	@EventHandler
@@ -136,6 +145,11 @@ public class DeliveryPet extends kListener{
 	}
 	
 	@EventHandler
+	public void target(EntityTargetEvent ev){
+		if(ev.getEntity().getEntityId()==this.entity.getEntityId())ev.setCancelled(true);
+	}
+	
+	@EventHandler
 	public void Updater(UpdateEvent ev){
 		if(ev.getType()==UpdateType.MIN_64){
 			UtilList.CleanList(players,base);
@@ -145,34 +159,45 @@ public class DeliveryPet extends kListener{
 		if(ev.getType()==UpdateType.SEC){
 			for(Player player : players.keySet()){
 				if(player.isOnline()&&!players.get(player).getViewers().isEmpty()){
-					for(String obj : players_obj.get(UtilPlayer.getRealUUID(player)).keySet()){
-						if(players_obj.get(UtilPlayer.getRealUUID(player)).get(obj)>System.currentTimeMillis()){
-							players.get(player).getButton(objects.get(obj).slot).setDescription(objects.get(obj).description);
-							players.get(player).getButton(objects.get(obj).slot).setMaterial(objects.get(obj).material );
-						}else{
-							players.get(player).getButton(objects.get(obj).slot).setDescription(descriptionUSED(player, obj));
+					if(players_obj.containsKey( UtilPlayer.getRealUUID(player) )){
+						for(String obj : players_obj.get(UtilPlayer.getRealUUID(player)).keySet()){
+							if(players_obj.get(UtilPlayer.getRealUUID(player)).get(obj) > System.currentTimeMillis()){
+								players.get(player).getButton(objects.get(obj).slot).setDescription(descriptionUSED(player, obj));
+								if(players.get(player).getButton(objects.get(obj).slot).getItemStack().getType()!=Material.REDSTONE_BLOCK)players.get(player).getButton(objects.get(obj).slot).setMaterial(Material.REDSTONE_BLOCK);
+								players.get(player).getButton(objects.get(obj).slot).refreshItemStack();
+							}else{
+								if(players.get(player).getButton(objects.get(obj).slot).getItemStack().getType()==Material.REDSTONE_BLOCK){
+									players.get(player).getButton(objects.get(obj).slot).setDescription(objects.get(obj).description);
+									players.get(player).getButton(objects.get(obj).slot).setMaterial(objects.get(obj).material,objects.get(obj).data);	
+									players.get(player).getButton(objects.get(obj).slot).refreshItemStack();
+								}
+							}
 						}
-						players.get(player).getButton(objects.get(obj).slot).refreshItemStack();
+					}else{
+						Log("UpdaterEvent Spieler "+player.getName()+" nicht gefunden...");
 					}
 				}
 			}
 		}
 	}
 	
-	public void deliverlyUSE(Player player,String name){
+	public void deliveryBlock(Player player,String name){
+		getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player)+"' AND obj='"+name+"'");
+		players_obj.get(UtilPlayer.getRealUUID(player)).remove(objects.get(name).displayname);
+		players_obj.get(UtilPlayer.getRealUUID(player)).put(objects.get(name).displayname, System.currentTimeMillis()+objects.get(name).getTime());
+	}
+	
+	public void deliveryUSE(Player player,String name){
 		if(objects.get(name).displayname.equalsIgnoreCase(name)){
-			getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).time)+"' WHERE uuid='"+UtilPlayer.getRealUUID(player)+"' AND obj='"+name+"'");
-			players_obj.get(UtilPlayer.getRealUUID(player)).remove(name);
-			players_obj.get(UtilPlayer.getRealUUID(player)).put(name, System.currentTimeMillis()+objects.get(name).time);
-			players.get(player).getButton(objects.get(name).slot).setDescription(descriptionUSED(player,name));
-			players.get(player).getButton(objects.get(name).slot).setMaterial(Material.REDSTONE_BLOCK);
-			players.get(player).getButton(objects.get(name).slot).refreshItemStack();
+			if(objects.get(name).byClickBlock){
+				deliveryBlock(player,name);
+			}
 			objects.get(name).click.onClick(player, ActionType.R, objects.get(name));
 		}
 	}
 	
 	public String[] descriptionUSED(Player player,String name){
-		return new String[]{"§7Du kannst das Item in §c"+UtilTime.formatMili(players_obj.get(UtilPlayer.getRealUUID(player)).get(name)-System.currentTimeMillis())+"§7 benutzten"};
+		return new String[]{"§7Du kannst das Item in §c"+UtilTime.formatMili( players_obj.get(UtilPlayer.getRealUUID(player)).get(name)-System.currentTimeMillis() )+"§7 benutzten"};
 	}
 	
 	public LottoPackage[] randomPackages(Player player){
@@ -262,7 +287,7 @@ public class DeliveryPet extends kListener{
 	      ResultSet rs = getMysql().Query("SELECT obj,time FROM delivery_"+serverType.name()+" WHERE uuid='"+UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())+"';");
 
 	      while (rs.next()) {
-	    	  players_obj.get(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())).put(rs.getString(1), System.currentTimeMillis()+objects.get(rs.getString(1)).time);
+	    	  players_obj.get(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())).put(rs.getString(1), UtilNumber.toLong(rs.getString(2)));
 	      }
 	      rs.close();
 	    } catch (Exception err) {
@@ -271,8 +296,15 @@ public class DeliveryPet extends kListener{
 		
 		if(players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).isEmpty()){
 			for(DeliveryObject obj : objects.values()){
-				getMysql().Update("INSERT INTO delivery_"+serverType.name()+" (player,uuid,obj,time) VALUES ('"+ev.getName()+"','"+UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())+"','"+obj.displayname+"','"+(System.currentTimeMillis()+obj.time)+"');");
-				players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).put(obj.displayname, obj.time+System.currentTimeMillis());
+				getMysql().Update("INSERT INTO delivery_"+serverType.name()+" (player,uuid,obj,time,date) VALUES ('"+ev.getName()+"','"+UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())+"','"+obj.displayname+"','"+(System.currentTimeMillis())+"','"+UtilTime.when(System.currentTimeMillis())+"');");
+				players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).put(obj.displayname, System.currentTimeMillis());
+			}
+		}else{
+			for(String obj : objects.keySet()){
+				if(!players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).containsKey(obj) ){
+					getMysql().Update("INSERT INTO delivery_"+serverType.name()+" (player,uuid,obj,time,date) VALUES ('"+ev.getName()+"','"+UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())+"','"+objects.get(obj).displayname+"','"+(System.currentTimeMillis())+"','"+UtilTime.when(System.currentTimeMillis())+"');");
+					players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).put(objects.get(obj).displayname, System.currentTimeMillis());
+				}
 			}
 		}
 	}
@@ -301,12 +333,18 @@ public class DeliveryPet extends kListener{
 					
 				}, Material.JUKEBOX, "Lotto"));
 				
-				for(String obj : players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).keySet()){
-					if(players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).get(obj)>System.currentTimeMillis()){
-			    		  players.get(ev.getPlayer()).addButton(objects.get(obj).slot, new ButtonBase(objects.get(obj).click, Material.REDSTONE_BLOCK, objects.get(obj).displayname, descriptionUSED(ev.getPlayer(),obj)));
-			    	  }else{
-			    		  players.get(ev.getPlayer()).addButton(objects.get(obj).slot, new ButtonBase(objects.get(obj).click, objects.get(obj).material, objects.get(obj).displayname, objects.get(obj).description));
-			    	  }
+				if(!players_obj.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
+					Log("players_obj Spieler "+ev.getPlayer()+" nicht gefunden!");
+				}else if(players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).isEmpty()){
+					Log("players_obj Spieler "+ev.getPlayer()+" liste ist leer!");
+				}else{
+					for(String obj : players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).keySet()){
+						if(players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).get(obj)>System.currentTimeMillis()){
+				    		  players.get(ev.getPlayer()).addButton(objects.get(obj).slot, new ButtonBase(objects.get(obj).click, Material.REDSTONE_BLOCK, objects.get(obj).displayname, descriptionUSED(ev.getPlayer(),obj)));
+				    	  }else{
+				    		  players.get(ev.getPlayer()).addButton(objects.get(obj).slot, new ButtonBase(objects.get(obj).click, objects.get(obj).material, objects.get(obj).data, objects.get(obj).displayname, objects.get(obj).description));
+				    	  }
+					}
 				}
 				
 				players.get(ev.getPlayer()).fill(Material.STAINED_GLASS_PANE, 7);

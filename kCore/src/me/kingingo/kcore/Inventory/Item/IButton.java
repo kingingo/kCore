@@ -22,4 +22,5 @@ public abstract interface IButton{
   public abstract void remove();
   public abstract void refreshItemStack();
   public abstract void setMaterial(Material material);
+  public abstract void setMaterial(Material material,byte data);
 }

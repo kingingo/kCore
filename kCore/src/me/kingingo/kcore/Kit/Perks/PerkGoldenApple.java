@@ -28,8 +28,8 @@ public class PerkGoldenApple extends Perk{
 	public void consum(PlayerItemConsumeEvent ev){
 		if(!this.getPerkData().hasPlayer(this,ev.getPlayer()))return;
 		if(ev.getItem().getType()==Material.GOLDEN_APPLE && ev.getItem().getDurability()==1){
-			UtilInv.remove(ev.getPlayer(), ev.getItem(), 1);
-			ev.setCancelled(true);
+//			UtilInv.remove(ev.getPlayer(), ev.getItem(), 1);
+//			ev.setCancelled(true);
 			
 			ev.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
 			ev.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);

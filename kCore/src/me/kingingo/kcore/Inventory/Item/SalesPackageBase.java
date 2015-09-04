@@ -9,6 +9,7 @@ import me.kingingo.kcore.Util.UtilItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 public class SalesPackageBase implements IButton{
 
@@ -57,6 +58,10 @@ public class SalesPackageBase implements IButton{
 	
 	public void refreshItemStack(){
 		this.inventoryPageBase.setItem(slot, itemStack);
+	}
+	
+	public void setMaterial(Material material,byte data){
+		this.itemStack.setData( new MaterialData(material, data) );
 	}
 	
 	public void setMaterial(Material material){

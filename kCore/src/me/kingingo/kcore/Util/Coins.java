@@ -14,6 +14,9 @@ import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
+import net.minecraft.server.v1_8_R3.Scoreboard;
+import net.minecraft.server.v1_8_R3.ScoreboardObjective;
+import net.minecraft.server.v1_8_R3.ScoreboardScore;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -25,6 +28,8 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Score;
 
 public class Coins implements Listener{
 	@Getter
@@ -51,6 +56,13 @@ public class Coins implements Listener{
 		}
 		coins.clear();
 		change_coins.clear();
+	}
+	
+	public void refreshScoreboard(Player player){
+		Score score = UtilScoreboard.searchScore(player.getScoreboard(), "coins");
+		if(score!=null){
+			UtilScoreboard.setScore(player.getScoreboard(), score.getEntry(), score.getObjective().getDisplaySlot(), getCoins(player));
+		}
 	}
 	
 //	public void einlösen(ItemStack item){
@@ -224,6 +236,76 @@ public class Coins implements Listener{
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_DEL",coins));
 		}
 		return true;
+	}
+	
+	public boolean delCoinsWithScoreboardUpdate(Player p,boolean save,Integer coins){
+		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
+		if(!save){
+			int c = getCoins(p);
+			if(c<coins)return false;
+			int co=c-coins;
+			
+			Score score = UtilScoreboard.searchScore(p.getScoreboard(), String.valueOf(c));
+			if(score!=null){
+				UtilScoreboard.setScore(p.getScoreboard(), ""+co, score.getObjective().getDisplaySlot(), score.getScore());
+				UtilScoreboard.resetScore(score.getScoreboard(), score.getEntry(), score.getObjective().getDisplaySlot());
+			}
+			
+			this.coins.remove(UtilPlayer.getRealUUID(p));
+			this.coins.put(UtilPlayer.getRealUUID(p), co);
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_DEL",coins));
+		}else{
+			int c = getCoins(p);
+			if(c<coins)return false;
+			int co=c-coins;
+			
+			Score score = UtilScoreboard.searchScore(p.getScoreboard(), String.valueOf(c));
+			if(score!=null){
+				UtilScoreboard.setScore(p.getScoreboard(), ""+co, score.getObjective().getDisplaySlot(), score.getScore());
+				UtilScoreboard.resetScore(score.getScoreboard(), score.getEntry(), score.getObjective().getDisplaySlot());
+			}
+			
+			change_coins.remove(UtilPlayer.getRealUUID(p));
+			this.coins.remove(UtilPlayer.getRealUUID(p));
+			this.coins.put(UtilPlayer.getRealUUID(p), co);
+			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_DEL",coins));
+		}
+		return true;
+	}
+	
+	public void addCoinsWithScoreboardUpdate(Player p,boolean save,Integer coins){
+		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
+		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.OSTERN))coins=coins*2;
+		if(!save){
+			int c = getCoins(p);
+			int co=c+coins;
+			
+			Score score = UtilScoreboard.searchScore(p.getScoreboard(), String.valueOf(c));
+			if(score!=null){
+				UtilScoreboard.setScore(p.getScoreboard(), ""+co, score.getObjective().getDisplaySlot(), score.getScore());
+				UtilScoreboard.resetScore(score.getScoreboard(), score.getEntry(), score.getObjective().getDisplaySlot());
+			}
+			
+			this.coins.remove(UtilPlayer.getRealUUID(p));
+			this.coins.put(UtilPlayer.getRealUUID(p), co);
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD",coins));
+		}else{
+			int c = getCoins(p);
+			int co=c+coins;
+			
+			Score score = UtilScoreboard.searchScore(p.getScoreboard(), String.valueOf(c));
+			if(score!=null){
+				UtilScoreboard.setScore(p.getScoreboard(), ""+co, score.getObjective().getDisplaySlot(), score.getScore());
+				UtilScoreboard.resetScore(score.getScoreboard(), score.getEntry(), score.getObjective().getDisplaySlot());
+			}
+			
+			change_coins.remove(UtilPlayer.getRealUUID(p));
+			this.coins.remove(UtilPlayer.getRealUUID(p));
+			this.coins.put(UtilPlayer.getRealUUID(p), co);
+			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD",coins));
+		}
 	}
 	
 	public void addCoins(Player p,boolean save,Integer coins){

@@ -8,6 +8,7 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Enum.GameType;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -23,7 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class StatsManager{
+public class StatsManager extends kListener{
 
 	@Getter
 	private JavaPlugin plugin;
@@ -39,6 +40,7 @@ public class StatsManager{
 	private ArrayList<Ranking> rankings;
 	
 	public StatsManager(JavaPlugin plugin,MySQL mysql,GameType typ){
+		super(plugin,"StatsManager");
 		this.plugin=plugin;
 		this.mysql=mysql;
 		this.typ=typ;
@@ -56,20 +58,20 @@ public class StatsManager{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				for(Ranking ranking : rankings){
-					ranking.load();
-				}
+				for(Ranking ranking : rankings)ranking.load();
 			}
 		});
 	}
 	
 	public void SendRankingMessage(Player player,Ranking ranking,String Zeitraum){
+		if(ranking.getRanking().isEmpty())ranking.load();
 		player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | "+Zeitraum+" | Top "+ranking.getLength()+" §b■■■■■■■■");
 		player.sendMessage("§b Platz | "+ranking.getStats().getKÜRZEL()+" | Player");
 		for(Integer i : ranking.getRanking().keySet())player.sendMessage("§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player);
 	}
 	
 	public void SendRankingMessage(Player player,Ranking ranking){
+		if(ranking.getRanking().isEmpty())ranking.load();
 		player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top "+ranking.getLength()+" §b■■■■■■■■");
 		player.sendMessage("§b Platz | "+ranking.getStats().getKÜRZEL()+" | Player");
 		for(Integer i : ranking.getRanking().keySet())player.sendMessage("§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player);

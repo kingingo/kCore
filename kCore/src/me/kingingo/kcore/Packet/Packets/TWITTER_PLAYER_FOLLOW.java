@@ -15,6 +15,12 @@ public class TWITTER_PLAYER_FOLLOW extends Packet{
 	@Getter
 	@Setter
 	private boolean follow;
+	@Getter
+	@Setter
+	private long twitterID;
+	@Getter
+	@Setter
+	private String reason;
 	
 	public TWITTER_PLAYER_FOLLOW(){}
 	
@@ -22,10 +28,12 @@ public class TWITTER_PLAYER_FOLLOW extends Packet{
 		Set(packet);
 	}
 	
-	public TWITTER_PLAYER_FOLLOW(String twitterUsername,String player,boolean follow){
+	public TWITTER_PLAYER_FOLLOW(String twitterUsername,String player,boolean follow,String reason,long twitterID){
 		this.twitterUsername=twitterUsername;
 		this.player=player;
 		this.follow=follow;
+		this.twitterID=twitterID;
+		this.reason=reason;
 	}
 	
 	public TWITTER_PLAYER_FOLLOW create(String[] packet){
@@ -39,7 +47,9 @@ public class TWITTER_PLAYER_FOLLOW extends Packet{
 	public void Set(String[] split){
 		this.twitterUsername=split[1];
 		this.player=split[2];
-		this.follow=(split[3].equalsIgnoreCase("true")?true:false);
+		this.reason=split[3];
+		this.twitterID=Long.valueOf(split[4]);
+		this.follow=(split[5].equalsIgnoreCase("true")?true:false);
 	}
 	
 	public void Set(String packet){
@@ -48,7 +58,7 @@ public class TWITTER_PLAYER_FOLLOW extends Packet{
 	}
 	
 	public String toString(){
-		return String.format(getName()+"-/-%s-/-%s-/-%s", this.twitterUsername,this.player,(follow?"true":"false"));
+		return String.format(getName()+"-/-%s-/-%s-/-%s-/-%s-/-%s", this.twitterUsername,this.player,(this.reason==null?"NULL":this.reason),this.twitterID,(follow?"true":"false"));
 	}
 	
 }

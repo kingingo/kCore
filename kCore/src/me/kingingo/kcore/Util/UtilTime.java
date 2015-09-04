@@ -2,7 +2,9 @@ package me.kingingo.kcore.Util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.kingingo.kcore.Permission.PermissionManager;
@@ -23,6 +25,10 @@ public class UtilTime
 	  return manager;
   }
   
+  public static Date nowDate(){
+	    return Calendar.getInstance().getTime();
+  }
+  
   public static String now(){
     Calendar cal = Calendar.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -41,6 +47,34 @@ public class UtilTime
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     return sdf.format(cal.getTime());
   }
+  
+  public static Date getEndOfDay() {
+	  return getEndOfDay(nowDate());
+  }
+  
+  public static Date getEndOfDay(Date date) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);
+	    calendar.set(Calendar.HOUR_OF_DAY, 23);
+	    calendar.set(Calendar.MINUTE, 59);
+	    calendar.set(Calendar.SECOND, 59);
+	    calendar.set(Calendar.MILLISECOND, 999);
+	    return calendar.getTime();
+	}
+  
+  public static Date getStartOfDay() {
+	  return getStartOfDay(nowDate());
+  }
+  
+  public static Date getStartOfDay(Date date) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);
+	    calendar.set(Calendar.HOUR_OF_DAY, 0);
+	    calendar.set(Calendar.MINUTE, 0);
+	    calendar.set(Calendar.SECOND, 0);
+	    calendar.set(Calendar.MILLISECOND, 0);
+	    return calendar.getTime();
+	}
 
   public static String since(long epoch)
   {
@@ -50,6 +84,15 @@ public class UtilTime
   public static String formatMili(long milis) {
 		if (milis > TimeSpan.MINUTE) {
 			if (milis > TimeSpan.HOUR) {
+				if (milis > TimeSpan.DAY) {
+					int time = (int) (milis / TimeSpan.DAY);
+					if (milis - time * TimeSpan.DAY > 1) {
+						return time + "day "
+								+ formatMili(milis - time * TimeSpan.DAY);
+					}
+					return time + "day";
+				}
+				
 				int time = (int) (milis / TimeSpan.HOUR);
 				if (milis - time * TimeSpan.HOUR > 1) {
 					return time + "h "

@@ -1,5 +1,7 @@
 package me.kingingo.kcore.Inventory.Inventory;
 
+import java.util.HashMap;
+
 import me.kingingo.kcore.DeliveryPet.DeliveryPet;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.IButton;
@@ -13,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 public class DeliveryInventoryPage extends InventoryPageBase{
 
 	public DeliveryPet delivery;
+	private HashMap<Player,Long> click_time = new HashMap<Player,Long>();
 	
 	public DeliveryInventoryPage(int size, String title,DeliveryPet delivery) {
 		super(size, title);
@@ -20,9 +23,22 @@ public class DeliveryInventoryPage extends InventoryPageBase{
 	}
 	
 	public void useButton(Player player,ActionType type,ItemStack item,int slot){
+		if(click_time.containsKey(player)){
+    		
+    		if(click_time.get(player) <= System.currentTimeMillis()){
+    			click_time.remove(player);
+    		}else{
+    			return;
+    		}
+    		
+    	}else{
+    		click_time.put(player, System.currentTimeMillis() + 2000);
+    	}
+    		
+		
 		for(IButton button : this.getButtons()){
 			if(slot==button.getSlot() && button.getItemStack().getType() != Material.REDSTONE_BLOCK){
-				delivery.deliverlyUSE(player, (!item.hasItemMeta()?"ITEMMETA NULL":(item.getItemMeta().hasDisplayName()?item.getItemMeta().getDisplayName():"DISPLAYNAME NULL")));
+				delivery.deliveryUSE(player, (!item.hasItemMeta()?"ITEMMETA NULL":(item.getItemMeta().hasDisplayName()?item.getItemMeta().getDisplayName():"DISPLAYNAME NULL")));
 				break;
 			}
 		}

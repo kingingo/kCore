@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import me.kingingo.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
+import net.minecraft.server.v1_8_R3.ScoreboardScore;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -88,6 +90,21 @@ public class UtilScoreboard {
 		String pr = UtilString.cut(prefix);
 		if(prefix!=null)r.setPrefix(pr);
 		return r;
+	}
+	
+	public static Score searchScore(Scoreboard b, String s){
+		net.minecraft.server.v1_8_R3.Scoreboard board = (net.minecraft.server.v1_8_R3.Scoreboard)UtilReflection.getValue("board", b);
+		for(ScoreboardScore sc: board.getScores())if(sc.getPlayerName().toLowerCase().contains(s.toLowerCase()))return b.getObjective( DisplaySlot.valueOf(sc.getObjective().getName()) ).getScore(sc.getPlayerName());
+		return null;
+	}
+	
+	public static ArrayList<Score> getScores(Scoreboard b){
+		ArrayList<Score> scores = new ArrayList<>();
+		net.minecraft.server.v1_8_R3.Scoreboard board = (net.minecraft.server.v1_8_R3.Scoreboard)UtilReflection.getValue("board", b);
+		for(ScoreboardScore sc: board.getScores()){
+			scores.add(b.getObjective( DisplaySlot.valueOf(sc.getObjective().getName()) ).getScore(sc.getPlayerName()));
+		}
+		return scores;
 	}
 	
 	public static Team addTeam(Scoreboard board,String Team, String prefix,ArrayList<Player> list){
