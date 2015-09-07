@@ -4,8 +4,8 @@ import lombok.Getter;
 
 public enum Stats {
 TIME("time int","time","Time",true),
-TIME_ELO("time_elo int","time_elo","Elo",true),
-ELO("elo int","elo","Elo",true),
+TIME_ELO("time_elo double","time_elo","Elo",true),
+ELO("elo double","elo","Elo",true),
 KIT_RANDOM("kit_random varchar(30)","kit_random","Kit-Egal",true),
 KIT("kit varchar(1000)","kit","Kit",true),
 TEAM_MIN("team_min int","team_min","TeamMin",true),

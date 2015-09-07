@@ -34,7 +34,7 @@ public class CommandSpawn extends kListener implements CommandExecutor{
 		super(teleport.getPermManager().getInstance(),"CommandSpawn");
 		this.teleport=teleport;
 		this.config=new kConfig(new File("plugins"+File.separator+teleport.getPermManager().getInstance().getPlugin(teleport.getPermManager().getInstance().getClass()).getName()+File.separator+"spawn.yml"));
-		if(Bukkit.getWorld(config.getString("spawn.world"))!=null){
+		if(config.getString("spawn.world")!=null&&Bukkit.getWorld(config.getString("spawn.world"))!=null){
 			if(config.isSet("spawn")){
 				spawn=config.getLocation("spawn");
 				spawn.getWorld().setSpawnLocation(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());

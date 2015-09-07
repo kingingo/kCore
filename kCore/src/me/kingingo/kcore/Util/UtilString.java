@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.RandomStringUtils;
+
 public class UtilString
 {
   private static List<String> badWords = new ArrayList<>();
@@ -155,6 +157,10 @@ public class UtilString
       }
     }
     return toreturn;
+  }
+  
+  public static String generateCaptchaString(int length) {
+	 return RandomStringUtils.random(length, true, true);
   }
   
   public static String toUpperCase(String g){
