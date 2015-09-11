@@ -2,6 +2,9 @@ package me.kingingo.kcore.Command.Commands;
 
 import java.util.Map;
 
+import lombok.Getter;
+import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.Command.Admin.CommandAHome;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Command.Commands.Events.PlayerHomeEvent;
 import me.kingingo.kcore.Language.Language;
@@ -9,6 +12,7 @@ import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.TeleportManager.TeleportManager;
 import me.kingingo.kcore.TeleportManager.Teleporter;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
+import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.Bukkit;
@@ -20,16 +24,19 @@ import org.bukkit.entity.Player;
 
 public class CommandHome implements CommandExecutor{
 	
+	@Getter
 	private UserDataConfig userData;
 	private Player player;
 	private kConfig config;
 	private Map<String, Object> list;
+	@Getter
 	private TeleportManager teleport;
 	private Location home;
 	
-	public CommandHome(UserDataConfig userData,TeleportManager teleport){
+	public CommandHome(UserDataConfig userData,TeleportManager teleport,CommandHandler handler){
 		this.userData=userData;
 		this.teleport=teleport;
+		handler.register(CommandAHome.class, new CommandAHome(this));
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "home", sender = Sender.PLAYER)

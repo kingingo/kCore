@@ -3,7 +3,7 @@ package me.kingingo.kcore.StatsManager;
 import lombok.Getter;
 
 public enum Stats {
-TIME("time int","time","Time",true),
+TIME("time varchar(50)","time","Time",true),
 TIME_ELO("time_elo double","time_elo","Elo",true),
 ELO("elo double","elo","Elo",true),
 KIT_RANDOM("kit_random varchar(30)","kit_random","Kit-Egal",true),

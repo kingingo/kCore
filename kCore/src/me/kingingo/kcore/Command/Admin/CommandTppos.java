@@ -20,7 +20,7 @@ public class CommandTppos implements CommandExecutor{
 		if(!player.isOp())return false;
 		if(args.length<4){
 			player.sendMessage(Language.getText(player, "PREFIX")+"/tppos [World] [X] [Y] [Z]");
-			player.sendMessage(Language.getText(player, "PREFIX")+" Welt:"+player.getWorld()+" X:"+player.getLocation().getBlockX()+" Y:"+player.getLocation().getBlockY()+" Z:"+player.getLocation().getBlockZ());
+			player.sendMessage(Language.getText(player, "PREFIX")+" Welt:"+player.getWorld().getName()+" X:"+player.getLocation().getBlockX()+" Y:"+player.getLocation().getBlockY()+" Z:"+player.getLocation().getBlockZ());
 		}else{
 			if(Bukkit.getWorld(args[0])==null)return false;
 			World world = Bukkit.getWorld(args[0]);

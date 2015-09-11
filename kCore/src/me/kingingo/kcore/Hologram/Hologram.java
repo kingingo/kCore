@@ -15,8 +15,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Hologram implements Listener{
@@ -38,6 +40,20 @@ public class Hologram implements Listener{
 		}
 	}
 	
+//	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+//    public void onChunkLoad(ChunkLoadEvent event) {
+//		for(NameTagMessage ntm : list.keySet()){
+//			if(ntm.getLocation().getChunk().equals(event.getChunk())){
+//				for(Entity e : ntm.getLocation().getWorld().getEntities()){
+//					if(e instanceof Player){
+//						ntm.clear((Player)e);
+//						ntm.sendToPlayer((Player)e);
+//					}
+//				}
+//			}
+//		}
+//    }
+	
 	HashMap<NameTagMessage,Integer> clone;
 	@EventHandler
 	public void Update(UpdateEvent ev){
@@ -45,7 +61,7 @@ public class Hologram implements Listener{
 		if(this.list.isEmpty())return;
 		clone=(HashMap<NameTagMessage,Integer>)list.clone();
 		for(NameTagMessage message : clone.keySet()){
-			if(this.clone.get(message)==-1);
+			if(this.clone.get(message)==-1)continue;
 			if(this.clone.get(message)>0){
 				this.list.put(message, this.clone.get(message)-1);
 			}else{
@@ -84,10 +100,19 @@ public class Hologram implements Listener{
 		}
 	}
 	
+	public NameTagMessage createNameTagMessage(Location loc, String... msg) {
+		try {
+			final NameTagMessage message = new NameTagMessage(msg);
+			message.setLocation(loc);
+			return message;
+		} catch (Exception error) {
+			error.printStackTrace();
+		}
+		return null;
+	}
+	
 	//--
 	public NameTagMessage sendText(final Player p, Location loc,int time, String... msg) {
-		
-		
 		try {
 			final NameTagMessage message = new NameTagMessage(msg);
 			message.sendToPlayer(p, loc);

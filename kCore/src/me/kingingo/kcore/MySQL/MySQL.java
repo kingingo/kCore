@@ -17,6 +17,7 @@ import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.spigotmc.CustomTimingsHandler;
 
 public class MySQL
 {
@@ -27,12 +28,11 @@ public class MySQL
   private Connection connection;
   @Getter
   private JavaPlugin instance;
-  @Getter
-  @Setter
-  private boolean debug=false;
+  private CustomTimingsHandler timings;
 
   public MySQL(String user,String pass,String host,String db,JavaPlugin plugin) {
 	  Bukkit.getPluginManager().registerEvents(new MySQLListener(this), plugin);
+	  this.timings=new CustomTimingsHandler("** MySQL");
 	  this.user=user;
 	  this.pass=pass;
 	  this.instance=plugin;
@@ -41,8 +41,8 @@ public class MySQL
 	  connect();
 	}
   
-  public void close()
-  {
+  public void close(){
+	timings.startTiming();
     try
     {
       if (connection != null)
@@ -52,35 +52,25 @@ public class MySQL
     catch (Exception ex) {
     	System.err.println(ex);
     }
+    timings.stopTiming();
   }
 
   public void connect() {
+		timings.startTiming();
 	   try {
 		connection = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + db, 
 				user, pass);
 	} catch (SQLException e) {
 		Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.CONNECT,e,this));
+	    timings.stopTiming();
 		return;
 	}
 	Bukkit.getPluginManager().callEvent(new MySQLConnectEvent(this));
+    timings.stopTiming();
   }
   
   public void Update(String qry) {
-	  if(debug){
-		  long time = System.currentTimeMillis();
-		  
-		  try {
-		  	  MySQLUpdateEvent ev=new MySQLUpdateEvent(qry,this);
-			  Bukkit.getPluginManager().callEvent(ev);
-		      Statement stmt = connection.createStatement();
-		      stmt.executeUpdate(ev.getUpdater());
-		      stmt.close();
-		    } catch (Exception ex) {
-		    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.UPDATE,ex,this));
-		    }
-		  
-	  	  	UtilServer.DebugLog(time, new String[]{"Update",qry}, "");
-		  }else{
+	  timings.startTiming();
 			  try {
 			  	  MySQLUpdateEvent ev=new MySQLUpdateEvent(qry,this);
 				  Bukkit.getPluginManager().callEvent(ev);
@@ -90,76 +80,31 @@ public class MySQL
 			    } catch (Exception ex) {
 			    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.UPDATE,ex,this));
 			    }
-		  }
-	  
+	    timings.stopTiming();
 	  }
 	    
   
   public Double getDouble(String qry){
-	  if(debug){
-	  long time = System.currentTimeMillis();
-	  
+	  timings.startTiming();
 	  MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
-	  	Bukkit.getPluginManager().callEvent(ev);
-	    ResultSet rs = null;
-	    double o = 0.0;
-	    try
-	    {
-	      Statement stmt = connection.createStatement();
-	      rs = stmt.executeQuery(ev.getQuery());
-	      while(rs.next()){
-	    	  o=rs.getDouble(1);
-	      }
-	    }
-	    catch (Exception ex) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
-	    }
-	  
-  	  	UtilServer.DebugLog(time, new String[]{"getDouble",qry}, "");
-  	  	return o;
-	  }else{
-		  MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
-		  	Bukkit.getPluginManager().callEvent(ev);
-		    ResultSet rs = null;
-		    double o = 0.0;
-		    try
-		    {
-		      Statement stmt = connection.createStatement();
-		      rs = stmt.executeQuery(ev.getQuery());
-		      while(rs.next()){
-		    	  o=rs.getDouble(1);
-		      }
-		    }
-		    catch (Exception ex) {
-		    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
-		    }
-			return o;
-	  }
+	  Bukkit.getPluginManager().callEvent(ev);
+	  ResultSet rs = null;
+	  double o = 0.0;
+	  try{
+		  Statement stmt = connection.createStatement();
+		  rs = stmt.executeQuery(ev.getQuery());
+		  while(rs.next()){
+			  o=rs.getDouble(1);
+		  }
+		 }catch (Exception ex) {
+			 Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
+		 }
+	  timings.stopTiming();
+	return o;
   }
   
   public Integer getInt(String qry){
-	  if(debug){
-	  long time = System.currentTimeMillis();
-	  
-	  MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
-	  	Bukkit.getPluginManager().callEvent(ev);
-	    ResultSet rs = null;
-	    Integer o = null;
-	    try
-	    {
-	      Statement stmt = connection.createStatement();
-	      rs = stmt.executeQuery(ev.getQuery());
-	      while(rs.next()){
-	    	  o=rs.getInt(1);
-	      }
-	    }
-	    catch (Exception ex) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
-	    }
-	  
-  	  	UtilServer.DebugLog(time, new String[]{"getInt",qry}, "");
-  	  	return o;
-	  }else{
+	  timings.startTiming();
 	  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
 	  	Bukkit.getPluginManager().callEvent(ev);
 	    ResultSet rs = null;
@@ -175,33 +120,12 @@ public class MySQL
 	    catch (Exception ex) {
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
 	    }
+		  timings.stopTiming();
 	  return o;
-	  }
   }
   
   public String getString(String qry){
-	  if(debug){
-		  long time = System.currentTimeMillis();
-		  
-		  MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
-		  	Bukkit.getPluginManager().callEvent(ev);
-		    ResultSet rs = null;
-		    String o = "null";
-		    try
-		    {
-		      Statement stmt = connection.createStatement();
-		      rs = stmt.executeQuery(ev.getQuery());
-		      while(rs.next()){
-		    	  o=rs.getString(1);
-		      }
-		    }
-		    catch (Exception ex) {
-		    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
-		    }
-		  
-	  	  	UtilServer.DebugLog(time, new String[]{"getString",qry}, "");
-	  	  	return o;
-		  }else{
+	  timings.startTiming();
 		  	MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
 		  	Bukkit.getPluginManager().callEvent(ev);
 		    ResultSet rs = null;
@@ -217,33 +141,13 @@ public class MySQL
 		    catch (Exception ex) {
 		    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
 		    }
+			  timings.stopTiming();
 		    return o;
-		  }
+		  
   }
   
   public Long getLong(String qry){
-	  if(debug){
-		  long time = System.currentTimeMillis();
-		  
-		  MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
-		  	Bukkit.getPluginManager().callEvent(ev);
-		    ResultSet rs = null;
-		    Long o = null;
-		    try
-		    {
-		      Statement stmt = connection.createStatement();
-		      rs = stmt.executeQuery(ev.getQuery());
-		      while(rs.next()){
-		    	  o=rs.getLong(1);
-		      }
-		    }
-		    catch (Exception ex) {
-		    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
-		    }
-		  
-	  	  	UtilServer.DebugLog(time, new String[]{"getLong",qry}, "");
-			  return o;
-		  }else{
+	  timings.startTiming();
 			  MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
 			  	Bukkit.getPluginManager().callEvent(ev);
 			    ResultSet rs = null;
@@ -259,34 +163,12 @@ public class MySQL
 			    catch (Exception ex) {
 			    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
 			    }
+				  timings.stopTiming();
 			  return o;
-		  }
-	  	
   }
   
-  public Object getObject(String qry){ 
-	  if(debug){
-	  long time = System.currentTimeMillis();
-	  
-		MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
-	  	Bukkit.getPluginManager().callEvent(ev);
-	    ResultSet rs = null;
-	    Object o= null;
-	    try
-	    {
-	      Statement stmt = connection.createStatement();
-	      rs = stmt.executeQuery(ev.getQuery());
-	      while(rs.next()){
-	    	  o=rs.getObject(1);
-	      }
-	    }
-	    catch (Exception ex) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
-	    }
-	    
-  	  	UtilServer.DebugLog(time, new String[]{"getObject",qry}, "");
-		return o;
-	  }else{
+  public Object getObject(String qry){
+	  timings.startTiming(); 
 			MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
 		  	Bukkit.getPluginManager().callEvent(ev);
 		    ResultSet rs = null;
@@ -302,29 +184,12 @@ public class MySQL
 		    catch (Exception ex) {
 		    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
 		    }
+			  timings.stopTiming();
 		  return o; 
-	  }
   }
   
   public ResultSet Query(String qry) {
-	  if(debug){
-		  long time = System.currentTimeMillis();
-		  
-		  MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
-		  	Bukkit.getPluginManager().callEvent(ev);
-		    ResultSet rs = null;
-		    try
-		    {
-		      Statement stmt = connection.createStatement();
-		      rs = stmt.executeQuery(ev.getQuery());
-		    }
-		    catch (Exception ex) {
-		    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
-		    }
-		    
-	  	  	UtilServer.DebugLog(time, new String[]{"Query",qry}, "");
-		    return rs;
-		  }else{
+	  timings.startTiming();
 			  MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
 			  	Bukkit.getPluginManager().callEvent(ev);
 			    ResultSet rs = null;
@@ -336,8 +201,7 @@ public class MySQL
 			    catch (Exception ex) {
 			    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
 			    }
-
+				  timings.stopTiming();
 			    return rs;
-		  }
 	  }
 }

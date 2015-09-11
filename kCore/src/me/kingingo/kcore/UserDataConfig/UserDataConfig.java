@@ -57,7 +57,11 @@ public class UserDataConfig extends kListener{
 			if(file!=null){
 				config=new kConfig(file);
 				if(config!=null){
-					configs.put(uuid, config);
+					if(configs!=null){
+						configs.put(uuid, config);
+					}else{
+						Log("AsyncPlayerPreLoginEvent configs HASHMAP == NULL");
+					}
 				}else{
 					Log("AsyncPlayerPreLoginEvent config == NULL");
 				}

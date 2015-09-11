@@ -66,15 +66,41 @@ public class StatsManager extends kListener{
 	public void SendRankingMessage(Player player,Ranking ranking,String Zeitraum){
 		if(ranking.getRanking().isEmpty())ranking.load();
 		player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | "+Zeitraum+" | Top "+ranking.getLength()+" §b■■■■■■■■");
-		player.sendMessage("§b Platz | "+ranking.getStats().getKÜRZEL()+" | Player");
+		player.sendMessage("§b Platz | "+(ranking.getStats().getKÜRZEL().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getKÜRZEL())+" | Player");
 		for(Integer i : ranking.getRanking().keySet())player.sendMessage("§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player);
 	}
 	
 	public void SendRankingMessage(Player player,Ranking ranking){
 		if(ranking.getRanking().isEmpty())ranking.load();
 		player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top "+ranking.getLength()+" §b■■■■■■■■");
-		player.sendMessage("§b Platz | "+ranking.getStats().getKÜRZEL()+" | Player");
+		player.sendMessage("§b Platz | "+(ranking.getStats().getKÜRZEL().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getKÜRZEL())+" | Player");
 		for(Integer i : ranking.getRanking().keySet())player.sendMessage("§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player);
+	}
+
+	public String[] getRankingMessage(Ranking ranking,String Zeitraum){
+		if(ranking.getRanking().isEmpty())ranking.load();
+		String[] r = new String[2+ranking.getRanking().size()];
+		r[0]="§6§lPlayer Ranking | "+Zeitraum+" | Top "+ranking.getLength();
+		r[1]="§b Platz | "+(ranking.getStats().getKÜRZEL().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getKÜRZEL())+" | Player";
+		int a = 1;
+		for(Integer i : ranking.getRanking().keySet()){
+			a++;
+			r[a]="§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player;
+		}
+		return r;
+	}
+	
+	public String[] getRankingMessage(Ranking ranking){
+		if(ranking.getRanking().isEmpty())ranking.load();
+		String[] r = new String[2+ranking.getRanking().size()];
+		r[0]="§6§lPlayer Ranking | Top "+ranking.getLength();
+		r[1]="§b Platz | "+(ranking.getStats().getKÜRZEL().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getKÜRZEL())+" | Player";
+		int a = 1;
+		for(Integer i : ranking.getRanking().keySet()){
+			a++;
+			r[a]="§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player;
+		}
+		return r;
 	}
 	
 	public HashMap<Integer,UUID> getRanking(Stats s,int i){

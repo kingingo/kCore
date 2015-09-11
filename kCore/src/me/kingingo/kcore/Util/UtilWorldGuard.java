@@ -84,14 +84,14 @@ public class UtilWorldGuard {
 		return worldGuard.getRegionManager(loc.getWorld()).getApplicableRegions(loc).canBuild( worldGuard.wrapPlayer(player) );
 	}
 	
-	public static boolean canUse(Player player){
-		return canUse(player.getLocation(), player);
-	}
-	
-	public static boolean canUse(Location loc, Player player){
-		if(worldGuard==null&&!checkWorldGuard())return false;
-		return !worldGuard.getRegionManager(loc.getWorld()).getApplicableRegions(loc).canUse(worldGuard.wrapPlayer(player));
-	}
+//	public static boolean canUse(Player player){
+//		return canUse(player.getLocation(), player);
+//	}
+//	
+//	public static boolean canUse(Location loc, Player player){
+//		if(worldGuard==null&&!checkWorldGuard())return false;
+//		return !worldGuard.getRegionManager(loc.getWorld()).getApplicableRegions(loc).canUse(worldGuard.wrapPlayer(player));
+//	}
 	
 	public static boolean RegionFlag(Location location,StateFlag flag){
 		if(worldGuard==null&&!checkWorldGuard())return false;

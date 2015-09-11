@@ -28,7 +28,7 @@ public class Ranking {
 	public void load(){
 		if(ranking.isEmpty()){
 			try{
-			     ResultSet rs = statsManager.getMysql().Query("SELECT `"+getStats().getTYP()+"`,`player` FROM `users_"+statsManager.getTyp().getKürzel()+"`"+(getTime()==-1?"":"WHERE time<'"+(System.currentTimeMillis()+(time/2))+"' AND time>'"+(System.currentTimeMillis()-(time/2))+"'")+" ORDER BY "+getStats().getTYP()+" DESC LIMIT "+getLength()+";");
+				 ResultSet rs = statsManager.getMysql().Query("SELECT `"+getStats().getTYP()+"`,`player` FROM `users_"+statsManager.getTyp().getKürzel()+"`"+(getTime()==-1?"":"WHERE time<'"+(System.currentTimeMillis()+(time/2))+"' AND time>'"+(System.currentTimeMillis()-(time/2))+"'")+" ORDER BY "+getStats().getTYP()+" DESC LIMIT "+getLength()+";");
 
 			      int zahl = 1;
 
