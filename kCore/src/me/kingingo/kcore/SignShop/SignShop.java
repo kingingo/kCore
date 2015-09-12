@@ -5,12 +5,15 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.SignShop.Events.SignShopUseEvent;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilList;
+import me.kingingo.kcore.Util.UtilServer;
+import me.kingingo.kcore.Util.UtilWorldGuard;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,6 +27,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.sk89q.worldguard.protection.flags.StateFlag;
+
 public class SignShop extends kListener{
 
 	@Getter
@@ -32,11 +37,14 @@ public class SignShop extends kListener{
 	private HashMap<Player,Long> shop = new HashMap<Player,Long>();
 	@Getter
 	private StatsManager statsmanager;
+	private StateFlag flag;
 	
 	public SignShop(JavaPlugin instance,StatsManager statsmanager){
 		super(instance,"SignShop");
 		this.instance=instance;
 		this.statsmanager=statsmanager;
+		this.flag=new StateFlag("shop",false);
+		UtilWorldGuard.addCustomFlag(flag);
 	}
 	
 	boolean b = false;
@@ -50,15 +58,27 @@ public class SignShop extends kListener{
 	public void onSign (SignChangeEvent ev){
 		Player p = ev.getPlayer();
 		if(ev.getLine(0).toLowerCase().contains("[shop]")){
-			if(!p.isOp()){
-				ev.setLine(0, "Nö!");
-				ev.setLine(1, "Nö!");
-				ev.setLine(2, "Nö!");
-				ev.setLine(3, "Nö!");
-				return;
+			if(UtilWorldGuard.RegionFlag(ev.getBlock().getLocation(), flag)||p.hasPermission(kPermission.SHOP_SIGN_CREATE_BYPASS.getPermissionToString())){
+				if(p.hasPermission(kPermission.SHOP_SIGN_CREATE.getPermissionToString())){
+					ev.setLine(0, ChatColor.AQUA + "[Shop]");
+					
+					for(Player player : UtilServer.getPlayers())
+						if(player.hasPermission(kPermission.SHOP_SIGN_CREATE_MSG.getPermissionToString())){
+							player.sendMessage(Language.getText(player,"PREFIX")+"Shop Schild erstellt von §c"+p.getName()+"§7: ");
+							for(String line : ev.getLines()){
+								player.sendMessage(Language.getText(player,"PREFIX")+line);
+							}
+							player.sendMessage(Language.getText(player, "PREFIX")+" Welt:"+ev.getBlock().getLocation().getWorld().getName()+" X:"+ev.getBlock().getLocation().getBlockX()+" Y:"+ev.getBlock().getLocation().getBlockY()+" Z:"+ev.getBlock().getLocation().getBlockZ());
+					}
+					
+					p.sendMessage(Language.getText(p, "PREFIX")+"§eDie Sign wurde erstellt!");
+					return;
+				}
 			}
-			ev.setLine(0, ChatColor.AQUA + "[Shop]");
-			p.sendMessage(Language.getText(p, "PREFIX")+"§eDie Sign wurde erstellt!");
+			ev.setLine(0, "Nö!");
+			ev.setLine(1, "Nö!");
+			ev.setLine(2, "Nö!");
+			ev.setLine(3, "Nö!");
 		}
 	}
 	

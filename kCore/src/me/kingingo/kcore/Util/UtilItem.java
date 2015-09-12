@@ -3,10 +3,13 @@ package me.kingingo.kcore.Util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import me.kingingo.kcore.Enum.ServerType;
 import me.kingingo.kcore.Inventory.Item.BooleanClick;
 import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.StatsManager.Stats;
@@ -19,12 +22,14 @@ import net.minecraft.server.v1_8_R3.NBTTagList;
 
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -32,6 +37,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 public class UtilItem {
 	
 	private static HashMap<TreasureChestType,ArrayList<TreasureChestPackage>> ItemList;
+	private static final Map<String, DyeColor> colorMap = new HashMap();
+	private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap();
 	
 	public static ItemStack getEnchantmentBook(Enchantment ench ,int lvl){
 		ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
@@ -41,6 +48,222 @@ public class UtilItem {
 		item.setItemMeta(meta);
 		return item;
 	}
+	
+	public static ItemStack parseStringMeta(ItemStack item, int fromArg,String[] string) throws Exception{
+		Pattern splitPattern = Pattern.compile("[:+',;.]");
+		for (int i = fromArg; i < string.length; i++){
+			item=addStringMeta(item,splitPattern,string[i]);
+	    }
+		return item;
+	}
+	
+	public static ItemStack addStringMeta(ItemStack item, Pattern splitPattern, String string) throws Exception{
+	    String[] split = splitPattern.split(string, 2);
+	    
+	    if ((split.length > 1) && (split[0].equalsIgnoreCase("name"))){
+	      String displayName = split[1].replaceAll("_", " ").replaceAll("&", "§");
+	      ItemMeta meta = item.getItemMeta();
+	      meta.setDisplayName(displayName);
+	      item.setItemMeta(meta);
+	    }else if ((split.length > 1) && ((split[0].equalsIgnoreCase("lore")) || (split[0].equalsIgnoreCase("desc")))){
+	      List lore = new ArrayList();
+	      for (String line : split[1].split("\\|"))
+	      {
+	        lore.add(line.replaceAll("_", " ").replaceAll("&", "§"));
+	      }
+	      ItemMeta meta = item.getItemMeta();
+	      meta.setLore(lore);
+	      item.setItemMeta(meta);
+	    }else if ((split.length > 1) && (split[0].equalsIgnoreCase("power")) && (item.getType() == Material.FIREWORK)){
+	      int power = UtilNumber.isInt(split[1]) ? Integer.parseInt(split[1]) : 0;
+	      FireworkMeta meta = (FireworkMeta)item.getItemMeta();
+	      meta.setPower(power > 3 ? 4 : power);
+	      item.setItemMeta(meta);
+	    } else if (item.getType() == Material.FIREWORK) {
+	      item=addFireworkMeta(true,splitPattern, string, item);
+	    }else if ((split.length > 1) && ((split[0].equalsIgnoreCase("player")) || (split[0].equalsIgnoreCase("owner"))) && (item.getType() == Material.SKULL_ITEM)){
+	        if (item.getDurability() == 3)
+	        {
+	          String owner = split[1];
+	          SkullMeta meta = (SkullMeta)item.getItemMeta();
+	          meta.setOwner(owner);
+	          item.setItemMeta(meta);
+	        }
+	        else
+	        {
+	          throw new Exception(Language.getText("onlyPlayerSkulls"));
+	        }
+	      }else{
+	    	item=parseEnchantmentStrings(item,true,split);
+	    }
+		return item;
+	}
+	
+	private static ItemStack parseEnchantmentStrings(ItemStack stack,boolean allowUnsafe, String[] split) throws Exception{
+	    Enchantment enchantment = Enchantments.getByName(split[0]);
+	    if ((enchantment == null))
+	    {
+	      return stack;
+	    }
+
+	    int level = -1;
+	    if (split.length > 1)
+	    {
+	      try
+	      {
+	        level = Integer.parseInt(split[1]);
+	      }
+	      catch (NumberFormatException ex)
+	      {
+	        level = -1;
+	      }
+	    }
+
+	    if ((level < 0) || ((!allowUnsafe) && (level > enchantment.getMaxLevel())))
+	    {
+	      level = enchantment.getMaxLevel();
+	    }
+	    stack=addEnchantment(stack, allowUnsafe, enchantment, level);
+	    return stack;
+	  }
+	
+	public static ItemStack addEnchantment(ItemStack stack,boolean allowUnsafe, Enchantment enchantment, int level) throws Exception
+	  {
+	    if (enchantment == null)
+	    {
+	      throw new Exception(Language.getText("enchantmentNotFound"));
+	    }
+	    try
+	    {
+	      if (stack.getType().equals(Material.ENCHANTED_BOOK))
+	      {
+	        EnchantmentStorageMeta meta = (EnchantmentStorageMeta)stack.getItemMeta();
+	        if (level == 0)
+	        {
+	          meta.removeStoredEnchant(enchantment);
+	        }
+	        else
+	        {
+	          meta.addStoredEnchant(enchantment, level, allowUnsafe);
+	        }
+	        stack.setItemMeta(meta);
+	      }
+	      else if (level == 0)
+	      {
+	        stack.removeEnchantment(enchantment);
+	      }
+	      else if (allowUnsafe)
+	      {
+	        stack.addUnsafeEnchantment(enchantment, level);
+	      }
+	      else
+	      {
+	        stack.addEnchantment(enchantment, level);
+	      }
+
+	    }
+	    catch (Exception ex)
+	    {
+	      throw new Exception("Enchantment " + enchantment.getName() + ": " + ex.getMessage(), ex);
+	    }
+	    
+	    return stack;
+	  }
+	
+	public static ItemStack addFireworkMeta(boolean allowShortName,Pattern splitPattern, String string,ItemStack stack) throws Exception{
+		if(colorMap.isEmpty()&&fireworkShape.isEmpty()){
+			for (DyeColor color : DyeColor.values())
+		    {
+		      colorMap.put(color.name(), color);
+		    }
+		    for (FireworkEffect.Type type : FireworkEffect.Type.values())
+		    {
+		      fireworkShape.put(type.name(), type);
+		    }
+		}
+		
+	    if (stack.getType() == Material.FIREWORK)
+	    {
+	      FireworkEffect.Builder builder = FireworkEffect.builder();
+	      String[] split = splitPattern.split(string, 2);
+
+	      if (split.length < 2)
+	      {
+	        return stack;
+	      }
+
+	      if ((split[0].equalsIgnoreCase("color")) || (split[0].equalsIgnoreCase("colour")) || ((allowShortName) && (split[0].equalsIgnoreCase("c")))){
+	          FireworkEffect effect = builder.build();
+	          FireworkMeta fmeta = (FireworkMeta)stack.getItemMeta();
+	          fmeta.addEffect(effect);
+	          stack.setItemMeta(fmeta);
+	          builder = FireworkEffect.builder();
+	        
+
+	        List primaryColors = new ArrayList();
+	        String[] colors = split[1].split(",");
+	        for (String color : colors)
+	        {
+	          if (colorMap.containsKey(color.toUpperCase())){
+	            primaryColors.add(((DyeColor)colorMap.get(color.toUpperCase())).getFireworkColor());
+	          }else{
+	            throw new Exception(Language.getText("invalidFireworkFormat"));
+	          }
+	        }
+	        builder.withColor(primaryColors);
+	      }
+	      else if ((split[0].equalsIgnoreCase("shape")) || (split[0].equalsIgnoreCase("type")) || ((allowShortName) && ((split[0].equalsIgnoreCase("s")) || (split[0].equalsIgnoreCase("t")))))
+	      {
+	        FireworkEffect.Type finalEffect = null;
+	        split[1] = (split[1].equalsIgnoreCase("large") ? "BALL_LARGE" : split[1]);
+	        if (fireworkShape.containsKey(split[1].toUpperCase()))
+	        {
+	          finalEffect = (FireworkEffect.Type)fireworkShape.get(split[1].toUpperCase());
+	        }else{
+	            throw new Exception(Language.getText("invalidFireworkFormat"));
+	        }
+	        if (finalEffect != null)
+	        {
+	          builder.with(finalEffect);
+	        }
+	      }
+	      else if ((split[0].equalsIgnoreCase("fade")) || ((allowShortName) && (split[0].equalsIgnoreCase("f"))))
+	      {
+	        List fadeColors = new ArrayList();
+	        String[] colors = split[1].split(",");
+	        for (String color : colors)
+	        {
+	          if (colorMap.containsKey(color.toUpperCase())){
+	            fadeColors.add(((DyeColor)colorMap.get(color.toUpperCase())).getFireworkColor());
+	          }else{
+	        	  throw new Exception(Language.getText("invalidFireworkFormat"));
+	          }
+	        }
+	        if (!fadeColors.isEmpty())
+	        {
+	          builder.withFade(fadeColors);
+	        }
+	      }
+	      else if ((split[0].equalsIgnoreCase("effect")) || ((allowShortName) && (split[0].equalsIgnoreCase("e"))))
+	      {
+	        String[] effects = split[1].split(",");
+	        for (String effect : effects)
+	        {
+	          if (effect.equalsIgnoreCase("twinkle"))
+	          {
+	            builder.flicker(true);
+	          }
+	          else if (effect.equalsIgnoreCase("trail"))
+	          {
+	            builder.trail(true);
+	          }else{
+	        	  throw new Exception(Language.getText("invalidFireworkFormat"));
+	          }
+	        }
+	      }
+	    }
+	    return stack;
+	  }
 	
 	public static HashMap<TreasureChestType,ArrayList<TreasureChestPackage>> treasureChestItemList(){
 		return treasureChestItemList(null, null, null,null);

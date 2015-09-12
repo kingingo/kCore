@@ -20,7 +20,10 @@ public class Info {
 			String g = manager.getPlayerGilde(p);
 			for(Stats s : manager.getTyp().getStats()){
 				if(s==Stats.LOC_X||s==Stats.LOC_Y||s==Stats.LOC_Z||s==Stats.WORLD)continue;
-				if(s.getCREATE().contains("int")){
+				
+				if(s==Stats.ELO){
+					p.sendMessage("§6FAME: §b"+manager.getDouble(s, g, manager.getTyp()));
+				}else if(s.getCREATE().contains("int")){
 					p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getInt(s, g, manager.getTyp()));
 				}else if(s.getCREATE().contains("double")){
 					p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getDouble(s, g, manager.getTyp()));
@@ -48,7 +51,10 @@ public class Info {
 			p.sendMessage(Language.getText(p, "GILDE_STATS_PREFIXBY",g));
 			for(Stats s : manager.getTyp().getStats()){
 				if(s==Stats.LOC_X||s==Stats.LOC_Y||s==Stats.LOC_Z||s==Stats.WORLD)continue;
-				if(s.getCREATE().contains("int")){
+				
+				if(s==Stats.ELO){
+					p.sendMessage("§6FAME: §b"+manager.getDouble(s, g, manager.getTyp()));
+				}else if(s.getCREATE().contains("int")){
 					p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getInt(s, g, manager.getTyp()));
 				}else if(s.getCREATE().contains("double")){
 					p.sendMessage("§6"+s.getKÜRZEL()+": §b"+manager.getDouble(s, g, manager.getTyp()));

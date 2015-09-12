@@ -21,6 +21,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class CommandHome implements CommandExecutor{
 	
@@ -61,7 +62,7 @@ public class CommandHome implements CommandExecutor{
 					}
 					
 					if(player.hasPermission(kPermission.HOME_BYEPASS_DELAY.getPermissionToString())){
-						player.teleport(home);
+						player.teleport(home,TeleportCause.PLUGIN);
 						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT"));
 					}else{
 						teleport.getTeleport().add(new Teleporter(player,home,5));

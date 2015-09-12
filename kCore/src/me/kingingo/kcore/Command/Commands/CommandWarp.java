@@ -14,6 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class CommandWarp implements CommandExecutor{
 	
@@ -44,12 +45,12 @@ public class CommandWarp implements CommandExecutor{
 				}
 			}else{
 				if(args[0].equalsIgnoreCase("premium")&&!player.hasPermission(kPermission.WARP.getPermissionToString()+".premium"))return false;
-				if(config.isSet("warps."+args[0])){
+				if(config.isSet("warps."+args[0].toLowerCase())){
 					if(player.hasPermission(kPermission.WARP_BYEPASS_DELAY.getPermissionToString())){
-						player.teleport(config.getLocation("warps."+args[0]));
+						player.teleport(config.getLocation("warps."+args[0].toLowerCase()),TeleportCause.PLUGIN);
 						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT"));
 					}else{
-						teleport.getTeleport().add(new Teleporter(player,config.getLocation("warps."+args[0]),5));
+						teleport.getTeleport().add(new Teleporter(player,config.getLocation("warps."+args[0].toLowerCase()),5));
 					}
 				}else{
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "WARP_EXIST"));

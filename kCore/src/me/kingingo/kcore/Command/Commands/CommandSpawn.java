@@ -19,6 +19,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.event.world.WorldLoadEvent;
 
 public class CommandSpawn extends kListener implements CommandExecutor{
@@ -68,7 +69,7 @@ public class CommandSpawn extends kListener implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player = (Player)sender;
 		if(player.hasPermission(kPermission.SPAWN_IGNORE_DELAY.getPermissionToString())){
-			player.teleport(spawn);
+			player.teleport(spawn,TeleportCause.PLUGIN);
 		}else{
 			teleport.getTeleport().add(new Teleporter(player,spawn,7));
 		}

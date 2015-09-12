@@ -8,7 +8,10 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.ELO.Events.PlayerEloEvent;
 import me.kingingo.kcore.Gilden.Events.GildeLoadEvent;
+import me.kingingo.kcore.Gilden.Events.GildePlayerJoinEvent;
+import me.kingingo.kcore.Gilden.Events.GildePlayerLeaveEvent;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
@@ -97,6 +100,14 @@ public class GildenManager implements Listener {
 	}
 	
 	public void LoadRanking(boolean b){
+		if(getTyp()==GildenType.PVP){
+			LoadRankingFame(b);
+		}else{
+			LoadRankingKills(b);
+		}
+	}
+	
+	public void LoadRankingKills(boolean b){
 		if(ranking.isEmpty()||b){
 			extra_prefix.clear();
 			try{
@@ -133,9 +144,46 @@ public class GildenManager implements Listener {
 		}
 	}
 	
+	public void LoadRankingFame(boolean b){
+		if(ranking.isEmpty()||b){
+			extra_prefix.clear();
+			try{
+			     ResultSet rs = getMysql().Query("SELECT `elo`,`gilde` FROM `list_gilden_"+typ.getKürzel()+"_data` ORDER BY elo DESC LIMIT 15;");
+
+			      int zahl = 1;
+			      
+			      while (rs.next()) {
+			    	  if(zahl==1){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
+			  			}else if(zahl==2){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
+			  			}else if(zahl==3){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
+			  			}else if(zahl>=4 && zahl<=6){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
+			  			}else if(zahl>=7 && zahl<=9){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
+			  			}else if(zahl>=10 && zahl<=12){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+			  			}else if(zahl>=13 && zahl<=15){
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
+			  			}else{
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+			  			}
+				     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
+				     zahl++;
+			      }
+
+			      rs.close();
+			 } catch (Exception err) {
+			      System.out.println("MySQL-Error: " + err.getMessage());
+			 }
+		}
+	}
+	
 	public void Ranking(Player p){
 		p.sendMessage("§b■■■■■■■■ §6§lGilden Ranking | Top 15 §b■■■■■■■■");
-		p.sendMessage("§b Place | Kills | Gilde");
+		p.sendMessage("§b Place | "+(GildenType.PVP==getTyp()?"FAME":"Kills")+" | Gilde");
 		LoadRanking(false);
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
@@ -161,8 +209,37 @@ public class GildenManager implements Listener {
 			}
 		}
 	}
-	
+
 	String g;
+	@EventHandler
+	public void elo(PlayerEloEvent ev){
+		if(getTyp()==GildenType.PVP){
+			if(isPlayerInGilde(ev.getPlayer())){
+				g=getPlayerGilde(ev.getPlayer());
+				setDouble(g, getDouble(Stats.ELO, g)-ev.getElo_from(), Stats.ELO);
+				setDouble(g, getDouble(Stats.ELO, g)+ev.getElo_to(), Stats.ELO);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void join(GildePlayerJoinEvent ev){
+		if(getTyp()==GildenType.PVP){
+			if(isPlayerInGilde(ev.getPlayer())){
+				setDouble(ev.getGilde(), getDouble(Stats.ELO, ev.getGilde())+ev.getManager().getStatsManager().getDouble(Stats.ELO, ev.getPlayer()), Stats.ELO);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void leave(GildePlayerLeaveEvent ev){
+		if(getTyp()==GildenType.PVP){
+			if(isPlayerInGilde(ev.getPlayer())){
+				setDouble(ev.getGilde(), getDouble(Stats.ELO, ev.getGilde())-ev.getManager().getStatsManager().getDouble(Stats.ELO, ev.getPlayer()), Stats.ELO);
+			}
+		}
+	}
+	
 	@EventHandler
 	public void Death(PlayerDeathEvent ev){
 		ev.setDeathMessage(null);
@@ -170,9 +247,7 @@ public class GildenManager implements Listener {
 			Player v = (Player)ev.getEntity();
 			if(isPlayerInGilde(v)){
 				g=getPlayerGilde(v);
-				if(g!=null&&!g.equalsIgnoreCase("-"))
-					setInt(
-						g, getInt(Stats.DEATHS, g)+1, Stats.DEATHS);
+				if(g!=null&&!g.equalsIgnoreCase("-"))setInt(g, getInt(Stats.DEATHS, g)+1, Stats.DEATHS);
 			}
 			if(ev.getEntity().getKiller() instanceof Player){
 				if(isPlayerInGilde(((Player)ev.getEntity().getKiller()))){
@@ -327,6 +402,7 @@ public class GildenManager implements Listener {
 	}
 	
 	public void removePlayerEintrag(Player player){
+		Bukkit.getPluginManager().callEvent(new GildePlayerLeaveEvent(getPlayerGilde(player), player, this));
 		removePlayerEintrag(UtilPlayer.getRealUUID(player),player.getName());
 	}
 	
@@ -340,6 +416,7 @@ public class GildenManager implements Listener {
 	public void createPlayerEintrag(Player player,String gilde){
 		GildenPlayerPut(player, gilde);
 		mysql.Update("INSERT INTO list_gilden_"+typ.getKürzel()+"_user (player,uuid,gilde) VALUES ('"+player.getName().toLowerCase()+"','"+UtilPlayer.getRealUUID(player)+"','"+gilde.toLowerCase()+"');");
+		Bukkit.getPluginManager().callEvent(new GildePlayerJoinEvent(gilde, player, this));
 	}
 	
 	public String getPlayerGilde(Player player){

@@ -10,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class CommandTpHere implements CommandExecutor{
 	
@@ -24,7 +25,7 @@ public class CommandTpHere implements CommandExecutor{
 			}else{
 					if(UtilPlayer.isOnline(args[0])){
 						tp=Bukkit.getPlayer(args[0]);
-						tp.teleport(player);
+						tp.teleport(player,TeleportCause.PLUGIN);
 						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT_HERE",tp.getName()));
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));

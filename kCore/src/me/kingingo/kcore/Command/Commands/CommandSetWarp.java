@@ -29,14 +29,14 @@ public class CommandSetWarp implements CommandExecutor{
 		}else{
 			if(player.hasPermission(kPermission.WARP_SET.getPermissionToString())){
 				
-				if(!UtilString.isNormalCharakter(args[0])){
+				if(!UtilString.isNormalCharakter(args[0].toLowerCase())){
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_CHARAKTER"));
 					return false;
 				}
 				
-				config.setLocation("warps."+args[0], player.getLocation());
+				config.setLocation("warps."+args[0].toLowerCase(), player.getLocation());
 				config.save();
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "WARP_SET",args[0]));
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "WARP_SET",args[0].toLowerCase()));
 			}
 		}
 		return false;

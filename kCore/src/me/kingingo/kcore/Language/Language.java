@@ -442,7 +442,7 @@ public class Language {
 	        add(type,"GILDE_PLAYER_IS_IN_GILDE","§cYou are allready in a guild.");
 	        add(type, "NOT_ENOUGH_MONEY", "§cYou do not have enough money!");
 	        add(type,"GILDE_PLAYER_IS_IN_GILDE1","§c{INPUT0} is in a guild.");
-	        add(type,"GILDE_CMD1","§6/guild create §8|§7 Creates a new guild.");
+	        add(type,"GILDE_CMD1","§6/guild create [Guild] §8|§7 Creates a new guild.");
 			add(type,"GILDE_CMD2","§6/guild invite [Player] §8§8|§7 Invites a player to the guild.");
 			add(type,"GILDE_CMD3","§6/guild accept §8|§7 Accepts a guild invite.");
 			add(type,"GILDE_CMD4","§6/guild ranking §8|§7 Shows the top guilds.");
@@ -455,6 +455,7 @@ public class Language {
 			add(type,"GILDE_CMD11","§6/guild createisland §8|§7 Creats a guild island.");
 			add(type,"GILDE_CMD12","§6/guild money withdraw [Money] §8|§7 Withdraws money from the guild account.");
 			add(type,"GILDE_CMD13","§6/gilde money deposite [Money] §8|§7 Deposits money to the guild account.");
+	        add(type,"GILDE_PLAYER_IS_NOT_IN_GILDE","§cYou are not in a guild.");
 			add(type,"HOMES_EMPTY","You do not have a home.");
 			add(type,"KITS_EMPTY","You do not have any kits.");
 			add(type,"MONEY","Account balance:§3 ");
@@ -543,6 +544,11 @@ public class Language {
 		    add(type, "CAPTCHA_FALSE", "§cCaptcha is incorrect!");
 		    add(type, "CAPTCHA_FIRST_ENTER", "§cPlease enter the Captcha first, before register §7/captcha [CAPTCHA]");
 	        add(type, "CAPTCHA_CHANGE", "§cCaptcha changed!");
+	        add(type,"EXT","You are no longer on fire!");
+			add(type,"EXT_ALL","Now, no one is on fire anymore!");
+			add(type,"HEAD_ITEM_EQUAL_NULL","You do not have an item in your hand!");
+			add(type,"HEAD_ITEM_NOT_BLOCK","This is not a block!");
+			add(type,"HEAD","You are now wearing this block as head!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -830,7 +836,7 @@ public class Language {
 			add(type,"EXP_HIS_TO_ME","§7Du hast von §a{INPUT0} §e{INPUT1} Exp§7 erhalten!");
 			add(type,"EXP_ME_TO_HIS","§7Du hast §a{INPUT0} §e{INPUT1} Exp§7 gesendet!");
 			add(type,"NOT_ENOUGH_COINS","§cDu hast nicht genug Coins.");
-			add(type,"GILDE_CMD1","§6/gilde erstellen §8|§7 Erstellt eine neue Gilde.");
+			add(type,"GILDE_CMD1","§6/gilde erstellen [Gilde] §8|§7 Erstellt eine neue Gilde.");
 			add(type,"GILDE_CMD2","§6/gilde einladen [Player] §8§8|§7 Lädt einen Spieler in die Gilde ein");
 			add(type,"GILDE_CMD3","§6/gilde annehmen §8|§7 Nimmt Einladung an.");
 			add(type,"GILDE_CMD4","§6/gilde ranking §8|§7 Zeigt die Top Ten an Gilden.");
@@ -920,6 +926,14 @@ public class Language {
 			add(type,"OPEN_CHEST_WITH_WEAPON","§cDu kannst keine Kisten oeffnen, wenn du eine Waffe in der Hand hast.!");
 			add(type,"GO","§a§lLOS");
 			add(type,"TELEPORT_TO_DEATHMATCH_ARENA","§7Du wirst in §e{INPUT0} §7in die Deathmatch-Arena geportet!");
+			add(type,"invalidFireworkFormat","§cFalsches Feuerwerk format!");
+			add(type,"enchantmentNotFound","§cVerzauberung nicht gefunden!");
+			add(type,"onlyPlayerSkulls","§cNur Spieler Skulls gehen!");
+			add(type,"EXT","Du brennst nun nicht mehr!");
+			add(type,"EXT_ALL","Nun brennt kein Spieler mehr!");
+			add(type,"HEAD_ITEM_EQUAL_NULL","Du hast kein Item in deiner Hand!");
+			add(type,"HEAD_ITEM_NOT_BLOCK","Das ist kein Block!");
+			add(type,"HEAD","Du hast du diesen Block als Kopf!");
 		}
 	}
 	

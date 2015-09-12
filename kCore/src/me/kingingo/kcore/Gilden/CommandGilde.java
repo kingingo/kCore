@@ -50,9 +50,9 @@ public class CommandGilde implements CommandExecutor{
 			}
 			p.sendMessage("§b■■■■■■■■■■■■■■§6§l GILDE §b■■■■■■■■■■■■■■");
 		}else if(args.length > 0){
-			if(args[0].equalsIgnoreCase("erstellen")){
+			if(args[0].equalsIgnoreCase("erstellen")||args[0].equalsIgnoreCase("create")){
 				Erstellen.use(p, args, manager);
-			}else if(args[0].equalsIgnoreCase("einladen")||args[0].equalsIgnoreCase("create")){
+			}else if(args[0].equalsIgnoreCase("einladen")||args[0].equalsIgnoreCase("invite")){
 				Einladen.use(p, args, manager);
 			}else if(args[0].equalsIgnoreCase("annehmen")||args[0].equalsIgnoreCase("accept")){
 				Annehmen.use(p, args, manager);
