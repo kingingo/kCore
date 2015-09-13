@@ -18,7 +18,7 @@ public class CommandRepair implements CommandExecutor{
 	private String s;
 	private Long l;
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "repair",alias={"rp"}, sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "repair",alias={"rp","fix"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player = (Player)sender;
 		if(player.hasPermission(kPermission.REPAIR.getPermissionToString())){

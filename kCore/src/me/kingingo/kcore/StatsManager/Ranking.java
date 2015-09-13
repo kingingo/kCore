@@ -3,7 +3,10 @@ package me.kingingo.kcore.StatsManager;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
+
 import lombok.Getter;
+import me.kingingo.kcore.StatsManager.Event.RankingUpdateEvent;
 
 public class Ranking {
 
@@ -50,6 +53,7 @@ public class Ranking {
 			        zahl++;
 			      }
 			      rs.close();
+			      Bukkit.getPluginManager().callEvent(new RankingUpdateEvent(this));
 			 } catch (Exception err) {
 			      System.out.println("MySQL-Error: " + err.getMessage());
 			 }

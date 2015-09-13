@@ -548,7 +548,10 @@ public class Language {
 			add(type,"EXT_ALL","Now, no one is on fire anymore!");
 			add(type,"HEAD_ITEM_EQUAL_NULL","You do not have an item in your hand!");
 			add(type,"HEAD_ITEM_NOT_BLOCK","This is not a block!");
+			add(type,"HEAD_HELM_NOT_NULL","Your Head is not empty?");
 			add(type,"HEAD","You are now wearing this block as head!");
+			add(type,"PVP_KILL","§2You killed §e{INPUT0} §2and get §e{INPUT1} §2FAME from him!");
+			add(type,"PVP_DEATH","§cBecause you were killed, your fame has been reset to start value!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -933,7 +936,10 @@ public class Language {
 			add(type,"EXT_ALL","Nun brennt kein Spieler mehr!");
 			add(type,"HEAD_ITEM_EQUAL_NULL","Du hast kein Item in deiner Hand!");
 			add(type,"HEAD_ITEM_NOT_BLOCK","Das ist kein Block!");
+			add(type,"HEAD_HELM_NOT_NULL","Du hast noch einen Hut an!");
 			add(type,"HEAD","Du hast du diesen Block als Kopf!");
+			add(type,"PVP_KILL","§2Du hast §e{INPUT0} §2getoetet und §e{INPUT1} §2FAME von ihm erhalten!");
+			add(type,"PVP_DEATH","§cDa du getoetet wurdest, wurde dein FAME auf Startwert zurueckgesetzt!");
 		}
 	}
 	

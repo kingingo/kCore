@@ -2,6 +2,7 @@ package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Enum.GameType;
+import me.kingingo.kcore.Enum.ServerType;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.StatsManager.Ranking;
 import me.kingingo.kcore.StatsManager.Stats;
@@ -22,11 +23,13 @@ public class CommandMoney implements CommandExecutor{
 	private Player target;
 	private double money;
 	private Ranking ranking;
+	private String prefix;
 	
-	public CommandMoney(StatsManager stats){
+	public CommandMoney(StatsManager stats,ServerType type){
 		this.stats=stats;
 		this.ranking=new Ranking(stats, Stats.MONEY, -1, 10);
 		this.stats.addRanking(ranking);
+		this.prefix=(type==ServerType.SKYBLOCK?Language.getText("PREFIX_GAME",GameType.SKYBLOCK.getTyp()):Language.getText("PREFIX"));
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "money",alias = {"geld","konto","kontostand","stand"}, sender = Sender.EVERYONE)
@@ -34,7 +37,7 @@ public class CommandMoney implements CommandExecutor{
 		if(cs instanceof Player){
 			player = (Player)cs;
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX_GAME", GameType.SKYBLOCK.getTyp())+ Language.getText(player, "MONEY") + stats.getDouble(Stats.MONEY, player));
+				player.sendMessage(prefix+ Language.getText(player, "MONEY") + stats.getDouble(Stats.MONEY, player));
 			}else{
 				if(args.length==1){
 					if(args[0].equalsIgnoreCase("ranking")||args[0].equalsIgnoreCase("top")){
@@ -44,9 +47,9 @@ public class CommandMoney implements CommandExecutor{
 
 					if(UtilPlayer.isOnline(args[0])){
 						target=Bukkit.getPlayer(args[0]);
-						player.sendMessage(Language.getText(player, "PREFIX_GAME", GameType.SKYBLOCK.getTyp())+target.getName()+" Kontostand beträgt:§3 " + stats.getDouble(Stats.MONEY, target));
+						player.sendMessage(prefix+target.getName()+" Kontostand beträgt:§3 " + stats.getDouble(Stats.MONEY, target));
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+						player.sendMessage(prefix+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}
 				}else if(args.length==3){
 					if(args[0].equalsIgnoreCase("send")){
@@ -60,16 +63,16 @@ public class CommandMoney implements CommandExecutor{
 								if(stats.getDouble(Stats.MONEY, player) >= money){
 									stats.setDouble(player, stats.getDouble(Stats.MONEY, player)-money, Stats.MONEY);
 									stats.setDouble(target, stats.getDouble(Stats.MONEY, target)+money, Stats.MONEY);
-									target.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "MONEY_RECEIVE_FROM",new String[]{player.getName(),String.valueOf(money)}));
-									player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(target, "MONEY_SEND_TO",new String[]{target.getName(),String.valueOf(money)}));
+									target.sendMessage(prefix+Language.getText(player, "MONEY_RECEIVE_FROM",new String[]{player.getName(),String.valueOf(money)}));
+									player.sendMessage(prefix+Language.getText(target, "MONEY_SEND_TO",new String[]{target.getName(),String.valueOf(money)}));
 								}else{
-									player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "MONEY_ENOUGH_MONEY"));
+									player.sendMessage(prefix+Language.getText(player, "MONEY_ENOUGH_MONEY"));
 								}
 							}else{
-								player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "MONEY_NO_DOUBLE"));
+								player.sendMessage(prefix+Language.getText(player, "MONEY_NO_DOUBLE"));
 							}
 						}else{
-							player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[1]));
+							player.sendMessage(prefix+Language.getText(player, "PLAYER_IS_OFFLINE",args[1]));
 						}
 					}
 				}

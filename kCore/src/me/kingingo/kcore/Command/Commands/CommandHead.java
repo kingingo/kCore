@@ -32,9 +32,13 @@ public class CommandHead implements CommandExecutor{
 		if(player.hasPermission(kPermission.HEAD.getPermissionToString())){
 			if(player.getItemInHand()!=null){
 				if(player.getItemInHand().getType().isBlock()){
-					player.getInventory().setHelmet(player.getItemInHand());
-					UtilInv.remove(player, player.getItemInHand(), 1);
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "HEAD"));
+					if(player.getInventory().getHelmet()==null){
+						player.setItemInHand(null);
+						player.getInventory().setHelmet(player.getItemInHand());
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "HEAD"));
+					}else{
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "HEAD_ITEM_NOT_BLOCK"));
+					}
 				}else{
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "HEAD_ITEM_NOT_BLOCK"));
 				}
