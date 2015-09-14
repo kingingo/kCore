@@ -33,7 +33,7 @@ public class CommandBanned implements CommandExecutor{
 			Calendar gc2 = new GregorianCalendar();
 			Date now = gc2.getTime();
 			UUID uuid = UtilPlayer.getUUID(args[0], mysql);
-			mysql.Update("INSERT INTO list_ban (name,name_uuid, nameip,banner,banner_uuid,bannerip,time,reason, aktiv) VALUES ('" + args[0].toLowerCase() + "','"+uuid+"', 'null', 'CONSOLE','CONSOLE', 'null', '" + df2.format(now) + "', 'CHARGEBACK', 'true')");
+			mysql.Update("INSERT INTO BG_Ban (name,name_uuid, nameip,banner,banner_uuid,bannerip,time,reason, level,aktiv) VALUES ('" + args[0].toLowerCase() + "','"+uuid+"', 'null', 'CONSOLE','CONSOLE', 'null', '" + df2.format(now) + "', 'CHARGEBACK', '5','true')");
 			System.err.println("[kBan] "+args[0]+" wurde gebannt");
 		}
 		return false;
