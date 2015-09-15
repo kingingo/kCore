@@ -308,6 +308,22 @@ public class GildenManager implements Listener {
 		}
 	}
 	
+	public void TeleportToHome(Player p,String g){
+		try{
+			String w = getString(Stats.WORLD, g, getTyp());
+			int x = getInt(Stats.LOC_X, g, typ);
+			int y = getInt(Stats.LOC_Y, g, typ);
+			int z = getInt(Stats.LOC_Z, g, typ);
+			if(Bukkit.getWorld(w)==null)return;
+			if(x==0&&y==0&&z==0&&g.equalsIgnoreCase("0"))return;
+			Location loc = new Location(Bukkit.getWorld(w),x,y,z);
+			p.teleport(loc);
+			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_TELEPORTET"));
+		}catch(NullPointerException e){
+			
+		}	
+	}
+	
 	public void TeleportToHome(Player p){
 		try{
 			if(!isPlayerInGilde(p)){

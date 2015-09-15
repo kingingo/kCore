@@ -1,8 +1,11 @@
 package me.kingingo.kcore.Command.Commands;
 
+import java.util.UUID;
+
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
+import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -19,9 +22,11 @@ public class CommandEnderchest extends kListener implements CommandExecutor{
 
 	private Player player;
 	private Player target;
+	private MySQL mysql;
 	
-	public CommandEnderchest(JavaPlugin plugin) {
-		super(plugin, "CommandEnderchest");
+	public CommandEnderchest(MySQL mysql) {
+		super(mysql.getInstance(), "CommandEnderchest");
+		this.mysql=mysql;
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "enderchest", sender = Sender.PLAYER)
@@ -41,6 +46,19 @@ public class CommandEnderchest extends kListener implements CommandExecutor{
 					player.openInventory(target.getEnderChest());
 				}else{
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+					
+					if(player.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString())){
+						UUID uuid = UtilPlayer.getUUID(args[0], mysql);
+						target=null;
+						target = UtilPlayer.loadPlayer(uuid);
+						
+						if(target!=null){
+							player.openInventory(target.getEnderChest());
+						}else{
+							player.sendMessage(Language.getText(player, "PREFIX")+"§cnicht gefunden!");
+						}
+						
+					}
 				}
 			}
 		}

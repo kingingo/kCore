@@ -13,14 +13,18 @@ import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.MinecraftServer;
 import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_8_R3.PlayerInteractManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -34,6 +38,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.util.Vector;
 
 import com.google.common.base.Charsets;
+import com.mojang.authlib.GameProfile;
 
 public class UtilPlayer
 {
@@ -46,6 +51,34 @@ public class UtilPlayer
 		if(p.hasPermission(perm) || p.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString()))return true;
 		return false;
 	}
+	
+	public static Player loadPlayer(UUID uuid){
+	    try
+	    {
+	      OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+	      if ((player == null) || (!player.hasPlayedBefore())) {
+	        return null;
+	      }
+	      GameProfile profile = new GameProfile(uuid, player.getName());
+	      CraftServer cserver = ((CraftServer)Bukkit.getServer());
+	      MinecraftServer server = cserver.getServer();
+
+	      EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), profile, new PlayerInteractManager(server.getWorldServer(0)));
+
+	      Player target = entity.getBukkitEntity();
+	      if (target != null)
+	      {
+	        target.loadData();
+
+	        return target;
+	      }
+	    }
+	    catch (Exception e) {
+	      e.printStackTrace();
+	    }
+
+	    return null;
+	  }
 	
 	public static int getPlayerPing(Player player){
 		return (int)UtilReflection.getValue("ping", ((EntityPlayer)((CraftPlayer)player).getHandle()));

@@ -96,6 +96,13 @@ public class Home {
 			}else{
 				p.sendMessage(Language.getText(p, "PREFIX")+"§cGilde nicht gefunden");
 			}
+		}else if(args.length==2&&p.isOp()){
+			if(manager.ExistGilde(args[1])){
+				manager.TeleportToHome(p, args[1]);
+				p.sendMessage(Language.getText(p, "PREFIX")+"§aDu wurdest Teleporiert.");
+			}else{
+				p.sendMessage(Language.getText(p, "PREFIX")+"§cGilde nicht gefunden");
+			}
 		}else{
 			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde "+args[0]);
 		}

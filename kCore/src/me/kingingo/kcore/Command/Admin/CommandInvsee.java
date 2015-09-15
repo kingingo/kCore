@@ -1,8 +1,11 @@
 package me.kingingo.kcore.Command.Admin;
 
+import java.util.UUID;
+
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
+import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
 
@@ -18,8 +21,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandInvsee extends kListener implements CommandExecutor{
 	
-	public CommandInvsee(JavaPlugin plugin) {
-		super(plugin, "CommandInvsee");
+	private MySQL mysql;
+	
+	public CommandInvsee(MySQL mysql) {
+		super(mysql.getInstance(), "CommandInvsee");
+		this.mysql=mysql;
 	}
 
 	private Player player;
@@ -38,6 +44,19 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 					player.openInventory(target.getInventory());
 				}else{
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+					
+					if(player.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString())){
+						UUID uuid = UtilPlayer.getUUID(args[0], mysql);
+						target=null;
+						target = UtilPlayer.loadPlayer(uuid);
+						
+						if(target!=null){
+							player.openInventory(target.getInventory());
+						}else{
+							player.sendMessage(Language.getText(player, "PREFIX")+"§cnicht gefunden!");
+						}
+						
+					}
 				}
 			}
 		}
