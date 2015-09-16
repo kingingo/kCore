@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
+import me.kingingo.kcore.Util.UtilList;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,7 +34,7 @@ public class SalesPackageBase implements IButton{
 	
 	public SalesPackageBase(Click click,ItemStack itemStack){
 		this.name=(itemStack.hasItemMeta() ? (itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : "") : "");
-		this.description=(itemStack.hasItemMeta() ? ((String[]) itemStack.getItemMeta().getLore().toArray()) : new String[]{});
+		this.description=(itemStack.hasItemMeta() ? UtilList.changeListType(itemStack.getItemMeta().getLore()) : new String[]{});
 		this.click=click;
 		this.itemStack=itemStack;
 	}

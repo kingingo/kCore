@@ -7,8 +7,10 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import me.kingingo.kcore.Enum.ServerType;
+import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2.InventoryLotto2Type;
 import me.kingingo.kcore.Inventory.Item.BooleanClick;
 import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Inventory.Item.LottoPackage;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
@@ -39,6 +41,7 @@ public class UtilItem {
 	private static HashMap<TreasureChestType,ArrayList<TreasureChestPackage>> ItemList;
 	private static final Map<String, DyeColor> colorMap = new HashMap();
 	private static final Map<String, FireworkEffect.Type> fireworkShape = new HashMap();
+	private static HashMap<InventoryLotto2Type,ArrayList<LottoPackage>> lottoList;
 	
 	public static ItemStack getEnchantmentBook(Enchantment ench ,int lvl){
 		ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
@@ -265,6 +268,419 @@ public class UtilItem {
 	    return stack;
 	  }
 	
+	public static HashMap<InventoryLotto2Type,ArrayList<LottoPackage>> loadLotto(ServerType type,final PermissionManager permissionManager,final StatsManager statsManager,Coins coins){
+		if(lottoList==null){
+			lottoList=new HashMap<InventoryLotto2Type,ArrayList<LottoPackage>>();
+			
+			lottoList.put(InventoryLotto2Type.COMMON, new ArrayList<LottoPackage>());
+			lottoList.put(InventoryLotto2Type.UNCOMMON, new ArrayList<LottoPackage>());
+			lottoList.put(InventoryLotto2Type.RARE, new ArrayList<LottoPackage>());
+			lottoList.put(InventoryLotto2Type.LEGENDARY, new ArrayList<LottoPackage>());
+			lottoList.put(InventoryLotto2Type.DIVINE, new ArrayList<LottoPackage>());
+			
+			if(type==ServerType.PVP){
+				//ARMOR #########################################################
+				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_HELMET), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Helm"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
+				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_CHESTPLATE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Chestplate"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
+				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_LEGGINGS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Leggings"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
+				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_BOOTS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamant Boots"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
+			
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_HELMET), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Helm"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_CHESTPLATE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Chestplate"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_LEGGINGS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Leggings"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_BOOTS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Boots"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+			
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_HELMET), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Helm"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_CHESTPLATE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Chestplate"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_LEGGINGS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Leggings"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_BOOTS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Boots"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+				//ARMOR #########################################################
+				
+				//WEAPONS #########################################################
+				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_PICKAXE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Pickaxe"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
+				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SPADE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Shovel"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
+				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SWORD), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Sword"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
+				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.BOW), new String[]{"§7Lotto Item"}, "§bFull-Enchant Bow"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
+				
+				
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_PICKAXE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Pickaxe"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SPADE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Shovel"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SWORD), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Sword"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+				
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_PICKAXE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Pickaxe"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SPADE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Spade"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SWORD), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Sword"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+				//WEAPONS #########################################################
+				
+				//ITEMS #########################################################
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,64), new String[]{"§7Lotto Item"}, "§bBedrock"),InventoryLotto2Type.RARE));
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,5), new String[]{"§7Lotto Item"}, "§bMob-spawner"),InventoryLotto2Type.RARE));
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,48,(byte)1), new String[]{"§7Lotto Item"}, "§bOp Äpfel"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,32), new String[]{"§7Lotto Item"}, "§bBedrock"),InventoryLotto2Type.RARE));
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,3), new String[]{"§7Lotto Item"}, "§bMob-spawner"),InventoryLotto2Type.RARE));
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,32,(byte)1), new String[]{"§7Lotto Item"}, "§bOp Äpfel"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,16), new String[]{"§7Lotto Item"}, "§bBedrock"),InventoryLotto2Type.UNCOMMON));
+				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,1), new String[]{"§7Lotto Item"}, "§bMob-spawner"),InventoryLotto2Type.UNCOMMON));
+				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,16,(byte)1), new String[]{"§7Lotto Item"}, "§bOp Äpfel"),InventoryLotto2Type.UNCOMMON));
+				
+				lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.DIAMOND,16), new String[]{"§7Lotto Item"}, "§bDiamond"),InventoryLotto2Type.COMMON));
+				
+				for(int i = 8193; i<8270;i++)lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null, UtilItem.Item(new ItemStack(Material.POTION,32,(byte)i), new String[]{"§7Lotto Item"}, "§bPotion"), InventoryLotto2Type.COMMON));
+				for(int i = 16385; i<16462;i++)lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null, UtilItem.Item(new ItemStack(Material.POTION,32,(byte)i), new String[]{"§7Lotto Item"}, "§bPotion"), InventoryLotto2Type.COMMON));
+				//ITEMS #########################################################
+				
+				//PERKS #########################################################
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_JUMP);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_JUMP);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.IRON_BOOTS,1), new String[]{"§7Lotto Perks"}, "§cPerk Double Jump"),InventoryLotto2Type.LEGENDARY));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_NO_HUNGER);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_NO_HUNGER);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.COOKIE,1), new String[]{"§7Lotto Perks"}, "§cPerk No Hunger"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_NO_FIRE);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_NO_FIRE);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.FIRE,1), new String[]{"§7Lotto Perks"}, "§cPerk Anti Fire"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_DOUBLE_XP);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_DOUBLE_XP);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"§7Lotto Perks"}, "§cPerk Double XP"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_GET_XP);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_GET_XP);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE,1), new String[]{"§7Lotto Perks"}, "§cPerk Get XP"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_ITEM_NAME);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_ITEM_NAME);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.NAME_TAG,1), new String[]{"§7Lotto Perks"}, "§cPerk Item Name"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_DROPPER);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_DROPPER);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.BUCKET,1), new String[]{"§7Lotto Perks"}, "§cPerk Dropper"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_GOLENAPPLE);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_GOLENAPPLE);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8236), new String[]{"§7Lotto Perks"}, "§cPerk Potion Clear"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_HEALER);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_HEALER);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)16389), new String[]{"§7Lotto Perks"}, "§cPerk Heal Potion"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_HAT);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_HAT);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.SKULL_ITEM,1,(byte)3), new String[]{"§7Lotto Perks"}, "§cPerk EnemyHead"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_RUNNER);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_RUNNER);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8194), new String[]{"§7Lotto Perks"}, "§cPerk Runner"),InventoryLotto2Type.LEGENDARY));
+				
+				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_APPLE);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_APPLE);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,1), new String[]{"§7Lotto Perks"}, "§cPerk GoldenApple"),InventoryLotto2Type.LEGENDARY));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_ARROW_POTIONEFFECT);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_ARROW_POTIONEFFECT);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.ARROW,1), new String[]{"§7Lotto Perks"}, "§cPerk Arrow Potion Effect"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						permissionManager.addPermission(player, kPermission.PERK_WATER_DAMAGE);
+					}
+					
+				}, new BooleanClick(){
+
+					@Override
+					public boolean onBooleanClick(Player player,
+							ActionType type, Object object) {
+						return permissionManager.haskPermission(player, kPermission.PERK_WATER_DAMAGE);
+					}
+					
+				},UtilItem.Item(new ItemStack(Material.WATER,1), new String[]{"§7Lotto Perks"}, "§cPerk noWaterdamage"),InventoryLotto2Type.RARE));
+				//PERKS #########################################################
+				
+				//COINS #########################################################
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 2500+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b2500 Epics"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 2000+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b2000 Epics"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 1500+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b1500 Epics"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 1250+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b1250 Epics"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 1000+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b1000 Epics"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 1000+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b1000 Epics"),InventoryLotto2Type.RARE));
+				
+				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 750+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b750 Epics"),InventoryLotto2Type.UNCOMMON));
+				
+				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 500+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b500 Epics"),InventoryLotto2Type.UNCOMMON));
+				
+				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(new Click(){
+
+					@Override
+					public void onClick(Player player, ActionType type,
+							Object object) {
+						statsManager.setInt(player, 250+statsManager.getInt(Stats.MONEY, player), Stats.MONEY);
+					}
+					
+				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b250 Epics"),InventoryLotto2Type.UNCOMMON));
+				//COINS #########################################################
+			}
+		}
+		return lottoList;
+	}
+
 	public static HashMap<TreasureChestType,ArrayList<TreasureChestPackage>> treasureChestItemList(){
 		return treasureChestItemList(null, null, null,null);
 	}
@@ -676,6 +1092,8 @@ public class UtilItem {
 					
 				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b250 Epics")));
 				//COINS #########################################################
+			}else if(type==ServerType.GAME){
+				
 			}
 		}
 		return ItemList;

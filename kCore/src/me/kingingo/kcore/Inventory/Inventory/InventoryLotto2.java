@@ -38,43 +38,45 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 		super(InventorySize._27, title);
 		this.list_i=0;
 		this.durchlauf=0;
-		if(list!=null){
-			setItem(4, UtilItem.RenameItem(new ItemStack(Material.HOPPER), " "));
-			Bukkit.getPluginManager().registerEvents(this, instance);
-		}
+		setItem(4, UtilItem.RenameItem(new ItemStack(Material.HOPPER), " "));
+		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
 	public void newRound(LottoPackage win){
 		this.win=win;
 		this.list_i=0;
 		this.durchlauf=0;
+		
 	}
 	
 	@EventHandler
 	public void UpdateEvent(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.TICK||win==null)return;
-		for(int i = 9; i <= 17; i++){
-			setItemWithPlane(list[list_i],i);
-			list_i++;
-			
-			if(i==13&&UtilItem.ItemNameEquals(getItem(13), win.getItemStack())){
-				durchlauf++;
-				if(durchlauf>=2){
-					win.Clicked(((Player)getViewers().toArray()[0]), ActionType.R, win);
-					win=null;
+		if(ev.getType()==UpdateType.FAST&&win!=null){
+			for(int i = 9; i <= 17; i++){
+				setItemWithPlane(list[list_i],i);
+				list_i++;
+				
+				if(i==13&&UtilItem.ItemNameEquals(getItem(13), win.getItemStack())){
+					durchlauf++;
+					if(durchlauf>=2){
+						win.Clicked(((Player)getViewers().toArray()[0]), ActionType.R, win);
+						win=null;
+					}
 				}
-			}
-			
-			if(list.length<list_i||list.length==list_i){
-				list_i=0;
+				
+				if(list.length<list_i||list.length==list_i){
+					list_i=0;
+				}
 			}
 		}
 	}
 	
 	public void setItemWithPlane(LottoPackage l,int slot){
-		if(getItem(slot-9).getType()==Material.STAINED_GLASS_PANE)getItem(slot-9).setData(new MaterialData(l.getType().getMaterial(), l.getType().getData()));
+		if(getItem(slot-9)!=null&&getItem(slot-9).getType()==Material.STAINED_GLASS_PANE)getItem(slot-9).setData(new MaterialData(l.getType().getMaterial(), l.getType().getData()));
 		setItem(slot, l.getItemStack());
-		if(getItem(slot+9).getType()==Material.STAINED_GLASS_PANE)getItem(slot+9).setData(new MaterialData(l.getType().getMaterial(), l.getType().getData()));
+		if(getItem(slot+9)!=null&&getItem(slot+9).getType()==Material.STAINED_GLASS_PANE)getItem(slot+9).setData(new MaterialData(l.getType().getMaterial(), l.getType().getData()));
+		if(getItem(slot-9)==null)setItem(slot-9, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE), " "));
+		if(getItem(slot+9)==null)setItem(slot+9, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE), " "));
 	}
 	
 	public enum InventoryLotto2Type{

@@ -38,7 +38,11 @@ public class DeliveryInventoryPage extends InventoryPageBase{
 		
 		for(IButton button : this.getButtons()){
 			if(slot==button.getSlot() && button.getItemStack().getType() != Material.REDSTONE_BLOCK){
-				delivery.deliveryUSE(player, (!item.hasItemMeta()?"ITEMMETA NULL":(item.getItemMeta().hasDisplayName()?item.getItemMeta().getDisplayName():"DISPLAYNAME NULL")));
+				if(button.getItemStack().getType()==Material.JUKEBOX){	
+					button.Clicked(player, ActionType.R, button.getItemStack());
+				}else{
+					delivery.deliveryUSE(player, (!item.hasItemMeta()?"ITEMMETA NULL":(item.getItemMeta().hasDisplayName()?item.getItemMeta().getDisplayName():"DISPLAYNAME NULL")));
+				}
 				break;
 			}
 		}

@@ -14,16 +14,16 @@ public class CommandXP implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		Player p = (Player)cs;
 		if(args.length==0){
-			p.sendMessage(Language.getText(p, "PREFIX")+"§9/Xp send <Spieler> <Level>");
+			p.sendMessage(Language.getText(p, "PREFIX")+"§9/Xp send <Spieler> <EXP>");
 		}else{
 			if(args[0].equalsIgnoreCase("send")){
 				
 				if(args.length == 1){
-					p.sendMessage(Language.getText(p, "PREFIX")+"§c/xp send <Player> <Level>");
+					p.sendMessage(Language.getText(p, "PREFIX")+"§c/xp send <Player> <EXP>");
 					return false;
 				}
 				if(args.length == 2){
-					p.sendMessage(Language.getText(p, "PREFIX")+"§c/xp send <Player> <Level>");
+					p.sendMessage(Language.getText(p, "PREFIX")+"§c/xp send <Player> <EXP>");
 					return false;
 				}
 				if(args.length == 3){
@@ -56,15 +56,13 @@ public class CommandXP implements CommandExecutor{
 						return false;
 					}
 					
-					if(p.getLevel() < exp){
+					if(p.getExp() < exp){
 						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "NOT_ENOUGH_EXP"));
 						return false;
 					}
 					
-					
-					
-					target.setLevel(target.getLevel() + exp);
-					p.setLevel(p.getLevel() - exp);
+					target.setExp(target.getExp() + exp);
+					p.setExp(p.getExp() - exp);
 					
 					target.sendMessage(Language.getText(target, "PREFIX")+ Language.getText(target, "EXP_HIS_TO_ME",new String[]{p.getName(),String.valueOf(exp)}));
 					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(target, "EXP_ME_TO_HIS",new String[]{target.getName(),String.valueOf(exp)}));

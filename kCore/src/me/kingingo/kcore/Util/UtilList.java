@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -195,6 +196,14 @@ public class UtilList {
 				}
 			}
 		}
+	}
+	
+	public static String[] changeListType(List<String> l){
+		String[] s = new String[l.size()];
+		
+		for(int i = 0; i<l.size(); i++)s[i]=l.get(i);
+		
+		return s;
 	}
 	
 	public static void CleanList(HashMap<?,?> list){

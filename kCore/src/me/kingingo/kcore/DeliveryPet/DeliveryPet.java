@@ -9,12 +9,10 @@ import lombok.Getter;
 import me.kingingo.kcore.Enum.ServerType;
 import me.kingingo.kcore.Hologram.Hologram;
 import me.kingingo.kcore.Inventory.InventoryBase;
-import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Inventory.DeliveryInventoryPage;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2.InventoryLotto2Type;
 import me.kingingo.kcore.Inventory.Item.ButtonBase;
-import me.kingingo.kcore.Inventory.Item.ButtonOpenInventory;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.LottoPackage;
 import me.kingingo.kcore.Language.Language;
@@ -23,9 +21,10 @@ import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Permission.PermissionManager;
-import me.kingingo.kcore.Pet.PetManager;
+import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.UtilEnt;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
@@ -41,7 +40,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Enderman;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -53,11 +51,6 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
-
-import ru.tehkode.libs.net.gravitydevelopment.updater.Updater.UpdateResult;
-
-import com.avaje.ebeaninternal.server.deploy.generatedproperty.UpdateTimestampFactory;
 
 public class DeliveryPet extends kListener{
 
@@ -84,9 +77,10 @@ public class DeliveryPet extends kListener{
 	@Getter
 	private EntityType type;
 	
-	public DeliveryPet(DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm,MySQL mysql) {
-		super(mysql.getInstance(), "DeliveryPet");
-		this.mysql=mysql;
+	public DeliveryPet(DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm,PermissionManager perm,StatsManager stats,Coins coins) {
+		super(stats.getMysql().getInstance(), "DeliveryPet");
+		this.packages=UtilItem.loadLotto(ServerType.PVP, perm, stats, coins);
+		this.mysql=stats.getMysql();
 		this.type=type;
 		this.location=location;
 		this.name=name;
@@ -188,6 +182,9 @@ public class DeliveryPet extends kListener{
 	}
 	
 	public void deliveryUSE(Player player,String name){
+		
+		
+		
 		if(objects.get(name).displayname.equalsIgnoreCase(name)){
 			if(objects.get(name).byClickBlock){
 				deliveryBlock(player,name);
@@ -326,6 +323,7 @@ public class DeliveryPet extends kListener{
 							LottoPackage win = list[UtilMath.r(list.length)];
 							lotto.setList(list);
 							lotto.newRound(win);
+							player.openInventory(lotto);
 						}else{
 							player.sendMessage(Language.getText(player, "PREFIX")+" §cBESETZT");
 						}
