@@ -687,6 +687,10 @@ public class UtilItem {
 					
 				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b250 Epics"),InventoryLotto2Type.UNCOMMON));
 				//COINS #########################################################
+			}else if(type==ServerType.GAME){
+				// RANK #########################################################
+				
+				// RANK #########################################################
 			}
 		}
 		return lottoList;
