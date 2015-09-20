@@ -20,7 +20,7 @@ public class InventoryLanguage{
 	
 	public InventoryLanguage(InventorySize size,String title) {
 		for(LanguageType type : LanguageType.values()){
-			list.put(type, new InventoryPageBase(size.getSize(), title));
+			list.put(type, new InventoryPageBase("InventoryLanguage",size.getSize(), title));
 		}
 	}
 	

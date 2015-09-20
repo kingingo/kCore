@@ -469,7 +469,7 @@ public class KitSettingInventorys extends InventoryBase{
 	
 	public ItemStack[] loadEnchant(Enchantment[] list){
 		//+1 weil der Back Button dazu kommt.
-		ItemStack[] items = new ItemStack[InventorySize.itemSize(EnchantAnzahl(list)+1).getSize()];
+		ItemStack[] items = new ItemStack[InventorySize.invSize(EnchantAnzahl(list)+1).getSize()];
 		int i = 0;
 		for(Enchantment ench : list){
 				for(int lvl = ench.getStartLevel(); lvl <= ench.getMaxLevel();lvl++){

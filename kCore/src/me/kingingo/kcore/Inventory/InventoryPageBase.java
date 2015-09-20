@@ -3,12 +3,16 @@ package me.kingingo.kcore.Inventory;
 import java.util.ArrayList;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Util.InventorySize;
+import me.kingingo.kcore.Util.InventorySplit;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryCustom;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,18 +22,61 @@ public class InventoryPageBase extends CraftInventoryCustom{
  
 	@Getter
 	private ArrayList<IButton> buttons;
+	@Setter
+	@Getter
+	private boolean debug=false;
+	private String inventoryType;
+	
+	public InventoryPageBase(boolean debug,int size,String title){
+		super(null,InventorySize.invSize(size).getSize(),(title==null?"Inventory":title));
+		this.buttons=new ArrayList<>();
+		this.debug=debug;
+	}
+	
+	public InventoryPageBase(boolean debug,InventorySize size,String title){
+		super(null, size.getSize(), (title==null?"Inventory":title));
+		this.buttons=new ArrayList<>();
+		this.debug=debug;
+	}
 	
 	public InventoryPageBase(int size,String title){
-		super(null,size,(title==null?"Inventory":title));
+		super(null,InventorySize.invSize(size).getSize(),(title==null?"Inventory":title));
 		this.buttons=new ArrayList<>();
 	}
 	
 	public InventoryPageBase(InventorySize size,String title){
-		super(null, size.getSize(), title);
+		super(null, size.getSize(), (title==null?"Inventory":title));
 		this.buttons=new ArrayList<>();
 	}
 	
+	public InventoryPageBase(String inventoryType,boolean debug,int size,String title){
+		super(null,InventorySize.invSize(size).getSize(),(title==null?"Inventory":title));
+		this.buttons=new ArrayList<>();
+		this.debug=debug;
+		this.inventoryType=inventoryType;
+	}
+	
+	public InventoryPageBase(String inventoryType,boolean debug,InventorySize size,String title){
+		super(null, size.getSize(), (title==null?"Inventory":title));
+		this.buttons=new ArrayList<>();
+		this.debug=debug;
+		this.inventoryType=inventoryType;
+	}
+	
+	public InventoryPageBase(String inventoryType,int size,String title){
+		super(null,InventorySize.invSize(size).getSize(),(title==null?"Inventory":title));
+		this.buttons=new ArrayList<>();
+		this.inventoryType=inventoryType;
+	}
+	
+	public InventoryPageBase(String inventoryType,InventorySize size,String title){
+		super(null, size.getSize(), (title==null?"Inventory":title));
+		this.buttons=new ArrayList<>();
+		this.inventoryType=inventoryType;
+	}
+	
 	public void useButton(Player player,ActionType type,ItemStack item,int slot){
+		if(!isSlot(slot,"useButton(Player,ActionType,ItemStack,int)"))return;
 		for(IButton button : buttons){
 			if(slot==button.getSlot() ){
 				button.Clicked(player, type,item);
@@ -41,6 +88,52 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	public void remove(){
 		buttons.clear();
 		buttons=null;
+	}
+	
+	public void debug(String methode,String msg){
+		debug(methode,new String[]{msg});
+	}
+	
+	public void debug(String... msg){
+		debug(null,msg);
+	}
+	
+	public void debug(String methode,String... msg){
+		if(isDebug()){
+			System.err.println("          ");
+			if(inventoryType!=null)System.err.println("[DebugInv] InventoryType: "+inventoryType);
+			if(!getTitle().equalsIgnoreCase("Inventory"))System.err.println("[DebugInv] Title: "+getTitle());
+			if(methode!=null)System.err.println("[DebugInv] Methode: "+methode);
+			if(msg!=null)for(String m : msg)System.err.println("[DebugInv] "+m);
+			System.err.println("          ");
+		}
+	}
+	
+	public boolean isSlot(int index, String methode){
+		if( index<0 ){
+			debug(methode, "index("+index+"<0) ist zu klein.");
+			return false;
+		}else if( index>getSize() ){
+			debug(methode, "index("+index+">"+getSize()+") ist zu groﬂ.");
+			return false;
+		}
+		return true;
+	}
+	
+	public org.bukkit.inventory.ItemStack getItem(int index) {
+		if(!isSlot(index,"getItem(int)"))return null;
+	    net.minecraft.server.v1_8_R3.ItemStack item = getInventory().getItem(index);
+	    return item == null ? null : CraftItemStack.asCraftMirror(item);
+	}
+	
+	public void setItemReflect(int index, org.bukkit.inventory.ItemStack item){
+		setItem(index,item);
+		setItem(InventorySplit.getSlotRelfect(index), item);
+	}
+	
+	public void setItem(int index, org.bukkit.inventory.ItemStack item){
+		if(!isSlot(index,"setItem(int,ItemStack)"))return;
+	    getInventory().setItem(index, (item == null) || (item.getTypeId() == 0) ? null : CraftItemStack.asNMSCopy(item));
 	}
 	
 	public int getSlotSort(){
@@ -84,6 +177,7 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	}
 	
 	public IButton getButton(int slot){
+		if(!isSlot(slot,"getButton(int)"))return null;
 		for(IButton button : getButtons()){
 			if(button.getSlot()==slot){
 				return button;
@@ -101,10 +195,24 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	}
 	
 	public void addButton(int slot,IButton button){
+		if(!isSlot(slot,"addButton(int,IButton)"))return;
 		button.setSlot(slot);
 		button.setInventoryPageBase(this);
 		setItem(slot, button.getItemStack());
 		this.buttons.add(button);
+	}
+	
+	public void closeInventory(){
+		if(!getViewers().isEmpty())
+			for(int i = 0; i<getViewers().size(); i++)
+					getViewers().get(i).closeInventory();
+	}
+	
+	public void updateInventory(){
+		if(!getViewers().isEmpty())
+			for(HumanEntity h : getViewers())
+				if(h!=null && h instanceof Player)
+					((Player)h).updateInventory();
 	}
 	
 }

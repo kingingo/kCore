@@ -51,6 +51,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import me.kingingo.kcore.Inventory.Item.Get;
 
 public class DeliveryPet extends kListener{
 
@@ -92,7 +93,87 @@ public class DeliveryPet extends kListener{
 		this.players_obj=new HashMap<>();
 		this.players=new HashMap<>();
 		this.base=new InventoryBase(getMysql().getInstance(), "Delivery");
-		this.lotto=new InventoryLotto2("Play a Round!", getMysql().getInstance());
+		this.lotto=new InventoryLotto2("Play a Round!",new Get(){
+
+			@Override
+			public Object onGet(Player player) {
+				LottoPackage[] ps = new LottoPackage[18];
+				
+				int common=8;
+				int uncommon=5;
+				int rare=3;
+				int legendary=1;
+				int divine=0;
+				
+				if(UtilMath.r( 100000 ) == 5356){
+					divine++;
+				}else{
+					legendary++;
+				}
+				
+				for(int i = 0; i<ps.length; i++){
+					if(common != 0){
+						ps[i]=packages.get(InventoryLotto2Type.COMMON).get( UtilMath.r(packages.get(InventoryLotto2Type.COMMON).size()) );
+						
+						if(ps[i].hasPlayer(player)){
+							ps[i]=null;
+							i--;
+						}else{
+							common--;
+						}
+					}else if(uncommon != 0){
+						ps[i]=packages.get(InventoryLotto2Type.UNCOMMON).get( UtilMath.r(packages.get(InventoryLotto2Type.UNCOMMON).size()) );
+
+						if(ps[i].hasPlayer(player)){
+							ps[i]=null;
+							i--;
+						}else{
+							uncommon--;
+						}
+					}else if(rare != 0){
+						ps[i]=packages.get(InventoryLotto2Type.RARE).get( UtilMath.r(packages.get(InventoryLotto2Type.RARE).size()) );
+
+						if(ps[i].hasPlayer(player)){
+							ps[i]=null;
+							i--;
+						}else{
+							rare--;
+						}
+					}else if(legendary != 0){
+						ps[i]=packages.get(InventoryLotto2Type.LEGENDARY).get( UtilMath.r(packages.get(InventoryLotto2Type.LEGENDARY).size()) );
+						
+						if(ps[i].hasPlayer(player)){
+							ps[i]=null;
+							i--;
+						}else{
+							legendary--;
+						}
+					}else if(divine != 0){
+						ps[i]=packages.get(InventoryLotto2Type.DIVINE).get( UtilMath.r(packages.get(InventoryLotto2Type.DIVINE).size()) );
+						
+						if(ps[i].hasPlayer(player)){
+							ps[i]=null;
+							i--;
+						}else{
+							divine--;
+						}
+					}
+				}
+				
+				LottoPackage[] ps1 =new LottoPackage[ps.length];
+				int r;
+				for(int i = 0; i<ps.length; i++){
+					r=UtilMath.r(ps.length);
+					if(ps1[r]!=null){
+						i--;
+						continue;
+					}
+					ps1[r]=ps[i];
+				}
+				return ps1;
+			}
+			
+		},4,7, getMysql().getInstance());
 		this.base.addPage(lotto);
 	}
 	
@@ -197,84 +278,6 @@ public class DeliveryPet extends kListener{
 		return new String[]{"§7Du kannst das Item in §c"+UtilTime.formatMili( players_obj.get(UtilPlayer.getRealUUID(player)).get(name)-System.currentTimeMillis() )+"§7 benutzten"};
 	}
 	
-	public LottoPackage[] randomPackages(Player player){
-		LottoPackage[] ps = new LottoPackage[18];
-		
-		int common=6;
-		int uncommon=5;
-		int rare=4;
-		int legendary=2;
-		int divine=0;
-		
-		if(UtilMath.r( 100000 ) == 5356){
-			divine++;
-		}else{
-			legendary++;
-		}
-		
-		for(int i = 0; i<ps.length; i++){
-			if(common != 0){
-				ps[i]=packages.get(InventoryLotto2Type.COMMON).get( UtilMath.r(packages.get(InventoryLotto2Type.COMMON).size()) );
-				
-				if(ps[i].hasPlayer(player)){
-					ps[i]=null;
-					i--;
-				}else{
-					common--;
-				}
-			}else if(uncommon != 0){
-				ps[i]=packages.get(InventoryLotto2Type.UNCOMMON).get( UtilMath.r(packages.get(InventoryLotto2Type.UNCOMMON).size()) );
-
-				if(ps[i].hasPlayer(player)){
-					ps[i]=null;
-					i--;
-				}else{
-					uncommon--;
-				}
-			}else if(rare != 0){
-				ps[i]=packages.get(InventoryLotto2Type.RARE).get( UtilMath.r(packages.get(InventoryLotto2Type.RARE).size()) );
-
-				if(ps[i].hasPlayer(player)){
-					ps[i]=null;
-					i--;
-				}else{
-					rare--;
-				}
-			}else if(legendary != 0){
-				ps[i]=packages.get(InventoryLotto2Type.LEGENDARY).get( UtilMath.r(packages.get(InventoryLotto2Type.LEGENDARY).size()) );
-				
-				if(ps[i].hasPlayer(player)){
-					ps[i]=null;
-					i--;
-				}else{
-					legendary--;
-				}
-			}else if(divine != 0){
-				ps[i]=packages.get(InventoryLotto2Type.DIVINE).get( UtilMath.r(packages.get(InventoryLotto2Type.DIVINE).size()) );
-				
-				if(ps[i].hasPlayer(player)){
-					ps[i]=null;
-					i--;
-				}else{
-					divine--;
-				}
-			}
-		}
-		
-		LottoPackage[] ps1 =new LottoPackage[18];
-		int r;
-		for(int i = 0; i<ps.length; i++){
-			r=UtilMath.r(ps.length);
-			if(ps1[r]!=null){
-				i--;
-				continue;
-			}
-			ps1[r]=ps[i];
-		}
-		
-		return ps1;
-	}
-	
 	@EventHandler
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		if(!players_obj.containsKey(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())))players_obj.put(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()), new HashMap<String,Long>());
@@ -319,11 +322,8 @@ public class DeliveryPet extends kListener{
 					@Override
 					public void onClick(Player player, ActionType type, Object object) {
 						if(lotto.getWin()==null){
-							LottoPackage[] list = randomPackages(player);
-							LottoPackage win = list[UtilMath.r(list.length)];
-							lotto.setList(list);
-							lotto.newRound(win);
-							player.openInventory(lotto);
+							
+							lotto.newRound(player);
 						}else{
 							player.sendMessage(Language.getText(player, "PREFIX")+" §cBESETZT");
 						}

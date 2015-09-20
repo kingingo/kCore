@@ -16,7 +16,7 @@ public class InventoryLoad extends InventoryPageBase implements Listener{
 	private int slot=0;
 	
 	public InventoryLoad(JavaPlugin instance, String title) {
-		super(9, title);
+		super("InventoryLoad",9, title);
 		this.fill(Material.WOOL);
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}

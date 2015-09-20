@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 public class InventoryChoose extends InventoryPageBase{
 	
 	public InventoryChoose(Click click,int start_line,String Title,int size,ItemStack[] item) {
-		super(size,Title);
+		super("InventoryChoose",size,Title);
 		for(ItemStack i : item){
 			if(i==null||i.getType()==Material.AIR)continue;
 			addButton(start_line,new ButtonBase(click,i));

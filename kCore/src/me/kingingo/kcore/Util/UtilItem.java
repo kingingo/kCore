@@ -34,7 +34,9 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.Potion;
 
 public class UtilItem {
 	
@@ -327,8 +329,17 @@ public class UtilItem {
 				
 				lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.DIAMOND,16), new String[]{"§7Lotto Item"}, "§bDiamond"),InventoryLotto2Type.COMMON));
 				
-				for(int i = 8193; i<8270;i++)lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null, UtilItem.Item(new ItemStack(Material.POTION,32,(byte)i), new String[]{"§7Lotto Item"}, "§bPotion"), InventoryLotto2Type.COMMON));
-				for(int i = 16385; i<16462;i++)lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null, UtilItem.Item(new ItemStack(Material.POTION,32,(byte)i), new String[]{"§7Lotto Item"}, "§bPotion"), InventoryLotto2Type.COMMON));
+				Potion potion;
+				for(int i = 8193; i<=16489;i++){
+					try{
+						potion= Potion.fromItemStack(new ItemStack(Material.POTION,32,(byte)i));
+						if(!potion.getEffects().isEmpty()){
+							lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null, UtilItem.Item(potion.toItemStack(32), new String[]{"§7Lotto Item"}, "§bPotion"), InventoryLotto2Type.COMMON));
+						}
+					}catch(Exception e){
+						
+					}
+				}
 				//ITEMS #########################################################
 				
 				//PERKS #########################################################
@@ -1424,6 +1435,59 @@ public class UtilItem {
 		  }else{
 			  return false;
 		  }
+	  }
+	  
+	  public static boolean ItemNameEqualsAll(ItemStack i, ItemStack i1){
+		  if(i!=null&&i1!=null){
+			  if(i.getType()!=i1.getType()){
+				  return false;
+			  }
+			  
+			  if(i.getAmount()!=i1.getAmount()){
+				  return false;
+			  }
+			  
+			  if(i.getData()!=i1.getData()){
+				  	 System.out.println("FALSE--1");
+				  return false;
+			  }
+			  
+			  if(i.getDurability()!=i1.getDurability()){
+				  	 System.out.println("FALSE0");
+				  return false;
+			  }
+			  
+			  if(i.hasItemMeta()==i1.hasItemMeta()){
+				  if(i.hasItemMeta()){
+					  if(i1.getItemMeta().hasDisplayName()==i1.getItemMeta().hasDisplayName()){
+						  if(i.getItemMeta().hasDisplayName()){
+							  if(!i.getItemMeta().getDisplayName().equalsIgnoreCase(i1.getItemMeta().getDisplayName())){
+								  	 System.out.println("FALSE1");
+									 return false; 
+								  }
+						  }
+					  }
+					  
+					  if(i.getItemMeta().hasLore()==i.getItemMeta().hasLore()){
+						  if(i.getItemMeta().hasLore()){
+							  if(!(i.getItemMeta().getLore()==i.getItemMeta().getLore())){
+								  	 System.out.println("FALSE2");
+								  return false;
+							  }
+						  }
+					  }
+				  }
+			  }
+			  
+			  if(i.getEnchantments()==i1.getEnchantments()){
+				  	 System.out.println("FALSE3");
+				  return false;
+			  }
+			  
+			  return true;
+		  }
+		  	 System.out.println("FALSE");
+		  return false;
 	  }
 
 	  public static org.bukkit.inventory.ItemStack Item(org.bukkit.inventory.ItemStack i, List<String> msg, String msg1)

@@ -26,26 +26,26 @@ public class ListenerCMD extends kListener{
 		cmd = "";
 	    if (ev.getMessage().contains(" ")){
 	      parts = ev.getMessage().split(" ");
-	      cmd = parts[0];
+	      cmd = parts[0].toLowerCase();
 	    }else{
-	      cmd = ev.getMessage();
+	      cmd = ev.getMessage().toLowerCase();
 	    }
 	    
-	    if(cmd.equalsIgnoreCase("/plugins")){
+	    if(cmd.toLowerCase().equalsIgnoreCase("/plugins")){
 	    	ev.setCancelled(true);
-	    }else if(cmd.equalsIgnoreCase("/pl")){
+	    }else if(cmd.toLowerCase().equalsIgnoreCase("/pl")){
 	    	ev.setCancelled(true);
-	    }else if(cmd.equalsIgnoreCase("/?")){
+	    }else if(cmd.toLowerCase().equalsIgnoreCase("/?")){
 	    	ev.setCancelled(true);
-	    }else if(cmd.equalsIgnoreCase("/help")){
+	    }else if(cmd.toLowerCase().equalsIgnoreCase("/help")){
 	    	ev.setCancelled(true);
-	    }else if(cmd.contains("/bukkit:")){
+	    }else if(cmd.toLowerCase().contains("/bukkit:")){
 	    	ev.setCancelled(true);
-	    }else if(cmd.contains("/minecraft:")){
+	    }else if(cmd.toLowerCase().contains("/minecraft:")){
 	    	ev.setCancelled(true);
-	    }else if(cmd.contains("/essentials:")){
+	    }else if(cmd.toLowerCase().contains("/essentials:")){
 	    	ev.setCancelled(true);
-	    }else if(cmd.contains("/about")){
+	    }else if(cmd.toLowerCase().contains("/about")){
 	    	ev.setCancelled(true);
 	    }
 	}
@@ -56,19 +56,19 @@ public class ListenerCMD extends kListener{
 			 try {
 	                kPacketPlayInTabComplete use = new kPacketPlayInTabComplete(ev.getPacket());
 	                
-	                if(use.getChatMessage().contains("/?")){
+	                if(use.getChatMessage().toLowerCase().contains("/?")){
 	        			ev.setCancelled(true);
-	        		}else if(use.getChatMessage().contains("/bukkit:")){
+	        		}else if(use.getChatMessage().toLowerCase().contains("/bukkit:")){
 	        			ev.setCancelled(true);
-	        		}else if(use.getChatMessage().contains("/minecraft:")){
+	        		}else if(use.getChatMessage().toLowerCase().contains("/minecraft:")){
 	        			ev.setCancelled(true);
-	        		}else if(use.getChatMessage().contains("/essentials:")){
+	        		}else if(use.getChatMessage().toLowerCase().contains("/essentials:")){
 	        			ev.setCancelled(true);
-	        		}else if(use.getChatMessage().contains("/about")){
+	        		}else if(use.getChatMessage().toLowerCase().contains("/about")){
 	        			ev.setCancelled(true);
-	        		}else if(use.getChatMessage().contains("/ver")){
+	        		}else if(use.getChatMessage().toLowerCase().contains("/ver")){
 	        			ev.setCancelled(true);
-	        		}else if(use.getChatMessage().equalsIgnoreCase("/")){
+	        		}else if(use.getChatMessage().toLowerCase().equalsIgnoreCase("/")){
 	        			ev.setCancelled(true);
 	        		}
 	                

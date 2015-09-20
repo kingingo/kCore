@@ -17,7 +17,7 @@ public class InventoryTrade extends InventoryPageBase{
 	ButtonBase accept_t1;
 	
 	public InventoryTrade(final Player t,final Player t1) {
-		super(InventorySize._45.getSize(),t.getName()+" and "+t1.getName());
+		super("InventoryTrade",InventorySize._45.getSize(),t.getName()+" and "+t1.getName());
 		
 		for(int i = 4 ; i < (4+5*9); i+=9){
 			setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)15), " "));

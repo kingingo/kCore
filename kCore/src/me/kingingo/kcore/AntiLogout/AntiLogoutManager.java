@@ -75,6 +75,8 @@ public class AntiLogoutManager extends kListener {
 	
 	Location loc;
 	World w;
+	RegionManager regionManager;
+	ApplicableRegionSet set;
 	@EventHandler
 	public void Updater(UpdateEvent ev){
 		if(ev.getType()==UpdateType.SEC_2){
@@ -83,8 +85,8 @@ public class AntiLogoutManager extends kListener {
 					if(worldGuard!=null){
 						loc = ((Player)getPlayers().keySet().toArray()[i]).getLocation();
 						w = loc.getWorld();
-						RegionManager regionManager = worldGuard.getRegionManager(w);
-					    ApplicableRegionSet set = regionManager.getApplicableRegions(loc);
+						regionManager = worldGuard.getRegionManager(w);
+						set = regionManager.getApplicableRegions(loc);
 					    if (!set.allows(DefaultFlag.PVP)) {
 					    	del(((Player)getPlayers().keySet().toArray()[i]));
 					    }

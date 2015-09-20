@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 public class InventorySortChoose extends InventoryPageBase{
 	
 	public InventorySortChoose(Click click,String Title,int size,ItemStack[] item) {
-		super(size,Title);
+		super("InventorySortChoose",size,Title);
 		for(ItemStack i : item){
 			if(i==null||i.getType()==Material.AIR)continue;
 			addButton(getSlotSort(), new ButtonBase(click,i));

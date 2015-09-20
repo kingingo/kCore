@@ -18,7 +18,7 @@ public class DeliveryInventoryPage extends InventoryPageBase{
 	private HashMap<Player,Long> click_time = new HashMap<Player,Long>();
 	
 	public DeliveryInventoryPage(int size, String title,DeliveryPet delivery) {
-		super(size, title);
+		super("DeliveryInventoryPage",size, title);
 		this.delivery=delivery;
 	}
 	

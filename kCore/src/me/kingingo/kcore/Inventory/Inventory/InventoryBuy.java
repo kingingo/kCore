@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class InventoryBuy extends InventoryPageBase{
 	
 	public InventoryBuy(final Click buyed,String Title,final Coins coins,final int c) {
-		super(9,Title);
+		super("InventoryBuy",9,Title);
 		addButton(4,new ButtonBase(new Click(){
 
 			@Override

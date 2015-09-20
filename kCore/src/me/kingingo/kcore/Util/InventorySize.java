@@ -16,7 +16,7 @@ public int getSize(){
 	return this.i;
 }
 
-public static InventorySize itemSize(int size){
+public static InventorySize invSize(int size){
 	if(size<=9){
 		return InventorySize._9;
 	}else if(size<=18){
