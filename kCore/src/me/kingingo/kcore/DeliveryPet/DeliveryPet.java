@@ -8,6 +8,7 @@ import java.util.UUID;
 import lombok.Getter;
 import me.kingingo.kcore.Enum.ServerType;
 import me.kingingo.kcore.Hologram.Hologram;
+import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.DeliveryInventoryPage;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2;
@@ -26,23 +27,32 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.InventorySize;
+import me.kingingo.kcore.Util.UtilEffect;
 import me.kingingo.kcore.Util.UtilEnt;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilList;
+import me.kingingo.kcore.Util.UtilLocation;
 import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilNumber;
+import me.kingingo.kcore.Util.UtilParticle;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilTime;
+import me.kingingo.kcore.Util.UtilVector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Enderman;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
@@ -51,6 +61,8 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffectType;
+
 import me.kingingo.kcore.Inventory.Item.Get;
 
 public class DeliveryPet extends kListener{
@@ -61,8 +73,12 @@ public class DeliveryPet extends kListener{
 	private InventoryLotto2 lotto;
 	@Getter
 	private Creature entity;
+	@Getter
+	private Creature jockey;
 	private HashMap<String,DeliveryObject> objects;
 	private HashMap<Player,DeliveryInventoryPage> players;
+	private HashMap<Player,NameTagMessage> players_hm;
+	private HashMap<Player,Integer> players_hm_reward;
 	private HashMap<UUID,HashMap<String,Long>> players_obj;
 	private ServerType serverType;
 	@Getter
@@ -80,7 +96,7 @@ public class DeliveryPet extends kListener{
 	
 	public DeliveryPet(DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm,PermissionManager perm,StatsManager stats,Coins coins) {
 		super(stats.getMysql().getInstance(), "DeliveryPet");
-		this.packages=UtilItem.loadLotto(ServerType.PVP, perm, stats, coins);
+		this.packages=UtilItem.loadLotto(serverType, perm, stats, coins);
 		this.mysql=stats.getMysql();
 		this.type=type;
 		this.location=location;
@@ -92,6 +108,8 @@ public class DeliveryPet extends kListener{
 		for(DeliveryObject obj : objects)this.objects.put(obj.displayname, obj);
 		this.players_obj=new HashMap<>();
 		this.players=new HashMap<>();
+		this.players_hm=new HashMap<>();
+		this.players_hm_reward=new HashMap<>();
 		this.base=new InventoryBase(getMysql().getInstance(), "Delivery");
 		this.lotto=new InventoryLotto2("Play a Round!",new Get(){
 
@@ -179,20 +197,60 @@ public class DeliveryPet extends kListener{
 	
 	@EventHandler
 	public void join(PlayerJoinEvent ev){
-		if(this.entity==null||this.entity.isDead()){
-			this.entity=(Creature)getLocation().getWorld().spawnCreature(getLocation(), getType());
-			this.entity.setCustomName("");
-			this.entity.setCustomNameVisible(true);
-			getHologramm().setName(entity, name);
-			UtilEnt.setNoAI(entity, true);
+		if(this.jockey==null||this.jockey.isDead()){
+			this.jockey=(Creature)getLocation().getWorld().spawnCreature(getLocation(), getType());
+			this.jockey.setCustomName("");
+			this.jockey.setCanPickupItems(false);
+			this.jockey.setCustomNameVisible(true);
+			this.jockey.setRemoveWhenFarAway(false);
+			UtilEnt.setNoAI(jockey, true);
 			
-			if(entity.getType()==EntityType.ENDERMAN){
-				Enderman e = (Enderman) this.entity;
+			if(jockey.getType()==EntityType.ENDERMAN){
+				Enderman e = (Enderman) this.jockey;
 				e.setCanPickupItems(false);
 				e.setRemoveWhenFarAway(false);
 				e.setTarget(null);
+			}else if(jockey.getType()==EntityType.CHICKEN){
+				this.entity=(Creature)getLocation().getWorld().spawnCreature(getLocation(), EntityType.ZOMBIE);
+				this.entity.setCustomName("");
+				this.entity.setCustomNameVisible(true);
+				this.entity.setRemoveWhenFarAway(false);
+				this.entity.setCanPickupItems(false);
+				Zombie zombie = (Zombie)entity;
+				zombie.setBaby(true);
+				zombie.setVillager(false);
+				UtilEnt.setNoAI(entity, true);
+				this.jockey.setPassenger(this.entity);
 			}
 		}
+		
+		if(players_hm.containsKey(ev.getPlayer())){
+			players_hm.get(ev.getPlayer()).sendToPlayer(ev.getPlayer());
+		}else{
+			players_hm_reward.put(ev.getPlayer(), getRewards(ev.getPlayer()));
+			players_hm.put(ev.getPlayer(), getHologramm().setName( (this.entity!=null?this.entity:this.jockey) , ev.getPlayer(), new String[]{Language.getText(ev.getPlayer(), (players_hm_reward.get(ev.getPlayer())>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§f§l"+players_hm_reward.get(ev.getPlayer())),name,Language.getText(ev.getPlayer(),"DELIVERY_HM_3")}));
+		}
+	}
+	
+	public void playEffect(){
+		Entity e;
+		for(Player player : UtilPlayer.getInRadius(this.jockey.getLocation(), 15).keySet()){
+			e=this.jockey.getLocation().getWorld().spawnEntity(this.jockey.getLocation().add(0, 3, 0), EntityType.EGG);
+			e.setVelocity( e.getVelocity().add(UtilLocation.calculateVector(e.getLocation(), player.getEyeLocation())) );
+			UtilPlayer.addPotionEffect(player, PotionEffectType.SPEED, 10, 2);
+		}
+	}
+	
+	public int getRewards(Player player){
+		int i = 0;
+		
+		for(String obj : players_obj.get(UtilPlayer.getRealUUID(player)).keySet()){
+			if(!(players_obj.get(UtilPlayer.getRealUUID(player)).get(obj) > System.currentTimeMillis())){
+				i++;
+			}
+		}
+		
+		return i;
 	}
 	
 	@EventHandler
@@ -203,25 +261,38 @@ public class DeliveryPet extends kListener{
 	
 	@EventHandler
 	public void teleport(EntityTeleportEvent ev){
-		if(ev.getEntity().getEntityId()==this.entity.getEntityId()){
+		if(ev.getEntity().getEntityId()==this.jockey.getEntityId()){
+			ev.setCancelled(true);
+		}
+		if(this.entity!=null&&ev.getEntity().getEntityId()==this.entity.getEntityId()){
 			ev.setCancelled(true);
 		}
 	}
 	
 	@EventHandler
+	public void flame(EntityCombustEvent ev){
+		if(ev.getEntity().getEntityId()==this.jockey.getEntityId())ev.setCancelled(true);
+		if(this.entity!=null&&ev.getEntity().getEntityId()==this.entity.getEntityId())ev.setCancelled(true);
+	}
+	
+	@EventHandler
 	public void Damage(EntityDamageByEntityEvent ev){
-		if(ev.getEntity().getEntityId()==this.entity.getEntityId())ev.setCancelled(true);
-		if(ev.getDamager().getEntityId()==this.entity.getEntityId())ev.setCancelled(true);
+		if(ev.getEntity().getEntityId()==this.jockey.getEntityId())ev.setCancelled(true);
+		if(ev.getDamager().getEntityId()==this.jockey.getEntityId())ev.setCancelled(true);
+		if(this.entity!=null&&ev.getEntity().getEntityId()==this.entity.getEntityId())ev.setCancelled(true);
+		if(this.entity!=null&&ev.getDamager().getEntityId()==this.entity.getEntityId())ev.setCancelled(true);
 	}
 	
 	@EventHandler
 	public void Damage(EntityDamageEvent ev){
-		if(ev.getEntity().getEntityId()==this.entity.getEntityId())ev.setCancelled(true);
+		if(ev.getEntity().getEntityId()==this.jockey.getEntityId())ev.setCancelled(true);
+		if(this.entity!=null&&ev.getEntity().getEntityId()==this.entity.getEntityId())ev.setCancelled(true);
 	}
 	
 	@EventHandler
 	public void target(EntityTargetEvent ev){
-		if(ev.getEntity().getEntityId()==this.entity.getEntityId())ev.setCancelled(true);
+		if(ev.getEntity().getEntityId()==this.jockey.getEntityId())ev.setCancelled(true);
+		if(this.entity!=null&&ev.getEntity().getEntityId()==this.entity.getEntityId())ev.setCancelled(true);
 	}
 	
 	@EventHandler
@@ -229,6 +300,30 @@ public class DeliveryPet extends kListener{
 		if(ev.getType()==UpdateType.MIN_64){
 			UtilList.CleanList(players,base);
 			UtilList.CleanList(players_obj);
+			UtilList.CleanList(players_hm);
+			UtilList.CleanList(players_hm_reward);
+		}
+		
+		if(ev.getType()==UpdateType.SEC){
+			for(Player player : players_hm.keySet()){
+				if(players_hm_reward.containsKey(player)){
+					if(players_hm_reward.get(player)==0){
+						if(!players_hm.get(player).getLines()[0].startsWith("§7")){
+							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§7"+players_hm_reward.get(player)));
+							players_hm.get(player).clear(player);
+							players_hm.get(player).sendToPlayer(player);
+						}
+					}else{
+						if(players_hm.get(player).getLines()[0].startsWith("§f§l")||players_hm.get(player).getLines()[0].startsWith("§7")){
+							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§c§l"+players_hm_reward.get(player)));
+						}else{
+							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§f§l"+players_hm_reward.get(player)));
+						}
+						players_hm.get(player).clear(player);
+						players_hm.get(player).sendToPlayer(player);
+					}
+				}
+			}
 		}
 		
 		if(ev.getType()==UpdateType.SEC){
@@ -263,19 +358,19 @@ public class DeliveryPet extends kListener{
 	}
 	
 	public void deliveryUSE(Player player,String name){
-		
-		
-		
 		if(objects.get(name).displayname.equalsIgnoreCase(name)){
 			if(objects.get(name).byClickBlock){
 				deliveryBlock(player,name);
 			}
 			objects.get(name).click.onClick(player, ActionType.R, objects.get(name));
+			players_hm_reward.remove(player);
+			players_hm_reward.put(player, getRewards(player));
+			playEffect();
 		}
 	}
 	
 	public String[] descriptionUSED(Player player,String name){
-		return new String[]{"§7Du kannst das Item in §c"+UtilTime.formatMili( players_obj.get(UtilPlayer.getRealUUID(player)).get(name)-System.currentTimeMillis() )+"§7 benutzten"};
+		return new String[]{Language.getText(player, "DELIVERY_USED", UtilTime.formatMili( players_obj.get(UtilPlayer.getRealUUID(player)).get(name)-System.currentTimeMillis() ))};
 	}
 	
 	@EventHandler
@@ -311,7 +406,7 @@ public class DeliveryPet extends kListener{
 	
 	@EventHandler
 	public void Open(PlayerInteractAtEntityEvent ev){
-		if(ev.getRightClicked().getEntityId() == entity.getEntityId()){
+		if(ev.getRightClicked().getEntityId() == jockey.getEntityId()||(this.entity!=null&&ev.getRightClicked().getEntityId() == entity.getEntityId())){
 			ev.setCancelled(true);
 			if(!players.containsKey(ev.getPlayer())){
 				players.put(ev.getPlayer(), new DeliveryInventoryPage(InventorySize._45.getSize(), ev.getPlayer().getName()+" "+"Delivery",this));
@@ -322,14 +417,13 @@ public class DeliveryPet extends kListener{
 					@Override
 					public void onClick(Player player, ActionType type, Object object) {
 						if(lotto.getWin()==null){
-							
 							lotto.newRound(player);
 						}else{
-							player.sendMessage(Language.getText(player, "PREFIX")+" §cBESETZT");
+							player.sendMessage(Language.getText(player, "PREFIX")+ Language.getText(player, "DELIVERY_LOTTO_USED"));
 						}
 					}
 					
-				}, Material.JUKEBOX, "Lotto"));
+				}, Material.JUKEBOX, "§7Lotto"));
 				
 				if(!players_obj.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
 					Log("players_obj Spieler "+ev.getPlayer()+" nicht gefunden!");

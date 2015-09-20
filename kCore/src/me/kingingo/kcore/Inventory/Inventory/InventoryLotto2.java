@@ -9,14 +9,12 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.InventorySplit;
-import me.kingingo.kcore.Util.UtilMath;
-import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
+import me.kingingo.kcore.Util.UtilMath;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -99,7 +97,7 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 		if(win!=null){
 			if(getViewers().isEmpty()){
 				clearLotto();
-			}else if(status==InventoryLotto2Status.PLAY&&ev.getType()==UpdateType.FASTEST){
+			}else if(status==InventoryLotto2Status.PLAY&&ev.getType()==UpdateType.TICK){
 				for(int i = 17; i >= 9; i--){
 					if(i==9){
 						setItemWithPlane(list[list_i], i);
@@ -135,7 +133,7 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 						}
 					}
 				}
-			}else if(status==InventoryLotto2Status.GET&&ev.getType()==UpdateType.FAST){
+			}else if(status==InventoryLotto2Status.GET&&ev.getType()==UpdateType.SEC){
 				if(slot==InventorySplit._9.getMiddle()){
 					item=UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)15), " ");
 					setItem(4, item);

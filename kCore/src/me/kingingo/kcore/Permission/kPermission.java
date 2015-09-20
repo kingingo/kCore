@@ -1,6 +1,9 @@
 package me.kingingo.kcore.Permission;
 
 public enum kPermission {
+RANK_COINS_DAILY("epicpvp.delivery.rank.coins.daily"),
+RANK_COINS_WEEK("epicpvp.delivery.rank.coins.week"),
+RANK_COINS_MONTH("epicpvp.delivery.rank.coins.month"),
 HUB_CHANGE_LANGUAGE("epicpvp.language.change"),
 KBAN("epicpvp.bg.kban"),
 ZEITBAN("epicpvp.bg.zeitban"),

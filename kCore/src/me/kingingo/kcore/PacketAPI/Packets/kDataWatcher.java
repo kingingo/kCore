@@ -1,7 +1,12 @@
 package me.kingingo.kcore.PacketAPI.Packets;
 
+import me.kingingo.kcore.Disguise.disguises.DummyEntity;
 import net.minecraft.server.v1_8_R3.DataWatcher;
-import net.minecraft.server.v1_8_R3.Entity;
+
+import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.entity.Entity;
 
 public class kDataWatcher extends DataWatcher{
 
@@ -12,10 +17,18 @@ public class kDataWatcher extends DataWatcher{
 	private int KP = 4;
 	
 	public kDataWatcher(Entity entity) {
-		super(entity);
+		super( ((CraftEntity)entity).getHandle() );
 	}
 	
-	public kDataWatcher(){
+	public kDataWatcher(net.minecraft.server.v1_8_R3.Entity entity) {
+		super( entity );
+	}
+	
+	public kDataWatcher(World world){
+		super( new DummyEntity(((CraftWorld)world).getHandle()) );
+	}
+	
+	public kDataWatcher() {
 		super(null);
 	}
 	
@@ -54,5 +67,4 @@ public class kDataWatcher extends DataWatcher{
 	public boolean getCustomNameVisible() {
 	    return this.getByte(CUSTOM_NAME_VISIBLE) == 1;
 	}
-
 }

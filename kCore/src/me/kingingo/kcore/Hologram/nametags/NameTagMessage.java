@@ -44,7 +44,16 @@ public class NameTagMessage extends ImageMessage {
 		super(imgLines);
 		initialize(imgLines.length);
 	}
+	
+	public NameTagMessage(double y, String... imgLines) {
+		super(imgLines);
+		initialize(imgLines.length,y);
+	}
 
+	private void initialize(int height, double y) {
+		this.spawner = new NameTagSpawner(height,y);
+	}
+	
 	private void initialize(int height) {
 		this.spawner = new NameTagSpawner(height);
 	}

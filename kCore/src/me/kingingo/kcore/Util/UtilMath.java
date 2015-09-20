@@ -22,6 +22,15 @@ public class UtilMath
     return Double.valueOf(twoDForm.format(d)).doubleValue();
   }
   
+  public static Vector getRandomCircleVector() {
+		double rnd, x, z;
+		rnd = random.nextDouble() * 2 * Math.PI;
+		x = Math.cos(rnd);
+		z = Math.sin(rnd);
+		
+		return new Vector(x, 0, z);
+	}
+  
   public static Integer RandomInt(int high, int low) {
 	return (int) (Math.random() * (high - low) + low);
   }

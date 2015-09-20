@@ -11,8 +11,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import com.google.common.collect.Lists;
@@ -175,7 +178,7 @@ public class UtilLocation {
 		return SpiralLocs(w, locs,border,new Location(w,x,y,z));
 	}
 	
-	public void makeCircle(Location loc, Integer r, Material m) {
+	public static void makeCircle(Location loc, Integer r, Material m) {
         int x;
         int y = loc.getBlockY();
         int z;      
@@ -188,7 +191,62 @@ public class UtilLocation {
         }
     }
 	
-	public void makeSpiral(Location loc,double max_r,Material m) {
+	public static void playHelix(Location location, EntityType e){
+		int strands = 8;
+		int radius = 10;
+		int particles = 80;
+		double rotation = Math.PI / 4;
+		int curve = 10;
+		playHelix(location, radius, strands, particles, rotation, curve, e);
+	}
+	
+	public static void playHelix(Location location,int radius,int strands,int particles, double rotation,int curve,EntityType t){
+		Entity e;
+        for (int i = 1; i <= strands; i++) {
+            for (int j = 1; j <= particles; j++) {
+                float ratio = (float) j / particles;
+                double angle = curve * ratio * 2 * Math.PI / strands + (2 * Math.PI * i / strands) + rotation;
+                double x = Math.cos(angle) * ratio * radius;
+                double z = Math.sin(angle) * ratio * radius;
+                e=location.getWorld().spawnEntity(location, t);
+                e.setVelocity(e.getVelocity().add(new Vector(x,0,z)));
+            }
+        }
+	}
+	
+	public static void ThrowInSpiral(Location loc,double r,EntityType type) {
+        int x;
+        int y = loc.getBlockY()+2;
+        int z;
+        double angle; 
+        Entity e;
+        for (int i = 0; i < 360; i++) {
+        	angle = i * Math.PI / 180;
+            x = (int)(loc.getX() + r * Math.cos(angle));
+            z = (int)(loc.getZ() + r * Math.sin(angle));
+            e = loc.getWorld().spawnEntity(loc,type);
+            e.setVelocity(new Vector(x, y, z));
+        }
+    }
+	
+	public static void DropItemInSpiral(Location loc,double max_r,Material m) {
+        int x;
+        int y = loc.getBlockY();
+        int z;
+        double angle;
+        double r=1;      
+        
+        for (double i = 0.0; i < 360.0; i += 0.1) {
+        	angle = i * Math.PI / 180;
+        	r+=0.005;
+            x = (int)(loc.getX() + r * Math.cos(angle));
+            z = (int)(loc.getZ() + r * Math.sin(angle));
+            loc.getWorld().dropItemNaturally(loc.getWorld().getBlockAt(x, y, z).getLocation(), new ItemStack(m));
+            if(i>=350&&loc.getWorld().getBlockAt(x, y, z).getLocation().distance(loc)<max_r)i=0.0;
+        }
+    }
+	
+	public static void makeSpiral(Location loc,double max_r,Material m) {
         int x;
         int y = loc.getBlockY();
         int z;

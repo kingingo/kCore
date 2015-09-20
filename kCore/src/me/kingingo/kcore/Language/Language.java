@@ -14,6 +14,7 @@ import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.PLAYER_LANGUAGE_CHANGE;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -552,6 +553,11 @@ public class Language {
 			add(type,"HEAD","You are now wearing this block as head!");
 			add(type,"PVP_KILL","§2You killed §e{INPUT0} §2and get §e{INPUT1} §2FAME from him!");
 			add(type,"PVP_DEATH","§cBecause you were killed, your fame has been reset to start value!");
+			add(type,"DELIVERY_USED","§7You can use this Item in §c{INPUT0}");
+			add(type,"DELIVERY_LOTTO_USED","§cCurrently in use!");
+			add(type,"DELIVERY_HM_3","§6§lCLICK ME");
+			add(type,"DELIVERY_HM_1","{INPUT0} Reward!");
+			add(type,"DELIVERY_HM_1_MORE","{INPUT0} Rewards!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -940,6 +946,11 @@ public class Language {
 			add(type,"HEAD","Du hast du diesen Block als Kopf!");
 			add(type,"PVP_KILL","§2Du hast §e{INPUT0} §2getoetet und §e{INPUT1} §2FAME von ihm erhalten!");
 			add(type,"PVP_DEATH","§cDa du getoetet wurdest, wurde dein FAME auf Startwert zurueckgesetzt!");
+			add(type,"DELIVERY_USED","§7Du kannst das Item in §c{INPUT0}§7 benutzten");
+			add(type,"DELIVERY_LOTTO_USED","§cIst momentan besetzt!");
+			add(type,"DELIVERY_HM_3","§6§lKLICK MICH");
+			add(type,"DELIVERY_HM_1","{INPUT0} Belohnung!");
+			add(type,"DELIVERY_HM_1_MORE","{INPUT0} Belohnungen!");
 		}
 	}
 	
