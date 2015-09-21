@@ -5,12 +5,9 @@ import java.util.Arrays;
 
 import javax.xml.bind.DatatypeConverter;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
 public class Base64 {
-	private static BASE64Encoder encoder = new BASE64Encoder();
-	private static BASE64Decoder decoder = new BASE64Decoder();
+//	private static BASE64Encoder encoder = new BASE64Encoder();
+//	private static BASE64Decoder decoder = new BASE64Decoder();
 	
 	
 	public static String encode(String s) {
