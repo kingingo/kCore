@@ -6,6 +6,7 @@ import java.util.List;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.DeliveryPet.DeliveryPet;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Monitor.LagMeter;
 import me.kingingo.kcore.Packet.PacketManager;
@@ -42,6 +43,13 @@ public class UtilServer{
 	private static kPacketListener listener;
 	@Getter
 	private static LagMeter lagMeter;
+	@Getter
+	private static DeliveryPet deliveryPet;
+	
+	public static DeliveryPet createDeliveryPet(DeliveryPet pet){
+		if(deliveryPet==null&&pet!=null)deliveryPet=pet;
+		return deliveryPet;
+	}
 	
 	public static LagMeter createLagListener(CommandHandler handler){
 		if(lagMeter==null&&handler!=null)lagMeter=new LagMeter(handler);

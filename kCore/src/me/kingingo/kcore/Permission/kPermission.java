@@ -215,6 +215,8 @@ SHEEPWARS_KIT_ZOMBIE("epicpvp.kit.zombie"),
 ALL_KITS("epicpvp.kit.*"),
 //Kits
 
+SKYWARS_KIT_SPRENGMEISTER("epicpvp.skywars.kit.sprengmeister"),
+SKYWARS_KIT_KOCH("epicpvp.skywars.kit.koch"),
 SKYWARS_KIT_FISCHER("epicpvp.skywars.kit.fischer"),
 SKYWARS_KIT_FARMER("epicpvp.skywars.kit.farmer"),
 SKYWARS_KIT_JÄGER("epicpvp.skywars.kit.jäger"),

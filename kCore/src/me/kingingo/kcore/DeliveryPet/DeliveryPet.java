@@ -37,6 +37,7 @@ import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilParticle;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.Util.UtilTime;
 import me.kingingo.kcore.Util.UtilVector;
 
@@ -94,10 +95,10 @@ public class DeliveryPet extends kListener{
 	@Getter
 	private EntityType type;
 	
-	public DeliveryPet(DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm,PermissionManager perm,StatsManager stats,Coins coins) {
-		super(stats.getMysql().getInstance(), "DeliveryPet");
-		this.packages=UtilItem.loadLotto(serverType, perm, stats, coins);
-		this.mysql=stats.getMysql();
+	public DeliveryPet(HashMap<InventoryLotto2Type, ArrayList<LottoPackage>> pack, DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm,MySQL mysql) {
+		super(mysql.getInstance(), "DeliveryPet");
+		this.packages=pack;
+		this.mysql=mysql;
 		this.type=type;
 		this.location=location;
 		this.name=name;
@@ -111,7 +112,7 @@ public class DeliveryPet extends kListener{
 		this.players_hm=new HashMap<>();
 		this.players_hm_reward=new HashMap<>();
 		this.base=new InventoryBase(getMysql().getInstance(), "Delivery");
-		this.lotto=new InventoryLotto2("Play a Round!",new Get(){
+		if(pack!=null)this.lotto=new InventoryLotto2("Play a Round!",new Get(){
 
 			@Override
 			public Object onGet(Player player) {
@@ -193,6 +194,7 @@ public class DeliveryPet extends kListener{
 			
 		},4,7, getMysql().getInstance());
 		this.base.addPage(lotto);
+		UtilServer.createDeliveryPet(this);
 	}
 	
 	@EventHandler
@@ -357,9 +359,16 @@ public class DeliveryPet extends kListener{
 		players_obj.get(UtilPlayer.getRealUUID(player)).put(objects.get(name).displayname, System.currentTimeMillis()+objects.get(name).getTime());
 	}
 	
-	public void deliveryUSE(Player player,String name){
+	public void deliveryUSE(String player, UUID uuid,String name){
 		if(objects.get(name).displayname.equalsIgnoreCase(name)){
-			if(objects.get(name).byClickBlock){
+			if(players_obj.containsKey(uuid))players_obj.remove(uuid);
+			getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player,uuid)+"' AND obj='"+name+"'");
+		}
+	}
+	
+	public void deliveryUSE(Player player,String name,boolean b){
+		if(objects.get(name).displayname.equalsIgnoreCase(name)){
+			if(b&&objects.get(name).byClickBlock){
 				deliveryBlock(player,name);
 			}
 			objects.get(name).click.onClick(player, ActionType.R, objects.get(name));
@@ -412,18 +421,20 @@ public class DeliveryPet extends kListener{
 				players.put(ev.getPlayer(), new DeliveryInventoryPage(InventorySize._45.getSize(), ev.getPlayer().getName()+" "+"Delivery",this));
 				base.addPage(players.get(ev.getPlayer()));
 				
-				players.get(ev.getPlayer()).addButton(31, new ButtonBase(new Click(){
+				if(this.packages!=null){
+					players.get(ev.getPlayer()).addButton(31, new ButtonBase(new Click(){
 
-					@Override
-					public void onClick(Player player, ActionType type, Object object) {
-						if(lotto.getWin()==null){
-							lotto.newRound(player);
-						}else{
-							player.sendMessage(Language.getText(player, "PREFIX")+ Language.getText(player, "DELIVERY_LOTTO_USED"));
+						@Override
+						public void onClick(Player player, ActionType type, Object object) {
+							if(lotto.getWin()==null){
+								lotto.newRound(player);
+							}else{
+								player.sendMessage(Language.getText(player, "PREFIX")+ Language.getText(player, "DELIVERY_LOTTO_USED"));
+							}
 						}
-					}
-					
-				}, Material.JUKEBOX, "§7Lotto"));
+						
+					}, Material.JUKEBOX, "§7Lotto"));	
+				}
 				
 				if(!players_obj.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
 					Log("players_obj Spieler "+ev.getPlayer()+" nicht gefunden!");
