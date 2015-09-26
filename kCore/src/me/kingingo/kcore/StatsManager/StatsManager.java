@@ -276,11 +276,53 @@ public class StatsManager extends kListener{
 		list.get(p).put(s, i);
 		Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(s,p));
 	}
+
+	public void delInt(Player p,int i,Stats s){
+		i-=getInt(s, p);
+		setInt(p, i, s);
+	}
+	
+	public void addInt(Player p,int i,Stats s){
+		i+=getInt(s, p);
+		setInt(p, i, s);
+	}
 	
 	public void setInt(Player p,int i,Stats s){
 		ExistPlayer(p);
 		list.get(p).put(s, i);
 		Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(s,p));
+	}
+	
+	public void addDouble(Player p,double i,Stats s){
+		i+=getDouble(s, p);
+		setDouble(p, i, s);
+	}
+	
+	public void delDouble(Player p,double i,Stats s){
+		i-=getDouble(s, p);
+		setDouble(p, i, s);
+	}
+	
+	public Integer getInt(Stats s,Player p){
+		ExistPlayer(p);
+		if(list.containsKey(p)&&list.get(p).containsKey(s)){
+			return (Integer)list.get(p).get(s);
+		}
+		
+		int i = -1;
+		try{
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(p)+"'");
+			while(rs.next()){
+				i=rs.getInt(1);
+			}
+			rs.close();
+		}catch (Exception err){
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
+		}
+		
+		if(i!=-1)list.get(p).put(s, i);
+		
+		return i;
 	}
 	
 	public void setDouble(Player p,double i,Stats s){
@@ -300,28 +342,6 @@ public class StatsManager extends kListener{
 			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(p)+"'");
 			while(rs.next()){
 				i=rs.getDouble(1);
-			}
-			rs.close();
-		}catch (Exception err){
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
-		}
-		
-		if(i!=-1)list.get(p).put(s, i);
-		
-		return i;
-	}
-	
-	public Integer getInt(Stats s,Player p){
-		ExistPlayer(p);
-		if(list.containsKey(p)&&list.get(p).containsKey(s)){
-			return (Integer)list.get(p).get(s);
-		}
-		
-		int i = -1;
-		try{
-			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(p)+"'");
-			while(rs.next()){
-				i=rs.getInt(1);
 			}
 			rs.close();
 		}catch (Exception err){
