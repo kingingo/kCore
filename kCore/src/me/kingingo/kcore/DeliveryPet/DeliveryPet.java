@@ -23,8 +23,6 @@ import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Packet.PacketManager;
-import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
-import me.kingingo.kcore.Packet.Packets.PLAYER_DELIVERY;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
