@@ -22,6 +22,9 @@ import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
+import me.kingingo.kcore.Packet.PacketManager;
+import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
+import me.kingingo.kcore.Packet.Packets.PLAYER_DELIVERY;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
@@ -87,10 +90,13 @@ public class DeliveryPet extends kListener{
 	private String name;
 	@Getter
 	private EntityType type;
+	@Getter
+	private PacketManager packetManager;
 	
 	public DeliveryPet(HashMap<InventoryLotto2Type, ArrayList<LottoPackage>> pack, DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm,MySQL mysql) {
 		super(mysql.getInstance(), "DeliveryPet");
 		this.packages=pack;
+		this.packetManager=packetManager;
 		this.mysql=mysql;
 		this.type=type;
 		this.location=location;

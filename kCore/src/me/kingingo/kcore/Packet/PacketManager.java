@@ -12,6 +12,7 @@ import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_REMOVE_ALL;
+import me.kingingo.kcore.Packet.Packets.PLAYER_DELIVERY;
 import me.kingingo.kcore.Packet.Packets.PLAYER_LANGUAGE_CHANGE;
 import me.kingingo.kcore.Packet.Packets.PLAYER_VOTE;
 import me.kingingo.kcore.Packet.Packets.PROTECTION_CAPTCHA;
@@ -96,8 +97,8 @@ public class PacketManager {
 			return new VERSUS_SETTINGS(packet.split("-/-"));
 		}else if(packet.contains("ARENA_STATUS")){
 			return new ARENA_STATUS(packet.split("-/-"));
-		}else if(packet.contains("PLAYER_VOTE")){
-			return new PLAYER_VOTE(packet.split("-/-"));
+		}else if(packet.contains("PLAYER_DELIVERY")){
+			return new PLAYER_DELIVERY(packet.split("-/-"));
 		}else if(packet.contains("NICK_DEL")){
 			return new NICK_DEL(packet.split("-/-"));
 		}else if(packet.contains("NICK_SET")){
