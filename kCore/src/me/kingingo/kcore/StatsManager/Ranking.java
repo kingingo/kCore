@@ -39,15 +39,15 @@ public class Ranking {
 			    	if(ranking.containsKey(zahl)){
 			    		ranking.get(zahl).player=rs.getString(2);
 			    		if(stats.getCREATE().contains("int")){
-				    		ranking.get(zahl).stats=rs.getInt(1);
+				    		ranking.get(zahl).stats=Math.round(rs.getInt(1));
 			    		}else if(stats.getCREATE().contains("double")){
-				    		ranking.get(zahl).stats=rs.getDouble(1);
+				    		ranking.get(zahl).stats=Math.round(rs.getDouble(1));
 			    		}
 			    	}else{
 			    		if(stats.getCREATE().contains("int")){
-					        ranking.put(zahl, new PlayerRank(rs.getString(2),rs.getInt(1)));
+					        ranking.put(zahl, new PlayerRank(rs.getString(2),Math.round(rs.getInt(1))));
 			    		}else if(stats.getCREATE().contains("double")){
-					        ranking.put(zahl, new PlayerRank(rs.getString(2),rs.getDouble(1)));
+					        ranking.put(zahl, new PlayerRank(rs.getString(2),Math.round(rs.getDouble(1))));
 			    		}
 			    	}
 			        zahl++;

@@ -7,6 +7,7 @@ import lombok.Setter;
 import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.InventorySplit;
+import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Material;
@@ -22,22 +23,8 @@ public class InventoryPageBase extends CraftInventoryCustom{
  
 	@Getter
 	private ArrayList<IButton> buttons;
-	@Setter
 	@Getter
-	private boolean debug=false;
 	private String inventoryType;
-	
-	public InventoryPageBase(boolean debug,int size,String title){
-		super(null,InventorySize.invSize(size).getSize(),(title==null?"Inventory":title));
-		this.buttons=new ArrayList<>();
-		this.debug=debug;
-	}
-	
-	public InventoryPageBase(boolean debug,InventorySize size,String title){
-		super(null, size.getSize(), (title==null?"Inventory":title));
-		this.buttons=new ArrayList<>();
-		this.debug=debug;
-	}
 	
 	public InventoryPageBase(int size,String title){
 		super(null,InventorySize.invSize(size).getSize(),(title==null?"Inventory":title));
@@ -47,20 +34,6 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	public InventoryPageBase(InventorySize size,String title){
 		super(null, size.getSize(), (title==null?"Inventory":title));
 		this.buttons=new ArrayList<>();
-	}
-	
-	public InventoryPageBase(String inventoryType,boolean debug,int size,String title){
-		super(null,InventorySize.invSize(size).getSize(),(title==null?"Inventory":title));
-		this.buttons=new ArrayList<>();
-		this.debug=debug;
-		this.inventoryType=inventoryType;
-	}
-	
-	public InventoryPageBase(String inventoryType,boolean debug,InventorySize size,String title){
-		super(null, size.getSize(), (title==null?"Inventory":title));
-		this.buttons=new ArrayList<>();
-		this.debug=debug;
-		this.inventoryType=inventoryType;
 	}
 	
 	public InventoryPageBase(String inventoryType,int size,String title){
@@ -90,31 +63,12 @@ public class InventoryPageBase extends CraftInventoryCustom{
 		buttons=null;
 	}
 	
-	public void debug(String methode,String msg){
-		debug(methode,new String[]{msg});
-	}
-	
-	public void debug(String... msg){
-		debug(null,msg);
-	}
-	
-	public void debug(String methode,String... msg){
-		if(isDebug()){
-			System.err.println("          ");
-			if(inventoryType!=null)System.err.println("[DebugInv] InventoryType: "+inventoryType);
-			if(!getTitle().equalsIgnoreCase("Inventory"))System.err.println("[DebugInv] Title: "+getTitle());
-			if(methode!=null)System.err.println("[DebugInv] Methode: "+methode);
-			if(msg!=null)for(String m : msg)System.err.println("[DebugInv] "+m);
-			System.err.println("          ");
-		}
-	}
-	
 	public boolean isSlot(int index, String methode){
 		if( index<0 ){
-			debug(methode, "index("+index+"<0) ist zu klein.");
+			UtilDebug.debug(this,methode, "index("+index+"<0) ist zu klein.");
 			return false;
 		}else if( index>getSize() ){
-			debug(methode, "index("+index+">"+getSize()+") ist zu groﬂ.");
+			UtilDebug.debug(this,methode, "index("+index+">"+getSize()+") ist zu groﬂ.");
 			return false;
 		}
 		return true;

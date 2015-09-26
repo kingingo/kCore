@@ -2,6 +2,7 @@ package me.kingingo.kcore.SignShop.Events;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.SignShop.SignShopAction;
 
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -21,11 +22,14 @@ public class SignShopUseEvent extends Event implements Cancellable{
 	@Getter
 	@Setter
 	private boolean cancelled;
+	@Getter
+	private SignShopAction action;
 	
-	public SignShopUseEvent(Sign sign,Player player,PlayerInteractEvent interactEvent){
+	public SignShopUseEvent(Sign sign,SignShopAction action,Player player,PlayerInteractEvent interactEvent){
 		this.sign=sign;
 		this.interactEvent=interactEvent;
 		this.player=player;
+		this.action=action;
 	}
 	
 	@Override

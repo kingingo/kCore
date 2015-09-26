@@ -9,6 +9,7 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.InventorySplit;
+import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilMath;
@@ -53,7 +54,6 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 		this.get=get;
 		clearLotto();
 		Bukkit.getPluginManager().registerEvents(this, instance);
-		setDebug(true);
 	}
 	
 	public void clearLotto(){
@@ -171,7 +171,7 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 	
 	public void setItemWithPlane(LottoPackage l,int slot){
 		if(l==null){
-			debug("setItemWithPlane(LottoPackage,int)", new String[]{"Lottopacke == NULL","List: "+list.length+" List-Counter:"+list_i,"Durschlauf: "+durchlauf+" Durschlauf-Count: "+durchlauf_counter});
+			UtilDebug.debug(this,"setItemWithPlane(LottoPackage,int)", new String[]{"Lottopacke == NULL","List: "+list.length+" List-Counter:"+list_i,"Durschlauf: "+durchlauf+" Durschlauf-Count: "+durchlauf_counter});
 			return;
 		}else if(!isSlot(slot, "setItemWithPlane(LottoPackage,int)"))return;
 		

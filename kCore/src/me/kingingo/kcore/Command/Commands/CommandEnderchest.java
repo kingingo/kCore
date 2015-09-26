@@ -28,7 +28,7 @@ public class CommandEnderchest extends kListener implements CommandExecutor{
 		this.mysql=mysql;
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "enderchest", alias = {"endersee"}, sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "enderchest", alias = {"endersee","echest","esee"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player = (Player)sender;
 		

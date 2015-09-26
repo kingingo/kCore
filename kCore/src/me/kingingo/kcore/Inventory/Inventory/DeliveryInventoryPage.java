@@ -41,7 +41,7 @@ public class DeliveryInventoryPage extends InventoryPageBase{
 				if(button.getItemStack().getType()==Material.JUKEBOX){	
 					button.Clicked(player, ActionType.R, button.getItemStack());
 				}else{
-					delivery.deliveryUSE(player, (!item.hasItemMeta()?"ITEMMETA NULL":(item.getItemMeta().hasDisplayName()?item.getItemMeta().getDisplayName():"DISPLAYNAME NULL")),true);
+					delivery.deliveryUSE(player, item.getType(),false);
 				}
 				break;
 			}

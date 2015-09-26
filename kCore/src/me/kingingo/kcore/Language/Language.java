@@ -558,6 +558,10 @@ public class Language {
 			add(type,"DELIVERY_HM_3","§6§lCLICK ME");
 			add(type,"DELIVERY_HM_1","{INPUT0} Reward!");
 			add(type,"DELIVERY_HM_1_MORE","{INPUT0} Rewards!");
+			add(type,"DELIVERY_ITEM_1","{INPUT0} Rewards");
+			add(type,"TWITTER_ACC_NOT","§cYou have no Twitter account added!");
+			add(type,"TWITTER_FOLLOW_N","§cYou do not follow @EpicPvPMC any more!");
+			add(type,"TWITTER_REMOVE","§cYou Twitter account has been removed!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -951,6 +955,10 @@ public class Language {
 			add(type,"DELIVERY_HM_3","§6§lKLICK MICH");
 			add(type,"DELIVERY_HM_1","{INPUT0} Belohnung!");
 			add(type,"DELIVERY_HM_1_MORE","{INPUT0} Belohnungen!");
+			add(type,"DELIVERY_ITEM_1","{INPUT0} Belohnungen");
+			add(type,"TWITTER_ACC_NOT","§cDu hast noch keinen Twitter Account hinzugefügt!");
+			add(type,"TWITTER_FOLLOW_N","§cDu folgst @EpicPvPMC nicht mehr!");
+			add(type,"TWITTER_REMOVE","§cDein Twitter Account wurde entfernt!");
 		}
 	}
 	

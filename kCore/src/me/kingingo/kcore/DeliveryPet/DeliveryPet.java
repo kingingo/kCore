@@ -25,12 +25,15 @@ import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
+import me.kingingo.kcore.Util.UtilDebug;
+import me.kingingo.kcore.Util.UtilEffect;
 import me.kingingo.kcore.Util.UtilEnt;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilList;
 import me.kingingo.kcore.Util.UtilLocation;
 import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilNumber;
+import me.kingingo.kcore.Util.UtilParticle;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.Util.UtilTime;
@@ -66,11 +69,11 @@ public class DeliveryPet extends kListener{
 	private Creature entity;
 	@Getter
 	private Creature jockey;
-	private HashMap<String,DeliveryObject> objects;
+	private HashMap<Material,DeliveryObject> objects;
 	private HashMap<Player,DeliveryInventoryPage> players;
 	private HashMap<Player,NameTagMessage> players_hm;
 	private HashMap<Player,Integer> players_hm_reward;
-	private HashMap<UUID,HashMap<String,Long>> players_obj;
+	private HashMap<UUID,HashMap<Material,Long>> players_obj;
 	private ServerType serverType;
 	@Getter
 	private HashMap<InventoryLotto2Type, ArrayList<LottoPackage>> packages;
@@ -96,7 +99,7 @@ public class DeliveryPet extends kListener{
 		this.serverType=serverType;
 		this.hologramm=hm;
 		this.objects=new HashMap<>();
-		for(DeliveryObject obj : objects)this.objects.put(obj.displayname, obj);
+		for(DeliveryObject obj : objects)this.objects.put(obj.material, obj);
 		this.players_obj=new HashMap<>();
 		this.players=new HashMap<>();
 		this.players_hm=new HashMap<>();
@@ -183,13 +186,12 @@ public class DeliveryPet extends kListener{
 			}
 			
 		},4,7, getMysql().getInstance());
-		this.base.addPage(lotto);
+		if(pack!=null)this.base.addPage(lotto);
+		createPet();
 		UtilServer.createDeliveryPet(this);
-	
 	}
 	
-	@EventHandler
-	public void join(PlayerJoinEvent ev){
+	public void createPet(){
 		if(this.jockey==null||this.jockey.isDead()){
 			this.jockey=(Creature)getLocation().getWorld().spawnCreature(getLocation(), getType());
 			this.jockey.setCustomName("");
@@ -216,7 +218,15 @@ public class DeliveryPet extends kListener{
 				this.jockey.setPassenger(this.entity);
 			}
 		}
-		
+	}
+	
+	public void onDisable(){
+		this.jockey.remove();
+		if(this.entity!=null)this.entity.remove();
+	}
+	
+	@EventHandler
+	public void join(PlayerJoinEvent ev){
 		if(players_hm.containsKey(ev.getPlayer())){
 			players_hm.get(ev.getPlayer()).sendToPlayer(ev.getPlayer());
 		}else{
@@ -226,18 +236,24 @@ public class DeliveryPet extends kListener{
 	}
 	
 	public void playEffect(){
-		Entity e;
-		for(Player player : UtilPlayer.getInRadius(this.jockey.getLocation(), 15).keySet()){
-			e=this.jockey.getLocation().getWorld().spawnEntity(this.jockey.getLocation().add(0, 3, 0), EntityType.EGG);
-			e.setVelocity( e.getVelocity().add(UtilLocation.calculateVector(e.getLocation(), player.getEyeLocation())) );
-			UtilPlayer.addPotionEffect(player, PotionEffectType.SPEED, 10, 2);
+		UtilEffect.playHelix(getLocation(),UtilParticle.FIREWORKS_SPARK);
+		
+		try{
+			Entity e;
+			for(Player player : UtilPlayer.getInRadius(this.jockey.getLocation(), 8).keySet()){
+				e=this.jockey.getLocation().getWorld().spawnEntity(this.jockey.getLocation().add(0, 3, 0), EntityType.EGG);
+				e.setVelocity( e.getVelocity().add(UtilLocation.calculateVector(e.getLocation(), player.getEyeLocation())) );
+				UtilPlayer.addPotionEffect(player, PotionEffectType.SPEED, 10, 2);
+			}
+		}catch(IllegalStateException e){
+			
 		}
 	}
 	
 	public int getRewards(Player player){
 		int i = 0;
 		
-		for(String obj : players_obj.get(UtilPlayer.getRealUUID(player)).keySet()){
+		for(Material obj : players_obj.get(UtilPlayer.getRealUUID(player)).keySet()){
 			if(!(players_obj.get(UtilPlayer.getRealUUID(player)).get(obj) > System.currentTimeMillis())){
 				i++;
 			}
@@ -297,6 +313,10 @@ public class DeliveryPet extends kListener{
 			UtilList.CleanList(players_hm_reward);
 		}
 		
+		if(ev.getType()==UpdateType.MIN_04){
+			createPet();
+		}
+		
 		if(ev.getType()==UpdateType.SEC){
 			for(Player player : players_hm.keySet()){
 				if(players_hm_reward.containsKey(player)){
@@ -323,7 +343,7 @@ public class DeliveryPet extends kListener{
 			for(Player player : players.keySet()){
 				if(player.isOnline()&&!players.get(player).getViewers().isEmpty()){
 					if(players_obj.containsKey( UtilPlayer.getRealUUID(player) )){
-						for(String obj : players_obj.get(UtilPlayer.getRealUUID(player)).keySet()){
+						for(Material obj : players_obj.get(UtilPlayer.getRealUUID(player)).keySet()){
 							if(players_obj.get(UtilPlayer.getRealUUID(player)).get(obj) > System.currentTimeMillis()){
 								players.get(player).getButton(objects.get(obj).slot).setDescription(descriptionUSED(player, obj));
 								if(players.get(player).getButton(objects.get(obj).slot).getItemStack().getType()!=Material.REDSTONE_BLOCK)players.get(player).getButton(objects.get(obj).slot).setMaterial(Material.REDSTONE_BLOCK);
@@ -344,45 +364,55 @@ public class DeliveryPet extends kListener{
 		}
 	}
 	
-	public void deliveryBlock(Player player,String name){
+	public void deliveryBlock(Player player,Material name){
 		getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player)+"' AND obj='"+name+"'");
-		players_obj.get(UtilPlayer.getRealUUID(player)).remove(objects.get(name).displayname);
-		players_obj.get(UtilPlayer.getRealUUID(player)).put(objects.get(name).displayname, System.currentTimeMillis()+objects.get(name).getTime());
+		players_obj.get(UtilPlayer.getRealUUID(player)).remove(objects.get(name).material);
+		players_obj.get(UtilPlayer.getRealUUID(player)).put(objects.get(name).material, System.currentTimeMillis()+objects.get(name).getTime());
+		players_hm_reward.remove(player);
+		players_hm_reward.put(player, getRewards(player));
+		playEffect();
 	}
 	
-	public void deliveryUSE(String player, UUID uuid,String name){
-		if(objects.get(name).displayname.equalsIgnoreCase(name)){
+	public void deliveryUSE(String player, UUID uuid,Material name){
+		if(objects.get(name).material==name){
 			if(players_obj.containsKey(uuid))players_obj.remove(uuid);
 			getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player,uuid)+"' AND obj='"+name+"'");
 		}
 	}
 	
-	public void deliveryUSE(Player player,String name,boolean b){
-		if(objects.get(name).displayname.equalsIgnoreCase(name)){
-			if(b&&objects.get(name).byClickBlock){
-				deliveryBlock(player,name);
+	public void deliveryUSE(Player player,Material name,boolean b){
+		if(objects.containsKey(name)){
+			if(objects.get(name).material==name){
+				if(objects.get(name).permission != null){
+					if(!player.hasPermission(objects.get(name).permission.getPermissionToString())){
+						return;
+					}
+				}
+				
+				if(b || objects.get(name).byClickBlock){
+					deliveryBlock(player,name);
+				}
+				objects.get(name).click.onClick(player, ActionType.R, objects.get(name));
 			}
-			objects.get(name).click.onClick(player, ActionType.R, objects.get(name));
-			players_hm_reward.remove(player);
-			players_hm_reward.put(player, getRewards(player));
-			playEffect();
+		}else{
+			UtilDebug.debug("deliveryUSE(Player,String,boolean)", new String[]{"objects.containsKey(name) == FALSE","Material: "+name} );
 		}
 	}
 	
-	public String[] descriptionUSED(Player player,String name){
-		return new String[]{Language.getText(player, "DELIVERY_USED", UtilTime.formatMili( players_obj.get(UtilPlayer.getRealUUID(player)).get(name)-System.currentTimeMillis() ))};
+	public String[] descriptionUSED(Player player,Material obj){
+		return new String[]{Language.getText(player, "DELIVERY_USED", UtilTime.formatMili( players_obj.get(UtilPlayer.getRealUUID(player)).get(obj)-System.currentTimeMillis() ))};
 	}
 	
 	@EventHandler
 	public void Login(AsyncPlayerPreLoginEvent ev){
-		if(!players_obj.containsKey(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())))players_obj.put(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()), new HashMap<String,Long>());
+		if(!players_obj.containsKey(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())))players_obj.put(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()), new HashMap<Material,Long>());
 		
 		try
 	    {
 	      ResultSet rs = getMysql().Query("SELECT obj,time FROM delivery_"+serverType.name()+" WHERE uuid='"+UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())+"';");
 
 	      while (rs.next()) {
-	    	  players_obj.get(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())).put(rs.getString(1), UtilNumber.toLong(rs.getString(2)));
+	    	  players_obj.get(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())).put(Material.valueOf(rs.getString(1)), UtilNumber.toLong(rs.getString(2)));
 	      }
 	      rs.close();
 	    } catch (Exception err) {
@@ -391,14 +421,14 @@ public class DeliveryPet extends kListener{
 		
 		if(players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).isEmpty()){
 			for(DeliveryObject obj : objects.values()){
-				getMysql().Update("INSERT INTO delivery_"+serverType.name()+" (player,uuid,obj,time,date) VALUES ('"+ev.getName()+"','"+UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())+"','"+obj.displayname+"','"+(System.currentTimeMillis())+"','"+UtilTime.when(System.currentTimeMillis())+"');");
-				players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).put(obj.displayname, System.currentTimeMillis());
+				getMysql().Update("INSERT INTO delivery_"+serverType.name()+" (player,uuid,obj,time,date) VALUES ('"+ev.getName()+"','"+UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())+"','"+obj.material+"','"+(System.currentTimeMillis())+"','"+UtilTime.when(System.currentTimeMillis())+"');");
+				players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).put(obj.material, System.currentTimeMillis());
 			}
 		}else{
-			for(String obj : objects.keySet()){
+			for(Material obj : objects.keySet()){
 				if(!players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).containsKey(obj) ){
-					getMysql().Update("INSERT INTO delivery_"+serverType.name()+" (player,uuid,obj,time,date) VALUES ('"+ev.getName()+"','"+UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())+"','"+objects.get(obj).displayname+"','"+(System.currentTimeMillis())+"','"+UtilTime.when(System.currentTimeMillis())+"');");
-					players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).put(objects.get(obj).displayname, System.currentTimeMillis());
+					getMysql().Update("INSERT INTO delivery_"+serverType.name()+" (player,uuid,obj,time,date) VALUES ('"+ev.getName()+"','"+UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())+"','"+objects.get(obj).material+"','"+(System.currentTimeMillis())+"','"+UtilTime.when(System.currentTimeMillis())+"');");
+					players_obj.get(UtilPlayer.getRealUUID(ev.getName(),ev.getUniqueId())).put(objects.get(obj).material, System.currentTimeMillis());
 				}
 			}
 		}
@@ -432,7 +462,7 @@ public class DeliveryPet extends kListener{
 				}else if(players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).isEmpty()){
 					Log("players_obj Spieler "+ev.getPlayer()+" liste ist leer!");
 				}else{
-					for(String obj : players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).keySet()){
+					for(Material obj : players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).keySet()){
 						if(players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).get(obj)>System.currentTimeMillis()){
 				    		  players.get(ev.getPlayer()).addButton(objects.get(obj).slot, new ButtonBase(objects.get(obj).click, Material.REDSTONE_BLOCK, objects.get(obj).displayname, descriptionUSED(ev.getPlayer(),obj)));
 				    	  }else{

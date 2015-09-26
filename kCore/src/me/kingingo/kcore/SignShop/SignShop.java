@@ -3,6 +3,8 @@ package me.kingingo.kcore.SignShop;
 import java.util.HashMap;
 
 import lombok.Getter;
+import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.Command.Commands.CommandHandel;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
@@ -39,9 +41,10 @@ public class SignShop extends kListener{
 	private StatsManager statsmanager;
 	private StateFlag flag;
 	
-	public SignShop(JavaPlugin instance,StatsManager statsmanager){
+	public SignShop(JavaPlugin instance,CommandHandler handle,StatsManager statsmanager){
 		super(instance,"SignShop");
 		this.instance=instance;
+		handle.register(CommandShop.class, new CommandShop(statsmanager.getPlugin()));
 		this.statsmanager=statsmanager;
 		this.flag=new StateFlag("shop",false);
 		UtilWorldGuard.addCustomFlag(flag);
@@ -57,7 +60,7 @@ public class SignShop extends kListener{
 	@EventHandler
 	public void onSign (SignChangeEvent ev){
 		Player p = ev.getPlayer();
-		if(ev.getLine(0).toLowerCase().contains("[shop]")){
+		if(ev.getLine(0).toLowerCase().contains("[shop-buy]")||ev.getLine(0).toLowerCase().contains("[shop-sale]")||ev.getLine(0).toLowerCase().contains("[shop]")){
 			if(UtilWorldGuard.RegionFlag(ev.getBlock().getLocation(), flag)||p.hasPermission(kPermission.SHOP_SIGN_CREATE_BYPASS.getPermissionToString())){
 				if(p.hasPermission(kPermission.SHOP_SIGN_CREATE.getPermissionToString())){
 					ev.setLine(0, ChatColor.AQUA + "[Shop]");
@@ -275,12 +278,12 @@ public class SignShop extends kListener{
 					
 	                sign = (Sign) ev.getClickedBlock().getState();
 	                
-	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")){	
-	    				event = new SignShopUseEvent(sign, p, ev);
+	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-buy]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-sale]")){	
+	    				event = new SignShopUseEvent(sign,SignShopAction.BUY, p, ev);
 	    				Bukkit.getPluginManager().callEvent(event);
-	    				if(event.isCancelled())return;
-	                	
 	                	ev.setCancelled(true);
+	    				if(event.isCancelled())return;
+	    				
 	                	if(shop.containsKey(p)){
 	                		
 	                		if(shop.get(p) <= System.currentTimeMillis()){
@@ -375,13 +378,12 @@ public class SignShop extends kListener{
 					
 	                sign = (Sign) ev.getClickedBlock().getState();
 	                
-	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")){
-	                	event = new SignShopUseEvent(sign, p, ev);
+	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-buy]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-sale]")){
+	                	event = new SignShopUseEvent(sign,SignShopAction.SALE, p, ev);
 	    				Bukkit.getPluginManager().callEvent(event);
-	    				if(event.isCancelled())return;
 	                	ev.setCancelled(true);
-	            
 	                	
+	    				if(event.isCancelled())return;
 	                	if(shop.containsKey(p)){
 	                		
 	                		if(shop.get(p) <= System.currentTimeMillis()){

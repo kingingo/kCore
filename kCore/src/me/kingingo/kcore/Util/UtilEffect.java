@@ -9,7 +9,7 @@ import org.bukkit.util.Vector;
 public class UtilEffect {
 
 	public static void playCircleEffect(Player player){
-		playCircleEffect(player.getLocation().add(0,-1,0));
+		playCircleEffect(player.getLocation().add(0,-1,0),UtilParticle.BLOCK_DUST);
 	}
 	
 	public static void playTornado(Location location,UtilParticle cloud,UtilParticle tornado){
@@ -60,7 +60,7 @@ public class UtilEffect {
 		return vecs;
 	}
 	
-	public static void playHelix(Location location){
+	public static void playHelix(Location location,UtilParticle particle){
 		int strands = 8;
 		int radius = 10;
 		int particles = 80;
@@ -73,13 +73,13 @@ public class UtilEffect {
                 double x = Math.cos(angle) * ratio * radius;
                 double z = Math.sin(angle) * ratio * radius;
                 location.add(x, 0, z);
-                UtilParticle.FLAME.display(0, 1, location, 20);
+                particle.display(0, 1, location, 20);
                 location.subtract(x, 0, z);
             }
         }
 	}
 	
-	public static void playCircleEffect(Location loc){
+	public static void playCircleEffect(Location loc,UtilParticle particle){
 			double radius = 0.001;
         	for(double y = 4; y >= 0; y-=0.002) {
         		radius+=0.001;
@@ -88,8 +88,8 @@ public class UtilEffect {
         		double z1 = radius * Math.cos(225-y);
         		double x1 = radius * Math.sin(225-y);
 
-		        UtilParticle.WITCH_MAGIC.display((float)0.1, 1, new Location(loc.getWorld(), (float) (loc.getX() + x), (float) (loc.getY() + y), (float) (loc.getZ() + z)), 10);
-		        UtilParticle.WITCH_MAGIC.display((float)0.1, 1, new Location(loc.getWorld(), (float) (loc.getX() + x1), (float) (loc.getY() + y), (float) (loc.getZ() + z1)), 10);
+        		particle.display((float)0.1, 1, new Location(loc.getWorld(), (float) (loc.getX() + x), (float) (loc.getY() + y), (float) (loc.getZ() + z)), 10);
+        		particle.display((float)0.1, 1, new Location(loc.getWorld(), (float) (loc.getX() + x1), (float) (loc.getY() + y), (float) (loc.getZ() + z1)), 10);
 		    }
 	}
 }

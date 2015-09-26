@@ -7,6 +7,7 @@ import lombok.Setter;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventory;
@@ -62,8 +63,12 @@ public class InventoryBase extends kListener{
 	
 	public InventoryPageBase get(Inventory inv){
 		for(InventoryPageBase page : pages){
-			if(page.getName().equalsIgnoreCase(inv.getName())&&page.getSize()==inv.getSize()&&isSameInventory(page,inv)){
-				return page;
+			if(page!=null){
+				if(page.getName().equalsIgnoreCase(inv.getName())&&page.getSize()==inv.getSize()&&isSameInventory(page,inv)){
+					return page;
+				}
+			}else{
+				UtilDebug.debug("get(Inventory)", "for-schleife InventoryPageBase == NULL");
 			}
 		}
 		
