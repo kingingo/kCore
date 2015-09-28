@@ -255,21 +255,36 @@ public class DeliveryPet extends kListener{
 	}
 	
 	public int getRewards(Player player){
-		int i = 0;
-		
-		for(Material obj : players_obj.get(UtilPlayer.getRealUUID(player)).keySet()){
-			if(!(players_obj.get(UtilPlayer.getRealUUID(player)).get(obj) > System.currentTimeMillis())){
-				i++;
+		if(players_obj.containsKey(UtilPlayer.getRealUUID(player))){
+			int i = 0;
+			
+			for(Material obj : players_obj.get(UtilPlayer.getRealUUID(player)).keySet()){
+				if(!(players_obj.get(UtilPlayer.getRealUUID(player)).get(obj) > System.currentTimeMillis())){
+					i++;
+				}
 			}
+			
+			return i;
 		}
-		
-		return i;
+		return 0;
 	}
 	
 	@EventHandler
 	public void quit(PlayerQuitEvent ev){
-		if(players.containsKey(ev.getPlayer()))players.remove(ev.getPlayer());
-		if(players_obj.containsKey(UtilPlayer.getRealUUID(ev.getPlayer())))players_obj.remove(UtilPlayer.getRealUUID(ev.getPlayer()));
+		if(players.containsKey(ev.getPlayer())){
+			players.get(ev.getPlayer()).clear();
+			players.get(ev.getPlayer()).remove();
+			players.remove(ev.getPlayer());
+		}
+		if(players_hm.containsKey(ev.getPlayer())){
+			players_hm.get(ev.getPlayer()).remove();
+			players_hm.remove(ev.getPlayer());
+			players_hm_reward.remove(ev.getPlayer());
+		}
+		if(players_obj.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
+			for(int i = 0 ; i < players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).size(); i++)players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).remove(i);
+			players_obj.remove(UtilPlayer.getRealUUID(ev.getPlayer()));
+		}
 	}
 	
 	@EventHandler
@@ -309,21 +324,10 @@ public class DeliveryPet extends kListener{
 	}
 	
 	@EventHandler
-	public void Updater(UpdateEvent ev){
-		if(ev.getType()==UpdateType.MIN_64){
-			UtilList.CleanList(players,base);
-			UtilList.CleanList(players_obj);
-			UtilList.CleanList(players_hm);
-			UtilList.CleanList(players_hm_reward);
-		}
-		
-		if(ev.getType()==UpdateType.MIN_04){
-			createPet();
-		}
-		
+	public void HologrammUpdater(UpdateEvent ev){
 		if(ev.getType()==UpdateType.SEC){
 			for(Player player : players_hm.keySet()){
-				if(players_hm_reward.containsKey(player)){
+				if(player.getLocation().getWorld()==getLocation().getWorld()&&player.getLocation().distance(getLocation())<25 && players_hm_reward.containsKey(player)){
 					if(players_hm_reward.get(player)==0){
 						if(!players_hm.get(player).getLines()[0].startsWith("§7")){
 							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§7"+players_hm_reward.get(player)));
@@ -342,7 +346,10 @@ public class DeliveryPet extends kListener{
 				}
 			}
 		}
-		
+	}
+	
+	@EventHandler
+	public void InventoryUpdate(UpdateEvent ev){
 		if(ev.getType()==UpdateType.SEC){
 			for(Player player : players.keySet()){
 				if(player.isOnline()&&!players.get(player).getViewers().isEmpty()){
@@ -368,19 +375,33 @@ public class DeliveryPet extends kListener{
 		}
 	}
 	
+	@EventHandler
+	public void Clean(UpdateEvent ev){
+		if(ev.getType()==UpdateType.MIN_16){
+			UtilList.CleanList(players,base);
+			UtilList.CleanList(players_obj);
+			UtilList.CleanList(players_hm);
+			UtilList.CleanList(players_hm_reward);
+			createPet();
+		}
+	}
+	
 	public void deliveryBlock(Player player,Material name){
-		getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player)+"' AND obj='"+name+"'");
-		players_obj.get(UtilPlayer.getRealUUID(player)).remove(objects.get(name).material);
-		players_obj.get(UtilPlayer.getRealUUID(player)).put(objects.get(name).material, System.currentTimeMillis()+objects.get(name).getTime());
-		players_hm_reward.remove(player);
-		players_hm_reward.put(player, getRewards(player));
-		playEffect();
+		if(objects.containsKey(name)){
+			getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player)+"' AND obj='"+name+"'");
+			players_obj.get(UtilPlayer.getRealUUID(player)).remove(objects.get(name).material);
+			players_obj.get(UtilPlayer.getRealUUID(player)).put(objects.get(name).material, System.currentTimeMillis()+objects.get(name).getTime());
+			players_hm_reward.remove(player);
+			players_hm_reward.put(player, getRewards(player));
+			playEffect();
+		}
 	}
 	
 	public void deliveryUSE(String player, UUID uuid,Material name){
-		if(objects.get(name).material==name){
-			if(players_obj.containsKey(uuid))players_obj.remove(uuid);
-			getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player,uuid)+"' AND obj='"+name+"'");
+		if(objects.containsKey(name)){
+			if(objects.get(name).material==name){
+				getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player,uuid)+"' AND obj='"+name+"'");
+			}
 		}
 	}
 	

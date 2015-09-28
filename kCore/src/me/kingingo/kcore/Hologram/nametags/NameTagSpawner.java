@@ -70,6 +70,15 @@ public class NameTagSpawner {
 		// We need to reserve two entity IDs per name tag
 		SHARED_ENTITY_ID += nameTagCount * 2;
 	}
+	
+	public void remove(){
+		y=0;
+		ArmorStand=null;
+		playerLocations.clear();
+		playerLocations=null;
+		startEntityId=0;
+		nameTagCount=0;
+	}
 
 	/**
 	 * Retrieve the maximum number of name tags we can spawn.

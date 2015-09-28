@@ -85,7 +85,7 @@ public class ButtonBase implements IButton{
 	}
 	
 	public void refreshItemStack(){
-		UtilItem.SetDescriptions(itemStack, getDescription());
+		if(getDescription()!=null)UtilItem.SetDescriptions(itemStack, getDescription());
 		this.inventoryPageBase.setItem(slot, itemStack);
 	}
 	

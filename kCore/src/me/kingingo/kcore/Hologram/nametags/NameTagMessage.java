@@ -49,6 +49,12 @@ public class NameTagMessage extends ImageMessage {
 		super(imgLines);
 		initialize(imgLines.length,y);
 	}
+	
+	public void remove(){
+		spawner.remove();
+		location=null;
+		lineSpacing=0;
+	}
 
 	private void initialize(int height, double y) {
 		this.spawner = new NameTagSpawner(height,y);

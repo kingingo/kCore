@@ -11,6 +11,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 
 public class CommandEntities implements CommandExecutor{
@@ -25,6 +27,7 @@ public class CommandEntities implements CommandExecutor{
 					player.sendMessage(Language.getText(player,"PREFIX")+"/entities [list/clearall/WORLD]");
 				}else{
 					if(args[0].equalsIgnoreCase("list")){
+						
 		                for(World world : Bukkit.getWorlds()){
 		                	int tileEntities = 0;
 		                    try
@@ -38,13 +41,20 @@ public class CommandEntities implements CommandExecutor{
 		                    {
 		                  	 ex.printStackTrace(); 
 		                    }  
+		                    
+		                    for(EntityType type : EntityType.values()){
+		                    	if(type==null||type==EntityType.UNKNOWN)continue;
+		                    	if(world.getEntitiesByClass(type.getEntityClass()).size()<=0)continue;
+		                    	player.sendMessage(Language.getText(player,"PREFIX")+"§e"+world.getName()+"§7: Entity Type:§e"+type.name()+" §7Counted:§e"+world.getEntitiesByClass(type.getEntityClass()).size());
+		                    }
+		                    
 		                	player.sendMessage(Language.getText(player,"PREFIX")+"§e"+world.getName()+"§7: Chunks:§e"+world.getLoadedChunks().length+" §7Entities:§e"+world.getEntities().size()+" §7Tile:§e"+tileEntities);
 		                }
 					}else if(args[0].equalsIgnoreCase("clearall")){
 						int a = 0;
 						for(World w : Bukkit.getWorlds()){
 							for(Entity e : w.getEntities()){
-								if(!(e instanceof Player)){
+								if(!(e instanceof Player)&&!(e instanceof ItemFrame)){
 			                		a++;
 			                		e.remove();
 			                	}

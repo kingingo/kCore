@@ -62,10 +62,10 @@ public class CommandXP implements CommandExecutor{
 						return false;
 					}
 					
-					exp = UtilEXP.getExperience(p, exp);
-					
-					UtilEXP.setTotalExperience(target, (exp+(int)target.getExp()) );
-					UtilEXP.setTotalExperience(p, ((int)target.getExp())-exp );
+//					exp = UtilEXP.getExperience(p, exp);
+//					
+//					UtilEXP.setTotalExperience(target, (exp+(int)target.getExp()) );
+//					UtilEXP.setTotalExperience(p, ((int)target.getExp())-exp );
 					
 					target.sendMessage(Language.getText(target, "PREFIX")+ Language.getText(target, "EXP_HIS_TO_ME",new String[]{p.getName(),String.valueOf(exp)}));
 					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(target, "EXP_ME_TO_HIS",new String[]{target.getName(),String.valueOf(exp)}));

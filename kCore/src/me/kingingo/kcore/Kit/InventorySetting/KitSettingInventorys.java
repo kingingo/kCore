@@ -91,7 +91,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		}, "W�hle einen Helm", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_HELMET),new ItemStack(Material.IRON_HELMET),new ItemStack(Material.GOLD_HELMET),new ItemStack(Material.DIAMOND_HELMET)});
+		}, "Waehle eine Hose", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_HELMET),new ItemStack(Material.IRON_HELMET),new ItemStack(Material.GOLD_HELMET),new ItemStack(Material.DIAMOND_HELMET)});
 		this.helm_choose.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -112,7 +112,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		}, "W�hle ein Brustpanzer", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_CHESTPLATE),new ItemStack(Material.IRON_CHESTPLATE),new ItemStack(Material.GOLD_CHESTPLATE),new ItemStack(Material.DIAMOND_CHESTPLATE)});
+		}, "Waehle ein Brustpanzer", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_CHESTPLATE),new ItemStack(Material.IRON_CHESTPLATE),new ItemStack(Material.GOLD_CHESTPLATE),new ItemStack(Material.DIAMOND_CHESTPLATE)});
 		this.chestplate_choose.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -132,7 +132,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		}, "W�hle eine Hose", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_LEGGINGS),new ItemStack(Material.IRON_LEGGINGS),new ItemStack(Material.GOLD_LEGGINGS),new ItemStack(Material.DIAMOND_LEGGINGS)});
+		}, "Waehle eine Hose", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_LEGGINGS),new ItemStack(Material.IRON_LEGGINGS),new ItemStack(Material.GOLD_LEGGINGS),new ItemStack(Material.DIAMOND_LEGGINGS)});
 		this.leggings_choose.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -152,7 +152,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		}, "W�hle deine Schuhe", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_BOOTS),new ItemStack(Material.IRON_BOOTS),new ItemStack(Material.GOLD_BOOTS),new ItemStack(Material.DIAMOND_BOOTS)});
+		}, "Waehle deine Schuhe", InventorySize._9.getSize(), new ItemStack[]{new ItemStack(Material.LEATHER_BOOTS),new ItemStack(Material.IRON_BOOTS),new ItemStack(Material.GOLD_BOOTS),new ItemStack(Material.DIAMOND_BOOTS)});
 		this.boots_choose.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -172,7 +172,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		},9, "W�hle ein Main Item", InventorySize._27.getSize(), new ItemStack[]{new ItemStack(Material.BOW),new ItemStack(Material.DIAMOND_SWORD),new ItemStack(Material.STONE_SWORD),new ItemStack(Material.IRON_SWORD),new ItemStack(Material.GOLD_SWORD),new ItemStack(Material.WOOD_SWORD),new ItemStack(Material.DIAMOND_AXE),new ItemStack(Material.STONE_AXE),new ItemStack(Material.IRON_AXE),new ItemStack(Material.GOLD_AXE),new ItemStack(Material.WOOD_AXE)});
+		},9, "Waehle ein Main Item", InventorySize._27.getSize(), new ItemStack[]{new ItemStack(Material.BOW),new ItemStack(Material.DIAMOND_SWORD),new ItemStack(Material.STONE_SWORD),new ItemStack(Material.IRON_SWORD),new ItemStack(Material.GOLD_SWORD),new ItemStack(Material.WOOD_SWORD),new ItemStack(Material.DIAMOND_AXE),new ItemStack(Material.STONE_AXE),new ItemStack(Material.IRON_AXE),new ItemStack(Material.GOLD_AXE),new ItemStack(Material.WOOD_AXE)});
 		this.main_item_inventory1.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -192,7 +192,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		},9, "W�hle ein Main Item", InventorySize._27.getSize(), new ItemStack[]{new ItemStack(Material.BOW),new ItemStack(Material.DIAMOND_SWORD),new ItemStack(Material.STONE_SWORD),new ItemStack(Material.IRON_SWORD),new ItemStack(Material.GOLD_SWORD),new ItemStack(Material.WOOD_SWORD),new ItemStack(Material.DIAMOND_AXE),new ItemStack(Material.STONE_AXE),new ItemStack(Material.IRON_AXE),new ItemStack(Material.GOLD_AXE),new ItemStack(Material.WOOD_AXE)});
+		},9, "Waehle ein Main Item", InventorySize._27.getSize(), new ItemStack[]{new ItemStack(Material.BOW),new ItemStack(Material.DIAMOND_SWORD),new ItemStack(Material.STONE_SWORD),new ItemStack(Material.IRON_SWORD),new ItemStack(Material.GOLD_SWORD),new ItemStack(Material.WOOD_SWORD),new ItemStack(Material.DIAMOND_AXE),new ItemStack(Material.STONE_AXE),new ItemStack(Material.IRON_AXE),new ItemStack(Material.GOLD_AXE),new ItemStack(Material.WOOD_AXE)});
 		main_item_inventory2.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -212,7 +212,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		},9, "W�hle ein Second Item", InventorySize._18.getSize(), loadSecondItems());
+		},9, "Waehle ein Second Item", InventorySize._18.getSize(), loadSecondItems());
 		second_item1.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -232,7 +232,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		},9, "W�hle ein Second Item", InventorySize._18.getSize(), loadSecondItems());
+		},9, "Waehle ein Second Item", InventorySize._18.getSize(), loadSecondItems());
 		second_item2.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -253,7 +253,7 @@ public class KitSettingInventorys extends InventoryBase{
 				}
 			}
 			
-		},(45-i.length), "W�hle ein Potion Item", InventorySize._45.getSize(),i);
+		},(45-i.length), "Waehle ein Potion Item", InventorySize._45.getSize(),i);
 		potion.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -574,7 +574,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.closeInventory();
 			}
 			
-		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)4), "�aKit Speichern")));
+		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)4), "§aKit Speichern")));
 		
 		
 		page.addButton(helm_place, new ButtonBase(new Click(){
