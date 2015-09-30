@@ -119,7 +119,18 @@ public class Teleporter {
 				dif_z=0;
 				return true;
 			}else{
-				from.sendMessage(Language.getText(from, "PREFIX")+Language.getText(from, "PLAYER_IS_OFFLINE",player_to.getName()));
+				if(player_to==null||from==null){
+					if(player_to==null){
+						System.out.println("[TeleportManager] PLAYER_TO == NULL");
+					}
+					
+					if(from==null){
+						System.out.println("[TeleportManager] FROM == NULL");
+					}
+				}else{
+					from.sendMessage(Language.getText(from, "PREFIX")+
+							Language.getText(from, "PLAYER_IS_OFFLINE",player_to.getName()));
+				}
 				from=null;
 				loc_from=null;
 				player_to=null;

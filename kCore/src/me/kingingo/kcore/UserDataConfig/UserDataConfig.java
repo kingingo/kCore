@@ -132,14 +132,16 @@ public class UserDataConfig extends kListener{
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Disable(PluginDisableEvent ev){
-		saveAllConfigs();
-		if(config!=null)configs.clear();
-		instance=null;
-		dataFolder=null;
-		uuid=null;
-		file=null;
-		config=null;
-		configs=null;
+		if(ev.getPlugin().getName().equalsIgnoreCase("kCore")){
+			saveAllConfigs();
+			if(config!=null)configs.clear();
+			instance=null;
+			dataFolder=null;
+			uuid=null;
+			file=null;
+			config=null;
+			configs=null;
+		}
 	}
 	
 	@EventHandler(priority=EventPriority.LOW)

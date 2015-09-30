@@ -32,20 +32,23 @@ public class CommandSetKit implements CommandExecutor{
 			if(args.length<=1){
 				player.sendMessage(Language.getText(player, "PREFIX")+"/setkit [Name] [Delay STD]");
 			}else{
-				
-				if(!UtilString.isNormalCharakter(args[0])){
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_CHARAKTER"));
-					return false;
+				if(args[0].equalsIgnoreCase("reload")){
+					
+				}else{
+					if(!UtilString.isNormalCharakter(args[0])){
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_CHARAKTER"));
+						return false;
+					}
+					
+					config.setInventory("kits."+args[0].toLowerCase()+".Inventory", player.getInventory());
+					this.kit.getKits().put(args[0].toLowerCase(), player.getInventory().getContents().clone());
+					if(UtilNumber.toInt(args[1])!=0){
+						config.set("kits."+args[0].toLowerCase()+".Delay", UtilNumber.toInt(args[1])*TimeSpan.HOUR );
+						this.kit.getKits_delay().put(args[0].toLowerCase(), UtilNumber.toInt(args[1])*TimeSpan.HOUR );
+					}
+					kit.getConfig().save();
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_SET",args[0]));
 				}
-				
-				config.setInventory("kits."+args[0].toLowerCase()+".Inventory", player.getInventory());
-				this.kit.getKits().put(args[0].toLowerCase(), player.getInventory().getContents().clone());
-				if(UtilNumber.toInt(args[1])!=0){
-					config.set("kits."+args[0].toLowerCase()+".Delay", UtilNumber.toInt(args[1])*TimeSpan.HOUR );
-					this.kit.getKits_delay().put(args[0].toLowerCase(), UtilNumber.toInt(args[1])*TimeSpan.HOUR );
-				}
-				kit.getConfig().save();
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_SET",args[0]));
 			}
 		}
 		return false;

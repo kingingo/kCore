@@ -279,12 +279,7 @@ public class SignShop extends kListener{
 	                sign = (Sign) ev.getClickedBlock().getState();
 	                
 	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-buy]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-sale]")){	
-	    				event = new SignShopUseEvent(sign,SignShopAction.BUY, p, ev);
-	    				Bukkit.getPluginManager().callEvent(event);
-	                	ev.setCancelled(true);
-	    				if(event.isCancelled())return;
-	    				
-	                	if(shop.containsKey(p)){
+	    				if(shop.containsKey(p)){
 	                		
 	                		if(shop.get(p) <= System.currentTimeMillis()){
 	                			shop.remove(p);
@@ -296,6 +291,11 @@ public class SignShop extends kListener{
 	                	}else{
 	                		shop.put(p, System.currentTimeMillis() + 3000);
 	                	}
+	                	
+	                	event = new SignShopUseEvent(sign,SignShopAction.BUY, p, ev);
+	    				Bukkit.getPluginManager().callEvent(event);
+	                	ev.setCancelled(true);
+	    				if(event.isCancelled())return;
 	                		
 	                		int anzahl = Integer.valueOf(sign.getLine(2));
 	                		
@@ -379,11 +379,6 @@ public class SignShop extends kListener{
 	                sign = (Sign) ev.getClickedBlock().getState();
 	                
 	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-buy]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-sale]")){
-	                	event = new SignShopUseEvent(sign,SignShopAction.SALE, p, ev);
-	    				Bukkit.getPluginManager().callEvent(event);
-	                	ev.setCancelled(true);
-	                	
-	    				if(event.isCancelled())return;
 	                	if(shop.containsKey(p)){
 	                		
 	                		if(shop.get(p) <= System.currentTimeMillis()){
@@ -396,6 +391,12 @@ public class SignShop extends kListener{
 	                	}else{
 	                		shop.put(p, System.currentTimeMillis() + 3000);
 	                	}
+	                	
+	                	event = new SignShopUseEvent(sign,SignShopAction.SALE, p, ev);
+	    				Bukkit.getPluginManager().callEvent(event);
+	                	ev.setCancelled(true);
+	                	
+	    				if(event.isCancelled())return;
 	                	
 	                	int anzahl = Integer.valueOf(sign.getLine(2));
 	            		

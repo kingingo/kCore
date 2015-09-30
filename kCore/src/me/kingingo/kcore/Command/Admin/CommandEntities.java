@@ -3,6 +3,7 @@ package me.kingingo.kcore.Command.Admin;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -55,6 +56,10 @@ public class CommandEntities implements CommandExecutor{
 						for(World w : Bukkit.getWorlds()){
 							for(Entity e : w.getEntities()){
 								if(!(e instanceof Player)&&!(e instanceof ItemFrame)){
+									if(UtilServer.getDeliveryPet()!=null){
+										if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
+										if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
+									}
 			                		a++;
 			                		e.remove();
 			                	}
