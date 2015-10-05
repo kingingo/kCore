@@ -29,11 +29,11 @@ public class CommandXP implements CommandExecutor{
 				}
 				if(args.length == 3){
 					
-					int exp = 0;
+					int lvl = 0;
 					Player target;
 					
 					try{
-						exp = Integer.parseInt(args[2]);
+						lvl = Integer.parseInt(args[2]);
 						
 					}catch(NumberFormatException e){					
 						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "NO_INTEGER"));
@@ -52,23 +52,26 @@ public class CommandXP implements CommandExecutor{
 						return false;
 					}
 					
-					if(exp < 1){
+					if(lvl < 1){
 						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "EXP_MINUS"));
 						return false;
 					}
 					
-					if(p.getLevel() < exp){
+					if(p.getLevel() < lvl){
 						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "NOT_ENOUGH_EXP"));
 						return false;
 					}
 					
-//					exp = UtilEXP.getExperience(p, exp);
-//					
-//					UtilEXP.setTotalExperience(target, (exp+(int)target.getExp()) );
-//					UtilEXP.setTotalExperience(p, ((int)target.getExp())-exp );
+					int exp = UtilEXP.getLevelToExp(p.getLevel()-lvl);
+					int amount_exp = UtilEXP.getLevelToExp(p.getLevel());
 					
-					target.sendMessage(Language.getText(target, "PREFIX")+ Language.getText(target, "EXP_HIS_TO_ME",new String[]{p.getName(),String.valueOf(exp)}));
-					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(target, "EXP_ME_TO_HIS",new String[]{target.getName(),String.valueOf(exp)}));
+					target.giveExp(amount_exp-exp);
+					p.setLevel(0);
+					p.setExp(0);
+					p.giveExp( exp );
+					
+					target.sendMessage(Language.getText(target, "PREFIX")+ Language.getText(target, "EXP_HIS_TO_ME",new String[]{p.getName(),String.valueOf(amount_exp-exp)}));
+					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(target, "EXP_ME_TO_HIS",new String[]{target.getName(),String.valueOf(amount_exp-exp)}));
 					
 					
 					return false;
