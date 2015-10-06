@@ -2,7 +2,7 @@ package me.kingingo.kcore.TreasureChest.StandingTreasureChest;
 
 import me.kingingo.kcore.Inventory.Item.BooleanClick;
 import me.kingingo.kcore.Inventory.Item.Click;
-import me.kingingo.kcore.Inventory.Item.SalesPackageBase;
+import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.entity.Player;

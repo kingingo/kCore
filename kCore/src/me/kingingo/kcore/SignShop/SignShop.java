@@ -289,7 +289,7 @@ public class SignShop extends kListener{
 	                		}
 	                		
 	                	}else{
-	                		shop.put(p, System.currentTimeMillis() + 3000);
+	                		if(!p.isOp())shop.put(p, System.currentTimeMillis() + 3000);
 	                	}
 	                	
 	                	event = new SignShopUseEvent(sign,SignShopAction.BUY, p, ev);
@@ -389,7 +389,7 @@ public class SignShop extends kListener{
 	                		}
 	                		
 	                	}else{
-	                		shop.put(p, System.currentTimeMillis() + 3000);
+	                		if(!p.isOp())shop.put(p, System.currentTimeMillis() + 3000);
 	                	}
 	                	
 	                	event = new SignShopUseEvent(sign,SignShopAction.SALE, p, ev);

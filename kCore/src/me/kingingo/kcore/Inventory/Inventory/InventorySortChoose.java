@@ -1,8 +1,8 @@
 package me.kingingo.kcore.Inventory.Inventory;
 
 import me.kingingo.kcore.Inventory.InventoryPageBase;
-import me.kingingo.kcore.Inventory.Item.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

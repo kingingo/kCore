@@ -13,10 +13,10 @@ import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.DeliveryInventoryPage;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2.InventoryLotto2Type;
-import me.kingingo.kcore.Inventory.Item.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.Get;
-import me.kingingo.kcore.Inventory.Item.LottoPackage;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
+import me.kingingo.kcore.Inventory.Item.Buttons.LottoPackage;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQL;
@@ -356,14 +356,14 @@ public class DeliveryPet extends kListener{
 					if(players_obj.containsKey( UtilPlayer.getRealUUID(player) )){
 						for(Material obj : players_obj.get(UtilPlayer.getRealUUID(player)).keySet()){
 							if(players_obj.get(UtilPlayer.getRealUUID(player)).get(obj) > System.currentTimeMillis()){
-								players.get(player).getButton(objects.get(obj).slot).setDescription(descriptionUSED(player, obj));
-								if(players.get(player).getButton(objects.get(obj).slot).getItemStack().getType()!=Material.REDSTONE_BLOCK)players.get(player).getButton(objects.get(obj).slot).setMaterial(Material.REDSTONE_BLOCK);
-								players.get(player).getButton(objects.get(obj).slot).refreshItemStack();
+								players.get(player).getButtonOneSlot(objects.get(obj).slot).setDescription(descriptionUSED(player, obj));
+								if(players.get(player).getButtonOneSlot(objects.get(obj).slot).getItemStack().getType()!=Material.REDSTONE_BLOCK)players.get(player).getButtonOneSlot(objects.get(obj).slot).setMaterial(Material.REDSTONE_BLOCK);
+								players.get(player).getButtonOneSlot(objects.get(obj).slot).refreshItemStack();
 							}else{
-								if(players.get(player).getButton(objects.get(obj).slot).getItemStack().getType()==Material.REDSTONE_BLOCK){
-									players.get(player).getButton(objects.get(obj).slot).setDescription(objects.get(obj).description);
-									players.get(player).getButton(objects.get(obj).slot).setMaterial(objects.get(obj).material,objects.get(obj).data);	
-									players.get(player).getButton(objects.get(obj).slot).refreshItemStack();
+								if(players.get(player).getButtonOneSlot(objects.get(obj).slot).getItemStack().getType()==Material.REDSTONE_BLOCK){
+									players.get(player).getButtonOneSlot(objects.get(obj).slot).setDescription(objects.get(obj).description);
+									players.get(player).getButtonOneSlot(objects.get(obj).slot).setMaterial(objects.get(obj).material,objects.get(obj).data);	
+									players.get(player).getButtonOneSlot(objects.get(obj).slot).refreshItemStack();
 								}
 							}
 						}

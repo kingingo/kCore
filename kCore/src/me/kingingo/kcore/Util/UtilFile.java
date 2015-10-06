@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.Collections;
 import java.util.zip.ZipEntry;
@@ -94,7 +95,26 @@ public class UtilFile
 	}
 	
 	public static void createFile(File pfad,String name,String[] list){
+		pfad.mkdirs();
 		createFile(new File(pfad.getAbsolutePath()+File.separator+name), list);
+	}
+	
+	public static void createFile(File pfad,String name,String list){
+		pfad.mkdirs();
+		createFile(new File(pfad,name), list);
+	}
+	
+	public static void createFile(File pfad,String s){
+		try {
+			PrintStream fileTimings = new PrintStream( pfad );
+			String[] list = s.split("-/-");
+			for(String l : list){
+				fileTimings.println(l);
+			}
+			fileTimings.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void createFile(File pfad,String[] list){

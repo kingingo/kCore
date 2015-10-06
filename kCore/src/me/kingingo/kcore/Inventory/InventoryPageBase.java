@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.Item.IButton;
+import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.InventorySplit;
 import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import me.kingingo.kcore.Util.UtilString;
 
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryCustom;
@@ -25,37 +27,37 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	private ArrayList<IButton> buttons;
 	@Getter
 	private String inventoryType;
+	@Getter
+	@Setter
+	private boolean clickPlayerInventory = false;
 	
 	public InventoryPageBase(int size,String title){
-		super(null,InventorySize.invSize(size).getSize(),(title==null?"Inventory":title));
-		this.buttons=new ArrayList<>();
+		this(null,size,title);
 	}
 	
 	public InventoryPageBase(InventorySize size,String title){
-		super(null, size.getSize(), (title==null?"Inventory":title));
-		this.buttons=new ArrayList<>();
-	}
-	
-	public InventoryPageBase(String inventoryType,int size,String title){
-		super(null,InventorySize.invSize(size).getSize(),(title==null?"Inventory":title));
-		this.buttons=new ArrayList<>();
-		this.inventoryType=inventoryType;
+		this(null,size.getSize(),title);
 	}
 	
 	public InventoryPageBase(String inventoryType,InventorySize size,String title){
-		super(null, size.getSize(), (title==null?"Inventory":title));
+		this(inventoryType,size.getSize(),title);
+	}
+	
+	public InventoryPageBase(String inventoryType,int size,String title){
+		super(null,InventorySize.invSize(size).getSize(),(title==null?"Inventory": UtilString.cut(title, 32) ));
 		this.buttons=new ArrayList<>();
 		this.inventoryType=inventoryType;
 	}
 	
-	public void useButton(Player player,ActionType type,ItemStack item,int slot){
-		if(!isSlot(slot,"useButton(Player,ActionType,ItemStack,int)"))return;
+	public boolean useButton(Player player,ActionType type,ItemStack item,int slot){
+		if(!isSlot(slot,"useButton(Player,ActionType,ItemStack,int)"))return true;
 		for(IButton button : buttons){
-			if(slot==button.getSlot() ){
+			if(button.isSlot(slot)){
 				button.Clicked(player, type,item);
-				break;
+				return button.isCancelled();
 			}
 		}
+		return true;
 	}
 	
 	public void remove(){
@@ -130,10 +132,20 @@ public class InventoryPageBase extends CraftInventoryCustom{
 		}
 	}
 	
+	public IButtonOneSlot getButtonOneSlot(int slot){
+		if(!isSlot(slot,"getButtonOneSlot(int)"))return null;
+		for(IButton button : getButtons()){
+			if(button instanceof IButtonOneSlot && button.isSlot(slot)){
+				return (IButtonOneSlot)button;
+			}
+		}
+		return null;
+	}
+	
 	public IButton getButton(int slot){
 		if(!isSlot(slot,"getButton(int)"))return null;
 		for(IButton button : getButtons()){
-			if(button.getSlot()==slot){
+			if(button.isSlot(slot)){
 				return button;
 			}
 		}
@@ -141,18 +153,29 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	}
 	
 	public void addButton(IButton button){
-		int slot=firstEmpty();
-		button.setSlot(slot);
+		
 		button.setInventoryPageBase(this);
-		setItem(slot, button.getItemStack());
+		
+		if(button instanceof IButtonOneSlot){
+			int slot=firstEmpty();
+			IButtonOneSlot b = (IButtonOneSlot)button;
+			b.setSlot(slot);
+			setItem(slot, b.getItemStack());
+		}
+		
 		this.buttons.add(button);
 	}
 	
 	public void addButton(int slot,IButton button){
 		if(!isSlot(slot,"addButton(int,IButton)"))return;
-		button.setSlot(slot);
+		
+		if(button instanceof IButtonOneSlot){
+			IButtonOneSlot b = (IButtonOneSlot)button;
+			b.setSlot(slot);
+			setItem(slot, b.getItemStack());
+		}
+		
 		button.setInventoryPageBase(this);
-		setItem(slot, button.getItemStack());
 		this.buttons.add(button);
 	}
 	

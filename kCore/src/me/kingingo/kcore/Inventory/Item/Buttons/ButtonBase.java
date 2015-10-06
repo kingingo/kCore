@@ -1,8 +1,11 @@
-package me.kingingo.kcore.Inventory.Item;
+package me.kingingo.kcore.Inventory.Item.Buttons;
 
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
+import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Inventory.Item.IButton;
+import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 
@@ -11,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-public class ButtonBase implements IButton{
+public class ButtonBase implements IButtonOneSlot{
 
 	@Setter
 	private Click click;
@@ -29,6 +32,9 @@ public class ButtonBase implements IButton{
 	@Getter
 	@Setter
 	private InventoryPageBase inventoryPageBase;
+	@Getter
+	@Setter
+	private boolean cancelled=true;
 	
 	public ButtonBase(Click click,Material material,String name,String[] description){
 		this.click=click;
@@ -73,6 +79,10 @@ public class ButtonBase implements IButton{
 	
 	public void setMaterial(Material material){
 		this.itemStack.setType(material);
+	}
+	
+	public boolean isSlot(int slot){
+		return slot==getSlot();
 	}
 	
 	public void remove(){

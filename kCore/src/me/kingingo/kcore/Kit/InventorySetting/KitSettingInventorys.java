@@ -8,9 +8,9 @@ import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryChoose;
 import me.kingingo.kcore.Inventory.Inventory.InventorySortChoose;
-import me.kingingo.kcore.Inventory.Item.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.IButton;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Util.InventorySize;
@@ -86,7 +86,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object obj) {
 				if(inventorys.containsKey(player)){
-					inventorys.get(player).getButton(helm_place).setItemStack( ((ItemStack)obj).clone() );
+					inventorys.get(player).getButtonOneSlot(helm_place).setItemStack( ((ItemStack)obj).clone() );
 					player.openInventory( inventorys.get(player) );
 				}
 			}
@@ -107,7 +107,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object obj) {
 				if(inventorys.containsKey(player)){
-					inventorys.get(player).getButton(chestplate_place).setItemStack( ((ItemStack)obj).clone() );
+					inventorys.get(player).getButtonOneSlot(chestplate_place).setItemStack( ((ItemStack)obj).clone() );
 					player.openInventory( inventorys.get(player) );
 				}
 			}
@@ -127,7 +127,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object obj) {
 				if(inventorys.containsKey(player)){
-					inventorys.get(player).getButton(leggings_place).setItemStack( ((ItemStack)obj).clone() );
+					inventorys.get(player).getButtonOneSlot(leggings_place).setItemStack( ((ItemStack)obj).clone() );
 					player.openInventory( inventorys.get(player) );
 				}
 			}
@@ -147,7 +147,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object obj) {
 				if(inventorys.containsKey(player)){
-					inventorys.get(player).getButton(boots_place).setItemStack( ((ItemStack)obj).clone() );
+					inventorys.get(player).getButtonOneSlot(boots_place).setItemStack( ((ItemStack)obj).clone() );
 					player.openInventory( inventorys.get(player) );
 				}
 			}
@@ -167,7 +167,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object obj) {
 				if(inventorys.containsKey(player)){
-					inventorys.get(player).getButton(main_place_1).setItemStack( ((ItemStack)obj).clone() );
+					inventorys.get(player).getButtonOneSlot(main_place_1).setItemStack( ((ItemStack)obj).clone() );
 					player.openInventory( inventorys.get(player) );
 				}
 			}
@@ -187,7 +187,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object obj) {
 				if(inventorys.containsKey(player)){
-					inventorys.get(player).getButton(main_place_2).setItemStack( ((ItemStack)obj).clone() );
+					inventorys.get(player).getButtonOneSlot(main_place_2).setItemStack( ((ItemStack)obj).clone() );
 					player.openInventory( inventorys.get(player) );
 				}
 			}
@@ -207,7 +207,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object obj) {
 				if(inventorys.containsKey(player)){
-					inventorys.get(player).getButton(second_place_1).setItemStack( ((ItemStack)obj).clone() );
+					inventorys.get(player).getButtonOneSlot(second_place_1).setItemStack( ((ItemStack)obj).clone() );
 					player.openInventory( inventorys.get(player) );
 				}
 			}
@@ -227,7 +227,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object obj) {
 				if(inventorys.containsKey(player)){
-					inventorys.get(player).getButton(second_place_2).setItemStack( ((ItemStack)obj).clone() );
+					inventorys.get(player).getButtonOneSlot(second_place_2).setItemStack( ((ItemStack)obj).clone() );
 					player.openInventory( inventorys.get(player) );
 				}
 			}
@@ -248,7 +248,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object obj) {
 				if(inventorys.containsKey(player)){
-					inventorys.get(player).getButton(potion_place).setItemStack( ((ItemStack)obj).clone() );
+					inventorys.get(player).getButtonOneSlot(potion_place).setItemStack( ((ItemStack)obj).clone() );
 					player.openInventory( inventorys.get(player) );
 				}
 			}
@@ -270,8 +270,8 @@ public class KitSettingInventorys extends InventoryBase{
 			public void onClick(Player player, ActionType a, Object obj) {
 				if(inventorys.containsKey(player)){
 					try{
-						inventorys.get(player).getButton(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
-						inventorys.get(player).getButton(enchant_list.get(player)).refreshItemStack();
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).refreshItemStack();
 					}catch(IllegalArgumentException e){
 						
 					}
@@ -296,8 +296,8 @@ public class KitSettingInventorys extends InventoryBase{
 			public void onClick(Player player, ActionType a, Object obj) {
 				if(inventorys.containsKey(player)){
 					try{
-						inventorys.get(player).getButton(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
-						inventorys.get(player).getButton(enchant_list.get(player)).refreshItemStack();
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).refreshItemStack();
 					}catch(IllegalArgumentException e){
 						
 					}
@@ -322,8 +322,8 @@ public class KitSettingInventorys extends InventoryBase{
 			public void onClick(Player player, ActionType a, Object obj) {
 				if(inventorys.containsKey(player)){
 					try{
-						inventorys.get(player).getButton(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
-						inventorys.get(player).getButton(enchant_list.get(player)).refreshItemStack();
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).refreshItemStack();
 					}catch(IllegalArgumentException e){
 						
 					}
@@ -348,8 +348,8 @@ public class KitSettingInventorys extends InventoryBase{
 			public void onClick(Player player, ActionType a, Object obj) {
 				if(inventorys.containsKey(player)){
 					try{
-						inventorys.get(player).getButton(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
-						inventorys.get(player).getButton(enchant_list.get(player)).refreshItemStack();
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).refreshItemStack();
 					}catch(IllegalArgumentException e){
 						
 					}
@@ -374,8 +374,8 @@ public class KitSettingInventorys extends InventoryBase{
 			public void onClick(Player player, ActionType a, Object obj) {
 				if(inventorys.containsKey(player)){
 					try{
-						inventorys.get(player).getButton(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
-						inventorys.get(player).getButton(enchant_list.get(player)).refreshItemStack();
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).refreshItemStack();
 					}catch(IllegalArgumentException e){
 						
 					}
@@ -400,8 +400,8 @@ public class KitSettingInventorys extends InventoryBase{
 			public void onClick(Player player, ActionType a, Object obj) {
 				if(inventorys.containsKey(player)){
 					try{
-						inventorys.get(player).getButton(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
-						inventorys.get(player).getButton(enchant_list.get(player)).refreshItemStack();
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).getItemStack().addEnchantment(Enchantment.getByName(((ItemStack)obj).getItemMeta().getDisplayName()), ((ItemStack)obj).getAmount());
+						inventorys.get(player).getButtonOneSlot(enchant_list.get(player)).refreshItemStack();
 					}catch(IllegalArgumentException e){
 						
 					}
@@ -426,8 +426,8 @@ public class KitSettingInventorys extends InventoryBase{
 			public void onClick(Player player, ActionType a, Object obj) {
 				if(inventorys.containsKey(player)){
 					try{
-						inventorys.get(player).getButton(amount_list.get(player)).getItemStack().setAmount(((ItemStack)obj).getAmount());
-						inventorys.get(player).getButton(amount_list.get(player)).refreshItemStack();
+						inventorys.get(player).getButtonOneSlot(amount_list.get(player)).getItemStack().setAmount(((ItemStack)obj).getAmount());
+						inventorys.get(player).getButtonOneSlot(amount_list.get(player)).refreshItemStack();
 					}catch(IllegalArgumentException e){
 						
 					}

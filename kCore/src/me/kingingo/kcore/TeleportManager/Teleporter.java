@@ -2,11 +2,9 @@ package me.kingingo.kcore.TeleportManager;
 
 import lombok.Getter;
 import me.kingingo.kcore.Language.Language;
-import me.kingingo.kcore.TeleportManager.Events.PlayerTeleportEvent;
 import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilTime;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
@@ -105,10 +103,6 @@ public class Teleporter {
 			}
 			
 			if(getTo()!=null){
-				PlayerTeleportEvent ev = new PlayerTeleportEvent(from,loc_to);
-				Bukkit.getPluginManager().callEvent(ev);
-				if(ev.isCancelled())return true;
-				
 				from.leaveVehicle();
 				from.setVelocity(new Vector(0,0,0));
 				

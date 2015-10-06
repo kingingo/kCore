@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Get;
-import me.kingingo.kcore.Inventory.Item.LottoPackage;
+import me.kingingo.kcore.Inventory.Item.Buttons.LottoPackage;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;

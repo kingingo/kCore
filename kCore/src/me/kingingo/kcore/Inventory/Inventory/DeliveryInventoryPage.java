@@ -5,6 +5,7 @@ import java.util.HashMap;
 import me.kingingo.kcore.DeliveryPet.DeliveryPet;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.IButton;
+import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Material;
@@ -22,13 +23,13 @@ public class DeliveryInventoryPage extends InventoryPageBase{
 		this.delivery=delivery;
 	}
 	
-	public void useButton(Player player,ActionType type,ItemStack item,int slot){
+	public boolean useButton(Player player,ActionType type,ItemStack item,int slot){
 		if(click_time.containsKey(player)){
     		
     		if(click_time.get(player) <= System.currentTimeMillis()){
     			click_time.remove(player);
     		}else{
-    			return;
+    			return true;
     		}
     		
     	}else{
@@ -37,15 +38,20 @@ public class DeliveryInventoryPage extends InventoryPageBase{
     		
 		
 		for(IButton button : this.getButtons()){
-			if(slot==button.getSlot() && button.getItemStack().getType() != Material.REDSTONE_BLOCK){
-				if(button.getItemStack().getType()==Material.JUKEBOX){	
-					button.Clicked(player, ActionType.R, button.getItemStack());
-				}else{
-					delivery.deliveryUSE(player, item.getType(),false);
+			if(button.isSlot(slot)){
+				if(button instanceof IButtonOneSlot && ((IButtonOneSlot)button).getItemStack().getType() != Material.REDSTONE_BLOCK){
+					if(((IButtonOneSlot)button).getItemStack().getType()==Material.JUKEBOX){	
+						button.Clicked(player, ActionType.R, ((IButtonOneSlot)button).getItemStack());
+						return button.isCancelled();
+					}else{
+						delivery.deliveryUSE(player, item.getType(),false);
+						break;
+					}
 				}
-				break;
 			}
 		}
+		
+		return true;
 	}
 	
 }

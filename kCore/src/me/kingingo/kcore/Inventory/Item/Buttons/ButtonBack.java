@@ -1,7 +1,8 @@
-package me.kingingo.kcore.Inventory.Item;
+package me.kingingo.kcore.Inventory.Item.Buttons;
 
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
+import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.entity.Player;

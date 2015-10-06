@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Inventory.Inventory.InventoryTrade;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import net.minecraft.server.v1_8_R3.IScoreboardCriteria;
 
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventory;
 import org.bukkit.entity.Player;
@@ -16,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class InventoryBase extends kListener{
@@ -77,9 +80,8 @@ public class InventoryBase extends kListener{
 				return page;
 			}
 		}
-		if(main!=null&&main.getName()!=null&&inv.getName()!=null&&main.getName().equalsIgnoreCase(inv.getName())
-				&&main.getSize()==inv.getSize()
-					&&isSameInventory(main,inv))return main;
+		if(main!=null&&main.getName()!=null&&inv.getName()!=null
+				&&main.getName().equalsIgnoreCase(inv.getName())&&main.getSize()==inv.getSize()&&isSameInventory(main,inv))return main;
 		return null;
 	}
 	
@@ -107,8 +109,17 @@ public class InventoryBase extends kListener{
 			if(page!=null){
 				ev.setCancelled(true);
 				p=(Player)ev.getWhoClicked();
-				if(ClickType.LEFT==ev.getClick())page.useButton(p, ActionType.L, ev.getCurrentItem(),ev.getSlot());
-				if(ClickType.RIGHT==ev.getClick())page.useButton(p, ActionType.R, ev.getCurrentItem(),ev.getSlot());
+				
+				if(page instanceof InventoryTrade&&ev.getCurrentItem()!=null){
+					InventoryTrade trade = (InventoryTrade)page;
+					if(trade.putItem(p, ev.getClickedInventory(), ev.getCurrentItem(), ev.getSlot()))return;
+				}
+				
+				if(ClickType.LEFT==ev.getClick()){
+					ev.setCancelled(page.useButton(p, ActionType.L, ev.getCurrentItem(),ev.getSlot()));
+				}else if(ClickType.RIGHT==ev.getClick()){
+					ev.setCancelled(page.useButton(p, ActionType.R, ev.getCurrentItem(),ev.getSlot()));
+				}
 			}
 	}
 	

@@ -1,8 +1,11 @@
-package me.kingingo.kcore.Inventory.Item;
+package me.kingingo.kcore.Inventory.Item.Buttons;
 
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
+import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Inventory.Item.IButton;
+import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 
@@ -11,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-public class BooleanButton implements IButton{
+public class ButtonBoolean implements IButtonOneSlot{
 
 	@Setter
 	private Click click;
@@ -32,8 +35,11 @@ public class BooleanButton implements IButton{
 	private InventoryPageBase inventoryPageBase;
 	@Getter
 	private boolean toggle;
+	@Getter
+	@Setter
+	private boolean cancelled=true;
 	
-	public BooleanButton(Click click,String name,boolean toggle){
+	public ButtonBoolean(Click click,String name,boolean toggle){
 		this.click=click;
 		this.name=name;
 		onOroff(toggle);
@@ -64,6 +70,10 @@ public class BooleanButton implements IButton{
 	
 	public void setMaterial(Material material){
 		this.itemStack.setType(material);
+	}
+	
+	public boolean isSlot(int slot){
+		return slot==getSlot();
 	}
 	
 	public void Clicked(Player player, ActionType type,Object object) {

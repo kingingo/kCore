@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Inventory.Item;
+package me.kingingo.kcore.Inventory.Item.Buttons;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2.InventoryLotto2Type;
 import me.kingingo.kcore.Inventory.Item.BooleanClick;
 import me.kingingo.kcore.Inventory.Item.Click;
-import me.kingingo.kcore.Inventory.Item.SalesPackageBase;
+import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;

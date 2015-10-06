@@ -55,12 +55,16 @@ public class UtilString
 	  return (t.endsWith("§") ? t.substring(0, t.length()-1) : t );
   }
     
-  public static String cut(String t){
-	  if(t.length()>16){
-		  return corect(t.substring(0,16));
+  public static String cut(String t,int length){
+	  if(t.length()>length){
+		  return corect(t.substring(0,length-1));
 	  }else{
 		  return t;
 	  }
+  }
+  
+  public static String cut(String t){
+	  return cut(t,16);
   }
   
   public static List<String> stringArrayToList(String[] arg1) {

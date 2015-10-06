@@ -10,7 +10,7 @@ import me.kingingo.kcore.Enum.ServerType;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2.InventoryLotto2Type;
 import me.kingingo.kcore.Inventory.Item.BooleanClick;
 import me.kingingo.kcore.Inventory.Item.Click;
-import me.kingingo.kcore.Inventory.Item.LottoPackage;
+import me.kingingo.kcore.Inventory.Item.Buttons.LottoPackage;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
