@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Language.Language;
+import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.UtilInteger;
@@ -18,9 +19,11 @@ import org.bukkit.entity.Player;
 public class CommandCoins implements CommandExecutor{
 	
 	private Coins coins;
+	private PacketManager packetManager;
 	
-	public CommandCoins(Coins coins){
+	public CommandCoins(Coins coins,PacketManager packetManager){
 		this.coins=coins;
+		this.packetManager=packetManager;
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "coins", sender = Sender.PLAYER)
@@ -31,18 +34,11 @@ public class CommandCoins implements CommandExecutor{
 				player.sendMessage(Language.getText(player, "PREFIX")+"§a/coins [Spieler] [+/- Coins]");
 			}else if(args.length >= 2){
 				String spieler = args[0];
-				UUID uuid=null;
-				
-				if(UtilPlayer.isOnline(spieler)){
-					uuid=UtilPlayer.getRealUUID(Bukkit.getPlayer(spieler));
-				}else{
-					uuid=UtilPlayer.getUUID(spieler, coins.getMysql());
-				}
 				
 				int c=UtilInteger.isNumber(args[1]);
 				
 				if(c==-1)return false;
-				coins.addCoins(uuid, c);
+				coins.giveCoins(packetManager, spieler, c);
 				player.sendMessage(Language.getText(player, "PREFIX")+(c<0?Language.getText(player, "COINS_DEL_PLAYER",new String[]{player.getName(),String.valueOf(c)}):Language.getText(player, "COINS_ADD_PLAYER",new String[]{player.getName(),String.valueOf(c)})));
 			}
 		}

@@ -112,14 +112,31 @@ public class UtilPlayer
 		return s;
 	}
 	
-	public static void setScoreboard(Player player,Coins coins,PermissionManager permManager){
+	public static void setScoreboard(Player player,Gems gems){
 		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
-		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_COINS"), DisplaySlot.SIDEBAR, 15);
-		UtilScoreboard.setScore(player.getScoreboard(),""+coins.getCoins(player), DisplaySlot.SIDEBAR, 14);
-		UtilScoreboard.setScore(player.getScoreboard(),"    ", DisplaySlot.SIDEBAR, 13);
-		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_RANK"), DisplaySlot.SIDEBAR, 12);
-		UtilScoreboard.setScore(player.getScoreboard(), (permManager.getGroup(player).equalsIgnoreCase("default") ? Language.getText(player, "SCOREBOARD_NO_RANK") : UtilString.toUpperCase(permManager.getGroup(player)) ),DisplaySlot.SIDEBAR , 11);
-		UtilScoreboard.setScore(player.getScoreboard(),"   ", DisplaySlot.SIDEBAR, 10);
+		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 12);
+		UtilScoreboard.setScore(player.getScoreboard(),""+gems.getGems(player), DisplaySlot.SIDEBAR, 11);
+		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 10);
+		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_FORUM"), DisplaySlot.SIDEBAR, 9);
+		UtilScoreboard.setScore(player.getScoreboard(),"www.EpicPvP.me", DisplaySlot.SIDEBAR, 8);
+		UtilScoreboard.setScore(player.getScoreboard(),"  ", DisplaySlot.SIDEBAR, 7);
+		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_ONLINE_STORE"), DisplaySlot.SIDEBAR, 6);
+		UtilScoreboard.setScore(player.getScoreboard(),"Shop.EpicPvP.de", DisplaySlot.SIDEBAR, 5);
+		UtilScoreboard.setScore(player.getScoreboard()," ", DisplaySlot.SIDEBAR, 4);
+		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_TS"), DisplaySlot.SIDEBAR, 3);
+		UtilScoreboard.setScore(player.getScoreboard(),"Ts.EpicPvP.de", DisplaySlot.SIDEBAR, 2);
+		UtilScoreboard.setScore(player.getScoreboard(),"----------------", DisplaySlot.SIDEBAR, 1);
+		player.setScoreboard(player.getScoreboard());
+	}
+	
+	public static void setScoreboard(Player player,Gems gems,Coins coins){
+		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
+		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 15);
+		UtilScoreboard.setScore(player.getScoreboard(),""+gems.getGems(player), DisplaySlot.SIDEBAR, 14);
+		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 13);
+		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_COINS"), DisplaySlot.SIDEBAR, 12);
+		UtilScoreboard.setScore(player.getScoreboard(),""+coins.getCoins(player), DisplaySlot.SIDEBAR, 11);
+		UtilScoreboard.setScore(player.getScoreboard(),"    ", DisplaySlot.SIDEBAR, 10);
 		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_FORUM"), DisplaySlot.SIDEBAR, 9);
 		UtilScoreboard.setScore(player.getScoreboard(),"www.EpicPvP.me", DisplaySlot.SIDEBAR, 8);
 		UtilScoreboard.setScore(player.getScoreboard(),"  ", DisplaySlot.SIDEBAR, 7);

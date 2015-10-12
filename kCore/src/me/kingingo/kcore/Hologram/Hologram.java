@@ -3,14 +3,19 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
+import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
+import me.kingingo.kcore.Hologram.nametags.NameTagType;
 import me.kingingo.kcore.Hologram.nametags.Events.HologramCreatureSendEvent;
 import me.kingingo.kcore.Hologram.nametags.Events.HologramRemoveEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -25,7 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Hologram implements Listener{
 	
 	@Getter
-	private HashMap<NameTagMessage, Integer> list = new HashMap<NameTagMessage,Integer>();
+	private HashMap<NameTagMessage, Long> timer = new HashMap<NameTagMessage,Long>();
 	@Getter
 	private HashMap<Integer, NameTagMessage> creatures = new HashMap<Integer, NameTagMessage>();
 	
@@ -33,218 +38,103 @@ public class Hologram implements Listener{
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 	
-	@EventHandler
-	public void Join(PlayerJoinEvent ev){
-		if(creatures.isEmpty())return;
-		for(NameTagMessage m : creatures.values()){
-			Bukkit.getPluginManager().callEvent(new HologramCreatureSendEvent(ev.getPlayer(), m));
-			m.sendToPlayer(ev.getPlayer());
-		}
-	}
-	
-//	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-//    public void onChunkLoad(ChunkLoadEvent event) {
-//		for(NameTagMessage ntm : list.keySet()){
-//			if(ntm.getLocation().getChunk().equals(event.getChunk())){
-//				for(Entity e : ntm.getLocation().getWorld().getEntities()){
-//					if(e instanceof Player){
-//						ntm.clear((Player)e);
-//						ntm.sendToPlayer((Player)e);
-//					}
-//				}
-//			}
-//		}
-//    }
-	
-	HashMap<NameTagMessage,Integer> clone;
+	HashMap<NameTagMessage,Long> clone;
 	@EventHandler
 	public void Update(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC)return;
-		if(this.list.isEmpty())return;
-		clone=(HashMap<NameTagMessage,Integer>)list.clone();
+		if(this.timer.isEmpty())return;
+		this.clone=(HashMap<NameTagMessage,Long>)timer.clone();
 		for(NameTagMessage message : clone.keySet()){
 			if(this.clone.get(message)==-1)continue;
-			if(this.clone.get(message)>0){
-				this.list.put(message, this.clone.get(message)-1);
-			}else{
-				Bukkit.getPluginManager().callEvent(new HologramRemoveEvent(message.getSpawner()));
-				this.list.remove(message);
-				for(Player p : UtilServer.getPlayers())message.clear(p);
+			if(this.clone.get(message)<System.currentTimeMillis()){
+				Bukkit.getPluginManager().callEvent(new HologramRemoveEvent(message));
+				this.timer.remove(message);
+				message.clear();
+				message.remove();
 			}
 		}
 	}
 	
 	public void RemoveText(Player p){
-		for(NameTagMessage message : list.keySet()){
+		for(NameTagMessage message : this.timer.keySet()){
 			message.clear(p);
 		}
 	}
 	
-	public void RemoveAllText(){
-		for(Player p : UtilServer.getPlayers()){
-			for(NameTagMessage message : list.keySet()){
-				message.clear(p);
+	public void RemoveText(){
+		for(NameTagMessage message : this.timer.keySet()){
+			message.remove();
+		}
+		
+		this.timer.clear();
+		
+		ArmorStand a;
+		for(World w : Bukkit.getServer().getWorlds()){
+			for(Entity e : w.getEntities()){
+				if(e instanceof ArmorStand){
+					a=(ArmorStand)e;
+					
+					if(!a.isVisible()){
+						a.remove();
+					}
+				}
 			}
 		}
-		list.clear();
 	}
 	
-	public NameTagMessage setName(final Entity c,Player player,String... name) {
-		try {
-			final NameTagMessage message = new NameTagMessage(0.7,name);
-			message.setLocation( c.getLocation().add(0, 2.1, 0) );
-			message.sendToPlayer(player);
-			return message;
-		} catch (Exception error) {
-			error.printStackTrace();
+	public NameTagMessage setCreatureName(final Entity entity,String msg) {
+		return setCreatureName(null, entity, msg);
+	}
+	
+	public NameTagMessage setCreatureName(Player player, final Entity entity,String... msg) {
+		this.creatures.put(entity.getEntityId(), sendText(player, entity.getLocation().add(0, 2.1, 0), msg));
+		return this.creatures.get(entity.getEntityId());
+	}
+	
+	public NameTagMessage sendText(Location location,int time_in_sec, String msg) {
+		return sendText(null, location, time_in_sec, msg);
+	}
+	
+	public NameTagMessage sendText(Location location,int time_in_sec, String... msg) {
+		return sendText(null, location, time_in_sec, msg);
+	}
+	
+	public NameTagMessage sendText(Location location, String msg) {
+		return sendText(null, location, 0, msg);
+	}
+	
+	public NameTagMessage sendText(Location location, String... msg) {
+		return sendText(null, location, 0, msg);
+	}
+	
+	public NameTagMessage sendText(final Player player, Location location, String msg) {
+		return sendText(player, location, 0, msg);
+	}
+	
+	public NameTagMessage sendText(final Player player, Location location,int time_in_sec, String msg) {
+		return sendText(player, location, time_in_sec, msg);
+	}
+	
+	public NameTagMessage sendText(final Player player, Location location, String... msg) {
+		return sendText(player, location, 0, msg);
+	}
+	
+	public NameTagMessage sendText(final Player player, Location location,int time_in_sec, String... msg) {
+		NameTagMessage m=null;
+		if(player==null){
+			m = new NameTagMessage(NameTagType.PACKET, location, msg);
+			m.send();
+			
+			if(time_in_sec<0)this.timer.put(m, System.currentTimeMillis() + (TimeSpan.SECOND*time_in_sec));
+		}else{
+			m = new NameTagMessage(NameTagType.PACKET, location, msg);
+			m.sendToPlayer(player);
+			
+			if(time_in_sec<0)this.timer.put(m, System.currentTimeMillis() + (TimeSpan.SECOND*time_in_sec));
 		}
-		return null;
+		
+		return m;
 	}
 	
-	public void setName(final Entity c,String name) {
-		creatures.remove(c.getEntityId());
-		try {
-			final NameTagMessage message = new NameTagMessage(name);
-			message.setLocation( c.getLocation().add(0, 2.1, 0) );
-			creatures.put(c.getEntityId(),message);
-			for(Player player : UtilServer.getPlayers())message.sendToPlayer(player);
-		} catch (Exception error) {
 
-			error.printStackTrace();
-		}
-	}
-	
-	public NameTagMessage createNameTagMessage(Location loc, String... msg) {
-		try {
-			final NameTagMessage message = new NameTagMessage(msg);
-			message.setLocation(loc);
-			return message;
-		} catch (Exception error) {
-			error.printStackTrace();
-		}
-		return null;
-	}
-	
-	//--
-	public NameTagMessage sendText(final Player p, Location loc,int time, String... msg) {
-		try {
-			final NameTagMessage message = new NameTagMessage(msg);
-			message.sendToPlayer(p, loc);
-			list.put(message, time);
-			return message;
-		} catch (Exception error) {
-
-			error.printStackTrace();
-		}
-		return null;
-	}
-	
-	public NameTagMessage sendText(final Player p, Location loc, String... msg) {
-		
-		
-		try {
-			final NameTagMessage message = new NameTagMessage(msg);
-			message.sendToPlayer(p, loc);
-			return message;
-		} catch (Exception error) {
-			error.printStackTrace();
-		}
-		return null;
-	}
-	
-	public NameTagMessage sendText(final Player p, Location loc,int time, String msg) {
-		
-		
-		try {
-			final NameTagMessage message = new NameTagMessage(msg);
-			message.sendToPlayer(p, loc);
-			list.put(message, time);
-			return message;
-		} catch (Exception error) {
-			error.printStackTrace();
-		}
-		return null;
-	}
-	
-	public NameTagMessage sendText(final Player p, Location loc, String msg) {
-		
-		
-		try {
-			final NameTagMessage message = new NameTagMessage(msg);
-			message.sendToPlayer(p, loc);
-			return message;
-		} catch (Exception error) {
-			error.printStackTrace();
-		}
-		return null;
-	}
-	
-	//--
-
-	public NameTagMessage sendTextAll(Location loc, String... msg) {
-		
-		try {
-			final NameTagMessage message = new NameTagMessage(msg);
-			for (Player ps : UtilServer.getPlayers()){
-				
-				message.sendToPlayer(ps, loc);
-			}
-			
-			return message;
-		} catch (Exception error) {
-			error.printStackTrace();
-		}
-		return null;
-	}
-	
-	public NameTagMessage sendTextAll(Location loc, String msg) {
-		
-		try {
-			final NameTagMessage message = new NameTagMessage(msg);
-			for (Player ps : UtilServer.getPlayers()){
-				
-				message.sendToPlayer(ps, loc);
-			}
-			
-			return message;
-		} catch (Exception error) {
-			error.printStackTrace();
-		}
-		return null;
-	}
-	
-	public NameTagMessage sendTextAll(Location loc,int time, String... msg) {
-		
-		try {
-			final NameTagMessage message = new NameTagMessage(msg);
-			list.put(message, time);
-			for (Player ps : UtilServer.getPlayers()){
-				
-				message.sendToPlayer(ps, loc);
-			}
-			
-			return message;
-		} catch (Exception error) {
-			error.printStackTrace();
-		}
-		return null;
-	}
-	
-	public NameTagMessage sendTextAll(Location loc,int time, String msg) {
-		
-		try {
-			final NameTagMessage message = new NameTagMessage(msg);
-			list.put(message, time);
-			for (Player ps : UtilServer.getPlayers()){
-				
-				message.sendToPlayer(ps, loc);
-			}
-			
-			return message;
-		} catch (Exception error) {
-			error.printStackTrace();
-		}
-		return null;
-	}
-	
 }

@@ -12,11 +12,13 @@ import me.kingingo.kcore.Calendar.Calendar.CalendarType;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
+import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
-import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
-import net.minecraft.server.v1_8_R3.Scoreboard;
-import net.minecraft.server.v1_8_R3.ScoreboardObjective;
-import net.minecraft.server.v1_8_R3.ScoreboardScore;
+import me.kingingo.kcore.Packet.Packets.GIVE_COINS;
+import me.kingingo.kcore.Packet.Packets.GIVE_GEMS;
+import me.kingingo.kcore.Packet.Packets.PLAYER_ONLINE;
+import me.kingingo.kcore.Update.UpdateType;
+import me.kingingo.kcore.Update.Event.UpdateEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -28,7 +30,6 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Score;
 
 public class Coins implements Listener{
@@ -37,6 +38,8 @@ public class Coins implements Listener{
 	@Getter
 	private HashMap<UUID,Integer> coins = new HashMap<>();
 	private ArrayList<UUID> change_coins = new ArrayList<>();
+	private HashMap<String,Long> give_coins_time = new HashMap<>();
+	private HashMap<String,Integer> give_coins = new HashMap<>();
 	CalendarType holiday;
 	private ItemStack item;
 	@Getter
@@ -131,18 +134,63 @@ public class Coins implements Listener{
 		return d;
 	}
 	
+	public void giveCoins(PacketManager packetManager,String player,int coins){
+		if(UtilPlayer.isOnline(player)){
+			addCoinsWithScoreboardUpdate(Bukkit.getPlayer(player), true, coins);
+		}else{
+			give_coins_time.put(player, System.currentTimeMillis()+TimeSpan.SECOND*9);
+			give_coins.put(player, coins);
+			packetManager.SendPacket("BG", new PLAYER_ONLINE(player, packetManager.getC().getName(), "coins", "null"));
+		}
+	}
+	
+	@EventHandler
+	public void update(UpdateEvent ev){
+		if(ev.getType()==UpdateType.SLOW){
+			if(!give_coins_time.isEmpty()){
+				String p;
+				for(int i = 0; i<give_coins_time.size(); i++){
+					p=(String)give_coins_time.keySet().toArray()[i];
+					if(give_coins_time.get(p) < System.currentTimeMillis()){
+						give_coins_time.remove(p);
+						addCoins(UtilPlayer.getUUID(p, mysql), give_coins.get(p));
+						give_coins.remove(p);
+					}
+				}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void packet(PacketReceiveEvent ev){
+		if(ev.getPacket() instanceof PLAYER_ONLINE){
+			PLAYER_ONLINE packet = (PLAYER_ONLINE)ev.getPacket();
+			
+			if(packet.getReason().equalsIgnoreCase("coins")){
+				give_coins_time.remove(packet.getPlayer());
+				
+				if(packet.getServer().contains("loginhub")){
+					addCoins(UtilPlayer.getUUID(packet.getPlayer(), mysql), give_coins.get(packet.getPlayer()));
+				}else{
+					ev.getPacketManager().SendPacket(packet.getServer(), new GIVE_COINS(packet.getPlayer(), give_coins.get(packet.getPlayer())));
+				}
+				
+				give_coins.remove(packet.getPlayer());
+			}
+		}else if(ev.getPacket() instanceof GIVE_COINS){
+			GIVE_COINS packet = (GIVE_COINS)ev.getPacket();
+			
+			if(UtilPlayer.isOnline(packet.getPlayer())){
+				addCoinsWithScoreboardUpdate(Bukkit.getPlayer(packet.getPlayer()), true, packet.getCoins());
+			}
+		}
+	}
+	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Quit(PlayerQuitEvent ev){
 		if(coins.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
 			if(change_coins.contains(UtilPlayer.getRealUUID(ev.getPlayer())))addCoins(ev.getPlayer(),true,0);
 			coins.remove(UtilPlayer.getRealUUID(ev.getPlayer()));
-		}
-	}
-	
-	@EventHandler
-	public void Packet(PacketReceiveEvent ev){
-		if(ev.getPacket() instanceof NOT_SAVE_COINS){
-			coins.remove( ((NOT_SAVE_COINS)ev.getPacket()).getUuid() );
 		}
 	}
 	

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
+import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.InventorySplit;
 import me.kingingo.kcore.Util.UtilDebug;
@@ -24,6 +26,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class InventoryPageBase extends CraftInventoryCustom{
  
 	@Getter
+	@Setter
 	private ArrayList<IButton> buttons;
 	@Getter
 	private String inventoryType;
@@ -61,8 +64,11 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	}
 	
 	public void remove(){
-		buttons.clear();
-		buttons=null;
+		for(IButton b : this.buttons)b.remove();
+		this.buttons.clear();
+		this.buttons=null;
+		this.inventoryType=null;
+		clear();
 	}
 	
 	public boolean isSlot(int index, String methode){
@@ -177,6 +183,23 @@ public class InventoryPageBase extends CraftInventoryCustom{
 		
 		button.setInventoryPageBase(this);
 		this.buttons.add(button);
+	}
+	
+	public InventoryPageBase clone(){
+		InventoryPageBase page = new InventoryPageBase(getInventoryType(),getSize(), getTitle());
+		for(IButton b : getButtons()){
+			if(b instanceof IButtonOneSlot){
+				if(b instanceof SalesPackageBase){
+					page.addButton(((IButtonOneSlot)b).getSlot(), new SalesPackageBase(b.getClick(), ((SalesPackageBase)b).getPermission(), ((IButtonOneSlot)b).getItemStack() ));
+				}else{
+					page.addButton(((IButtonOneSlot)b).getSlot(), new ButtonBase(b.getClick(), ((IButtonOneSlot)b).getItemStack() ));
+				}
+			}
+		}
+		
+		page.setContents(getContents());
+		page.updateInventory();
+		return page;
 	}
 	
 	public void closeInventory(){

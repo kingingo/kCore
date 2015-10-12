@@ -17,6 +17,7 @@ import org.bukkit.material.MaterialData;
 public class ButtonBase implements IButtonOneSlot{
 
 	@Setter
+	@Getter
 	private Click click;
 	@Setter
 	@Getter

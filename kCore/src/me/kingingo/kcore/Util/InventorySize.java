@@ -5,7 +5,8 @@ _9(9),
 _18(18),
 _27(27),
 _36(36),
-_45(45);
+_45(45),
+_54(54);
 	
 int i;
 private InventorySize(int i){
@@ -25,8 +26,10 @@ public static InventorySize invSize(int size){
 		return InventorySize._27;
 	}else if(size<=36){
 		return InventorySize._36;
+	}else if(size<=45){
+		return InventorySize._45;
 	}
-	return InventorySize._45;
+	return InventorySize._54;
 }
 	
 }

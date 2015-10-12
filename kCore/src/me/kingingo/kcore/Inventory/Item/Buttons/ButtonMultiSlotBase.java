@@ -15,6 +15,7 @@ public class ButtonMultiSlotBase implements IButtonMultiSlot{
 	@Getter
 	@Setter
 	private InventoryPageBase inventoryPageBase;
+	@Getter
 	private Click click;
 	@Getter
 	@Setter

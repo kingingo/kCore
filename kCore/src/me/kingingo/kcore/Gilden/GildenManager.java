@@ -234,8 +234,15 @@ public class GildenManager implements Listener {
 	@EventHandler
 	public void leave(GildePlayerLeaveEvent ev){
 		if(getTyp()==GildenType.PVP){
-			if(isPlayerInGilde(ev.getPlayer())){
-				setDouble(ev.getGilde(), getDouble(Stats.ELO, ev.getGilde())-ev.getManager().getStatsManager().getDouble(Stats.ELO, ev.getPlayer()), Stats.ELO);
+			if(UtilPlayer.isOnline(ev.getPlayer())){
+				Player p = Bukkit.getPlayer(ev.getPlayer());
+				if(isPlayerInGilde(p)){
+					setDouble(ev.getGilde(), getDouble(Stats.ELO, ev.getGilde())-ev.getManager().getStatsManager().getDouble(Stats.ELO, p), Stats.ELO);
+				}
+			}else{
+				if(isPlayerInGilde(UtilPlayer.getRealUUID(ev.getPlayer(), ev.getUuid()))){
+					setDouble(ev.getGilde(), getDouble(Stats.ELO, ev.getGilde())-ev.getManager().getStatsManager().getDoubleWithUUID(Stats.ELO, UtilPlayer.getRealUUID(ev.getPlayer(), ev.getUuid())), Stats.ELO);
+				}
 			}
 		}
 	}
@@ -418,11 +425,11 @@ public class GildenManager implements Listener {
 	}
 	
 	public void removePlayerEintrag(Player player){
-		Bukkit.getPluginManager().callEvent(new GildePlayerLeaveEvent(getPlayerGilde(player), player, this));
 		removePlayerEintrag(UtilPlayer.getRealUUID(player),player.getName());
 	}
 	
 	public void removePlayerEintrag(UUID uuid,String name){
+		Bukkit.getPluginManager().callEvent(new GildePlayerLeaveEvent(getPlayerGilde(uuid), name,uuid, this));
 		getGilden_count().remove(getPlayerGilde(uuid));
 		getGilden_player().remove(uuid);
 		mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+"_user WHERE uuid='" + uuid + "'");

@@ -8,9 +8,10 @@ import me.kingingo.kcore.Inventory.Inventory.InventoryTrade;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
-import net.minecraft.server.v1_8_R3.IScoreboardCriteria;
+import me.kingingo.kcore.Util.UtilMath;
 
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventory;
 import org.bukkit.entity.Player;
@@ -18,7 +19,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class InventoryBase extends kListener{
@@ -36,18 +36,31 @@ public class InventoryBase extends kListener{
 	private JavaPlugin instance;
 	
 	public InventoryBase(JavaPlugin instance,int main_size,String name){
-		super(instance,name);
-		this.name=name;
+		super(instance, (name==null?"InventoryBase"+UtilMath.r(1000):name) );
+		this.name=getModuleName();
 		this.pages= new ArrayList<>();
 		this.another= new ArrayList<>();
-		this.main=new InventoryPageBase(main_size,name);
+		if(main_size!=0)this.main=new InventoryPageBase(main_size,name);
+	}
+	
+	public InventoryBase(JavaPlugin instance,InventorySize size,String name){
+		this(instance,size.getSize(),name);
 	}
 	
 	public InventoryBase(JavaPlugin instance,String name){
-		super(instance,name);
-		this.name=name;
-		this.pages= new ArrayList<>();
-		this.another= new ArrayList<>();
+		this(instance,0,name);
+	}
+	
+	public InventoryBase(JavaPlugin instance,int size){
+		this(instance,size,null);
+	}
+	
+	public InventoryBase(JavaPlugin instance,InventorySize size){
+		this(instance,size.getSize());
+	}
+	
+	public InventoryBase(JavaPlugin instance){
+		this(instance,0,null);
 	}
 	
 	public void openShop(Player player){

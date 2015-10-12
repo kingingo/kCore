@@ -91,7 +91,7 @@ public class DeliveryPet extends kListener{
 	@Getter
 	private PacketManager packetManager;
 	
-	public DeliveryPet(HashMap<InventoryLotto2Type, ArrayList<LottoPackage>> pack, DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm,MySQL mysql) {
+	public DeliveryPet(InventoryBase base,HashMap<InventoryLotto2Type, ArrayList<LottoPackage>> pack, DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm,MySQL mysql) {
 		super(mysql.getInstance(), "DeliveryPet");
 		this.packages=pack;
 		this.packetManager=packetManager;
@@ -108,7 +108,7 @@ public class DeliveryPet extends kListener{
 		this.players=new HashMap<>();
 		this.players_hm=new HashMap<>();
 		this.players_hm_reward=new HashMap<>();
-		this.base=new InventoryBase(getMysql().getInstance(), "Delivery");
+		this.base=base;
 		if(pack!=null)this.lotto=new InventoryLotto2("Play a Round!",new Get(){
 
 			@Override
@@ -235,7 +235,7 @@ public class DeliveryPet extends kListener{
 			players_hm.get(ev.getPlayer()).sendToPlayer(ev.getPlayer());
 		}else{
 			players_hm_reward.put(ev.getPlayer(), getRewards(ev.getPlayer()));
-			players_hm.put(ev.getPlayer(), getHologramm().setName( (this.entity!=null?this.entity:this.jockey) , ev.getPlayer(), new String[]{Language.getText(ev.getPlayer(), (players_hm_reward.get(ev.getPlayer())>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§f§l"+players_hm_reward.get(ev.getPlayer())),name,Language.getText(ev.getPlayer(),"DELIVERY_HM_3")}));
+			players_hm.put(ev.getPlayer(), getHologramm().setCreatureName(ev.getPlayer(), (this.entity!=null?this.entity:this.jockey), new String[]{Language.getText(ev.getPlayer(), (players_hm_reward.get(ev.getPlayer())>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§f§l"+players_hm_reward.get(ev.getPlayer())),name,Language.getText(ev.getPlayer(),"DELIVERY_HM_3")}));
 		}
 	}
 	
@@ -388,6 +388,7 @@ public class DeliveryPet extends kListener{
 	
 	public void deliveryBlock(Player player,Material name){
 		if(objects.containsKey(name)){
+			player.closeInventory();
 			getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player)+"' AND obj='"+name+"'");
 			players_obj.get(UtilPlayer.getRealUUID(player)).remove(objects.get(name).material);
 			players_obj.get(UtilPlayer.getRealUUID(player)).put(objects.get(name).material, System.currentTimeMillis()+objects.get(name).getTime());

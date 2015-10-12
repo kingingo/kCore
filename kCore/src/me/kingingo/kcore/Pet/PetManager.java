@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Util.UtilEnt;
 import me.kingingo.kcore.Pet.Setting.PetSetting;
-import me.kingingo.kcore.Pet.Shop.IPetShop;
+import me.kingingo.kcore.Pet.Shop.PlayerPetHandler;
 import me.kingingo.kcore.Pet.Events.PetCreateEvent;
 import me.kingingo.kcore.Pet.Events.PetWithOutOwnerLocationEvent;
 import me.kingingo.kcore.Update.UpdateType;
@@ -55,7 +55,7 @@ public class PetManager implements Listener{
 	double distance=8;
 	@Getter
 	@Setter
-	private IPetShop shop; 
+	private PlayerPetHandler handler; 
 	
 	public PetManager(JavaPlugin instance){
 		Bukkit.getPluginManager().registerEvents(this, instance);
@@ -64,6 +64,12 @@ public class PetManager implements Listener{
 		this.failedAttemptsToLocation = new HashMap<>();
 		this.petToLocation = new HashMap<>();
 		this.activePetOwners = new HashMap<>();
+	}
+	
+	public boolean isPet(Creature c){
+		for(Creature cs : this.activePetOwners.values())if(cs.getEntityId() == c.getEntityId())return true;
+		
+		return false;
 	}
 	
 	public void setSetting(boolean b){
@@ -134,6 +140,10 @@ public class PetManager implements Listener{
 	    UtilEnt.ClearGoals(pet);
 	    Bukkit.getPluginManager().callEvent(new PetCreateEvent(this,pet,player));
 	  }
+	
+	public boolean hasPlayer(Player player){
+		return this.activePetOwners.containsKey(player.getName().toLowerCase());
+	}
 	
 	public org.bukkit.entity.Creature GetPet(Player player){
 	    return (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase());
@@ -313,7 +323,7 @@ public class PetManager implements Listener{
 			}
 		}
 	}
-	
+
 	Creature c;
 	@EventHandler
 	public void Interdact(PlayerInteractEntityEvent ev){
@@ -323,7 +333,7 @@ public class PetManager implements Listener{
 				if(c.getEntityId()==ev.getRightClicked().getEntityId()){
 					if(c.getPassenger() == null){
 						if(getSetting_list().containsKey(c.getType())){
-							ev.getPlayer().openInventory( getSetting_list().get(c.getType()).getMain() );
+							ev.getPlayer().openInventory( getSetting_list().get(c.getType()) );
 						}
 					}
 				}

@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Click;
-import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilList;
@@ -37,10 +37,21 @@ public class SalesPackageBase implements IButtonOneSlot{
 	@Getter
 	@Setter
 	private boolean cancelled=true;
+	@Getter
+	@Setter
+	private kPermission permission=null;
+	
+	public SalesPackageBase(Click click,kPermission perm,ItemStack itemStack){
+		this.name=(itemStack.hasItemMeta() ? (itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : "") : "");
+		this.description=(itemStack.hasItemMeta() ? (itemStack.getItemMeta().hasLore() ? UtilList.changeListType(itemStack.getItemMeta().getLore()) : new String[]{}) : new String[]{});
+		this.click=click;
+		this.permission=perm;
+		this.itemStack=itemStack;
+	}
 	
 	public SalesPackageBase(Click click,ItemStack itemStack){
 		this.name=(itemStack.hasItemMeta() ? (itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : "") : "");
-		this.description=(itemStack.hasItemMeta() ? UtilList.changeListType(itemStack.getItemMeta().getLore()) : new String[]{});
+		this.description=(itemStack.hasItemMeta() ? (itemStack.getItemMeta().hasLore() ? UtilList.changeListType(itemStack.getItemMeta().getLore()) : new String[]{}) : new String[]{});
 		this.click=click;
 		this.itemStack=itemStack;
 	}

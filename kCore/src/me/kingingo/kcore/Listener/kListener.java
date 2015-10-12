@@ -1,11 +1,14 @@
 package me.kingingo.kcore.Listener;
 
+import lombok.Getter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class kListener implements Listener{
 
+	@Getter
 	protected String moduleName;
 	
 	public kListener(JavaPlugin plugin,String moduleName){

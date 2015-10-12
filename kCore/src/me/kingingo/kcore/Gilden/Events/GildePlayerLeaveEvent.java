@@ -1,9 +1,10 @@
 package me.kingingo.kcore.Gilden.Events;
 
+import java.util.UUID;
+
 import lombok.Getter;
 import me.kingingo.kcore.Gilden.GildenManager;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -14,11 +15,14 @@ public class GildePlayerLeaveEvent extends Event {
 	@Getter
 	private String gilde;
 	@Getter
-	private Player player;
+	private UUID uuid;
+	@Getter
+	private String player;
 	
-	public GildePlayerLeaveEvent(String gilde,Player player,GildenManager manager){
+	public GildePlayerLeaveEvent(String gilde,String player,UUID uuid,GildenManager manager){
 		this.manager=manager;
 		this.gilde=gilde;
+		this.uuid=uuid;
 		this.player=player;
 	}
 	

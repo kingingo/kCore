@@ -19,8 +19,18 @@ import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 public class UtilFile
 {
+	
+	public static String getYMLFile(JavaPlugin instance,String file){
+		return getPluginFolder(instance)+File.separator+file+".yml";
+	}
+	
+	public static String getPluginFolder(JavaPlugin instance){
+		return "plugins"+File.separator+instance.getPlugin(instance.getClass()).getName();
+	}
 	
 	public static void listDir(File dir) {
 

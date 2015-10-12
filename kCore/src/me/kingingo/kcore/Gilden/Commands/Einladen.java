@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.Language.Language;
+import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
@@ -34,7 +35,8 @@ public class Einladen {
 				return;
 			}
 			
-			System.out.println("DEBUG GILDE_ANZAHL: "+manager.getAnzahl(manager.getPlayerGilde(p)));
+			if(UtilDebug.isDebug())UtilDebug.debug("Gilde CMD Einladen", "Gilde:"+manager.getPlayerGilde(p)+" Anzahl: "+manager.getAnzahl(manager.getPlayerGilde(p)));
+			
 			if(manager.getAnzahl(manager.getPlayerGilde(p)) >= 10){
 				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_COUNT"));
 				return;

@@ -194,6 +194,8 @@ public class Language {
 			add(type, "AUßERHALB_DER_MAP", "§cYou are out of the map!");
 			add(type, "COINS_DEL_PLAYER", "§7Removed §c{INPUT1}§7 coins from §a{INPUT0}§7!");
 			add(type, "COINS_ADD_PLAYER", "§7Gave §a{INPUT1}§7 coins to §a{INPUT0}§7!");
+			add(type, "GEMS_DEL_PLAYER", "§7Removed §c{INPUT1}§7 coins from §a{INPUT0}§7!");
+			add(type, "GEMS_ADD_PLAYER", "§7Gave §a{INPUT1}§7 coins to §a{INPUT0}§7!");
 			add(type, "CMD_MUTE", "§cCommands disabled!");
 			add(type, "CMD_UNMUTE", "§aCommands enabled!");
 			add(type, "PVP_MUTE", "§aPvP disabled!");
@@ -271,8 +273,10 @@ public class Language {
 			add(type, "TTT_TESTER_JOIN", "§a{INPUT0}§7 entered the tester!");
 			add(type, "TTT_LEICHE_IDENTIFIZIERT", "§a{INPUT0}s§7corps was found, he was §e{INPUT1}§7!");
 			add(type, "TTT_IS_NOW", "§7You are §c{INPUT0}§7.");
+			add(type, "GEMS_ADD", "§aYou recieved §e{INPUT0}§a gems!");
+			add(type, "GEMS_DEL", "§e{INPUT0}§c gems have been deducted from you!");
 			add(type, "COINS_ADD", "§aYou recieved §e{INPUT0}§a coins!");
-			add(type, "COINS_DEL", "§e{INPUT0}§c coisn have been deducted from you!");
+			add(type, "COINS_DEL", "§e{INPUT0}§c coins have been deducted from you!");
 			add(type, "GAME_AUSGESCHIEDEN", "§a{INPUT0}§c was removed from the game!");
 			add(type, "CAVEWARS_SPIDER_DEATH", "§7Team {INPUT0}s§7 sheep was slain by §a{INPUT1}§7!");
 			add(type, "SHEEPWARS_SHEEP_DEATH", "§7Team {INPUT0}§7 lost their sheep!");
@@ -511,6 +515,7 @@ public class Language {
 			add(type,"GAME_HOLOGRAM_TESTS","Tests: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_TRAITOR_POINTS","Traitor-Points: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_DETECTIVE_POINTS","Detective-Points: {INPUT0}");
+			add(type,"SCOREBOARD_GEMS","§a§lGems:");
 			add(type,"SCOREBOARD_COINS","§e§lCoins:");
 			add(type,"SCOREBOARD_RANK","§6§lRank:");
 			add(type,"SCOREBOARD_FORUM","§c§lForum:");
@@ -532,6 +537,8 @@ public class Language {
 			add(type,"KIT_SHOP_PREMIUM","§7This kit is a premium-kit");
 			add(type,"KIT_BACK","§cback");
 	        add(type,"STATS_FAME","§6Fame: §7");
+			add(type,"NOT_ENOUGH_COINS","§cYou have not enough Coins.");
+			add(type,"NOT_ENOUGH_GEMS","§cYou have not enough Gems.");
 			add(type,"LANGUAGE_CHANGE","§aEpicPvP will now be displayed in §eEnglish§a!");
 			add(type,"HUB_VERSUS_1VS1_QUESTION","§7You invite §a{INPUT0}§7 to a 1vs1 round!");
 			add(type,"HUB_VERSUS_1VS1_FROM_QUESTION","§7You was invited from §a{INPUT0}§7 to a 1vs1 round!");
@@ -596,6 +603,8 @@ public class Language {
 	        add(type, "AUßERHALB_DER_MAP", "§cDu bist außerhalb der Map!");
 	        add(type, "COINS_DEL_PLAYER", "§7Dem Spieler §a{INPUT0}§7 wurden §c{INPUT1}§7 entfernt!");
 	        add(type, "COINS_ADD_PLAYER", "§7Dem Spieler §a{INPUT0}§7 wurden §a{INPUT1}§7 hinzugefuegt!");
+	        add(type, "GEMS_DEL_PLAYER", "§7Dem Spieler §a{INPUT0}§7 wurden §c{INPUT1}§7 entfernt!");
+	        add(type, "GEMS_ADD_PLAYER", "§7Dem Spieler §a{INPUT0}§7 wurden §a{INPUT1}§7 hinzugefuegt!");
 	        add(type, "CMD_MUTE", "§cDie Commands wurden gesperrt!");
 	        add(type, "CMD_UNMUTE", "§aDie Commands wurde entsperrt!");
 	        add(type, "PVP_MUTE", "§aPvP wurde deaktiviert!");
@@ -672,6 +681,8 @@ public class Language {
 	        add(type, "TTT_TESTER_JOIN", "§a{INPUT0}§7 ist den Tester beigetreten!");
 	        add(type, "TTT_LEICHE_IDENTIFIZIERT", "§7Die Leiche von §a{INPUT0}§7 wurde gefunden er war ein §e{INPUT1}§7!");
 	        add(type, "TTT_IS_NOW", "§7Du bist ein §c{INPUT0}§7.");
+	        add(type, "GEMS_ADD", "§aDu hast §e{INPUT0}§7 Gems erhalten!");
+	        add(type, "GEMS_DEL", "§cDir wurden §e{INPUT0}§c Gems abgezogen!");
 	        add(type, "COINS_ADD", "§aDu hast §e{INPUT0}§7 Coins erhalten!");
 	        add(type, "COINS_DEL", "§cDir wurden §e{INPUT0}§c Coins abgezogen!");
 	        add(type,"GILDE_PLAYER_IS_NOT_IN_GILDE","§cDu bist in keiner Gilde.");
@@ -849,6 +860,7 @@ public class Language {
 			add(type,"EXP_HIS_TO_ME","§7Du hast von §a{INPUT0} §e{INPUT1} Exp§7 erhalten!");
 			add(type,"EXP_ME_TO_HIS","§7Du hast §a{INPUT0} §e{INPUT1} Exp§7 gesendet!");
 			add(type,"NOT_ENOUGH_COINS","§cDu hast nicht genug Coins.");
+			add(type,"NOT_ENOUGH_GEMS","§cDu hast nicht genug Gems.");
 			add(type,"GILDE_CMD1","§6/gilde erstellen [Gilde] §8|§7 Erstellt eine neue Gilde.");
 			add(type,"GILDE_CMD2","§6/gilde einladen [Player] §8§8|§7 Lädt einen Spieler in die Gilde ein");
 			add(type,"GILDE_CMD3","§6/gilde annehmen §8|§7 Nimmt Einladung an.");
@@ -914,6 +926,7 @@ public class Language {
 			add(type,"GAME_HOLOGRAM_TRAITOR_POINTS","Traitor-Punkte: {INPUT0}");
 			add(type,"GAME_HOLOGRAM_DETECTIVE_POINTS","Detektive-Punkte: {INPUT0}");
 			add(type,"SCOREBOARD_COINS","§e§lCoins:");
+			add(type,"SCOREBOARD_GEMS","§A§lGems:");
 			add(type,"SCOREBOARD_RANK","§6§lRang:");
 			add(type,"SCOREBOARD_FORUM","§c§lForum:");
 			add(type,"SCOREBOARD_ONLINE_STORE","§a§lOnline-Shop:");

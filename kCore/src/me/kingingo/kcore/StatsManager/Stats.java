@@ -3,6 +3,7 @@ package me.kingingo.kcore.StatsManager;
 import lombok.Getter;
 
 public enum Stats {
+INVENTORY("inventory varchar(1000)","inventory","Inventory",true),
 TIME("time varchar(50)","time","Time",true),
 TIME_ELO("time_elo double","time_elo","Elo",true),
 ELO("elo double","elo","Elo",true),

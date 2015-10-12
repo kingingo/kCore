@@ -5,14 +5,16 @@ import me.kingingo.kcore.Client.Client;
 import me.kingingo.kcore.Packet.Events.PacketSendEvent;
 import me.kingingo.kcore.Packet.Packets.ARENA_STATUS;
 import me.kingingo.kcore.Packet.Packets.BROADCAST;
+import me.kingingo.kcore.Packet.Packets.GIVE_COINS;
+import me.kingingo.kcore.Packet.Packets.GIVE_GEMS;
 import me.kingingo.kcore.Packet.Packets.HUB_ONLINE;
 import me.kingingo.kcore.Packet.Packets.NICK_DEL;
 import me.kingingo.kcore.Packet.Packets.NICK_SET;
-import me.kingingo.kcore.Packet.Packets.NOT_SAVE_COINS;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_GROUP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_REMOVE_ALL;
 import me.kingingo.kcore.Packet.Packets.PLAYER_LANGUAGE_CHANGE;
+import me.kingingo.kcore.Packet.Packets.PLAYER_ONLINE;
 import me.kingingo.kcore.Packet.Packets.PLAYER_VOTE;
 import me.kingingo.kcore.Packet.Packets.PROTECTION_CAPTCHA;
 import me.kingingo.kcore.Packet.Packets.SEND_MESSAGE;
@@ -56,8 +58,8 @@ public class PacketManager {
 			return new BROADCAST(packet);
 		}else if (packet.contains("SEND_MESSAGE")) {
 			return new SEND_MESSAGE(packet);
-		}else if (packet.contains("NOT_SAVE_COINS")) {
-			return new NOT_SAVE_COINS(packet.split("-/-"));
+		}else if (packet.contains("GIVE_GEMS")) {
+			return new GIVE_GEMS(packet.split("-/-"));
 		}else if (packet.contains("SERVER_INFO_ALL")) {
 			return new SERVER_INFO_ALL();
 		}else if (packet.contains("PERMISSION_USER_RELOAD")) {
@@ -110,6 +112,10 @@ public class PacketManager {
 			return new TWIITTER_IS_PLAYER_FOLLOWER(packet.split("-/-"));
 		}else if(packet.contains("TWITTER_PLAYER_FOLLOW")){
 			return new TWITTER_PLAYER_FOLLOW(packet.split("-/-"));
+		}else if(packet.contains("PLAYER_ONLINE")){
+			return new PLAYER_ONLINE(packet.split("-/-"));
+		}else if(packet.contains("GIVE_COINS")){
+			return new GIVE_COINS(packet.split("-/-"));
 		}
 	 return null;
 	}

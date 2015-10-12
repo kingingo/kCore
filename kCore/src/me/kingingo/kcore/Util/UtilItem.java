@@ -1411,6 +1411,11 @@ public class UtilItem {
 	  }
 	  
 	  public static ItemStack addEnchantmentGlow(ItemStack item){ 
+		  	if(item==null){
+		  		System.out.println("[EpicPvP]: addEnchantmentGlow");
+		  		System.out.println("[EpicPvP]: ITEM == NULL");
+		  	}
+		  
 	        net.minecraft.server.v1_8_R3.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
 	        NBTTagCompound tag = null;
 	        if (!nmsStack.hasTag()) {

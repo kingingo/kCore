@@ -25,15 +25,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
-public class CommandPerk  extends InventoryBase implements CommandExecutor{
+public class CommandPerk implements CommandExecutor{
 	
 	@Getter
 	private PerkManager manager;
-	InventoryYesNo or;
-	HashMap<Player,String> perk = new HashMap<>();
+	private InventoryYesNo or;
+	private InventoryChoose choose;
+	private HashMap<Player,String> perk = new HashMap<>();
 	
-	public CommandPerk(final PerkManager manager){
-		super(manager.getInstance(),"CommandPerk");
+	public CommandPerk(final PerkManager manager,InventoryBase base){
 		this.manager=manager;
 		
 		or = new InventoryYesNo("Perk An/Aus", new Click(){
@@ -56,9 +56,9 @@ public class CommandPerk  extends InventoryBase implements CommandExecutor{
 			
 		});
 		
-		addPage(or);
+		base.addPage(or);
 		
-		setMain(new InventoryChoose(new Click(){
+		choose=new InventoryChoose(new Click(){
 
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
@@ -69,14 +69,15 @@ public class CommandPerk  extends InventoryBase implements CommandExecutor{
 					}
 				}
 				
-			},"§aPerk Auswahl",18,getItems()));
+			},"§aPerk Auswahl",18,getItems());
+		base.addPage(choose);
 	}
 
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "perk", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		Player p = (Player)cs;
 		if(manager.hasPlayer(p)){
-			p.openInventory(getMain());
+			p.openInventory(choose);
 		}else{
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "PERK_NOT_BOUGHT"));
 		}
@@ -95,7 +96,7 @@ public class CommandPerk  extends InventoryBase implements CommandExecutor{
 		ItemStack[] items = new ItemStack[getManager().getPlayers().size()];
 		int perks = 0;
 		for(Perk perk : getManager().getPlayers().keySet()){
-			items[perks]=UtilItem.RenameItem(new ItemStack(Material.GOLD_BLOCK), perk.getName());
+			items[perks]=UtilItem.RenameItem(new ItemStack(Material.EMERALD), perk.getName());
 			perks++;
 		}
 		return items;

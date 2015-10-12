@@ -72,7 +72,7 @@ public class CommandKit implements CommandExecutor{
 								player.getInventory().addItem(i.clone());
 							}
 						}
-						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_USE"));
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_USE",kit));
 						
 						if(kits_delay.containsKey(kit)&&!player.hasPermission(kPermission.KIT_BYEPASS_DELAY.getPermissionToString())){
 							this.userconfig.set("timestamps.kits."+kit, kits_delay.get(kit)+System.currentTimeMillis());

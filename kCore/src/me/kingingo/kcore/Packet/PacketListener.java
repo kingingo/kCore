@@ -19,6 +19,6 @@ public class PacketListener extends kListener{
 	@EventHandler
 	public void Receive(ClientReceiveMessageEvent ev){
 		Packet packet = pManager.getPacket(ev.getMessage());
-		if(packet!=null)Bukkit.getPluginManager().callEvent(new PacketReceiveEvent(packet));
+		if(packet!=null)Bukkit.getPluginManager().callEvent(new PacketReceiveEvent(packet,pManager));
 	}
 }

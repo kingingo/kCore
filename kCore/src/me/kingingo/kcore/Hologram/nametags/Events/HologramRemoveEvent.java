@@ -1,7 +1,8 @@
 package me.kingingo.kcore.Hologram.nametags.Events;
 
 import lombok.Getter;
-import me.kingingo.kcore.Hologram.nametags.NameTagSpawner;
+import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
+import me.kingingo.kcore.Hologram.nametags.NameTagPacketSpawner;
 import me.kingingo.kcore.ItemFake.ItemFake;
 
 import org.bukkit.entity.Item;
@@ -12,9 +13,9 @@ import org.bukkit.event.HandlerList;
 public class HologramRemoveEvent extends Event{
 	private static HandlerList handlers = new HandlerList();
 	@Getter
-	private NameTagSpawner nts;
+	private NameTagMessage nts;
 	
-	public HologramRemoveEvent(NameTagSpawner nts){
+	public HologramRemoveEvent(NameTagMessage nts){
 		this.nts=nts;
 	}
 	

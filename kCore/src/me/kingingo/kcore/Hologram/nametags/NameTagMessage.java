@@ -2,155 +2,142 @@ package me.kingingo.kcore.Hologram.nametags;
 
 import java.awt.image.BufferedImage;
 
+import lombok.Getter;
+import lombok.Setter;
+import me.kingingo.kcore.Hologram.nametags.NameTagPacketSpawner;
+import me.kingingo.kcore.Util.UtilServer;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.google.common.base.Preconditions;
 
 public class NameTagMessage extends ImageMessage {
-	private NameTagSpawner spawner;
+
+	@Getter
+	@Setter
 	private Location location;
-
+	@Getter
+	@Setter
 	private double lineSpacing = 0.25d;
-
-	/**
-	 * Construct the next frame of an animated message.
-	 * 
-	 * @param previousFrame - container of the previous frame.
-	 * @param nextFrame - the next frame.
-	 * @param imgChar - the character to use in this frame.
-	 */
-	public NameTagMessage(NameTagMessage previousFrame, BufferedImage nextFrame, char imgChar) {
-		super(nextFrame, previousFrame.lines.length, imgChar);
-		this.spawner = previousFrame.spawner; // reuse spawner
+	@Getter
+	private NameTagType type;
+	
+	private NameTagPacketSpawner packetSpawner;
+	private NameTagEntitySpawner entitySpawner;
+	
+	public NameTagMessage(NameTagType type,Location location,String... lines){
+		super(lines);
+		this.location=location;
+		this.type=type;
+		initialize(this.lines.length);
 	}
 
-	public NameTagMessage(BufferedImage image, int height, char imgChar) {
+	public NameTagMessage(NameTagType type,BufferedImage image, int height, char imgChar) {
 		super(image, height, imgChar);
+		this.type=type;
 		initialize(height);
 	}
 
-	public NameTagMessage(ChatColor[][] chatColors, char imgChar) {
+	public NameTagMessage(NameTagType type,ChatColor[][] chatColors, char imgChar) {
 		super(chatColors, imgChar);
 		this.location = Preconditions.checkNotNull(location, "location cannot be NULL");
+		this.type=type;
 		initialize(chatColors.length);
 	}
-
-	public NameTagMessage(String... imgLines) {
-		super(imgLines);
-		initialize(imgLines.length);
-	}
 	
-	public NameTagMessage(double y, String... imgLines) {
+	public NameTagMessage(NameTagType type,double y, String... imgLines) {
 		super(imgLines);
+		this.type=type;
 		initialize(imgLines.length,y);
 	}
 	
 	public void remove(){
-		spawner.remove();
-		location=null;
-		lineSpacing=0;
+		clear();
+		this.location=null;
+		this.lineSpacing=0;
+		this.lines=null;
+		this.type=null;
+		this.packetSpawner=null;
+		this.entitySpawner=null;
 	}
-
+	
 	private void initialize(int height, double y) {
-		this.spawner = new NameTagSpawner(height,y);
+		if(getType()==NameTagType.PACKET){
+			this.packetSpawner = new NameTagPacketSpawner(height,y);
+		}else{
+			this.entitySpawner = new NameTagEntitySpawner(height,y);
+		}
 	}
 	
 	private void initialize(int height) {
-		this.spawner = new NameTagSpawner(height);
-	}
-
-	@Override
-	public NameTagMessage appendCenteredText(String... text) {
-		super.appendCenteredText(text);
-		return this;
-	}
-
-	@Override
-	public NameTagMessage appendText(String... text) {
-		super.appendText(text);
-		return this;
+		if(getType()==NameTagType.PACKET){
+			this.packetSpawner = new NameTagPacketSpawner(height);
+		}else{
+			this.entitySpawner = new NameTagEntitySpawner(height);
+		}
 	}
 	
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public Location getLocation() {
-		return location;
+	public void send(){
+		if(getType()==NameTagType.PACKET){
+			for(Player player : UtilServer.getPlayers())sendToPlayer(player);
+		}else{
+			for (int i = 0; i < this.lines.length; i++) {
+				this.entitySpawner.setNameTag(i, location, -i * this.lineSpacing, this.lines[i]);
+			}
+		}
 	}
 	
-	/**
-	 * Retrieve the underlying name tag spawner.
-	 * @return The spawner.
-	 */
-	public NameTagSpawner getSpawner() {
-		return spawner;
-	}
-
-	/**
-	 * Retrieve the default amount of meters in the y-axis between each name
-	 * tag.
-	 * 
-	 * @return The line spacing.
-	 */
-	public double getLineSpacing() {
-		return lineSpacing;
-	}
-
-	/**
-	 * Set the default amount of meters in the y-axis between each name tag.
-	 * 
-	 * @param lineSpacing - the name spacing.
-	 */
-	public void setLineSpacing(double lineSpacing) {
-		this.lineSpacing = lineSpacing;
-	}
-
-	@Override
 	public void sendToPlayer(Player player) {
-		sendToPlayer(player, location != null ? location : player.getLocation());
+		sendToPlayer(player, this.location != null ? this.location : player.getLocation());
 	}
-
-	/**
-	 * Send a floating image message to the given player at the specified
-	 * starting location.
-	 * 
-	 * @param player - the player.
-	 * @param location - the starting location.
-	 */
+	
 	public void sendToPlayer(Player player, Location location) {
-		this.location=location;
-		for (int i = 0; i < lines.length; i++) {
-			spawner.setNameTag(i, player, location, -i * lineSpacing, lines[i]);
+		if(getType()==NameTagType.PACKET){
+			this.location=location;
+			for (int i = 0; i < this.lines.length; i++) {
+				this.packetSpawner.setNameTag(i, player, location, -i * this.lineSpacing, this.lines[i]);
+			}
 		}
 	}
+	
+	public void move(Location location) {
+		if(getType()==NameTagType.PACKET){
+			for(Player player : UtilServer.getPlayers())move(player,location);
+		}else{
+			Location copy = location.clone();
 
-	/**
-	 * Nove the floating message to the new location.
-	 * 
-	 * @param player - the player.
-	 * @param location - the new location.
-	 */
+			for (int i = 0; i < this.lines.length; i++) {
+				this.entitySpawner.moveNameTag(i, copy);
+				copy.setY(copy.getY() - this.lineSpacing);
+			}
+		}
+	}
+	
 	public void move(Player player, Location location) {
-		Location copy = location.clone();
+		if(getType()==NameTagType.PACKET){
+			Location copy = location.clone();
 
-		for (int i = 0; i < lines.length; i++) {
-			spawner.moveNameTag(i, player, copy);
-			copy.setY(copy.getY() - lineSpacing);
+			for (int i = 0; i < this.lines.length; i++) {
+				this.packetSpawner.moveNameTag(i, player, copy);
+				copy.setY(copy.getY() - this.lineSpacing);
+			}
 		}
 	}
-
-	/**
-	 * Clear the floating image displayed for a given player.
-	 * 
-	 * @param player - the player.
-	 */
-	public void clear(Player player) {
-		spawner.clearNameTags(player);
+	
+	public void clear() {
+		if(getType()==NameTagType.PACKET){
+			for(Player player : UtilServer.getPlayers())clear(player);
+		}else{
+			this.entitySpawner.clearNameTags();
+		}
 	}
+	
+	public void clear(Player player) {
+		if(getType()==NameTagType.PACKET){
+			this.packetSpawner.clearNameTags(player);
+		}
+	}
+	
 }

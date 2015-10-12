@@ -23,6 +23,7 @@ public class CommandHandel extends kListener implements CommandExecutor{
 
 	private InventoryBase base;
 	private HashMap<Player,InventoryTrade> list;
+	private HashMap<Player,Player> anfrage;
 	
 	public CommandHandel(JavaPlugin instance) {
 		this(instance, new InventoryBase(instance, ""));
@@ -32,6 +33,7 @@ public class CommandHandel extends kListener implements CommandExecutor{
 		super(instance,"CommandHandel");
 		this.base=base;
 		this.list=new HashMap<>();
+		this.anfrage=new HashMap<>();
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "handel",alias={"trade"}, sender = Sender.PLAYER)
@@ -43,23 +45,45 @@ public class CommandHandel extends kListener implements CommandExecutor{
 		}else{
 			if(UtilPlayer.isOnline(args[0])){
 				Player player1=Bukkit.getPlayer(args[0]);
-				InventoryTrade t = new InventoryTrade(player, player1);
-				list.put(player, t);
-				list.put(player1, t);
-				this.base.addAnother(t);
+				if(player1.getUniqueId()==player.getUniqueId())return false;
+				
+				if(anfrage.containsKey(player)&&anfrage.get(player).getUniqueId()==player1.getUniqueId()){
+					InventoryTrade t = new InventoryTrade(player, player1);
+					list.put(player, t);
+					list.put(player1, t);
+					this.base.addAnother(t);
+					anfrage.remove(player);
+				}else{
+					if(anfrage.containsKey(player1)&&anfrage.get(player1).getUniqueId()==player.getUniqueId()){
+						player.sendMessage(Language.getText(player1, "PREFIX")+"§cDu hast diesen Spieler bereits eine Anfrage gesendet!");
+						return false;
+					}
+					
+					anfrage.remove(player1);
+					anfrage.put(player1, player);
+					player.sendMessage(Language.getText(player1, "PREFIX")+"§aDu hast §7"+player1.getName()+"§a eine anfrage gesendet!");
+					player1.sendMessage(Language.getText(player1, "PREFIX")+"§aDu hast von §7"+player.getName()+"§a eine Handel anfrage erhalten!");
+					player1.sendMessage(Language.getText(player1, "PREFIX")+"§azum Annehmen §7/Handel "+player.getName());
+				}
+			}else{
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 			}
 		}
 		return false;
 	}
 
 	@EventHandler
+	public void quit(PlayerQuitEvent ev){
+		anfrage.remove(ev.getPlayer());
+	}
+	
+	@EventHandler
 	public void close(InventoryCloseEvent ev){
 		if(list.containsKey(ev.getPlayer())){
-			Player t=list.get(ev.getPlayer()).getT();
-			Player t1=list.get(ev.getPlayer()).getT1();
-			list.get(ev.getPlayer()).done();
-			list.remove(t);
-			list.remove(t1);
+			InventoryTrade t = list.get(ev.getPlayer());
+			list.remove(t.getT());
+			list.remove(t.getT1());
+			t.done();
 		}
 	}
 }
