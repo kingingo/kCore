@@ -89,7 +89,6 @@ public class GemsShop{
 		UtilEnt.setNoAI(v, true);
 		m = new NameTagMessage(NameTagType.SERVER, v.getLocation().add(0, 2.1, 0), "§a§lGem-Shop");
 		m.send();
-		hm.setCreatureName(v, "§aGems-Shop");
 		
 		listener=new EntityInventoryListener(getPermission().getInstance(), new Click(){
 

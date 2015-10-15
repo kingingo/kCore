@@ -20,7 +20,7 @@ public class CommandFriend implements CommandExecutor{
 	public CommandFriend(FriendManager manager){
 		this.manager=manager;
 	}
-	
+
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "friend", alias = {"f","freund","friede"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		

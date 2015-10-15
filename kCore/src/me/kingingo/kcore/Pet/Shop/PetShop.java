@@ -9,6 +9,7 @@ import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.Coins;
+import me.kingingo.kcore.Util.Gems;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Material;
@@ -24,11 +25,14 @@ public class PetShop extends InventoryPageBase{
 	private PlayerPetHandler handle;
 	@Getter
 	private Coins coins;
+	@Getter
+	private Gems gems;
 	
-	public PetShop(PlayerPetHandler handle,Coins coins) {
+	public PetShop(PlayerPetHandler handle,Gems gems,Coins coins) {
 		super(36,"Pet-Shop");
 		this.handle=handle;
 		this.coins=coins;
+		this.gems=gems;
 		
 		addButton(10, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -54,13 +58,13 @@ public class PetShop extends InventoryPageBase{
 						getHandle().getPermManager().addPermission(player, kPermission.PET_OCELOT);
 					}
 					
-				},"Kaufen",coins,4000);
+				},"Kaufen",coins,4000,gems,1000);
 				player.openInventory(buy);
 				getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,98, "§aOcelot", new String[]{"§6Kaufbares-Pet","§eCoins: 4000"}));
+		}, Material.MONSTER_EGG,98, "§aOcelot", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(16, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -75,13 +79,13 @@ public class PetShop extends InventoryPageBase{
 						getHandle().getPermManager().addPermission(player, kPermission.PET_ZOMBIE);
 					}
 					
-				},"Kaufen",coins,7000);
+				},"Kaufen",coins,7000,gems,2000);
 				player.openInventory(buy);
 				getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,57, "§aZombie", new String[]{"§6Kaufbares-Pet","§eCoins: 7000"}));
+		}, Material.MONSTER_EGG,57, "§aZombie", new String[]{"§6Kaufbares-Pet","§eCoins: 7000","§aGems: 2000"}));
 		
 		addButton(15, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -96,13 +100,13 @@ public class PetShop extends InventoryPageBase{
 						getHandle().getPermManager().addPermission(player, kPermission.PET_COW);
 					}
 					
-				},"Kaufen",coins,4000);
+				},"Kaufen",coins,4000,gems,1000);
 				player.openInventory(buy);
 				getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		},  Material.MONSTER_EGG,92, "§aCow", new String[]{"§6Kaufbares-Pet","§eCoins: 4000"}));
+		},  Material.MONSTER_EGG,92, "§aCow", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(14, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -117,13 +121,13 @@ public class PetShop extends InventoryPageBase{
 						getHandle().getPermManager().addPermission(player, kPermission.PET_IRON_GOLEM);
 					}
 					
-				},"Kaufen",coins,10000);
+				},"Kaufen",coins,10000,gems,2500);
 				player.openInventory(buy);
 				getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		}, Material.IRON_BLOCK, "§aIronGolem", new String[]{"§6Kaufbares-Pet","§eCoins: 10000"}));
+		}, Material.IRON_BLOCK, "§aIronGolem", new String[]{"§6Kaufbares-Pet","§eCoins: 10000","§aGems: 2500"}));
 		
 		addButton(11, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -139,13 +143,13 @@ public class PetShop extends InventoryPageBase{
 							getHandle().getPermManager().addPermission(player, kPermission.PET_WOLF);
 						}
 						
-					},"Kaufen",coins,4000);
+					},"Kaufen",coins,4000,gems,1000);
 					player.openInventory(buy);
 					getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,95, "§aWolf", new String[]{"§6Kaufbares-Pet","§eCoins: 4000"}));
+		}, Material.MONSTER_EGG,95, "§aWolf", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(12, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -161,13 +165,13 @@ public class PetShop extends InventoryPageBase{
 						getHandle().getPermManager().addPermission(player, kPermission.PET_PIG);
 					}
 					
-					},"Kaufen",coins,4000);
+					},"Kaufen",coins,4000,gems,1000);
 					player.openInventory(buy);
 					getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,90, "§aPig", new String[]{"§6Kaufbares-Pet","§eCoins: 4000"}));
+		}, Material.MONSTER_EGG,90, "§aPig", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(13, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -183,13 +187,13 @@ public class PetShop extends InventoryPageBase{
 						getHandle().getPermManager().addPermission(player, kPermission.PET_SHEEP);
 					}
 					
-					},"Kaufen",coins,4000);
+					},"Kaufen",coins,4000,gems,1000);
 					player.openInventory(buy);
 					getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,91, "§aSchaf", new String[]{"§6Kaufbares-Pet","§eCoins: 4000"}));
+		}, Material.MONSTER_EGG,91, "§aSchaf", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(19, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -218,13 +222,13 @@ public class PetShop extends InventoryPageBase{
 						getHandle().getPermManager().addPermission(player, kPermission.PET_SPIDER);
 					}
 					
-				},"Kaufen",coins,4000);
+				},"Kaufen",coins,4000,gems,1000);
 				player.openInventory(buy);
 				getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,52, "§aSpider", new String[]{"§6Kaufbares-Pet","§eCoins: 4000"}));
+		}, Material.MONSTER_EGG,52, "§aSpider", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(21, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -239,13 +243,13 @@ public class PetShop extends InventoryPageBase{
 						getHandle().getPermManager().addPermission(player, kPermission.PET_HORSE);
 					}
 					
-				},"Kaufen",coins,15000);
+				},"Kaufen",coins,15000,gems,4000);
 				player.openInventory(buy);
 				getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,100, "§aHorse", new String[]{"§6Kaufbares-Pet","§eCoins: 15000"}));
+		}, Material.MONSTER_EGG,100, "§aHorse", new String[]{"§6Kaufbares-Pet","§eCoins: 15000","§aGems: 4000"}));
 		
 		addButton(22, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -260,13 +264,13 @@ public class PetShop extends InventoryPageBase{
 						getHandle().getPermManager().addPermission(player, kPermission.PET_RABBIT);
 					}
 					
-				},"Kaufen",coins,8000);
+				},"Kaufen",coins,8000,gems,2000);
 				player.openInventory(buy);
 				getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,101, "§aRabbit", new String[]{"§6Kaufbares-Pet","§eCoins: 8000"}));
+		}, Material.MONSTER_EGG,101, "§aRabbit", new String[]{"§6Kaufbares-Pet","§eCoins: 8000","§aGems: 2000"}));
 		
 		addButton(23, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -284,13 +288,13 @@ public class PetShop extends InventoryPageBase{
 						getHandle().getPermManager().addPermission(player, kPermission.PET_SQUID);
 					}
 					
-				},"Kaufen",coins,8000);
+				},"Kaufen",coins,8000,gems,2000);
 				player.openInventory(buy);
 				getHandle().getBase().addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,94, "§aSquid", new String[]{"§6Kaufbares-Pet","§eCoins: 8000"}));
+		}, Material.MONSTER_EGG,94, "§aSquid", new String[]{"§6Kaufbares-Pet","§eCoins: 8000","§aGems: 2000"}));
 		
 		addButton(24, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {

@@ -15,6 +15,7 @@ import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.Coins;
+import me.kingingo.kcore.Util.Gems;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.UtilEvent;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
@@ -38,23 +39,26 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class KitShop implements Listener {
 
 	@Getter
-	String name;
+	private String name;
 	@Getter
-	Inventory inventory;
+	private Inventory inventory;
 	@Getter
-	Inventory admininventory;
+	private Inventory admininventory;
 	@Getter
-	Kit[] kits;
+	private Kit[] kits;
 	@Getter
-	PermissionManager permManager;
+	private PermissionManager permManager;
 	@Getter
-	Coins coins;
+	private Coins coins;
+	@Getter
+	private Gems gems;
 	HashMap<Player,Inventory> l = new HashMap<>();
-	CalendarType holiday;
+	private CalendarType holiday;
 	
-	public KitShop(JavaPlugin instance,Coins coins,PermissionManager manager,String name,InventorySize size,Kit[] kits){
+	public KitShop(JavaPlugin instance,Gems gems,Coins coins,PermissionManager manager,String name,InventorySize size,Kit[] kits){
 		this.name=name;
 		this.kits=kits;
+		this.gems=gems;
 		this.coins=coins;
 		this.permManager=manager;
 		this.holiday=Calendar.getHoliday();
@@ -221,10 +225,19 @@ public class KitShop implements Listener {
 	public Inventory getKaufen(Kit kit,Player p){
 		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName()+" "+Language.getText(p,"KIT_SHOP_BUY"));
 		switch(kit.getType()){
-		case KAUFEN:
-			inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§eCoins"));
-			inventory.setItem(0, kit.getItem());
-			break;
+			case KAUFEN:
+				inventory.setItem(3, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§eCoins"));
+				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aGems"));
+				inventory.setItem(1, kit.getItem());
+				break;
+			case KAUFEN_COINS:
+				inventory.setItem(5, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§eCoins"));
+				inventory.setItem(1, kit.getItem());
+				break;
+			case KAUFEN_GEMS:
+				inventory.setItem(5, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aGems"));
+				inventory.setItem(1, kit.getItem());
+				break;
 		}
 		for(int i = 0 ; i < inventory.getSize(); i++){
 			if(inventory.getItem(i)==null||inventory.getItem(i).getType()==Material.AIR){
@@ -275,12 +288,21 @@ public class KitShop implements Listener {
 					
 					if(ev.getCurrentItem().getType()==Material.GOLD_NUGGET){
 						int c = getCoins().getCoins(p);
-						if(c>=kit.getPreis()){
-							getCoins().delCoins(p, true, kit.getPreis());
+						if(c>=kit.getCoins_preis()){
+							getCoins().delCoins(p, true, kit.getCoins_preis());
 							getPermManager().addPermission(p, kit.getPermission());
 							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
 						}else{
 							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_NO_MONEY","Coins"));
+						}
+					}else if(ev.getCurrentItem().getType()==Material.EMERALD){
+						int c = getGems().getGems(p);
+						if(c>=kit.getGems_preis()){
+							getGems().delGems(p, true, kit.getGems_preis());
+							getPermManager().addPermission(p, kit.getPermission());
+							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
+						}else{
+							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_NO_MONEY","Gems"));
 						}
 					}
 					break;

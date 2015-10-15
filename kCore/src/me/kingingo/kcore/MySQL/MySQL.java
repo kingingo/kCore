@@ -13,6 +13,7 @@ import me.kingingo.kcore.MySQL.Events.MySQLDisconnectEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLQueryEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLUpdateEvent;
+import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
@@ -55,6 +56,26 @@ public class MySQL
     timings.stopTiming();
   }
 
+  public void Delete(String table,String where){
+	  Update("DELETE FROM `"+table+"`"+(where!=null?" WHERE "+where:""));
+  }
+  
+  public void Insert(String table,String content,String values){
+	  Update("INSERT INTO "+table+" ("+content+") VALUES ("+values+");");
+  }
+  
+  public ResultSet Query(String table,String select,String where){
+	 return Query("SELECT "+select+" FROM `"+table+"`"+(where!=null?" WHERE "+where:""));
+  }
+  
+  public void Update(String table,String set,String where){
+	  Update("UPDATE "+table+" SET "+set+""+(where!=null?" WHERE "+where:""));
+  }
+  
+  public void createTable(String table,String content){
+	  Update("CREATE TABLE IF NOT EXISTS users_"+table+"("+content+")");
+  }
+  
   public void connect() {
 		timings.startTiming();
 	   try {

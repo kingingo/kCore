@@ -208,7 +208,7 @@ public class StatsManager extends kListener{
 	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+UtilPlayer.getRealUUID(p)+"'");
 
 	      while (rs.next()) {
-	    		  done=true;
+	    	  done=true;
 	      }
 
 	      rs.close();

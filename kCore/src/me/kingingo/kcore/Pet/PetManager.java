@@ -49,7 +49,7 @@ public class PetManager implements Listener{
 	private HashMap<EntityType,PetSetting> setting_list;
 	@Getter
 	@Setter
-	private boolean EntityDamageEvent = false;
+	private boolean EntityDamageEvent = true;
 	@Getter
 	@Setter
 	double distance=8;
@@ -152,10 +152,11 @@ public class PetManager implements Listener{
 	  @EventHandler(priority=EventPriority.LOWEST)
 	  public void onEntityDamage(EntityDamageEvent event)
 	  {
-		if(EntityDamageEvent)return;
-	    if (((event.getEntity() instanceof org.bukkit.entity.Creature)) && (this.petToLocation.containsKey((org.bukkit.entity.Creature)event.getEntity()))){
-	      event.setCancelled(true);
-	    }
+		if(EntityDamageEvent){
+		    if (((event.getEntity() instanceof org.bukkit.entity.Creature)) && (this.petToLocation.containsKey((org.bukkit.entity.Creature)event.getEntity()) || isPet((org.bukkit.entity.Creature)event.getEntity())) ){
+			      event.setCancelled(true);
+			}
+		}
 	  }
 	  
 	  Player owner;

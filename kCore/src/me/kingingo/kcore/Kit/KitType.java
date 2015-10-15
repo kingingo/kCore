@@ -7,7 +7,9 @@ SPEZIAL_KIT("§4Spezial-Kit"),
 ADMIN("§cAdmin-Kit"),
 STARTER("§7Starter-Kit"),
 PREMIUM("§aPremium-Kit"),
-KAUFEN("§6Kaufbares-Kit");
+KAUFEN("§6Kaufbares-Kit"),
+KAUFEN_COINS("§6Kaufbares-Kit"),
+KAUFEN_GEMS("§6Kaufbares-Kit");
 
 @Getter
 String name;

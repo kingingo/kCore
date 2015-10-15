@@ -18,32 +18,35 @@ import org.bukkit.inventory.ItemStack;
 public class Kit extends PerkData{
 
 	@Getter
-	String Name;
+	private String Name;
 	@Getter
-	ItemStack item;
+	private ItemStack item;
 	@Getter
-	String[] description;
+	private String[] description;
 	@Getter
-	Perk[] perks;
+	private Perk[] perks;
 	@Getter
-	KitType type;
+	private KitType type;
 	@Getter
-	int preis;
+	private int coins_preis;
 	@Getter
-	kPermission permission;
+	private int gems_preis;
 	@Getter
-	DisguiseType disguise=null;
+	private kPermission permission;
 	@Getter
-	DisguiseManager dmanager;
+	private DisguiseType disguise=null;
 	@Getter
-	ItemStack[] items;
+	private DisguiseManager dmanager;
+	@Getter
+	private ItemStack[] items;
 	
-	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,kPermission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
+	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,kPermission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int coins_preis,int gems_preis,Perk[] perks){
 		this.Name=Name;
 		this.type=type;
 		this.items=items;
 		this.permission=permission;
-		this.preis=preis;
+		this.coins_preis=coins_preis;
+		this.gems_preis=gems_preis;
 		this.disguise=disguise;
 		this.dmanager=dmanager;
 		int i;
@@ -62,115 +65,29 @@ public class Kit extends PerkData{
 		
 		this.description=new String[i];
 		this.description[0]=getType().getName();
-		this.description[1]=" ";
+		i=1;
 		
 		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
-			this.description[1]="§ePreis: "+preis;
-			this.description[2]=" ";
-			i=3;
-		}else{
-			i=2;
-		}
-		
-		for(String s : desc){
-			this.description[i]=s;
-			i++;
-		}
-			
-		}catch(ArrayIndexOutOfBoundsException e){
-			System.err.println("[Kit] Name: "+Name);
-			e.printStackTrace();
-		}
-		
-		this.item=UtilItem.Item(item, getDescription(), getName());
-		this.perks=perks;
-	}
-	
-	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,kPermission permission,KitType type,int preis,Perk[] perks){
-		this.Name=Name;
-		this.type=type;
-		this.permission=permission;
-		this.items=items;
-		this.preis=preis;
-		int i;
-		try{
-		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
-			i=4;
-		}else{
-			i=2;
-		}
-		
-		for(Perk perk : perks){
-			perk.setPerkData(this);
-			getPlayers().put(perk, new ArrayList<Player>());
-		}
-		i=i+desc.length;
-		this.description=new String[i];
-		this.description[0]=getType().getName();
-		this.description[1]=" ";
-		
-		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
-			this.description[1]="§ePreis: "+preis;
-			this.description[2]=" ";
-			i=3;
-		}else{
-			i=2;
-		}
-			
-		
-		for(String s : desc){
-			this.description[i]=s;
-			i++;
-		}
-		
-		}catch(ArrayIndexOutOfBoundsException e){
-			System.err.println("[Kit] Name: "+Name);
-			e.printStackTrace();
-		}
-		
-		this.item=UtilItem.Item(item, getDescription(), getName());
-		this.perks=perks;
-	}
-	
-	public Kit(String Name,String[] desc,ItemStack item,kPermission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int preis,Perk[] perks){
-		this.Name=Name;
-		this.type=type;
-		this.permission=permission;
-		this.preis=preis;
-		this.disguise=disguise;
-		this.dmanager=dmanager;
-		int i;
-		try{
-		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
-			i=4;
-		}else{
-			i=2;
-		}
-		
-		for(Perk perk : perks){
-			perk.setPerkData(this);
-			getPlayers().put(perk, new ArrayList<Player>());
-		}
-		i=i+desc.length;
-		
-		this.description=new String[i];
-		this.description[0]=getType().getName();
-		this.description[1]=" ";
-		
-		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
-			this.description[1]="§ePreis: "+preis;
-			this.description[2]=" ";
-			i=3;
-		}else{
-			i=2;
-		}
-			
-		
-		for(String s : desc){
-				this.description[i]=s;
+			if(coins_preis==0){
+				this.description[i]="§eCoins: "+coins_preis;
 				i++;
+			}
+			if(gems_preis==0){
+				this.description[i]="§aGems: "+gems_preis;
+				i++;
+			}
+			this.description[i]=" ";
+			i++;
+		}else{
+			this.description[1]=" ";
+			i=2;
 		}
 		
+		for(String s : desc){
+			this.description[i]=s;
+			i++;
+		}
+			
 		}catch(ArrayIndexOutOfBoundsException e){
 			System.err.println("[Kit] Name: "+Name);
 			e.printStackTrace();
@@ -180,49 +97,28 @@ public class Kit extends PerkData{
 		this.perks=perks;
 	}
 	
-	public Kit(String Name,String[] desc,ItemStack item,kPermission permission,KitType type,int preis,Perk[] perks){
-		this.Name=Name;
-		this.type=type;
-		this.permission=permission;
-		this.preis=preis;
-		int i;
-		try{
-		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
-			i=4;
-		}else{
-			i=2;
-		}
-		
-		for(Perk perk : perks){
-			perk.setPerkData(this);
-			getPlayers().put(perk, new ArrayList<Player>());
-		}
-		i=i+desc.length;
-		
-		this.description=new String[i];
-		this.description[0]=getType().getName();
-		this.description[1]=" ";
-		
-		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
-			this.description[1]="§ePreis: "+preis;
-			this.description[2]=" ";
-			i=3;
-		}else{
-			i=2;
-		}
-		
-		for(String s : desc){
-			this.description[i]=s;
-			i++;
-		}
-		
-		}catch(ArrayIndexOutOfBoundsException e){
-			System.err.println("[Kit] Name: "+Name);
-			e.printStackTrace();
-		}
-		
-		this.item=UtilItem.Item(item, getDescription(), getName());
-		this.perks=perks;
+	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,kPermission permission,KitType type,int coins_preis ,Perk[] perks){
+		this(Name,desc,item,items,permission,null,null,type,coins_preis,0,perks);
+	}
+	
+	public Kit(String Name,String[] desc,ItemStack item,kPermission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int coins_preis,Perk[] perks){
+		this(Name,desc,item,null,permission,disguise,dmanager,type,coins_preis,0,perks);
+	}
+	
+	public Kit(String Name,String[] desc,ItemStack item,kPermission permission,KitType type,int coins_preis ,Perk[] perks){
+		this(Name,desc,item,null,permission,null,null,type,coins_preis,0,perks);
+	}
+	
+	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,kPermission permission,KitType type,int coins_preis,int gems_preis,Perk[] perks){
+		this(Name,desc,item,items,permission,null,null,type,coins_preis,gems_preis,perks);
+	}
+	
+	public Kit(String Name,String[] desc,ItemStack item,kPermission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int coins_preis,int gems_preis,Perk[] perks){
+		this(Name,desc,item,null,permission,disguise,dmanager,type,coins_preis,gems_preis,perks);
+	}
+	
+	public Kit(String Name,String[] desc,ItemStack item,kPermission permission,KitType type,int coins_preis,int gems_preis,Perk[] perks){
+		this(Name,desc,item,null,permission,null,null,type,coins_preis,gems_preis,perks);
 	}
 	
 	public void disguise(HashMap<Player,String> list){

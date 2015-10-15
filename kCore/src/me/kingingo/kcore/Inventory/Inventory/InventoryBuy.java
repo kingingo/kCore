@@ -10,22 +10,43 @@ import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class InventoryBuy extends InventoryPageBase{
 	
 	public InventoryBuy(final Click buyed,String Title,final Coins coins,final int c) {
-		this(buyed, Title, coins, c, null, 0);
+		this(null,buyed, Title, coins, c, null, 0);
 	}
 	
 	public InventoryBuy(final Click buyed,String Title,final Gems gems,final int g) {
-		this(buyed, Title,null,0 ,gems, g);
+		this(null,buyed, Title,null,0 ,gems, g);
+	}
+	
+	public InventoryBuy(ItemStack i,final Click buyed,String Title,final Coins coins,final int c) {
+		this(i,buyed, Title, coins, c, null, 0);
+	}
+	
+	public InventoryBuy(ItemStack i,final Click buyed,String Title,final Gems gems,final int g) {
+		this(i,buyed, Title,null,0 ,gems, g);
 	}
 	
 	public InventoryBuy(final Click buyed,String Title,final Coins coins,final int c,final Gems gems,final int g) {
+		this(null,buyed, Title,null,0 ,gems, g);
+	}
+	
+	public InventoryBuy(ItemStack i,final Click buyed,String Title,final Coins coins,final int c,final Gems gems,final int g) {
 		super("InventoryBuy",9,Title);
+		int c_slot=2;
+		int g_slot=6;
 		
+		if(i!=null){
+			setItem(1, i);
+			c_slot=3;
+			g_slot=7;
+		}
+			
 		if(coins!=null){
-			addButton( (gems==null?4:2) ,new ButtonBase(new Click(){
+			addButton( (gems==null?4:c_slot) ,new ButtonBase(new Click(){
 
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
@@ -36,12 +57,12 @@ public class InventoryBuy extends InventoryPageBase{
 					}
 					player.closeInventory();
 				}
-				
+					
 			},Material.GOLD_INGOT,"§e"+c+" Coins"));
 		}
-		
+			
 		if(gems!=null){
-			addButton((coins==null?4:6),new ButtonBase(new Click(){
+			addButton((coins==null?4:g_slot),new ButtonBase(new Click(){
 
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
@@ -52,7 +73,7 @@ public class InventoryBuy extends InventoryPageBase{
 					}
 					player.closeInventory();
 				}
-				
+					
 			},Material.EMERALD,"§a"+g+" Gems"));
 		}
 		

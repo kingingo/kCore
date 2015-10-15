@@ -16,6 +16,7 @@ import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.Coins;
+import me.kingingo.kcore.Util.Gems;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
@@ -40,16 +41,19 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 	@Getter
 	private Coins coins;
 	@Getter
+	private Gems gems;
+	@Getter
 	private DisguiseManager disguiseManager;
 	@Getter
 	private ArrayList<Player> change_settings = new ArrayList<>();
 	private HashMap<UUID,String> settings = new HashMap<>();
 	
-	public DisguiseShop(final InventoryBase base,final PermissionManager permissionManager,final Coins coins,DisguiseManager disguiseManager) {
+	public DisguiseShop(final InventoryBase base,final PermissionManager permissionManager,Gems gems,final Coins coins,DisguiseManager disguiseManager) {
 		super(36, "Disguise Shop");
 		Bukkit.getPluginManager().registerEvents(this, permissionManager.getInstance());
 		this.permissionManager=permissionManager;
 		this.coins=coins;
+		this.gems=gems;
 		this.disguiseManager=disguiseManager;
 		this.permissionManager.getMysql().Update("CREATE TABLE IF NOT EXISTS list_disguise(uuid varchar(100),disguise varchar(100))");
 		
@@ -77,13 +81,13 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 						getPermissionManager().addPermission(player, kPermission.DISGUISE_ZOMBIE);
 					}
 					
-				},"Kaufen",coins,7000);
+				},"Kaufen",coins,7000,gems,3000);
 				player.openInventory(buy);
 				base.addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,54, "§aZombie", new String[]{"§6Kaufbares-Pet","§eCoins: 7000"}));
+		}, Material.MONSTER_EGG,54, "§aZombie", new String[]{"§6Kaufbares-Pet","§eCoins: 7000","§aGems: 3000"}));
 		
 		addButton(12, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -98,13 +102,13 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 						getPermissionManager().addPermission(player, kPermission.DISGUISE_ENDERMAN);
 					}
 					
-				},"Kaufen",coins,7000);
+				},"Kaufen",coins,7000,gems,3000);
 				player.openInventory(buy);
 				base.addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,58, "§aEnderman", new String[]{"§6Kaufbares-Pet","§eCoins: 7000"}));
+		}, Material.MONSTER_EGG,58, "§aEnderman", new String[]{"§6Kaufbares-Pet","§eCoins: 7000","§aGems: 3000"}));
 		
 		addButton(13, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -119,13 +123,13 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 						getPermissionManager().addPermission(player, kPermission.DISGUISE_BLAZE);
 					}
 					
-				},"Kaufen",coins,7000);
+				},"Kaufen",coins,7000,gems,3000);
 				player.openInventory(buy);
 				base.addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,61, "§aBlaze", new String[]{"§6Kaufbares-Pet","§eCoins: 7000"}));
+		}, Material.MONSTER_EGG,61, "§aBlaze", new String[]{"§6Kaufbares-Pet","§eCoins: 7000","§aGems: 3000"}));
 		
 		addButton(14, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -140,13 +144,13 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 						getPermissionManager().addPermission(player, kPermission.DISGUISE_WOLF);
 					}
 					
-				},"Kaufen",coins,6000);
+				},"Kaufen",coins,6000,gems,2500);
 				player.openInventory(buy);
 				base.addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,95, "§aWolf", new String[]{"§6Kaufbares-Pet","§eCoins: 6000"}));
+		}, Material.MONSTER_EGG,95, "§aWolf", new String[]{"§6Kaufbares-Pet","§eCoins: 6000","§aGems: 2500"}));
 		
 		addButton(15, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -161,13 +165,13 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 						getPermissionManager().addPermission(player, kPermission.DISGUISE_PIG);
 					}
 					
-				},"Kaufen",coins,5000);
+				},"Kaufen",coins,5000,gems,2000);
 				player.openInventory(buy);
 				base.addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,90, "§aPig", new String[]{"§6Kaufbares-Pet","§eCoins: 5000"}));
+		}, Material.MONSTER_EGG,90, "§aPig", new String[]{"§6Kaufbares-Pet","§eCoins: 5000","§aGems: 2000"}));
 		
 		addButton(16, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -182,13 +186,13 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 						getPermissionManager().addPermission(player, kPermission.DISGUISE_SHEEP);
 					}
 					
-				},"Kaufen",coins,5000);
+				},"Kaufen",coins,5000,gems,2000);
 				player.openInventory(buy);
 				base.addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,91, "§aSheep", new String[]{"§6Kaufbares-Pet","§eCoins: 5000"}));
+		}, Material.MONSTER_EGG,91, "§aSheep", new String[]{"§6Kaufbares-Pet","§eCoins: 5000","§aGems: 2000"}));
 		
 		addButton(19, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -203,13 +207,13 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 						getPermissionManager().addPermission(player, kPermission.DISGUISE_CREEPER);
 					}
 					
-				},"Kaufen",coins,7000);
+				},"Kaufen",coins,7000,gems,3000);
 				player.openInventory(buy);
 				base.addAnother(buy);
 				}
 			}
 			
-		}, Material.MONSTER_EGG,50, "§aCreeper", new String[]{"§6Kaufbares-Pet","§eCoins: 7000"}));
+		}, Material.MONSTER_EGG,50, "§aCreeper", new String[]{"§6Kaufbares-Pet","§eCoins: 7000","§aGems: 3000"}));
 		
 		addButton(20, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {

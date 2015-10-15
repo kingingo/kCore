@@ -66,7 +66,6 @@ public class VERSUS_SETTINGS extends Packet{
 		return "VERSUS_SETTINGS";
 	}
 	
-	//VERSUS_SETTINGS-/-TYPE-/-KIT-/-PLAYER-/-TEAM-/-ARENA
 	public String toString(){
 		return String.format(getName()+"-/-%s-/-%s-/-%s-/-%s-/-%s-/-%d-/-%d", type.name(), kit ,player,team.Name(),arena,min_team,max_team);
 	}
