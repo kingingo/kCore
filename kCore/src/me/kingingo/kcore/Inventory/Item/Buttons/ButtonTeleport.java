@@ -1,21 +1,17 @@
 package me.kingingo.kcore.Inventory.Item.Buttons;
 
-import lombok.Getter;
-import me.kingingo.kcore.Inventory.InventoryBase;
-import me.kingingo.kcore.Inventory.Inventory.InventoryCopy;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class ButtonOpenSaleInventory extends ButtonBase{
+public class ButtonTeleport extends ButtonBase{
 
-	@Getter
-	private InventoryCopy inventorySale;
-	
-	public ButtonOpenSaleInventory(final InventoryCopy inv,InventoryBase base,final ItemStack item) {
+	public ButtonTeleport(final ItemStack item,Location loc) {
 		super(new Click(){
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
@@ -23,7 +19,8 @@ public class ButtonOpenSaleInventory extends ButtonBase{
 					if( UtilItem.ItemNameEquals(((ItemStack)object), item) ){
 						if(item.getType() == ((ItemStack)object).getType()){
 							if(item.getDurability()==((ItemStack)object).getDurability()){
-								inv.open(player, base);
+								player.closeInventory();
+								player.teleport(loc);
 							}
 						}
 					}
@@ -31,7 +28,6 @@ public class ButtonOpenSaleInventory extends ButtonBase{
 			}
 			
 		}, item);
-		this.inventorySale=inv;
 	}
 
 }

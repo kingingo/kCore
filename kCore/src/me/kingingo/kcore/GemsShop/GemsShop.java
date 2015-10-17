@@ -11,7 +11,7 @@ import me.kingingo.kcore.Hologram.nametags.NameTagType;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
-import me.kingingo.kcore.Inventory.Inventory.InventorySale;
+import me.kingingo.kcore.Inventory.Inventory.InventoryCopy;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBack;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenSaleInventory;
@@ -169,10 +169,10 @@ public class GemsShop{
 		this.base.setMain(new InventoryPageBase(InventorySize._54, "Gems-Shop"));
 		fixInventory(this.base.getMain());
 		
-		InventorySale page;
+		InventoryCopy page;
 		for(int i = 9; i <= 45; i++){
 			if(getConfig().contains("Main."+i)){
-				page = new InventorySale(InventorySize._54.getSize(), "Gems-Shop/"+getConfig().getString("Main."+i+".PageName"));
+				page = new InventoryCopy(InventorySize._54.getSize(), "Gems-Shop/"+getConfig().getString("Main."+i+".PageName"));
 				fixInventory(page);
 				
 				for(int a = 9; a <= 45; a++){

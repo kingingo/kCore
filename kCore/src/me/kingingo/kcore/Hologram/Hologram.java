@@ -14,6 +14,7 @@ import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Creature;
@@ -73,8 +74,7 @@ public class Hologram implements Listener{
 			for(Entity e : w.getEntities()){
 				if(e instanceof ArmorStand){
 					a=(ArmorStand)e;
-					
-					if(!a.isVisible()){
+					if(!a.isVisible()&&a.isCustomNameVisible()&&a.isSmall()&&!a.hasArms()&&!a.hasBasePlate()){
 						a.remove();
 					}
 				}

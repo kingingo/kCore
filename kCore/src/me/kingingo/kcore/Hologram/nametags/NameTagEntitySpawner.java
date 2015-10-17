@@ -99,6 +99,7 @@ public class NameTagEntitySpawner {
 		armorStand.setCustomNameVisible(true);
 		armorStand.setVisible(false);
 		armorStand.setGravity(false);
+		armorStand.setArms(false);
 		armorStand.setBasePlate(false);
 		armorStand.setSmall(true);
 		

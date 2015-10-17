@@ -10,13 +10,13 @@ import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.entity.Player;
 
-public class InventorySale extends InventoryPageBase{
+public class InventoryCopy extends InventoryPageBase{
 
 	@Getter
 	@Setter
 	private boolean create_new_inv=false;
 	
-	public InventorySale(int size, String title) {
+	public InventoryCopy(int size, String title) {
 		super(size, title);
 	}
 

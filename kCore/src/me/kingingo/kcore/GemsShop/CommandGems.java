@@ -1,9 +1,7 @@
 package me.kingingo.kcore.GemsShop;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Inventory.InventoryPageBase;
-import me.kingingo.kcore.Inventory.Inventory.InventorySale;
-import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
+import me.kingingo.kcore.Inventory.Inventory.InventoryCopy;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenSaleInventory;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
@@ -80,14 +78,14 @@ public class CommandGems implements CommandExecutor{
 					}
 				}else if(args[0].equalsIgnoreCase("geti")){
 					if(args.length>=2){
-						InventorySale page = ((ButtonOpenSaleInventory)shop.getBase().getMain().getButton(UtilNumber.toInt(args[1]))).getInventorySale();
+						InventoryCopy page = ((ButtonOpenSaleInventory)shop.getBase().getMain().getButton(UtilNumber.toInt(args[1]))).getInventorySale();
 						player.setItemInHand(page.getItem(UtilNumber.toInt(args[2])));
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+"/gems geti [CSLOT] [SLOT]");
 					}
 				}else if(args[0].equalsIgnoreCase("get")){
 					if(args.length>=1){
-						InventorySale page = ((ButtonOpenSaleInventory)shop.getBase().getMain().getButton(UtilNumber.toInt(args[1]))).getInventorySale();
+						InventoryCopy page = ((ButtonOpenSaleInventory)shop.getBase().getMain().getButton(UtilNumber.toInt(args[1]))).getInventorySale();
 						
 						for(int i = 9; i < 45; i++){
 							if(page.getItem(i)!=null){

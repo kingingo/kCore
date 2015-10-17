@@ -15,6 +15,7 @@ import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Nick.NickManager;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_RELOAD;
+import me.kingingo.kcore.Permission.Event.GroupLoadedEvent;
 import me.kingingo.kcore.Util.Color;
 import me.kingingo.kcore.Util.UtilNumber;
 import me.kingingo.kcore.Util.UtilPlayer;
@@ -344,6 +345,8 @@ public class PermissionManager {
 				} catch (Exception err) {
 					Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
 				}
+				
+				Bukkit.getPluginManager().callEvent(new GroupLoadedEvent(this, g));
 		}
 		if(!pgroup.containsKey(uuid))pgroup.put(uuid, g);
 		

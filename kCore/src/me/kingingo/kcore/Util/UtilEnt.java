@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Util;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import net.minecraft.server.v1_8_R3.EntityCreature;
@@ -19,6 +20,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -44,6 +46,14 @@ public class UtilEnt
       NBTTagCompound compound = new NBTTagCompound();
       nmsEn.c(compound);
       compound.setBoolean("Silent", silent);
+      nmsEn.f(compound);
+  }
+  
+  public static void setSlotsDisabled(ArmorStand as, boolean slotsDisabled) {
+	  net.minecraft.server.v1_8_R3.Entity nmsEn = ((CraftEntity) as).getHandle();
+      NBTTagCompound compound = new NBTTagCompound();
+      nmsEn.c(compound);
+      compound.setByte("DisabledSlots", (slotsDisabled ? (byte)2039583:(byte)0));
       nmsEn.f(compound);
   }
   
