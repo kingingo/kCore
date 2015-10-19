@@ -442,6 +442,7 @@ public class Language {
 			add(type,"LOGIN_FAIL","§cInvaild character!");
 			add(type,"LOAD_PLAYER_DATA","§7Loading your player information...");
 			add(type,"PET_MUST_BUYED_IN_SHOP","§cYou have to purchase this pet! §6Shop.EpicPvP.de");
+			add(type,"PREMIUM_MUST_BUYED_IN_SHOP","§cYou have to purchase premium! §6Shop.EpicPvP.de");
 			add(type,"GAME_TIME_CHANGE","§aTime changed to {INPUT0}!");
 	        add(type, "GILDE_OWNER_NOT", "§cYou are not the owner of this guild.");
 	        add(type,"GILDE_PLAYER_IS_IN_GILDE","§cYou are allready in a guild.");
@@ -856,6 +857,7 @@ public class Language {
 			add(type,"LOGIN_FAIL","§cUngültiges Zeichen!");
 			add(type,"LOAD_PLAYER_DATA","§7Deine Spieler Informationen werden geladen...");
 			add(type,"PET_MUST_BUYED_IN_SHOP","§cDu musst das Pet im Online-Store kaufen! §6Shop.EpicPvP.de");
+			add(type,"PREMIUM_MUST_BUYED_IN_SHOP","§cDu musst dafuer Premium haben! §6Shop.EpicPvP.de");
 			add(type,"GAME_TIME_CHANGE","§aDie Zeit wurde zu {INPUT0} geändert!");
 			add(type,"EXP_HIS_TO_ME","§7Du hast von §a{INPUT0} §e{INPUT1} Exp§7 erhalten!");
 			add(type,"EXP_ME_TO_HIS","§7Du hast §a{INPUT0} §e{INPUT1} Exp§7 gesendet!");

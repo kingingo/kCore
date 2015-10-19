@@ -14,6 +14,9 @@ public class ARENA_STATUS extends Packet{
 	@Setter
 	@Getter
 	private int teams;
+	@Setter
+	@Getter
+	private int team;
 	@Getter
 	@Setter
 	private int online;
@@ -52,10 +55,11 @@ public class ARENA_STATUS extends Packet{
 		Set(packet);
 	}
 	
-	public ARENA_STATUS(GameState state,int online, int teams,GameType typ, String server, String arena,boolean apublic,String map,int min_team,int max_team,String kit) {
+	public ARENA_STATUS(GameState state,int online, int teams, int team,GameType typ, String server, String arena,boolean apublic,String map,int min_team,int max_team,String kit) {
 	    this.state = state;
 	    this.online=online;
 	    this.teams=teams;
+	    this.team=team;
 	    this.server=server;
 	    this.typ = typ;
 	    this.arena = arena;
@@ -77,20 +81,21 @@ public class ARENA_STATUS extends Packet{
 	public void Set(String[] packet) {
 	 this.state = GameState.valueOf(packet[1]);
 	 this.teams = Integer.valueOf(packet[2]).intValue();
-	 this.typ = GameType.valueOf(packet[3]);
-	 this.arena = packet[4];
-	 this.apublic=Boolean.valueOf(packet[5]);
-	 this.server = packet[6];
-	 this.map= packet[7];
-	 this.online= Integer.valueOf(packet[8]);
-	 this.min_team= Integer.valueOf(packet[9]);
-	 this.max_team= Integer.valueOf(packet[10]);
-	 this.kit= packet[11];
+	 this.team = Integer.valueOf(packet[3]).intValue();
+	 this.typ = GameType.valueOf(packet[4]);
+	 this.arena = packet[5];
+	 this.apublic=Boolean.valueOf(packet[6]);
+	 this.server = packet[7];
+	 this.map= packet[8];
+	 this.online= Integer.valueOf(packet[9]);
+	 this.min_team= Integer.valueOf(packet[10]);
+	 this.max_team= Integer.valueOf(packet[11]);
+	 this.kit= packet[12];
 	}
 	
 	public String toString(){
 		//ARENA_STATUS-/-STATE-/-TEAMS-/-TYP-/-ID-/-PUBLIC
-		return String.format(getName() + "-/-%s-/-%d-/-%s-/-%s-/-%s-/-%s-/-%s-/-%d-/-%d-/-%d-/-%s", new Object[] { this.state.string(), Integer.valueOf(teams),typ.name(),arena,apublic,server,map,online,min_team,max_team,kit });
+		return String.format(getName() + "-/-%s-/-%d-/-%d-/-%s-/-%s-/-%s-/-%s-/-%s-/-%d-/-%d-/-%d-/-%s", new Object[] { this.state.string(), Integer.valueOf(teams),Integer.valueOf(team),typ.name(),arena,apublic,server,map,online,min_team,max_team,kit });
 	}
 	
 }

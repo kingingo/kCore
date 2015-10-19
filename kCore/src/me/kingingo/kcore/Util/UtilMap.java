@@ -16,6 +16,9 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import net.minecraft.server.v1_8_R3.Block;
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.Chunk;
 import net.minecraft.server.v1_8_R3.EntityEnderCrystal;
 import net.minecraft.server.v1_8_R3.MapIcon;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
@@ -26,6 +29,7 @@ import net.minecraft.server.v1_8_R3.RegionFileCache;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.CraftChunk;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.map.RenderData;
@@ -40,7 +44,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class UtilMap{
 	
 	public static HashMap<Integer,ArrayList<EntityEnderCrystal>> list_entitys = new HashMap<>();
-
+	
 	public static File getMapPicture(){
 		File folder = new File("pictures");
 		if(!folder.exists())folder.mkdirs();
@@ -503,5 +507,7 @@ public class UtilMap{
 
 	    ms.worlds.remove(ms.worlds.indexOf(craftWorld.getHandle()));
 	  }
+	
+	
 	
 }

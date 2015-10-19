@@ -49,6 +49,7 @@ public class PermissionManager {
 	private JavaPlugin instance;
 	private PacketManager packetManager;
 	@Getter
+	@Setter
 	private GroupTyp typ;
 	@Getter
 	private PermissionListener listener;

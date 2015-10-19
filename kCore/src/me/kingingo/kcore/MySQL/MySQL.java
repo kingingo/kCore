@@ -73,7 +73,7 @@ public class MySQL
   }
   
   public void createTable(String table,String content){
-	  Update("CREATE TABLE IF NOT EXISTS users_"+table+"("+content+")");
+	  Update("CREATE TABLE IF NOT EXISTS "+table+"("+content+")");
   }
   
   public void connect() {

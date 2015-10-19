@@ -10,12 +10,12 @@ import me.kingingo.kcore.Util.UtilItem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class ButtonOpenSaleInventory extends ButtonBase{
+public class ButtonOpenInventoryCopy extends ButtonBase{
 
 	@Getter
 	private InventoryCopy inventorySale;
 	
-	public ButtonOpenSaleInventory(final InventoryCopy inv,InventoryBase base,final ItemStack item) {
+	public ButtonOpenInventoryCopy(final InventoryCopy inv,InventoryBase base,final ItemStack item) {
 		super(new Click(){
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {

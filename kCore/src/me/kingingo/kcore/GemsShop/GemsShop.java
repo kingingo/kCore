@@ -14,7 +14,7 @@ import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
 import me.kingingo.kcore.Inventory.Inventory.InventoryCopy;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBack;
-import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenSaleInventory;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenInventoryCopy;
 import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import me.kingingo.kcore.Listener.CreatureInventoryListener.EntityInventoryListener;
 import me.kingingo.kcore.Permission.PermissionManager;
@@ -228,7 +228,7 @@ public class GemsShop{
 				
 				if(item==null)item = UtilItem.RenameItem(new ItemStack(Material.BEDROCK), "§cERROR");
 				
-				this.base.getMain().addButton(i,new ButtonOpenSaleInventory(page,getBase(), item));
+				this.base.getMain().addButton(i,new ButtonOpenInventoryCopy(page,getBase(), item));
 				this.base.addPage(page);
 			}
 		}

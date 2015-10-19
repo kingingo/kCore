@@ -58,6 +58,7 @@ public class UserDataConfig extends kListener{
 				config=new kConfig(file);
 				if(config!=null){
 					if(configs!=null){
+						Log("Die Config von "+ev.getName()+"("+uuid+"/"+ev.getUniqueId()+") wurde geladen");
 						configs.put(uuid, config);
 					}else{
 						Log("AsyncPlayerPreLoginEvent configs HASHMAP == NULL");

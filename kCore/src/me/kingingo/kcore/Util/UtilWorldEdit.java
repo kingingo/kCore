@@ -2,17 +2,10 @@ package me.kingingo.kcore.Util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 
-import com.google.common.collect.Lists;
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
@@ -22,38 +15,12 @@ import com.sk89q.worldedit.data.DataException;
 
 public class UtilWorldEdit {
 
-	@Getter
-	@Setter
 	private static EditSession editSession=null ;
-	private static Vector v;
 	
 	public static void removePlate(){
-		editSession.undo(editSession);
-	}
-	
-	public static List<Block> getScans(int radius, Location startloc) {
-		List<Block> list = Lists.newArrayList();
-		final Block block = startloc.getBlock();
-		final int x = block.getX();
-		final int y = block.getY();
-		final int z = block.getZ();
-		final int minX = x - radius;
-		final int minY = y - radius;
-		final int minZ = z - radius;
-		final int maxX = x + radius;
-		final int maxY = y + radius;
-		final int maxZ = z + radius;
-		for (int counterX = minX; counterX <= maxX; counterX++) {
-			for (int counterY = minY; counterY <= maxY; counterY++) {
-				for (int counterZ = minZ; counterZ <= maxZ; counterZ++) {
-					final Block blockName = startloc.getWorld().getBlockAt(
-							counterX, counterY, counterZ);
-					list.add(blockName);
-				}
-			}
+		if(editSession!=null){
+			editSession.undo(editSession);
 		}
-
-		return list;
 	}
 	
 	private static void loadArea(World world, File file,Vector origin) throws DataException, IOException, MaxChangedBlocksException{
@@ -61,18 +28,18 @@ public class UtilWorldEdit {
 		try {
 			cc = CuboidClipboard.loadSchematic(file);
 		} catch (com.sk89q.worldedit.world.DataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    cc.paste(editSession, origin, false);
+		
+	    cc.paste(editSession, origin, true);
 	    cc=null;
 	}
 	
 	public static void pastePlate(Location l,File file){
 		if(editSession==null)editSession=new EditSession(new BukkitWorld(l.getWorld()), 999999999);
-		v = new Vector(l.getX(), l.getY(), l.getZ());
+		Vector v = new Vector(l.getX(), l.getY(), l.getZ());
 		try {
-			loadArea(Bukkit.getWorld("ender"), file, v);
+			loadArea(l.getWorld(), file, v);
 		} catch (MaxChangedBlocksException e) {
 			e.printStackTrace();
 		} catch (DataException e) {
@@ -80,6 +47,7 @@ public class UtilWorldEdit {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		v=null;
 	}
 	
 }

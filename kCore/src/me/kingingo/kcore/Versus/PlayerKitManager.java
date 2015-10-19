@@ -12,6 +12,7 @@ import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Util.UtilInv;
 
 import org.bukkit.Bukkit;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class PlayerKitManager{
@@ -28,45 +29,81 @@ public class PlayerKitManager{
 		this.type=type;
 		this.kits=new HashMap<>();
 		
-		this.mysql.createTable("users_"+type.getKürzel()+"_kits", "player varchar(30),uuid varchar(30),id int,kit varchar(300),kitname varchar(30)");
+		this.mysql.createTable("users_"+type.getKürzel()+"_kits", "player varchar(30),uuid varchar(100),id int,content varchar(1000),armor_content varchar(1000)");
 	}
 	
-	public void addKit(UUID uuid,PlayerInventory inv,String name,int id){
-		addKit("none", uuid, inv, name, id);
+	public ItemStack[] check(ItemStack[] c){
+		for(int i = 0; i<c.length;i++){
+			if(c[i]!=null){
+				if(c[i].getTypeId()==373&&UtilInv.GetData(c[i])==0){
+					c[i]=null;
+					continue;
+				}else if(c[i].getTypeId()==137){
+					c[i]=null;
+					continue;
+				}
+			}
+		}
+		
+		return c;
 	}
 	
-	public void addKit(String playerName,UUID uuid,PlayerInventory inv,String name,int id){
+	public void addKit(UUID uuid,PlayerInventory inv,int id){
+		addKit("none", uuid, inv, id);
+	}
+	
+	public void addKit(String playerName,UUID uuid,PlayerInventory inv,int id){
+		inv.setContents(check(inv.getContents()));
+		inv.setArmorContents(check(inv.getArmorContents()));
 		delKit(uuid,id);
-		getMysql().Insert("users_"+type.getKürzel()+"_kits", "player,uuid,id,kit,kitname", playerName+","+uuid+","+id+","+UtilInv.PlayerInventorytoBase64(inv)+","+name);
+		
+		if(kits.containsKey(uuid)){
+			kits.get(uuid).content=inv.getContents();
+			kits.get(uuid).armor_content=inv.getArmorContents();
+		}
+		
+		getMysql().Insert("users_"+type.getKürzel()+"_kits", "player,uuid,id,content,armor_content", "'"+playerName+"','"+uuid+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
 	}
 	
 	public void updateKit(UUID uuid,int id,PlayerInventory inv){
-		getMysql().Update("users_"+type.getKürzel()+"_kits", "kit='"+UtilInv.PlayerInventorytoBase64(inv)+"'", "UUID='"+uuid+"' AND id='"+id+"'");
+		inv.setContents(check(inv.getContents()));
+		inv.setArmorContents(check(inv.getArmorContents()));
+		if(kits.containsKey(uuid)){
+			kits.get(uuid).content=inv.getContents();
+			kits.get(uuid).armor_content=inv.getArmorContents();
+		}
+		
+		getMysql().Update("users_"+type.getKürzel()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "UUID='"+uuid+"' AND id='"+id+"'");
 	}
 	
 	public void delKit(UUID uuid,int id){
-		getMysql().Delete("users_"+type.getKürzel()+"_kits", "UUID="+uuid+" AND id='"+id+"'");
+		if(kits.containsKey(uuid)){
+			kits.get(uuid).id=0;
+			kits.get(uuid).content=null;
+			kits.get(uuid).armor_content=null;
+			kits.remove(uuid);
+		}
+		getMysql().Delete("users_"+type.getKürzel()+"_kits", "UUID='"+uuid+"' AND id='"+id+"'");
 	}
 	
 	public PlayerKit getKit(UUID uuid,int id){
 		if(kits.containsKey(uuid)){
 			if(kits.get(uuid).id==id)return kits.get(uuid);
 			kits.get(uuid).id=0;
-			kits.get(uuid).inventory=null;
-			kits.get(uuid).name=null;
+			kits.get(uuid).content=null;
+			kits.get(uuid).armor_content=null;
 			kits.remove(uuid);
 		}
 		
-		
 		try
 	    {
-		  ResultSet rs = mysql.Query("users_"+type.getKürzel()+"_kits", "`kit`,`kitname`", "UUID='"+uuid+"' AND id='"+id+"'");
+		  ResultSet rs = mysql.Query("users_"+type.getKürzel()+"_kits", "`content`,`armor_content`", "UUID='"+uuid+"' AND id='"+id+"'");
 
 	      while (rs.next()) {
 	    	  kits.put(uuid, new PlayerKit());
 	    	  kits.get(uuid).id=id;
-	    	  kits.get(uuid).inventory=UtilInv.PlayerInventoryfromBase64(rs.getString(1));
-	    	  kits.get(uuid).name=rs.getString(2);
+	    	  kits.get(uuid).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
+	    	  kits.get(uuid).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
 	      }
 
 	      rs.close();

@@ -32,6 +32,11 @@ import org.spigotmc.SpigotConfig;
 
 public class UtilWorld{
 	
+	public static void resetMap(World world){
+		Bukkit.getServer().unloadWorld(world, false);
+		Bukkit.getServer().createWorld(new WorldCreator(world.getName()));
+	}
+	
 	public static void sendWorldBorder(Player p, double midX, double midZ, double oldRadius, double newRadius, int seconds, int portalteleportboundary, int warningTime, int warningBlocks)
 	  {
 	    WorldBorder w = new WorldBorder();

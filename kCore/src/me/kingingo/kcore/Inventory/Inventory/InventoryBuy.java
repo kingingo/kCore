@@ -31,7 +31,7 @@ public class InventoryBuy extends InventoryPageBase{
 	}
 	
 	public InventoryBuy(final Click buyed,String Title,final Coins coins,final int c,final Gems gems,final int g) {
-		this(null,buyed, Title,null,0 ,gems, g);
+		this(null,buyed, Title,coins,c ,gems, g);
 	}
 	
 	public InventoryBuy(ItemStack i,final Click buyed,String Title,final Coins coins,final int c,final Gems gems,final int g) {
@@ -44,7 +44,7 @@ public class InventoryBuy extends InventoryPageBase{
 			c_slot=3;
 			g_slot=7;
 		}
-			
+		
 		if(coins!=null){
 			addButton( (gems==null?4:c_slot) ,new ButtonBase(new Click(){
 
