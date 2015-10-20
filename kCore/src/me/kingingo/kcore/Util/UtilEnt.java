@@ -3,6 +3,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import net.minecraft.server.v1_8_R3.EntityChicken;
 import net.minecraft.server.v1_8_R3.EntityCreature;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityInsentient;
@@ -21,6 +22,7 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -47,6 +49,13 @@ public class UtilEnt
       nmsEn.c(compound);
       compound.setBoolean("Silent", silent);
       nmsEn.f(compound);
+  }
+  
+  public static void setChickenDropEgg(Chicken c,boolean b){
+	  net.minecraft.server.v1_8_R3.Entity nmsEn = ((CraftEntity) c).getHandle();
+	  EntityChicken ch = (EntityChicken)nmsEn;
+	  
+	  ch.l(b);
   }
   
   public static void setSlotsDisabled(ArmorStand as, boolean slotsDisabled) {

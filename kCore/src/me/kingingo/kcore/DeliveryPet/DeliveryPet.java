@@ -42,6 +42,7 @@ import me.kingingo.kcore.Util.UtilTime;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
@@ -210,6 +211,8 @@ public class DeliveryPet extends kListener{
 				e.setRemoveWhenFarAway(false);
 				e.setTarget(null);
 			}else if(jockey.getType()==EntityType.CHICKEN){
+				UtilEnt.setChickenDropEgg( ((Chicken)this.jockey) , true);
+				
 				this.entity=(Creature)getLocation().getWorld().spawnCreature(getLocation(), EntityType.ZOMBIE);
 				this.entity.setCustomName("");
 				this.entity.setCustomNameVisible(true);
