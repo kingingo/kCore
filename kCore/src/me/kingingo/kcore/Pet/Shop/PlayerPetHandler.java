@@ -73,6 +73,10 @@ public class PlayerPetHandler implements Listener{
 		this.manager.setSetting(true);
 		this.permManager.getMysql().Update("CREATE TABLE IF NOT EXISTS "+serverType.name()+"_pets(uuid varchar(100),pet varchar(100))");
 		
+		this.manager.getSetting_list().put(EntityType.CHICKEN, new PetSetting(base,manager,EntityType.CHICKEN,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 93), "§aChicken")));
+		this.manager.getSetting_list().put(EntityType.SLIME, new PetSetting(base,manager,EntityType.SLIME,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 55), "§aSlime")));
+		this.manager.getSetting_list().put(EntityType.ENDERMAN, new PetSetting(base,manager,EntityType.ENDERMAN,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 58), "§aEnderman")));
+		this.manager.getSetting_list().put(EntityType.COW, new PetSetting(base,manager,EntityType.COW,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 92), "§aKuh")));
 		this.manager.getSetting_list().put(EntityType.IRON_GOLEM, new PetSetting(base,manager,EntityType.IRON_GOLEM,UtilItem.RenameItem(new ItemStack(Material.IRON_BLOCK), "§aIronGolem")));
 		this.manager.getSetting_list().put(EntityType.PIG, new PetSetting(base,manager,EntityType.PIG,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 90), "§aPig")));
 		this.manager.getSetting_list().put(EntityType.WOLF, new PetSetting(base,manager,EntityType.WOLF,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 95), "§aWolf")));
@@ -137,6 +141,8 @@ public class PlayerPetHandler implements Listener{
 	
 	public kPermission getPerm(String s){
 		switch(s){
+		case "§aEnderman": return kPermission.PET_ENDERMAN;
+		case "§aSlime": return kPermission.PET_SLIME;
 		case "§aChicken": return kPermission.PET_CHICKEN;
 		case "§aCreeper": return kPermission.PET_CREEPER;
 		case "§aCow": return kPermission.PET_COW;
@@ -159,6 +165,8 @@ public class PlayerPetHandler implements Listener{
 	
 	public EntityType getEntityType(kPermission perm){
 		switch(perm){
+		case PET_ENDERMAN: return EntityType.ENDERMAN;
+		case PET_SLIME: return EntityType.SLIME;
 		case PET_CHICKEN: return EntityType.CHICKEN;
 		case PET_CREEPER: return EntityType.CREEPER;
 		case PET_COW: return EntityType.COW;
@@ -181,6 +189,8 @@ public class PlayerPetHandler implements Listener{
 	
 	public kPermission getPerm(EntityType type){
 		switch(type){
+		case ENDERMAN: return kPermission.PET_ENDERMAN;
+		case SLIME: return kPermission.PET_SLIME;
 		case CHICKEN: return kPermission.PET_CHICKEN;
 		case CREEPER: return kPermission.PET_CREEPER;
 		case COW: return kPermission.PET_COW;

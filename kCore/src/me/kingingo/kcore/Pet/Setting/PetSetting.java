@@ -77,8 +77,6 @@ public class PetSetting extends InventoryPageBase{
 			},Material.GRASS,"§aAlter Ändern"));
 		}
 		
-		
-		
 		if(type==EntityType.SHEEP){
 			final InventoryChoose inv_choose=new InventoryChoose(new Click(){
 				@Override

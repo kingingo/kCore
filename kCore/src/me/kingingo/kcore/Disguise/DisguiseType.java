@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Disguise;
 
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Skeleton.SkeletonType;
 
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Disguise.disguises.livings.*;
@@ -33,6 +34,8 @@ RABBIT,
 VILLAGER,
 WITHER,
 ENDERDRAGON,
+WITHER_SKELETON,
+SKELETON,
 PLAYER;
 
 public static DisguiseBase newDisguise(LivingEntity entity,DisguiseType type,Object[] o){
@@ -62,6 +65,18 @@ public static DisguiseBase newDisguise(LivingEntity entity,DisguiseType type,Obj
 		d4.SetName( (String)o[0] );
 		d4.SetCustomNameVisible(true);
 		return d4;
+	case WITHER_SKELETON: 
+		DisguiseSkeleton s1 = new DisguiseSkeleton(entity);
+		s1.SetName( (String)o[0] );
+		s1.SetCustomNameVisible(true);
+		s1.SetSkeletonType(SkeletonType.WITHER);
+		return s1;
+	case SKELETON: 
+		DisguiseSkeleton s = new DisguiseSkeleton(entity);
+		s.SetName( (String)o[0] );
+		s.SetCustomNameVisible(true);
+		s.SetSkeletonType(SkeletonType.NORMAL);
+		return s;
 	case COW: 
 		DisguiseCow d5 = new DisguiseCow(entity);
 		d5.SetName( (String)o[0] );

@@ -57,14 +57,14 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	public boolean useButton(Player player,ActionType type,ItemStack item,int slot){
 		if(!isSlot(slot,"useButton(Player,ActionType,ItemStack,int)"))return true;
 		for(IButton button : buttons){
-			if(button instanceof ButtonBase){
-				if(button.isSlot(slot)){
-					((ButtonBase)button).Clicked(player, type,item);
-					return button.isCancelled();
-				}
-			}else if(button instanceof ButtonMultiSlotBase){
+			if(button instanceof ButtonMultiSlotBase){
 				if( ((ButtonMultiSlotBase)button).Clicked(slot, player, type, item) ){
 					break;
+				}
+			}else if(button instanceof IButtonOneSlot){
+				if(button.isSlot(slot)){
+					((IButtonOneSlot)button).Clicked(player, type,item);
+					return button.isCancelled();
 				}
 			}
 		}
