@@ -5,6 +5,7 @@ import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import me.kingingo.kcore.PacketAPI.kPacket;
+import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilReflection;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
 import lombok.Getter;
@@ -23,12 +24,13 @@ public class kPacketPlayOutEntityEquipment implements kPacket{
 	}
 	
 	public kPacketPlayOutEntityEquipment(int entityID,int slot,Material material){
-		packet = new PacketPlayOutEntityEquipment();
-		setEntityID(entityID);
-		setSlot(slot);
-		setMaterial(material);
+		this(entityID,slot,new ItemStack(material));
 	}
 	
+	public kPacketPlayOutEntityEquipment(int entityID,int slot,ItemStack item){
+		this(entityID,slot,CraftItemStack.asNMSCopy(item));
+	}
+		
 	public kPacketPlayOutEntityEquipment(int entityID,int slot,net.minecraft.server.v1_8_R3.ItemStack item){
 		packet = new PacketPlayOutEntityEquipment();
 		setEntityID(entityID);
@@ -46,10 +48,6 @@ public class kPacketPlayOutEntityEquipment implements kPacket{
 	
 	public void setItemStack(ItemStack item){
 		UtilReflection.setValue(ITEMSTACK, packet, CraftItemStack.asNMSCopy(item));
-	}
-	
-	public void setMaterial(Material material){
-		UtilReflection.setValue(ITEMSTACK, packet, material == Material.AIR || material == null ? CraftItemStack.asNMSCopy(new ItemStack(Material.AIR)) : CraftItemStack.asNMSCopy(new ItemStack(material)));
 	}
 	
 	public int getSlot(){

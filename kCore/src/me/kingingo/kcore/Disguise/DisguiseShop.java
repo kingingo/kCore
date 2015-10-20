@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import lombok.Getter;
+import me.kingingo.kcore.Disguise.Events.DisguisePlayerLoadEvent;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguiseWither;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
@@ -46,7 +47,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 	private DisguiseManager disguiseManager;
 	@Getter
 	private ArrayList<Player> change_settings = new ArrayList<>();
-	private HashMap<UUID,String> settings = new HashMap<>();
+	private HashMap<UUID,DisguiseType> settings = new HashMap<>();
 	
 	public DisguiseShop(final InventoryBase base,final PermissionManager permissionManager,Gems gems,final Coins coins,DisguiseManager disguiseManager) {
 		super(36, "Disguise Shop");
@@ -263,6 +264,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 		}
 	}
 	
+	DisguisePlayerLoadEvent loadevent;
 	UUID player;
 	DisguiseType type;
 	@EventHandler
@@ -271,12 +273,18 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 		for(int i = 0; i < settings.size(); i++){
 			player=((UUID)settings.keySet().toArray()[i]);
 			if(UtilPlayer.isOnline( player )){
-				try{
-					type=DisguiseType.valueOf(settings.get(player));
-					getDisguiseManager().disguise(Bukkit.getPlayer(player), type);
-				}catch(IllegalArgumentException e){
-					
+				
+				loadevent = new DisguisePlayerLoadEvent(getDisguiseManager(),settings.get(player), Bukkit.getPlayer(player));
+				Bukkit.getPluginManager().callEvent(loadevent);
+				
+				if(loadevent.getType()!=null){
+					try{
+						getDisguiseManager().disguise(Bukkit.getPlayer(player), loadevent.getType());
+					}catch(IllegalArgumentException e){
+						e.printStackTrace();
+					}
 				}
+				
 				settings.remove(player);
 			}
 		}
@@ -284,7 +292,11 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 	
 	public void load(UUID uuid){
 		String sql = getPermissionManager().getMysql().getString("SELECT `disguise` FROM `list_disguise` WHERE uuid='"+uuid+"'");
-		if(!sql.equalsIgnoreCase("null"))settings.put(uuid, sql);
+		if(!sql.equalsIgnoreCase("null")){
+			settings.put(uuid, DisguiseType.valueOf(sql));
+		}else{
+			settings.put(uuid, null);
+		}
 	}
 	
 	@EventHandler(priority=EventPriority.LOW)

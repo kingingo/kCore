@@ -1,6 +1,9 @@
 package me.kingingo.kcore.Inventory.Item;
 
+import me.kingingo.kcore.Util.UtilEvent.ActionType;
+
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public abstract interface IButtonOneSlot extends IButton{
@@ -12,6 +15,8 @@ public abstract interface IButtonOneSlot extends IButton{
 	  public abstract void setMaterial(Material material);
 	  public abstract void setMaterial(Material material,byte data);
 	  public abstract int getSlot();
+	  public abstract Click getClick();
+	  public abstract void Clicked(Player player,ActionType type,Object object);
 	  public abstract void setSlot(int slot);
 	  public abstract ItemStack getItemStack();
 	  public abstract void setItemStack(ItemStack item);

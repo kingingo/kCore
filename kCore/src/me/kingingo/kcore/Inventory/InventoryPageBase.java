@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.Item.IButton;
+import me.kingingo.kcore.Inventory.Item.IButtonMultiSlot;
 import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonMultiSlotBase;
 import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.InventorySplit;
@@ -55,9 +57,15 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	public boolean useButton(Player player,ActionType type,ItemStack item,int slot){
 		if(!isSlot(slot,"useButton(Player,ActionType,ItemStack,int)"))return true;
 		for(IButton button : buttons){
-			if(button.isSlot(slot)){
-				button.Clicked(player, type,item);
-				return button.isCancelled();
+			if(button instanceof ButtonBase){
+				if(button.isSlot(slot)){
+					((ButtonBase)button).Clicked(player, type,item);
+					return button.isCancelled();
+				}
+			}else if(button instanceof ButtonMultiSlotBase){
+				if( ((ButtonMultiSlotBase)button).Clicked(slot, player, type, item) ){
+					break;
+				}
 			}
 		}
 		return true;
@@ -190,9 +198,11 @@ public class InventoryPageBase extends CraftInventoryCustom{
 		for(IButton b : getButtons()){
 			if(b instanceof IButtonOneSlot){
 				if(b instanceof SalesPackageBase){
-					page.addButton(((IButtonOneSlot)b).getSlot(), new SalesPackageBase(b.getClick(), ((SalesPackageBase)b).getPermission(), ((IButtonOneSlot)b).getItemStack() ));
-				}else{
-					page.addButton(((IButtonOneSlot)b).getSlot(), new ButtonBase(b.getClick(), ((IButtonOneSlot)b).getItemStack() ));
+					page.addButton(((IButtonOneSlot)b).getSlot(), new SalesPackageBase(((SalesPackageBase)b).getClick(), ((SalesPackageBase)b).getPermission(), ((IButtonOneSlot)b).getItemStack() ));
+				}else if(b instanceof ButtonBase){
+					page.addButton(((IButtonOneSlot)b).getSlot(), new ButtonBase(((IButtonOneSlot)b).getClick(), ((IButtonOneSlot)b).getItemStack() ));
+				}else if(b instanceof IButtonMultiSlot){
+					
 				}
 			}
 		}

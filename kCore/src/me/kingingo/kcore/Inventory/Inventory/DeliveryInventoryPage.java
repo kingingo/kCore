@@ -6,6 +6,8 @@ import me.kingingo.kcore.DeliveryPet.DeliveryPet;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonMultiSlotBase;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Material;
@@ -41,7 +43,7 @@ public class DeliveryInventoryPage extends InventoryPageBase{
 			if(button.isSlot(slot)){
 				if(button instanceof IButtonOneSlot && ((IButtonOneSlot)button).getItemStack().getType() != Material.REDSTONE_BLOCK){
 					if(((IButtonOneSlot)button).getItemStack().getType()==Material.JUKEBOX){	
-						button.Clicked(player, ActionType.R, ((IButtonOneSlot)button).getItemStack());
+						((IButtonOneSlot)button).Clicked(player, ActionType.R, ((IButtonOneSlot)button).getItemStack());
 						return button.isCancelled();
 					}else{
 						delivery.deliveryUSE(player, item.getType(),false);

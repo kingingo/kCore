@@ -5,6 +5,7 @@ import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonMultiSlotBase;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
@@ -94,17 +95,17 @@ public class InventoryTrade extends InventoryPageBase{
 		t1.openInventory(this);
 	}
 	
-	public boolean useButton(Player player,ActionType type,ItemStack item,int slot){
-		if(!isSlot(slot,"useButton(Player,ActionType,ItemStack,int)"))return true;
-		
-		for(IButton button : getButtons()){
-			if(button.isSlot(slot)){
-				button.Clicked(player, type,item);
-				return button.isCancelled();
-			}
-		}
-		return true;
-	}
+//	public boolean useButton(Player player,ActionType type,ItemStack item,int slot){
+//		if(!isSlot(slot,"useButton(Player,ActionType,ItemStack,int)"))return true;
+//		
+//		for(IButton button : getButtons()){
+//			if(button.isSlot(slot)){
+//				button.Clicked(player, type,item);
+//				return button.isCancelled();
+//			}
+//		}
+//		return true;
+//	}
 	
 	public boolean putItem(Player player,Inventory clickedInv,ItemStack item,int slot){
 		accept_t.setItemStack(UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept"));
