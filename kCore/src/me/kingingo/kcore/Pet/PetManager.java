@@ -25,6 +25,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -342,6 +343,13 @@ public class PetManager implements Listener{
 				 ev.setCancelled(true);
 			 }
 		 }
+	}
+	
+	@EventHandler
+	public void EntityTeleport(EntityTeleportEvent ev){
+		if (((ev.getEntity() instanceof org.bukkit.entity.Creature)) && ((this.activePetOwners.containsValue((org.bukkit.entity.Creature)ev.getEntity())) || (this.petToLocation.containsKey((org.bukkit.entity.Creature)ev.getEntity())) ) ){
+			  
+		}
 	}
 	
 	@EventHandler

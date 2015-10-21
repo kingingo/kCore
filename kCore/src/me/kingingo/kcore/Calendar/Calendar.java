@@ -98,7 +98,7 @@ public class Calendar {
 		NIKOLAUS("05.12","07.12","06.12"),
 		OSTERN("03.04","07.04","05.04"),
 		SILVESTER("31.12","02.01","01.01"),
-		HELLOWEEN("29.10","31.10","31.10");
+		HELLOWEEN("21.10","31.10","31.10");
 		
 		@Getter
 		private String ToDate;

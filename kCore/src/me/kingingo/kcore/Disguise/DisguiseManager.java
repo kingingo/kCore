@@ -6,12 +6,15 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.Disguise.Events.DisguiseCreateEvent;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
+import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Events.PacketSendEvent;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutChat;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutChat.ChatMode;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
@@ -184,6 +187,13 @@ public class DisguiseManager extends kListener {
 	    }
 	}
 	
+	
+	@EventHandler
+	public void create(DisguiseCreateEvent ev){
+		if(ev.getEntity() instanceof Player && ev.getBase() instanceof DisguiseInsentient){
+			sendPacket(((Player)ev.getEntity()), new kPacketPlayOutChat("§eDisguise §7» §a§l"+ ((DisguiseInsentient)ev.getBase()).GetEntityTypeId().name() ,kPacketPlayOutChat.ChatMode.HOVBAR));
+		}
+	}
 	
 	  @EventHandler
 	  public void TeleportDisguises(UpdateEvent event)

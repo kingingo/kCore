@@ -19,6 +19,11 @@ public abstract class DisguiseInsentient extends DisguiseLiving
     this.DataWatcher.a(15, Byte.valueOf((byte)0));
   }
 
+  public String getName()
+  {
+	  return this.DataWatcher.getCustomName();
+  }
+  
   public void SetName(String name)
   {
     this.DataWatcher.setCustomName(name);
