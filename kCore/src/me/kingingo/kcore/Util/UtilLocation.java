@@ -296,6 +296,104 @@ public class UtilLocation {
 		return list;
 	}
 	
+	public static Location getHighestLocInCase(Location center,Material m){
+		Location max = new Location(center.getWorld(),0,0,0);
+		boolean found=false;
+		
+		for(int y = center.getBlockY(); y < (center.getBlockY()+500) ; y++){
+			if(center.getWorld().getBlockAt(center.getBlockX(),y,center.getBlockZ()).getType()==m){
+				max.setY(y-1);
+				found=true;
+				break;
+			}
+		}
+		
+		if(!found){
+			return null;
+		}else{
+			found=false;
+		}
+		
+		for(int x = center.getBlockX(); x < (center.getBlockX()+500) ; x++){
+			if(center.getWorld().getBlockAt(x,center.getBlockY(),center.getBlockZ()).getType()==m){
+				max.setX(x-1);
+				found=true;
+				break;
+			}
+		}
+		
+		if(!found){
+			return null;
+		}else{
+			found=false;
+		}
+		
+		for(int z = center.getBlockZ(); z < (center.getBlockZ()+500) ; z++){
+			if(center.getWorld().getBlockAt(center.getBlockX(),center.getBlockY(),z).getType()==m){
+				max.setZ(z-1);
+				found=true;
+				break;
+			}
+		}
+		
+		if(!found){
+			return null;
+		}else{
+			found=false;
+		}
+		
+		return max;
+	}
+	
+	public static Location getLowestLocInCase(Location center,Material m){
+		Location min = new Location(center.getWorld(),0,0,0);
+		boolean found=false;
+		
+		for(int y = center.getBlockY(); y > (center.getBlockY()-500) ; y--){
+			if(center.getWorld().getBlockAt(center.getBlockX(),y,center.getBlockZ()).getType()==m){
+				min.setY(y+1);
+				found=true;
+				break;
+			}
+		}
+		
+		if(!found){
+			return null;
+		}else{
+			found=false;
+		}
+		
+		for(int x = center.getBlockX(); x > (center.getBlockX()-500) ; x--){
+			if(center.getWorld().getBlockAt(x,center.getBlockY(),center.getBlockZ()).getType()==m){
+				min.setX(x+1);
+				found=true;
+				break;
+			}
+		}
+		
+		if(!found){
+			return null;
+		}else{
+			found=false;
+		}
+		
+		for(int z = center.getBlockZ(); z > (center.getBlockZ()-500) ; z--){
+			if(center.getWorld().getBlockAt(center.getBlockX(),center.getBlockY(),z).getType()==m){
+				min.setZ(z+1);
+				found=true;
+				break;
+			}
+		}
+		
+		if(!found){
+			return null;
+		}else{
+			found=false;
+		}
+		
+		return min;
+	}
+	
 	public static ArrayList<Location> SpiralLocs(World w,int locs,int border,Location loc){
 		ArrayList<Location> list = new ArrayList<>();
 		  	int x;

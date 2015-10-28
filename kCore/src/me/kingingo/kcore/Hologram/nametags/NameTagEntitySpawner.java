@@ -95,6 +95,7 @@ public class NameTagEntitySpawner {
 	public ArmorStand createArmorStand(int index, Location location,double dY, String message) {
 		location.setY(location.getY() + dY - getY());
 		ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+		
 		armorStand.setCustomName(message);
 		armorStand.setCustomNameVisible(true);
 		armorStand.setVisible(false);

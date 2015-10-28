@@ -17,8 +17,12 @@ public class kPacketPlayOutEntityMetadata implements kPacket{
 	private String ID = "a";
 	private String WATCHABLE = "b";
 	
+	public kPacketPlayOutEntityMetadata(PacketPlayOutEntityMetadata packet){
+		this.packet=packet;
+	}
+	
 	public kPacketPlayOutEntityMetadata(){
-		packet=new PacketPlayOutEntityMetadata();
+		this(new PacketPlayOutEntityMetadata());
 	}
 	
 	public kPacketPlayOutEntityMetadata(int entityID,DataWatcher watcher){

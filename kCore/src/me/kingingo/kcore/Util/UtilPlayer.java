@@ -43,10 +43,6 @@ import com.mojang.authlib.GameProfile;
 public class UtilPlayer
 {
 	
-	public static void userPremiumCheck(String username,String pw){
-		
-	}
-	
 	public static void sendPacket(Player player,Packet packet){
 		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 	}

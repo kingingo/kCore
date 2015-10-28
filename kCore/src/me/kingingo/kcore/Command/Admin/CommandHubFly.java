@@ -16,9 +16,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CommandFly extends kListener implements CommandExecutor{
+public class CommandHubFly extends kListener implements CommandExecutor{
 	
-	public CommandFly(JavaPlugin instance){
+	public CommandHubFly(JavaPlugin instance){
 		super(instance,"CommandFly");
 	}
 	
@@ -26,12 +26,19 @@ public class CommandFly extends kListener implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		Player player = (Player)sender;
 		if(player.hasPermission(kPermission.kFLY.getPermissionToString())){
-			if(player.getAllowFlight()){
-				player.setAllowFlight(false);
+			PlayerFlyFirstEvent ev = new PlayerFlyFirstEvent(player);
+			Bukkit.getPluginManager().callEvent(ev);
+			
+			if(ev.isAllowFlight()){
+				PlayerFlyFinalEvent e = new PlayerFlyFinalEvent(player,false);
+				Bukkit.getPluginManager().callEvent(e);
+				player.setAllowFlight(e.isAllowFlight());
 				player.setFlying(false);
 				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "kFLY_OFF"));
 			}else{
-				player.setAllowFlight(true);
+				PlayerFlyFinalEvent e = new PlayerFlyFinalEvent(player,true);
+				Bukkit.getPluginManager().callEvent(e);
+				player.setAllowFlight(e.isAllowFlight());
 				player.setFlying(true);
 				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "kFLY_ON"));
 			}

@@ -55,7 +55,8 @@ public class Coins implements Listener{
 	
 	public void SaveAll(){
 		for(UUID uuid : coins.keySet()){
-			if(change_coins.contains(uuid))addCoins(uuid, 0);
+			if(change_coins.contains(uuid))
+				mysql.Update("UPDATE `coins_list` SET coins='"+coins.get(uuid)+"' WHERE uuid='"+uuid+"'");
 		}
 		coins.clear();
 		change_coins.clear();
@@ -85,52 +86,35 @@ public class Coins implements Listener{
 	}
 	
 	public void CreateAccount(UUID uuid,String name){
-		mysql.Update("INSERT INTO coins_list (name,coins,uuid) values ('"+name+"','0','"+uuid+"');");
+		mysql.Update("INSERT INTO coins_list (name,coins,uuid) SELECT '" +name.toLowerCase()+"','0','"+UtilPlayer.getRealUUID(name,uuid)+"' FROM DUAL WHERE NOT EXISTS (SELECT uuid FROM coins_list WHERE uuid='" +UtilPlayer.getRealUUID(name, uuid)+"');");
 	}
 	
 	public Integer getCoins(Player p){
-		if(coins.containsKey(UtilPlayer.getRealUUID(p)))return coins.get(UtilPlayer.getRealUUID(p));
-		int d = -999;
-		try{
-			ResultSet rs = mysql.Query("SELECT coins FROM coins_list WHERE uuid='" + UtilPlayer.getRealUUID(p) + "'");
-			
-			while(rs.next()){
-				d = rs.getInt(1);
-			}
-			rs.close();
-		}catch (Exception err){	
-			System.err.println(err);
-		}
-		
-		if(d==-999){
-			CreateAccount(UtilPlayer.getRealUUID(p),p.getName().toLowerCase());
-			d=0;
-		}
-		
-		coins.put(UtilPlayer.getRealUUID(p), d);
-		return d;
+		return getCoins(UtilPlayer.getRealUUID(p),p.getName());
 	}
 	
-	public Integer getCoins(UUID uuid){
-		if(coins.containsKey(uuid))return coins.get(uuid);
+	public Integer getCoins(UUID uuid,String name){
+		if(coins.containsKey(UtilPlayer.getRealUUID(name,uuid)))return coins.get(UtilPlayer.getRealUUID(name,uuid));
 		int d = -999;
 		try{
-			ResultSet rs = mysql.Query("SELECT coins FROM coins_list WHERE uuid='" + uuid + "'");
+			ResultSet rs = mysql.Query("SELECT coins FROM coins_list WHERE uuid='" + UtilPlayer.getRealUUID(name,uuid) + "'");
 			
 			while(rs.next()){
 				d = rs.getInt(1);
 			}
 			rs.close();
 		}catch (Exception err){	
-			System.err.println(err);
+			UtilException.catchException(err, "Coins", Bukkit.getIp(), mysql);
 		}
 		
 		if(d==-999){
-			CreateAccount(uuid,"none");
+			CreateAccount(uuid,name.toLowerCase());
 			d=0;
+			coins.put(UtilPlayer.getRealUUID(name,uuid), d);
+		}else{
+			coins.put(UtilPlayer.getRealUUID(name,uuid), d);
 		}
 		
-		coins.put(uuid, d);
 		return d;
 	}
 	
@@ -153,7 +137,7 @@ public class Coins implements Listener{
 					p=(String)give_coins_time.keySet().toArray()[i];
 					if(give_coins_time.get(p) < System.currentTimeMillis()){
 						give_coins_time.remove(p);
-						addCoins(UtilPlayer.getUUID(p, mysql), give_coins.get(p));
+						addCoins(UtilPlayer.getUUID(p, mysql),p, give_coins.get(p));
 						give_coins.remove(p);
 					}
 				}
@@ -170,7 +154,7 @@ public class Coins implements Listener{
 				give_coins_time.remove(packet.getPlayer());
 				
 				if(packet.getServer().contains("loginhub")){
-					addCoins(UtilPlayer.getUUID(packet.getPlayer(), mysql), give_coins.get(packet.getPlayer()));
+					addCoins(UtilPlayer.getUUID(packet.getPlayer(), mysql),packet.getPlayer(), give_coins.get(packet.getPlayer()));
 				}else{
 					ev.getPacketManager().SendPacket(packet.getServer(), new GIVE_COINS(packet.getPlayer(), give_coins.get(packet.getPlayer())));
 				}
@@ -197,19 +181,19 @@ public class Coins implements Listener{
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		if(coins.containsKey(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())))coins.remove(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
-		if(join_Check) getCoins(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
+		if(join_Check) getCoins(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()),ev.getName());
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins,GameType typ){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
 		if(!save){
-			int c = getCoins(UtilPlayer.getRealUUID(p));
+			int c = getCoins(p);
 			if(c<coins)return false;
 			int co=c-coins;
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "COINS_DEL",coins));
 		}else{
-			int c = getCoins(UtilPlayer.getRealUUID(p));
+			int c = getCoins(p);
 			if(c<coins)return false;
 			int co=c-coins;
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
@@ -249,19 +233,19 @@ public class Coins implements Listener{
 		return null;
 	}
 	
-	public void delCoins(UUID uuid,Integer coi){
-		change_coins.remove(uuid);
-		int c = getCoins(uuid);
+	public void delCoins(UUID uuid,String name,Integer coi){
+		change_coins.remove(UtilPlayer.getRealUUID(name, uuid));
+		int c = getCoins(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
-		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+uuid+"'");
+		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
 	}
 	
-	public void addCoins(UUID uuid,Integer coi){
+	public void addCoins(UUID uuid,String name,Integer coi){
 		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.OSTERN))coi=coi*2;
-		change_coins.remove(uuid);
-		int c = getCoins(uuid);
+		change_coins.remove(UtilPlayer.getRealUUID(name, uuid));
+		int c = getCoins(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
-		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+uuid+"'");
+		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins){

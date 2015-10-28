@@ -20,6 +20,7 @@ import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.Util.UtilTime;
@@ -430,6 +431,7 @@ public class GildenManager implements Listener {
 	
 	public void removePlayerEintrag(UUID uuid,String name){
 		Bukkit.getPluginManager().callEvent(new GildePlayerLeaveEvent(getPlayerGilde(uuid), name,uuid, this));
+		getGilden_players().remove(getPlayerGilde(uuid));
 		getGilden_count().remove(getPlayerGilde(uuid));
 		getGilden_player().remove(uuid);
 		mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+"_user WHERE uuid='" + uuid + "'");
@@ -515,6 +517,11 @@ public class GildenManager implements Listener {
 				for(Stats s : gilden_data_musst_saved.get(g).get(typ)){
 					if(!s.isMysql())continue;
 					Object o = gilden_data.get(g).get(typ).get(s);
+					
+					if(UtilDebug.isDebug()){
+						UtilDebug.debug("AllUpdateGilde", new String[]{"Gilde:"+g,"Type:"+typ.name()+"Stats:"+s.getKÜRZEL(),"OBJ:"+o});
+					}
+					
 					if(o instanceof Integer){
 						mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
 					}else if(o instanceof String){
@@ -542,19 +549,35 @@ public class GildenManager implements Listener {
 	public void UpdateGilde(String gilde,GildenType typ){
 		if(!gilden_data_musst_saved.containsKey(gilde))return;
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))return;
-		for(Stats s : gilden_data.get(gilde).get(typ).keySet()){
-			if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))continue;;
-			if(!s.isMysql())continue;
+		Stats s;
+		for(int i = 0; i<gilden_data.get(gilde).get(typ).size();i++){
+			s=(Stats)gilden_data.get(gilde).get(typ).get(i);
+			if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))continue;
+			if(!s.isMysql()){
+				gilden_data.remove(gilde).get(typ).remove(s);
+				continue;
+			}
+			
 			Object o = gilden_data.get(gilde).get(typ).get(s);
+			
+			if(UtilDebug.isDebug()){
+				UtilDebug.debug("UpdateGilde", new String[]{"Gilde:"+gilde,"Type:"+typ.name()+"Stats:"+s.getKÜRZEL(),"OBJ:"+o});
+			}
+			
 			if(o instanceof Integer){
-				mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
+				if(mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'")){
+					gilden_data.remove(gilde).get(typ).remove(s);
+				}
 			}else if(o instanceof String){
-				mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
+				if(mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'")){
+					gilden_data.remove(gilde).get(typ).remove(s);
+				}
 			}else if(o instanceof Double){
-				mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'");
+				if(mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'")){
+					gilden_data.remove(gilde).get(typ).remove(s);
+				}
 			}
 		}
-		gilden_data_musst_saved.get(gilde).remove(typ);
 	}
 	
 	public boolean ExistGilde(String gilde){

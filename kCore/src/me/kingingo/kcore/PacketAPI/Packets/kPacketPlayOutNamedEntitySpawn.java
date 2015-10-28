@@ -27,9 +27,9 @@ public class kPacketPlayOutNamedEntitySpawn implements kPacket{
 	private String UUID = "b";
 	private String ID = "a";
 	private String ITEM = "h";
-	
+		
 	public kPacketPlayOutNamedEntitySpawn(){
-		packet = new PacketPlayOutNamedEntitySpawn();
+		this(new PacketPlayOutNamedEntitySpawn());
 	}
 	
 	public kPacketPlayOutNamedEntitySpawn(PacketPlayOutNamedEntitySpawn packet){

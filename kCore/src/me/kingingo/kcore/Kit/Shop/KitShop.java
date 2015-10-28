@@ -226,16 +226,16 @@ public class KitShop implements Listener {
 		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName()+" "+Language.getText(p,"KIT_SHOP_BUY"));
 		switch(kit.getType()){
 			case KAUFEN:
-				inventory.setItem(3, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§eCoins"));
-				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aGems"));
+				inventory.setItem(3, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§e"+kit.getCoins_preis()+" Coins"));
+				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§a"+kit.getGems_preis()+" Gems"));
 				inventory.setItem(1, kit.getItem());
 				break;
 			case KAUFEN_COINS:
-				inventory.setItem(5, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§eCoins"));
+				inventory.setItem(5, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§e"+kit.getCoins_preis()+" Coins"));
 				inventory.setItem(1, kit.getItem());
 				break;
 			case KAUFEN_GEMS:
-				inventory.setItem(5, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aGems"));
+				inventory.setItem(5, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§a"+kit.getGems_preis()+" Gems"));
 				inventory.setItem(1, kit.getItem());
 				break;
 		}

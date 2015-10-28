@@ -27,8 +27,12 @@ public class kPacketPlayOutSpawnEntityLiving implements kPacket{
 	@Setter
 	private PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving();
 	
+	public kPacketPlayOutSpawnEntityLiving(PacketPlayOutSpawnEntityLiving packet){
+		this.packet = packet;
+	}
+	
 	public kPacketPlayOutSpawnEntityLiving(){
-		packet = new PacketPlayOutSpawnEntityLiving();
+		this(new PacketPlayOutSpawnEntityLiving());
 	}
 	
 	public kPacketPlayOutSpawnEntityLiving(int entityID ,EntityType type ,Location location){

@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Enum.Zeichen;
 import me.kingingo.kcore.Language.Listener.LanguageListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
@@ -36,7 +37,7 @@ public class Language {
 			 while (rs.next()){
 				 if(LanguageType.get(rs.getString(1))==null)continue;
 				 if(!list.containsKey(LanguageType.get(rs.getString(1))))list.put(LanguageType.get(rs.getString(1)), new HashMap<String,String>());
-				 list.get(LanguageType.get(rs.getString(1))).put(rs.getString(2), rs.getString(3));
+				 list.get(LanguageType.get(rs.getString(1))).put(rs.getString(2), rs.getString(3).replaceAll("<3", "♥"));
 			 }
 			 rs.close();
 		}catch (SQLException e){
@@ -570,6 +571,7 @@ public class Language {
 			add(type,"TWITTER_ACC_NOT","§cYou have no Twitter account added!");
 			add(type,"TWITTER_FOLLOW_N","§cYou do not follow @EpicPvPMC any more!");
 			add(type,"TWITTER_REMOVE","§cYou Twitter account has been removed!");
+			add(type,"HEART","§e{INPUT0}§7 has had §c{INPUT1}<3");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -974,6 +976,7 @@ public class Language {
 			add(type,"TWITTER_ACC_NOT","§cDu hast noch keinen Twitter Account hinzugefügt!");
 			add(type,"TWITTER_FOLLOW_N","§cDu folgst @EpicPvPMC nicht mehr!");
 			add(type,"TWITTER_REMOVE","§cDein Twitter Account wurde entfernt!");
+			add(type,"HEART","§e{INPUT0}§7 hat noch §c{INPUT1}§l<3");
 		}
 	}
 	

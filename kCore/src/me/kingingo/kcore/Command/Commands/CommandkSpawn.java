@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Command.Commands;
 
+import me.kingingo.kcore.AntiLogout.AntiLogoutManager;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
@@ -16,6 +17,11 @@ public class CommandkSpawn implements CommandExecutor{
 	private String s;
 	private Long l;
 	private Player p;
+	private AntiLogoutManager manager;
+	
+	public CommandkSpawn(AntiLogoutManager manager){
+		this.manager=manager;
+	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "kspawn", alias = {"ksp"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd,String arg2,String[] args) {
@@ -26,6 +32,7 @@ public class CommandkSpawn implements CommandExecutor{
 				if(s!=null){
 					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "USE_BEFEHL_TIME",s));
 				}else{
+					manager.del(p);
 					p.teleport(Bukkit.getWorld("world").getSpawnLocation());
 					l=UtilTime.getTimeManager().hasPermission(p, cmd.getName());
 					if( l!=0 ){

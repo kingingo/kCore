@@ -90,19 +90,23 @@ public class MySQL
     timings.stopTiming();
   }
   
-  public void Update(String qry) {
+  public boolean Update(String qry) {
 	  timings.startTiming();
-			  try {
-			  	  MySQLUpdateEvent ev=new MySQLUpdateEvent(qry,this);
-				  Bukkit.getPluginManager().callEvent(ev);
-			      Statement stmt = connection.createStatement();
-			      stmt.executeUpdate(ev.getUpdater());
-			      stmt.close();
-			    } catch (Exception ex) {
-			    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.UPDATE,ex,this));
-			    }
-	    timings.stopTiming();
-	  }
+	  
+	  try {
+		  MySQLUpdateEvent ev=new MySQLUpdateEvent(qry,this);
+		  Bukkit.getPluginManager().callEvent(ev);
+		  Statement stmt = connection.createStatement();
+		  stmt.executeUpdate(ev.getUpdater());
+		  stmt.close();
+		  timings.stopTiming();
+		  return true;
+		  } catch (Exception ex) {
+			  Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.UPDATE,ex,this));
+			  timings.stopTiming();
+			  return false;
+		  }
+  }
 	    
   
   public Double getDouble(String qry){

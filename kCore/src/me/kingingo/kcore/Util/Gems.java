@@ -55,7 +55,9 @@ public class Gems implements Listener{
 	
 	public void SaveAll(){
 		for(UUID uuid : gems.keySet()){
-			if(change_gems.contains(uuid))addGems(uuid, 0);
+			if(change_gems.contains(uuid))
+				mysql.Update("UPDATE `gems_list` SET gems='"+gems.get(uuid)+"' WHERE uuid='"+uuid+"'");
+				
 		}
 		gems.clear();
 		change_gems.clear();
@@ -85,33 +87,35 @@ public class Gems implements Listener{
 	}
 	
 	public void CreateAccount(UUID uuid,String name){
-		mysql.Update("INSERT INTO gems_list (name,gems,uuid) values ('"+name+"','0','"+uuid+"');");
+		mysql.Update("INSERT INTO gems_list (name,gems,uuid) SELECT '" +name.toLowerCase()+"','0','"+UtilPlayer.getRealUUID(name,uuid)+"' FROM DUAL WHERE NOT EXISTS (SELECT uuid FROM gems_list WHERE uuid='" +UtilPlayer.getRealUUID(name, uuid)+"');");
 	}
 	
 	public Integer getGems(Player p){
-		return getGems(UtilPlayer.getRealUUID(p));
+		return getGems(UtilPlayer.getRealUUID(p),p.getName());
 	}
 	
-	public Integer getGems(UUID uuid){
-		if(gems.containsKey(uuid))return gems.get(uuid);
+	public Integer getGems(UUID uuid,String name){
+		if(gems.containsKey(UtilPlayer.getRealUUID(name,uuid)))return gems.get(UtilPlayer.getRealUUID(name,uuid));
 		int d = -999;
 		try{
-			ResultSet rs = mysql.Query("SELECT gems FROM gems_list WHERE uuid='" + uuid + "'");
+			ResultSet rs = mysql.Query("SELECT gems FROM gems_list WHERE uuid='" + UtilPlayer.getRealUUID(name,uuid) + "'");
 			
 			while(rs.next()){
 				d = rs.getInt(1);
 			}
 			rs.close();
 		}catch (Exception err){	
-			System.err.println(err);
+			UtilException.catchException(err, "Gems", Bukkit.getIp(), mysql);
 		}
 		
 		if(d==-999){
-			CreateAccount(uuid,"none");
+			CreateAccount(uuid,name);
 			d=0;
+			gems.put(UtilPlayer.getRealUUID(name,uuid), d);
+		}else{
+			gems.put(UtilPlayer.getRealUUID(name,uuid), d);
 		}
 		
-		gems.put(uuid, d);
 		return d;
 	}
 	
@@ -134,7 +138,7 @@ public class Gems implements Listener{
 					p=(String)give_gems_time.keySet().toArray()[i];
 					if(give_gems_time.get(p) < System.currentTimeMillis()){
 						give_gems_time.remove(p);
-						addGems(UtilPlayer.getUUID(p, mysql), give_gems.get(p));
+						addGems(UtilPlayer.getUUID(p, mysql),p, give_gems.get(p));
 						give_gems.remove(p);
 					}
 				}
@@ -151,7 +155,7 @@ public class Gems implements Listener{
 				give_gems_time.remove(packet.getPlayer());
 				
 				if(packet.getServer().contains("loginhub")){
-					addGems(UtilPlayer.getUUID(packet.getPlayer(), mysql), give_gems.get(packet.getPlayer()));
+					addGems(UtilPlayer.getUUID(packet.getPlayer(), mysql),packet.getPlayer(), give_gems.get(packet.getPlayer()));
 				}else{
 					ev.getPacketManager().SendPacket(packet.getServer(), new GIVE_GEMS(packet.getPlayer(), give_gems.get(packet.getPlayer())));
 				}
@@ -178,20 +182,20 @@ public class Gems implements Listener{
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		if(gems.containsKey(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())))gems.remove(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
-		if(join_Check) getGems(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
+		if(join_Check) getGems(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()),ev.getName());
 	}
 	
 	public boolean delGems(Player p,boolean save,Integer coins,GameType typ){
 		if(!change_gems.contains(UtilPlayer.getRealUUID(p)))change_gems.add(UtilPlayer.getRealUUID(p));
 		
 		if(!save){
-			int c = getGems(UtilPlayer.getRealUUID(p));
+			int c = getGems(p);
 			if(c<coins)return false;
 			int co=c-coins;
 			this.gems.put(UtilPlayer.getRealUUID(p), co);
 			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "GEMS_DEL",coins));
 		}else{
-			int c = getGems(UtilPlayer.getRealUUID(p));
+			int c = getGems(p);
 			if(c<coins)return false;
 			int co=c-coins;
 			this.gems.put(UtilPlayer.getRealUUID(p), co);
@@ -231,18 +235,18 @@ public class Gems implements Listener{
 		return null;
 	}
 	
-	public void delGems(UUID uuid,Integer coi){
-		change_gems.remove(uuid);
-		int c = getGems(uuid);
+	public void delGems(UUID uuid,String name,Integer coi){
+		change_gems.remove(UtilPlayer.getRealUUID(name, uuid));
+		int c = getGems(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
-		mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+uuid+"'");
+		mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
 	}
 	
-	public void addGems(UUID uuid,Integer coi){
-		change_gems.remove(uuid);
-		int c = getGems(uuid);
+	public void addGems(UUID uuid,String name,Integer coi){
+		change_gems.remove(UtilPlayer.getRealUUID(name, uuid));
+		int c = getGems(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
-		mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+uuid+"'");
+		mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
 	}
 	
 	public boolean delGems(Player p,boolean save,Integer coins){

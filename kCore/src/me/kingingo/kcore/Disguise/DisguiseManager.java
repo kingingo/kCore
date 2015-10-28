@@ -72,16 +72,16 @@ public class DisguiseManager extends kListener {
 	public void Send(PacketListenerSendEvent ev){
 		if(ev.getPlayer()!=null&&ev.getPacket()!=null){
 			if(ev.getPacket() instanceof PacketPlayOutSpawnEntityLiving){
-				kPacketPlayOutSpawnEntityLiving entityLiving=new kPacketPlayOutSpawnEntityLiving();
-				entityLiving.setPacket(((PacketPlayOutSpawnEntityLiving)ev.getPacket()));
+				kPacketPlayOutSpawnEntityLiving entityLiving=new kPacketPlayOutSpawnEntityLiving(((PacketPlayOutSpawnEntityLiving)ev.getPacket()));
+				
 				if(ev.getPlayer().getEntityId()!=entityLiving.getEntityID()&&getDisguise().containsKey(entityLiving.getEntityID())&&getDisguise().get(entityLiving.getEntityID())!=null){
 					ev.setPacket(getDisguise().get(entityLiving.getEntityID()).GetSpawnPacket().getPacket());
 				}
 				entityLiving.setPacket(null);
 				entityLiving=null;
 			}else if(ev.getPacket() instanceof PacketPlayOutNamedEntitySpawn){
-				kPacketPlayOutNamedEntitySpawn namedEntitySpawn=new kPacketPlayOutNamedEntitySpawn();
-				namedEntitySpawn.setPacket(((PacketPlayOutNamedEntitySpawn)ev.getPacket()));
+				kPacketPlayOutNamedEntitySpawn namedEntitySpawn=new kPacketPlayOutNamedEntitySpawn(((PacketPlayOutNamedEntitySpawn)ev.getPacket()));
+				
 				if(ev.getPlayer().getEntityId()!=namedEntitySpawn.getEntityID()&&getDisguise().containsKey(namedEntitySpawn.getEntityID())){
 					if(getDisguise().get(namedEntitySpawn.getEntityID()) instanceof DisguisePlayer)sendPacket(ev.getPlayer(), ((DisguisePlayer)getDisguise().get(namedEntitySpawn.getEntityID())).getTabList());
 					ev.setPacket(getDisguise().get(namedEntitySpawn.getEntityID()).GetSpawnPacket().getPacket());
@@ -89,8 +89,8 @@ public class DisguiseManager extends kListener {
 				namedEntitySpawn.setPacket(null);
 				namedEntitySpawn=null;
 			}else if(ev.getPacket() instanceof PacketPlayOutEntityMetadata){
-				kPacketPlayOutEntityMetadata entityMetadata=new kPacketPlayOutEntityMetadata();
-				entityMetadata.setPacket(((PacketPlayOutEntityMetadata)ev.getPacket()));
+				kPacketPlayOutEntityMetadata entityMetadata=new kPacketPlayOutEntityMetadata(((PacketPlayOutEntityMetadata)ev.getPacket()));
+				
 				if(ev.getPlayer().getEntityId()!=entityMetadata.getEntityID()&&getDisguise().containsKey(entityMetadata.getEntityID())){
 					ev.setPacket( getDisguise().get(entityMetadata.getEntityID()).GetMetaDataPacket().getPacket());
 				}
