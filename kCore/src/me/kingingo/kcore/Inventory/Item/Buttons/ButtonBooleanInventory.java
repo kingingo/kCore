@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-public class ButtonBoolean implements IButtonOneSlot{
+public class ButtonBooleanInventory implements IButtonOneSlot{
 
 	@Setter
 	@Getter
@@ -40,7 +40,7 @@ public class ButtonBoolean implements IButtonOneSlot{
 	@Setter
 	private boolean cancelled=true;
 	
-	public ButtonBoolean(Click click,String name,boolean toggle){
+	public ButtonBooleanInventory(Click click,String name,boolean toggle){
 		this.click=click;
 		this.name=name;
 		onOroff(toggle);

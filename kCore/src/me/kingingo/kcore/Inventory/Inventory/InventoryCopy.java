@@ -47,7 +47,7 @@ public class InventoryCopy extends InventoryPageBase{
 					for (ButtonForMultiButtons cb : cc.getButtons()) {
 						if(cb instanceof ButtonForMultiButtonsCopy){
 							ccb=(ButtonForMultiButtonsCopy)cb;
-							ccb.getSet().onClick(player, ActionType.AIR, page);
+							if(ccb.getSet()!=null)ccb.getSet().onClick(player, ActionType.AIR, page);
 						}
 					}
 				}

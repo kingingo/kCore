@@ -8,7 +8,6 @@ import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Inventory.Item.IButtonMultiSlot;
 import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
-import me.kingingo.kcore.Inventory.Item.Buttons.ButtonMultiSlotBase;
 import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.InventorySplit;
@@ -57,13 +56,14 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	public boolean useButton(Player player,ActionType type,ItemStack item,int slot){
 		if(!isSlot(slot,"useButton(Player,ActionType,ItemStack,int)"))return true;
 		for(IButton button : buttons){
-			if(button instanceof ButtonMultiSlotBase){
-				if( ((ButtonMultiSlotBase)button).Clicked(slot, player, type, item) ){
-					break;
-				}
-			}else if(button instanceof IButtonOneSlot){
+			if(button instanceof IButtonOneSlot){
 				if(button.isSlot(slot)){
 					((IButtonOneSlot)button).Clicked(player, type,item);
+					return button.isCancelled();
+				}
+			}else if(button instanceof IButtonMultiSlot){
+				if(button.isSlot(slot)){
+					((IButtonMultiSlot)button).Clicked(slot,player, type,item);
 					return button.isCancelled();
 				}
 			}

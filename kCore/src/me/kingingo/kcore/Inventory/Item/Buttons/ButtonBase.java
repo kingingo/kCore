@@ -106,6 +106,6 @@ public class ButtonBase implements IButtonOneSlot{
 	}
 	
 	public void Clicked(Player player, ActionType type,Object object) {
-		click.onClick(player, type,object);
+		if(click!=null)click.onClick(player, type,object);
 	}
 }
