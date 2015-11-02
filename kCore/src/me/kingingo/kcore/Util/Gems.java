@@ -39,7 +39,6 @@ public class Gems implements Listener{
 	private ArrayList<UUID> change_gems = new ArrayList<>();
 	private HashMap<String,Long> give_gems_time = new HashMap<>();
 	private HashMap<String,Integer> give_gems = new HashMap<>();
-	private CalendarType holiday;
 	private ItemStack item;
 	@Getter
 	@Setter
@@ -47,7 +46,6 @@ public class Gems implements Listener{
 	
 	public Gems(MySQL mysql){
 		this.mysql=mysql;
-		this.holiday=Calendar.getHoliday();
 		this.item=UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aGems-Bottle");
 		this.mysql.Update("CREATE TABLE IF NOT EXISTS gems_list(name varchar(30),gems int,uuid varchar(60))");
 		Bukkit.getPluginManager().registerEvents(this, mysql.getInstance());
@@ -120,9 +118,16 @@ public class Gems implements Listener{
 	}
 	
 	public void giveGems(PacketManager packetManager,String player,int gems){
+		player=player.toLowerCase();
 		if(UtilPlayer.isOnline(player)){
 			addGemsWithScoreboardUpdate(Bukkit.getPlayer(player), true, gems);
 		}else{
+			if(give_gems.containsKey(player)){
+				gems+=give_gems.get(player);
+				give_gems.remove(player);
+				give_gems_time.remove(player);
+			}
+
 			give_gems_time.put(player, System.currentTimeMillis()+TimeSpan.SECOND*9);
 			give_gems.put(player, gems);
 			packetManager.SendPacket("BG", new PLAYER_ONLINE(player, packetManager.getC().getName(), "gems", "null"));
@@ -174,7 +179,10 @@ public class Gems implements Listener{
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Quit(PlayerQuitEvent ev){
 		if(gems.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
-			if(change_gems.contains(UtilPlayer.getRealUUID(ev.getPlayer())))addGems(ev.getPlayer(),true,0);
+			if(change_gems.contains(UtilPlayer.getRealUUID(ev.getPlayer()))){
+				mysql.Update("UPDATE `gems_list` SET gems='"+UtilPlayer.getRealUUID(ev.getPlayer())+"' WHERE uuid='"+UtilPlayer.getRealUUID(ev.getPlayer())+"'");
+			}
+			change_gems.remove(UtilPlayer.getRealUUID(ev.getPlayer()));
 			gems.remove(UtilPlayer.getRealUUID(ev.getPlayer()));
 		}
 	}
@@ -239,6 +247,7 @@ public class Gems implements Listener{
 		change_gems.remove(UtilPlayer.getRealUUID(name, uuid));
 		int c = getGems(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
+		this.gems.remove(UtilPlayer.getRealUUID(name, uuid));
 		mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
 	}
 	
@@ -246,6 +255,7 @@ public class Gems implements Listener{
 		change_gems.remove(UtilPlayer.getRealUUID(name, uuid));
 		int c = getGems(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
+		this.gems.remove(UtilPlayer.getRealUUID(name, uuid));
 		mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
 	}
 	

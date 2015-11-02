@@ -69,7 +69,7 @@ public class SERVER_STATUS extends Packet{
 	 this.online = Integer.valueOf(packet[2]).intValue();
 	 this.max_online = Integer.valueOf(packet[3]).intValue();
 	 this.map = packet[4];
-	 this.typ = GameType.valueOf(packet[5]);
+	 this.typ = GameType.get(packet[5]);
 	 this.id = packet[6];
 	 this.apublic=Boolean.valueOf(packet[7]);
 	 this.sign=Integer.valueOf(packet[8]);

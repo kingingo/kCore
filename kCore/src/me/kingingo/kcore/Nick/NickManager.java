@@ -23,6 +23,7 @@ import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutScoreboardTeam;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutScoreboardTeam.Modes;
+import me.kingingo.kcore.PacketAPI.Packets.kPlayerInfoData;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
@@ -30,7 +31,6 @@ import me.kingingo.kcore.Permission.Event.PlayerLoadPermissionEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilScoreboard;
 import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
@@ -142,7 +142,7 @@ public class NickManager extends kListener{
 	public kPacket getTabList(GameProfile g) {
 	      try {
 	         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-	         PlayerInfoData data = packet.new kPlayerInfoData(packet,g,g.getName());
+	         PlayerInfoData data = new kPlayerInfoData(packet,g,g.getName());
 	         List<PlayerInfoData> players = packet.getList();
 	         players.add(data);
 	         

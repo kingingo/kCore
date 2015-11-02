@@ -12,5 +12,9 @@ public class ButtonForMultiButtons extends ButtonBase{
 		setSlot(slot);
 		page.setItem(slot, item);
 	}
+	
+	public void setInventoryPageBase(InventoryPageBase page){
+		page.setItem(getSlot(), getItemStack());
+	}
 
 }

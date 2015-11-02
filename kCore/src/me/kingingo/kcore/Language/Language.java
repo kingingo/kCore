@@ -572,6 +572,7 @@ public class Language {
 			add(type,"TWITTER_FOLLOW_N","§cYou do not follow @EpicPvPMC any more!");
 			add(type,"TWITTER_REMOVE","§cYou Twitter account has been removed!");
 			add(type,"HEART","§e{INPUT0}§7 has had §c{INPUT1}<3");
+			add(type,"VERSUS_CREATIV_AREA","§cYou have to be in the Creativ Area!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -977,6 +978,7 @@ public class Language {
 			add(type,"TWITTER_FOLLOW_N","§cDu folgst @EpicPvPMC nicht mehr!");
 			add(type,"TWITTER_REMOVE","§cDein Twitter Account wurde entfernt!");
 			add(type,"HEART","§e{INPUT0}§7 hat noch §c{INPUT1}§l<3");
+			add(type,"VERSUS_CREATIV_AREA","§cDu musst im Creativ Bereich sein!");
 		}
 	}
 	

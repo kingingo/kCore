@@ -6,6 +6,7 @@ import java.util.Date;
 
 import lombok.Getter;
 import me.kingingo.kcore.Util.TimeSpan;
+import me.kingingo.kcore.Util.UtilTime;
 
 public class Calendar {
 
@@ -30,6 +31,7 @@ public class Calendar {
 		try {
 			Date date = new SimpleDateFormat("dd.MM").parse(d);
 			date.setYear(new Date().getYear());
+			date=UtilTime.getEndOfDay(date);
 			return date;
 		} catch (ParseException e) {
 			e.printStackTrace();

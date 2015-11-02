@@ -34,12 +34,11 @@ public class SERVER_TYPE_CHANGE extends Packet{
 	}
 	
 	public void Set(String packet){
-		String[] split = packet.split("-/-");
-		 this.typ = GameType.valueOf(split[1]);
-		}
+		Set(packet.split("-/-"));
+	}
 
 	public void Set(String[] packet) {
-	 this.typ = GameType.valueOf(packet[1]);
+	 this.typ = GameType.get(packet[1]);
 	}
 	
 	public String toString(){

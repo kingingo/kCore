@@ -97,7 +97,7 @@ public class CommandGems implements CommandExecutor{
 						player.sendMessage(Language.getText(player, "PREFIX")+"/gems get [CSLOT]");
 					}
 				}else if(args[0].equalsIgnoreCase("reload")){
-					shop.getBase().getMain().remove();
+					if(shop.getBase().getMain()!=null)shop.getBase().getMain().remove();
 					shop.getBase().setMain(null);
 					
 					for(int i = 0; i<shop.getBase().getPages().size(); i++){

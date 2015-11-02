@@ -1,6 +1,5 @@
 package me.kingingo.kcore.Disguise;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
@@ -9,35 +8,20 @@ import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
 import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
-import me.kingingo.kcore.Packet.Events.PacketSendEvent;
 import me.kingingo.kcore.PacketAPI.kPacket;
-import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutChat;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutChat.ChatMode;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityTeleport;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityVelocity;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo.kPlayerInfoData;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntity;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
-import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityVelocity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
-import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 
 import org.bukkit.Bukkit;
@@ -45,9 +29,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DisguiseManager extends kListener {
@@ -63,11 +45,6 @@ public class DisguiseManager extends kListener {
 		UtilServer.createPacketListener(instance);
 	}
 	
-//	kPacketPlayOutSpawnEntityLiving entityLiving;
-//	kPacketPlayOutNamedEntitySpawn namedEntitySpawn;
-//	kPacketPlayOutEntityMetadata entityMetadata;
-//	kPacketPlayOutPlayerInfo info;
-//	kPlayerInfoData data;
 	@EventHandler
 	public void Send(PacketListenerSendEvent ev){
 		if(ev.getPlayer()!=null&&ev.getPacket()!=null){
@@ -75,6 +52,7 @@ public class DisguiseManager extends kListener {
 				kPacketPlayOutSpawnEntityLiving entityLiving=new kPacketPlayOutSpawnEntityLiving(((PacketPlayOutSpawnEntityLiving)ev.getPacket()));
 				
 				if(ev.getPlayer().getEntityId()!=entityLiving.getEntityID()&&getDisguise().containsKey(entityLiving.getEntityID())&&getDisguise().get(entityLiving.getEntityID())!=null){
+					if(getDisguise().get(entityLiving.getEntityID()) instanceof DisguisePlayer)sendPacket(ev.getPlayer(), ((DisguisePlayer)getDisguise().get(entityLiving.getEntityID())).getTabList());
 					ev.setPacket(getDisguise().get(entityLiving.getEntityID()).GetSpawnPacket().getPacket());
 				}
 				entityLiving.setPacket(null);

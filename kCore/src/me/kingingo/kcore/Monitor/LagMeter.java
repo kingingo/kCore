@@ -99,6 +99,34 @@ public class LagMeter extends kListener
     }
   }
   
+  public String[] getUpdate(){
+	  String s;
+	  s="Online-Players: "+ UtilServer.getPlayers().size()+"-/-";
+	  	s+="Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) })+"-/-";
+	    s+="Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Max-Mem: "+Runtime.getRuntime().maxMemory() / 1048576L+ "MB"+"-/-";
+	    s+="Online-Time: "+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) )+"-/-";
+	    s+="Time-Now: "+ UtilTime.now()+"-/-";
+	    s+="Worlds:"+"-/-";
+	    
+	    for(World world : Bukkit.getWorlds()){
+	    	int tileEntities = 0;
+	        try
+	        {
+	          for (Chunk chunk : world.getLoadedChunks())
+	          {
+	            tileEntities += chunk.getTileEntities().length;
+	          }
+	        }
+	        catch (ClassCastException ex)
+	        {
+	      	 ex.printStackTrace(); 
+	        }  
+	        s+="       "+world.getName()+": Chunks:"+world.getLoadedChunks().length+" Entities:"+world.getEntities().size()+" Tile:"+tileEntities+"-/-";
+	    }
+	    
+	    return s.split("-/-");
+  }
+  
   public void sendUpdate(){
 	  	System.out.println("Online-Players: "+ UtilServer.getPlayers().size());
 	  	System.out.println("Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));

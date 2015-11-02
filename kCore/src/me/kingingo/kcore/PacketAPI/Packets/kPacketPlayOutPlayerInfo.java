@@ -49,21 +49,4 @@ public class kPacketPlayOutPlayerInfo implements kPacket{
 	public List<PlayerInfoData> getList(){
 		return (List<PlayerInfoData>) UtilReflection.getValue(PLAYER_INFO_DATA_LIST, packet);
 	}
-	
-	public class kPlayerInfoData extends PlayerInfoData{
-
-		public kPlayerInfoData(kPacketPlayOutPlayerInfo packetPlayOutPlayerInfo,kGameProfile profile,String tabName) {
-			packetPlayOutPlayerInfo.getPacket().super(profile, 0, EnumGamemode.NOT_SET, CraftChatMessage.fromString(tabName)[0]);
-		}
-		
-		public kPlayerInfoData(kPacketPlayOutPlayerInfo packetPlayOutPlayerInfo,GameProfile profile,String tabName) {
-			packetPlayOutPlayerInfo.getPacket().super(profile, 0, EnumGamemode.NOT_SET, CraftChatMessage.fromString(tabName)[0]);
-		}
-		
-		public kGameProfile getGameProfile(){
-			return (kGameProfile)UtilReflection.getValue("d", this);
-		}
-		
-	}
-	
 }

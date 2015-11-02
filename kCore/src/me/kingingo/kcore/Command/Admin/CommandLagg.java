@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilServer;
 
@@ -17,10 +18,24 @@ public class CommandLagg implements CommandExecutor{
 			Player player = (Player)sender;
 			
 			if(player.hasPermission(kPermission.MONITOR.getPermissionToString())){
-				UtilServer.getLagMeter().sendUpdate(player);
+				if(args.length==0){
+					UtilServer.getLagMeter().sendUpdate(player);
+				}else{
+					if(args[0].equalsIgnoreCase("gc")){
+						System.gc();
+						player.sendMessage(Language.getText(player, "PREFIX")+"§aSystem GC ausgeführt!");
+					}
+				}	
 			}
 		}else{
-			UtilServer.getLagMeter().sendUpdate();
+			if(args.length==0){
+				UtilServer.getLagMeter().sendUpdate();
+			}else{
+				if(args[0].equalsIgnoreCase("gc")){
+					System.gc();
+					System.out.println("[LagMeter] System GC ausgeführt!");
+				}
+			}	
 		}
 		return false;
 	}

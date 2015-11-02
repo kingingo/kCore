@@ -129,6 +129,9 @@ public class UtilUUID implements Callable<Map<String, UUID>> {
        	 s=sb.toString().substring(8, 40);
         }
         
+        inr.close();
+        reader.close();
+        connection.disconnect();
         
     	return UtilUUID.getUUID(s);
     }

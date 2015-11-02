@@ -3,6 +3,7 @@ package me.kingingo.kcore.Packet;
 import lombok.Getter;
 import me.kingingo.kcore.Client.Client;
 import me.kingingo.kcore.Packet.Events.PacketSendEvent;
+import me.kingingo.kcore.Packet.Packets.ARENA_SETTINGS;
 import me.kingingo.kcore.Packet.Packets.ARENA_STATUS;
 import me.kingingo.kcore.Packet.Packets.BROADCAST;
 import me.kingingo.kcore.Packet.Packets.GIVE_COINS;
@@ -30,7 +31,6 @@ import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TWIITTER_IS_PLAYER_FOLLOWER;
 import me.kingingo.kcore.Packet.Packets.TWITTER_PLAYER_FOLLOW;
-import me.kingingo.kcore.Packet.Packets.VERSUS_SETTINGS;
 import me.kingingo.kcore.Packet.Packets.WORLD_CHANGE_DATA;
 import me.kingingo.kcore.Packet.Packets.YOUTUBE_GET_DATA;
 import me.kingingo.kcore.Packet.Packets.YOUTUBE_IS_DATA;
@@ -94,8 +94,8 @@ public class PacketManager {
 			return new SERVER_READY(packet.split("-/-"));
 		}else if(packet.contains("SERVER_RESET")){
 			return new SERVER_RESET(packet.split("-/-"));
-		}else if(packet.contains("VERSUS_SETTINGS")){
-			return new VERSUS_SETTINGS(packet.split("-/-"));
+		}else if(packet.contains("ARENA_SETTINGS")){
+			return new ARENA_SETTINGS(packet.split("-/-"));
 		}else if(packet.contains("ARENA_STATUS")){
 			return new ARENA_STATUS(packet.split("-/-"));
 		}else if(packet.contains("PLAYER_VOTE")){

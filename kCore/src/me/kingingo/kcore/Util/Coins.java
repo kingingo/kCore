@@ -122,9 +122,16 @@ public class Coins implements Listener{
 		if(UtilPlayer.isOnline(player)){
 			addCoinsWithScoreboardUpdate(Bukkit.getPlayer(player), true, coins);
 		}else{
+			if(give_coins.containsKey(player)){
+				coins+=give_coins.get(player);
+				give_coins.remove(player);
+				give_coins_time.remove(player);
+			}else{
+				packetManager.SendPacket("BG", new PLAYER_ONLINE(player, packetManager.getC().getName(), "coins", "null"));
+			}
+			
 			give_coins_time.put(player, System.currentTimeMillis()+TimeSpan.SECOND*9);
 			give_coins.put(player, coins);
-			packetManager.SendPacket("BG", new PLAYER_ONLINE(player, packetManager.getC().getName(), "coins", "null"));
 		}
 	}
 	

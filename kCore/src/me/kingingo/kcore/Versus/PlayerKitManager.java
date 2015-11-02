@@ -12,6 +12,7 @@ import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Util.UtilInv;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -39,6 +40,9 @@ public class PlayerKitManager{
 					c[i]=null;
 					continue;
 				}else if(c[i].getTypeId()==137){
+					c[i]=null;
+					continue;
+				}else if(c[i].getType()==Material.BARRIER){
 					c[i]=null;
 					continue;
 				}

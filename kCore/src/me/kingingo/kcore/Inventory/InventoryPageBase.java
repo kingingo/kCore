@@ -8,6 +8,10 @@ import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Inventory.Item.IButtonMultiSlot;
 import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonCopy;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonForMultiButtonsCopy;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonMultiCopy;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonMultiSlotBase;
 import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.InventorySplit;
@@ -199,11 +203,17 @@ public class InventoryPageBase extends CraftInventoryCustom{
 			if(b instanceof IButtonOneSlot){
 				if(b instanceof SalesPackageBase){
 					page.addButton(((IButtonOneSlot)b).getSlot(), new SalesPackageBase(((SalesPackageBase)b).getClick(), ((SalesPackageBase)b).getPermission(), ((IButtonOneSlot)b).getItemStack() ));
+				}else if(b instanceof ButtonCopy){
+					page.addButton(((IButtonOneSlot)b).getSlot(), new ButtonCopy(((ButtonCopy)b).getSet(),((ButtonCopy)b).getClick(), ((IButtonOneSlot)b).getItemStack() ));
 				}else if(b instanceof ButtonBase){
 					page.addButton(((IButtonOneSlot)b).getSlot(), new ButtonBase(((IButtonOneSlot)b).getClick(), ((IButtonOneSlot)b).getItemStack() ));
-				}else if(b instanceof IButtonMultiSlot){
-					
-				}
+				} 
+			}else if(b instanceof IButtonMultiSlot){
+				if(b instanceof ButtonMultiCopy){
+					page.addButton(new ButtonMultiCopy( ((ButtonForMultiButtonsCopy[])((ButtonMultiCopy)b).getButtons().clone()) ));
+				}else if(b instanceof ButtonMultiSlotBase){
+					page.addButton(new ButtonMultiSlotBase(((ButtonMultiCopy)b).getButtons()));
+				}	
 			}
 		}
 		

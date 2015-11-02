@@ -1,4 +1,5 @@
 package me.kingingo.kcore.Disguise.disguises;
+import lombok.Getter;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguiseEnderman;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
@@ -15,6 +16,7 @@ import org.bukkit.entity.EntityType;
 public abstract class DisguiseBase
 {
   protected net.minecraft.server.v1_8_R3.Entity Entity;
+  @Getter
   protected kDataWatcher DataWatcher;
   private DisguiseBase _soundDisguise;
 

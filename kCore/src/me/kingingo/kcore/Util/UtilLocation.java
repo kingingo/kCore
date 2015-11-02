@@ -80,7 +80,6 @@ public class UtilLocation {
 	
 	public static Block[] searchBlocks(Material material,int radius, Location startloc){
 		List<Block> list = getScans(radius,true, startloc);
-		Block block = null;
 		Block[] blocks;
 		int i = 0;
 		for(Block b : list){
@@ -96,7 +95,10 @@ public class UtilLocation {
 				i++;
 			}
 		}
-		
+		material=null;
+		radius=0;
+		i=0;
+		startloc=null;
 		list.clear();
 		list=null;
 		return blocks;
@@ -118,6 +120,7 @@ public class UtilLocation {
 	
 	public static List<Block> getScans(int radius,boolean air, Location startloc) {
 		List<Block> list = Lists.newArrayList();
+		Block blockName;
 		final Block block = startloc.getBlock();
 		final int x = block.getX();
 		final int y = block.getY();
@@ -131,8 +134,7 @@ public class UtilLocation {
 		for (int counterX = minX; counterX <= maxX; counterX++) {
 			for (int counterY = minY; counterY <= maxY; counterY++) {
 				for (int counterZ = minZ; counterZ <= maxZ; counterZ++) {
-					final Block blockName = startloc.getWorld().getBlockAt(
-							counterX, counterY, counterZ);
+					blockName = startloc.getWorld().getBlockAt(counterX, counterY, counterZ);
 					if(air&&blockName.getType()==Material.AIR)continue;
 					list.add(blockName);
 				}

@@ -82,7 +82,7 @@ public class ARENA_STATUS extends Packet{
 	 this.state = GameState.valueOf(packet[1]);
 	 this.teams = Integer.valueOf(packet[2]).intValue();
 	 this.team = Integer.valueOf(packet[3]).intValue();
-	 this.typ = GameType.valueOf(packet[4]);
+	 this.typ = GameType.get(packet[4]);
 	 this.arena = packet[5];
 	 this.apublic=Boolean.valueOf(packet[6]);
 	 this.server = packet[7];

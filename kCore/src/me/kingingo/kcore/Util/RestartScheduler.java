@@ -29,6 +29,12 @@ public class RestartScheduler implements Listener{
 	@Getter
 	@Setter
 	private UserDataConfig userData;
+	@Getter
+	@Setter
+	private Coins coins;
+	@Getter
+	@Setter
+	private Gems gems;
 	@Setter
 	@Getter
 	private AntiLogoutManager anti;
@@ -42,6 +48,8 @@ public class RestartScheduler implements Listener{
 		if(gilden!=null)gilden.setOnDisable(true);
 		if(stats!=null)stats.setOnDisable(true);
 		if(anti!=null)anti.setOnDisable(true);
+		if(coins!=null)coins.SaveAll();
+		if(gems!=null)gems.SaveAll();
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	

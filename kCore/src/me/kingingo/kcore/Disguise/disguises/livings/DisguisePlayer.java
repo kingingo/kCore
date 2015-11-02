@@ -3,30 +3,31 @@ package me.kingingo.kcore.Disguise.disguises.livings;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-
-import com.mojang.authlib.GameProfile;
-
+import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Disguise.disguises.DisguiseHuman;
 import me.kingingo.kcore.PacketAPI.kPacket;
-import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
 import me.kingingo.kcore.PacketAPI.Packets.kGameProfile;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo.kPlayerInfoData;
-import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilServer;
-import net.minecraft.server.v1_8_R3.DataWatcher;
-import net.minecraft.server.v1_8_R3.Packet;
+import me.kingingo.kcore.PacketAPI.Packets.kPlayerInfoData;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
+
+import org.bukkit.entity.EntityType;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class DisguisePlayer extends DisguiseHuman
 {
   private String _name;
-
+  @Getter
+  private UUID uuid;
+  @Getter
+  private kGameProfile profile;
+  @Getter
+  @Setter
+  private boolean tab=false;
+  
   public DisguisePlayer(org.bukkit.entity.Entity entity, String name)
   {
     super(entity);
@@ -39,7 +40,17 @@ public class DisguisePlayer extends DisguiseHuman
     }
 
     this._name = name;
+    this.uuid=entity.getUniqueId();
     this.DataWatcher.setCustomName(_name);
+    this.profile=new kGameProfile(this.uuid, this._name);
+  }
+  
+  public void loadSkin(JavaPlugin instance){
+	  loadSkin(instance,this.uuid);
+  }
+  
+  public void loadSkin(JavaPlugin instance,UUID uuid){
+	  this.profile.loadSkin(instance,uuid);
   }
   
   public String getName(){
@@ -49,7 +60,7 @@ public class DisguisePlayer extends DisguiseHuman
   public kPacket updateTabList(String prefix) {
       try {
          kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.Entity.getUniqueID(), this._name),prefix+this._name);
+         PlayerInfoData data = new kPlayerInfoData(packet,this.profile,prefix+this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
          
@@ -66,7 +77,7 @@ public class DisguisePlayer extends DisguiseHuman
   public kPacket getTabList(String prefix) {
       try {
          kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.Entity.getUniqueID(), this._name), prefix+this._name);
+         PlayerInfoData data = new kPlayerInfoData(packet,this.profile, prefix+this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
          
@@ -83,7 +94,7 @@ public class DisguisePlayer extends DisguiseHuman
   public kPacket getTabList() {
       try {
          kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.Entity.getUniqueID(), this._name), this._name);
+         PlayerInfoData data = new kPlayerInfoData(packet,this.profile, this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
          
@@ -100,7 +111,7 @@ public class DisguisePlayer extends DisguiseHuman
   public kPacket removeFromTablist() {
 	   try {
 	         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-	         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.Entity.getUniqueID(), this._name), _name);
+	         PlayerInfoData data = new kPlayerInfoData(packet,this.profile, _name);
 	         List<PlayerInfoData> players = packet.getList();
 	         players.add(data);
 	         
@@ -117,7 +128,7 @@ public class DisguisePlayer extends DisguiseHuman
   public kPacket GetSpawnPacket(){
 	  kPacketPlayOutNamedEntitySpawn packet = new kPacketPlayOutNamedEntitySpawn();
 	  packet.setEntityID(this.Entity.getId());
-	  packet.setUUID(this.Entity.getUniqueID());
+	  packet.setUUID(uuid);
 	  packet.setX(this.Entity.locX);
 	  packet.setY(this.Entity.locY);
 	  packet.setZ(this.Entity.locZ);

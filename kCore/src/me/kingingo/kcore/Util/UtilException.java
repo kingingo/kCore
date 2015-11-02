@@ -11,6 +11,20 @@ import me.kingingo.kcore.MySQL.MySQL;
 
 public class UtilException {
 	
+	public static void catchException(String Server,String IP,MySQL sql,String msg){
+		System.err.println("[EpicPvP] "+msg);
+
+		Date MyDate = new Date();
+		SimpleDateFormat df2 = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+		df2.setTimeZone(TimeZone.getDefault());
+		df2.format(MyDate);
+		Calendar gc2 = new GregorianCalendar();
+		Date now = gc2.getTime();
+		
+		sql.Update("CREATE TABLE IF NOT EXISTS list_exception(server varchar(30),ip varchar(30),time varchar(30),exceptiontype varchar(30),message varchar(200))");
+		sql.Update("INSERT INTO list_exception (server,ip,time,exceptiontype,message) VALUES ('"+Server+"','"+IP+"','"+df2.format(now)+"','"+msg+"','"+msg+"');");
+	}
+	
 	public static void catchException(Exception e,String Server,String IP,MySQL sql){
 		String exception = "Exception";
 		if(e instanceof NullPointerException){

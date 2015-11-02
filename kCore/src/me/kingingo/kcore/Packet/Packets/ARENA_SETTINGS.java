@@ -8,7 +8,7 @@ import me.kingingo.kcore.Versus.VersusType;
 
 import org.bukkit.entity.Player;
 
-public class VERSUS_SETTINGS extends Packet{
+public class ARENA_SETTINGS extends Packet{
 
 	@Getter
 	private VersusType type;
@@ -26,7 +26,7 @@ public class VERSUS_SETTINGS extends Packet{
 	@Getter
 	private int max_team;
 	
-	public VERSUS_SETTINGS(VersusType type,String arena,String kit,Player player,Team team,int min_team,int max_team){
+	public ARENA_SETTINGS(VersusType type,String arena,String kit,Player player,Team team,int min_team,int max_team){
 		this.type=type;
 		this.player=player.getName();
 		this.kit=kit;
@@ -36,16 +36,16 @@ public class VERSUS_SETTINGS extends Packet{
 		this.min_team=min_team;
 	}
 	
-	public VERSUS_SETTINGS(String[] data){
+	public ARENA_SETTINGS(String[] data){
 		Set(data);
 	}
 	
-	public VERSUS_SETTINGS(String data){
+	public ARENA_SETTINGS(String data){
 		Set(data);
 	}
 	
-	public VERSUS_SETTINGS create(String[] packet){
-		return new VERSUS_SETTINGS(packet);
+	public ARENA_SETTINGS create(String[] packet){
+		return new ARENA_SETTINGS(packet);
 	}
 	
 	public void Set(String data){
@@ -63,7 +63,7 @@ public class VERSUS_SETTINGS extends Packet{
 	}
 	
 	public String getName(){
-		return "VERSUS_SETTINGS";
+		return "ARENA_SETTINGS";
 	}
 	
 	public String toString(){

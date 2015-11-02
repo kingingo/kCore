@@ -45,6 +45,10 @@ public class UtilMath
     return offset2d(a.getLocation().toVector(), b.getLocation().toVector());
   }
   
+  public static short prozentRechnen(int prozent, short max){
+	  return UtilNumber.toShort( ((max*prozent)/100) );
+  }
+  
   public static double RandomDouble(double start,double end){
 	  double random = new Random().nextDouble();
 	  double result = start + (random * (end - start));

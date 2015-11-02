@@ -8,6 +8,7 @@ public class DummyEntity extends Entity
   public DummyEntity(World world)
   {
     super(world);
+    
   }
 
   protected void c()

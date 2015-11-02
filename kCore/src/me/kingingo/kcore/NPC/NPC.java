@@ -17,19 +17,17 @@ import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityTeleport;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutRelEntityMoveLook;
+import me.kingingo.kcore.PacketAPI.Packets.kPlayerInfoData;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_8_R3.DataWatcher;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import com.mojang.authlib.GameProfile;
 
 public class NPC {
    
@@ -160,7 +158,7 @@ public class NPC {
       try{
          kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
          
-         PlayerInfoData data = packet.new kPlayerInfoData(packet, new kGameProfile(getUUID(), name),name);
+         PlayerInfoData data = new kPlayerInfoData(packet, new kGameProfile(getUUID(), name),name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
 
@@ -181,7 +179,7 @@ public class NPC {
    private void addToTablist() {
       try {
          kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.uuid, this.name), tablist);
+         PlayerInfoData data = new kPlayerInfoData(packet,new kGameProfile(this.uuid, this.name), tablist);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
          
@@ -201,7 +199,7 @@ public class NPC {
    private void removeFromTablist() {
 	   try {
 	         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-	         PlayerInfoData data = packet.new kPlayerInfoData(packet,new kGameProfile(this.uuid, this.name), tablist);
+	         PlayerInfoData data = new kPlayerInfoData(packet,new kGameProfile(this.uuid, this.name), tablist);
 	         List<PlayerInfoData> players = packet.getList();
 	         players.add(data);
 	         
