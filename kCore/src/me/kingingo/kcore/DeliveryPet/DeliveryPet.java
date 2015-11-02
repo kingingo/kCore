@@ -57,6 +57,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffectType;
@@ -464,7 +465,7 @@ public class DeliveryPet extends kListener{
 	}
 	
 	@EventHandler
-	public void Open(PlayerInteractAtEntityEvent ev){
+	public void Open(PlayerInteractEntityEvent ev){
 		if(ev.getRightClicked().getEntityId() == jockey.getEntityId()||(this.entity!=null&&ev.getRightClicked().getEntityId() == entity.getEntityId())){
 			ev.setCancelled(true);
 			if(!players.containsKey(ev.getPlayer())){
