@@ -1,4 +1,5 @@
 package me.kingingo.kcore.Monitor;
+import java.io.File;
 import java.util.HashSet;
 
 import lombok.Getter;
@@ -11,26 +12,21 @@ import me.kingingo.kcore.Command.Admin.CommandUnloadChunks;
 import me.kingingo.kcore.Command.Commands.CommandPing;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilDebug;
+import me.kingingo.kcore.Util.UtilFile;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import com.earth2me.essentials.commands.Commandunban;
 
 public class LagMeter extends kListener
 {
@@ -151,6 +147,94 @@ public class LagMeter extends kListener
 	        System.out.println("       "+world.getName()+": Chunks:"+world.getLoadedChunks().length+" Entities:"+world.getEntities().size()+" Tile:"+tileEntities);
 	    }
 	  }
+  
+	public void unloadChunks(String world,Player player){
+		long timings=0;
+		String list = null;
+		String list1=null;
+		
+		if(UtilDebug.isDebug()){
+			list="";
+			list1="";
+		}
+		
+		if(world==null){
+			int a = 0;
+            for(World w : Bukkit.getWorlds()){
+        		if(UtilDebug.isDebug()){
+        			list+="World: "+w.getName()+"-/-";
+        		}
+            	for(Chunk ch : w.getLoadedChunks()){
+            		if(UtilDebug.isDebug())timings = System.currentTimeMillis();
+            		if(ch.unload(true, true)){
+            			a++;
+            		}
+            		if(UtilDebug.isDebug()){
+            			timings = System.currentTimeMillis() - timings;
+            			if(timings==0){
+            				list1+="Chunk-X: "+ch.getX()+" Chunk-Z: "+ch.getZ()+" unload-time: "+timings+" ("+UtilTime.formatMili(timings)+") -/-";
+            			}else{
+            				list+="Chunk-X: "+ch.getX()+" Chunk-Z: "+ch.getZ()+" unload-time: "+timings+" ("+UtilTime.formatMili(timings)+") -/-";
+            			}
+            		}
+            	}
+            	
+            	if(UtilDebug.isDebug()){
+            		list+=list1;
+            		UtilFile.createFile(new File("kdebug"),UtilTime.now()+".txt", list);
+            	}
+            }
+            if(player!=null){
+            	player.sendMessage(Language.getText(player, "PREFIX")+" unloaded Chunks:§e "+a);
+            }else{
+                System.out.println(" unloaded Chunks: "+a);
+            }
+		}else{
+			if(Bukkit.getWorld(world)!=null){
+				int a = 0;
+
+        		if(UtilDebug.isDebug()){
+        			list="";
+        			list1="";
+        			list+="World: "+world+"-/-";
+        		}
+                for(Chunk ch : Bukkit.getWorld(world).getLoadedChunks()){
+            		if(UtilDebug.isDebug())timings = System.currentTimeMillis();
+                	if(ch.unload(true, true)){
+                		a++;
+                	}
+            		if(UtilDebug.isDebug()){
+            			timings = System.currentTimeMillis() - timings;
+            			if(timings==0){
+            				list1+="Chunk-X: "+ch.getX()+" Chunk-Z: "+ch.getZ()+" unload-time: "+timings+" ("+UtilTime.formatMili(timings)+") -/-";
+            			}else{
+            				list+="Chunk-X: "+ch.getX()+" Chunk-Z: "+ch.getZ()+" unload-time: "+timings+" ("+UtilTime.formatMili(timings)+") -/-";
+            			}
+            		}
+                }
+                
+                if(UtilDebug.isDebug()){
+            		list+=list1;
+            		UtilFile.createFile(new File("kdebug"),UtilTime.now()+".txt", list);
+            	}
+                
+                if(player!=null){
+               	 	player.sendMessage(Language.getText(player, "PREFIX")+" unloaded Chunks from "+world+":§e "+a);
+                }else{
+                	System.out.println("unloaded Chunks from "+world+": "+a);
+                }
+			}else{
+                if(player!=null){
+	                player.sendMessage(Language.getText(player, "PREFIX")+"§cThe world §e"+world+"§c was not found!");
+                }else{
+					System.out.println("The world "+world+" was not found!");
+                }
+			}
+		}
+		list=null;
+		list1=null;
+		timings=0;
+	}
 
   public void sendUpdate(Player player){
     player.sendMessage(" ");

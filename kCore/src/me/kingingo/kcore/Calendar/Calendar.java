@@ -39,14 +39,26 @@ public class Calendar {
 		return null;
 	}
 	
+	public static Date fromDate(String d){
+		try {
+			Date date = new SimpleDateFormat("dd.MM").parse(d);
+			date.setYear(new Date().getYear());
+			date=UtilTime.getStartOfDay(date);
+			return date;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static boolean FromToTime(String FromDate,String ToDate){
 		Date date = new Date();
 		if( Integer.valueOf(new SimpleDateFormat("MM").format(toDate(FromDate)))==12 && Integer.valueOf(new SimpleDateFormat("MM").format(toDate(ToDate)))==01 ){
 			Date to = toDate(ToDate);
 			to.setYear(to.getYear()+1);
-			return (date.getTime() >= toDate(FromDate).getTime() && date.getTime() <= to.getTime());
+			return (date.getTime() >= fromDate(FromDate).getTime() && date.getTime() <= to.getTime());
 		}
-		return (date.getTime() >= toDate(FromDate).getTime() && date.getTime() <= toDate(ToDate).getTime());
+		return (date.getTime() >= fromDate(FromDate).getTime() && date.getTime() <= toDate(ToDate).getTime());
 	}
 	
 	public static boolean isFixHolidayDate(CalendarType type){
@@ -95,7 +107,8 @@ public class Calendar {
 	}
 	
 	public enum CalendarType {
-		GEBURSTAG("04.11","08.11", "06.11"),
+		GEBURSTAG_MANUEL("24.02","26.02", "25.02"),
+		GEBURSTAG("05.11","07.11", "06.11"),
 		WEIHNACHTEN("01.12","24.12","24.12"),
 		NIKOLAUS("05.12","07.12","06.12"),
 		OSTERN("03.04","07.04","05.04"),

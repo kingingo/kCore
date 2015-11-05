@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.UUID;
 
+import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
 import me.kingingo.kcore.Enum.Zeichen;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.PacketAPI.kPacket;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutChat;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
@@ -42,6 +44,10 @@ import com.mojang.authlib.GameProfile;
 
 public class UtilPlayer
 {
+	
+	public static void sendHovbarText(Player player,String text){
+		sendPacket(player, new kPacketPlayOutChat(text.replaceAll("&", "§"),kPacketPlayOutChat.ChatMode.HOVBAR));
+	}
 	
 	public static void sendPacket(Player player,Packet packet){
 		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);

@@ -213,7 +213,7 @@ public class Coins implements Listener{
 	
 	public void addCoins(Player p,boolean save,Integer coins,GameType typ){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
-		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coins=coins*2;
+		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.GEBURSTAG_MANUEL))coins=coins*2;
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;
@@ -248,7 +248,7 @@ public class Coins implements Listener{
 	}
 	
 	public void addCoins(UUID uuid,String name,Integer coi){
-		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.OSTERN))coi=coi*2;
+		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coi=coi*2;
 		change_coins.remove(UtilPlayer.getRealUUID(name, uuid));
 		int c = getCoins(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
@@ -315,7 +315,7 @@ public class Coins implements Listener{
 	
 	public void addCoinsWithScoreboardUpdate(Player p,boolean save,Integer coins){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
-		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.OSTERN))coins=coins*2;
+		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.GEBURSTAG_MANUEL))coins=coins*2;
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;
@@ -349,7 +349,7 @@ public class Coins implements Listener{
 	
 	public void addCoins(Player p,boolean save,Integer coins){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
-		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.OSTERN))coins=coins*2;
+		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.GEBURSTAG_MANUEL))coins=coins*2;
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;

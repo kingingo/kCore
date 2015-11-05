@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Disguise.Events.DisguiseCreateEvent;
+import me.kingingo.kcore.Disguise.Events.DisguiseEntityLivingEvent;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
@@ -48,32 +49,36 @@ public class DisguiseManager extends kListener {
 	@EventHandler
 	public void Send(PacketListenerSendEvent ev){
 		if(ev.getPlayer()!=null&&ev.getPacket()!=null){
-			if(ev.getPacket() instanceof PacketPlayOutSpawnEntityLiving){
-				kPacketPlayOutSpawnEntityLiving entityLiving=new kPacketPlayOutSpawnEntityLiving(((PacketPlayOutSpawnEntityLiving)ev.getPacket()));
-				
-				if(ev.getPlayer().getEntityId()!=entityLiving.getEntityID()&&getDisguise().containsKey(entityLiving.getEntityID())&&getDisguise().get(entityLiving.getEntityID())!=null){
-					if(getDisguise().get(entityLiving.getEntityID()) instanceof DisguisePlayer)sendPacket(ev.getPlayer(), ((DisguisePlayer)getDisguise().get(entityLiving.getEntityID())).getTabList());
-					ev.setPacket(getDisguise().get(entityLiving.getEntityID()).GetSpawnPacket().getPacket());
+			try{
+				if(ev.getPacket() instanceof PacketPlayOutSpawnEntityLiving){
+					kPacketPlayOutSpawnEntityLiving entityLiving=new kPacketPlayOutSpawnEntityLiving(((PacketPlayOutSpawnEntityLiving)ev.getPacket()));
+					
+					if(ev.getPlayer().getEntityId()!=entityLiving.getEntityID()&&getDisguise().containsKey(entityLiving.getEntityID())&&getDisguise().get(entityLiving.getEntityID())!=null){
+						if(getDisguise().get(entityLiving.getEntityID()) instanceof DisguisePlayer)sendPacket(ev.getPlayer(), ((DisguisePlayer)getDisguise().get(entityLiving.getEntityID())).getTabList());
+						ev.setPacket(getDisguise().get(entityLiving.getEntityID()).GetSpawnPacket().getPacket());
+					}
+					entityLiving.setPacket(null);
+					entityLiving=null;
+				}else if(ev.getPacket() instanceof PacketPlayOutNamedEntitySpawn){
+					kPacketPlayOutNamedEntitySpawn namedEntitySpawn=new kPacketPlayOutNamedEntitySpawn(((PacketPlayOutNamedEntitySpawn)ev.getPacket()));
+					
+					if(ev.getPlayer().getEntityId()!=namedEntitySpawn.getEntityID()&&getDisguise().containsKey(namedEntitySpawn.getEntityID())){
+						if(getDisguise().get(namedEntitySpawn.getEntityID()) instanceof DisguisePlayer)sendPacket(ev.getPlayer(), ((DisguisePlayer)getDisguise().get(namedEntitySpawn.getEntityID())).getTabList());
+						ev.setPacket(getDisguise().get(namedEntitySpawn.getEntityID()).GetSpawnPacket().getPacket());
+					}
+					namedEntitySpawn.setPacket(null);
+					namedEntitySpawn=null;
+				}else if(ev.getPacket() instanceof PacketPlayOutEntityMetadata){
+					kPacketPlayOutEntityMetadata entityMetadata=new kPacketPlayOutEntityMetadata(((PacketPlayOutEntityMetadata)ev.getPacket()));
+					
+					if(ev.getPlayer().getEntityId()!=entityMetadata.getEntityID()&&getDisguise().containsKey(entityMetadata.getEntityID())){
+						ev.setPacket( getDisguise().get(entityMetadata.getEntityID()).GetMetaDataPacket().getPacket());
+					}
+					entityMetadata.setPacket(null);
+					entityMetadata=null;
 				}
-				entityLiving.setPacket(null);
-				entityLiving=null;
-			}else if(ev.getPacket() instanceof PacketPlayOutNamedEntitySpawn){
-				kPacketPlayOutNamedEntitySpawn namedEntitySpawn=new kPacketPlayOutNamedEntitySpawn(((PacketPlayOutNamedEntitySpawn)ev.getPacket()));
-				
-				if(ev.getPlayer().getEntityId()!=namedEntitySpawn.getEntityID()&&getDisguise().containsKey(namedEntitySpawn.getEntityID())){
-					if(getDisguise().get(namedEntitySpawn.getEntityID()) instanceof DisguisePlayer)sendPacket(ev.getPlayer(), ((DisguisePlayer)getDisguise().get(namedEntitySpawn.getEntityID())).getTabList());
-					ev.setPacket(getDisguise().get(namedEntitySpawn.getEntityID()).GetSpawnPacket().getPacket());
-				}
-				namedEntitySpawn.setPacket(null);
-				namedEntitySpawn=null;
-			}else if(ev.getPacket() instanceof PacketPlayOutEntityMetadata){
-				kPacketPlayOutEntityMetadata entityMetadata=new kPacketPlayOutEntityMetadata(((PacketPlayOutEntityMetadata)ev.getPacket()));
-				
-				if(ev.getPlayer().getEntityId()!=entityMetadata.getEntityID()&&getDisguise().containsKey(entityMetadata.getEntityID())){
-					ev.setPacket( getDisguise().get(entityMetadata.getEntityID()).GetMetaDataPacket().getPacket());
-				}
-				entityMetadata.setPacket(null);
-				entityMetadata=null;
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 	}
@@ -96,6 +101,7 @@ public class DisguiseManager extends kListener {
 		sendPacket(player, new kPacketPlayOutEntityDestroy(new int[] { disguise.GetEntityId() }));
 		if(disguise instanceof DisguisePlayer)sendPacket(player, ((DisguisePlayer)disguise).getTabList());
 		sendPacket(player, disguise.GetSpawnPacket());
+		Bukkit.getPluginManager().callEvent(new DisguiseEntityLivingEvent(this, disguise, player));
 	}
 	
 	public void disguise(LivingEntity entity,DisguiseType type){
@@ -108,6 +114,7 @@ public class DisguiseManager extends kListener {
 				disguise(player, disguise);
 			}
 		}
+		Bukkit.getPluginManager().callEvent(new DisguiseEntityLivingEvent(this, disguise, entity));
 	}
 	
 	public void disguise(LivingEntity entity,DisguiseType type,Object[] o){
@@ -120,6 +127,7 @@ public class DisguiseManager extends kListener {
 				disguise(player, disguise);
 			}
 		}
+		Bukkit.getPluginManager().callEvent(new DisguiseEntityLivingEvent(this, disguise, entity));
 	}
 	
 	public void disguise(DisguiseBase disguise){
@@ -129,6 +137,7 @@ public class DisguiseManager extends kListener {
 				disguise(player, disguise);
 			}
 		}
+		if(disguise.GetEntity() instanceof LivingEntity)Bukkit.getPluginManager().callEvent(new DisguiseEntityLivingEvent(this, disguise,(LivingEntity) disguise.GetEntity()));
 	}
 	
 	public void undisguiseAll(){
@@ -169,7 +178,7 @@ public class DisguiseManager extends kListener {
 	@EventHandler
 	public void create(DisguiseCreateEvent ev){
 		if(ev.getEntity() instanceof Player && ev.getBase() instanceof DisguiseInsentient){
-			sendPacket(((Player)ev.getEntity()), new kPacketPlayOutChat("§eDisguise §7» §a§l"+ ((DisguiseInsentient)ev.getBase()).GetEntityTypeId().name() ,kPacketPlayOutChat.ChatMode.HOVBAR));
+			UtilPlayer.sendHovbarText(((Player)ev.getEntity()), "§eDisguise §7» §a§l"+ ((DisguiseInsentient)ev.getBase()).GetEntityTypeId().name());
 		}
 	}
 	

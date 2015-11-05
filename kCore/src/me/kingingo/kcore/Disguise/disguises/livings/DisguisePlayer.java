@@ -11,6 +11,7 @@ import me.kingingo.kcore.PacketAPI.Packets.kGameProfile;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
 import me.kingingo.kcore.PacketAPI.Packets.kPlayerInfoData;
+import me.kingingo.kcore.Util.SkinData;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 
@@ -43,6 +44,10 @@ public class DisguisePlayer extends DisguiseHuman
     this.uuid=entity.getUniqueId();
     this.DataWatcher.setCustomName(_name);
     this.profile=new kGameProfile(this.uuid, this._name);
+  }
+  
+  public void loadSkin(SkinData data){
+	  if(data!=null)this.profile.loadSkin(data);
   }
   
   public void loadSkin(JavaPlugin instance){

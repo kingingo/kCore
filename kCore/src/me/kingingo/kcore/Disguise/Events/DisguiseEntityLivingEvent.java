@@ -3,7 +3,6 @@ package me.kingingo.kcore.Disguise.Events;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Disguise.DisguiseManager;
-import me.kingingo.kcore.Disguise.DisguiseType;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Packet.Packet;
 import me.kingingo.kcore.Pet.PetManager;
@@ -12,28 +11,22 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class DisguisePlayerLoadEvent extends Event{
+public class DisguiseEntityLivingEvent extends Event{
 	private static HandlerList handlers = new HandlerList();
 	@Getter
 	private DisguiseManager disguiseManager;
 	@Getter
-	private Player player;
+	private DisguiseBase base;
 	@Getter
-	@Setter
-	private DisguiseType type;
-	@Getter
-	@Setter
-	private Object[] object;
+	private LivingEntity entity;
 	
-	public DisguisePlayerLoadEvent(DisguiseManager disguiseManager,DisguiseType type,Player player){
-		this.player=player;
+	public DisguiseEntityLivingEvent(DisguiseManager disguiseManager,DisguiseBase base,LivingEntity entity){
+		this.base=base;
+		this.entity=entity;
 		this.disguiseManager=disguiseManager;
-		this.type=type;
-		this.object=null;
 	}
 	
 	@Override

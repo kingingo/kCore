@@ -279,7 +279,11 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				
 				if(loadevent.getType()!=null){
 					try{
-						getDisguiseManager().disguise(Bukkit.getPlayer(player), loadevent.getType());
+						if(loadevent.getObject()!=null){
+							getDisguiseManager().disguise(Bukkit.getPlayer(player), loadevent.getType(),loadevent.getObject());
+						}else{
+							getDisguiseManager().disguise(Bukkit.getPlayer(player), loadevent.getType());
+						}
 					}catch(IllegalArgumentException e){
 						e.printStackTrace();
 					}

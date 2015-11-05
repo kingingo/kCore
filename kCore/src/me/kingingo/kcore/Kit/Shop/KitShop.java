@@ -289,7 +289,8 @@ public class KitShop implements Listener {
 					if(ev.getCurrentItem().getType()==Material.GOLD_NUGGET){
 						int c = getCoins().getCoins(p);
 						if(c>=kit.getCoins_preis()){
-							getCoins().delCoins(p, true, kit.getCoins_preis());
+							getCoins().delCoinsWithScoreboardUpdate(p, true, kit.getCoins_preis());
+//							getCoins().delCoins(p, true, kit.getCoins_preis());
 							getPermManager().addPermission(p, kit.getPermission());
 							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
 						}else{
@@ -298,7 +299,8 @@ public class KitShop implements Listener {
 					}else if(ev.getCurrentItem().getType()==Material.EMERALD){
 						int c = getGems().getGems(p);
 						if(c>=kit.getGems_preis()){
-							getGems().delGems(p, true, kit.getGems_preis());
+							getGems().delGemsWithScoreboardUpdate(p, true, kit.getGems_preis());
+//							getGems().delGems(p, true, kit.getGems_preis());
 							getPermManager().addPermission(p, kit.getPermission());
 							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
 						}else{
