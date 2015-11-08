@@ -40,7 +40,6 @@ public class Coins implements Listener{
 	private ArrayList<UUID> change_coins = new ArrayList<>();
 	private HashMap<String,Long> give_coins_time = new HashMap<>();
 	private HashMap<String,Integer> give_coins = new HashMap<>();
-	CalendarType holiday;
 	private ItemStack item;
 	@Getter
 	@Setter
@@ -48,7 +47,6 @@ public class Coins implements Listener{
 	
 	public Coins(JavaPlugin instance,MySQL mysql){
 		this.mysql=mysql;
-		this.holiday=Calendar.getHoliday();
 		this.item=UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aCoins-Bottle");
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
@@ -213,7 +211,10 @@ public class Coins implements Listener{
 	
 	public void addCoins(Player p,boolean save,Integer coins,GameType typ){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
-		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.GEBURSTAG_MANUEL))coins=coins*2;
+		if(Calendar.holiday!=null&&(Calendar.holiday==CalendarType.GEBURSTAG||Calendar.holiday==CalendarType.GEBURSTAG_MANUEL)){
+			coins=coins*2;
+			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "COINS_ADD_DOUBLE"));
+		}
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;
@@ -248,7 +249,7 @@ public class Coins implements Listener{
 	}
 	
 	public void addCoins(UUID uuid,String name,Integer coi){
-		if(holiday!=null&&holiday==CalendarType.GEBURSTAG)coi=coi*2;
+		if(Calendar.holiday!=null&&Calendar.holiday==CalendarType.GEBURSTAG)coi=coi*2;
 		change_coins.remove(UtilPlayer.getRealUUID(name, uuid));
 		int c = getCoins(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
@@ -315,7 +316,10 @@ public class Coins implements Listener{
 	
 	public void addCoinsWithScoreboardUpdate(Player p,boolean save,Integer coins){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
-		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.GEBURSTAG_MANUEL))coins=coins*2;
+		if(Calendar.holiday!=null&&(Calendar.holiday==CalendarType.GEBURSTAG||Calendar.holiday==CalendarType.GEBURSTAG_MANUEL)){
+			coins=coins*2;
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD_DOUBLE"));
+		}
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;
@@ -349,7 +353,10 @@ public class Coins implements Listener{
 	
 	public void addCoins(Player p,boolean save,Integer coins){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
-		if(holiday!=null&&(holiday==CalendarType.GEBURSTAG||holiday==CalendarType.GEBURSTAG_MANUEL))coins=coins*2;
+		if(Calendar.holiday!=null&&(Calendar.holiday==CalendarType.GEBURSTAG||Calendar.holiday==CalendarType.GEBURSTAG_MANUEL)){
+			coins=coins*2;
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD_DOUBLE"));
+		}
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;

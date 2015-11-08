@@ -9,6 +9,8 @@ import me.kingingo.kcore.Util.TimeSpan;
 import me.kingingo.kcore.Util.UtilTime;
 
 public class Calendar {
+	
+	public static CalendarType holiday;
 
 	public static boolean isWeakend(){
 		SimpleDateFormat ft = new SimpleDateFormat("E");
@@ -88,6 +90,7 @@ public class Calendar {
 	public static CalendarType getHoliday(){
 		for(CalendarType type : CalendarType.values()){
 			if(FromToTime(type.getFromDate(), type.getToDate())){
+				holiday=type;
 				return type;
 			}
 		}

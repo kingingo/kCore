@@ -19,6 +19,8 @@ public class ButtonMultiSlotBase implements IButtonMultiSlot{
 	@Getter
 	@Setter
 	private boolean cancelled=true;
+	@Setter
+	private boolean remove=true;
 	
 	public ButtonMultiSlotBase(ButtonForMultiButtons[] buttons){
 		this(buttons,null);
@@ -30,7 +32,7 @@ public class ButtonMultiSlotBase implements IButtonMultiSlot{
 	}
 	
 	public void remove() {
-		for(ButtonBase b : buttons)b.remove();
+		if(remove)for(ButtonBase b : buttons)b.remove();
 		this.buttons=null;
 		this.inventoryPageBase=null;
 	}

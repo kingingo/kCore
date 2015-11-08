@@ -66,7 +66,23 @@ public class InventoryPageBase extends CraftInventoryCustom{
 					return button.isCancelled();
 				}
 			}else if(button instanceof IButtonMultiSlot){
+//				if(player.getName().contains("kingingo")){
+//					System.out.println("BUTTO 1");
+//					IButtonMultiSlot b = (IButtonMultiSlot)button;
+//					for(ButtonBase bas : b.getButtons()){
+//						if(bas!=null){
+//							if(bas.getItemStack()!=null){
+//								System.out.println("BUTTO "+bas.getSlot()+" "+bas.getItemStack().getType());
+//							}else{
+//								System.out.println("BUTTO "+bas.getSlot()+" ITEM==NULL");
+//							}
+//						}else{
+//							System.out.println("BUTTO NULL");
+//						}
+//					}
+//				}
 				if(button.isSlot(slot)){
+					if(player.getName().contains("kingingo"))System.out.println("CLICK "+slot);
 					((IButtonMultiSlot)button).Clicked(slot,player, type,item);
 					return button.isCancelled();
 				}
@@ -212,7 +228,7 @@ public class InventoryPageBase extends CraftInventoryCustom{
 				if(b instanceof ButtonMultiCopy){
 					page.addButton(new ButtonMultiCopy( ((ButtonForMultiButtonsCopy[])((ButtonMultiCopy)b).getButtons().clone()) ));
 				}else if(b instanceof ButtonMultiSlotBase){
-					page.addButton(new ButtonMultiSlotBase(((ButtonMultiCopy)b).getButtons()));
+					page.addButton(new ButtonMultiSlotBase(((ButtonMultiCopy)b).getButtons().clone()));
 				}	
 			}
 		}

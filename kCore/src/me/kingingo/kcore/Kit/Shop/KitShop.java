@@ -53,7 +53,6 @@ public class KitShop implements Listener {
 	@Getter
 	private Gems gems;
 	HashMap<Player,Inventory> l = new HashMap<>();
-	private CalendarType holiday;
 	
 	public KitShop(JavaPlugin instance,Gems gems,Coins coins,PermissionManager manager,String name,InventorySize size,Kit[] kits){
 		this.name=name;
@@ -61,7 +60,6 @@ public class KitShop implements Listener {
 		this.gems=gems;
 		this.coins=coins;
 		this.permManager=manager;
-		this.holiday=Calendar.getHoliday();
 		if(kits.length>size.getSize())size=InventorySize._45;
 		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
 		this.admininventory=Bukkit.createInventory(null, size.getSize(), getName());
@@ -148,12 +146,7 @@ public class KitShop implements Listener {
 	public Inventory getInv(Kit kit,Player p){
 		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName());
 
-		if(holiday!=null&&holiday==CalendarType.GEBURSTAG&&kit.getType()!=KitType.ADMIN){
-			inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
-			inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-			inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
-		}else{
-			if(kit.getType()==KitType.STARTER){
+		if(kit.getType()==KitType.STARTER){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
@@ -198,7 +191,7 @@ public class KitShop implements Listener {
 					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.GLOWSTONE_DUST) ,Language.getText(p,"KIT_SHOP_BUY")));
 				}
 			}
-		}
+		
 
 		for(int i = 0 ; i < inventory.getSize(); i++){
 			if(inventory.getItem(i)==null||inventory.getItem(i).getType()==Material.AIR){

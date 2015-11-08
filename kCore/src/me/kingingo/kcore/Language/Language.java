@@ -277,6 +277,7 @@ public class Language {
 			add(type, "GEMS_ADD", "§aYou recieved §e{INPUT0}§a gems!");
 			add(type, "GEMS_DEL", "§e{INPUT0}§c gems have been deducted from you!");
 			add(type, "COINS_ADD", "§aYou recieved §e{INPUT0}§a coins!");
+	        add(type, "COINS_ADD_DOUBLE", "§d§lDouble-Coins§a You recieved the double amount of your coins.");
 			add(type, "COINS_DEL", "§e{INPUT0}§c coins have been deducted from you!");
 			add(type, "GAME_AUSGESCHIEDEN", "§a{INPUT0}§c was removed from the game!");
 			add(type, "CAVEWARS_SPIDER_DEATH", "§7Team {INPUT0}s§7 sheep was slain by §a{INPUT1}§7!");
@@ -688,6 +689,7 @@ public class Language {
 	        add(type, "GEMS_ADD", "§aDu hast §e{INPUT0}§7 Gems erhalten!");
 	        add(type, "GEMS_DEL", "§cDir wurden §e{INPUT0}§c Gems abgezogen!");
 	        add(type, "COINS_ADD", "§aDu hast §e{INPUT0}§7 Coins erhalten!");
+	        add(type, "COINS_ADD_DOUBLE", "§d§lDouble-Coins§a Du erhälst doppelt soviel Coins als normal!");
 	        add(type, "COINS_DEL", "§cDir wurden §e{INPUT0}§c Coins abgezogen!");
 	        add(type,"GILDE_PLAYER_IS_NOT_IN_GILDE","§cDu bist in keiner Gilde.");
 	        add(type, "GAME_AUSGESCHIEDEN", "§a{INPUT0}§c wurde aus dem Spiel ausgeschlossen!");
