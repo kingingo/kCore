@@ -112,7 +112,7 @@ public class Hologram implements Listener{
 	}
 	
 	public NameTagMessage sendText(final Player player, Location location,int time_in_sec, String msg) {
-		return sendText(player, location, time_in_sec, msg);
+		return sendText(player, location, time_in_sec, new String[]{msg});
 	}
 	
 	public NameTagMessage sendText(final Player player, Location location, String... msg) {

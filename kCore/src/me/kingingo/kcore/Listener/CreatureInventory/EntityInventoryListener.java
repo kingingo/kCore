@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Listener.CreatureInventoryListener;
+package me.kingingo.kcore.Listener.CreatureInventory;
 
 import lombok.Getter;
 import me.kingingo.kcore.Inventory.Item.Click;

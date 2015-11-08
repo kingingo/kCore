@@ -16,7 +16,7 @@ import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBack;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenInventoryCopy;
 import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
-import me.kingingo.kcore.Listener.CreatureInventoryListener.EntityInventoryListener;
+import me.kingingo.kcore.Listener.CreatureInventory.EntityInventoryListener;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.Gems;

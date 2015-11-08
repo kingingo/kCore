@@ -5,6 +5,7 @@ import me.kingingo.kcore.Client.Client;
 import me.kingingo.kcore.Packet.Events.PacketSendEvent;
 import me.kingingo.kcore.Packet.Packets.ARENA_SETTINGS;
 import me.kingingo.kcore.Packet.Packets.ARENA_STATUS;
+import me.kingingo.kcore.Packet.Packets.BG_IP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.BROADCAST;
 import me.kingingo.kcore.Packet.Packets.GIVE_COINS;
 import me.kingingo.kcore.Packet.Packets.GIVE_GEMS;
@@ -116,6 +117,8 @@ public class PacketManager {
 			return new PLAYER_ONLINE(packet.split("-/-"));
 		}else if(packet.contains("GIVE_COINS")){
 			return new GIVE_COINS(packet.split("-/-"));
+		}else if(packet.contains("BG_IP_RELOAD")){
+			return new BG_IP_RELOAD(packet.split("-/-"));
 		}
 	 return null;
 	}

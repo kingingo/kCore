@@ -57,6 +57,7 @@ public class PermissionListener extends kListener {
 				return;
 			}
 		}
+		
 	    manager.loadPermission(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
 	}
 	
