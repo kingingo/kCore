@@ -7,7 +7,7 @@ import me.kingingo.kcore.Inventory.InventoryPageBase;
 public class UtilDebug {
 	@Getter
 	@Setter
-	public static boolean debug=false;
+	public static boolean debug=true;
 	
 	public static void debug(String methode,String msg){
 		debug(methode,new String[]{msg});
