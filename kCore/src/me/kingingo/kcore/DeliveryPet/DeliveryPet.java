@@ -392,13 +392,13 @@ public class DeliveryPet extends kListener{
 	
 	public void deliveryBlock(Player player,Material name){
 		if(objects.containsKey(name)){
-			player.closeInventory();
 			getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player)+"' AND obj='"+name+"'");
 			players_obj.get(UtilPlayer.getRealUUID(player)).remove(objects.get(name).material);
 			players_obj.get(UtilPlayer.getRealUUID(player)).put(objects.get(name).material, System.currentTimeMillis()+objects.get(name).getTime());
 			players_hm_reward.remove(player);
 			players_hm_reward.put(player, getRewards(player));
 			playEffect();
+			player.closeInventory();
 		}
 	}
 	
