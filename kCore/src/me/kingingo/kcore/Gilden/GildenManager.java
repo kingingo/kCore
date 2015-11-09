@@ -557,6 +557,18 @@ public class GildenManager implements Listener {
 		gilde=gilde.toLowerCase();
 		if(!gilden_data_musst_saved.containsKey(gilde))return;
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))return;
+		if(!gilden_data.containsKey(gilde)){
+			if(UtilDebug.isDebug()){
+				UtilDebug.debug("UpdateGilde", new String[]{"GILDE NOT FOUND","Gilde:"+g,"Type:"+typ.name()});
+			}
+			return;
+		}
+		if(!gilden_data.get(gilde).containsKey(typ)){
+			if(UtilDebug.isDebug()){
+				UtilDebug.debug("UpdateGilde", new String[]{"TYP NOT FOUND","Gilde:"+g,"Type:"+typ.name()});
+			}
+			return;
+		}
 		Stats s;
 		for(int i = 0; i<gilden_data.get(gilde).get(typ).size();i++){
 			s=(Stats)gilden_data.get(gilde).get(typ).keySet().toArray()[i];
@@ -567,6 +579,10 @@ public class GildenManager implements Listener {
 			}
 			
 			Object o = gilden_data.get(gilde).get(typ).get(s);
+			
+			if(UtilDebug.isDebug()){
+				UtilDebug.debug("UpdateGilde", new String[]{"Gilde:"+g,"Type:"+typ.name()+"Stats:"+s.getKÜRZEL(),"OBJ:"+o});
+			}
 			
 			if(o instanceof Integer){
 				if(mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'")){
