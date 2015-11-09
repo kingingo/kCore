@@ -32,7 +32,7 @@ public class CommandkSpawn implements CommandExecutor{
 				if(s!=null){
 					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "USE_BEFEHL_TIME",s));
 				}else{
-					manager.del(p);
+					if(manager!=null)manager.del(p);
 					p.teleport(Bukkit.getWorld("world").getSpawnLocation());
 					l=UtilTime.getTimeManager().hasPermission(p, cmd.getName());
 					if( l!=0 ){
