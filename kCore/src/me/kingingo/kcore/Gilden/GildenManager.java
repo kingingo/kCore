@@ -469,9 +469,9 @@ public class GildenManager implements Listener {
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		gilde=gilde.toLowerCase();
-		GildenPlayerPut(uuid,g);
+		GildenPlayerPut(uuid,gilde);
 		
-		return g;
+		return gilde;
 	}
 	
 	public boolean isPlayerInGilde(Player player){
@@ -559,7 +559,7 @@ public class GildenManager implements Listener {
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))return;
 		Stats s;
 		for(int i = 0; i<gilden_data.get(gilde).get(typ).size();i++){
-			s=(Stats)gilden_data.get(gilde).get(typ).get(i);
+			s=(Stats)gilden_data.get(gilde).get(typ).keySet().toArray()[i];
 			if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))continue;
 			if(!s.isMysql()){
 				gilden_data.get(gilde).get(typ).remove(s);
@@ -567,10 +567,6 @@ public class GildenManager implements Listener {
 			}
 			
 			Object o = gilden_data.get(gilde).get(typ).get(s);
-			
-			if(UtilDebug.isDebug()){
-				UtilDebug.debug("UpdateGilde", new String[]{"Gilde:"+gilde,"Type:"+typ.name()+"Stats:"+s.getKÜRZEL(),"OBJ:"+o});
-			}
 			
 			if(o instanceof Integer){
 				if(mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'")){

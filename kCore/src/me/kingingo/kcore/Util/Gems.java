@@ -180,7 +180,7 @@ public class Gems implements Listener{
 	public void Quit(PlayerQuitEvent ev){
 		if(gems.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
 			if(change_gems.contains(UtilPlayer.getRealUUID(ev.getPlayer()))){
-				mysql.Update("UPDATE `gems_list` SET gems='"+UtilPlayer.getRealUUID(ev.getPlayer())+"' WHERE uuid='"+UtilPlayer.getRealUUID(ev.getPlayer())+"'");
+				mysql.Update("UPDATE `gems_list` SET gems='"+gems.get(UtilPlayer.getRealUUID(ev.getPlayer()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(ev.getPlayer())+"'");
 			}
 			change_gems.remove(UtilPlayer.getRealUUID(ev.getPlayer()));
 			gems.remove(UtilPlayer.getRealUUID(ev.getPlayer()));
