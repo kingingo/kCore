@@ -20,7 +20,7 @@ public class Money {
 			}
 			String g = manager.getPlayerGilde(p);
 			
-			if(args[1].equalsIgnoreCase("abheben")||args[1].equalsIgnoreCase("take")){
+			if(args[1].equalsIgnoreCase("abheben")||args[1].equalsIgnoreCase("take")||args[1].equalsIgnoreCase("withdraws")){
 				UUID owner=manager.getOwner(g);
 				if(!owner.equals(UtilPlayer.getRealUUID(p))){
 					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT"));
@@ -46,7 +46,7 @@ public class Money {
 						System.err.println("[GildenManager] Kontostand-Player danach: "+manager.getStatsManager().getDouble(Stats.MONEY, p));
 					}
 				}
-			}else if(args[1].equalsIgnoreCase("einzahlen")||args[1].equalsIgnoreCase("pay")){
+			}else if(args[1].equalsIgnoreCase("einzahlen")||args[1].equalsIgnoreCase("pay")||args[1].equalsIgnoreCase("deposite")){
 				double money = UtilNumber.toDouble(args[2]);
 				if(money==0){
 					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "NO_INTEGER"));
