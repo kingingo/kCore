@@ -217,7 +217,12 @@ SHEEPWARS_KIT_CREEPER("epicpvp.kit.creeper"),
 SHEEPWARS_KIT_ZOMBIE("epicpvp.kit.zombie"),
 ALL_KITS("epicpvp.kit.*"),
 //Kits
-
+SKYWARS_KIT_HULK("epicpvp.skywars.kit.hulk"),
+SKYWARS_KIT_MARIO("epicpvp.skywars.kit.mario"),
+SKYWARS_KIT_STARTERKIT("epicpvp.skywars.kit.starter"),
+SKYWARS_KIT_STUNTMAN("epicpvp.skywars.kit.stuntman"),
+SKYWARS_KIT_PANZER("epicpvp.skywars.kit.panzer"),
+SKYWARS_KIT_SLIME("epicpvp.skywars.kit.slime"),
 SKYWARS_KIT_SPRENGMEISTER("epicpvp.skywars.kit.sprengmeister"),
 SKYWARS_KIT_KOCH("epicpvp.skywars.kit.koch"),
 SKYWARS_KIT_FISCHER("epicpvp.skywars.kit.fischer"),
