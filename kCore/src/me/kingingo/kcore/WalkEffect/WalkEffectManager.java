@@ -8,6 +8,7 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.WalkEffect.Events.WalkEffectEvent;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,12 +37,19 @@ public class WalkEffectManager extends kListener {
 		list.remove(player);
 	}
 	
+	WalkEffectEvent w;
 	@EventHandler
 	public void Update(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC)return;
 		for(Entity p : list.keySet()){
-			WalkEffectEvent w = new WalkEffectEvent(p);
+			if(w==null){
+				w = new WalkEffectEvent(p);
+			}else{
+				w.setPlayer(p);
+			}
+			
 			list.get(p).onWalkEffect(w);
+			Bukkit.getPluginManager().callEvent(w);
 		}
 	}
 	
