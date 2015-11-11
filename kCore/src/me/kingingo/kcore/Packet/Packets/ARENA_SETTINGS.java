@@ -11,19 +11,25 @@ import org.bukkit.entity.Player;
 public class ARENA_SETTINGS extends Packet{
 
 	@Getter
+	@Setter
 	private VersusType type;
 	@Getter
+	@Setter
 	private String player;
 	@Getter
 	@Setter
 	private Team team;
 	@Getter
+	@Setter
 	private String kit;
 	@Getter
+	@Setter
 	private String arena;
 	@Getter
+	@Setter
 	private int min_team;
 	@Getter
+	@Setter
 	private int max_team;
 	
 	public ARENA_SETTINGS(VersusType type,String arena,String kit,Player player,Team team,int min_team,int max_team){
