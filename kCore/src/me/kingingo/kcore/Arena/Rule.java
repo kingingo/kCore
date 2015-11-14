@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Arenen;
+package me.kingingo.kcore.Arena;
 
 import me.kingingo.kcore.Packet.Packets.ARENA_STATUS;
 

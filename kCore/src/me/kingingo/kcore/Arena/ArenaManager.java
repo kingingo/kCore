@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Arenen;
+package me.kingingo.kcore.Arena;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -185,6 +185,7 @@ public class ArenaManager extends kListener{
 										arena.setMin_team(statsManager.getInt(Stats.TEAM_MIN, this.owner));
 										arena.setMax_team(statsManager.getInt(Stats.TEAM_MAX, this.owner));
 									}
+									arena.setKit(this.owner.getName());
 									arena.setState(GameState.Laden);
 									if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", "[GR] Arena Settings changed!");
 									
@@ -422,6 +423,7 @@ public class ArenaManager extends kListener{
 	@EventHandler
 	public void Quit(PlayerQuitEvent ev){
 		removePlayer(ev.getPlayer());
+		delRound(ev.getPlayer());
 	}
 	
 }

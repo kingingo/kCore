@@ -2,7 +2,7 @@ package me.kingingo.kcore.Packet.Packets;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.Arenen.ArenaType;
+import me.kingingo.kcore.Arena.ArenaType;
 import me.kingingo.kcore.Enum.Team;
 import me.kingingo.kcore.Packet.Packet;
 

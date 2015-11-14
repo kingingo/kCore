@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Arenen;
+package me.kingingo.kcore.Arena;
 
 import lombok.Getter;
 import me.kingingo.kcore.Enum.Team;
