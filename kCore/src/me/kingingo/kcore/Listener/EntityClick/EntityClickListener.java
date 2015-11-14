@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Listener.CreatureInventory;
+package me.kingingo.kcore.Listener.EntityClick;
 
 import lombok.Getter;
 import me.kingingo.kcore.Inventory.Item.Click;
@@ -19,13 +19,13 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class EntityInventoryListener extends kListener{
+public class EntityClickListener extends kListener{
 	
 	private Click click;
 	@Getter
 	private Entity entity;
 	
-	public EntityInventoryListener(JavaPlugin instance,Click click, Entity entity) {
+	public EntityClickListener(JavaPlugin instance,Click click, Entity entity) {
 		super(instance, (entity.getCustomName()!=null?entity.getCustomName():"CreatureInv")+"Listener");
 		this.click=click;
 		this.entity=entity;

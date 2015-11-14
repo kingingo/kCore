@@ -95,7 +95,7 @@ public class GildenManager implements Listener {
 	
 	@EventHandler
 	public void Ranking(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.MIN_08)return;
+		if(ev.getType()!=UpdateType.MIN_32)return;
 		extra_prefix.clear();
 		LoadRanking(true);
 	}
@@ -104,7 +104,11 @@ public class GildenManager implements Listener {
 		if(getTyp()==GildenType.PVP){
 			LoadRankingFame(b);
 		}else{
-			LoadRankingKills(b);
+			if(this instanceof SkyBlockGildenManager){
+				((SkyBlockGildenManager)this).LoadRanking(true);
+			}else{
+				LoadRankingKills(b);
+			}
 		}
 	}
 	
@@ -559,13 +563,13 @@ public class GildenManager implements Listener {
 		if(!gilden_data_musst_saved.get(gilde).containsKey(typ))return;
 		if(!gilden_data.containsKey(gilde)){
 			if(UtilDebug.isDebug()){
-				UtilDebug.debug("UpdateGilde", new String[]{"GILDE NOT FOUND","Gilde:"+g,"Type:"+typ.name()});
+				UtilDebug.debug("UpdateGilde", new String[]{"GILDE NOT FOUND","Gilde:"+gilde,"Type:"+typ.name()});
 			}
 			return;
 		}
 		if(!gilden_data.get(gilde).containsKey(typ)){
 			if(UtilDebug.isDebug()){
-				UtilDebug.debug("UpdateGilde", new String[]{"TYP NOT FOUND","Gilde:"+g,"Type:"+typ.name()});
+				UtilDebug.debug("UpdateGilde", new String[]{"TYP NOT FOUND","Gilde:"+gilde,"Type:"+typ.name()});
 			}
 			return;
 		}
@@ -581,7 +585,7 @@ public class GildenManager implements Listener {
 			Object o = gilden_data.get(gilde).get(typ).get(s);
 			
 			if(UtilDebug.isDebug()){
-				UtilDebug.debug("UpdateGilde", new String[]{"Gilde:"+g,"Type:"+typ.name()+"Stats:"+s.getKÜRZEL(),"OBJ:"+o});
+				UtilDebug.debug("UpdateGilde", new String[]{"Gilde:"+gilde,"Type:"+typ.name()+"Stats:"+s.getKÜRZEL(),"OBJ:"+o});
 			}
 			
 			if(o instanceof Integer){

@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Versus;
+package me.kingingo.kcore.Arenen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,46 +24,89 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.spigotmc.CustomTimingsHandler;
 
-public class VManager extends kListener{
+public class ArenaManager extends kListener{
 
+	/*
+	 * Game Rounds
+	 */
+	private HashMap<ArenaType, HashMap<Integer,GameRound>> rounds;
+	private HashMap<Player,Integer> rounds_player;
+	private int round_counter;
+	/*
+	 * ArenaManager Settings
+	 */
 	private HashMap<String,ARENA_STATUS> server;
 	private HashMap<Integer,ArrayList<Rule>> rules;
 	@Setter
 	private UpdateAsyncType updateSpeed;
 	@Getter
-	private HashMap<VersusType, ArrayList<Player>> wait_list;
-	@Getter
 	private CustomTimingsHandler timings;
+	
+	/*
+	 * Wait list
+	 */
+	@Getter
+	private HashMap<ArenaType, ArrayList<Player>> wait_list;
+	
 	private PacketManager packetManager;
 	private StatsManager statsManager;
 	
-	public VManager(PacketManager packetManager,StatsManager statsManager,UpdateAsyncType updateSpeed){
-		super(packetManager.getInstance(),"VManager");
+	public ArenaManager(PacketManager packetManager,StatsManager statsManager,UpdateAsyncType updateSpeed){
+		super(packetManager.getInstance(),"ArenaManager");
 		this.server=new HashMap<>();
 		this.rules=new HashMap<>();
 		this.updateSpeed=updateSpeed;
 		this.wait_list=new HashMap<>();
-		this.timings=new CustomTimingsHandler("VManager");
+		this.timings=new CustomTimingsHandler("ArenaManager");
 		this.packetManager=packetManager;
 		this.statsManager=statsManager;
+		this.rounds=new HashMap<>();
+		this.rounds_player=new HashMap<>();
+		this.round_counter=0;
 		for(RulePriority prio : RulePriority.values())this.rules.put(prio.getI(), new ArrayList<Rule>());
-		for(VersusType type : VersusType.values())this.wait_list.put(type, new ArrayList<Player>());
+		for(ArenaType type : ArenaType.values())this.wait_list.put(type, new ArrayList<Player>());
+		for(ArenaType type : ArenaType.values())this.rounds.put(type, new HashMap<Integer,GameRound>());
 	}
 	
-	public boolean addPlayer(Player player,VersusType type){
+	public boolean addPlayer(Player player,ArenaType type){
 		if(type==removePlayer(player))return false;
 		this.wait_list.get(type).add(player);
 		return true;
 	}
 	
-	public VersusType removePlayer(Player player){
-		for(VersusType t : this.wait_list.keySet()){
+	public ArenaType removePlayer(Player player){
+		for(ArenaType t : this.wait_list.keySet()){
 			if(this.wait_list.get(t).contains(player)){
 				this.wait_list.get(t).remove(player);
 				return t;
 			}
 		}
 		return null;
+	}
+	
+	public boolean delRound(Player player){
+		if(this.rounds_player.containsKey(player)){
+			int c = this.rounds_player.get(player);
+			
+			for(ArenaType type : ArenaType.values()){
+				if(this.rounds.get(type).containsKey(c)){
+					for(Player p : this.rounds.get(type).get(c).getPlayers())this.rounds_player.remove(p);
+					this.rounds.get(type).get(c).remove();
+					this.rounds.get(type).remove(c);
+					break;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addRound(GameRound round){
+		for(Player player : round.getPlayers())if(this.rounds_player.containsKey(player))return false;
+		
+		this.rounds.get(round.getType()).put(this.round_counter, round);
+		this.round_counter++;
+		return true;
 	}
 	
 	public void addRule(Rule rule,RulePriority priority){
@@ -81,17 +124,19 @@ public class VManager extends kListener{
 	int team_size;
 	int team_remove;
 	ARENA_SETTINGS settings;
-	VersusType type;
+	ArenaType type;
 	boolean br;
 	boolean ba;
 	Player owner;
+	GameRound round;
+	int id;
 	@EventHandler
 	public void Update(UpdateAsyncEvent ev){
 		if(ev.getType()==updateSpeed&&!server.isEmpty()&&!this.wait_list.isEmpty()){
 			this.timings.startTiming();
 			if(this.players==null){
 				this.players=new HashMap<>();
-				for(Team t : VersusType._TEAMx6.getTeam())players.put(t, new ArrayList<Player>());
+				for(Team t : ArenaType._TEAMx6.getTeam())players.put(t, new ArrayList<Player>());
 			}
 				
 			for(ARENA_STATUS arena : this.server.values()){
@@ -100,12 +145,90 @@ public class VManager extends kListener{
 					for(Team t : players.keySet())players.get(t).clear();
 					
 					for(int i = arena.getTeams(); i >= 2 ; i--){
-						this.type=(VersusType)VersusType.byInt( i );
+						this.type=(ArenaType)ArenaType.byInt( i );
 						this.team=0;
 						this.owner=null;
 						this.ba=false;
 						this.team_size=-2;
 						this.br=false;
+
+						if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Type: "+type.name()});
+						
+						if(this.rounds.containsKey(type)&&!this.rounds.get(type).isEmpty()){
+							this.id=(Integer)this.rounds.get(type).keySet().toArray()[0];
+							this.round=(GameRound)this.rounds.get(type).get(id);
+							
+							if(this.round.getOwner().isOnline()){
+								this.owner=round.getOwner();
+
+								if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", "[GR] Owner:"+this.owner.getName());
+								
+								for(Player player : this.round.getPlayers()){
+									if(player.isOnline()){
+										this.players.get(this.type.getTeam()[this.team]).add(player);
+										this.team++;
+										if(this.type.getTeam().length==this.team){
+											this.team=0;
+										}
+									}else{
+										ba=true;
+										break;
+									}
+								}
+								if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", "[GR] Team saved!");
+								
+								if(!ba){
+									if(type==ArenaType._TEAMx2){
+										arena.setMin_team(1);
+										arena.setMax_team(1);
+									}else{
+										arena.setMin_team(statsManager.getInt(Stats.TEAM_MIN, this.owner));
+										arena.setMax_team(statsManager.getInt(Stats.TEAM_MAX, this.owner));
+									}
+									arena.setState(GameState.Laden);
+									if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", "[GR] Arena Settings changed!");
+									
+									this.settings=new ARENA_SETTINGS(this.type, arena.getArena(), arena.getKit(), this.owner, Team.BLACK, arena.getMin_team(), arena.getMax_team());
+
+									if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", "[GR] Settings create!");
+									
+									for(Team t : this.type.getTeam()){
+										for(Player player : this.players.get(t)){
+											this.settings.setTeam(t);
+											this.settings.setPlayer(player.getName());
+											this.packetManager.SendPacket(arena.getServer(), this.settings);
+										}
+									}
+									
+									if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", "[GR] Settings sended!!");
+									
+									for(Team t : this.type.getTeam()){
+										for(Player player : this.players.get(t)){
+											this.rounds_player.remove(player);
+											arena.setOnline(arena.getOnline()+1);
+											UtilBG.sendToServer(player, arena.getServer(), this.packetManager.getInstance());
+										}
+										this.players.get(t).clear();
+									}
+
+									this.round.remove();
+									this.rounds.get(type).remove(this.id);
+									if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", "[GR] Game Start!");
+									break;
+								}
+
+								this.round.remove();
+								this.rounds.get(type).remove(this.id);
+								
+								if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", "[GR] Player offline next WAIT LIST");
+								this.team=0;
+								this.owner=null;
+								this.ba=false;
+								this.team_size=-2;
+								this.br=false;
+							}
+						}
+						
 						this.players_size=this.wait_list.get(type).size();
 						
 						if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Type: "+type.name(),"Waiter: "+this.players_size});
@@ -116,11 +239,12 @@ public class VManager extends kListener{
 						
 						if(this.wait_list.containsKey(type)&&!this.wait_list.get(type).isEmpty()){
 							for(Player player : this.wait_list.get(type)){
+									if(!player.isOnline())continue;
 									if(this.owner==null){
 										if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", "Owner: "+player.getName());
 										this.owner=player;
 										
-										if(type==VersusType._TEAMx2){
+										if(type==ArenaType._TEAMx2){
 											arena.setMin_team(1);
 											arena.setMax_team(1);
 										}else{
@@ -251,7 +375,7 @@ public class VManager extends kListener{
 	}
 	
 	public boolean isEmpty(){
-		for(VersusType type : this.wait_list.keySet()){
+		for(ArenaType type : this.wait_list.keySet()){
 			if(!this.wait_list.get(type).isEmpty()&&this.wait_list.get(type).size()>=2){
 				return false;
 			}
@@ -260,7 +384,7 @@ public class VManager extends kListener{
 	}
 
 	boolean b=false;
-	public boolean RuleCheck(Player owner,Player player,VersusType type,ARENA_STATUS status,HashMap<Team,ArrayList<Player>> players){
+	public boolean RuleCheck(Player owner,Player player,ArenaType type,ARENA_STATUS status,HashMap<Team,ArrayList<Player>> players){
 		this.b=true;
 		for(int u=RulePriority.HIGHEST.getI(); u<RulePriority.LOWEST.getI(); u++){
 			for(Rule rule : this.rules.get(u)){

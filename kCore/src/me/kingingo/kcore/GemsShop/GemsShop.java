@@ -16,7 +16,7 @@ import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBack;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenInventoryCopy;
 import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
-import me.kingingo.kcore.Listener.CreatureInventory.EntityInventoryListener;
+import me.kingingo.kcore.Listener.EntityClick.EntityClickListener;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.Gems;
@@ -48,7 +48,7 @@ public class GemsShop{
 	private PermissionManager permission;
 	private Hologram hm;
 	private ServerType type;
-	private EntityInventoryListener listener;
+	private EntityClickListener listener;
 	private NameTagMessage m;
 	
 	public GemsShop(Hologram hm,CommandHandler cmd,InventoryBase base,PermissionManager permission,ServerType type){
@@ -90,7 +90,7 @@ public class GemsShop{
 		m = new NameTagMessage(NameTagType.SERVER, v.getLocation().add(0, 2.1, 0), "§a§lGem-Shop");
 		m.send();
 		
-		listener=new EntityInventoryListener(getPermission().getInstance(), new Click(){
+		listener=new EntityClickListener(getPermission().getInstance(), new Click(){
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {

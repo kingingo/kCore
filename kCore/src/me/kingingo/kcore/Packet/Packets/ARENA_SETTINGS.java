@@ -2,9 +2,9 @@ package me.kingingo.kcore.Packet.Packets;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Arenen.ArenaType;
 import me.kingingo.kcore.Enum.Team;
 import me.kingingo.kcore.Packet.Packet;
-import me.kingingo.kcore.Versus.VersusType;
 
 import org.bukkit.entity.Player;
 
@@ -12,7 +12,7 @@ public class ARENA_SETTINGS extends Packet{
 
 	@Getter
 	@Setter
-	private VersusType type;
+	private ArenaType type;
 	@Getter
 	@Setter
 	private String player;
@@ -32,7 +32,7 @@ public class ARENA_SETTINGS extends Packet{
 	@Setter
 	private int max_team;
 	
-	public ARENA_SETTINGS(VersusType type,String arena,String kit,Player player,Team team,int min_team,int max_team){
+	public ARENA_SETTINGS(ArenaType type,String arena,String kit,Player player,Team team,int min_team,int max_team){
 		this.type=type;
 		this.player=player.getName();
 		this.kit=kit;
@@ -59,7 +59,7 @@ public class ARENA_SETTINGS extends Packet{
 	}
 	
 	public void Set(String[] split){
-		this.type=VersusType.valueOf(split[1]);
+		this.type=ArenaType.valueOf(split[1]);
 		this.kit=split[2];
 		this.player=split[3];
 		this.team=Team.valueOf(split[4]);

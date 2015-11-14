@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Versus;
+package me.kingingo.kcore.Arenen;
 
 import lombok.Getter;
 

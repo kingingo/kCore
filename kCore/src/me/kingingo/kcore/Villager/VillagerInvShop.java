@@ -42,7 +42,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class VillagerShop implements Listener {
+public class VillagerInvShop implements Listener {
 
 	@Getter
 	private String name;
@@ -65,7 +65,7 @@ public class VillagerShop implements Listener {
 	private long spawn_time = 0;
 	private EntityType type;
 	
-	public VillagerShop(JavaPlugin instance,EntityType type,String name,Location spawn,InventorySize size){
+	public VillagerInvShop(JavaPlugin instance,EntityType type,String name,Location spawn,InventorySize size){
 		this.name=name;
 		this.type=type;
 		spawn(spawn);
@@ -227,10 +227,10 @@ public class VillagerShop implements Listener {
 			if(ev.getRightClicked().getLocation().distance(getSpawn())<=3){
 				this.villager=ev.getRightClicked();
 				ev.setCancelled(true);
-				VillagerShopEvent event = new VillagerShopEvent(ev.getPlayer(), this);
-				Bukkit.getPluginManager().callEvent(event);
+//				VillagerShopEvent event = new VillagerShopEvent(ev.getPlayer(), this);
+//				Bukkit.getPluginManager().callEvent(event);
 				
-				if(event.isCancelled())return;
+//				if(event.isCancelled())return;
 				ev.getPlayer().openInventory(getInventory());
 			}
 		}
@@ -240,10 +240,10 @@ public class VillagerShop implements Listener {
 	public void Click(PlayerInteractEntityEvent ev){
 		if(ev.getRightClicked().getType()==type){
 			if(ev.getRightClicked().getEntityId()==villager.getEntityId()){
-				VillagerShopEvent event = new VillagerShopEvent(ev.getPlayer(), this);
-				Bukkit.getPluginManager().callEvent(event);
+//				VillagerShopEvent event = new VillagerShopEvent(ev.getPlayer(), this);
+//				Bukkit.getPluginManager().callEvent(event);
 				
-				if(event.isCancelled())return;
+//				if(event.isCancelled())return;
 				ev.getPlayer().openInventory(getInventory());
 			}
 		}
