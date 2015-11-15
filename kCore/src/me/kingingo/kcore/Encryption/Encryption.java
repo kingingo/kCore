@@ -9,6 +9,24 @@ public class Encryption {
 
     private static SecureRandom rnd = new SecureRandom();
 
+    private static String dencript(String s){
+    	try {
+			return getHash(HashAlgorithm.WHIRLPOOL, getHash(HashAlgorithm.SHA1, getHash(HashAlgorithm.MD5, s)));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+    }
+    
+    private static String encript(String s){
+    	try {
+			return getHash(HashAlgorithm.WHIRLPOOL, getHash(HashAlgorithm.SHA1, getHash(HashAlgorithm.MD5, s)));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+    }
+    
     private static String getMD5(String message) throws NoSuchAlgorithmException {
         MessageDigest md5 = MessageDigest.getInstance("MD5");
 
