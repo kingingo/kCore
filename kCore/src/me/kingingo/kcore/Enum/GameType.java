@@ -4,8 +4,10 @@ import lombok.Getter;
 import me.kingingo.kcore.StatsManager.Stats;
 
 public enum GameType {
-SkyWars(true,"SkyWars","SkyWars",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.LOSE,Stats.WIN}),
+BedWars1vs1(false,"BedWars1vs1","BW",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.BEDWARS_ZERSTOERTE_BEDs}),
+SkyWars1vs1(false,"SkyWars1vs1","SkyWars",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.LOSE,Stats.WIN}),
 Versus(false,"VERSUS","VS",ServerType.GAME,new Stats[]{Stats.KIT_RANDOM,Stats.KIT_ID,Stats.TEAM_MAX,Stats.TEAM_MIN ,Stats.ELO,Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
+SkyWars(true,"SkyWars","SkyWars",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.LOSE,Stats.WIN}),
 QuickSurvivalGames(true,"QuickSurvivalGames","QSG",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 SurvivalGames(true,"SurvivalGames","SG",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 OneInTheChamber(true,"OneInTheChamber","OITC",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),

@@ -18,20 +18,20 @@ public class MySQLListener implements Listener{
 	@EventHandler
 	public void Error(MySQLErrorEvent ev){
 		switch(ev.getError()){
-		case CONNECT:
-			break;
-		case UPDATE:
-			mysql.close();
-			mysql.connect();
-			break;
-		case QUERY:
-			mysql.close();
-			mysql.connect();
-			break;
-		case CLOSE:
-			break;
-		default:
-			break;
+			case CONNECT:
+				break;
+			case UPDATE:
+				mysql.close();
+				mysql.connect();
+				break;
+			case QUERY:
+				mysql.close();
+				mysql.connect();
+				break;
+			case CLOSE:
+				break;
+			default:
+				break;
 		}
 		
 		System.err.println("[kCore] Error:");

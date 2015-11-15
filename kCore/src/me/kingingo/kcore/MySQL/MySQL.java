@@ -166,7 +166,8 @@ public class MySQL
 		    catch (Exception ex) {
 		    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
 		    }
-			  timings.stopTiming();
+			  
+		    timings.stopTiming();
 		    return o;
 		  
   }

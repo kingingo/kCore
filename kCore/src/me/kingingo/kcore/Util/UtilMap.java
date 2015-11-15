@@ -29,6 +29,7 @@ import net.minecraft.server.v1_8_R3.RegionFileCache;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.v1_8_R3.CraftChunk;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
@@ -288,7 +289,7 @@ public class UtilMap{
 		}
 	}
 	
-	public static void QuadratWalls(Location ecke1,Location ecke2,Material material){
+	public static void makeQuadratWalls(Location ecke1,Location ecke2,Material material){
 		System.out.println("MinX: "+MinX(ecke1, ecke2)+" MaxX: "+MaxX(ecke1, ecke2));
 		System.out.println("MinY: "+MinY(ecke1, ecke2)+" MaxY: "+MaxY(ecke1, ecke2));
 		System.out.println("MinZ: "+MinZ(ecke1, ecke2)+" MaxZ: "+MaxZ(ecke1, ecke2));
@@ -325,7 +326,7 @@ public class UtilMap{
 		}
 	}
 	
-	public static void Quadrat(Location ecke1,Location ecke2,Material[] materials){
+	public static void makeQuadrat(Location ecke1,Location ecke2,Material[] materials){
 		for(int x=MinX(ecke1, ecke2); x<MaxX(ecke1, ecke2); x++){
 			for(int z=MinZ(ecke1, ecke2); z<MaxZ(ecke1, ecke2); z++){
 				for(int y=MinY(ecke1, ecke2); y<MaxY(ecke1, ecke2); y++){
@@ -335,7 +336,48 @@ public class UtilMap{
 		}
 	}
 	
-	public static List<Location> Quadrat(Location loc, int r) {
+	public static void makeQuadrat(ArrayList<BlockState> states ,Location loc, int radius, int high,Material ground, Material wall) {
+		int MaxX = MaxX(loc.clone(), radius);
+		int MaxZ = MaxZ(loc.clone(), radius);
+		int MinX = MinX(loc.clone(), radius);
+		int MinZ = MinZ(loc.clone(), radius);
+		int MinY = loc.getBlockY();
+		int MaxY = loc.getBlockY()+high;
+		
+		for (int y = MinY; y < MaxY; y++) {
+			for (int z = MinZ; z < MaxZ; z++) {
+				loc.getWorld().getBlockAt(MaxX, y, z).setType( (y==MinY?ground:wall) );
+				states.add(loc.getWorld().getBlockAt(MaxX, y, z).getState());
+			}
+
+			for (int z = MaxZ; z > MinZ; z--) {
+				loc.getWorld().getBlockAt(MinX, y, z).setType( (y==MinY?ground:wall) );
+				states.add(loc.getWorld().getBlockAt(MinX, y, z).getState());
+			}
+			
+			for (int x = MaxX; x > MinX; x--) {
+				loc.getWorld().getBlockAt(x, y, MaxZ).setType( (y==MinY?ground:wall) );
+				states.add(loc.getWorld().getBlockAt(x, y, MaxZ).getState());
+			}
+
+			for (int x = MinX; x < MaxX; x++) {
+				loc.getWorld().getBlockAt(x, y, MinZ).setType( (y==MinY?ground:wall) );
+				states.add(loc.getWorld().getBlockAt(x, y, MinZ).getState());
+			}
+		}
+
+
+		for(int x = MinX; x<MaxX; x++){
+			for(int z = MinZ; z<MaxZ; z++){
+				loc.getWorld().getBlockAt(x, MinY, z).setType(ground);
+				loc.getWorld().getBlockAt(x, MaxY, z).setType(ground);
+				states.add(loc.getWorld().getBlockAt(x, MinY, z).getState());
+				states.add(loc.getWorld().getBlockAt(x, MaxY, z).getState());
+			}
+		}
+	}
+	
+	public static List<Location> makeQuadrat(Location loc, int r) {
 		List<Location> list = new ArrayList<Location>();
 		int MaxX = MaxX(loc.clone(), r);
 		int MaxZ = MaxZ(loc.clone(), r);
