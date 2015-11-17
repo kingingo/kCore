@@ -6,6 +6,7 @@ import me.kingingo.kcore.DeliveryPet.DeliveryPet;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
+import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.Material;
@@ -44,6 +45,7 @@ public class DeliveryInventoryPage extends InventoryPageBase{
 						((IButtonOneSlot)button).Clicked(player, ActionType.R, ((IButtonOneSlot)button).getItemStack());
 						return button.isCancelled();
 					}else{
+						if(UtilDebug.isDebug())UtilDebug.debug("DeliveryInv: UseButton", new String[]{"PLAYER: "+player.getName()});
 						delivery.deliveryUSE(player, item.getType(),false);
 						break;
 					}

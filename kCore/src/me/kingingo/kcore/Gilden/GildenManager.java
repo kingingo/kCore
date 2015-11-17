@@ -475,6 +475,8 @@ public class GildenManager implements Listener {
 		gilde=gilde.toLowerCase();
 		GildenPlayerPut(uuid,gilde);
 		
+		if(UtilDebug.isDebug())UtilDebug.debug("getPlayerGilde", new String[]{"Gilde:"+gilde,"UUID: "+uuid});
+		
 		return gilde;
 	}
 	
@@ -524,21 +526,26 @@ public class GildenManager implements Listener {
 	
 	public void AllUpdateGilde(){
 		for(String g : gilden_data_musst_saved.keySet()){
+			if(!gilden_data.containsKey(g))continue;
 			for(GildenType typ : gilden_data_musst_saved.get(g).keySet()){
+				if(!gilden_data.get(g).containsKey(typ))continue;
 				for(Stats s : gilden_data_musst_saved.get(g).get(typ)){
 					if(!s.isMysql())continue;
-					Object o = gilden_data.get(g).get(typ).get(s);
 					
-					if(UtilDebug.isDebug()){
-						UtilDebug.debug("AllUpdateGilde", new String[]{"Gilde:"+g,"Type:"+typ.name()+"Stats:"+s.getKÜRZEL(),"OBJ:"+o});
-					}
-					
-					if(o instanceof Integer){
-						mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
-					}else if(o instanceof String){
-						mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
-					}else if(o instanceof Double){
-						mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+					if(this.gilden_data.get(g).get(typ).containsKey(s)){
+						Object o = gilden_data.get(g).get(typ).get(s);
+						
+						if(UtilDebug.isDebug()){
+							UtilDebug.debug("AllUpdateGilde", new String[]{"Gilde:"+g,"Type:"+typ.name()+"Stats:"+s.getKÜRZEL(),"OBJ:"+o});
+						}
+						
+						if(o instanceof Integer){
+							mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+						}else if(o instanceof String){
+							mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+						}else if(o instanceof Double){
+							mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+						}
 					}
 				}
 			}
@@ -573,38 +580,45 @@ public class GildenManager implements Listener {
 			}
 			return;
 		}
+		
 		Stats s;
 		for(int i = 0; i<gilden_data.get(gilde).get(typ).size();i++){
 			s=(Stats)gilden_data.get(gilde).get(typ).keySet().toArray()[i];
+			
+			if(!this.gilden_data_musst_saved.containsKey(gilde))break;
+			if(!this.gilden_data_musst_saved.get(gilde).containsKey(typ))break;
 			if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))continue;
 			if(!s.isMysql()){
-				gilden_data.get(gilde).get(typ).remove(s);
+				this.gilden_data_musst_saved.get(gilde).get(typ).remove(s);
 				continue;
 			}
 			
 			Object o = gilden_data.get(gilde).get(typ).get(s);
 			
-			if(UtilDebug.isDebug()){
-				UtilDebug.debug("UpdateGilde", new String[]{"Gilde:"+gilde,"Type:"+typ.name()+"Stats:"+s.getKÜRZEL(),"OBJ:"+o});
-			}
+			if(UtilDebug.isDebug())UtilDebug.debug("UpdateGilde", new String[]{"Gilde:"+gilde,"Type:"+typ.name(),"Stats:"+s.getKÜRZEL(),"OBJ:"+o});
 			
 			if(o instanceof Integer){
 				if(mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'")){
-					gilden_data.get(gilde).get(typ).remove(s);
+					this.gilden_data_musst_saved.get(gilde).get(typ).remove(s);
 				}
 			}else if(o instanceof String){
 				if(mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'")){
-					gilden_data.get(gilde).get(typ).remove(s);
+					this.gilden_data_musst_saved.get(gilde).get(typ).remove(s);
 				}
 			}else if(o instanceof Double){
 				if(mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + gilde.toLowerCase() + "'")){
-					gilden_data.get(gilde).get(typ).remove(s);
+					this.gilden_data_musst_saved.get(gilde).get(typ).remove(s);
 				}
 			}
+			
+			if(this.gilden_data_musst_saved.containsKey(gilde)&&this.gilden_data_musst_saved.get(gilde).get(typ).isEmpty()){
+				this.gilden_data_musst_saved.get(gilde).remove(typ);
+			}
 		}
-		
-		gilden_data.get(gilde).remove(typ);
-		gilden_data.remove(gilde);
+
+		if(this.gilden_data_musst_saved.containsKey(gilde)&&this.gilden_data_musst_saved.get(gilde).isEmpty()){
+			this.gilden_data_musst_saved.remove(gilde);
+		}
 	}
 	
 	public boolean ExistGilde(String gilde){
@@ -734,7 +748,7 @@ public class GildenManager implements Listener {
 	
 	public void setInt(String gilde,GildenType typ,int i,Stats s){
 		gilde=gilde.toLowerCase();
-		if(!ExistGilde(gilde))return ;
+		if(!ExistGilde(gilde))return;
 		ExistGildeData(gilde, typ);
 		if(gilden_data.get(gilde).get(typ).containsKey(s))gilden_data.get(gilde).get(typ).remove(s);
 		gilden_data.get(gilde).get(typ).put(s, i);

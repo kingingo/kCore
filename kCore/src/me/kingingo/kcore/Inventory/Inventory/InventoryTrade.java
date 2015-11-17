@@ -93,18 +93,6 @@ public class InventoryTrade extends InventoryPageBase{
 		t1.openInventory(this);
 	}
 	
-//	public boolean useButton(Player player,ActionType type,ItemStack item,int slot){
-//		if(!isSlot(slot,"useButton(Player,ActionType,ItemStack,int)"))return true;
-//		
-//		for(IButton button : getButtons()){
-//			if(button.isSlot(slot)){
-//				button.Clicked(player, type,item);
-//				return button.isCancelled();
-//			}
-//		}
-//		return true;
-//	}
-	
 	public boolean putItem(Player player,Inventory clickedInv,ItemStack item,int slot){
 		accept_t.setItemStack(UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept"));
 		accept_t.refreshItemStack();

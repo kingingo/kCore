@@ -14,6 +14,7 @@ import me.kingingo.kcore.Util.TimeSpan;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -71,6 +72,7 @@ public class NeulingManager extends kListener{
 		if(getPlayers().isEmpty())return;
 		if(ev.getEntity() instanceof Player){
 			v = (Player)ev.getEntity();
+			
 			if(getPlayers().containsKey(v)){
 				ev.setCancelled(true);
 				if(ev.getDamager() instanceof Player){
@@ -83,6 +85,14 @@ public class NeulingManager extends kListener{
 				if(getPlayers().containsKey(a)){
 					ev.setCancelled(true);
 					a.sendMessage(Language.getText(a, "PREFIX")+Language.getText(a, "NEULING_SCHUTZ_YOU"));
+				}
+			}else if(ev.getDamager() instanceof Projectile){
+				if(((Projectile)ev.getDamager()).getShooter() instanceof Player){
+					a=(Player)((Projectile)ev.getDamager()).getShooter();
+					if(getPlayers().containsKey(a)){
+						ev.setCancelled(true);
+						a.sendMessage(Language.getText(a, "PREFIX")+Language.getText(a, "NEULING_SCHUTZ_YOU"));
+					}
 				}
 			}
 		}

@@ -10,6 +10,7 @@ import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.Util.TimeSpan;
+import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
@@ -53,7 +54,8 @@ public class Home {
 					}
 				}
 			}
-			
+
+			if(UtilDebug.isDebug())UtilDebug.debug("CMD:Home", new String[]{"Gilde:"+g,"PLAYER: "+p.getName()});
 			manager.setInt(g, manager.getTyp(), loc.getBlockX(), Stats.LOC_X);
 			manager.setInt(g, manager.getTyp(), loc.getBlockY(), Stats.LOC_Y);
 			manager.setInt(g, manager.getTyp(), loc.getBlockZ(), Stats.LOC_Z);

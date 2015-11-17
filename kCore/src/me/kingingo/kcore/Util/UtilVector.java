@@ -4,6 +4,16 @@ import org.bukkit.util.Vector;
 
 public class UtilVector {
 
+	public static Vector add(Vector a, Vector b)
+	  {
+	    return new Vector(a.getBlockX() + b.getBlockX(), a.getBlockY() + b.getBlockY(), a.getBlockZ() + b.getBlockZ());
+	  }
+	
+	public static Vector subtract(Vector a, Vector b)
+	  {
+	    return new Vector(b.getBlockX() - a.getBlockX(),b.getBlockY() - a.getBlockY(), b.getBlockZ() - a.getBlockZ());
+	  }
+	
 	public static final Vector rotateAroundAxisX(Vector v, double angle)
 	  {
 	    double cos = Math.cos(angle);

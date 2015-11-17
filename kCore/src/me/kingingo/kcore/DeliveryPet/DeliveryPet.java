@@ -22,7 +22,6 @@ import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
-import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
@@ -56,7 +55,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -90,13 +88,10 @@ public class DeliveryPet extends kListener{
 	private String name;
 	@Getter
 	private EntityType type;
-	@Getter
-	private PacketManager packetManager;
 	
 	public DeliveryPet(InventoryBase base,HashMap<InventoryLotto2Type, ArrayList<LottoPackage>> pack, DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm,MySQL mysql) {
 		super(mysql.getInstance(), "DeliveryPet");
 		this.packages=pack;
-		this.packetManager=packetManager;
 		this.mysql=mysql;
 		this.type=type;
 		this.location=location;
@@ -422,6 +417,7 @@ public class DeliveryPet extends kListener{
 				if(b || objects.get(name).byClickBlock){
 					deliveryBlock(player,name);
 				}
+				
 				objects.get(name).click.onClick(player, ActionType.R, objects.get(name));
 			}
 		}else{
