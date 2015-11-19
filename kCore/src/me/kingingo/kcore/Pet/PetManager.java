@@ -30,7 +30,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
+import me.kingingo.kcore.Pet.Shop.PetShop;
 
 public class PetManager implements Listener{
 
@@ -57,6 +57,9 @@ public class PetManager implements Listener{
 	@Getter
 	@Setter
 	private PlayerPetHandler handler; 
+	@Getter
+	@Setter
+	private PetShop petShop; 
 	
 	public PetManager(JavaPlugin instance){
 		Bukkit.getPluginManager().registerEvents(this, instance);

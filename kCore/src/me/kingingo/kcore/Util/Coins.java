@@ -11,6 +11,7 @@ import me.kingingo.kcore.Calendar.Calendar;
 import me.kingingo.kcore.Calendar.Calendar.CalendarType;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Language.Language;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
@@ -32,7 +33,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Score;
 
-public class Coins implements Listener{
+public class Coins extends kListener{
 	@Getter
 	private MySQL mysql;
 	@Getter
@@ -46,9 +47,9 @@ public class Coins implements Listener{
 	private boolean join_Check=true;
 	
 	public Coins(JavaPlugin instance,MySQL mysql){
+		super(instance,"Coins");
 		this.mysql=mysql;
 		this.item=UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aCoins-Bottle");
-		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
 	public void SaveAll(){
@@ -102,7 +103,7 @@ public class Coins implements Listener{
 			}
 			rs.close();
 		}catch (Exception err){	
-			UtilException.catchException(err, "Coins", Bukkit.getIp(), mysql);
+			UtilException.catchException(err, "Coins", Bukkit.getIp(), this.mysql);
 		}
 		
 		if(d==-999){

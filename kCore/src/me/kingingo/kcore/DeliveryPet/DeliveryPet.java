@@ -241,16 +241,16 @@ public class DeliveryPet extends kListener{
 	public void playEffect(){
 		UtilEffect.playHelix(getLocation(),UtilParticle.FIREWORKS_SPARK);
 		
-		try{
-			Entity e;
-			for(Player player : UtilPlayer.getInRadius(this.jockey.getLocation(), 8).keySet()){
-				e=this.jockey.getLocation().getWorld().spawnEntity(this.jockey.getLocation().add(0, 3, 0), EntityType.EGG);
-				e.setVelocity( e.getVelocity().add(UtilLocation.calculateVector(e.getLocation(), player.getEyeLocation())) );
-				UtilPlayer.addPotionEffect(player, PotionEffectType.SPEED, 10, 2);
-			}
-		}catch(IllegalStateException e){
-			
-		}
+//		try{
+//			Entity e;
+//			for(Player player : UtilPlayer.getInRadius(this.jockey.getLocation(), 8).keySet()){
+//				e=this.jockey.getLocation().getWorld().spawnEntity(this.jockey.getLocation().add(0, 3, 0), EntityType.EGG);
+//				e.setVelocity( e.getVelocity().add(UtilLocation.calculateVector(e.getLocation(), player.getEyeLocation())) );
+//				UtilPlayer.addPotionEffect(player, PotionEffectType.SPEED, 10, 2);
+//			}
+//		}catch(IllegalStateException e){
+//			
+//		}
 	}
 	
 	public int getRewards(Player player){

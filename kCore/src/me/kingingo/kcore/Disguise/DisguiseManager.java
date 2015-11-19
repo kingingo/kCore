@@ -3,6 +3,7 @@ package me.kingingo.kcore.Disguise;
 import java.util.HashMap;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Disguise.Events.DisguiseCreateEvent;
 import me.kingingo.kcore.Disguise.Events.DisguiseEntityLivingEvent;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
@@ -36,9 +37,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class DisguiseManager extends kListener {
 
 	@Getter
-	JavaPlugin instance;
+	private JavaPlugin instance;
 	@Getter
 	private HashMap<Integer,DisguiseBase> disguise = new HashMap<>();
+	@Getter
+	@Setter
+	private DisguiseShop disguiseShop;
 	
 	public DisguiseManager(JavaPlugin instance){
 		super(instance,"DisguiseManager");
