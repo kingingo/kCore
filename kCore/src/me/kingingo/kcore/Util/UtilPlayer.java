@@ -2,17 +2,15 @@ package me.kingingo.kcore.Util;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.TreeMap;
 import java.util.UUID;
 
-import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
 import me.kingingo.kcore.Enum.Zeichen;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutChat;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
-import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
@@ -45,12 +43,16 @@ import com.mojang.authlib.GameProfile;
 public class UtilPlayer
 {
 	
+	public static CraftPlayer getCraftPlayer(LivingEntity player){
+		return (CraftPlayer)player;
+	}
+	
 	public static void sendHovbarText(Player player,String text){
 		sendPacket(player, new kPacketPlayOutChat(text.replaceAll("&", "§"),kPacketPlayOutChat.ChatMode.HOVBAR));
 	}
 	
 	public static void sendPacket(Player player,Packet packet){
-		((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
+		getCraftPlayer(player).getHandle().playerConnection.sendPacket(packet);
 	}
 	
 	public static boolean hasPermission(Player p,String perm){
@@ -87,7 +89,7 @@ public class UtilPlayer
 	  }
 	
 	public static int getPlayerPing(Player player){
-		return (int)UtilReflection.getValue("ping", ((EntityPlayer)((CraftPlayer)player).getHandle()));
+		return (int)UtilReflection.getValue("ping", ((EntityPlayer)getCraftPlayer(player).getHandle()));
     }
 	
 	public static boolean hasPermission(Player p,kPermission perm){
@@ -214,11 +216,11 @@ public class UtilPlayer
 	}
 	
 	public static double getMaxHealth(Player player){
-		return ((CraftPlayer)player).getMaxHealth();
+		return getCraftPlayer(player).getMaxHealth();
 	}
 	
 	public static double getHealth(Player player){
-		return ((CraftPlayer)player).getHealth();
+		return getCraftPlayer(player).getHealth();
 	}
 	
   public static boolean isZoom(Player p){
@@ -267,153 +269,31 @@ public class UtilPlayer
     }
     return null;
   }
-
-  public static String searchCollection(Player caller, String player, Collection<String> coll, String collName, boolean inform)
-  {
-    LinkedList<String> matchList = new LinkedList<>();
-
-    for (String cur : coll)
-    {
-      if (cur.equalsIgnoreCase(player)) {
-        return cur;
-      }
-      if (cur.toLowerCase().contains(player.toLowerCase())) {
-        matchList.add(cur);
-      }
-    }
-
-    if (matchList.size() != 1)
-    {
-      if (!inform) {
-        return null;
-      }
-
-//      message(caller, F.main(collName + " Search", 
-//        C.mCount + matchList.size() + 
-//        C.mBody + " matches for [" + 
-//        C.mElem + player + 
-//        C.mBody + "]."));
-
-      if (matchList.size() > 0)
-      {
-        String matchString = "";
-        for (String cur : matchList) {
-          matchString = matchString + cur + " ";
-        }
-//        message(caller, F.main(collName + " Search", 
-//          C.mBody + " Matches [" + 
-//          C.mElem + matchString + 
-//          C.mBody + "]."));
-      }
-
-      return null;
-    }
-
-    return (String)matchList.get(0);
+  
+  public static TreeMap<Double, Player> getNearby(Location loc, double maxDist){
+	  return getNearby(loc, maxDist, null);
   }
 
-//  public static Player searchOnline(Player caller, String player, boolean inform)
-//  {
-//    LinkedList<Player> matchList = new LinkedList<>();
-//
-//    for (Player cur : UtilServer.getPlayers())
-//    {
-//      if (cur.getName().equalsIgnoreCase(player)) {
-//        return cur;
-//      }
-//      if (cur.getName().toLowerCase().contains(player.toLowerCase())) {
-//        matchList.add(cur);
-//      }
-//    }
-//
-//    if (matchList.size() != 1)
-//    {
-//      if (!inform) {
-//        return null;
-//      }
-//
-////      message(caller, F.main("Online Player Search", 
-////        C.mCount + matchList.size() + 
-////        C.mBody + " matches for [" + 
-////        C.mElem + player + 
-////        C.mBody + "]."));
-//
-//      if (matchList.size() > 0)
-//      {
-//        String matchString = "";
-//        for (Player cur : matchList)
-//          matchString = matchString + F.elem(cur.getName()) + ", ";
-//        if (matchString.length() > 1) {
-//          matchString = matchString.substring(0, matchString.length() - 2);
-//        }
-////        message(caller, F.main("Online Player Search", 
-////          C.mBody + "Matches [" + 
-////          C.mElem + matchString + 
-////          C.mBody + "]."));
-//      }
-//
-//      return null;
-//    }
-//
-//    return (Player)matchList.get(0);
-//  }
+  public static TreeMap<Double, Player> getNearby(Location loc, double maxDist,kPermission ignore){
+	  TreeMap nearbyMap = new TreeMap();
 
-//  public static LinkedList<Player> matchOnline(Player caller, String players, boolean inform)
-//  {
-//    LinkedList matchList = new LinkedList();
-//
-//    String failList = "";
-//
-//    for (String cur : players.split(","))
-//    {
-//      Player match = searchOnline(caller, cur, inform);
-//
-//      if (match != null) {
-//        matchList.add(match);
-//      }
-//      else {
-//        failList = failList + cur + " ";
-//      }
-//    }
-//    if ((inform) && (failList.length() > 0))
-//    {
-//      failList = failList.substring(0, failList.length() - 1);
-////      message(caller, F.main("Online Player(s) Search", 
-////        C.mBody + "Invalid [" + 
-////        C.mElem + failList + 
-////        C.mBody + "]."));
-//    }
-//
-//    return matchList;
-//  }
+    for (Player cur : loc.getWorld().getPlayers()) {
+      if(ignore!=null&&!cur.hasPermission(ignore.getPermissionToString())){
+          if (cur.getGameMode() != GameMode.CREATIVE && cur.getGameMode() != GameMode.SPECTATOR) {
+              if (!cur.isDead()) {
+                double dist = loc.toVector().subtract(cur.getLocation().toVector()).length();
 
-  public static LinkedList<Player> getNearby(Location loc, double maxDist)
-  {
-    LinkedList nearbyMap = new LinkedList();
+                if (dist <= maxDist) {
+                  for (int i = 0; i < nearbyMap.size(); i++) {
+                    if (dist < loc.toVector().subtract(((Player)nearbyMap.get(i)).getLocation().toVector()).length()) {
+                      nearbyMap.put(dist, cur);
+                      break;
+                    }
+                  }
 
-    for (Player cur : loc.getWorld().getPlayers())
-    {
-      if (cur.getGameMode() != GameMode.CREATIVE)
-      {
-        if (!cur.isDead())
-        {
-          double dist = loc.toVector().subtract(cur.getLocation().toVector()).length();
-
-          if (dist <= maxDist)
-          {
-            for (int i = 0; i < nearbyMap.size(); i++)
-            {
-              if (dist < loc.toVector().subtract(((Player)nearbyMap.get(i)).getLocation().toVector()).length())
-              {
-                nearbyMap.add(i, cur);
-                break;
+                }
               }
             }
-
-            if (!nearbyMap.contains(cur))
-              nearbyMap.addLast(cur); 
-          }
-        }
       }
     }
     return nearbyMap;
@@ -426,7 +306,7 @@ public class UtilPlayer
 
     for (Player cur : loc.getWorld().getPlayers())
     {
-      if (cur.getGameMode() != GameMode.CREATIVE)
+      if (cur.getGameMode() != GameMode.CREATIVE || cur.getGameMode() != GameMode.SPECTATOR)
       {
         if (!cur.isDead())
         {
@@ -445,7 +325,7 @@ public class UtilPlayer
     }
     return best;
   }
-
+  
   public static Player getClosest(Location loc, org.bukkit.entity.Entity ignore)
   {
     Player best = null;
@@ -453,7 +333,7 @@ public class UtilPlayer
 
     for (Player cur : loc.getWorld().getPlayers())
     {
-      if (cur.getGameMode() != GameMode.CREATIVE)
+      if (cur.getGameMode() != GameMode.CREATIVE || cur.getGameMode() != GameMode.SPECTATOR)
       {
         if (!cur.isDead())
         {
@@ -495,12 +375,11 @@ public class UtilPlayer
   public static HashMap<Player, Double> getInRadius(Location loc, double dR)
   {
     HashMap players = new HashMap();
-
-    for (Player cur : loc.getWorld().getPlayers())
-    {
-      if (cur.getGameMode() != GameMode.CREATIVE)
-      {
-        double offset = UtilMath.offset(loc, cur.getLocation());
+    double offset;
+    
+    for (Player cur : loc.getWorld().getPlayers()){
+      if (cur.getGameMode() != GameMode.CREATIVE || cur.getGameMode() != GameMode.SPECTATOR){
+        offset = UtilMath.offset(loc, cur.getLocation());
 
         if (offset < dR)
           players.put(cur, Double.valueOf(1.0D - offset / dR));
@@ -514,7 +393,7 @@ public class UtilPlayer
   }
   
   public static void damage(Player player, double prozent){
-	  health(player, -((prozent/100)*((CraftPlayer)player).getHealth()));
+	  health(player, -((prozent/100)*getCraftPlayer(player).getHealth()));
   }
   
   public static void health(LivingEntity player, double mod)
@@ -527,13 +406,13 @@ public class UtilPlayer
     	player.damage(0);
     }
     
-    double health = ((CraftPlayer)player).getHealth() + mod;
+    double health = getCraftPlayer(player).getHealth() + mod;
 
     if (health < 0.0D) {
       health = 0.0D;
     }
-    if (health > ((CraftPlayer)player).getMaxHealth()) {
-      health = ((CraftPlayer)player).getMaxHealth();
+    if (health > getCraftPlayer(player).getMaxHealth()) {
+      health = getCraftPlayer(player).getMaxHealth();
     }
     player.setHealth(health);
   }
@@ -548,13 +427,13 @@ public class UtilPlayer
     	player.damage(0);
     }
     
-    double health = ((CraftPlayer)player).getHealth() + mod;
+    double health = getCraftPlayer(player).getHealth() + mod;
 
     if (health < 0.0D) {
       health = 0.0D;
     }
-    if (health > ((CraftPlayer)player).getMaxHealth()) {
-      health = ((CraftPlayer)player).getMaxHealth();
+    if (health > getCraftPlayer(player).getMaxHealth()) {
+      health = getCraftPlayer(player).getMaxHealth();
     }
     player.setHealth(health);
   }
@@ -563,8 +442,7 @@ public class UtilPlayer
 	  p.addPotionEffect(new PotionEffect(typ,time*20,stärke));
   }
 
-  public static void hunger(Player player, int mod)
-  {
+  public static void hunger(Player player, int mod){
     if (player.isDead()) {
       return;
     }

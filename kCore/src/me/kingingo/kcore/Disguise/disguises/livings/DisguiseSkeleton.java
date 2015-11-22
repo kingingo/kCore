@@ -1,11 +1,9 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
 import me.kingingo.kcore.Disguise.disguises.DisguiseMonster;
-import net.minecraft.server.v1_8_R3.DataWatcher;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Skeleton.SkeletonType;
 
 public class DisguiseSkeleton extends DisguiseMonster
 {

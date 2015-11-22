@@ -1,17 +1,13 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
 import java.util.Random;
 
-import org.bukkit.craftbukkit.v1_8_R3.util.CraftMagicNumbers;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.FallingBlock;
-
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.PacketAPI.kPacket;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutRelEntityMoveLook;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntity;
 import net.minecraft.server.v1_8_R3.Block;
-import net.minecraft.server.v1_8_R3.IBlockData;
-import net.minecraft.server.v1_8_R3.Packet;
+
+import org.bukkit.craftbukkit.v1_8_R3.util.CraftMagicNumbers;
+import org.bukkit.entity.EntityType;
 
 public class DisguiseBlock extends DisguiseBase
 {

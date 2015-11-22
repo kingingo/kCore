@@ -66,7 +66,6 @@ public class CommandSpawnmob implements CommandExecutor{
 						player.getLocation().getWorld().spawnCreature(player.getLocation(), mob.getType());
 					}
 				}
-				
 			}
 		}
 		return false;

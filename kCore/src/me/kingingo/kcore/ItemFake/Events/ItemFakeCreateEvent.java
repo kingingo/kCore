@@ -3,8 +3,6 @@ package me.kingingo.kcore.ItemFake.Events;
 import lombok.Getter;
 import me.kingingo.kcore.ItemFake.ItemFake;
 
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

@@ -7,7 +7,9 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -16,7 +18,6 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class EntityClickListener extends kListener{
@@ -24,11 +25,15 @@ public class EntityClickListener extends kListener{
 	private Click click;
 	@Getter
 	private Entity entity;
+	private Location location;
+	private EntityType type;
 	
 	public EntityClickListener(JavaPlugin instance,Click click, Entity entity) {
 		super(instance, (entity.getCustomName()!=null?entity.getCustomName():"CreatureInv")+"Listener");
 		this.click=click;
 		this.entity=entity;
+		this.location=entity.getLocation();
+		this.type=entity.getType();
 	}
 	
 	@EventHandler
@@ -43,7 +48,7 @@ public class EntityClickListener extends kListener{
 	public void udpat(UpdateEvent ev){
 		if(ev.getType()==UpdateType.MIN_08){
 			if(entity.isDead()){
-				this.entity=this.entity.getWorld().spawnEntity(entity.getLocation(), entity.getType());
+				this.entity=this.entity.getWorld().spawnEntity(this.location, this.type);
 			}
 		}
 	}

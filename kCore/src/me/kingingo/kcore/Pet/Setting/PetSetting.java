@@ -10,13 +10,14 @@ import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Pet.PetManager;
 import me.kingingo.kcore.Util.AnvilGUI.AnvilClickEvent;
 import me.kingingo.kcore.Util.AnvilGUI.AnvilClickEventHandler;
-import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.InventorySize;
+import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftAgeable;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Creeper;
@@ -29,7 +30,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Rabbit.Type;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.entity.Slime;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.Villager.Profession;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
@@ -99,7 +104,7 @@ public class PetSetting extends InventoryPageBase{
 					if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 				}
 			},Material.WOOL,"§aFarbe Ändern"));
-		}else if(type==EntityType.SLIME){
+		}else if(type==EntityType.SLIME||type==EntityType.MAGMA_CUBE){
 			
 			final InventoryChoose inv_typ=new InventoryChoose(new Click(){
 				@Override
@@ -266,6 +271,50 @@ public class PetSetting extends InventoryPageBase{
 					player.openInventory(inv_chest);
 				}
 			},Material.RABBIT,"§aRabbit Type"));
+		}else if(type==EntityType.VILLAGER){
+			final InventoryChoose inv_chest=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Villager c = (Villager)manager.GetPet(player);
+						c.setProfession( Profession.valueOf( ((ItemStack)object).getItemMeta().getDisplayName() ) );
+						player.closeInventory();
+						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
+					}
+				}
+			},"Profession Type Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(351,1), Profession.BLACKSMITH.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)1), Profession.BUTCHER.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)7), Profession.FARMER.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)6), Profession.LIBRARIAN.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)5), Profession.PRIEST.name())});
+			base.addPage(inv_chest);
+			
+			button++;
+			addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					player.closeInventory();
+					player.openInventory(inv_chest);
+				}
+			},Material.BONE,"§aProfession Type"));
+		}else if(type==EntityType.SKELETON){
+			final InventoryChoose inv_chest=new InventoryChoose(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					if(object instanceof ItemStack){
+						Skeleton c = (Skeleton)manager.GetPet(player);
+						c.setSkeletonType( SkeletonType.valueOf( ((ItemStack)object).getItemMeta().getDisplayName() ) );
+						player.closeInventory();
+						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
+					}
+				}
+			},"Skeleton Type Ändern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM,1,(byte)SkullType.SKELETON.ordinal()), SkeletonType.NORMAL.name()),UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM,1,(byte)SkullType.WITHER.ordinal()), SkeletonType.WITHER.name())});
+			base.addPage(inv_chest);
+			
+			button++;
+			addButton(button, new ButtonBase(new Click(){
+				@Override
+				public void onClick(Player player, ActionType type,Object object) {
+					player.closeInventory();
+					player.openInventory(inv_chest);
+				}
+			},Material.BONE,"§aSkeleton Type"));
 		}else if(type==EntityType.WOLF){
 			
 			button++;

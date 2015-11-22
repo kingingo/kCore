@@ -1,6 +1,4 @@
 package me.kingingo.kcore.Util;
-import lombok.Getter;
-
 import org.bukkit.entity.Player;
 
 public class UtilEXP {

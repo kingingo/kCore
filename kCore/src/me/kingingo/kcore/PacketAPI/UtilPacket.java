@@ -5,26 +5,16 @@ import java.nio.channels.Channel;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.Disguise.disguises.livings.DisguiseZombie;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntity;
 import me.kingingo.kcore.PacketAPI.packetlistener.Cancellable;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.PacketHandler;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.ReceivedPacket;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.SentPacket;
-import me.kingingo.kcore.Util.UtilPlayer;
 import net.minecraft.server.v1_8_R3.MathHelper;
 import net.minecraft.server.v1_8_R3.NetworkManager;
-import net.minecraft.server.v1_8_R3.PacketPlayInTabComplete;
-import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;

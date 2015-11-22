@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 
 import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.packetlistener.Cancellable;
-import me.kingingo.kcore.PacketAPI.packetlistener.handler.PacketHandler;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

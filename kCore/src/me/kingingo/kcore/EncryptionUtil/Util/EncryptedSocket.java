@@ -1,10 +1,8 @@
 package me.kingingo.kcore.EncryptionUtil.Util;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketImpl;
@@ -19,10 +17,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
-import me.kingingo.kcore.EncryptionUtil.Encryptions.AsymmetricEncryption;
-import me.kingingo.kcore.EncryptionUtil.Encryptions.HashEncryption;
 import me.kingingo.kcore.EncryptionUtil.Encryptions.SymmetricEncryption;
 import me.kingingo.kcore.EncryptionUtil.Streams.EncryptedInputStream;
 import me.kingingo.kcore.EncryptionUtil.Streams.EncryptedOutputStream;

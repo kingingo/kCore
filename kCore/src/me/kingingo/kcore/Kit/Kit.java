@@ -6,12 +6,9 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.Disguise.DisguiseManager;
 import me.kingingo.kcore.Disguise.DisguiseType;
-import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
-import me.kingingo.kcore.Kit.Perks.Event.PerkHasPlayerEvent;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilItem;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -51,7 +48,7 @@ public class Kit extends PerkData{
 		this.dmanager=dmanager;
 		int i;
 		try{
-		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
+		if(KitType.KAUFEN==type||KitType.KAUFEN_COINS==type||KitType.KAUFEN_GEMS==type){
 			i=4;
 		}else{
 			i=2;
@@ -67,7 +64,7 @@ public class Kit extends PerkData{
 		this.description[0]=getType().getName();
 		i=1;
 		
-		if(KitType.PREMIUM!=type&&KitType.STARTER!=type){
+		if(KitType.KAUFEN==type||KitType.KAUFEN_COINS==type||KitType.KAUFEN_GEMS==type){
 			if(coins_preis>0){
 				this.description[i]="§eCoins: "+coins_preis;
 				i++;

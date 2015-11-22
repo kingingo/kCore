@@ -16,8 +16,8 @@ import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.GIVE_COINS;
-import me.kingingo.kcore.Packet.Packets.GIVE_GEMS;
 import me.kingingo.kcore.Packet.Packets.PLAYER_ONLINE;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 
@@ -26,7 +26,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -212,6 +211,15 @@ public class Coins extends kListener{
 	
 	public void addCoins(Player p,boolean save,Integer coins,GameType typ){
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
+		
+		if(p.hasPermission(kPermission.COINS_ONE_ADD.getPermissionToString())){
+			coins++;
+		}else if(p.hasPermission(kPermission.COINS_TWO_ADD.getPermissionToString())){
+			coins=coins+2;
+		}else if(p.hasPermission(kPermission.COINS_THREE_ADD.getPermissionToString())){
+			coins=coins+3;
+		}
+		
 		if(Calendar.holiday!=null&&(Calendar.holiday==CalendarType.GEBURSTAG||Calendar.holiday==CalendarType.GEBURSTAG_MANUEL)){
 			coins=coins*2;
 			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "COINS_ADD_DOUBLE"));
@@ -321,6 +329,15 @@ public class Coins extends kListener{
 			coins=coins*2;
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD_DOUBLE"));
 		}
+		
+		if(p.hasPermission(kPermission.COINS_ONE_ADD.getPermissionToString())){
+			coins++;
+		}else if(p.hasPermission(kPermission.COINS_TWO_ADD.getPermissionToString())){
+			coins=coins+2;
+		}else if(p.hasPermission(kPermission.COINS_THREE_ADD.getPermissionToString())){
+			coins=coins+3;
+		}
+		
 		if(!save){
 			int c = getCoins(p);
 			int co=c+coins;
@@ -353,6 +370,13 @@ public class Coins extends kListener{
 	}
 	
 	public void addCoins(Player p,boolean save,Integer coins){
+		if(p.hasPermission(kPermission.COINS_ONE_ADD.getPermissionToString())){
+			coins++;
+		}else if(p.hasPermission(kPermission.COINS_TWO_ADD.getPermissionToString())){
+			coins=coins+2;
+		}else if(p.hasPermission(kPermission.COINS_THREE_ADD.getPermissionToString())){
+			coins=coins+3;
+		}
 		if(!change_coins.contains(UtilPlayer.getRealUUID(p)))change_coins.add(UtilPlayer.getRealUUID(p));
 		if(Calendar.holiday!=null&&(Calendar.holiday==CalendarType.GEBURSTAG||Calendar.holiday==CalendarType.GEBURSTAG_MANUEL)){
 			coins=coins*2;

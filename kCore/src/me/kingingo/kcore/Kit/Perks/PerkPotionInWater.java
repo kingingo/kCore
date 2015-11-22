@@ -1,13 +1,13 @@
 package me.kingingo.kcore.Kit.Perks;
 
+import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Update.UpdateType;
+import me.kingingo.kcore.Update.Event.UpdateEvent;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import me.kingingo.kcore.Kit.Perk;
-import me.kingingo.kcore.Update.UpdateType;
-import me.kingingo.kcore.Update.Event.UpdateEvent;
 
 public class PerkPotionInWater extends Perk{
 

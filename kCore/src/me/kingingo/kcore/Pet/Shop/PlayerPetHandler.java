@@ -34,7 +34,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Rabbit.Type;
 import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.entity.Slime;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.Villager.Profession;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
@@ -73,6 +77,10 @@ public class PlayerPetHandler implements Listener{
 		this.manager.setSetting(true);
 		this.permManager.getMysql().Update("CREATE TABLE IF NOT EXISTS "+serverType.name()+"_pets(uuid varchar(100),pet varchar(100))");
 		
+		this.manager.getSetting_list().put(EntityType.MAGMA_CUBE, new PetSetting(base,manager,EntityType.MAGMA_CUBE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 62), "§aMagma Cube")));
+		this.manager.getSetting_list().put(EntityType.VILLAGER, new PetSetting(base,manager,EntityType.VILLAGER,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 120), "§aVillager")));
+		this.manager.getSetting_list().put(EntityType.WITCH, new PetSetting(base,manager,EntityType.WITCH,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 66), "§aWitch")));
+		this.manager.getSetting_list().put(EntityType.SKELETON, new PetSetting(base,manager,EntityType.SKELETON,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 51), "§aSkeleton")));
 		this.manager.getSetting_list().put(EntityType.CHICKEN, new PetSetting(base,manager,EntityType.CHICKEN,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 93), "§aChicken")));
 		this.manager.getSetting_list().put(EntityType.SLIME, new PetSetting(base,manager,EntityType.SLIME,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 55), "§aSlime")));
 		this.manager.getSetting_list().put(EntityType.ENDERMAN, new PetSetting(base,manager,EntityType.ENDERMAN,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 58), "§aEnderman")));
@@ -124,6 +132,10 @@ public class PlayerPetHandler implements Listener{
 			sql=sql+"VARIANT:"+((Horse)c).getVariant().name()+"-/-";
 			sql=sql+"ARMOR:"+( ((Horse)c).getInventory().getArmor()==null ? 0 : ((Horse)c).getInventory().getArmor().getTypeId() )+"-/-";
 			sql=sql+"STYLE:"+((Horse)c).getStyle().name()+"-/-";
+		}else if(c instanceof Skeleton){
+			sql=sql+"SKELETON_TYPE:"+((Skeleton)c).getSkeletonType().name()+"-/-";
+		}else if(c instanceof Villager){
+			sql=sql+"PROFESSION:"+((Villager)c).getProfession().name()+"-/-";
 		}
 		return sql;
 	}
@@ -158,6 +170,10 @@ public class PlayerPetHandler implements Listener{
 		case "§aRabbit": return kPermission.PET_RABBIT;
 		case "§aHorse": return kPermission.PET_HORSE;
 		case "§aBlaze": return kPermission.PET_BLAZE;
+		case "§aMagma Cube": return kPermission.PET_MAGMACUBE;
+		case "§aVillager": return kPermission.PET_VILLAGER;
+		case "§aWitch": return kPermission.PET_WITCH;
+		case "§aSkeleton": return kPermission.PET_SKELETON;
 		default:
 			return kPermission.NONE;
 		}
@@ -182,6 +198,10 @@ public class PlayerPetHandler implements Listener{
 		case PET_RABBIT: return EntityType.RABBIT;
 		case PET_HORSE: return EntityType.HORSE;
 		case PET_BLAZE: return EntityType.BLAZE;
+		case PET_MAGMACUBE: return EntityType.MAGMA_CUBE;
+		case PET_SKELETON: return EntityType.SKELETON;
+		case PET_VILLAGER: return EntityType.VILLAGER;
+		case PET_WITCH: return EntityType.WITCH;
 		default:
 			return null;
 		}
@@ -190,7 +210,6 @@ public class PlayerPetHandler implements Listener{
 	public kPermission getPerm(EntityType type){
 		switch(type){
 		case ENDERMAN: return kPermission.PET_ENDERMAN;
-		case SLIME: return kPermission.PET_SLIME;
 		case CHICKEN: return kPermission.PET_CHICKEN;
 		case CREEPER: return kPermission.PET_CREEPER;
 		case COW: return kPermission.PET_COW;
@@ -206,6 +225,10 @@ public class PlayerPetHandler implements Listener{
 		case RABBIT: return kPermission.PET_RABBIT;
 		case HORSE: return kPermission.PET_HORSE;
 		case BLAZE: return kPermission.PET_BLAZE;
+		case SLIME: return kPermission.PET_SLIME;
+		case VILLAGER: return kPermission.PET_VILLAGER;
+		case MAGMA_CUBE: return kPermission.PET_MAGMACUBE;
+		case WITCH: return kPermission.PET_WITCH;
 		default:
 			return kPermission.NONE;
 		}
@@ -282,6 +305,12 @@ public class PlayerPetHandler implements Listener{
 				if(split[a]!=null)((Horse)c).getInventory().setArmor( new ItemStack( Integer.valueOf(split[a].split(":")[1]) ) );
 				a++;
 				if(split[a]!=null)((Horse)c).setStyle( Horse.Style.valueOf( String.valueOf(split[a].split(":")[1] )) );
+			}else if(c instanceof Skeleton){
+				a++;
+				if(split[a]!=null)((Skeleton)c).setSkeletonType( SkeletonType.valueOf(String.valueOf( split[a].split(":")[1]) ) );
+			}else if(c instanceof Villager){
+				a++;
+				if(split[a]!=null)((Villager)c).setProfession( Profession.valueOf(String.valueOf( split[a].split(":")[1]) ) );
 			}
 			
 			}else{

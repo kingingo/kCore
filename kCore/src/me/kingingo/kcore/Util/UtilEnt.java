@@ -1,14 +1,15 @@
 package me.kingingo.kcore.Util;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import net.minecraft.server.v1_8_R3.EntityChicken;
 import net.minecraft.server.v1_8_R3.EntityCreature;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityInsentient;
+import net.minecraft.server.v1_8_R3.EntityLiving;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.NavigationAbstract;
+import net.minecraft.server.v1_8_R3.PathEntity;
 import net.minecraft.server.v1_8_R3.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_8_R3.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
@@ -34,8 +35,6 @@ public class UtilEnt
 {
   private static HashMap<org.bukkit.entity.Entity, String> _nameMap = new HashMap();
   private static HashMap<String, EntityType> creatureMap = new HashMap();
-  private static Field _goalSelector;
-  private static Field _targetSelector;
 
   public static HashMap<org.bukkit.entity.Entity, String> GetEntityNames()
   {
@@ -75,23 +74,67 @@ public class UtilEnt
       nmsEn.f(compound);
   }
   
-  public static void ClearGoals(org.bukkit.entity.Creature pet){
+//  public static boolean moveEntity(Entity e,Location l,float speed){
+//	   if(((CraftEntity)e).getHandle() instanceof EntityCreature || ((CraftEntity)e) instanceof CraftCreature || e instanceof CraftCreature){
+//	     EntityCreature entity = ((CraftCreature) e).getHandle();
+//	     NavigationAbstract nav = entity.getNavigation();
+//	     nav.a(true);
+//	     PathEntity path = nav.a(l.getX(),l.getY(),l.getZ());
+//	     entity.d = path;
+//	     return nav.a(path, speed);
+//	   }else if(((CraftEntity)e).getHandle() instanceof EntityInsentient){
+//	    EntityInsentient ei = ((EntityInsentient)((CraftEntity) e).getHandle());
+//	    NavigationAbstract nav = ei.getNavigation();
+//	    nav.a(true);
+//	    ei.getControllerMove().a(l.getX(),l.getY(),l.getZ(),(float)speed);
+//	    return nav.a(l.getX(),l.getY(),l.getZ(),(float)speed);
+//	   }else if(((CraftEntity)e).getHandle() instanceof EntityLiving){
+//	    EntityLiving entity = (EntityLiving)((CraftEntity)e).getHandle();
+//	    entity.move(l.getX(), l.getY(),l.getZ());
+//	    entity.e((float)l.getX(), (float)l.getZ());
+//	    return true;
+//	   }else{
+//	    System.out.println("Keiner");
+//	    return false;
+//	   }
+//	  }
+  
+  public static void ClearGoals(Entity pet){
 	    try
 	    {
-	      _goalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
-	      _goalSelector.setAccessible(true);
-	      _targetSelector = EntityInsentient.class.getDeclaredField("targetSelector");
-	      _targetSelector.setAccessible(true);
+	      if(((CraftEntity)pet).getHandle() instanceof EntityCreature || ((CraftEntity)pet) instanceof CraftCreature || pet instanceof CraftCreature){
+	    	  Field _goalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
+		      _goalSelector.setAccessible(true);
+		      Field _targetSelector = EntityInsentient.class.getDeclaredField("targetSelector");
+		      _targetSelector.setAccessible(true);
 
-	      EntityCreature creature = ((CraftCreature)pet).getHandle();
+		      EntityCreature entity = ((CraftCreature) pet).getHandle();
 
-	      PathfinderGoalSelector goalSelector = new PathfinderGoalSelector(((CraftWorld)pet.getWorld()).getHandle().methodProfiler);
+		      PathfinderGoalSelector goalSelector = new PathfinderGoalSelector(((CraftWorld)pet.getWorld()).getHandle().methodProfiler);
 
-	      goalSelector.a(0, new PathfinderGoalLookAtPlayer(creature, EntityHuman.class, 6.0F));
-	      goalSelector.a(1, new PathfinderGoalRandomLookaround(creature));
+		      goalSelector.a(0, new PathfinderGoalLookAtPlayer(entity, EntityHuman.class, 6.0F));
+		      goalSelector.a(1, new PathfinderGoalRandomLookaround(entity));
 
-	      _goalSelector.set(creature, goalSelector);
-	      _targetSelector.set(creature, new PathfinderGoalSelector(((CraftWorld)pet.getWorld()).getHandle().methodProfiler));
+		      _goalSelector.set(entity, goalSelector);
+		      _targetSelector.set(entity, new PathfinderGoalSelector(((CraftWorld)pet.getWorld()).getHandle().methodProfiler));
+	      }else if(((CraftEntity)pet).getHandle() instanceof EntityInsentient){
+	    	  Field _goalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
+		      _goalSelector.setAccessible(true);
+		      Field _targetSelector = EntityInsentient.class.getDeclaredField("targetSelector");
+		      _targetSelector.setAccessible(true);
+
+		      EntityInsentient entity = ((EntityInsentient)((CraftEntity) pet).getHandle());
+
+		      PathfinderGoalSelector goalSelector = new PathfinderGoalSelector(((CraftWorld)pet.getWorld()).getHandle().methodProfiler);
+
+		      goalSelector.a(0, new PathfinderGoalLookAtPlayer(entity, EntityHuman.class, 6.0F));
+		      goalSelector.a(1, new PathfinderGoalRandomLookaround(entity));
+
+		      _goalSelector.set(entity, goalSelector);
+		      _targetSelector.set(entity, new PathfinderGoalSelector(((CraftWorld)pet.getWorld()).getHandle().methodProfiler));
+	      }else{
+	    	  UtilDebug.debug("UtilENT-ClearGoals", "Entity konnte nicht zugeordnet werden "+pet.getType().name());
+	      }
 	    }
 	    catch (IllegalArgumentException e)
 	    {
@@ -109,43 +152,6 @@ public class UtilEnt
 	    {
 	      e.printStackTrace();
 	    }
-	  }
-
-  public static void removeGoalSelectors(org.bukkit.entity.Entity entity)
-  {
-    try
-    {
-      if (_goalSelector == null)
-      {
-        _goalSelector = EntityInsentient.class.getDeclaredField("goalSelector");
-        _goalSelector.setAccessible(true);
-      }
-
-      if ((((CraftEntity)entity).getHandle() instanceof EntityInsentient))
-      {
-        EntityInsentient creature = (EntityInsentient)((CraftEntity)entity).getHandle();
-
-        PathfinderGoalSelector goalSelector = new PathfinderGoalSelector(((CraftWorld)entity.getWorld()).getHandle().methodProfiler);
-
-        _goalSelector.set(creature, goalSelector);
-      }
-    }
-    catch (IllegalArgumentException e)
-    {
-      e.printStackTrace();
-    }
-    catch (IllegalAccessException e)
-    {
-      e.printStackTrace();
-    }
-    catch (NoSuchFieldException e)
-    {
-      e.printStackTrace();
-    }
-    catch (SecurityException e)
-    {
-      e.printStackTrace();
-    }
   }
 
   public static void populate()
@@ -222,17 +228,15 @@ public class UtilEnt
   public static HashMap<LivingEntity, Double> getInRadius(Location loc, double dR)
   {
     HashMap ents = new HashMap();
+    LivingEntity ent;
+    double offset;
 
-    for (org.bukkit.entity.Entity cur : loc.getWorld().getEntities())
-    {
-      if (((cur instanceof LivingEntity)) && ((!(cur instanceof Player)) || (((Player)cur).getGameMode() != GameMode.CREATIVE)))
-      {
-        LivingEntity ent = (LivingEntity)cur;
-
-        double offset = UtilMath.offset(loc, ent.getLocation());
-
-        if (offset < dR)
-          ents.put(ent, Double.valueOf(1.0D - offset / dR));
+    for (org.bukkit.entity.Entity cur : loc.getWorld().getEntities()){
+      if (((cur instanceof LivingEntity)) && ((!(cur instanceof Player)) || (((Player)cur).getGameMode() != GameMode.CREATIVE))){
+         ent = (LivingEntity)cur;
+        
+         offset = UtilMath.offset(loc, ent.getLocation());
+         if (offset < dR) ents.put(ent, Double.valueOf(1.0D - offset / dR));
       }
     }
     return ents;

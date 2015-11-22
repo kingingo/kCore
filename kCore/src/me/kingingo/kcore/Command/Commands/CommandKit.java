@@ -56,12 +56,12 @@ public class CommandKit implements CommandExecutor{
 			}else{
 				kit=args[0].toLowerCase();
 				if(kits.containsKey(kit)){
+					//epicpvp.kit.use.starter
 					if(player.hasPermission(kPermission.KIT.getPermissionToString()+"."+kit)){
 						this.userconfig=userData.getConfig(player);
 						
 						if(kits_delay.containsKey(kit)&&!player.hasPermission(kPermission.KIT_BYEPASS_DELAY.getPermissionToString())&&this.userconfig.isSet("timestamps.kits."+kit)){
 							if(this.userconfig.getLong("timestamps.kits."+kit) >= System.currentTimeMillis()){
-								
 								player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_DELAY",UtilTime.formatMili(this.userconfig.getLong("timestamps.kits."+kit)-System.currentTimeMillis())));
 								return false;
 							}

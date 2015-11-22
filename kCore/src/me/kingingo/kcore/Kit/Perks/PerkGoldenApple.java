@@ -1,15 +1,13 @@
 package me.kingingo.kcore.Kit.Perks;
 
+import lombok.Setter;
+import me.kingingo.kcore.Kit.Perk;
+
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import lombok.Setter;
-import me.kingingo.kcore.Kit.Perk;
-import me.kingingo.kcore.Util.TimeSpan;
-import me.kingingo.kcore.Util.UtilInv;
 
 public class PerkGoldenApple extends Perk{
 

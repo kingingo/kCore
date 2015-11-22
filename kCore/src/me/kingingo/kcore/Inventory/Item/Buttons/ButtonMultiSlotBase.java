@@ -7,7 +7,6 @@ import me.kingingo.kcore.Inventory.Item.IButtonMultiSlot;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class ButtonMultiSlotBase implements IButtonMultiSlot{
 

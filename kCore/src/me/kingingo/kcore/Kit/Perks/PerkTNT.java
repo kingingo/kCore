@@ -1,11 +1,11 @@
 package me.kingingo.kcore.Kit.Perks;
 
+import me.kingingo.kcore.Kit.Perk;
+
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
-
-import me.kingingo.kcore.Kit.Perk;
 
 public class PerkTNT extends Perk{
 

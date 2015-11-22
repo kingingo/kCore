@@ -1,11 +1,11 @@
 package me.kingingo.kcore.Kit.Perks;
 
+import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Util.UtilItem;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
-
-import me.kingingo.kcore.Kit.Perk;
-import me.kingingo.kcore.Util.UtilItem;
 
 public class PerkHat extends Perk{
 

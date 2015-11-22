@@ -5,6 +5,7 @@ import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
+import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.command.Command;
@@ -18,7 +19,7 @@ public class CommandRepair implements CommandExecutor{
 	private String s;
 	private Long l;
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "repair",alias={"rp","fix"}, sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "repair",alias={"rp","fix","ifix"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player = (Player)sender;
 		if(player.hasPermission(kPermission.REPAIR.getPermissionToString())){
@@ -47,6 +48,13 @@ public class CommandRepair implements CommandExecutor{
 								UtilInv.repairInventory(player, false);
 							}
 							player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "REPAIR_ALL"));
+						}
+					}else if(args[0].equalsIgnoreCase("allplayer")){
+						if(player.hasPermission(kPermission.REPAIR_ALL_PLAYERS.getPermissionToString())){
+							for(Player p : UtilServer.getPlayers()){
+								UtilInv.repairInventory(p, true);
+								p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "REPAIR_ALL_BY",new String[]{player.getName()}));
+							}
 						}
 					}
 				}

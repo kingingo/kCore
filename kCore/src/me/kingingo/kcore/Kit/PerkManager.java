@@ -6,7 +6,6 @@ import lombok.Getter;
 import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerAddEvent;
 import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerRemoveEvent;
 import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.kConfig.kConfig;

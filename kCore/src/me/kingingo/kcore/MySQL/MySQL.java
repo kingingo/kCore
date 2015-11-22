@@ -7,14 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import lombok.Getter;
-import lombok.Setter;
 import me.kingingo.kcore.MySQL.Events.MySQLConnectEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLDisconnectEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLQueryEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLUpdateEvent;
-import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;

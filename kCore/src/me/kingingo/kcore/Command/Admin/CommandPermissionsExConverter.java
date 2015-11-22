@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Permission.GroupTyp;
-import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Permission.PermissionManager;
+import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;

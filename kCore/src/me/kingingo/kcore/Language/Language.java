@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.Enum.Zeichen;
 import me.kingingo.kcore.Language.Listener.LanguageListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
@@ -15,7 +14,6 @@ import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.PLAYER_LANGUAGE_CHANGE;
 import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.Util.UtilTime;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -188,7 +186,7 @@ public class Language {
 			add(type, "STATS_KDR", "§6KDR : §7");
 			add(type, "STATS_GILDE", "§6Gild : §7");
 			add(type, "STATS_RANKING", "§6Rank : §7");
-			add(type, "PREMIUM_PET", "§cBuy §6Premium§c to activate this feature!");
+	        add(type, "BUY_RANK", "§7You need a rank to use this feature!§a Ranks§7 can you buy at §aShop.EpicPvP.de");
 			add(type, "TREASURE_CHEST_TOO_NEAR", "§cYou are too close to another TreasureChest!");
 			add(type, "CHAT_MESSAGE_BLOCK", "§cDo not use that kind of language!");
 			add(type, "SPIELER_ENTFERNT_COMPASS", "§7Player §a{INPUT0}§7 is §e{INPUT1}§7 blocks away from you!");
@@ -219,7 +217,7 @@ public class Language {
 			add(type, "RESTART", "§4§lThe server restarts now!");
 			add(type, "SERVER_FULL", "§cServer is full!");
 			add(type, "SERVER_NOT_LOBBYPHASE", "§cThis server is currently not in lobby mode!");
-			add(type, "SERVER_FULL_WITH_PREMIUM", "§cThis server is full! §cBuy §6Premium§c to join full servers! &7[&6shop.EpicPvP.de&7]");
+			add(type, "SERVER_FULL_WITH_PREMIUM", "§cThis server is full! §cBuy a Rank to join full servers! §7[§6shop.EpicPvP.de§7]");
 			add(type, "KILL_BY", "§a{INPUT0}§7 was killed by §e{INPUT1}§7!");
 			add(type, "DEATH", "§a{INPUT0}§7 died!");
 			add(type, "GAME_EXCLUSION", "§c{INPUT0} was excluded!");
@@ -229,7 +227,7 @@ public class Language {
 			add(type, "VOTE_TEAM_REMOVE", "§aYou left team §7{INPUT0}§a!");
 			add(type, "VOTE_TEAM_FULL", "§7{INPUT0}§c is full!");
 			add(type, "VOTE_MIN", "§cThere have to be atleast §e{INPUT0}§c players online for this game to start!");
-			add(type, "KICKED_BY_PREMIUM", "§cYou were kicked so a premium player can join! Want that too? §6shop.EpicPvP.de");
+			add(type, "KICKED_BY_PREMIUM", "§cYou were kicked so a player with a rank can join! Want that too? §6shop.EpicPvP.de");
 			add(type, "PREFIX_GAME", "§6{INPUT0} §8» §7");
 			add(type, "PREFIX", "§6EpicPvP §8» §7");
 			add(type, "TEAM_WIN", "§aTeam {INPUT0}§a won the game!");
@@ -415,6 +413,7 @@ public class Language {
 			add(type, "GIVEALL", "§a{INPUT0}§7 gave all players §6{INPUT1}§7 times §e{INPUT2}§7!");
 			add(type, "REPAIR_HAND", "§aThe selected item was repaired!");
 			add(type, "REPAIR_ALL", "§aRepaired all items!");
+			add(type, "REPAIR_ALL_BY", "§aRepaired all items by §7{INPUT0}§a!");
 			add(type, "FEED", "§aYou are saturated!");
 			add(type, "FEED_ALL", "§7Your hunger was saturated by §a{INPUT0}§7!");
 			add(type, "FEED_OTHER", "§aYou saturated §e{INPUT0}s§a hunger!");
@@ -443,8 +442,7 @@ public class Language {
 			add(type,"XMAS_DAY","§cIst heute der {INPUT0}te?");
 			add(type,"LOGIN_FAIL","§cInvaild character!");
 			add(type,"LOAD_PLAYER_DATA","§7Loading your player information...");
-			add(type,"PET_MUST_BUYED_IN_SHOP","§cYou have to purchase this pet! §6Shop.EpicPvP.de");
-			add(type,"PREMIUM_MUST_BUYED_IN_SHOP","§cYou have to purchase premium! §6Shop.EpicPvP.de");
+			add(type,"PREMIUM_MUST_BUYED_IN_SHOP","§cYou have to purchase a Rank! §6Shop.EpicPvP.de");
 			add(type,"GAME_TIME_CHANGE","§aTime changed to {INPUT0}!");
 	        add(type, "GILDE_OWNER_NOT", "§cYou are not the owner of this guild.");
 	        add(type,"GILDE_PLAYER_IS_IN_GILDE","§cYou are allready in a guild.");
@@ -468,7 +466,10 @@ public class Language {
 			add(type,"KITS_EMPTY","You do not have any kits.");
 			add(type,"MONEY","Account balance:§3 ");
 			add(type,"LOOK_ON_SPAWNER","You have to be looking at a spawner.");
+			add(type,"POTION_TYPE_NOT_FOUND","Potion type not found!");
 			add(type,"MOB_TYPE_NOT_FOUND","Mob type not found!");
+			add(type,"ENCHANTMENT_REMOVED","§aenchantment removed!");
+			add(type,"ENCHANTMENT_NOT_FOUND_ITEM","§cCannot find this enchantment on the item!");
 			add(type,"EXP_MINUS","§cYou cannot send negative numbers!");
 			add(type,"SKYBLOCK_CMD1","§6/skyblock create §8|§7 Creates a new island.");
 			add(type,"SKYBLOCK_CMD2","§6/skyblock delete §8|§7 Deletes a island.");
@@ -537,7 +538,11 @@ public class Language {
 			add(type,"KIT_SHOP_ADMIN","§7This kit is a admin-kit");
 			add(type,"KIT_SHOP_SPEZIAL1","§7This kit is a spezial-kit");
 			add(type,"KIT_SHOP_SPEZIAL2","§7You can get it by a event!");
-			add(type,"KIT_SHOP_PREMIUM","§7This kit is a premium-kit");
+			add(type,"KIT_SHOP_VIP","§7This kit is a Vip-kit");
+			add(type,"KIT_SHOP_ULTRA","§7This kit is a Ultra-kit");
+			add(type,"KIT_SHOP_LEGEND","§7This kit is a Legend-kit");
+			add(type,"KIT_SHOP_MVP","§7This kit is a MVP-kit");
+			add(type,"KIT_SHOP_MVP_PLUS","§7This kit is a MVP+ kit");
 			add(type,"KIT_BACK","§cback");
 	        add(type,"STATS_FAME","§6Fame: §7");
 			add(type,"NOT_ENOUGH_COINS","§cYou have not enough Coins.");
@@ -574,6 +579,15 @@ public class Language {
 			add(type,"TWITTER_REMOVE","§cYou Twitter account has been removed!");
 			add(type,"HEART","§e{INPUT0}§7 has had §c{INPUT1}<3");
 			add(type,"VERSUS_CREATIV_AREA","§cYou have to be in the Creativ Area!");
+			add(type,"NOT_COLOR_CODE","§cThis is not a real color code!");
+			add(type,"SUFFIX_TO_LONG","§cThis suffix is to long (MAX: 10)!");
+			add(type,"SUFFIX_TO_SHORT","§cThis suffix is to short (MIN: 2)!");
+			add(type,"SUFFIX_SAVE","§aSuffix saved!");
+			add(type,"SUFFIX_RESET","§cSuffix reseted!");
+			add(type,"NEAR_EMPTY","§cThere are not players around you!");
+			add(type,"NEAR_FIND","§aThe player §7{INPUT1}§a is §7{INPUT2}§a Blocks away!");
+			add(type,"enchantmentNotFound","§cEnchantment did not found!");
+			add(type,"POTION_GOT","§apotions received!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -601,7 +615,7 @@ public class Language {
 	        add(type, "STATS_KDR", "§6KDR : §7");
 	        add(type, "STATS_GILDE", "§6Gilde : §7");
 	        add(type, "STATS_RANKING", "§6Ranking : §7");
-	        add(type, "PREMIUM_PET", "§cKaufe dir §6Premium§c um diese Funktion nutzen zu koennen!");
+	        add(type, "BUY_RANK", "§7Du brauchst einen Rang um dies zutun! §aRaenge§7 erhaelst du im §aOnlineshop§7 auf §aShop.EpicPvP.de");
 	        add(type, "TREASURE_CHEST_TOO_NEAR", "§cDu bist zu nah an einer anderen TreasureChest!");
 	        add(type, "CHAT_MESSAGE_BLOCK", "§cBitte unterlasse solche Woerter im Chat!");
 	        add(type, "SPIELER_ENTFERNT_COMPASS", "§7Der Spieler §a{INPUT0}§7 ist §e{INPUT1}§7 Bloecke weit von dir enfternt!");
@@ -631,7 +645,7 @@ public class Language {
 	        add(type, "RESTART", "§4§lDer Server Restartet jetzt!");
 	        add(type, "SERVER_FULL", "§cDer Server ist voll!");
 	        add(type, "SERVER_NOT_LOBBYPHASE", "§cDieser Server ist aktuell nicht in der Lobbyphase!");
-	        add(type, "SERVER_FULL_WITH_PREMIUM", "§cDer Server ist voll! Kaufe dir Premium auf §6shop.EpicPvP.de§c um auf volle Servern zu joinen!");
+	        add(type, "SERVER_FULL_WITH_PREMIUM", "§cDer Server ist voll! Kaufe dir einen Rang auf §6shop.EpicPvP.de§c um auf volle Servern zu joinen!");
 	        add(type, "KILL_BY", "§a{INPUT0}§7 wurde von §e{INPUT1}§7 getoetet!");
 	        add(type, "DEATH", "§a{INPUT0}§7 ist gestorben!");
 	        add(type, "GAME_EXCLUSION", "§c{INPUT0} wurde vom Spiel ausgeschlossen!");
@@ -833,6 +847,7 @@ public class Language {
 	        add(type, "GIVEALL", "§a{INPUT0}§7 hat jedem Spieler §6{INPUT1}§7 mal §e{INPUT2}§7 gegeben!");
 	        add(type, "REPAIR_HAND", "§aDas Item in deiner Hand wurde repariert!");
 	        add(type, "REPAIR_ALL", "§aAlle Items in deinem Inventory wurden repariert!");
+	        add(type, "REPAIR_ALL_BY", "§aAlle Items in deinem Inventory wurden von §7{INPUT0}§a repariert!");
 	        add(type, "FEED", "§aDu hast nun kein Hunger mehr!");
 	        add(type, "FEED_ALL", "§7Der Spieler §a{INPUT0}§7 hat deinen Hunger gestillt!");
 	        add(type, "FEED_OTHER", "§aDu hast den Hunger von §e{INPUT0}§a gestillt!");
@@ -885,7 +900,10 @@ public class Language {
 			add(type,"KITS_EMPTY","Du hast keine Kits");
 			add(type,"MONEY","Dein Kontostand beträgt:§3 ");
 			add(type,"LOOK_ON_SPAWNER","Du musst einen MobSpawner ankucken.");
+			add(type,"POTION_TYPE_NOT_FOUND","Potion Type nicht gefunden!");
 			add(type,"MOB_TYPE_NOT_FOUND","Mob Type nicht gefunden!");
+			add(type,"ENCHANTMENT_REMOVED","§aDas Enchantment wurde entfernt!");
+			add(type,"ENCHANTMENT_NOT_FOUND_ITEM","§cDas Enchantment konnte nicht auf den Item gefunden werden!");
 			add(type,"EXP_MINUS","§cDu kannst keine Minus zahlen verschicken!");
 			add(type,"SKYBLOCK_CMD1","§6/skyblock erstellen §8|§7 Erstelle deine Insel.");
 			add(type,"SKYBLOCK_CMD2","§6/skyblock entfernen §8|§7 Lösche deine Insel.");
@@ -981,6 +999,14 @@ public class Language {
 			add(type,"TWITTER_REMOVE","§cDein Twitter Account wurde entfernt!");
 			add(type,"HEART","§e{INPUT0}§7 hat noch §c{INPUT1}§l<3");
 			add(type,"VERSUS_CREATIV_AREA","§cDu musst im Creativ Bereich sein!");
+			add(type,"NOT_COLOR_CODE","§cDies ist kein Color code!");
+			add(type,"SUFFIX_TO_LONG","§cDer Suffix ist zu lang (MAX: 10)!");
+			add(type,"SUFFIX_TO_SHORT","§cDer Suffix ist zu kury (MIN: 2)!");
+			add(type,"SUFFIX_SAVE","§aDie Suffix wurde gespeichert!");
+			add(type,"SUFFIX_RESET","§cDie Suffix wurde resetet!");
+			add(type,"NEAR_EMPTY","§cKein Spieler wurde gefunden!");
+			add(type,"NEAR_FIND","§aDer Spieler §7{INPUT1}§a ist §7{INPUT2}§a Blöcke entfernt!");
+			add(type,"POTION_GOT","§aDu hast deine Potions erhalten!");
 		}
 	}
 	

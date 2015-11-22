@@ -1,7 +1,6 @@
 package me.kingingo.kcore.Util;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -9,7 +8,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import me.kingingo.kcore.PacketAPI.Packets.kGameProfile;
-import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;

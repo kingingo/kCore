@@ -1,7 +1,6 @@
 package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilServer;
 

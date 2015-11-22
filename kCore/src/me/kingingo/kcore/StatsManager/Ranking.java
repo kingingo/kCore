@@ -3,10 +3,10 @@ package me.kingingo.kcore.StatsManager;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
-import org.bukkit.Bukkit;
-
 import lombok.Getter;
 import me.kingingo.kcore.StatsManager.Event.RankingUpdateEvent;
+
+import org.bukkit.Bukkit;
 
 public class Ranking {
 

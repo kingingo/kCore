@@ -5,7 +5,6 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.NPC.Event.PlayerInteractNPCEvent;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayInUseEntity;
-import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
 import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;

@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import lombok.Getter;
 import me.kingingo.kcore.Disguise.Events.DisguisePlayerLoadEvent;
-import me.kingingo.kcore.Disguise.disguises.livings.DisguiseWither;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryBuy;
@@ -18,22 +17,18 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.Gems;
-import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
-
-import com.avaje.ebeaninternal.server.deploy.BeanDescriptor.EntityType;
 
 public class DisguiseShop extends InventoryPageBase implements Listener{
 

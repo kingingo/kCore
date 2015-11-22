@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
-import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.PacketPlayInSettings;
-import net.minecraft.server.v1_8_R3.PacketPlayInTabComplete;
 
 public class kPacketPlayInSettings implements kPacket{
 

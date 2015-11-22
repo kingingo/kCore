@@ -1,7 +1,5 @@
 package me.kingingo.kcore.Packet.Packets;
 
-import java.util.UUID;
-
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Packet.Packet;

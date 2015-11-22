@@ -1,9 +1,6 @@
 package me.kingingo.kcore.EncryptionUtil.Util;
 
-import java.io.IOException;
 import java.util.Arrays;
-
-import javax.xml.bind.DatatypeConverter;
 
 public class Base64 {
 //	private static BASE64Encoder encoder = new BASE64Encoder();

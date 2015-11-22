@@ -38,6 +38,7 @@ public class CommandSetHome implements CommandExecutor{
 		}else{
 			if(player.hasPermission(kPermission.HOME.getPermissionToString())){
 				int a=-1;
+				//epicpvp.home.set.5 damit kann man maximal 5 Homes setzten
 				for(String perm : manager.getPlist().get(UtilPlayer.getRealUUID(player)).getPermissions().keySet()){
 					if(perm.contains("epicpvp.home.set.")){
 						a = Integer.valueOf(perm.substring(("epicpvp.home.set.").length(), perm.length() ));

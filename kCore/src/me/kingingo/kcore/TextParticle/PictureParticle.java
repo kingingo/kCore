@@ -14,7 +14,6 @@ import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilParticle;
-import me.kingingo.kcore.Util.UtilString;
 import me.kingingo.kcore.Util.UtilVector;
 
 import org.bukkit.Location;

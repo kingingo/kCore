@@ -1,6 +1,5 @@
 package me.kingingo.kcore.EncryptionUtil.Encryptions;
 
-import java.util.Map;
 
 public enum HashEncryption {
 

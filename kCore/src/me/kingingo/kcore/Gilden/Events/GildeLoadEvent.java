@@ -3,7 +3,6 @@ package me.kingingo.kcore.Gilden.Events;
 import lombok.Getter;
 import me.kingingo.kcore.Gilden.GildenManager;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

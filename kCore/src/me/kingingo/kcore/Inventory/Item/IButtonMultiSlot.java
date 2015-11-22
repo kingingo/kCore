@@ -4,7 +4,6 @@ import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 
 public abstract interface IButtonMultiSlot extends IButton{

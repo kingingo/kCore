@@ -1,15 +1,14 @@
 package me.kingingo.kcore.PacketAPI.Packets;
 
-import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
-
-import net.minecraft.server.v1_8_R3.DataWatcher;
-import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.PacketAPI.UtilPacket;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
+import net.minecraft.server.v1_8_R3.DataWatcher;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
+
+import org.bukkit.Location;
 
 public class kPacketPlayOutSpawnEntity implements kPacket{
 	@Getter

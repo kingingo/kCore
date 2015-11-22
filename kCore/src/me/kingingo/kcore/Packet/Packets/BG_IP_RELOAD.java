@@ -1,7 +1,5 @@
 package me.kingingo.kcore.Packet.Packets;
 
-import lombok.Getter;
-import lombok.Setter;
 import me.kingingo.kcore.Packet.Packet;
 
 public class BG_IP_RELOAD extends Packet{

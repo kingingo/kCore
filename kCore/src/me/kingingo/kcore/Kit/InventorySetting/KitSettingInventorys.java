@@ -1,6 +1,5 @@
 package me.kingingo.kcore.Kit.InventorySetting;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;

@@ -1,10 +1,10 @@
 package me.kingingo.kcore.Kit.Perks;
 
+import me.kingingo.kcore.Kit.Perk;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-
-import me.kingingo.kcore.Kit.Perk;
 
 public class PerkLessDamage extends Perk{
 

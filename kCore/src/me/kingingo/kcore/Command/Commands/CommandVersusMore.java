@@ -2,7 +2,6 @@ package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Language.Language;
-import me.kingingo.kcore.Permission.kPermission;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;

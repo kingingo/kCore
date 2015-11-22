@@ -1,8 +1,8 @@
 package me.kingingo.kcore.ParticleManager.Particle;
 
-import org.bukkit.entity.Player;
-
 import me.kingingo.kcore.Util.UtilParticle;
+
+import org.bukkit.entity.Player;
 
 public class ParticleSpray extends Particle{
 

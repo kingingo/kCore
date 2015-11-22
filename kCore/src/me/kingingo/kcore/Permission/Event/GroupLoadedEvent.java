@@ -3,7 +3,6 @@ package me.kingingo.kcore.Permission.Event;
 import lombok.Getter;
 import me.kingingo.kcore.Permission.PermissionManager;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

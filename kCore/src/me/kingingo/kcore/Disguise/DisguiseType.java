@@ -1,10 +1,38 @@
 package me.kingingo.kcore.Disguise;
 
+import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseBat;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseBlaze;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseBlock;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseCat;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseCaveSpider;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseChicken;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseCow;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseCreeper;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseEnderdragon;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseEnderman;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseGuardian;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseHorse;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseIronGolem;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseMagmaCube;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseMushroomCow;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguisePig;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguisePigZombie;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseRabbit;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseSheep;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseSkeleton;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseSlime;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseSnowman;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseSpider;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseVillager;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseWitch;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseWither;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseWolf;
+import me.kingingo.kcore.Disguise.disguises.livings.DisguiseZombie;
+
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Skeleton.SkeletonType;
-
-import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
-import me.kingingo.kcore.Disguise.disguises.livings.*;
 
 public enum DisguiseType {
 BLAZE,

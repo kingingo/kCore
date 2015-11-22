@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Click;
-import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
@@ -75,7 +74,8 @@ public class ButtonBase implements IButtonOneSlot{
 	}
 	
 	public void setMaterial(Material material,byte data){
-		this.itemStack.setData( new MaterialData(material, data) );
+		this.itemStack.setType(material);
+		this.itemStack.setData(new MaterialData(material,data));
 	}
 	
 	public void setMaterial(Material material){

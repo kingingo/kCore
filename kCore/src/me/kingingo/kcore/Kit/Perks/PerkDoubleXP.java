@@ -1,9 +1,9 @@
 package me.kingingo.kcore.Kit.Perks;
 
+import me.kingingo.kcore.Kit.Perk;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerExpChangeEvent;
-
-import me.kingingo.kcore.Kit.Perk;
 
 public class PerkDoubleXP extends Perk{
 	

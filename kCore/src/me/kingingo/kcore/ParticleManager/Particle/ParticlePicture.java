@@ -13,7 +13,6 @@ import lombok.Setter;
 import me.kingingo.kcore.Util.UtilParticle;
 import me.kingingo.kcore.Util.UtilVector;
 
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;

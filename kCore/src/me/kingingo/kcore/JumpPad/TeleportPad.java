@@ -1,8 +1,5 @@
 package me.kingingo.kcore.JumpPad;
 
-import me.kingingo.kcore.Util.UtilEffect;
-import me.kingingo.kcore.Util.UtilParticle;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

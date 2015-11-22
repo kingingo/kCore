@@ -1,47 +1,49 @@
 package me.kingingo.kcore.Pet;
 
 import java.util.HashMap;
+
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.Util.UtilEnt;
-import me.kingingo.kcore.Pet.Setting.PetSetting;
-import me.kingingo.kcore.Pet.Shop.PlayerPetHandler;
 import me.kingingo.kcore.Pet.Events.PetCreateEvent;
 import me.kingingo.kcore.Pet.Events.PetWithOutOwnerLocationEvent;
+import me.kingingo.kcore.Pet.Setting.PetSetting;
+import me.kingingo.kcore.Pet.Shop.PetShop;
+import me.kingingo.kcore.Pet.Shop.PlayerPetHandler;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
-import net.minecraft.server.v1_8_R3.EntityCreature;
+import me.kingingo.kcore.Util.UtilEnt;
+import net.minecraft.server.v1_8_R3.EntityInsentient;
 import net.minecraft.server.v1_8_R3.NavigationAbstract;
-import org.bukkit.entity.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Creature;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityTeleportEvent;
-import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import me.kingingo.kcore.Pet.Shop.PetShop;
 
 public class PetManager implements Listener{
 
 	@Getter
 	private JavaPlugin instance;
 	@Getter
-	private HashMap<String,org.bukkit.entity.Creature> activePetOwners;
+	private HashMap<String,LivingEntity> activePetOwners;
 	@Getter
-	private HashMap<Creature,Location> petToLocation;
+	private HashMap<LivingEntity,Location> petToLocation;
 	@Getter
-	private HashMap<Creature,Integer> failedAttemptsToLocation;
+	private HashMap<LivingEntity,Integer> failedAttemptsToLocation;
 	@Getter
 	private HashMap<String, Integer> failedAttempts;
 	@Getter
@@ -70,8 +72,8 @@ public class PetManager implements Listener{
 		this.activePetOwners = new HashMap<>();
 	}
 	
-	public boolean isPet(Creature c){
-		for(Creature cs : this.activePetOwners.values())if(cs.getEntityId() == c.getEntityId())return true;
+	public boolean isPet(LivingEntity c){
+		for(LivingEntity cs : this.activePetOwners.values())if(cs.getEntityId() == c.getEntityId())return true;
 		
 		return false;
 	}
@@ -87,7 +89,7 @@ public class PetManager implements Listener{
 	  {
 	    if (this.activePetOwners.containsKey(player.getName().toLowerCase()))
 	    {
-	      org.bukkit.entity.Creature pet = (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase());
+	      LivingEntity pet = (LivingEntity)this.activePetOwners.get(player.getName().toLowerCase());
 	      if(pet.getPassenger()!=null&&pet.getPassenger().getType() != EntityType.PLAYER){
 	    	  Entity e = pet.getPassenger();
 	    	  e.leaveVehicle();
@@ -103,7 +105,7 @@ public class PetManager implements Listener{
 	    }
 	  }
 	
-	public boolean PetWithOutOwnerSetLocation(Creature pet,Location location){
+	public boolean PetWithOutOwnerSetLocation(LivingEntity pet,Location location){
 		if(petToLocation.containsKey(pet)){
 			petToLocation.put(pet, location);
 			return true;
@@ -111,9 +113,9 @@ public class PetManager implements Listener{
 		return false;
 	}
 	
-	public Creature AddPetWithOutOwner(String name,boolean clear_goal, EntityType entityType, Location location){
+	public LivingEntity AddPetWithOutOwner(String name,boolean clear_goal, EntityType entityType, Location location){
 		location.getWorld().loadChunk(location.getWorld().getChunkAt(location));
-	    Creature pet =(Creature) location.getWorld().spawnEntity(location, entityType);
+		LivingEntity pet =(LivingEntity) location.getWorld().spawnEntity(location, entityType);
 	    pet.setCustomNameVisible(true);
 	    pet.setCustomName(name);
 	    this.petToLocation.put(pet,location);
@@ -127,15 +129,15 @@ public class PetManager implements Listener{
 	  {
 	    if (this.activePetOwners.containsKey(player.getName().toLowerCase()))
 	    {
-	      if (((org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase())).getType() != entityType ||
-	    		  (((org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase())).getPassenger()!=null&& ((org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase())).getPassenger().getType() != entityType) )
+	      if (((LivingEntity)this.activePetOwners.get(player.getName().toLowerCase())).getType() != entityType ||
+	    		  (((LivingEntity)this.activePetOwners.get(player.getName().toLowerCase())).getPassenger()!=null&& ((LivingEntity)this.activePetOwners.get(player.getName().toLowerCase())).getPassenger().getType() != entityType) )
 	      {
 	        RemovePet(player, true);
 	      }else {
 	        return;
 	      }
 	    }
-	    org.bukkit.entity.Creature pet = (org.bukkit.entity.Creature)location.getWorld().spawnEntity(location, entityType);
+	    LivingEntity pet = (LivingEntity)location.getWorld().spawnEntity(location, entityType);
 	    pet.setCustomNameVisible(true);
 	    pet.setCustomName(name);
 
@@ -149,15 +151,15 @@ public class PetManager implements Listener{
 		return this.activePetOwners.containsKey(player.getName().toLowerCase());
 	}
 	
-	public org.bukkit.entity.Creature GetPet(Player player){
-	    return (org.bukkit.entity.Creature)this.activePetOwners.get(player.getName().toLowerCase());
+	public LivingEntity GetPet(Player player){
+	    return (LivingEntity)this.activePetOwners.get(player.getName().toLowerCase());
 	}
 	
 	  @EventHandler(priority=EventPriority.LOWEST)
 	  public void onEntityDamage(EntityDamageEvent event)
 	  {
 		if(EntityDamageEvent){
-		    if (((event.getEntity() instanceof org.bukkit.entity.Creature)) && (this.petToLocation.containsKey((org.bukkit.entity.Creature)event.getEntity()) || isPet((org.bukkit.entity.Creature)event.getEntity())) ){
+		    if (((event.getEntity() instanceof LivingEntity)) && (this.petToLocation.containsKey((LivingEntity)event.getEntity()) || isPet((LivingEntity)event.getEntity())) ){
 			      event.setCancelled(true);
 			}
 		}
@@ -165,8 +167,8 @@ public class PetManager implements Listener{
 	  
 	  Player owner;
 	  Entity passenger;
-	  Creature pet;
-	  EntityCreature ec;
+	  LivingEntity pet;
+	  EntityInsentient ec;
 	  NavigationAbstract nav;
 	  int xDiff;
 	  int yDiff;
@@ -183,7 +185,7 @@ public class PetManager implements Listener{
 
 	    for(String playerName : activePetOwners.keySet()){
 	    	owner=Bukkit.getPlayer(playerName);
-	    	pet=(Creature)activePetOwners.get(playerName);
+	    	pet=(LivingEntity)activePetOwners.get(playerName);
 	    	
 	    	petSpot=pet.getLocation();
 	    	ownerSpot=owner.getLocation();
@@ -195,7 +197,7 @@ public class PetManager implements Listener{
 	    	zDiff = Math.abs(petSpot.getBlockZ() - ownerSpot.getBlockZ());
 	    	
 	    	if(xDiff+zDiff+yDiff > 4){
-	    		ec=((CraftCreature)pet).getHandle();
+	    		ec=(EntityInsentient) ((CraftLivingEntity)pet).getHandle();
 	    		nav=ec.getNavigation();
 	    		
 	    		xIndex=-1;
@@ -238,37 +240,12 @@ public class PetManager implements Listener{
 	    	}
 	    }
 	  }
-	  
-//	  public boolean moveEntity(Entity e,Location l,float speed){
-//		   if(((CraftEntity)e).getHandle() instanceof EntityCreature || ((CraftEntity)e) instanceof CraftCreature || e instanceof CraftCreature){
-//		     EntityCreature entity = ((CraftCreature) e).getHandle();
-//		     NavigationAbstract nav = entity.getNavigation();
-//		     nav.a(true);
-//		     PathEntity path = nav.a(l.getX(),l.getY(),l.getZ());
-//		     entity.pathEntity = path;
-//		     return nav.a(path, speed);
-//		   }else if(((CraftEntity)e).getHandle() instanceof EntityInsentient){
-//		    EntityInsentient ei = ((EntityInsentient)((CraftEntity) e).getHandle());
-//		    NavigationAbstract nav = ei.getNavigation();
-//		    nav.a(true);
-//		    ei.getControllerMove().a(l.getX(),l.getY(),l.getZ(),(float)speed);
-//		    return nav.a(l.getX(),l.getY(),l.getZ(),(float)speed);
-//		   }else if(((CraftEntity)e).getHandle() instanceof EntityLiving){
-//		    EntityLiving entity = (EntityLiving)((CraftEntity)e).getHandle();
-//		    entity.move(l.getX(), l.getY(),l.getZ());
-//		    entity.e((float)l.getX(), (float)l.getZ());
-//		    return true;
-//		   }else{
-//		    System.out.println("Keiner");
-//		    return false;
-//		   }
-//		  }
 	 
 	  @EventHandler
 	  public void onUpdate(UpdateEvent event){
 	    if (event.getType() != UpdateType.FASTER)return;
 	    
-	    for(Creature pet : petToLocation.keySet()){
+	    for(LivingEntity pet : petToLocation.keySet()){
 	    	petSpot=pet.getLocation();
 	    	ownerSpot=(Location)petToLocation.get(pet);
 	    	
@@ -277,7 +254,7 @@ public class PetManager implements Listener{
 		    zDiff = Math.abs(petSpot.getBlockZ() - ownerSpot.getBlockZ());
 	    	
 		    if(xDiff + yDiff + zDiff > 4){
-		    	ec = ((CraftCreature)pet).getHandle();
+		    	ec = (EntityInsentient) ((CraftLivingEntity)pet).getHandle();
 		        nav = ec.getNavigation();
 		    	xIndex = -1;
 		        zIndex = -1;
@@ -323,13 +300,13 @@ public class PetManager implements Listener{
 	@EventHandler
 	public void Creeper(EntityExplodeEvent ev){
 		if(ev.getEntity().getType()!=null&&ev.getEntity().getType()!=EntityType.PRIMED_TNT&&ev.getEntity().getType() == EntityType.CREEPER){
-			if (((ev.getEntity() instanceof org.bukkit.entity.Creature)) && ((this.activePetOwners.containsValue((org.bukkit.entity.Creature)ev.getEntity())) || (this.petToLocation.containsKey((org.bukkit.entity.Creature)ev.getEntity())) ) ){
+			if (((ev.getEntity() instanceof LivingEntity)) && ((this.activePetOwners.containsValue((LivingEntity)ev.getEntity())) || (this.petToLocation.containsKey((LivingEntity)ev.getEntity())) ) ){
 			    	ev.setCancelled(true);
 			}
 		}
 	}
 
-	Creature c;
+	LivingEntity c;
 	@EventHandler
 	public void Interdact(PlayerInteractEntityEvent ev){
 		 if(isSetting()){
@@ -338,6 +315,7 @@ public class PetManager implements Listener{
 				if(c.getEntityId()==ev.getRightClicked().getEntityId()){
 					if(c.getPassenger() == null){
 						if(getSetting_list().containsKey(c.getType())){
+							ev.setCancelled(true);
 							ev.getPlayer().openInventory( getSetting_list().get(c.getType()) );
 						}
 					}
@@ -348,23 +326,23 @@ public class PetManager implements Listener{
 		 }
 	}
 	
-	@EventHandler
-	public void EntityTeleport(EntityTeleportEvent ev){
-		if (((ev.getEntity() instanceof org.bukkit.entity.Creature)) && ((this.activePetOwners.containsValue((org.bukkit.entity.Creature)ev.getEntity())) || (this.petToLocation.containsKey((org.bukkit.entity.Creature)ev.getEntity())) ) ){
-			  
-		}
-	}
+//	@EventHandler
+//	public void EntityTeleport(EntityTeleportEvent ev){
+//		if (((ev.getEntity() instanceof LivingEntity)) && ((this.activePetOwners.containsValue((LivingEntity)ev.getEntity())) || (this.petToLocation.containsKey((LivingEntity)ev.getEntity())) ) ){
+//			  
+//		}
+//	}
 	
 	@EventHandler
 	public void EntityCombust(EntityCombustEvent ev){
-		if (((ev.getEntity() instanceof org.bukkit.entity.Creature)) && ((this.activePetOwners.containsValue((org.bukkit.entity.Creature)ev.getEntity())) || (this.petToLocation.containsKey((org.bukkit.entity.Creature)ev.getEntity())) ) ){
+		if (((ev.getEntity() instanceof LivingEntity)) && ((this.activePetOwners.containsValue((LivingEntity)ev.getEntity())) || (this.petToLocation.containsKey((LivingEntity)ev.getEntity())) ) ){
 			  ev.setCancelled(true);
 		}
 	}
 	
 	@EventHandler
 	public void onEntityTarget(EntityTargetEvent ev){
-		if (((ev.getEntity() instanceof org.bukkit.entity.Creature)) && ((this.activePetOwners.containsValue((org.bukkit.entity.Creature)ev.getEntity())) || (this.petToLocation.containsKey((org.bukkit.entity.Creature)ev.getEntity())) ) ){
+		if (((ev.getEntity() instanceof LivingEntity)) && ((this.activePetOwners.containsValue((LivingEntity)ev.getEntity())) || (this.petToLocation.containsKey((LivingEntity)ev.getEntity())) ) ){
 				ev.setCancelled(true);
 		}
 	}

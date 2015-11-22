@@ -1,6 +1,4 @@
 package me.kingingo.kcore.Disguise.disguises.livings;
-import me.kingingo.kcore.Disguise.DisguiseManager;
-import me.kingingo.kcore.Disguise.disguises.DisguiseAnimal;
 import me.kingingo.kcore.Disguise.disguises.DisguiseMonster;
 
 import org.bukkit.entity.Entity;

@@ -1,16 +1,10 @@
 package me.kingingo.kcore.Disguise.Events;
 
 import lombok.Getter;
-import lombok.Setter;
 import me.kingingo.kcore.Disguise.DisguiseManager;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
-import me.kingingo.kcore.Packet.Packet;
-import me.kingingo.kcore.Pet.PetManager;
 
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

@@ -10,7 +10,6 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.UtilItem;
-import me.kingingo.kcore.Villager.Event.VillagerShopEvent;
 import net.minecraft.server.v1_8_R3.EntityCreature;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityInsentient;

@@ -2,7 +2,6 @@ package me.kingingo.kcore.Disguise.disguises;
 import java.util.UUID;
 
 import me.kingingo.kcore.Util.UtilPlayer;
-import net.minecraft.server.v1_8_R3.EntityLiving;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;

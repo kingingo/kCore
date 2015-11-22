@@ -3,7 +3,6 @@ package me.kingingo.kcore.Packet.Packets;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Enum.PacketState;
-import me.kingingo.kcore.Enum.TeamspeakGroup;
 import me.kingingo.kcore.Packet.Packet;
 
 public class YOUTUBE_GET_DATA extends Packet{

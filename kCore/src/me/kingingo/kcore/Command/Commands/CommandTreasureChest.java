@@ -5,8 +5,8 @@ import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.TreasureChest.CampingTreasureChest.CampingTreasureChest;
-import me.kingingo.kcore.TreasureChest.CampingTreasureChest.CampingTreasureChestType;
 import me.kingingo.kcore.TreasureChest.CampingTreasureChest.CampingTreasureChest.TreasureChestHandler;
+import me.kingingo.kcore.TreasureChest.CampingTreasureChest.CampingTreasureChestType;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilPlayer;
 

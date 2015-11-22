@@ -2,8 +2,6 @@ package me.kingingo.kcore.Packet.Packets;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.Enum.GameState;
-import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Packet.Packet;
 
 public class SERVER_READY extends Packet{

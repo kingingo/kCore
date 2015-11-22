@@ -12,12 +12,10 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Bed;
 import org.bukkit.material.DirectionalContainer;
-import org.bukkit.material.EnderChest;
 
 public class UtilBlock
 {

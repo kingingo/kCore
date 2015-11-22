@@ -1,7 +1,6 @@
 package me.kingingo.kcore.Util;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -16,9 +15,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import net.minecraft.server.v1_8_R3.Block;
-import net.minecraft.server.v1_8_R3.BlockPosition;
-import net.minecraft.server.v1_8_R3.Chunk;
 import net.minecraft.server.v1_8_R3.EntityEnderCrystal;
 import net.minecraft.server.v1_8_R3.MapIcon;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
@@ -30,7 +26,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
-import org.bukkit.craftbukkit.v1_8_R3.CraftChunk;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.map.RenderData;

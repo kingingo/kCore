@@ -11,7 +11,6 @@ import me.kingingo.kcore.Disguise.disguises.DisguiseInsentient;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.PacketAPI.kPacket;
-import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutChat;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityTeleport;

@@ -1,8 +1,9 @@
-package me.kingingo.kcore.Command.Admin;
+package me.kingingo.kcore.Command.Commands;
 
 import java.util.UUID;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.Inventory.Inventory.InventoryPlayer;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQL;
@@ -17,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandInvsee extends kListener implements CommandExecutor{
 	
@@ -31,7 +31,7 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 	private Player player;
 	private Player target;
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "invsee", sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "invsee",alias={"bodysee","open","openinv","openbody"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player = (Player)sender;
 		
@@ -41,7 +41,12 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 			if(player.hasPermission(kPermission.INVSEE.getPermissionToString())){
 				if(UtilPlayer.isOnline(args[0])){
 					target=Bukkit.getPlayer(args[0]);
-					player.openInventory(target.getInventory());
+
+					if(player.hasPermission(kPermission.INVSEE_BODY.getPermissionToString())){
+						player.openInventory( new InventoryPlayer(target).getInventory() );
+					}else{
+						player.openInventory(target.getInventory());
+					}
 				}else{
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					
@@ -51,7 +56,11 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 						target = UtilPlayer.loadPlayer(uuid);
 						
 						if(target!=null){
-							player.openInventory(target.getInventory());
+							if(player.hasPermission(kPermission.INVSEE_BODY.getPermissionToString())){
+								player.openInventory( new InventoryPlayer(target).getInventory() );
+							}else{
+								player.openInventory(target.getInventory());
+							}
 						}else{
 							player.sendMessage(Language.getText(player, "PREFIX")+"§cnicht gefunden!");
 						}
@@ -67,7 +76,9 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 	public void Click(InventoryClickEvent ev){
 		if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
 		if(ev.getInventory() instanceof PlayerInventory){
-			if(! ((Player)ev.getWhoClicked()).hasPermission(kPermission.INVSEE_CLICK.getPermissionToString()) )ev.setCancelled(true);
+			if(! ((Player)ev.getWhoClicked()).hasPermission(kPermission.INVSEE_CLICK.getPermissionToString()) ){
+				ev.setCancelled(true);
+			}
 		}
 	}
 

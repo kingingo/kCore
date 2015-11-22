@@ -4,8 +4,8 @@ import lombok.Getter;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldBorder;
-import net.minecraft.server.v1_8_R3.WorldBorder;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldBorder.EnumWorldBorderAction;
+import net.minecraft.server.v1_8_R3.WorldBorder;
 
 public class kPacketPlayOutWorldBorder implements kPacket{
 	@Getter

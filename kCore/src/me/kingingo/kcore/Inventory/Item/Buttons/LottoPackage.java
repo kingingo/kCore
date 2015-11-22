@@ -1,25 +1,18 @@
 package me.kingingo.kcore.Inventory.Item.Buttons;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import lombok.Getter;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2;
 import me.kingingo.kcore.Inventory.Inventory.InventoryLotto2.InventoryLotto2Type;
 import me.kingingo.kcore.Inventory.Item.BooleanClick;
 import me.kingingo.kcore.Inventory.Item.Click;
-import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
-import me.kingingo.kcore.Util.UtilInv;
-import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import me.kingingo.kcore.Util.UtilItem;
 
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.ItemMeta.Spigot;
 
 public class LottoPackage extends SalesPackageBase{
 	public static int counter=0;

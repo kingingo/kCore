@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Click;
-import me.kingingo.kcore.Inventory.Item.IButton;
 import me.kingingo.kcore.Inventory.Item.IButtonOneSlot;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;

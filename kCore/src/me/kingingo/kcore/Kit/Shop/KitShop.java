@@ -3,8 +3,6 @@ package me.kingingo.kcore.Kit.Shop;
 import java.util.HashMap;
 
 import lombok.Getter;
-import me.kingingo.kcore.Calendar.Calendar;
-import me.kingingo.kcore.Calendar.Calendar.CalendarType;
 import me.kingingo.kcore.Game.Events.GameStartEvent;
 import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.KitType;
@@ -170,7 +168,7 @@ public class KitShop implements Listener {
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
 					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_SPEZIAL1"),Language.getText(p, "KIT_SHOP_SPEZIAL2")} ,"§4Spezial-Kit"));
 				}
-			}else if(kit.getType()==KitType.PREMIUM){
+			}else if(kit.getType()==KitType.MVP||kit.getType()==KitType.MVP_PLUS||kit.getType()==KitType.VIP||kit.getType()==KitType.ULTRA||kit.getType()==KitType.LEGEND){
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, kPermission.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));

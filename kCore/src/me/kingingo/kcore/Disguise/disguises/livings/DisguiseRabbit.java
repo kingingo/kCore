@@ -3,7 +3,6 @@ import me.kingingo.kcore.Disguise.disguises.DisguiseAnimal;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Rabbit.Type;
 
 public class DisguiseRabbit extends DisguiseAnimal

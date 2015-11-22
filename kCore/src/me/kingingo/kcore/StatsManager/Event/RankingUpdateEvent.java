@@ -2,9 +2,7 @@ package me.kingingo.kcore.StatsManager.Event;
 
 import lombok.Getter;
 import me.kingingo.kcore.StatsManager.Ranking;
-import me.kingingo.kcore.StatsManager.Stats;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

@@ -147,6 +147,9 @@ public class PermissionManager {
 		pgroup.remove(uuid);
 		if(UtilPlayer.isOnline(uuid))loadPermission(uuid);
 		packetManager.SendPacket("BG", new PERMISSION_USER_RELOAD(uuid));
+		packetManager.SendPacket("PVP", new PERMISSION_USER_RELOAD(uuid));
+		packetManager.SendPacket("SKYBLOCK", new PERMISSION_USER_RELOAD(uuid));
+		packetManager.SendPacket("HUB", new PERMISSION_USER_RELOAD(uuid));
 	}
 	
 	public void removeGroup(UUID uuid,String group){

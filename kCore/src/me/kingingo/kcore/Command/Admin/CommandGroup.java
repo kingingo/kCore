@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.Permission.GroupTyp;
 import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.TimeSpan;
@@ -127,6 +128,32 @@ public class CommandGroup implements CommandExecutor{
 				return false;
 			}
 			
+			if(args[0].equalsIgnoreCase("addg")){
+				
+				if(args.length == 1 || args.length == 2 || args.length == 3){
+					System.out.println("[kPermission] /k addg [Player] [TYP] [Rang]");	
+				}
+				
+				if(args.length == 4){
+					
+					String player = args[1];
+					String rang = args[3];
+					GroupTyp typ = GroupTyp.get(args[2]);
+					UUID uuid;
+					
+					if(UtilPlayer.isOnline(player)){
+						uuid=UtilPlayer.getRealUUID(Bukkit.getPlayer(player));
+					}else{
+						uuid=UtilPlayer.getUUID(player, manager.getMysql());
+					}
+					
+					manager.setGroup(uuid, rang, typ);
+					System.out.println("[kPermission] " + player + " hat den Rang " + rang + " auf "+typ.name()+" erhalten");
+				}
+				
+				return false;
+			}
+			
 			if(args[0].equalsIgnoreCase("add")){
 				
 				if(args.length == 1 || args.length == 2){
@@ -147,6 +174,34 @@ public class CommandGroup implements CommandExecutor{
 					
 					manager.setGroup(uuid, rang);
 					System.out.println("[kPermission] " + player + " hat den Rang " + rang + " erhalten");
+				}
+				
+				return false;
+			}
+			
+			if(args[0].equalsIgnoreCase(" ")){
+				
+				if(args.length <= 4){
+					System.out.println("[kPermission] /k addgwithtime [Player] [ALL] [Rang] [Time in Tagen]");	
+				}
+				
+				if(args.length == 5){
+					
+					String player = args[1];
+					String rang = args[3];
+					GroupTyp type = GroupTyp.get(args[2]);
+					long time = System.currentTimeMillis()+(TimeSpan.DAY*UtilNumber.toInt(args[4]));
+					UUID uuid;
+					
+					if(UtilPlayer.isOnline(player)){
+						uuid=UtilPlayer.getRealUUID(Bukkit.getPlayer(player));
+					}else{
+						uuid=UtilPlayer.getUUID(player, manager.getMysql());
+					}
+					
+					manager.setGroup(uuid, rang,type);
+					manager.addPermission(uuid, "epicpvp.timer.group."+rang+":"+time, type);
+					System.out.println("[kPermission] " + player + "("+uuid+") hat den Rang " + rang + " auf "+type.name()+" erhalten");
 				}
 				
 				return false;

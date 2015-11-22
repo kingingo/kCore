@@ -6,7 +6,6 @@ import me.kingingo.kcore.Weapon.Weapon;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.inventory.ItemStack;
 
 public class WeaponAddPlayerEvent extends Event
 {

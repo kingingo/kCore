@@ -2,13 +2,13 @@ package me.kingingo.kcore.AntiHack;
 
 import java.util.ArrayList;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import lombok.Getter;
 import me.kingingo.kcore.AntiHack.Events.AntiHackPlayerDetectedEvent;
 import me.kingingo.kcore.AntiHack.Hack.Forcefield;
 import me.kingingo.kcore.Listener.kListener;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class AntiHack extends kListener{
 

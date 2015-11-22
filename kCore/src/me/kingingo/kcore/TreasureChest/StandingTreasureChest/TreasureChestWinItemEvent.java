@@ -1,7 +1,6 @@
 package me.kingingo.kcore.TreasureChest.StandingTreasureChest;
 
 import lombok.Getter;
-import me.kingingo.kcore.StatsManager.Stats;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

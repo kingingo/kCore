@@ -1,7 +1,6 @@
 package me.kingingo.kcore.Util;
 
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 

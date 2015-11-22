@@ -35,8 +35,7 @@ public class UtilMath
 	return (int) (Math.random() * (high - low) + low);
   }
 
-  public static int r(int i)
-  {
+  public static int r(int i){
     return random.nextInt(i);
   }
 

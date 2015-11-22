@@ -1,9 +1,9 @@
 package me.kingingo.kcore.Amor;
 
-import org.bukkit.Color;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import org.bukkit.Color;
 
 public class ArmorColorChange {
 

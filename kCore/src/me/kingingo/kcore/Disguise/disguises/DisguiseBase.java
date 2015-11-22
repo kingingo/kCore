@@ -4,9 +4,6 @@ import me.kingingo.kcore.Disguise.disguises.livings.DisguiseEnderman;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.PacketAPI.Packets.kDataWatcher;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
-import net.minecraft.server.v1_8_R3.DataWatcher;
-import net.minecraft.server.v1_8_R3.Packet;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;

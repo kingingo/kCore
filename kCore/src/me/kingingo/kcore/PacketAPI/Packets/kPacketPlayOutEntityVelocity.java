@@ -1,11 +1,10 @@
 package me.kingingo.kcore.PacketAPI.Packets;
 
-import net.minecraft.server.v1_8_R3.PacketPlayInUseEntity;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityVelocity;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityVelocity;
 
 public class kPacketPlayOutEntityVelocity implements kPacket{
 	@Getter

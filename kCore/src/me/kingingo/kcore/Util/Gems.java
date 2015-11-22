@@ -7,8 +7,6 @@ import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.kingingo.kcore.Calendar.Calendar;
-import me.kingingo.kcore.Calendar.Calendar.CalendarType;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;

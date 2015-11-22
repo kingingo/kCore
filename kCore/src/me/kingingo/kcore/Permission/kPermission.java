@@ -1,9 +1,9 @@
 package me.kingingo.kcore.Permission;
 
 public enum kPermission {
-RANK_COINS_DAILY("epicpvp.delivery.rank.coins.daily"),
-RANK_COINS_WEEK("epicpvp.delivery.rank.coins.week"),
-RANK_COINS_MONTH("epicpvp.delivery.rank.coins.month"),
+COINS_ONE_ADD("epicpvp.coins.one"),
+COINS_TWO_ADD("epicpvp.coins.two"),
+COINS_THREE_ADD("epicpvp.coins.three"),
 HUB_CHANGE_LANGUAGE("epicpvp.language.change"),
 KBAN("epicpvp.bg.kban"),
 ZEITBAN("epicpvp.bg.zeitban"),
@@ -24,11 +24,20 @@ BROADCAST("epicpvp.bg.broadcast"),
 MOTD("epicpvp.bg.motd"),
 PREMIUM_TOGGLE("epicpvp.bg.premium"),
 UNBAN("epicpvp.bg.unkban"),	
+POTION_AMOUNT("epicpvp.potion.amount"),
+POTION("epicpvp.potion.use"),
+POTION_ALL("epicpvp.potion.*"),
 BACK("epicpvp.back.use"),
 LAG("epicpvp.bg.lag"),
 WORKBENCH("epicpvp.workbench.use"),
+ENCHANTMENT_TABLE("epicpvp.enchantmenttable.use"),
+AMBOSS("epicpvp.amboss.use"),
+REMOVE_ENCHANTMENT("epicpvp.removeenchantment.use"),
 EXT("epicpvp.ext.use"),
 FILL("epicpvp.cmd.fill"),
+SUFFIX("epicpvp.suffix.use"),
+NEAR("epicpvp.near.use"),
+NEAR_IGNORE("epicpvp.near.ignore"),
 HEAD("epicpvp.head.use"),
 EXT_ALL("epicpvp.ext.all"),
 EXT_OTHER("epicpvp.ext.other"),
@@ -49,7 +58,6 @@ JOIN_FULL_SERVER("epicpvp.join_full_server"),
 ALL_PERMISSION("epicpvp.*"),
 START_SERVER("epicpvp.start_server"),
 START_SERVER_SET_TIME("epicpvp.start_server.settime"),
-NONE("FAIL"),
 SERVER_JOIN_SPECTATE("epicpvp.server.spectate"),
 PREMIUM_LOBBY("epicpvp.bg.hub.premium"),
 FLY_LOBBY("epicpvp.hub.kfly"),
@@ -69,11 +77,13 @@ COMMAND_COMMAND_MUTE_ALL("epicpvp.command.commandmuteall"),
 COMMAND_COMMAND_MUTE_ALL_ALLOW("epicpvp.command.commandmuteall.allow"),
 kFLY("epicpvp.kfly"),
 REPAIR("epicpvp.repair"),
-INVSEE("epicpvp.inventory.see"),
-INVSEE_CLICK("epicpvp.inventory.see.click"),
+REPAIR_ALL_PLAYERS("epicpvp.repair.all.players"),
 REPAIR_ALL("epicpvp.repair.all"),
 REPAIR_BODY("epicpvp.repair.body"),
 REPAIR_HAND("epicpvp.repair.hand"),
+INVSEE("epicpvp.inventory.see"),
+INVSEE_BODY("epicpvp.inventory.see.body"),
+INVSEE_CLICK("epicpvp.inventory.see.click"),
 HEAL("epicpvp.heal"),
 HEAL_ALL("epicpvp.heal.all"),
 HEAL_OTHER("epicpvp.heal.other"),
@@ -140,6 +150,8 @@ PERK_ALL("epicpvp.perk.*"),
 
 PLAYER_TELEPORT_A("epicpvp.player.tpa"),
 PLAYER_TELEPORT_AHERE("epicpvp.player.tpahere"),
+PLAYER_TELEPORT_A_BYPASS("epicpvp.player.tpa.bypass"),
+PLAYER_TELEPORT_AHERE_BYPASS("epicpvp.player.tpahere.bypass"),
 PLAYER_TELEPORT("epicpvp.player.tp"),
 PLAYER_TELEPORT_HERE("epicpvp.player.tphere"),
 PLAYER_TELEPORT_ACCEPT("epicpvp.player.tpaccept"),
@@ -176,7 +188,8 @@ TEAMSPEAK_NICHT_ANSCHREIBBAR("epicpvp.ts.nicht_anschreibbar"),
 TEAMSPEAK_VERIFIZIERT("epicpvp.ts.verifiziert"),
 TEAMSPEAK_AUFNAHME("epicpvp.ts.aufnahme"),
 //TS
-//Kits
+ADMIN_KIT("epicpvp.admin.kit"),
+//DEATHGAMES Kits
 DEATHGAMES_KIT_ANKER("epicpvp.kit.dg.anker"),
 DEATHGAMES_KIT_BOMBER("epicpvp.kit.dg.bomber"),
 DEATHGAMES_KIT_FIREMAN("epicpvp.kit.dg.fireman"),
@@ -195,7 +208,9 @@ DEATHGAMES_KIT_RITTER("epicpvp.kit.dg.ritter"),
 DEATHGAMES_KIT_SUPERMAN("epicpvp.kit.dg.superman"),
 DEATHGAMES_KIT_TELEPORTER("epicpvp.kit.dg.teleporter"),
 DEATHGAMES_KIT_SWITCHER("epicpvp.kit.dg.switcher"),
-ADMIN_KIT("epicpvp.admin.kit"),
+//DEATHGAMES Kits
+
+//SHEEPWARS Kits
 SHEEPWARS_KIT_OLD_RUSH("epicpvp.kit.old_rush"),
 SHEEPWARS_KIT_STARTER("epicpvp.kit.starter"),
 SHEEPWARS_KIT_ARROWMAN("epicpvp.kit.arrowman"),
@@ -212,11 +227,15 @@ SHEEPWARS_KIT_SPRINGER("epicpvp.kit.springer"),
 SHEEPWARS_KIT_SUPERMAN("epicpvp.kit.superman"),
 SHEEPWARS_KIT_BOGENMEISTER("epicpvp.kit.bogenmeister"),
 SHEEPWARS_KIT_IRONGOLEM("epicpvp.kit.irongolem"),
-SHEEPWARS_KIT_PIGZOMBIE("epicpvp.kit.pigzombie"),
-SHEEPWARS_KIT_CREEPER("epicpvp.kit.creeper"),
-SHEEPWARS_KIT_ZOMBIE("epicpvp.kit.zombie"),
+SHEEPWARS_KIT_VIP("epicpvp.kit.vip"),
+SHEEPWARS_KIT_ULTRA("epicpvp.kit.ultra"),
+SHEEPWARS_KIT_LEGEND("epicpvp.kit.legend"),
+SHEEPWARS_KIT_MVP("epicpvp.kit.mvp"),
+SHEEPWARS_KIT_MVPPLUS("epicpvp.kit.mvpplus"),
 ALL_KITS("epicpvp.kit.*"),
-//Kits
+//SHEEPWARS Kits
+
+//SHEEPWARS Kits
 SKYWARS_KIT_HULK("epicpvp.skywars.kit.hulk"),
 SKYWARS_KIT_MARIO("epicpvp.skywars.kit.mario"),
 SKYWARS_KIT_STARTERKIT("epicpvp.skywars.kit.starter"),
@@ -240,10 +259,17 @@ SKYWARS_KIT_HASE("epicpvp.skywars.kit.hase"),
 SKYWARS_KIT_RUSHER("epicpvp.skywars.kit.rusher"),
 SKYWARS_KIT_POLIZIST("epicpvp.skywars.kit.polizist"),
 SKYWARS_KIT_SUPERMAN("epicpvp.skywars.kit.superman"),
+SKYWARS_KIT_VIP("epicpvp.skywars.kit.vip"),
+SKYWARS_KIT_ULTRA("epicpvp.skywars.kit.ultra"),
+SKYWARS_KIT_LEGEND("epicpvp.skywars.kit.legend"),
+SKYWARS_KIT_MVP("epicpvp.skywars.kit.mvp"),
+SKYWARS_KIT_MVPPLUS("epicpvp.skywars.kit.mvpplus"),
+//SHEEPWARS Kits
 
 //SkyPvP - START -
 SkyPvP_Mehr_Leben("epicpvp.skypvp.more_life"),
 //SkyPvP - ENDE -
+
 //One In The Chamber - START -
 OneInTheChamber_KIT("epicpvp.oitc.kit"),
 OneInTheChamber_LIFE("epicpvp.oitc.life"),
@@ -254,8 +280,30 @@ SKYBLOCK_NORMAL_ISLAND("epicpvp.skyblock.schematic.normal"),
 SKYBLOCK_HOME_OTHER("epicpvp.skyblock.home.other"),
 SKYBLOCK_ISLAND_BYPASS("epicpvp.skyblock.bypass"),
 
+//PARTICLE
+PARTICLE_VIP("epicpvp.particle.vip"),
+PARTICLE_ULTRA("epicpvp.particle.ultra"),
+PARTICLE_LEGEND("epicpvp.particle.legend"),
+PARTICLE_MVP("epicpvp.particle.mvp"),
+PARTICLE_MVPPLUS("epicpvp.particle.mvpplus"),
+//PARTICLE
+
+//DELIVERY
+DELIVERY_PET_VOTE("epicpvp.delivery.vote"),
+DELIVERY_PET_TWITTER("epicpvp.delivery.twitter"),
+DELIVERY_PET_VIP_WEEK("epicpvp.delivery.rank.vip.week"),
+DELIVERY_PET_ULTRA_WEEK("epicpvp.delivery.rank.ultra.week"),
+DELIVERY_PET_LEGEND_WEEK("epicpvp.delivery.rank.legend.week"),
+DELIVERY_PET_MVP_WEEK("epicpvp.delivery.rank.mvp.week"),
+DELIVERY_PET_MVPPLUS_WEEK("epicpvp.delivery.rank.,mvpplus.week"),
+//DELIVERY
+
 //PETS
 PET_ALL("kpet.*"),
+PET_VILLAGER("kpet.villager"),
+PET_MAGMACUBE("kpet.magmacube"),
+PET_WITCH("kpet.witch"),
+PET_SKELETON("kpet.skeleton"),
 PET_BLAZE("kpet.blaze"),
 PET_CHICKEN("kpet.chicken"),
 PET_COW("kpet.cow"),
@@ -301,8 +349,10 @@ DISGUISE_HORSE("kdisguise.horse"),
 DISGUISE_RABBIT("kdisguise.rabbit"),
 DISGUISE_SQUID("kdisguise.squid"),
 DISGUISE_GUARDIAN("kdisguise.guardian"),
-DISGUISE_OCELOT("kdisguise.ocelot");
+DISGUISE_OCELOT("kdisguise.ocelot"),
 //DISGUISE
+
+NONE("FAIL");
 
 public static kPermission isPerm(String perm){
 	kPermission per=kPermission.NONE;

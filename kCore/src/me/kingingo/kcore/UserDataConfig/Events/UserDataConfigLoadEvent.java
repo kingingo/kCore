@@ -1,11 +1,8 @@
 package me.kingingo.kcore.UserDataConfig.Events;
 
-import java.util.UUID;
-
 import lombok.Getter;
 import me.kingingo.kcore.kConfig.kConfig;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

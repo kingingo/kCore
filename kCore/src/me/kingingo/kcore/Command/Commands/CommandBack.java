@@ -3,19 +3,15 @@ package me.kingingo.kcore.Command.Commands;
 import java.util.HashMap;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Command.Commands.Events.PlayerMsgSendEvent;
-import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.kPermission;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 

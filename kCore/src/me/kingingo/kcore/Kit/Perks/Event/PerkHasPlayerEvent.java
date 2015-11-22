@@ -1,7 +1,6 @@
 package me.kingingo.kcore.Kit.Perks.Event;
 
 import lombok.Getter;
-import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.PerkData;
 

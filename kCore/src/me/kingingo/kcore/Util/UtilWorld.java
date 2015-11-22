@@ -28,7 +28,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.generator.ChunkGenerator;
-import org.spigotmc.SpigotConfig;
 
 public class UtilWorld{
 	

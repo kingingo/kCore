@@ -2,8 +2,6 @@ package me.kingingo.kcore.Disguise.disguises;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
 
-import org.bukkit.entity.EntityType;
-
 public abstract class DisguiseCreature extends DisguiseInsentient
 {
   public DisguiseCreature(org.bukkit.entity.Entity entity)

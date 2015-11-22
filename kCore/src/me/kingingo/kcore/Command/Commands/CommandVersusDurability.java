@@ -2,18 +2,14 @@ package me.kingingo.kcore.Command.Commands;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Language.Language;
-import me.kingingo.kcore.Permission.kPermission;
-import me.kingingo.kcore.Util.UtilInteger;
 import me.kingingo.kcore.Util.UtilMath;
 import me.kingingo.kcore.Util.UtilNumber;
 
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class CommandVersusDurability implements CommandExecutor{
 	

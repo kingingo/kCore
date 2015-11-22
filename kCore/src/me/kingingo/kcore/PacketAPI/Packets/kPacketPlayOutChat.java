@@ -1,14 +1,11 @@
 package me.kingingo.kcore.PacketAPI.Packets;
 
-import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
-
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.Util.UtilReflection;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
 public class kPacketPlayOutChat implements kPacket{
