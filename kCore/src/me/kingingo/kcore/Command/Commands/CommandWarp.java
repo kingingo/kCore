@@ -50,7 +50,7 @@ public class CommandWarp implements CommandExecutor{
 						player.teleport(config.getLocation("warps."+args[0].toLowerCase()),TeleportCause.PLUGIN);
 						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT"));
 					}else{
-						teleport.getTeleport().add(new Teleporter(player,config.getLocation("warps."+args[0].toLowerCase()),5));
+						teleport.getTeleport().add(new Teleporter(player,config.getLocation("warps."+args[0].toLowerCase()),3));
 					}
 				}else{
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "WARP_EXIST"));

@@ -59,7 +59,7 @@ public class ChatListener extends kListener{
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		if (!event.isCancelled()) {
 			p = event.getPlayer();
-			 msg = event.getMessage();
+			msg = event.getMessage();
 			 
 			msg=msg.replaceAll("%","");
 			if(p.hasPermission(kPermission.CHAT_FARBIG.getPermissionToString())){

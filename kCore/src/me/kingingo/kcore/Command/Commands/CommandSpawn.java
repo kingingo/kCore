@@ -71,7 +71,7 @@ public class CommandSpawn extends kListener implements CommandExecutor{
 		if(player.hasPermission(kPermission.SPAWN_IGNORE_DELAY.getPermissionToString())){
 			player.teleport(spawn,TeleportCause.PLUGIN);
 		}else{
-			teleport.getTeleport().add(new Teleporter(player,spawn,7));
+			teleport.getTeleport().add(new Teleporter(player,spawn,3));
 		}
 		return false;
 	}

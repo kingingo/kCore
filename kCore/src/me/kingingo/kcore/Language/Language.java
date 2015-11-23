@@ -287,6 +287,7 @@ public class Language {
 			add(type, "GILDE_CREATE", "§aYou successfully founded §6{INPUT0}§a! The guild-home was set at your current position.");
 			add(type, "GILDE_PLAYER_OFFLINE", "§e{INPUT0}§c is currently offline!");
 			add(type, "GILDE_PREFIX", "§6Guild §8» §7");
+			add(type, "GILDE_CHAT_PREFIX", "§6Guild-Chat §8» {INPUT0}:§7 ");
 			add(type, "GILDE_PLAYER_ENTRE", "§a{INPUT0}§7 joined the guild!");
 			add(type, "GILDE_NAME_LENGTH_MIN", "§cThe guild name has to be longer than §e{INPUT0}§c characters!");
 			add(type, "GILDE_NAME_LENGTH_MAX", "§cThe guild name has to be shorter than §e{INPUT0}§c characters!");
@@ -437,7 +438,8 @@ public class Language {
 			add(type, "WARP_EXIST", "§cThis warp does not exist!");
 			add(type, "GILDE_PLAYER_LEAVE", "§a{INPUT0}§7 left the server!");
 			add(type, "VOTE_THX", "§aThank you for §a§lVoting§a! You recieved your reward!");
-			add(type, "ANIT_LOGOUT_FIGHT_CMD", "§cYou cannot use §e/gilden home§c in combat!");
+			add(type, "ANIT_LOGOUT_FIGHT_CMD", "§cYou cannot use §e{INPUT0}§c in combat!");
+			add(type, "ANIT_LOGOUT_FIGHT", "§cYou cannot teleport in combat!");
 			add(type,"XMAS_DOOR","§aYou opened the door and recieved §e{INPUT0}§a coins!");
 			add(type,"XMAS_DAY","§cIst heute der {INPUT0}te?");
 			add(type,"LOGIN_FAIL","§cInvaild character!");
@@ -720,6 +722,7 @@ public class Language {
 	        add(type, "GILDE_CREATE", "§aDu hast erfolgreich die Gilde §6{INPUT0}§a gegruendet! Dein Gilden Home wurde auf deine aktuelle Position gesetzt.");
 	        add(type, "GILDE_PLAYER_OFFLINE", "§cDer Spieler §e{INPUT0}§c ist offline.");
 	        add(type, "GILDE_PREFIX", "§6Gilde §8» §7");
+			add(type, "GILDE_CHAT_PREFIX", "§6Gilde-Chat §8» {INPUT0}:§7 ");
 	        add(type, "GILDE_PLAYER_ENTRE", "§a{INPUT0}§7 ist der Gilde begetreten!");
 	        add(type, "GILDE_NAME_LENGTH_MIN", "§cDer Gildenname muss laenger als §e{INPUT0}§c Zeichen sein!");
 	        add(type, "GILDE_NAME_LENGTH_MAX", "§cDer Gildenname muss kleiner als §e{INPUT0}§c Zeichen sein!");
@@ -871,7 +874,8 @@ public class Language {
 	        add(type, "WARP_EXIST", "§cDieser Warp exestiert nicht!");
 	        add(type, "GILDE_PLAYER_LEAVE", "§a{INPUT0}§7 hat den Server verlassen!");
 	        add(type, "VOTE_THX", "§aDanke fürs §a§lVoten§a du hast deine Belohnung erhalten!");
-			add(type, "ANIT_LOGOUT_FIGHT_CMD", "§cDu kannst den Befehl §e/gilden home§c nicht im Kampf ausführen!");
+			add(type, "ANIT_LOGOUT_FIGHT_CMD", "§cDu kannst den Befehl §e{INPUT0}§c nicht im Kampf ausführen!");
+			add(type, "ANIT_LOGOUT_FIGHT", "§cDu kannst dich im Kampf nicht teleportieren!");
 			add(type,"XMAS_DOOR","§aDu hast das Türchen geöffnet und §e{INPUT0}§a Coins erhalten!");
 			add(type,"XMAS_DAY","§cIst heute der {INPUT0}te?");
 			add(type,"LOGIN_FAIL","§cUngültiges Zeichen!");

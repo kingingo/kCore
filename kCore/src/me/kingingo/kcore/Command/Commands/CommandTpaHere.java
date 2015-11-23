@@ -45,7 +45,7 @@ public class CommandTpaHere implements CommandExecutor{
 						if(player.hasPermission(kPermission.PLAYER_TELEPORT_A_BYPASS.getPermissionToString())){
 							getManager().getTeleport_anfrage().put(tp,new Teleporter(tp, player));
 						}else{
-							getManager().getTeleport_anfrage().put(tp,new Teleporter(tp, player,5));
+							getManager().getTeleport_anfrage().put(tp,new Teleporter(tp, player,3));
 						}
 						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT_ANFRAGE_SENDER",tp.getName()));
 						tp.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT_ANFRAGE_HERE_EMPFÄNGER",player.getName()));

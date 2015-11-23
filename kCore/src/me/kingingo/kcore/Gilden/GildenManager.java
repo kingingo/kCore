@@ -12,6 +12,7 @@ import me.kingingo.kcore.ELO.Events.PlayerEloEvent;
 import me.kingingo.kcore.Gilden.Events.GildeLoadEvent;
 import me.kingingo.kcore.Gilden.Events.GildePlayerJoinEvent;
 import me.kingingo.kcore.Gilden.Events.GildePlayerLeaveEvent;
+import me.kingingo.kcore.Gilden.Events.GildenChatEvent;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
@@ -34,6 +35,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -91,6 +93,26 @@ public class GildenManager implements Listener {
 		}
 		
 		LoadRanking(false);
+	}
+	
+	GildenChatEvent chatevent;
+	@EventHandler
+	public void chat(AsyncPlayerChatEvent ev){
+		if(ev.getMessage().startsWith("#")&&isPlayerInGilde(ev.getPlayer())){
+			ev.setMessage(ev.getMessage().substring(1, ev.getMessage().length()).replaceAll("&", "§"));
+			if(chatevent==null)chatevent=new GildenChatEvent(ev.getPlayer(), ev.getMessage(), getPlayerGilde(ev.getPlayer()), this);
+			chatevent.setCancelled(false);
+			chatevent.setPlayer(ev.getPlayer());
+			chatevent.setGilde(getPlayerGilde(ev.getPlayer()));
+			chatevent.setMessage(ev.getMessage());
+			
+			Bukkit.getPluginManager().callEvent(chatevent);
+			
+			if(!chatevent.isCancelled()){
+				sendGildenChat(chatevent.getGilde(), chatevent.getPlayer(), chatevent.getMessage());
+				ev.setCancelled(true);
+			}
+		}
 	}
 	
 	@EventHandler
@@ -373,6 +395,17 @@ public class GildenManager implements Listener {
 		sendGildenChat(getPlayerGilde(ev.getPlayer()), "GILDE_PLAYER_JOIN",ev.getPlayer().getName());
 	}
 	
+	public void sendGildenChat(String gilde,Player player,String msg){
+		gilde=gilde.toLowerCase();
+		for(UUID n : gilden_player.keySet()){
+			if(gilden_player.get(n).equalsIgnoreCase(gilde)){
+				if(UtilPlayer.isOnline(n)){
+					Bukkit.getPlayer(n).sendMessage(Language.getText(Bukkit.getPlayer(n), "GILDE_CHAT_PREFIX",player.getName())+msg);
+				}
+			}
+		}
+	}
+	
 	public void sendGildenChat(String gilde,String name){
 		gilde=gilde.toLowerCase();
 		for(UUID n : gilden_player.keySet()){
@@ -384,7 +417,7 @@ public class GildenManager implements Listener {
 		}
 	}
 	
-	public void sendGildenChat(String gilde,String name,Object[] input){
+	public void sendGildenChat(String gilde,String name,Object... input){
 		gilde=gilde.toLowerCase();
 		for(UUID n : gilden_player.keySet()){
 			if(gilden_player.get(n).equalsIgnoreCase(gilde)){
@@ -396,14 +429,7 @@ public class GildenManager implements Listener {
 	}
 	
 	public void sendGildenChat(String gilde,String name,Object input){
-		gilde=gilde.toLowerCase();
-		for(UUID n : gilden_player.keySet()){
-			if(gilden_player.get(n).equalsIgnoreCase(gilde)){
-				if(UtilPlayer.isOnline(n)){
-					Bukkit.getPlayer(n).sendMessage(Language.getText(Bukkit.getPlayer(n), "GILDE_PREFIX")+Language.getText(Bukkit.getPlayer(n), name,input));
-				}
-			}
-		}
+		sendGildenChat(gilde, name, input);
 	}
 	
 	public double getKDR(int k,int d){
