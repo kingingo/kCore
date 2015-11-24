@@ -17,7 +17,7 @@ public class CommandRemoveEnchantment implements CommandExecutor{
 	private String enchantments;
 	
 	public CommandRemoveEnchantment() {
-		this.enchantments=Language.getText(player, "PREFIX")+"";
+		this.enchantments="";
 		for(Enchantment ench : Enchantment.values())enchantments+=ench.getName()+",";
 		this.enchantments=enchantments.substring(0, enchantments.length()-1);
 	}
@@ -29,7 +29,7 @@ public class CommandRemoveEnchantment implements CommandExecutor{
 		if(player.hasPermission(kPermission.REMOVE_ENCHANTMENT.getPermissionToString())){
 			if(args.length==0){
 				player.sendMessage(Language.getText(player, "PREFIX")+"/removeEnchantment [ENCHANTMENT]");
-				player.sendMessage(enchantments);
+				player.sendMessage(Language.getText(player, "PREFIX")+enchantments);
 			}else{
 				Enchantment ench = Enchantment.getByName(args[0]);
 				

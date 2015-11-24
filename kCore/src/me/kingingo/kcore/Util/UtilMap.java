@@ -32,6 +32,7 @@ import org.bukkit.craftbukkit.v1_8_R3.map.RenderData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.world.WorldUnloadEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.map.MapCursor;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
@@ -331,7 +332,7 @@ public class UtilMap{
 		}
 	}
 	
-	public static void makeQuadrat(ArrayList<BlockState> states ,Location loc, int radius, int high,Material ground, Material wall) {
+	public static void makeQuadrat(ArrayList<BlockState> states ,Location loc, int radius, int high,ItemStack ground,ItemStack wall) {
 		int MaxX = MaxX(loc.clone(), radius);
 		int MaxZ = MaxZ(loc.clone(), radius);
 		int MinX = MinX(loc.clone(), radius);
@@ -339,35 +340,44 @@ public class UtilMap{
 		int MinY = loc.getBlockY();
 		int MaxY = loc.getBlockY()+high;
 		
+		if(wall==null)wall=ground;
+		
 		for (int y = MinY; y < MaxY; y++) {
 			for (int z = MinZ; z < MaxZ; z++) {
-				loc.getWorld().getBlockAt(MaxX, y, z).setType( (y==MinY?ground:wall) );
-				states.add(loc.getWorld().getBlockAt(MaxX, y, z).getState());
+				if(states!=null)states.add(loc.getWorld().getBlockAt(MaxX, y, z).getState());
+				loc.getWorld().getBlockAt(MaxX, y, z).setType( (y==MinY?ground.getType():wall.getType()) );
+				loc.getWorld().getBlockAt(MaxX, y, z).setData( (y==MinY?ground.getData().getData():wall.getData().getData()) );
 			}
 
 			for (int z = MaxZ; z > MinZ; z--) {
-				loc.getWorld().getBlockAt(MinX, y, z).setType( (y==MinY?ground:wall) );
-				states.add(loc.getWorld().getBlockAt(MinX, y, z).getState());
+				if(states!=null)states.add(loc.getWorld().getBlockAt(MinX, y, z).getState());
+				loc.getWorld().getBlockAt(MinX, y, z).setType( (y==MinY?ground.getType():wall.getType()) );
+				loc.getWorld().getBlockAt(MinX, y, z).setData( (y==MinY?ground.getData().getData():wall.getData().getData()) );
 			}
 			
 			for (int x = MaxX; x > MinX; x--) {
-				loc.getWorld().getBlockAt(x, y, MaxZ).setType( (y==MinY?ground:wall) );
-				states.add(loc.getWorld().getBlockAt(x, y, MaxZ).getState());
+				if(states!=null)states.add(loc.getWorld().getBlockAt(x, y, MaxZ).getState());
+				loc.getWorld().getBlockAt(x, y, MaxZ).setType( (y==MinY?ground.getType():wall.getType()) );
+				loc.getWorld().getBlockAt(x, y, MaxZ).setData( (y==MinY?ground.getData().getData():wall.getData().getData()) );
 			}
 
 			for (int x = MinX; x < MaxX; x++) {
-				loc.getWorld().getBlockAt(x, y, MinZ).setType( (y==MinY?ground:wall) );
-				states.add(loc.getWorld().getBlockAt(x, y, MinZ).getState());
+				if(states!=null)states.add(loc.getWorld().getBlockAt(x, y, MinZ).getState());
+				loc.getWorld().getBlockAt(x, y, MinZ).setType( (y==MinY?ground.getType():wall.getType()) );
+				loc.getWorld().getBlockAt(x, y, MinZ).setData( (y==MinY?ground.getData().getData():wall.getData().getData()) );
 			}
 		}
 
 
-		for(int x = MinX; x<MaxX; x++){
-			for(int z = MinZ; z<MaxZ; z++){
-				loc.getWorld().getBlockAt(x, MinY, z).setType(ground);
-				loc.getWorld().getBlockAt(x, MaxY, z).setType(ground);
-				states.add(loc.getWorld().getBlockAt(x, MinY, z).getState());
-				states.add(loc.getWorld().getBlockAt(x, MaxY, z).getState());
+		for(int x = MinX; x<=MaxX; x++){
+			for(int z = MinZ; z<=MaxZ; z++){
+				if(states!=null)states.add(loc.getWorld().getBlockAt(x, MinY, z).getState());
+				loc.getWorld().getBlockAt(x, MinY, z).setType(ground.getType());
+				loc.getWorld().getBlockAt(x, MinY, z).setData(ground.getData().getData());
+
+				if(states!=null)states.add(loc.getWorld().getBlockAt(x, MaxY, z).getState());
+				loc.getWorld().getBlockAt(x, MaxY, z).setType(ground.getType());
+				loc.getWorld().getBlockAt(x, MaxY, z).setData(ground.getData().getData());
 			}
 		}
 	}

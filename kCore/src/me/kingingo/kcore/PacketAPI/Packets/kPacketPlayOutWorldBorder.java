@@ -36,6 +36,34 @@ public class kPacketPlayOutWorldBorder implements kPacket{
 		UtilReflection.setValue(WORLD_BORDER_ACTION,packet, action);
 	}
 	
+	public int getWarningTime(){
+		return (int) UtilReflection.getValue(WARNING_TIME, packet);
+	}
+	
+	public int getDamageBuffer(){
+		return (int) UtilReflection.getValue(DAMAGE_BUFFER, packet);
+	}
+	
+	public int getDamageAmount(){
+		return (int) UtilReflection.getValue(DAMAGE_AMOUNT, packet);
+	}
+	
+	public int getWarningDistance(){
+		return (int) UtilReflection.getValue(WARNING_DISTANCE, packet);
+	}
+	
+	public double getSize(){
+		return (double) UtilReflection.getValue(SIZE, packet);
+	}
+	
+	public double getMidZ(){
+		return (double) UtilReflection.getValue(Z, packet);
+	}
+	
+	public double getMidX(){
+		return (double) UtilReflection.getValue(X, packet);
+	}
+	
 	public void setWorldBorder(WorldBorder wb){
 		UtilReflection.setValue(X,packet,wb.getCenterX());
 		UtilReflection.setValue(Z,packet,wb.getCenterZ());
@@ -46,5 +74,4 @@ public class kPacketPlayOutWorldBorder implements kPacket{
 		UtilReflection.setValue(WARNING_DISTANCE,packet,wb.getWarningDistance());
 		UtilReflection.setValue(WARNING_TIME,packet,wb.getWarningTime());
 	}
-
 }

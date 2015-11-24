@@ -20,6 +20,7 @@ import net.minecraft.server.v1_8_R3.WorldSettings.EnumGamemode;
 import net.minecraft.server.v1_8_R3.WorldType;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
@@ -36,8 +37,16 @@ public class UtilWorld{
 		Bukkit.getServer().createWorld(new WorldCreator(world.getName()));
 	}
 	
-	public static void sendWorldBorder(Player p, double midX, double midZ, double oldRadius, double newRadius, int seconds, int portalteleportboundary, int warningTime, int warningBlocks)
-	  {
+	public static kPacketPlayOutWorldBorder createWorldBorder(Location center,int size,int warningTime,int warningBlocks){
+		WorldBorder w = new WorldBorder();
+	    w.setCenter(center.getX(),center.getZ());
+	    w.setSize(size);
+	    if (warningTime >= 0) w.setWarningTime(warningTime);
+	    if (warningBlocks >= 0) w.setWarningDistance(warningBlocks);
+	    return new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.INITIALIZE);
+	}
+	
+	public static void sendWorldBorder(Player p, double midX, double midZ, double oldRadius, double newRadius, int seconds, int portalteleportboundary, int warningTime, int warningBlocks){
 	    WorldBorder w = new WorldBorder();
 	    w.setCenter(midX, midZ);
 	    w.transitionSizeBetween(oldRadius, newRadius, seconds*TimeSpan.SECOND);

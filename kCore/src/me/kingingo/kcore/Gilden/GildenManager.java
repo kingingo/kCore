@@ -429,7 +429,7 @@ public class GildenManager implements Listener {
 	}
 	
 	public void sendGildenChat(String gilde,String name,Object input){
-		sendGildenChat(gilde, name, input);
+		sendGildenChat(gilde, name, new Object[]{input});
 	}
 	
 	public double getKDR(int k,int d){
