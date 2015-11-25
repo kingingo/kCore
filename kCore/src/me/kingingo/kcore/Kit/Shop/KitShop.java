@@ -3,11 +3,8 @@ package me.kingingo.kcore.Kit.Shop;
 import java.util.HashMap;
 
 import lombok.Getter;
-import me.kingingo.kcore.Game.Events.GameStartEvent;
 import me.kingingo.kcore.Kit.Kit;
 import me.kingingo.kcore.Kit.KitType;
-import me.kingingo.kcore.Kit.Perk;
-import me.kingingo.kcore.Kit.Perks.Event.PerkStartEvent;
 import me.kingingo.kcore.Kit.Shop.Events.KitShopPlayerDeleteEvent;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.PermissionManager;
@@ -24,7 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -50,7 +46,7 @@ public class KitShop implements Listener {
 	private Coins coins;
 	@Getter
 	private Gems gems;
-	HashMap<Player,Inventory> l = new HashMap<>();
+	private HashMap<Player,Inventory> l = new HashMap<>();
 	
 	public KitShop(JavaPlugin instance,Gems gems,Coins coins,PermissionManager manager,String name,InventorySize size,Kit[] kits){
 		this.name=name;
@@ -69,18 +65,6 @@ public class KitShop implements Listener {
 		}
 		
 		Bukkit.getPluginManager().registerEvents(this, instance);
-	}
-	
-	@EventHandler(priority=EventPriority.NORMAL)
-	public void Start(GameStartEvent ev){
-		for(Kit k : kits){
-			for(Perk perk : k.getPerks()){
-				Bukkit.getPluginManager().registerEvents(perk, permManager.getInstance());
-			}
-		}
-		Bukkit.getPluginManager().callEvent(new PerkStartEvent());
-		
-		
 	}
 	
 	public void getInv(Player p){
@@ -211,6 +195,11 @@ public class KitShop implements Listener {
 		for(Kit kit : getKits()){
 			kit.removePlayer(ev.getPlayer());
 		}
+		
+		if(l.containsKey(ev.getPlayer())){
+			l.get(ev.getPlayer()).clear();
+			l.remove(ev.getPlayer());
+		}
 	}
 	
 	public Inventory getKaufen(Kit kit,Player p){
@@ -281,7 +270,6 @@ public class KitShop implements Listener {
 						int c = getCoins().getCoins(p);
 						if(c>=kit.getCoins_preis()){
 							getCoins().delCoinsWithScoreboardUpdate(p, true, kit.getCoins_preis());
-//							getCoins().delCoins(p, true, kit.getCoins_preis());
 							getPermManager().addPermission(p, kit.getPermission());
 							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
 						}else{
@@ -291,7 +279,6 @@ public class KitShop implements Listener {
 						int c = getGems().getGems(p);
 						if(c>=kit.getGems_preis()){
 							getGems().delGemsWithScoreboardUpdate(p, true, kit.getGems_preis());
-//							getGems().delGems(p, true, kit.getGems_preis());
 							getPermManager().addPermission(p, kit.getPermission());
 							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
 						}else{

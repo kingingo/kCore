@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="C:/Dev/pscmerchant1.0.13.jar"/>
 	<classpathentry kind="lib" path="C:/Dev/AAC.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="C:/Dev/kArcade.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

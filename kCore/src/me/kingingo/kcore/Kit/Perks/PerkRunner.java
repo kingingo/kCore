@@ -26,7 +26,11 @@ public class PerkRunner extends Perk{
 	@EventHandler
 	public void Start(PerkStartEvent ev){
 		if(getPerkData().getPlayers().containsKey(this)){
-			for(Player p : getPerkData().getPlayers().get(this))p.setWalkSpeed(speed);
+			for(Player p : getPerkData().getPlayers().get(this)){
+				if(ev.getPlayers().contains(p)){
+					p.setWalkSpeed(speed);
+				}
+			}
 		}
 	}
 	

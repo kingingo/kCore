@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 public class Kit extends PerkData{
 
 	@Getter
-	private String Name;
+	private String name;
 	@Getter
 	private ItemStack item;
 	@Getter
@@ -37,8 +37,8 @@ public class Kit extends PerkData{
 	@Getter
 	private ItemStack[] items;
 	
-	public Kit(String Name,String[] desc,ItemStack item,ItemStack[] items,kPermission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int coins_preis,int gems_preis,Perk[] perks){
-		this.Name=Name;
+	public Kit(String name,String[] desc,ItemStack item,ItemStack[] items,kPermission permission,DisguiseType disguise,DisguiseManager dmanager,KitType type,int coins_preis,int gems_preis,Perk[] perks){
+		this.name=name;
 		this.type=type;
 		this.items=items;
 		this.permission=permission;
@@ -86,7 +86,7 @@ public class Kit extends PerkData{
 		}
 			
 		}catch(ArrayIndexOutOfBoundsException e){
-			System.err.println("[Kit] Name: "+Name);
+			System.err.println("[Kit] Name: "+name);
 			e.printStackTrace();
 		}
 		

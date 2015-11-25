@@ -9,12 +9,12 @@ import org.bukkit.event.Listener;
 public abstract class Perk implements Listener{
 
 	@Getter
-	String name;
+	private String name;
 	@Getter
-	PerkData perkData;
+	private PerkData perkData;
 	@Getter
 	@Setter
-	kPermission permission;
+	private kPermission permission;
 	
 	public Perk(String name){
 		this.name=name;

@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.UUID;
 
 import lombok.Getter;
+import me.kingingo.karcade.Game.Events.GameStartEvent;
+import me.kingingo.karcade.Game.Events.GameStateChangeEvent;
 import me.kingingo.kcore.Disguise.disguises.DisguiseBase;
 import me.kingingo.kcore.Disguise.disguises.livings.DisguisePlayer;
 import me.kingingo.kcore.Enum.GameState;
-import me.kingingo.kcore.Game.Events.GameStartEvent;
-import me.kingingo.kcore.Game.Events.GameStateChangeEvent;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
@@ -67,7 +67,7 @@ public class NickManager extends kListener{
 	}
 	
 	@EventHandler
-	public void s(GameStateChangeEvent ev){
+	public void stateChange(GameStateChangeEvent ev){
 		if(ev.getTo()==GameState.Restart){
 			for(Player player : UtilServer.getPlayers()){
 				if(hasNick(player)){

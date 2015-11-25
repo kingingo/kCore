@@ -25,7 +25,11 @@ public class PerkSnowballSwitcher extends Perk{
 	@EventHandler
 	public void Perk(PerkStartEvent ev){
 		if(!getPerkData().getPlayers().containsKey(this))return;
-		for(Player p : getPerkData().getPlayers().get(this))p.getInventory().addItem(s.clone());
+		for(Player p : getPerkData().getPlayers().get(this)){
+			if(ev.getPlayers().contains(p)){
+				p.getInventory().addItem(s.clone());
+			}
+		}
 	}
 
 	Snowball snowball;

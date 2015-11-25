@@ -21,7 +21,9 @@ public class PerkEquipment extends Perk{
 	public void Start(PerkStartEvent ev){
 		if(!getPerkData().getPlayers().containsKey(this))return;
 		for(Player p : getPerkData().getPlayers().get(this)){
-			p.getInventory().addItem(item);
+			if(ev.getPlayers().contains(p)){
+				p.getInventory().addItem(item);
+			}
 		}
 	}
 	

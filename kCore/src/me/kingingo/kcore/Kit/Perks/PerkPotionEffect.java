@@ -24,7 +24,11 @@ public class PerkPotionEffect extends Perk{
 	@EventHandler
 	public void Start(PerkStartEvent ev){
 		if(!getPerkData().getPlayers().containsKey(this))return;
-		for(Player p : getPerkData().getPlayers().get(this))UtilPlayer.addPotionEffect(p, typ, time*20,stärke);
+		for(Player p : getPerkData().getPlayers().get(this)){
+			if(ev.getPlayers().contains(p)){
+				UtilPlayer.addPotionEffect(p, typ, time*20,stärke);
+			}
+		}
 	}
 
 }

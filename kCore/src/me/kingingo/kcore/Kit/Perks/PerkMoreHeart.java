@@ -19,8 +19,10 @@ public class PerkMoreHeart extends Perk{
 	public void Start(PerkStartEvent ev){
 		if(!this.getPerkData().getPlayers().containsKey(this))return;
 		for(Player p : this.getPerkData().getPlayers().get(this)){
-			p.setMaxHealth(heart);
-			p.setHealth(heart);
+			if(ev.getPlayers().contains(p)){
+				p.setMaxHealth(heart);
+				p.setHealth(heart);
+			}
 		}
 	}
 	
