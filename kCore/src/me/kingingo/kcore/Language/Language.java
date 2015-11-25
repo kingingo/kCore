@@ -463,6 +463,7 @@ public class Language {
 			add(type,"GILDE_CMD11","§6/guild createisland §8|§7 Creats a guild island.");
 			add(type,"GILDE_CMD12","§6/guild money withdraw [Money] §8|§7 Withdraws money from the guild account.");
 			add(type,"GILDE_CMD13","§6/gilde money deposite [Money] §8|§7 Deposits money to the guild account.");
+			add(type,"GILDE_CMD14","§6#§7 Message §8|§7 Write in the Guild-Chat");
 	        add(type,"GILDE_PLAYER_IS_NOT_IN_GILDE","§cYou are not in a guild.");
 			add(type,"HOMES_EMPTY","You do not have a home.");
 			add(type,"KITS_EMPTY","You do not have any kits.");
@@ -900,6 +901,7 @@ public class Language {
 			add(type,"GILDE_CMD11","§6/gilde createisland §8|§7 Erstellt eine Gilden-Insel.");
 			add(type,"GILDE_CMD12","§6/gilde money abheben [Money] §8|§7 Vom Gilden-Konto abheben.");
 			add(type,"GILDE_CMD13","§6/gilde money einzahlen [Money] §8|§7 Auf dem Gilden-Konto einzahlen.");
+			add(type,"GILDE_CMD14","§6#§7 Nachricht §8|§7 Hier mit schreibst du in den Gilden-Chat.");
 			add(type,"HOMES_EMPTY","Du hast keine Homes");
 			add(type,"KITS_EMPTY","Du hast keine Kits");
 			add(type,"MONEY","Dein Kontostand beträgt:§3 ");

@@ -39,6 +39,7 @@ public class CommandGilde implements CommandExecutor{
 			p.sendMessage(Language.getText(p, "GILDE_CMD5"));
 			p.sendMessage(Language.getText(p, "GILDE_CMD6"));
 			p.sendMessage(Language.getText(p, "GILDE_CMD7"));
+			p.sendMessage(Language.getText(p, "GILDE_CMD14"));
 			if(manager.getTyp()==GildenType.PVP){
 				p.sendMessage(Language.getText(p, "GILDE_CMD8"));
 				p.sendMessage(Language.getText(p, "GILDE_CMD9"));
