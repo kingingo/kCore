@@ -28,7 +28,7 @@ public class CommandFill implements CommandExecutor{
 						}
 					}
 				}
-				player.sendMessage(Language.getText(player,"PRERFIX")+"§aDie Wasser Flaschen wurden befüllt!");
+				player.sendMessage(Language.getText(player,"PREFIX")+"§aDie Wasser Flaschen wurden befüllt!");
 			}
 		}
 		return false;

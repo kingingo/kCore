@@ -70,10 +70,13 @@ SOLO("SOLO",null,Color.GRAY);
 private String n;
 private ItemStack i;
 private String c;
+private ItemStack[] armor;
+
 private Team(String n,ItemStack i,String c){
 	this.n=n;
 	this.i=i;
 	this.c=c;
+	this.armor=armor;
 }
 
 public String getColor(){

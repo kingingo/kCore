@@ -172,6 +172,7 @@ public class Language {
 	public static void addAll(LanguageType type){
 		if(type==LanguageType.ENGLISH){
 			if(!list.containsKey(LanguageType.ENGLISH))list.put(LanguageType.ENGLISH, new HashMap<String,String>());
+			add(type, "EVENT_TNTFIGHT_PREFIX", "§6TNTFight §8» §7");
 			add(type, "TREASURE_CHEST_TIME_AWAY", "§cThe time has expired!");
 			add(type, "VERSUS_ADDED", "§aYou where added to the match making queue!");
 			add(type, "VERSUS_REMOVE", "§aYou removed from the list!");
@@ -440,7 +441,7 @@ public class Language {
 			add(type, "VOTE_THX", "§aThank you for §a§lVoting§a! You recieved your reward!");
 			add(type, "ANIT_LOGOUT_FIGHT_CMD", "§cYou cannot use §e{INPUT0}§c in combat!");
 			add(type, "ANIT_LOGOUT_FIGHT", "§cYou cannot teleport in combat!");
-			add(type,"XMAS_DOOR","§aYou opened the door and recieved §e{INPUT0}§a coins!");
+			add(type,"XMAS_DOOR","§aYou opened the door and recieved §e{INPUT0}§a coins and §e{INPUT1}§a gems!");
 			add(type,"XMAS_DAY","§cIst heute der {INPUT0}te?");
 			add(type,"LOGIN_FAIL","§cInvaild character!");
 			add(type,"LOAD_PLAYER_DATA","§7Loading your player information...");
@@ -595,6 +596,7 @@ public class Language {
 		
 		if(type==LanguageType.GERMAN){
 			if(!list.containsKey(LanguageType.GERMAN))list.put(LanguageType.GERMAN, new HashMap<String,String>());
+			add(type, "EVENT_TNTFIGHT_PREFIX", "§6TNTFight §8» §7");
 			add(type, "CAPTCHA_ENTER", "§aBitte gib den Captcha Text §7/captcha [CAPTCHA]");
 	        add(type, "CAPTCHA_CHANGE", "§cDas Captcha wurde geaendert!");
 		    add(type, "CAPTCHA_FALSE", "§cDas Captcha ist falsch!");
@@ -877,7 +879,7 @@ public class Language {
 	        add(type, "VOTE_THX", "§aDanke fürs §a§lVoten§a du hast deine Belohnung erhalten!");
 			add(type, "ANIT_LOGOUT_FIGHT_CMD", "§cDu kannst den Befehl §e{INPUT0}§c nicht im Kampf ausführen!");
 			add(type, "ANIT_LOGOUT_FIGHT", "§cDu kannst dich im Kampf nicht teleportieren!");
-			add(type,"XMAS_DOOR","§aDu hast das Türchen geöffnet und §e{INPUT0}§a Coins erhalten!");
+			add(type,"XMAS_DOOR","§aDu hast das Türchen geöffnet und §e{INPUT0}§a Coins und §e{INPUT1}§a Gems erhalten!");
 			add(type,"XMAS_DAY","§cIst heute der {INPUT0}te?");
 			add(type,"LOGIN_FAIL","§cUngültiges Zeichen!");
 			add(type,"LOAD_PLAYER_DATA","§7Deine Spieler Informationen werden geladen...");

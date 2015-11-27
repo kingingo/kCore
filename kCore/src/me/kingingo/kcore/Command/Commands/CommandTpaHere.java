@@ -43,9 +43,11 @@ public class CommandTpaHere implements CommandExecutor{
 						tp=Bukkit.getPlayer(args[0]);
 						if(getManager().getTeleport_anfrage().containsKey(player))getManager().getTeleport_anfrage().remove(tp);
 						if(player.hasPermission(kPermission.PLAYER_TELEPORT_A_BYPASS.getPermissionToString())){
-							getManager().getTeleport_anfrage().put(tp,new Teleporter(tp, player));
+							//Teleporter(tp, player)
+							getManager().getTeleport_anfrage().put(tp,new Teleporter(tp,player.getLocation()));
 						}else{
-							getManager().getTeleport_anfrage().put(tp,new Teleporter(tp, player,3));
+							//Teleporter(tp, player,3)
+							getManager().getTeleport_anfrage().put(tp,new Teleporter(tp,player.getLocation(),3));
 						}
 						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT_ANFRAGE_SENDER",tp.getName()));
 						tp.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT_ANFRAGE_HERE_EMPFÄNGER",player.getName()));
