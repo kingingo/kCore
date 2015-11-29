@@ -112,7 +112,7 @@ public class Calendar {
 	public enum CalendarType {
 		GEBURSTAG_MANUEL("24.02","26.02", "25.02"),
 		GEBURSTAG("05.11","07.11", "06.11"),
-		WEIHNACHTEN("01.12","24.12","24.12"),
+		WEIHNACHTEN("28.11","31.12","24.12"),
 		NIKOLAUS("05.12","07.12","06.12"),
 		OSTERN("03.04","07.04","05.04"),
 		SILVESTER("31.12","02.01","01.01"),

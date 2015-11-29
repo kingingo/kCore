@@ -2,14 +2,17 @@ package me.kingingo.kcore.Util;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import net.minecraft.server.v1_8_R3.ControllerJump;
+import net.minecraft.server.v1_8_R3.ControllerLook;
+import net.minecraft.server.v1_8_R3.ControllerMove;
 import net.minecraft.server.v1_8_R3.EntityChicken;
 import net.minecraft.server.v1_8_R3.EntityCreature;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityInsentient;
 import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.EntitySenses;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.NavigationAbstract;
-import net.minecraft.server.v1_8_R3.PathEntity;
 import net.minecraft.server.v1_8_R3.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_8_R3.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
@@ -22,6 +25,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Creature;
@@ -39,6 +43,78 @@ public class UtilEnt
   public static HashMap<org.bukkit.entity.Entity, String> GetEntityNames()
   {
     return _nameMap;
+  }
+  
+
+  public static NavigationAbstract getNavigation(LivingEntity livingEntity)
+  {
+    if ((livingEntity instanceof CraftLivingEntity)) {
+      return getNavigation(((CraftLivingEntity)livingEntity).getHandle());
+    }
+    return null;
+  }
+
+  public static NavigationAbstract getNavigation(EntityLiving entityLiving) {
+    if ((entityLiving instanceof EntityInsentient)) {
+      return ((EntityInsentient)entityLiving).getNavigation();
+    }
+    return null;
+  }
+
+  public static EntitySenses getEntitySenses(LivingEntity livingEntity) {
+    if ((livingEntity instanceof CraftLivingEntity)) {
+      return getEntitySenses(((CraftLivingEntity)livingEntity).getHandle());
+    }
+    return null;
+  }
+
+  public static EntitySenses getEntitySenses(EntityLiving entityLiving) {
+    if ((entityLiving instanceof EntityInsentient)) {
+      return ((EntityInsentient)entityLiving).getEntitySenses();
+    }
+    return null;
+  }
+
+  public static ControllerJump getControllerJump(LivingEntity livingEntity) {
+    if ((livingEntity instanceof CraftLivingEntity)) {
+      return getControllerJump(((CraftLivingEntity)livingEntity).getHandle());
+    }
+    return null;
+  }
+
+  public static ControllerJump getControllerJump(EntityLiving entityLiving) {
+    if ((entityLiving instanceof EntityInsentient)) {
+      return ((EntityInsentient)entityLiving).getControllerJump();
+    }
+    return null;
+  }
+
+  public static ControllerMove getControllerMove(LivingEntity livingEntity) {
+    if ((livingEntity instanceof CraftLivingEntity)) {
+      return getControllerMove(((CraftLivingEntity)livingEntity).getHandle());
+    }
+    return null;
+  }
+
+  public static ControllerMove getControllerMove(EntityLiving entityLiving) {
+    if ((entityLiving instanceof EntityInsentient)) {
+      return ((EntityInsentient)entityLiving).getControllerMove();
+    }
+    return null;
+  }
+
+  public static ControllerLook getControllerLook(LivingEntity livingEntity) {
+    if ((livingEntity instanceof CraftLivingEntity)) {
+      return getControllerLook(((CraftLivingEntity)livingEntity).getHandle());
+    }
+    return null;
+  }
+
+  public static ControllerLook getControllerLook(EntityLiving entityLiving) {
+    if ((entityLiving instanceof EntityInsentient)) {
+      return ((EntityInsentient)entityLiving).getControllerLook();
+    }
+    return null;
   }
   
   //muss noch getestet werden!
@@ -409,7 +485,6 @@ public class UtilEnt
     }
     EntityCreature ec = ((CraftCreature)ent).getHandle();
     ec.getControllerMove().a(target.getX(), target.getY(), target.getZ(), speed);
-
     return true;
   }
 }

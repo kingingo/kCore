@@ -442,6 +442,8 @@ public class Language {
 			add(type, "ANIT_LOGOUT_FIGHT_CMD", "§cYou cannot use §e{INPUT0}§c in combat!");
 			add(type, "ANIT_LOGOUT_FIGHT", "§cYou cannot teleport in combat!");
 			add(type,"XMAS_DOOR","§aYou opened the door and recieved §e{INPUT0}§a coins and §e{INPUT1}§a gems!");
+			add(type,"XMAS_DOOR1","§c§lCongratulations you won the Christmas Pet!");
+			add(type,"XMAS_RARE","§e{INPUT0} §afound the rare christmas-pet! Congratulation!");
 			add(type,"XMAS_DAY","§cIst heute der {INPUT0}te?");
 			add(type,"LOGIN_FAIL","§cInvaild character!");
 			add(type,"LOAD_PLAYER_DATA","§7Loading your player information...");
@@ -880,6 +882,8 @@ public class Language {
 			add(type, "ANIT_LOGOUT_FIGHT_CMD", "§cDu kannst den Befehl §e{INPUT0}§c nicht im Kampf ausführen!");
 			add(type, "ANIT_LOGOUT_FIGHT", "§cDu kannst dich im Kampf nicht teleportieren!");
 			add(type,"XMAS_DOOR","§aDu hast das Türchen geöffnet und §e{INPUT0}§a Coins und §e{INPUT1}§a Gems erhalten!");
+			add(type,"XMAS_DOOR1","§c§lHerzlichen Glueckwunsch du hast das Weihnachts Pet gewonnen!");
+			add(type,"XMAS_RARE","§e{INPUT0} §ahat das seltene Weihnachts Pet gefunden! Herzlichen Glueckwunsch!");
 			add(type,"XMAS_DAY","§cIst heute der {INPUT0}te?");
 			add(type,"LOGIN_FAIL","§cUngültiges Zeichen!");
 			add(type,"LOAD_PLAYER_DATA","§7Deine Spieler Informationen werden geladen...");

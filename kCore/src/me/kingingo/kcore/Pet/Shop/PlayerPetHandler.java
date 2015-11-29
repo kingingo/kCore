@@ -77,6 +77,7 @@ public class PlayerPetHandler implements Listener{
 		this.manager.setSetting(true);
 		this.permManager.getMysql().Update("CREATE TABLE IF NOT EXISTS "+serverType.name()+"_pets(uuid varchar(100),pet varchar(100))");
 		
+		this.manager.getSetting_list().put(EntityType.SNOWMAN, new PetSetting(base,manager,EntityType.SNOWMAN,UtilItem.RenameItem(new ItemStack(Material.CARROT_ITEM), "§aSnowman")));
 		this.manager.getSetting_list().put(EntityType.MAGMA_CUBE, new PetSetting(base,manager,EntityType.MAGMA_CUBE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 62), "§aMagma Cube")));
 		this.manager.getSetting_list().put(EntityType.VILLAGER, new PetSetting(base,manager,EntityType.VILLAGER,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 120), "§aVillager")));
 		this.manager.getSetting_list().put(EntityType.WITCH, new PetSetting(base,manager,EntityType.WITCH,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 66), "§aWitch")));
@@ -174,6 +175,7 @@ public class PlayerPetHandler implements Listener{
 		case "§aVillager": return kPermission.PET_VILLAGER;
 		case "§aWitch": return kPermission.PET_WITCH;
 		case "§aSkeleton": return kPermission.PET_SKELETON;
+		case "§aSnowman": return kPermission.PET_SNOWMAN;
 		default:
 			return kPermission.NONE;
 		}
@@ -202,6 +204,7 @@ public class PlayerPetHandler implements Listener{
 		case PET_SKELETON: return EntityType.SKELETON;
 		case PET_VILLAGER: return EntityType.VILLAGER;
 		case PET_WITCH: return EntityType.WITCH;
+		case PET_SNOWMAN: return EntityType.SNOWMAN;
 		default:
 			return null;
 		}
@@ -229,6 +232,7 @@ public class PlayerPetHandler implements Listener{
 		case VILLAGER: return kPermission.PET_VILLAGER;
 		case MAGMA_CUBE: return kPermission.PET_MAGMACUBE;
 		case WITCH: return kPermission.PET_WITCH;
+		case SNOWMAN: return kPermission.PET_SNOWMAN;
 		default:
 			return kPermission.NONE;
 		}

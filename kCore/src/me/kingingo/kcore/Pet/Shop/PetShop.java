@@ -282,9 +282,107 @@ public class PetShop extends InventoryPageBase{
 			
 		}, Material.MONSTER_EGG,98, "§aOcelot", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
+		addButton(24, new SalesPackageBase(new Click(){
+			public void onClick(Player player, ActionType type,Object object) {
+				if(player.hasPermission(kPermission.PET_CREEPER.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
+					getHandle().getManager().AddPetOwner(player, "Creeper", EntityType.CREEPER, player.getLocation());
+					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
+					player.closeInventory();
+				}else{
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
+					player.closeInventory();
+				}
+			}
+			
+		}, Material.SKULL_ITEM,4, "§aCreeper", new String[]{"§eVip Pet"}));
+		
+		addButton(25, new SalesPackageBase(new Click(){
+			public void onClick(Player player, ActionType type,Object object) {
+				if(player.hasPermission(kPermission.PET_VILLAGER.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
+					getHandle().getManager().AddPetOwner(player, "Villager", EntityType.VILLAGER, player.getLocation());
+					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
+					player.closeInventory();
+				}else{
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
+					player.closeInventory();
+				}
+			}
+			
+		}, Material.MONSTER_EGG,120, "§aVillager", new String[]{"§6Ultra Pet"}));
+		
+		addButton(28, new SalesPackageBase(new Click(){
+			public void onClick(Player player, ActionType type,Object object) {
+				if(player.hasPermission(kPermission.PET_BLAZE.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
+					getHandle().getManager().AddPetOwner(player, "Blaze", EntityType.BLAZE, player.getLocation());
+					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
+					player.closeInventory();
+				}else{
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
+					player.closeInventory();
+				}
+			}
+			
+		}, Material.MONSTER_EGG,61, "§aBlaze", new String[]{"§5Legend Pet"}));
+		
+		addButton(29, new SalesPackageBase(new Click(){
+			public void onClick(Player player, ActionType type,Object object) {
+				if(player.hasPermission(kPermission.PET_SKELETON.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
+					getHandle().getManager().AddPetOwner(player, "Skeleton", EntityType.SKELETON, player.getLocation());
+					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
+					player.closeInventory();
+				}else{
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
+					player.closeInventory();
+				}
+			}
+			
+		}, Material.MONSTER_EGG,51, "§aSkeleton", new String[]{"§3MVP Pet"}));
+		
+		addButton(30, new SalesPackageBase(new Click(){
+			public void onClick(Player player, ActionType type,Object object) {
+				if(player.hasPermission(kPermission.PET_WITCH.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
+					getHandle().getManager().AddPetOwner(player, "Witch", EntityType.WITCH, player.getLocation());
+					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
+					player.closeInventory();
+				}else{
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
+					player.closeInventory();
+				}
+			}
+			
+		}, Material.MONSTER_EGG,66, "§aWitch", new String[]{"§9MVP+ Pet"}));
+		
+		addButton(31, new SalesPackageBase(new Click(){
+			public void onClick(Player player, ActionType type,Object object) {
+				if(player.hasPermission(kPermission.PET_SNOWMAN.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
+					getHandle().getManager().AddPetOwner(player, "Snowman", EntityType.SNOWMAN, player.getLocation());
+					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
+					player.closeInventory();
+				}else{
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
+					player.closeInventory();
+				}
+			}
+			
+		}, Material.CARROT_ITEM, "§aSnowman", new String[]{"§cXMAS Pet"}));
+		
+//		addButton(30, new SalesPackageBase(new Click(){
+//			public void onClick(Player player, ActionType type,Object object) {
+//				if(player.hasPermission(kPermission.PET_ALL.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
+//					getHandle().getManager().AddPetOwner(player, "MagmaCube", EntityType.MAGMA_CUBE, player.getLocation());
+//					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
+//					player.closeInventory();
+//				}else{
+//					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
+//					player.closeInventory();
+//				}
+//			}
+//			
+//		}, Material.MONSTER_EGG,62, "§aMagmaCube", new String[]{"§5Legend Pet"}));
+//		
 //		addButton(24, new SalesPackageBase(new Click(){
 //			public void onClick(Player player, ActionType type,Object object) {
-//				if( player.hasPermission(kPermission.PET_SLIME.getPermissionToString())|| player.hasPermission(kPermission.PET_ALL.getPermissionToString()) ){
+//				if( player.hasPermission(kPermission.PET_ALL.getPermissionToString())|| player.hasPermission(kPermission.PET_ALL.getPermissionToString()) ){
 //					getHandle().getManager().AddPetOwner(player, "Slime", EntityType.SLIME, player.getLocation());
 //					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
 //					player.closeInventory();
@@ -302,87 +400,6 @@ public class PetShop extends InventoryPageBase{
 //			}
 //			
 //		}, Material.MONSTER_EGG,55, "§aSlime", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
-		
-		addButton(25, new SalesPackageBase(new Click(){
-			public void onClick(Player player, ActionType type,Object object) {
-				if(player.hasPermission(kPermission.PET_BLAZE.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
-					getHandle().getManager().AddPetOwner(player, "Blaze", EntityType.BLAZE, player.getLocation());
-					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
-					player.closeInventory();
-				}
-			}
-			
-		}, Material.MONSTER_EGG,61, "§aBlaze", new String[]{"§cNicht Kaufbar"}));
-		
-		addButton(28, new SalesPackageBase(new Click(){
-			public void onClick(Player player, ActionType type,Object object) {
-				if(player.hasPermission(kPermission.PET_CREEPER.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
-					getHandle().getManager().AddPetOwner(player, "Creeper", EntityType.CREEPER, player.getLocation());
-					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
-					player.closeInventory();
-				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
-					player.closeInventory();
-				}
-			}
-			
-		}, Material.SKULL_ITEM,4, "§aCreeper", new String[]{"§eVip Pet"}));
-		
-		addButton(29, new SalesPackageBase(new Click(){
-			public void onClick(Player player, ActionType type,Object object) {
-				if(player.hasPermission(kPermission.PET_VILLAGER.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
-					getHandle().getManager().AddPetOwner(player, "Villager", EntityType.VILLAGER, player.getLocation());
-					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
-					player.closeInventory();
-				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
-					player.closeInventory();
-				}
-			}
-			
-		}, Material.MONSTER_EGG,120, "§aVillager", new String[]{"§6Ultra Pet"}));
-		
-//		addButton(30, new SalesPackageBase(new Click(){
-//			public void onClick(Player player, ActionType type,Object object) {
-//				if(player.hasPermission(kPermission.PET_MAGMACUBE.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
-//					getHandle().getManager().AddPetOwner(player, "MagmaCube", EntityType.MAGMA_CUBE, player.getLocation());
-//					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
-//					player.closeInventory();
-//				}else{
-//					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
-//					player.closeInventory();
-//				}
-//			}
-//			
-//		}, Material.MONSTER_EGG,62, "§aMagmaCube", new String[]{"§5Legend Pet"}));
-		
-		addButton(31, new SalesPackageBase(new Click(){
-			public void onClick(Player player, ActionType type,Object object) {
-				if(player.hasPermission(kPermission.PET_SKELETON.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
-					getHandle().getManager().AddPetOwner(player, "Skeleton", EntityType.SKELETON, player.getLocation());
-					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
-					player.closeInventory();
-				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
-					player.closeInventory();
-				}
-			}
-			
-		}, Material.MONSTER_EGG,51, "§aSkeleton", new String[]{"§3MVP Pet"}));
-		
-		addButton(32, new SalesPackageBase(new Click(){
-			public void onClick(Player player, ActionType type,Object object) {
-				if(player.hasPermission(kPermission.PET_WITCH.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
-					getHandle().getManager().AddPetOwner(player, "Witch", EntityType.WITCH, player.getLocation());
-					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
-					player.closeInventory();
-				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
-					player.closeInventory();
-				}
-			}
-			
-		}, Material.MONSTER_EGG,66, "§aWitch", new String[]{"§9MVP+ Pet"}));
 		
 		fill(Material.STAINED_GLASS_PANE,(byte)7);
 		getHandle().getBase().addPage(this);

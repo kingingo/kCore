@@ -25,6 +25,7 @@ public class CommandKit implements CommandExecutor{
 	@Getter
 	private kConfig config;
 	private kConfig userconfig;
+	@Getter
 	private UserDataConfig userData;
 	private String kit;
 	@Getter
@@ -41,6 +42,7 @@ public class CommandKit implements CommandExecutor{
 		}
 		cmd.register(CommandDelKit.class, new CommandDelKit(this,config));
 		cmd.register(CommandSetKit.class, new CommandSetKit(this,config));
+		cmd.register(CommandResetKit.class, new CommandResetKit(this));
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "kit", sender = Sender.PLAYER)

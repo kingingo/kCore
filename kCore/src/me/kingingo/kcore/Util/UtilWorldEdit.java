@@ -5,13 +5,16 @@ import java.io.IOException;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.Vector2D;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.data.DataException;
+import com.sk89q.worldedit.world.biome.BaseBiome;
 
 public class UtilWorldEdit {
 
@@ -50,4 +53,9 @@ public class UtilWorldEdit {
 		v=null;
 	}
 	
+	
+	public static void setBiome(Location l,Biome biome){
+		if(editSession==null)editSession=new EditSession(new BukkitWorld(l.getWorld()), 999999999);
+		editSession.setBiome(new Vector2D(l.getX(), l.getZ()), new BaseBiome(biome.ordinal()));
+	}
 }

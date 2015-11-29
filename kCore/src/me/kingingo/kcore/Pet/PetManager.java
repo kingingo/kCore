@@ -11,14 +11,19 @@ import me.kingingo.kcore.Pet.Shop.PetShop;
 import me.kingingo.kcore.Pet.Shop.PlayerPetHandler;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilEnt;
+import me.kingingo.kcore.Util.UtilPlayer;
 import net.minecraft.server.v1_8_R3.EntityInsentient;
+import net.minecraft.server.v1_8_R3.Navigation;
 import net.minecraft.server.v1_8_R3.NavigationAbstract;
+import net.minecraft.server.v1_8_R3.PathEntity;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
@@ -27,10 +32,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.SlimeSplitEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -217,7 +224,8 @@ public class PetManager implements Listener{
 	 	          targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
 	 	        }
 	 	        
-	 	       if (((Integer)this.failedAttempts.get(playerName)).intValue() > 4){
+	 	        ((Navigation)nav).a(true);
+	 	        if (((Integer)this.failedAttempts.get(playerName)).intValue() > 4){
 	 	    	  if(pet.getPassenger() != null){
 		        	  passenger = pet.getPassenger();
 		        	  passenger.leaveVehicle();
@@ -230,7 +238,7 @@ public class PetManager implements Listener{
 		          }
 	 	    	  
 		          this.failedAttempts.put(playerName, Integer.valueOf(0));
-	 	      }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.2D)){
+	 	      }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.6D)){
 		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>distance){
 		            this.failedAttempts.put(playerName, Integer.valueOf(((Integer)this.failedAttempts.get(playerName)).intValue() + 1));
 		          }
@@ -285,7 +293,7 @@ public class PetManager implements Listener{
 		          
 		          Bukkit.getPluginManager().callEvent(new PetWithOutOwnerLocationEvent(pet,ownerSpot));
 		          this.failedAttemptsToLocation.put(pet, Integer.valueOf(0));
-		        }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.2D)){
+		        }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.6D)){
 		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>distance){
 		            this.failedAttemptsToLocation.put(pet, Integer.valueOf(((Integer)this.failedAttemptsToLocation.get(pet)).intValue() + 1));
 		          }
@@ -326,12 +334,19 @@ public class PetManager implements Listener{
 		 }
 	}
 	
-//	@EventHandler
-//	public void EntityTeleport(EntityTeleportEvent ev){
-//		if (((ev.getEntity() instanceof LivingEntity)) && ((this.activePetOwners.containsValue((LivingEntity)ev.getEntity())) || (this.petToLocation.containsKey((LivingEntity)ev.getEntity())) ) ){
-//			  
-//		}
-//	}
+	@EventHandler
+	public void SlimeSplit(SlimeSplitEvent ev){
+		if (((ev.getEntity() instanceof LivingEntity)) && ((this.activePetOwners.containsValue((LivingEntity)ev.getEntity())) || (this.petToLocation.containsKey((LivingEntity)ev.getEntity())) ) ){
+			ev.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void EntityBlockForm(EntityBlockFormEvent ev){
+		if (((ev.getEntity() instanceof LivingEntity)) && ((this.activePetOwners.containsValue((LivingEntity)ev.getEntity())) || (this.petToLocation.containsKey((LivingEntity)ev.getEntity())) ) ){
+			ev.setCancelled(true);
+		}
+	}
 	
 	@EventHandler
 	public void EntityCombust(EntityCombustEvent ev){
