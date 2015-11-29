@@ -276,10 +276,12 @@ OneInTheChamber_KIT("epicpvp.oitc.kit"),
 OneInTheChamber_LIFE("epicpvp.oitc.life"),
 //One In The Chamber - ENDE -
 SKYBLOCK_GILDEN_ISLAND("epicpvp.skyblock.gilden.island"),
+SKYBLOCK_GILDEN_ISLAND_BORDER_BYPASS("epicpvp.skyblock.gilden.border.bypass"),
 SKYBLOCK_PREMIUM_ISLAND("epicpvp.skyblock.schematic.premium"),
 SKYBLOCK_NORMAL_ISLAND("epicpvp.skyblock.schematic.normal"),
 SKYBLOCK_HOME_OTHER("epicpvp.skyblock.home.other"),
 SKYBLOCK_ISLAND_BYPASS("epicpvp.skyblock.bypass"),
+SKYBLOCK_ISLAND_BORDER_BYPASS("epicpvp.skyblock.borderbypass"),
 
 //PARTICLE
 PARTICLE_VIP("epicpvp.particle.vip"),

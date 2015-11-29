@@ -27,8 +27,8 @@ public class CommandTpaccept implements CommandExecutor{
 		if(getManager().getPermManager().hasPermission(player, kPermission.PLAYER_TELEPORT_ACCEPT)){
 			if(getManager().getTeleport_anfrage().containsKey(player)){
 				getManager().getTeleport().add(getManager().getTeleport_anfrage().get(player));
-				if(getManager().getTeleport_anfrage().get(player).getPlayer_to()!=null&&!getManager().getTeleport_anfrage().get(player).getPlayer_to().getName().equalsIgnoreCase(player.getName())){
-					getManager().getTeleport_anfrage().get(player).getPlayer_to().sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ACCEPT_FROM",player.getName()));
+				if(getManager().getTeleport_anfrage().get(player).getTo()!=null&&!getManager().getTeleport_anfrage().get(player).getTo().getName().equalsIgnoreCase(player.getName())){
+					getManager().getTeleport_anfrage().get(player).getTo().sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ACCEPT_FROM",player.getName()));
 				}
 				if(getManager().getTeleport_anfrage().get(player).getFrom()!=null&&!getManager().getTeleport_anfrage().get(player).getFrom().getName().equalsIgnoreCase(player.getName())){
 					getManager().getTeleport_anfrage().get(player).getFrom().sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ACCEPT_FROM",player.getName()));

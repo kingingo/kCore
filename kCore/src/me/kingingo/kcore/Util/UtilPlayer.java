@@ -52,6 +52,7 @@ public class UtilPlayer
 	}
 	
 	public static void sendPacket(Player player,Packet packet){
+		if(packet==null)return;
 		getCraftPlayer(player).getHandle().playerConnection.sendPacket(packet);
 	}
 	
@@ -163,6 +164,7 @@ public class UtilPlayer
 	}
 	
 	public static void sendPacket(Player player,kPacket packet){
+		if(packet==null)return;
 		sendPacket(player, packet.getPacket());
 	}
 	

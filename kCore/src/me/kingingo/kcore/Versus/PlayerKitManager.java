@@ -45,6 +45,12 @@ public class PlayerKitManager{
 				}else if(c[i].getType()==Material.BARRIER){
 					c[i]=null;
 					continue;
+				}else if(c[i].getType()==Material.BEDROCK){
+					c[i]=null;
+					continue;
+				}else if(c[i].getType()==Material.OBSIDIAN){
+					c[i]=null;
+					continue;
 				}
 			}
 		}

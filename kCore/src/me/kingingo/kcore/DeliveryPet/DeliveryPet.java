@@ -22,7 +22,6 @@ import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
-import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;

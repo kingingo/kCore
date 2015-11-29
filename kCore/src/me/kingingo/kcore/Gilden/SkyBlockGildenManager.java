@@ -12,6 +12,7 @@ import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -131,6 +132,7 @@ public class SkyBlockGildenManager extends GildenManager{
 			Location loc = new Location(Bukkit.getWorld(w),x,y,z);
 			p.teleport(loc);
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "GILDE_TELEPORTET"));	
+			UtilPlayer.sendPacket(p, sky.getGilden_world().getIslandBorder(p));;
 		}
 	}
 
