@@ -29,6 +29,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.map.RenderData;
+import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.world.WorldUnloadEvent;
@@ -160,7 +161,7 @@ public class UtilMap{
 		int h = 5000;
 	      for (int i = 0; i <= 150; i++) {
 	        h -= 100;
-	        setCrystalQuadrat(loc, 25, i);
+	        setCrystalQuadrat(loc, radius, h);
 	        if (h == 400)
 	        {
 	          break;
@@ -192,8 +193,9 @@ public class UtilMap{
 	                    if (zufall == 1) {
 	                    	cylBlock.getChunk().load();
 	                    	en = cylBlock.getWorld().spawnEntity(cylBlock,EntityType.ENDER_CRYSTAL);
+	                    	en.setCustomName("EnderCrystal");
+	                    	en.setCustomNameVisible(true);
 	          	          	en.teleport(cylBlock);
-	                    	//spawnEnderCrystal(cylBlock);
 	          	        } 
 	                }
 	            }
@@ -207,6 +209,7 @@ public class UtilMap{
 	    int maxx = loc.getBlockX() + radius;
 	    int maxz = loc.getBlockZ() + radius;
 	    int zufall = 0;
+	    Entity en;
 	    Location b = new Location(loc.getWorld(), 0.0D, 0.0D, 0.0D);
 	    for (int x = minx; x < maxx; x++)
 	      for (int z = minz; z < maxz; z++) {
@@ -214,9 +217,10 @@ public class UtilMap{
 	        zufall = (int)(1.0D + (Math.random() * 10.0D - 1.0D));
 	        if (zufall == 1) {
 	          b.getChunk().load();
-	          Entity en = b.getWorld().spawnEntity(b,EntityType.ENDER_CRYSTAL);
+	          en = b.getWorld().spawnEntity(b,EntityType.ENDER_CRYSTAL);
+          	  en.setCustomName("EnderCrystal");
+          	  en.setCustomNameVisible(true);
 	          en.teleport(b);
-	          //spawnEnderCrystal(b);
 	        }
 	      }
 	  }

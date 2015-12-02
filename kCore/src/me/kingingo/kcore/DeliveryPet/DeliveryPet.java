@@ -378,8 +378,8 @@ public class DeliveryPet extends kListener{
 	
 	public void deliveryBlock(Player player,String name){
 		if(objects.containsKey(name)){
-			players.get(player).getButtonOneSlot(objects.get(name).slot).setMaterial(objects.get(name).delay_material,objects.get(name).delay_data);
-			players.get(player).getButtonOneSlot(objects.get(name).slot).refreshItemStack();
+			if(players.containsKey(player))players.get(player).getButtonOneSlot(objects.get(name).slot).setMaterial(objects.get(name).delay_material,objects.get(name).delay_data);
+			if(players.containsKey(player))players.get(player).getButtonOneSlot(objects.get(name).slot).refreshItemStack();
 			getMysql().Update("UPDATE delivery_"+serverType.name()+" SET time='"+(System.currentTimeMillis()+objects.get(name).getTime())+"', date='"+UtilTime.when((System.currentTimeMillis()+objects.get(name).getTime()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(player)+"' AND obj='"+name+"'");
 			players_obj.get(UtilPlayer.getRealUUID(player)).remove(objects.get(name).displayname);
 			players_obj.get(UtilPlayer.getRealUUID(player)).put(objects.get(name).displayname, System.currentTimeMillis()+objects.get(name).getTime());

@@ -448,6 +448,7 @@ public class Language {
 			add(type,"LOGIN_FAIL","§cInvaild character!");
 			add(type,"LOAD_PLAYER_DATA","§7Loading your player information...");
 			add(type,"PREMIUM_MUST_BUYED_IN_SHOP","§cYou have to purchase a Rank! §6Shop.EpicPvP.de");
+			add(type,"PET_SEPZIAL_SHOP","§cThis is a spezial Pet you can only receive it at events!");
 			add(type,"GAME_TIME_CHANGE","§aTime changed to {INPUT0}!");
 	        add(type, "GILDE_OWNER_NOT", "§cYou are not the owner of this guild.");
 	        add(type,"GILDE_PLAYER_IS_IN_GILDE","§cYou are allready in a guild.");
@@ -554,8 +555,10 @@ public class Language {
 			add(type,"NOT_ENOUGH_COINS","§cYou have not enough Coins.");
 			add(type,"NOT_ENOUGH_GEMS","§cYou have not enough Gems.");
 			add(type,"LANGUAGE_CHANGE","§aEpicPvP will now be displayed in §eEnglish§a!");
+			add(type,"HUB_VERSUS_1VS1_REQUEST","§aPlease wait a moment! We are looking for a free Server...");
+			add(type,"HUB_VERSUS_1VS1_CANCEL","§cYour round was cancelled!");
 			add(type,"HUB_VERSUS_1VS1_QUESTION","§7You invite §a{INPUT0}§7 to a 1vs1 round!");
-			add(type,"HUB_VERSUS_1VS1_FROM_QUESTION","§7You was invited from §a{INPUT0}§7 to a 1vs1 round!");
+			add(type,"HUB_VERSUS_1VS1_FROM_QUESTION","§7You were invited from §a{INPUT0}§7 to a 1vs1 round!");
 			add(type,"HUB_VERSUS_1VS1_NO_FREE_ARENAS","§cPlease wait all arenas are in inGame mode!");
 			add(type,"OPEN_CHEST_WITH_WEAPON","§cYou cannot open chests with a weapon in your hand!");
 			add(type,"EXP_HIS_TO_ME","§7You recived §e{INPUT1} Exp§7 from §a{INPUT0}!");
@@ -887,8 +890,9 @@ public class Language {
 			add(type,"XMAS_DAY","§cIst heute der {INPUT0}te?");
 			add(type,"LOGIN_FAIL","§cUngültiges Zeichen!");
 			add(type,"LOAD_PLAYER_DATA","§7Deine Spieler Informationen werden geladen...");
+			add(type,"PET_SEPZIAL_SHOP","§cDieses Pet kannst du nur bei Events gewinnen!");
 			add(type,"PET_MUST_BUYED_IN_SHOP","§cDu musst das Pet im Online-Store kaufen! §6Shop.EpicPvP.de");
-			add(type,"PREMIUM_MUST_BUYED_IN_SHOP","§cDu musst dafuer Premium haben! §6Shop.EpicPvP.de");
+			add(type,"PREMIUM_MUST_BUYED_IN_SHOP","§cDu musst dafuer einen Rang haben! §6Shop.EpicPvP.de");
 			add(type,"GAME_TIME_CHANGE","§aDie Zeit wurde zu {INPUT0} geändert!");
 			add(type,"EXP_HIS_TO_ME","§7Du hast von §a{INPUT0} §e{INPUT1} Exp§7 erhalten!");
 			add(type,"EXP_ME_TO_HIS","§7Du hast §a{INPUT0} §e{INPUT1} Exp§7 gesendet!");
@@ -983,6 +987,8 @@ public class Language {
 			add(type,"KIT_SHOP_PREMIUM","§7Dieses Kit ist ein Premium-Kit!");
 			add(type,"KIT_BACK","§czurück");
 			add(type,"LANGUAGE_CHANGE","§aEpicPvP wird dir nun in §eDeutsch §aangezeigt!");
+			add(type,"HUB_VERSUS_1VS1_CANCEL","§cDeine Runde wurde annuliert");
+			add(type,"HUB_VERSUS_1VS1_REQUEST","§aBitte warte! Es wird nach einen freien Server gesucht...");
 			add(type,"HUB_VERSUS_1VS1_QUESTION","§7Du hast §a{INPUT0}§7 eine 1vs1 anfrage gesendet!");
 			add(type,"HUB_VERSUS_1VS1_FROM_QUESTION","§7Du hast von §a{INPUT0}§7 eine 1vs1 anfrage erhalten!");
 			add(type,"HUB_VERSUS_1VS1_NO_FREE_ARENAS","§cAlle Arenen sind momentan besetzt...!");

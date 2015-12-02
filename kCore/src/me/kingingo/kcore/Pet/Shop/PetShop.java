@@ -359,47 +359,12 @@ public class PetShop extends InventoryPageBase{
 					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PET_SEPZIAL_SHOP"));
 					player.closeInventory();
 				}
 			}
 			
 		}, Material.CARROT_ITEM, "§aSnowman", new String[]{"§cXMAS Pet"}));
-		
-//		addButton(30, new SalesPackageBase(new Click(){
-//			public void onClick(Player player, ActionType type,Object object) {
-//				if(player.hasPermission(kPermission.PET_ALL.getPermissionToString())||player.hasPermission(kPermission.PET_ALL.getPermissionToString())){
-//					getHandle().getManager().AddPetOwner(player, "MagmaCube", EntityType.MAGMA_CUBE, player.getLocation());
-//					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
-//					player.closeInventory();
-//				}else{
-//					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "BUY_RANK"));
-//					player.closeInventory();
-//				}
-//			}
-//			
-//		}, Material.MONSTER_EGG,62, "§aMagmaCube", new String[]{"§5Legend Pet"}));
-//		
-//		addButton(24, new SalesPackageBase(new Click(){
-//			public void onClick(Player player, ActionType type,Object object) {
-//				if( player.hasPermission(kPermission.PET_ALL.getPermissionToString())|| player.hasPermission(kPermission.PET_ALL.getPermissionToString()) ){
-//					getHandle().getManager().AddPetOwner(player, "Slime", EntityType.SLIME, player.getLocation());
-//					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
-//					player.closeInventory();
-//				}else{
-//					InventoryBuy buy = new InventoryBuy(new Click(){
-//					@Override
-//					public void onClick(Player player, ActionType type,Object object) {
-//						getHandle().getPermManager().addPermission(player, kPermission.PET_SLIME);
-//					}
-//					
-//				},"Kaufen",coins,4000,gems,1000);
-//				player.openInventory(buy);
-//				getHandle().getBase().addAnother(buy);
-//				}
-//			}
-//			
-//		}, Material.MONSTER_EGG,55, "§aSlime", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		fill(Material.STAINED_GLASS_PANE,(byte)7);
 		getHandle().getBase().addPage(this);

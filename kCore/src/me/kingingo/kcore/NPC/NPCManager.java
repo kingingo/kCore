@@ -42,8 +42,16 @@ public class NPCManager implements Listener {
 	                kPacketPlayInUseEntity use = new kPacketPlayInUseEntity(ev.getPacket());
 	                if(NPCList.containsKey(use.getEntityID())){
 	                	ev.setCancelled(true);
-	                	PlayerInteractNPCEvent eve = new PlayerInteractNPCEvent(ev.getPlayer(),getNPCList().get( use.getEntityID() ));
-	                	Bukkit.getPluginManager().callEvent(eve);
+	                	
+	                	Bukkit.getScheduler().runTask(getInstance(), new Runnable(){
+
+							@Override
+							public void run() {
+			                	PlayerInteractNPCEvent eve = new PlayerInteractNPCEvent(ev.getPlayer(),getNPCList().get( use.getEntityID() ));
+			                	Bukkit.getPluginManager().callEvent(eve);
+							}
+	                		
+	                	});
 	                }
 	            } catch (Exception e){
 	            	System.err.println("[NPCManager] Error: ");

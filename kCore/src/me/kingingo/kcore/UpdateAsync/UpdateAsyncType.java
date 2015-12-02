@@ -13,6 +13,7 @@ public enum UpdateAsyncType
   SLOWER(16000L), 
   SLOW(4000L), 
   SEC_8(8000L), 
+  SEC_2(2000L), 
   SEC(1000L), 
   FAST(500L), 
   FASTER(250L), 

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Enum.GameState;
 import me.kingingo.kcore.Enum.Team;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
@@ -84,13 +85,18 @@ public class ArenaManager extends kListener{
 		return null;
 	}
 	
-	public boolean delRound(Player player){
+	public boolean delRound(Player player,boolean withMsg){
 		if(this.rounds_player.containsKey(player)){
 			int c = this.rounds_player.get(player);
 			
 			for(ArenaType type : ArenaType.values()){
 				if(this.rounds.get(type).containsKey(c)){
-					for(Player p : this.rounds.get(type).get(c).getPlayers())this.rounds_player.remove(p);
+					for(Player p : this.rounds.get(type).get(c).getPlayers()){
+						if(withMsg){
+							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "HUB_VERSUS_1VS1_CANCEL"));
+						}
+						this.rounds_player.remove(p);
+					}
 					this.rounds.get(type).get(c).remove();
 					this.rounds.get(type).remove(c);
 					break;
@@ -423,7 +429,7 @@ public class ArenaManager extends kListener{
 	@EventHandler
 	public void Quit(PlayerQuitEvent ev){
 		removePlayer(ev.getPlayer());
-		delRound(ev.getPlayer());
+		delRound(ev.getPlayer(),false);
 	}
 	
 }
