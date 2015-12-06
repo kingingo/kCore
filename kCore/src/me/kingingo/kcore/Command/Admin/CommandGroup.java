@@ -32,7 +32,7 @@ public class CommandGroup implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd,String label, String[] args){
 		
 		if(cs instanceof ConsoleCommandSender){
-			
+			//k addgwithtime MrKenLP all vip1 30
 			if(args[0].equalsIgnoreCase("group")){
 				if(manager.getGroups().containsKey(args[1])){
 					System.out.println("[EpicPvP] Group: "+args[1].toLowerCase());
@@ -179,7 +179,7 @@ public class CommandGroup implements CommandExecutor{
 				return false;
 			}
 			
-			if(args[0].equalsIgnoreCase(" ")){
+			if(args[0].equalsIgnoreCase("addgwithtime")){
 				
 				if(args.length <= 4){
 					System.out.println("[kPermission] /k addgwithtime [Player] [ALL] [Rang] [Time in Tagen]");	

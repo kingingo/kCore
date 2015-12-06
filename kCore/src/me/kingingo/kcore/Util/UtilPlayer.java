@@ -441,7 +441,7 @@ public class UtilPlayer
   }
   
   public static void addPotionEffect(Player p,PotionEffectType typ, int time,int stärke){
-	  p.addPotionEffect(new PotionEffect(typ,time*20,stärke));
+	  p.addPotionEffect(new PotionEffect(typ,time*20,stärke),true);
   }
 
   public static void hunger(Player player, int mod){

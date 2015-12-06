@@ -6,6 +6,7 @@ import java.util.HashMap;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Enum.GameState;
+import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Enum.Team;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
@@ -51,9 +52,12 @@ public class ArenaManager extends kListener{
 	
 	private PacketManager packetManager;
 	private StatsManager statsManager;
+	@Getter
+	private GameType t;
 	
-	public ArenaManager(PacketManager packetManager,StatsManager statsManager,UpdateAsyncType updateSpeed){
+	public ArenaManager(PacketManager packetManager,StatsManager statsManager,GameType t,UpdateAsyncType updateSpeed){
 		super(packetManager.getInstance(),"ArenaManager");
+		this.t=t;
 		this.server=new HashMap<>();
 		this.rules=new HashMap<>();
 		this.updateSpeed=updateSpeed;
@@ -147,7 +151,8 @@ public class ArenaManager extends kListener{
 				
 			for(ARENA_STATUS arena : this.server.values()){
 				if(arena.getState()==GameState.LobbyPhase){
-					if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Found Arena: "+arena.getArena(),"Server: "+arena.getServer(),"Teams: "+arena.getTeams()});
+					if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Found Arena: "+arena.getArena(),"Server: "+arena.getServer(),"Map: "+arena.getMap(),"Teams: "+arena.getTeams()});
+					
 					for(Team t : players.keySet())players.get(t).clear();
 					
 					for(int i = arena.getTeams(); i >= 2 ; i--){
@@ -413,11 +418,13 @@ public class ArenaManager extends kListener{
 	public void receive(PacketReceiveEvent ev){
 		if(ev.getPacket() instanceof ARENA_STATUS){
 			ARENA_STATUS s = (ARENA_STATUS)ev.getPacket();
-			if(server.containsKey(s.getServer()+s.getArena())){
-				server.get(s.getServer()+s.getArena()).Set(s.toString());
-				s=null;
-			}else{
-				server.put(s.getServer()+s.getArena(), s);
+			if(s.getTyp()==getT()){
+				if(server.containsKey(s.getServer()+s.getArena())){
+					server.get(s.getServer()+s.getArena()).Set(s.toString());
+					s=null;
+				}else{
+					server.put(s.getServer()+s.getArena(), s);
+				}
 			}
 		}
 	}
