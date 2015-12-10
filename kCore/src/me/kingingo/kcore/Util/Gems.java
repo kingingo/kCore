@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Language.Language;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
@@ -29,7 +30,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Score;
 
-public class Gems implements Listener{
+public class Gems extends kListener{
 	@Getter
 	private MySQL mysql;
 	@Getter
@@ -43,10 +44,10 @@ public class Gems implements Listener{
 	private boolean join_Check=true;
 	
 	public Gems(MySQL mysql){
+		super(mysql.getInstance(),"Gems");
 		this.mysql=mysql;
 		this.item=UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aGems-Bottle");
 		this.mysql.Update("CREATE TABLE IF NOT EXISTS gems_list(name varchar(30),gems int,uuid varchar(60))");
-		Bukkit.getPluginManager().registerEvents(this, mysql.getInstance());
 	}
 	
 	public void SaveAll(){
@@ -129,6 +130,7 @@ public class Gems implements Listener{
 			give_gems_time.put(player, System.currentTimeMillis()+TimeSpan.SECOND*9);
 			give_gems.put(player, gems);
 			packetManager.SendPacket("BG", new PLAYER_ONLINE(player, packetManager.getC().getName(), "gems", "null"));
+			Log("Prüft ob der Spieler "+player+" Online ist für seine "+gems+" Gems!");
 		}
 	}
 	
@@ -142,6 +144,7 @@ public class Gems implements Listener{
 					if(give_gems_time.get(p) < System.currentTimeMillis()){
 						give_gems_time.remove(p);
 						addGems(UtilPlayer.getUUID(p, mysql),p, give_gems.get(p));
+						Log("Der Spieler "+p+" ist nicht online und erhaelt nun die "+give_gems.get(p)+" Gems!");
 						give_gems.remove(p);
 					}
 				}
@@ -159,8 +162,10 @@ public class Gems implements Listener{
 				
 				if(packet.getServer().contains("loginhub")){
 					addGems(UtilPlayer.getUUID(packet.getPlayer(), mysql),packet.getPlayer(), give_gems.get(packet.getPlayer()));
+					Log("Der Spieler "+packet.getPlayer()+" befindet sich auf dem LoginHub und erhaelt sie hier direkt!");
 				}else{
 					ev.getPacketManager().SendPacket(packet.getServer(), new GIVE_GEMS(packet.getPlayer(), give_gems.get(packet.getPlayer())));
+					Log("Der Spieler "+packet.getPlayer()+" befindet sich auf dem "+packet.getServer()+" und es wird ein Benachrichtigung dahin geschickt!");
 				}
 				
 				give_gems.remove(packet.getPlayer());
@@ -170,6 +175,7 @@ public class Gems implements Listener{
 			
 			if(UtilPlayer.isOnline(packet.getPlayer())){
 				addGemsWithScoreboardUpdate(Bukkit.getPlayer(packet.getPlayer()), true, packet.getGems());
+				Log("Der Spieler "+packet.getPlayer()+" soll "+packet.getGems()+" Gems erhalten!");
 			}
 		}
 	}

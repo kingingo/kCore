@@ -61,7 +61,7 @@ public class MultiKitShop extends KitShop{
 	}
 			
 	
-	@EventHandler(priority=EventPriority.NORMAL)
+	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Start(MultiGameStartEvent ev){
 		if(!list.containsKey(ev.getGame())){
 			list.put(ev.getGame(), ev.getGame().getGameList().getPlayers(PlayerState.IN));
