@@ -20,6 +20,7 @@ import me.kingingo.kcore.UpdateAsync.UpdateAsyncType;
 import me.kingingo.kcore.UpdateAsync.Event.UpdateAsyncEvent;
 import me.kingingo.kcore.Util.UtilBG;
 import me.kingingo.kcore.Util.UtilDebug;
+import me.kingingo.kcore.Util.UtilMath;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -128,6 +129,8 @@ public class ArenaManager extends kListener{
 	 * Verteilt die Spieler
 	 * @param ev
 	 */
+	ArrayList<String> list;
+	ARENA_STATUS arena;
 	HashMap<Team,ArrayList<Player>> players;
 	int players_size = 0;
 	int team;
@@ -148,8 +151,16 @@ public class ArenaManager extends kListener{
 				this.players=new HashMap<>();
 				for(Team t : ArenaType._TEAMx6.getTeam())players.put(t, new ArrayList<Player>());
 			}
+			
+			if(list==null)list=new ArrayList<>();
+			list.clear();
+			for(String arena : this.server.keySet())this.list.add(arena);
 				
-			for(ARENA_STATUS arena : this.server.values()){
+			for(int r = 0; r<this.server.size(); r++){
+				if(list.isEmpty())break;
+				arena = (ARENA_STATUS)this.server.get( list.get(UtilMath.r(list.size())) );
+				this.list.remove(arena.getServer()+arena.getArena());
+				
 				if(arena.getState()==GameState.LobbyPhase){
 					if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Found Arena: "+arena.getArena(),"Server: "+arena.getServer(),"Map: "+arena.getMap(),"Teams: "+arena.getTeams()});
 					

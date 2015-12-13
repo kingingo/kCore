@@ -2,6 +2,11 @@ package me.kingingo.kcore.Listener.AfkListener;
 
 import java.util.HashMap;
 
+import me.kingingo.kcore.Listener.kListener;
+import me.kingingo.kcore.Update.UpdateType;
+import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilServer;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,11 +14,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.Update.UpdateType;
-import me.kingingo.kcore.Update.Event.UpdateEvent;
-import me.kingingo.kcore.Util.UtilServer;
 
 public class AFKListener extends kListener{
 	
