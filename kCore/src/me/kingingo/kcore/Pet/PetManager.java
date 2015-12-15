@@ -29,6 +29,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.EntityBlockFormEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -118,6 +120,7 @@ public class PetManager implements Listener{
 	
 	public LivingEntity AddPetWithOutOwner(String name,boolean clear_goal, EntityType entityType, Location location){
 		location.getWorld().loadChunk(location.getWorld().getChunkAt(location));
+		
 		LivingEntity pet =(LivingEntity) location.getWorld().spawnEntity(location, entityType);
 	    pet.setCustomNameVisible(true);
 	    pet.setCustomName(name);
@@ -128,10 +131,8 @@ public class PetManager implements Listener{
 	    return pet;
     }
 	
-	public void AddPetOwner(Player player,String name, EntityType entityType, Location location)
-	  {
-	    if (this.activePetOwners.containsKey(player.getName().toLowerCase()))
-	    {
+	public void AddPetOwner(Player player,String name, EntityType entityType, Location location){
+	    if (this.activePetOwners.containsKey(player.getName().toLowerCase())){
 	      if (((LivingEntity)this.activePetOwners.get(player.getName().toLowerCase())).getType() != entityType ||
 	    		  (((LivingEntity)this.activePetOwners.get(player.getName().toLowerCase())).getPassenger()!=null&& ((LivingEntity)this.activePetOwners.get(player.getName().toLowerCase())).getPassenger().getType() != entityType) )
 	      {
