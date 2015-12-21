@@ -162,11 +162,11 @@ public class ArenaManager extends kListener{
 				this.list.remove(arena.getServer()+arena.getArena());
 				
 				if(arena.getState()==GameState.LobbyPhase){
-					if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Found Arena: "+arena.getArena(),"Server: "+arena.getServer(),"Map: "+arena.getMap(),"Teams: "+arena.getTeams()});
+					if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Found Arena: "+arena.getArena(),"Server: "+arena.getServer(),"Map: "+arena.getMap(),"Max Teams: "+arena.getMax_team()});
 					
 					for(Team t : players.keySet())players.get(t).clear();
 					
-					for(int i = arena.getTeams(); i >= 2 ; i--){
+					for(int i = arena.getMax_team(); i >= 2 ; i--){
 						this.type=(ArenaType)ArenaType.byInt( i );
 						this.team=0;
 						this.owner=null;
@@ -250,6 +250,12 @@ public class ArenaManager extends kListener{
 								this.team_size=-2;
 								this.br=false;
 							}
+						}
+						
+						if(!this.wait_list.containsKey(type)){
+							System.err.println("TYPE: "+t.getKürzel());
+							System.err.println(" TYPE1:"+type);
+							continue;
 						}
 						
 						this.players_size=this.wait_list.get(type).size();

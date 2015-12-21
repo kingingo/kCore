@@ -469,6 +469,7 @@ public class Language {
 			add(type,"GILDE_CMD13","§6/gilde money deposite [Money] §8|§7 Deposits money to the guild account.");
 			add(type,"GILDE_CMD14","§6#§7 Message §8|§7 Write in the Guild-Chat");
 	        add(type,"GILDE_PLAYER_IS_NOT_IN_GILDE","§cYou are not in a guild.");
+	        add(type,"GILDE_COUNT","§cThe guild reached.");
 			add(type,"HOMES_EMPTY","You do not have a home.");
 			add(type,"KITS_EMPTY","You do not have any kits.");
 			add(type,"MONEY","Account balance:§3 ");
@@ -756,6 +757,7 @@ public class Language {
 	        add(type, "GILDE_HOME", "§7Du wirst in §e{INPUT0}§7 Teleportiert...");
 	        add(type, "GILDE_PLAYER_NICHT_EINGELADEN", "§cDu wurdest in keine Gilde eingeladen!");
 	        add(type, "GILDE_PLAYER_JOIN", "§a{INPUT0}§7 hat den Server betreten!");
+	        add(type,"GILDE_COUNT","§cDas Gilden limit wurde erreicht.");
 	        add(type,"GILDE_IS_NOT_IN_THE_GILD","§cDer Spieler §a{INPUT0}§c ist nicht in deiner Gilde!");
 	        add(type, "FRIEND_HIT", "§cWillst du deinen Kameraden toeten?");
 	        add(type, "FRIEND_PREFIX", "§6Freund §8» §7");

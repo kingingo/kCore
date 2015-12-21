@@ -15,7 +15,7 @@ public class CommandFill implements CommandExecutor{
 
 	private Player player;
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "fill", sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "kfill", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player=(Player)sender;
 			
