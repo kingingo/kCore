@@ -22,6 +22,22 @@ private InventorySplit(int min,int max){
 	this.middle=Math.round((this.max-this.min)/2);
 }
 
+public static int getSlotBorder(int slot){
+	for(InventorySplit split : values()){
+		if(split.getMin()<=slot&&split.getMax()>=slot){
+			if(slot==split.getMax()){
+				slot+=3;
+			}else{
+				slot+=1;
+			}
+			
+			return slot;
+		}
+	}
+	
+	return -1;
+}
+
 public static int getSlotRelfect(int slot){
 	for(InventorySplit split : values()){
 		if(split.getMiddle()==slot){
