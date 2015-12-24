@@ -30,7 +30,7 @@ public class Merchant {
 	public List<MerchantOffer> getOffers() {
 		List<MerchantOffer> offerList = new ArrayList<MerchantOffer>();
 		for (Object recipe : (List) this.h.getOffers(null)) {
-			if (!(recipe.getClass().isInstance(NMSMerchantRecipe.getNMSClass()))) continue;
+//			if (!(recipe.getClass().isInstance(NMSMerchantRecipe.getNMSClass()))) continue;
 			offerList.add(new MerchantOffer(new NMSMerchantRecipe(recipe)));
 		}
 		return offerList;

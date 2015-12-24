@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import lombok.Getter;
+import me.kingingo.kcore.Inventory.InventoryBase;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -15,12 +18,21 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 public class UtilInv
 {
+  @Getter
+  private static InventoryBase base;
+  
+  public static InventoryBase getBase(JavaPlugin instance){
+	  if(base==null)base=new InventoryBase(instance);
+	  return base;
+  }
+	
   public static boolean insert(Player player, ItemStack stack)
   {
     player.getInventory().addItem(new ItemStack[] { stack });

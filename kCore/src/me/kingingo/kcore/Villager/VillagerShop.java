@@ -1,14 +1,23 @@
 package me.kingingo.kcore.Villager;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Inventory.InventoryPageBase;
+import me.kingingo.kcore.Inventory.Inventory.InventoryMerchant;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenMerchant;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Merchant.Merchant;
+import me.kingingo.kcore.Merchant.MerchantOffer;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.InventorySize;
+import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Villager.Event.VillagerShopEvent;
 import net.minecraft.server.v1_8_R3.EntityCreature;
@@ -17,6 +26,7 @@ import net.minecraft.server.v1_8_R3.EntityInsentient;
 import net.minecraft.server.v1_8_R3.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_8_R3.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
+import me.kingingo.kcore.Inventory.Item.Click;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -29,20 +39,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class VillagerShop implements Listener {
+public class VillagerShop extends kListener{
 
 	@Getter
 	private String name;
@@ -51,9 +58,9 @@ public class VillagerShop implements Listener {
 	@Getter
 	private Entity villager;
 	@Getter
-	private Inventory inventory;
+	private InventoryPageBase inventoryMerchant;
 	@Getter
-	private HashMap<ItemStack,Merchant> shops = new HashMap<>();
+	private InventoryPageBase inventory;
 	private Field _goalSelector;
 	private Field _targetSelector;
 	@Getter
@@ -62,15 +69,40 @@ public class VillagerShop implements Listener {
 	@Getter
 	@Setter
 	private boolean move=false;
-	private long spawn_time = 0;
 	private EntityType type;
 	
 	public VillagerShop(JavaPlugin instance,EntityType type,String name,Location spawn,InventorySize size){
+		super(instance,"VillagerShop:"+name);
 		this.name=name;
 		this.type=type;
 		spawn(spawn);
-		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
-		Bukkit.getPluginManager().registerEvents(this, instance);
+		this.inventoryMerchant=new InventoryPageBase(InventorySize._27, getName()+" | Villager");
+		this.inventory=new InventoryPageBase(InventorySize._27, getName()+" | Inventory");
+		this.inventoryMerchant.addButton(0, new ButtonBase(new Click(){
+
+			@Override
+			public void onClick(Player player, ActionType type, Object object) {
+				UtilVillagerShop.getInv().add(player);
+				player.openInventory(getInventory());
+			}
+			
+		}, UtilItem.Item(new ItemStack(Material.REDSTONE), new String[]{}, "§aInventory Shop")));
+		this.inventory.addButton(0, new ButtonBase(new Click(){
+
+			@Override
+			public void onClick(Player player, ActionType type, Object object) {
+				UtilVillagerShop.getInv().remove(player);
+				player.openInventory(getInventoryMerchant());
+			}
+			
+		}, UtilItem.Item(new ItemStack(Material.GLOWSTONE_DUST), new String[]{}, "§aInventory Shop")));
+		UtilInv.getBase(instance).addPage(inventoryMerchant);
+		UtilInv.getBase(instance).addPage(inventory);
+	}
+	
+	@EventHandler
+	public void quit(PlayerQuitEvent ev){
+		if(UtilVillagerShop.getInv().contains(ev.getPlayer()))UtilVillagerShop.getInv().remove(ev.getPlayer());
 	}
 	
 	public void spawn(){
@@ -79,7 +111,6 @@ public class VillagerShop implements Listener {
 			this.villager=null;
 		}
 		this.spawn.getWorld().loadChunk(this.spawn.getWorld().getChunkAt(this.spawn));
-		this.spawn_time=System.currentTimeMillis();
 		this.villager=this.spawn.getWorld().spawnEntity(getSpawn(), this.type);
 		VillagerClearPath();
 	}
@@ -92,28 +123,23 @@ public class VillagerShop implements Listener {
 		this.spawn=loc;
 		this.spawn=spawn.add(0,0.5,0);
 		this.spawn.getWorld().loadChunk(this.spawn.getWorld().getChunkAt(this.spawn));
-		this.spawn_time=System.currentTimeMillis();
 		this.villager=this.spawn.getWorld().spawnEntity(getSpawn(), this.type);
 		VillagerClearPath();
 	}
 	
 	public void addShop(ItemStack item,Merchant merchant,int slot){
-		shops.put(item, merchant);
-		inventory.setItem(slot, item);
+		for(MerchantOffer offer : merchant.getOffers()){
+			offer.setMaxUses(Integer.MAX_VALUE);
+		}
+		InventoryMerchant inv = new InventoryMerchant(merchant,this.inventory);
+		UtilInv.getBase().addPage(inv);
+		inventory.addButton(slot, new ButtonOpenInventory(inv, item));
+		inventoryMerchant.addButton(slot, new ButtonOpenMerchant(merchant, item));
 	}
 	
 	public void finish(){
-		ItemMeta im;
-		for(int i = 0; i<getInventory().getSize();i++){
-			if(getInventory().getItem(i)==null||getInventory().getItem(i).getType()==Material.AIR){
-				getInventory().setItem(i, new ItemStack(Material.FENCE));
-				getInventory().getItem(i).setType(Material.STAINED_GLASS_PANE);
-				getInventory().getItem(i).setDurability((byte) 7);
-				im = getInventory().getItem(i).getItemMeta();
-				im.setDisplayName(" ");
-				getInventory().getItem(i).setItemMeta(im);
-			}
-		}
+		this.inventoryMerchant.fill(Material.STAINED_GLASS_PANE, (byte) 7);
+		this.inventory.fill(Material.STAINED_GLASS_PANE, (byte) 7);
 	}
 	
 	public void VillagerClearPath(){
@@ -224,14 +250,19 @@ public class VillagerShop implements Listener {
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void ClickFail(PlayerInteractEntityEvent ev){
 		if(!ev.isCancelled()&&ev.getRightClicked().getType()==type){
-			if(ev.getRightClicked().getLocation().distance(getSpawn())<=3){
+			if(ev.getRightClicked().getEntityId()==villager.getEntityId()){
 				this.villager=ev.getRightClicked();
 				ev.setCancelled(true);
 				VillagerShopEvent event = new VillagerShopEvent(ev.getPlayer(), this);
 				Bukkit.getPluginManager().callEvent(event);
-				
+
 				if(event.isCancelled())return;
-				ev.getPlayer().openInventory(getInventory());
+				
+				if(UtilVillagerShop.getInv().contains(ev.getPlayer())){
+					ev.getPlayer().openInventory(getInventory());
+				}else{
+					ev.getPlayer().openInventory(getInventoryMerchant());
+				}
 			}
 		}
 	}
@@ -244,29 +275,12 @@ public class VillagerShop implements Listener {
 				Bukkit.getPluginManager().callEvent(event);
 				
 				if(event.isCancelled())return;
-				ev.getPlayer().openInventory(getInventory());
-			}
-		}
-	}
-	
-	Merchant m;
-	@EventHandler
-	public void ClickInventory(InventoryClickEvent ev){
-	if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
-		if(ev.getInventory().getName().equalsIgnoreCase(getName())){
-			Player p = (Player)ev.getWhoClicked();
-			ev.setCancelled(true);
-			p.closeInventory();
-			for(ItemStack s : getShops().keySet()){
-				if(UtilItem.ItemNameEquals(ev.getCurrentItem(), s)){
-					m = getShops().get(s).clone();
-					m.setCustomer(p);
-					m.setTitle(getName());
-					m.openTrading(p);
-					break;
+				if(UtilVillagerShop.getInv().contains(ev.getPlayer())){
+					ev.getPlayer().openInventory(getInventory());
+				}else{
+					ev.getPlayer().openInventory(getInventoryMerchant());
 				}
 			}
 		}
 	}
-	
 }

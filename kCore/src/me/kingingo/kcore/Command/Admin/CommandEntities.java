@@ -11,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
@@ -55,7 +56,7 @@ public class CommandEntities implements CommandExecutor{
 						int a = 0;
 						for(World w : Bukkit.getWorlds()){
 							for(Entity e : w.getEntities()){
-								if(!(e instanceof Player)&&!(e instanceof ItemFrame)){
+			                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
 									if(UtilServer.getDeliveryPet()!=null){
 										if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
 										if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
@@ -72,7 +73,7 @@ public class CommandEntities implements CommandExecutor{
 							int a = 0;
 			                
 			                for(Entity e : Bukkit.getWorld(args[0]).getEntities()){
-			                	if(!(e instanceof Player)){
+			                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
 			                		a++;
 			                		e.remove();
 			                	}
@@ -109,7 +110,7 @@ public class CommandEntities implements CommandExecutor{
 					int a = 0;
 					for(World w : Bukkit.getWorlds()){
 						for(Entity e : w.getEntities()){
-							if(!(e instanceof Player)){
+		                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
 		                		a++;
 		                		e.remove();
 		                	}
@@ -121,7 +122,7 @@ public class CommandEntities implements CommandExecutor{
 						int a = 0;
 		                
 		                for(Entity e : Bukkit.getWorld(args[0]).getEntities()){
-		                	if(!(e instanceof Player)){
+		                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
 		                		a++;
 		                		e.remove();
 		                	}

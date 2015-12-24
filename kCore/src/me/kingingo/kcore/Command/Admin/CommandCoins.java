@@ -22,20 +22,34 @@ public class CommandCoins implements CommandExecutor{
 		this.packetManager=packetManager;
 	}
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "coins", sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "coins", sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		Player player = (Player)sender;
-		if(player.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString())){
+		if(sender instanceof Player){
+			Player player = (Player)sender;
+			if(player.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString())){
+				if(args.length==0){
+					player.sendMessage(Language.getText(player, "PREFIX")+"§a/coins [Spieler] [+/- Coins]");
+				}else if(args.length >= 2){
+					String spieler = args[0];
+					
+					int c=UtilInteger.isNumber(args[1]);
+					
+					if(c==-1)return false;
+					coins.giveCoins(packetManager, spieler, c);
+					player.sendMessage(Language.getText(player, "PREFIX")+(c<0?Language.getText(player, "COINS_DEL_PLAYER",new String[]{spieler,String.valueOf(c)}):Language.getText(player, "COINS_ADD_PLAYER",new String[]{spieler,String.valueOf(c)})));
+				}
+			}
+		}else{
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"§a/coins [Spieler] [+/- Coins]");
+				System.out.println("[EpicPvP]"+"/coins [Spieler] [+/- Coins]");
 			}else if(args.length >= 2){
 				String spieler = args[0];
-				
+					
 				int c=UtilInteger.isNumber(args[1]);
-				
+					
 				if(c==-1)return false;
 				coins.giveCoins(packetManager, spieler, c);
-				player.sendMessage(Language.getText(player, "PREFIX")+(c<0?Language.getText(player, "COINS_DEL_PLAYER",new String[]{player.getName(),String.valueOf(c)}):Language.getText(player, "COINS_ADD_PLAYER",new String[]{player.getName(),String.valueOf(c)})));
+				System.out.println("[EpicPvP]"+(c<0?"Den Spieler "+spieler+" wurden "+c+" abgezogen!":"Den Spieler "+spieler+" wurden "+c+" hinzugefügt!"));
 			}
 		}
 		return false;

@@ -2,6 +2,7 @@ package me.kingingo.kcore.Arena;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +34,7 @@ public class ArenaManager extends kListener{
 	 * Game Rounds
 	 */
 	private HashMap<ArenaType, HashMap<Integer,GameRound>> rounds;
-	private HashMap<Player,Integer> rounds_player;
+	private HashMap<UUID,Integer> rounds_player;
 	private int round_counter;
 	/*
 	 * ArenaManager Settings
@@ -91,8 +92,8 @@ public class ArenaManager extends kListener{
 	}
 	
 	public boolean delRound(Player player,boolean withMsg){
-		if(this.rounds_player.containsKey(player)){
-			int c = this.rounds_player.get(player);
+		if(this.rounds_player.containsKey(player.getUniqueId())){
+			int c = this.rounds_player.get(player.getUniqueId());
 			
 			for(ArenaType type : ArenaType.values()){
 				if(this.rounds.get(type).containsKey(c)){
@@ -100,7 +101,7 @@ public class ArenaManager extends kListener{
 						if(withMsg){
 							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "HUB_VERSUS_1VS1_CANCEL"));
 						}
-						this.rounds_player.remove(p);
+						this.rounds_player.remove(p.getUniqueId());
 					}
 					this.rounds.get(type).get(c).remove();
 					this.rounds.get(type).remove(c);
@@ -113,7 +114,7 @@ public class ArenaManager extends kListener{
 	}
 	
 	public boolean addRound(GameRound round){
-		for(Player player : round.getPlayers())if(this.rounds_player.containsKey(player))return false;
+		for(Player player : round.getPlayers())if(this.rounds_player.containsKey(player.getUniqueId()))return false;
 		
 		this.rounds.get(round.getType()).put(this.round_counter, round);
 		this.round_counter++;
@@ -227,7 +228,7 @@ public class ArenaManager extends kListener{
 									
 									for(Team t : this.type.getTeam()){
 										for(Player player : this.players.get(t)){
-											this.rounds_player.remove(player);
+											this.rounds_player.remove(player.getUniqueId());
 											arena.setOnline(arena.getOnline()+1);
 											UtilBG.sendToServer(player, arena.getServer(), this.packetManager.getInstance());
 										}
@@ -406,6 +407,9 @@ public class ArenaManager extends kListener{
 	public boolean isEmpty(){
 		for(ArenaType type : this.wait_list.keySet()){
 			if(!this.wait_list.get(type).isEmpty()&&this.wait_list.get(type).size()>=2){
+				return false;
+			}
+			if(!this.rounds.get(type).isEmpty()){
 				return false;
 			}
 		}

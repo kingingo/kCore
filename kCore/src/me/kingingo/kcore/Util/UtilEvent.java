@@ -4,6 +4,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class UtilEvent
@@ -66,9 +67,39 @@ public class UtilEvent
     }
     return (LivingEntity)projectile.getShooter();
   }
+  
+  public static ActionType getActionType(ClickType type){
+	  switch(type){
+	  case CONTROL_DROP: return ActionType.CONTROL_DROP;
+	  case CREATIVE: return ActionType.CREATIVE;
+	  case DOUBLE_CLICK: return ActionType.DOUBLE_CLICK;
+	  case DROP: return ActionType.DROP;
+	  case LEFT: return ActionType.L;
+	  case RIGHT: return ActionType.R;
+	  case MIDDLE: return ActionType.MIDDLE;
+	  case NUMBER_KEY: return ActionType.NUMBER_KEY;
+	  case SHIFT_LEFT: return ActionType.SHIFT_LEFT;
+	  case SHIFT_RIGHT: return ActionType.SHIFT_RIGHT;
+	  case UNKNOWN: return ActionType.UNKOWN;
+	  case WINDOW_BORDER_LEFT: return ActionType.WINDOW_BORDER_LEFT;
+	  case WINDOW_BORDER_RIGHT: return ActionType.WINDOW_BORDER_RIGHT;
+	  default: return ActionType.UNKOWN;
+	  }
+  }
 
   public static enum ActionType
   {
+	CONTROL_DROP,
+	DROP,
+	CREATIVE,
+	DOUBLE_CLICK,
+	MIDDLE,
+	NUMBER_KEY,
+	SHIFT_LEFT,
+	SHIFT_RIGHT,
+	UNKOWN,
+	WINDOW_BORDER_RIGHT,
+	WINDOW_BORDER_LEFT,
 	PHYSICAL,
     L, 
     L_AIR, 

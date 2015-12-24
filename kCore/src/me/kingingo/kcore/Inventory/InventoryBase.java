@@ -119,6 +119,7 @@ public class InventoryBase extends kListener{
 	public void UseInv(InventoryClickEvent ev){
 		if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
 			page=get(ev.getInventory());
+			
 			if(page!=null){
 				ev.setCancelled(true);
 				p=(Player)ev.getWhoClicked();
@@ -132,6 +133,10 @@ public class InventoryBase extends kListener{
 					ev.setCancelled(page.useButton(p, ActionType.L, ev.getCurrentItem(),ev.getSlot()));
 				}else if(ClickType.RIGHT==ev.getClick()){
 					ev.setCancelled(page.useButton(p, ActionType.R, ev.getCurrentItem(),ev.getSlot()));
+				}else if(ClickType.SHIFT_LEFT==ev.getClick()){
+					ev.setCancelled(page.useButton(p, ActionType.SHIFT_LEFT, ev.getCurrentItem(),ev.getSlot()));
+				}else if(ClickType.SHIFT_RIGHT==ev.getClick()){
+					ev.setCancelled(page.useButton(p, ActionType.SHIFT_RIGHT, ev.getCurrentItem(),ev.getSlot()));
 				}
 			}
 	}

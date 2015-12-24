@@ -59,7 +59,7 @@ public class UtilBlock
 	  }
   }
   
-  public static void placeBed(Location location,BlockFace face){
+  public static BlockState placeBed(Location location,BlockFace face){
 	  BlockState bedFoot = location.getBlock().getState();
       BlockState bedHead = bedFoot.getBlock().getRelative(face).getState();
       bedFoot.setType(Material.BED_BLOCK);
@@ -96,6 +96,8 @@ public class UtilBlock
       bedHead.setRawData((byte) flags);
       bedFoot.update(true, false);
       bedHead.update(true, true);
+     
+      return bedHead;
   }
 
   public static boolean solid(int block) {

@@ -17,6 +17,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spigotmc.CustomTimingsHandler;
 
+import com.mysql.jdbc.log.Log;
+
 public class MySQL
 {
   private String user = "";
@@ -70,7 +72,7 @@ public class MySQL
   }
   
   public void createTable(String table,String content){
-	  Update("CREATE TABLE IF NOT EXISTS "+table+"("+content+")");
+	  Update("CREATE TABLE IF NOT EXISTS "+table+"("+content+");");
   }
   
   public void connect() {

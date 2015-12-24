@@ -330,6 +330,12 @@ PET_GUARDIAN("kpet.guardian"),
 PET_OCELOT("kpet.ocelot"),
 //PETS
 
+//CAGE
+CAGE_GRASS("cage.grass"),
+CAGE_GLASS("cage.glass"),
+CAGE_NETHER("cage.nether"),
+//CAGE
+
 //DISGUISE
 DISGUISE_ALL("kdisguise.*"),
 DISGUISE_BLAZE("kdisguise.blaze"),

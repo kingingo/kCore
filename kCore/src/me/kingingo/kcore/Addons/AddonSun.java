@@ -24,7 +24,7 @@ public class AddonSun extends kListener {
 	@EventHandler
 	public void weather(WeatherChangeEvent ev){
 		if(ev.getWorld().getUID()==getWorld().getUID()){
-			ev.getWorld().setStorm(false);
+			if(ev.toWeatherState())ev.getWorld().setStorm(false);
 		}
 	}
 	
