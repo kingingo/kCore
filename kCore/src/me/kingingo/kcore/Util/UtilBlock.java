@@ -34,7 +34,7 @@ public class UtilBlock
   }
   
   public static Location getTwinLocation(Block block){
-      if(((Bed)block.getState().getData()).isHeadOfBed()){
+      if(!((Bed)block.getState().getData()).isHeadOfBed()){
           return (block.getRelative(((Bed)block.getState().getData()).getFacing())).getLocation();
       }else{
           return (block.getRelative(((Bed)block.getState().getData()).getFacing().getOppositeFace())).getLocation();

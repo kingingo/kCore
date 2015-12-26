@@ -36,6 +36,9 @@ public class ARENA_STATUS extends Packet{
 	private int max_team;
 	@Getter
 	@Setter
+	private int teams; //Maximale Teams Team 2-8
+	@Getter
+	@Setter
 	private String kit;
 	
 	public ARENA_STATUS(){}
@@ -52,8 +55,9 @@ public class ARENA_STATUS extends Packet{
 		Set(packet);
 	}
 	
-	public ARENA_STATUS(GameState state,int online, int team,GameType typ, String server, String arena,boolean apublic,String map,int min_team,int max_team,String kit) {
+	public ARENA_STATUS(GameState state,int online,int teams, int team,GameType typ, String server, String arena,boolean apublic,String map,int min_team,int max_team,String kit) {
 	    this.state = state;
+	    this.teams=teams;
 	    this.online=online;
 	    this.team=team;
 	    this.server=server;
@@ -86,11 +90,12 @@ public class ARENA_STATUS extends Packet{
 	 this.min_team= Integer.valueOf(packet[9]);
 	 this.max_team= Integer.valueOf(packet[10]);
 	 this.kit= packet[11];
+	 this.teams= Integer.valueOf(packet[12]);
 	}
 	
 	public String toString(){
 		//ARENA_STATUS-/-STATE-/-TEAMS-/-TYP-/-ID-/-PUBLIC
-		return String.format(getName() + "-/-%s-/-%d-/-%s-/-%s-/-%s-/-%s-/-%s-/-%d-/-%d-/-%d-/-%s", new Object[] { this.state.string(), Integer.valueOf(team),typ.name(),arena,apublic,server,map,online,min_team,max_team,kit });
+		return String.format(getName() + "-/-%s-/-%d-/-%s-/-%s-/-%s-/-%s-/-%s-/-%d-/-%d-/-%d-/-%s-/-%d", new Object[] { this.state.string(), Integer.valueOf(team),typ.name(),arena,apublic,server,map,online,min_team,max_team,kit,teams });
 	}
 	
 }

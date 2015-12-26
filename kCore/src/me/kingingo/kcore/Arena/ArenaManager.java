@@ -163,11 +163,11 @@ public class ArenaManager extends kListener{
 				this.list.remove(arena.getServer()+arena.getArena());
 				
 				if(arena.getState()==GameState.LobbyPhase){
-					if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Found Arena: "+arena.getArena(),"Server: "+arena.getServer(),"Map: "+arena.getMap(),"Max Teams: "+arena.getMax_team()});
+					if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Game: "+getT().getKürzel(),"Found Arena: "+arena.getArena(),"Server: "+arena.getServer(),"Map: "+arena.getMap(),"Max Teams: "+arena.getTeams()});
 					
 					for(Team t : players.keySet())players.get(t).clear();
 					
-					for(int i = arena.getMax_team(); i >= 2 ; i--){
+					for(int i = arena.getTeams(); i >= 2 ; i--){
 						this.type=(ArenaType)ArenaType.byInt( i );
 						this.team=0;
 						this.owner=null;

@@ -48,6 +48,7 @@ public class GemsShop{
 	private PermissionManager permission;
 	private Hologram hm;
 	private ServerType type;
+	@Getter
 	private EntityClickListener listener;
 	private NameTagMessage m;
 	

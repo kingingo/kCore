@@ -7,6 +7,7 @@ import java.util.List;
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.DeliveryPet.DeliveryPet;
+import me.kingingo.kcore.GemsShop.GemsShop;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Monitor.LagMeter;
 import me.kingingo.kcore.Packet.PacketManager;
@@ -45,6 +46,13 @@ public class UtilServer{
 	private static LagMeter lagMeter;
 	@Getter
 	private static DeliveryPet deliveryPet;
+	@Getter
+	private static GemsShop gemsShop;
+	
+	public static GemsShop createGemsShop(GemsShop gemShop){
+		if(gemsShop==null&&gemShop!=null)gemsShop=gemShop;
+		return gemsShop;
+	}
 	
 	public static DeliveryPet createDeliveryPet(DeliveryPet pet){
 		if(deliveryPet==null&&pet!=null)deliveryPet=pet;

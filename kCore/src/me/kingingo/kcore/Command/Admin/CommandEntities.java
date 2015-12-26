@@ -61,6 +61,11 @@ public class CommandEntities implements CommandExecutor{
 										if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
 										if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
 									}
+									
+									if(UtilServer.getGemsShop()!=null){
+										if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
+									}
+									
 			                		a++;
 			                		e.remove();
 			                	}
@@ -74,6 +79,16 @@ public class CommandEntities implements CommandExecutor{
 			                
 			                for(Entity e : Bukkit.getWorld(args[0]).getEntities()){
 			                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
+			                		
+			                		if(UtilServer.getDeliveryPet()!=null){
+										if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
+										if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
+									}
+									
+									if(UtilServer.getGemsShop()!=null){
+										if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
+									}
+			                		
 			                		a++;
 			                		e.remove();
 			                	}
@@ -123,6 +138,16 @@ public class CommandEntities implements CommandExecutor{
 		                
 		                for(Entity e : Bukkit.getWorld(args[0]).getEntities()){
 		                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
+		                		
+		                		if(UtilServer.getDeliveryPet()!=null){
+									if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
+									if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
+								}
+								
+								if(UtilServer.getGemsShop()!=null){
+									if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
+								}
+		                		
 		                		a++;
 		                		e.remove();
 		                	}
