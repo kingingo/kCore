@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.kingingo.kcore.StatsManager.Stats;
 
 public enum GameType {
+SurvivalGames1vs1(false,"SurvivalGames1vs1","SG",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 BedWars1vs1(false,"BedWars1vs1","BW",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.BEDWARS_ZERSTOERTE_BEDs}),
 SkyWars1vs1(false,"SkyWars1vs1","SkyWars",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.LOSE,Stats.WIN}),
 Versus(false,"VERSUS","VS",ServerType.GAME,new Stats[]{Stats.KIT_RANDOM,Stats.KIT_ID,Stats.TEAM_MAX,Stats.TEAM_MIN ,Stats.ELO,Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
@@ -21,6 +22,7 @@ PVP(true,"PvP-Server", "PvP", ServerType.PVP,new Stats[] { Stats.KILLS, Stats.DE
 SKYBLOCK(true,"SkyBlock", "Sky", ServerType.SKYBLOCK,new Stats[] { Stats.KILLS, Stats.DEATHS, Stats.MONEY }), 
 WARZ(true,"WarZ-Server", "WarZ", ServerType.WARZ,new Stats[] { Stats.KILLS, Stats.DEATHS,Stats.ANIMAL_KILLS,Stats.ANIMAL_DEATHS,Stats.MONSTER_KILLS,Stats.MONSTER_DEATHS }),
 CaveWars(true,"CaveWars","CW",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),
+MASTERBUILDERS(true,"Masterbuilders","MB",ServerType.GAME,new Stats[]{Stats.LOSE,Stats.WIN}),
 NONE(true,"NONE","FAIL",ServerType.GAME,null);
 
 @Getter

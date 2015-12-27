@@ -1,5 +1,7 @@
 package me.kingingo.kcore.Inventory.Inventory;
 
+import java.io.ObjectInputStream.GetField;
+
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
@@ -12,6 +14,7 @@ import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -37,10 +40,11 @@ public class InventoryMerchant extends InventoryPageBase{
 					if(type==ActionType.SHIFT_LEFT||type==ActionType.SHIFT_RIGHT){
 						if(UtilInv.contains(player, offer.getFirstInput().getType(), UtilInv.GetData(offer.getFirstInput()), offer.getFirstInput().getAmount())){
 							int a = UtilInv.AnzahlInInventory(player, offer.getFirstInput().getType(), UtilInv.GetData(offer.getFirstInput()));
-							UtilInv.remove(player, offer.getFirstInput(), a);
-							a=a*offer.getOutput().getAmount();
+							a = a / offer.getFirstInput().getAmount();
+							
+							UtilInv.remove(player, offer.getFirstInput(), a*offer.getFirstInput().getAmount());
 							ItemStack out = offer.getOutput().clone();
-							out.setAmount(a);
+							out.setAmount(a*offer.getOutput().getAmount());
 							player.getInventory().addItem(out);
 							out=null;
 						}

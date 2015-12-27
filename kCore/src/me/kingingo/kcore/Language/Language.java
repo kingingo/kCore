@@ -212,6 +212,8 @@ public class Language {
 			add(type, "FIGHT_START_IN", "§7You can start fighting in §e{INPUT0}§7 seconds!");
 			add(type, "FIGHT_START", "§aYou can now fight!");
 			add(type, "GAME_END_IN", "§cThe game ends in §e{INPUT0}§c ");
+			add(type, "BUILD_END_IN", "§cThe buildtime ends in §e{INPUT0}§c ");
+			add(type, "BUILD_END", "§cThe buildtime ended.");
 			add(type, "GAME_END", "§cThe game ended.");
 			add(type,"GAME_START_MIN_PLAYER","§cNot enough players (min. {INPUT0}) online! Restart counter!");
 			add(type, "RESTART_IN", "§4§lServer restart in  §e§l{INPUT0}§4§l seconds!");
@@ -662,6 +664,8 @@ public class Language {
 	        add(type, "FIGHT_START_IN", "§7Ihr koennt in §e{INPUT0}§7 Sekunden Kaempfen!");
 	        add(type, "FIGHT_START", "§aIhr koennt nun Kaempfen!");
 	        add(type, "GAME_END_IN", "§cDas Spiel endet in §e{INPUT0}§c ");
+	        add(type, "BUILD_END_IN", "§cDie Bauzeit endet in §e{INPUT0}§c ");
+	        add(type, "BUILD_END", "§cDie Bauzeit wurde beendet.");
 	        add(type, "GAME_END", "§cDas Spiel wurde beendet.");
 	        add(type, "RESTART_IN", "§4§lDer Server Restartet in §e§l{INPUT0}§4§l Sekunden!");
 	        add(type, "RESTART", "§4§lDer Server Restartet jetzt!");
