@@ -17,8 +17,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spigotmc.CustomTimingsHandler;
 
-import com.mysql.jdbc.log.Log;
-
 public class MySQL
 {
   private String user = "";

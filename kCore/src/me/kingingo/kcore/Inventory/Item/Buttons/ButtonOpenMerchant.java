@@ -1,10 +1,9 @@
 package me.kingingo.kcore.Inventory.Item.Buttons;
 
-import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Merchant.Merchant;
-import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -108,6 +108,8 @@ public class CommandGems implements CommandExecutor{
 					shop.load();
 					player.sendMessage(Language.getText(player, "PREFIX")+"§aReloaded");
 				}else if(args[0].equalsIgnoreCase("setloc")){
+					shop.getListener().getEntity().remove();
+					
 					shop.setCreature(player.getLocation());
 					player.sendMessage(Language.getText(player, "PREFIX")+"§aLocation saved!");
 				}

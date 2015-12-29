@@ -22,7 +22,7 @@ PVP(true,"PvP-Server", "PvP", ServerType.PVP,new Stats[] { Stats.KILLS, Stats.DE
 SKYBLOCK(true,"SkyBlock", "Sky", ServerType.SKYBLOCK,new Stats[] { Stats.KILLS, Stats.DEATHS, Stats.MONEY }), 
 WARZ(true,"WarZ-Server", "WarZ", ServerType.WARZ,new Stats[] { Stats.KILLS, Stats.DEATHS,Stats.ANIMAL_KILLS,Stats.ANIMAL_DEATHS,Stats.MONSTER_KILLS,Stats.MONSTER_DEATHS }),
 CaveWars(true,"CaveWars","CW",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),
-MASTERBUILDERS(true,"Masterbuilders","MB",ServerType.GAME,new Stats[]{Stats.LOSE,Stats.WIN}),
+Masterbuilders(true,"Masterbuilders","MB",ServerType.GAME,new Stats[]{Stats.LOSE,Stats.WIN}),
 NONE(true,"NONE","FAIL",ServerType.GAME,null);
 
 @Getter

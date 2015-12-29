@@ -1428,6 +1428,24 @@ public class UtilItem {
 	        return CraftItemStack.asCraftMirror(nmsStack);
 	    }
 	  
+	  public static ItemStack removeEnchantmentGlow(ItemStack item){ 
+		  	if(item==null){
+		  		System.out.println("[EpicPvP]: addEnchantmentGlow");
+		  		System.out.println("[EpicPvP]: ITEM == NULL");
+		  	}
+		  
+	        net.minecraft.server.v1_8_R3.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+	        NBTTagCompound tag = null;
+	        if (!nmsStack.hasTag()) {
+	            tag = new NBTTagCompound();
+	            nmsStack.setTag(tag);
+	        }
+	        if (tag == null) tag = nmsStack.getTag();
+	        tag.set("ench", null);
+	        nmsStack.setTag(tag);
+	        return CraftItemStack.asCraftMirror(nmsStack);
+	    }
+	  
 	  public static boolean ItemNameEquals(ItemStack i, ItemStack i1){
 		  if(i==null||i1==null)return false;
 		  if(i.hasItemMeta()&&i.getItemMeta().hasDisplayName()){

@@ -91,14 +91,19 @@ public class GemsShop{
 		m = new NameTagMessage(NameTagType.SERVER, v.getLocation().add(0, 2.1, 0), "§a§lGem-Shop");
 		m.send();
 		
-		listener=new EntityClickListener(getPermission().getInstance(), new Click(){
-
-			@Override
-			public void onClick(Player player, ActionType type, Object object) {
-				player.openInventory(base.getMain());
-			}
+		if(listener==null){
+			listener=new EntityClickListener(getPermission().getInstance(), new Click(){
+	
+				@Override
+				public void onClick(Player player, ActionType type, Object object) {
+					player.openInventory(base.getMain());
+				}
+				
+			}, v);
+		}else{
+			listener.setEntity(v);
+		}
 			
-		}, v);
 	}
 	
 	public void fixInventory(InventoryPageBase page){

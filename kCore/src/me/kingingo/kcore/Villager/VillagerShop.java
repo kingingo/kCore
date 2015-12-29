@@ -1,12 +1,12 @@
 package me.kingingo.kcore.Villager;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Inventory.InventoryMerchant;
+import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonOpenMerchant;
@@ -26,7 +26,6 @@ import net.minecraft.server.v1_8_R3.EntityInsentient;
 import net.minecraft.server.v1_8_R3.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_8_R3.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
-import me.kingingo.kcore.Inventory.Item.Click;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

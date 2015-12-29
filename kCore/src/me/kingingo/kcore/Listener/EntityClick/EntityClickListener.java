@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Listener.EntityClick;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
@@ -24,6 +25,7 @@ public class EntityClickListener extends kListener{
 	
 	private Click click;
 	@Getter
+	@Setter
 	private Entity entity;
 	private Location location;
 	private EntityType type;
