@@ -44,11 +44,11 @@ public class PacketManager {
 	@Getter
 	private JavaPlugin instance;
 	@Getter
-	private Client c;
+	private Client client;
 	
-	public PacketManager(JavaPlugin instance,Client c){
+	public PacketManager(JavaPlugin instance,Client client){
 		this.instance=instance;
-		this.c=c;
+		this.client=client;
 		new PacketListener(this);
 	}
 	
@@ -125,7 +125,7 @@ public class PacketManager {
 	
 	public void SendPacket(String toServer,Packet packet){
 		Bukkit.getPluginManager().callEvent(new PacketSendEvent(packet,toServer));
-		c.sendMessageToServer(toServer+"=/="+packet.toString());
+		getClient().sendMessageToServer(toServer+"=/="+packet.toString());
 	}
 	
 }

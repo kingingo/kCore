@@ -22,7 +22,7 @@ PVP(true,"PvP-Server", "PvP", ServerType.PVP,new Stats[] { Stats.KILLS, Stats.DE
 SKYBLOCK(true,"SkyBlock", "Sky", ServerType.SKYBLOCK,new Stats[] { Stats.KILLS, Stats.DEATHS, Stats.MONEY }), 
 WARZ(true,"WarZ-Server", "WarZ", ServerType.WARZ,new Stats[] { Stats.KILLS, Stats.DEATHS,Stats.ANIMAL_KILLS,Stats.ANIMAL_DEATHS,Stats.MONSTER_KILLS,Stats.MONSTER_DEATHS }),
 CaveWars(true,"CaveWars","CW",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.SHEEPWARS_KILLED_SHEEPS}),
-Masterbuilders(true,"Masterbuilders","MB",ServerType.GAME,new Stats[]{Stats.LOSE,Stats.WIN}),
+Masterbuilders(true,"Master Builders","MB",ServerType.GAME,new Stats[]{Stats.LOSE,Stats.WIN}),
 NONE(true,"NONE","FAIL",ServerType.GAME,null);
 
 @Getter
@@ -45,8 +45,9 @@ private GameType(boolean solo,String Typ,String Kürzel,ServerType serverType,Sta
 }
 
 public static GameType get(String g){
+	g=g.replaceAll(" ", "");
 	for(GameType t : GameType.values()){
-		if(t.getTyp().equalsIgnoreCase(g))return t;
+		if(t.getTyp().replaceAll(" ", "").equalsIgnoreCase(g))return t;
 	}
 	return null;
 }

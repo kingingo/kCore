@@ -128,7 +128,7 @@ public class Gems extends kListener{
 
 			give_gems_time.put(player, System.currentTimeMillis()+TimeSpan.SECOND*9);
 			give_gems.put(player, gems);
-			packetManager.SendPacket("BG", new PLAYER_ONLINE(player, packetManager.getC().getName(), "gems", "null"));
+			packetManager.SendPacket("BG", new PLAYER_ONLINE(player, packetManager.getClient().getName(), "gems", "null"));
 			Log("Prüft ob der Spieler "+player+" Online ist für seine "+gems+" Gems!");
 		}
 	}

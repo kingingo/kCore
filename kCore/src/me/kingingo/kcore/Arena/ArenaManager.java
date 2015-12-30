@@ -146,7 +146,7 @@ public class ArenaManager extends kListener{
 	int id;
 	@EventHandler
 	public void Update(UpdateAsyncEvent ev){
-		if(ev.getType()==updateSpeed&&!server.isEmpty()&&!this.wait_list.isEmpty()){
+		if(ev.getType()==updateSpeed&&!server.isEmpty()&&!this.wait_list.isEmpty()&&this.packetManager.getClient().isConnected()){
 			this.timings.startTiming();
 			if(this.players==null){
 				this.players=new HashMap<>();

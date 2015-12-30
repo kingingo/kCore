@@ -172,6 +172,8 @@ public class Language {
 	public static void addAll(LanguageType type){
 		if(type==LanguageType.ENGLISH){
 			if(!list.containsKey(LanguageType.ENGLISH))list.put(LanguageType.ENGLISH, new HashMap<String,String>());
+			add(type, "MASTERBUILDER_PARTICLE_PLACE", "§aparticle are placed.");
+			add(type, "MASTERBUILDER_PARTICLE_MAX", "§cYou cannot place more as 20 particles.");
 			add(type, "MASTERBUILDER_WIN", "{INPUT0}# {INPUT1}");
 			add(type, "EVENT_TNTFIGHT_PREFIX", "§6TNTFight §8» §7");
 			add(type, "TREASURE_CHEST_TIME_AWAY", "§cThe time has expired!");
@@ -616,6 +618,8 @@ public class Language {
 		
 		if(type==LanguageType.GERMAN){
 			if(!list.containsKey(LanguageType.GERMAN))list.put(LanguageType.GERMAN, new HashMap<String,String>());
+			add(type, "MASTERBUILDER_PARTICLE_PLACE", "§aPartikel wurde gesetzt.");
+			add(type, "MASTERBUILDER_PARTICLE_MAX", "§cDu kannst nicht mehr als 20 Partikel setzen.");
 			add(type, "MASTERBUILDER_WIN", "{INPUT0}# {INPUT1}");
 			add(type, "EVENT_TNTFIGHT_PREFIX", "§6TNTFight §8» §7");
 			add(type, "CAPTCHA_ENTER", "§aBitte gib den Captcha Text §7/captcha [CAPTCHA]");

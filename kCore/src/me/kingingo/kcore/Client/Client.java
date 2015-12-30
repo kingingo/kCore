@@ -23,55 +23,57 @@ public class Client {
 
 	@Setter
 	@Getter
-	Socket s;
+	private Socket socket;
+	@Getter
+	private String host;
+	@Getter
+	private int port;
+	@Getter
+	private String name;
+	@Getter
+	Thread thread;
 	@Setter
 	@Getter
-	String Host;
+	private Scanner in;
 	@Setter
 	@Getter
-	int Port;
+	private PrintWriter out;
+	@Getter
+	private ClientListener listener;
+	@Getter
 	@Setter
-	@Getter
-	String Name;
-	@Getter
-	Thread send;
-	@Getter
-	ArrayList<String> messagestosend = new ArrayList<>();
-	ArrayList<String> cloned;
-	Scanner in;
-	PrintWriter out;
+	private boolean connected=false;
 	
-	public Client(String host,int port,String Name,JavaPlugin plugin,Updater updater){
-		setHost(host);
-		setPort(port);
-		setName(Name);
-		Bukkit.getPluginManager().registerEvents(new ClientListener(this), plugin);
+	public Client(JavaPlugin instance, String host,int port,String name){
+		this.host=host;
+		this.port=port;
+		this.name=name;
+		this.listener=new ClientListener(instance, this);
 		connect();
 	}
 	
 	public void connect(){
 		try {
-			setS(new Socket(getHost(),getPort()));
-			getS().setSoTimeout(2147483647);
+			setSocket(new Socket(getHost(),getPort()));
+			getSocket().setSoTimeout(2147483647);
 			Bukkit.getPluginManager().callEvent(new ClientConnectEvent());
-			cloned = new ArrayList<>();
 			
-			 send = new Thread()
+			this.thread = new Thread()
 		      {
 				 
 		        public void run() {
 		        	
 		        	 try {
-		                 in = new Scanner(getS().getInputStream());
-		                 out = new PrintWriter(getS().getOutputStream());
-		                 out.println(Name);
-		                 out.flush();
-		                 Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent(Name));
-		                 out.println("ping");
-		                 out.flush();
+		                 setIn(new Scanner(getSocket().getInputStream()));;
+		                 setOut(new PrintWriter(getSocket().getOutputStream()));;
+		                 getOut().println(name);
+		                 getOut().flush();
+		                 Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent(name));
+		                 getOut().println("ping");
+		                 getOut().flush();
 		                 Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent("ping"));
-		                 while(in.hasNext()){
-		                	Bukkit.getPluginManager().callEvent(new ClientReceiveMessageEvent(in.nextLine().replaceAll("&", "§")));
+		                 while(getIn().hasNext()){
+		                	Bukkit.getPluginManager().callEvent(new ClientReceiveMessageEvent(getIn().nextLine().replaceAll("&", "§")));
 		                 }
 		                 disconnect(true);
 		        	 }catch (Exception e){
@@ -80,8 +82,8 @@ public class Client {
 		        }
 		        
 		      };
-		      send.start();
-			
+		      
+		      getThread().start();
 		} catch (IOException e) {
 			Bukkit.getPluginManager().callEvent(new ClientErrorConnectEvent());
 		}
@@ -94,8 +96,8 @@ public class Client {
 			Bukkit.getPluginManager().callEvent(new ClientDisconnectEvent());
 		}
 		try {
-			getS().close();
-			send.stop();
+			getSocket().close();
+			getThread().stop();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -104,8 +106,8 @@ public class Client {
 	public void sendMessageToServer(String m){
 		if(getName().equalsIgnoreCase("TEST-SERVER"))return;
 		m=m.replaceAll("§", "&");
-		out.println(m);
-		out.flush();
+		getOut().println(m);
+		getOut().flush();
 		Bukkit.getPluginManager().callEvent(new ClientSendMessageEvent(m));
 	}
 	

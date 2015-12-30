@@ -1,80 +1,82 @@
 package me.kingingo.kcore.Client;
 
+import lombok.Getter;
 import me.kingingo.kcore.Client.Events.ClientConnectEvent;
 import me.kingingo.kcore.Client.Events.ClientDisconnectEvent;
 import me.kingingo.kcore.Client.Events.ClientErrorConnectEvent;
 import me.kingingo.kcore.Client.Events.ClientLostConnectionEvent;
 import me.kingingo.kcore.Client.Events.ClientReceiveMessageEvent;
 import me.kingingo.kcore.Client.Events.ClientSendMessageEvent;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class ClientListener implements Listener{
+public class ClientListener extends kListener{
+
+	@Getter
+	private Client client;
 	
-	private Client c;
-	
-	public ClientListener(Client c){
-		this.c=c;
+	public ClientListener(JavaPlugin instance, Client client){
+		super(instance,"Client");
+		this.client=client;
 	}
 	
-	boolean connected=false;
-	
 	@EventHandler
-	public void Client(UpdateEvent ev){
+	public void client(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.MIN_005)return;
-		if(connected)return;
-		c.connect();
+		if(getClient().isConnected())return;
+		getClient().connect();
 	}
 	
 	@EventHandler
-	public void Connected(ClientConnectEvent ev){
-		System.out.println("[Client] Der Client verbindet sich zum Daten-Server");
-		connected=true;
+	public void connected(ClientConnectEvent ev){
+		Log("Der Client verbindet sich zum Daten-Server");
+		getClient().setConnected(true);
 	}
 	
 	@EventHandler
-	public void Message(ClientSendMessageEvent ev){
-		System.out.println("[Client] Der Client sendet die Nachricht '"+ev.getMessage()+"' zum Daten-Server.");
+	public void message(ClientSendMessageEvent ev){
+		Log("Der Client sendet die Nachricht '"+ev.getMessage()+"' zum Daten-Server.");
 	}
 	
 	@EventHandler
-	public void Disconnect(ClientDisconnectEvent ev){
-		System.out.println("[Client] Der Client hat die verbindung zum Daten-Server getrennt.");
-		connected=false;
+	public void disconnect(ClientDisconnectEvent ev){
+		Log("Der Client hat die verbindung zum Daten-Server getrennt.");
+		getClient().setConnected(false);
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
-	public void Received(ClientReceiveMessageEvent ev){
+	public void received(ClientReceiveMessageEvent ev){
 		if(ev.getMessage().equalsIgnoreCase("ping")){
-			System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
-			c.sendMessageToServer("pong");
+			Log("Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
+			getClient().sendMessageToServer("pong");
 		}else if(ev.getMessage().equalsIgnoreCase("stop=?now")){
-			System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
+			Log("Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
 		}else if(ev.getMessage().equalsIgnoreCase("restart=?now")){
-			System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
+			Log("Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
 		}else if(ev.getMessage().equalsIgnoreCase("reload=?now")){
-			System.out.println("[Client] Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
+			Log("Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "reload");
 		}
 	}
 	
 	@EventHandler
-	public void Error(ClientErrorConnectEvent ev){
-		System.out.println("[Client] Der Client konnte sich nicht verbinden mit dem Daten-Server.");
-		connected=false;
+	public void error(ClientErrorConnectEvent ev){
+		Log("Der Client konnte sich nicht verbinden mit dem Daten-Server.");
+		getClient().setConnected(false);
 	}
 	
 	@EventHandler
-	public void Lost(ClientLostConnectionEvent ev){
-		System.out.println("[Client] Der Client hat die Verbingung verloren ...");
-		connected=false;
+	public void lost(ClientLostConnectionEvent ev){
+		Log("Der Client hat die Verbingung verloren ...");
+		getClient().setConnected(false);
 	}
 	
 }

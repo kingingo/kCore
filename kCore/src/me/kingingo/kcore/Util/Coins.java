@@ -125,7 +125,7 @@ public class Coins extends kListener{
 				give_coins.remove(player);
 				give_coins_time.remove(player);
 			}else{
-				packetManager.SendPacket("BG", new PLAYER_ONLINE(player, packetManager.getC().getName(), "coins", "null"));
+				packetManager.SendPacket("BG", new PLAYER_ONLINE(player, packetManager.getClient().getName(), "coins", "null"));
 			}
 			
 			give_coins_time.put(player, System.currentTimeMillis()+TimeSpan.SECOND*9);

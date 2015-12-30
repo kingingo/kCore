@@ -1,6 +1,7 @@
 package me.kingingo.kcore.kListen;
 
 import java.util.Comparator;
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,12 +12,12 @@ public class kRank implements Comparable<kRank>{
 
 	@Getter
 	@Setter
-	private Player player;
+	private String player;
 	@Getter
 	@Setter
 	private int obj;
 	
-	public kRank(Player player,int obj){
+	public kRank(String player,int obj){
 		this.player=player;
 		this.obj=obj;
 	}
