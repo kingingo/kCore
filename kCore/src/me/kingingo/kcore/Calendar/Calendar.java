@@ -115,7 +115,7 @@ public class Calendar {
 		WEIHNACHTEN("28.11","26.12","24.12"),
 		NIKOLAUS("05.12","07.12","06.12"),
 		OSTERN("03.04","07.04","05.04"),
-		SILVESTER("31.12","01.01","01.01"),
+		SILVESTER("01.01","01.01","01.01"),
 		HALLOWEEN("21.10","31.10","31.10");
 		
 		@Getter

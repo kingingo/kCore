@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Listener.Chat;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Gilden.GildenManager;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Permission.PermissionManager;
@@ -21,9 +22,10 @@ public class ChatListener extends kListener{
 
 	@Getter
 	private PermissionManager manager;
-	private ru.tehkode.permissions.PermissionManager pex;
+	@Setter
 	private GildenManager gildenmanager;
 	private String suffix="§8 » §7";
+	@Setter
 	private UserDataConfig userData;
 	
 	public ChatListener(JavaPlugin instance,GildenManager gildenmanager,PermissionManager manager,UserDataConfig userData){
@@ -41,7 +43,7 @@ public class ChatListener extends kListener{
 	public ChatListener(JavaPlugin instance,GildenManager gildenmanager){
 		super(instance,"ChatListener");
 		this.gildenmanager=gildenmanager;
-		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null)pex=PermissionsEx.getPermissionManager();
+//		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null)pex=PermissionsEx.getPermissionManager();
 	}
 	
 	@EventHandler
@@ -94,10 +96,10 @@ public class ChatListener extends kListener{
 				}
 			
 				if(manager!=null)event.setFormat(manager.getPrefix(p)+ tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(kPermission.SUFFIX.getPermissionToString())?(this.userData!=null?(this.userData.getConfig(p).contains("Chat.Suffix")?this.userData.getConfig(p).getString("Chat.Suffix"):""):""):"") + msg);
-				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§")+ tag + pex.getUser(p).getPrefix().replaceAll("&", "§").subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(kPermission.SUFFIX.getPermissionToString())?(this.userData!=null?(this.userData.getConfig(p).contains("Chat.Suffix")?this.userData.getConfig(p).getString("Chat.Suffix"):""):""):"") + msg);
+//				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§")+ tag + pex.getUser(p).getPrefix().replaceAll("&", "§").subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(kPermission.SUFFIX.getPermissionToString())?(this.userData!=null?(this.userData.getConfig(p).contains("Chat.Suffix")?this.userData.getConfig(p).getString("Chat.Suffix"):""):""):"") + msg);
 			}else{
 				if(manager!=null)event.setFormat(manager.getPrefix(p) + p.getName() + suffix + (p.hasPermission(kPermission.SUFFIX.getPermissionToString())?(this.userData!=null?(this.userData.getConfig(p).contains("Chat.Suffix")?this.userData.getConfig(p).getString("Chat.Suffix"):""):""):"") + msg);	
-				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§") + p.getName() + suffix + (p.hasPermission(kPermission.SUFFIX.getPermissionToString())?(this.userData!=null?(this.userData.getConfig(p).contains("Chat.Suffix")?this.userData.getConfig(p).getString("Chat.Suffix"):""):""):"") + msg);
+//				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§") + p.getName() + suffix + (p.hasPermission(kPermission.SUFFIX.getPermissionToString())?(this.userData!=null?(this.userData.getConfig(p).contains("Chat.Suffix")?this.userData.getConfig(p).getString("Chat.Suffix"):""):""):"") + msg);
 			}
 		}
 	}
