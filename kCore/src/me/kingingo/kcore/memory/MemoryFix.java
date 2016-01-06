@@ -25,7 +25,6 @@ public class MemoryFix
     {
       public void run()
       {
-    	  
     	  for(World w : Bukkit.getWorlds()){
     		  for(Entity e : w.getEntities()){
     			  if ((e instanceof IInventory)){

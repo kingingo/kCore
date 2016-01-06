@@ -38,6 +38,7 @@ public class InventoryTrade extends InventoryPageBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(player.getUniqueId()!=t.getUniqueId())return;
+				
 				if(accept_t.getItemStack().getType()==Material.REDSTONE){
 					accept_t.setItemStack(UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept"));
 					accept_t.refreshItemStack();

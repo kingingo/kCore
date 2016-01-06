@@ -58,13 +58,13 @@ public class ArenaManager extends kListener{
 	private GameType t;
 	
 	public ArenaManager(PacketManager packetManager,StatsManager statsManager,GameType t,UpdateAsyncType updateSpeed){
-		super(packetManager.getInstance(),"ArenaManager");
+		super(packetManager.getInstance(),"ArenaManager:"+t.getKürzel());
 		this.t=t;
 		this.server=new HashMap<>();
 		this.rules=new HashMap<>();
 		this.updateSpeed=updateSpeed;
 		this.wait_list=new HashMap<>();
-		this.timings=new CustomTimingsHandler("ArenaManager");
+		this.timings=new CustomTimingsHandler("ArenaManager:"+t.getKürzel());
 		this.packetManager=packetManager;
 		this.statsManager=statsManager;
 		this.rounds=new HashMap<>();

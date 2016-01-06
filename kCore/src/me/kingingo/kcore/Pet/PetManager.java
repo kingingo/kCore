@@ -192,54 +192,56 @@ public class PetManager implements Listener{
 	    	petSpot=pet.getLocation();
 	    	ownerSpot=owner.getLocation();
 	    	
-	    	if(!petSpot.getWorld().getName().equalsIgnoreCase(ownerSpot.getWorld().getName()))pet.teleport(owner);
-	    	
-	    	xDiff = Math.abs(petSpot.getBlockX() - ownerSpot.getBlockX());
-	    	yDiff = Math.abs(petSpot.getBlockY() - ownerSpot.getBlockY());
-	    	zDiff = Math.abs(petSpot.getBlockZ() - ownerSpot.getBlockZ());
-	    	
-	    	if(xDiff+zDiff+yDiff > 4){
-	    		ec=(EntityInsentient) ((CraftLivingEntity)pet).getHandle();
-	    		nav=ec.getNavigation();
-	    		
-	    		xIndex=-1;
-	    		zIndex=-1;
-	    		targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
-	 	        while ((targetBlock.isEmpty()) || (targetBlock.isLiquid())){
-	 	          if (xIndex < 2) {
-	 	            xIndex++;
-	 	          } else if (zIndex < 2)
-	 	          {
-	 	            xIndex = -1;
-	 	            zIndex++;
-	 	          }
-	 	          else {
-	 	            return;
-	 	          }
-	 	          targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
-	 	        }
-	 	        
-	 	        ((Navigation)nav).a(true);
-	 	        if (((Integer)this.failedAttempts.get(playerName)).intValue() > 4){
-	 	    	  if(pet.getPassenger() != null){
-		        	  passenger = pet.getPassenger();
-		        	  passenger.leaveVehicle();
-		        	  
-		        	  passenger.teleport(owner);
-		        	  pet.teleport(owner);
-		        	  pet.setPassenger(passenger);
-		          }else{
-		        	  pet.teleport(owner);
-		          }
-	 	    	  
-		          this.failedAttempts.put(playerName, Integer.valueOf(0));
-	 	      }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.6D)){
-		          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>distance){
-		            this.failedAttempts.put(playerName, Integer.valueOf(((Integer)this.failedAttempts.get(playerName)).intValue() + 1));
-		          }
-	 	       }else{
-		          this.failedAttempts.put(playerName, Integer.valueOf(0));
-		       }
+	    	if(petSpot.getWorld().getUID()!=ownerSpot.getWorld().getUID()){
+	    		pet.teleport(owner);
+	    	}else{
+	    		xDiff = Math.abs(petSpot.getBlockX() - ownerSpot.getBlockX());
+		    	yDiff = Math.abs(petSpot.getBlockY() - ownerSpot.getBlockY());
+		    	zDiff = Math.abs(petSpot.getBlockZ() - ownerSpot.getBlockZ());
+		    	
+		    	if(xDiff+zDiff+yDiff > 4){
+		    		ec=(EntityInsentient) ((CraftLivingEntity)pet).getHandle();
+		    		nav=ec.getNavigation();
+		    		
+		    		xIndex=-1;
+		    		zIndex=-1;
+		    		targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
+		 	        while ((targetBlock.isEmpty()) || (targetBlock.isLiquid())){
+		 	          if (xIndex < 2) {
+		 	            xIndex++;
+		 	          } else if (zIndex < 2)
+		 	          {
+		 	            xIndex = -1;
+		 	            zIndex++;
+		 	          }
+		 	          else {
+		 	            return;
+		 	          }
+		 	          targetBlock = ownerSpot.getBlock().getRelative(xIndex, -1, zIndex);
+		 	        }
+		 	        
+		 	        ((Navigation)nav).a(true);
+		 	        if (((Integer)this.failedAttempts.get(playerName)).intValue() > 4){
+		 	    	  if(pet.getPassenger() != null){
+			        	  passenger = pet.getPassenger();
+			        	  passenger.leaveVehicle();
+			        	  
+			        	  passenger.teleport(owner);
+			        	  pet.teleport(owner);
+			        	  pet.setPassenger(passenger);
+			          }else{
+			        	  pet.teleport(owner);
+			          }
+		 	    	  
+			          this.failedAttempts.put(playerName, Integer.valueOf(0));
+		 	      }else if (!nav.a(targetBlock.getX(), targetBlock.getY() + 1, targetBlock.getZ(), 1.6D)){
+			          if (pet.getFallDistance() == 0.0F||pet.getLocation().distance(ownerSpot)>distance){
+			            this.failedAttempts.put(playerName, Integer.valueOf(((Integer)this.failedAttempts.get(playerName)).intValue() + 1));
+			          }
+		 	       }else{
+			          this.failedAttempts.put(playerName, Integer.valueOf(0));
+			       }
+		    	}
 	    	}
 	    }
 	  }
