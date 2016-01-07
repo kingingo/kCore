@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class RestartScheduler implements Listener{
+	private int restart=13;
 	private int start=35;
 	private JavaPlugin instance;
 	@Setter
@@ -51,6 +52,7 @@ public class RestartScheduler implements Listener{
 		if(coins!=null)coins.SaveAll();
 		if(gems!=null)gems.SaveAll();
 		Bukkit.getPluginManager().registerEvents(this, instance);
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "whitelist on");
 	}
 	
 	public void broadcast(String name,Object input){
@@ -58,45 +60,64 @@ public class RestartScheduler implements Listener{
 		UtilServer.broadcastLanguage(name, input);
 	}
 	
+	Title title;
 	@EventHandler
 	public void Update(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC)return;
-		start--;
-		for(Player p : UtilServer.getPlayers())UtilDisplay.displayTextBar(p, Language.getText(p, "RESTART_IN",start));
 		
-		switch(start){
-		case 30:
-			broadcast("RESTART_IN",start);
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "whitelist on");
-			break;
-		case 25:
-			broadcast("RESTART_IN",start);
-			for(Player p : UtilServer.getPlayers())UtilBG.sendToServer(p,instance);
-			break;
-		case 23:
-			if(UtilServer.getPlayers().size()!=0&&i<5){
-				start=26;
-				i++;
+		if(start>=-1){
+			start--;
+			
+			if(title==null){
+				this.title=new Title("§cServer Restarting in", "");
 			}
-			break;
-		case 20:
-			if(stats!=null)stats.SaveAllData();	
-			if(gilden!=null)gilden.AllUpdateGilde();
-			if(userData!=null)userData.saveAllConfigs();
-			break;
-		case 10:broadcast("RESTART_IN",start);break;
-		case 5:
-			for(World world : Bukkit.getWorlds())world.save();
-			break;
-		case 4:broadcast("RESTART_IN",start);break;
-		case 3:broadcast("RESTART_IN",start);break;
-		case 2:broadcast("RESTART_IN",start);break;
-		case 1:broadcast("RESTART_IN",start);break;
-		case 0: 
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "whitelist off");
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
-			break;
+			title.setSubtitle("§7"+UtilTime.formatSeconds(start));
+			
+			if(start>0){
+				for(Player p : UtilServer.getPlayers()){
+					title.send(p);
+				}
+			}
+			
+			switch(start){
+			case 30:broadcast("RESTART_IN",start);break;
+			case 25:broadcast("RESTART_IN",start);break;
+			case 20:broadcast("RESTART_IN",start);break;
+			case 15:broadcast("RESTART_IN",start);break;
+			case 10:broadcast("RESTART_IN",start);break;
+			case 9:broadcast("RESTART_IN",start);break;
+			case 8:broadcast("RESTART_IN",start);break;
+			case 7:broadcast("RESTART_IN",start);break;
+			case 6:broadcast("RESTART_IN",start);break;
+			case 5:broadcast("RESTART_IN",start);break;
+			case 4:broadcast("RESTART_IN",start);break;
+			case 3:broadcast("RESTART_IN",start);break;
+			case 2:broadcast("RESTART_IN",start);break;
+			case 1:broadcast("RESTART_IN",start);break;
+			case 0:broadcast("RESTART_IN",start);break;
+			case -1:
+				if( UtilServer.getPlayers().size()>0 ){
+					for(Player player : UtilServer.getPlayers())UtilBG.sendToServer(player, this.instance);
+					start=-1;
+				}
+				break;
+			}
+		}else{
+			restart--;
+			switch(restart){
+			case 10:
+				if(stats!=null)stats.SaveAllData();	
+				if(gilden!=null)gilden.AllUpdateGilde();
+				if(userData!=null)userData.saveAllConfigs();
+				break;
+			case 5:for(World world : Bukkit.getWorlds())world.save();break;
+			case 0:
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "whitelist off");
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
+				break;
+			}
 		}
+		
 	}
 	
 }

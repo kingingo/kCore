@@ -5,15 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.kingingo.kcore.Listener.kListener;
+import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.BUNGEECORD_KICKEN;
+import me.kingingo.kcore.Util.UtilException;
 import me.kingingo.kcore.Util.UtilPlayer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class AntiCrashListener extends kListener {
 	private final Map<String, Long> switchavg;
@@ -28,8 +30,9 @@ public class AntiCrashListener extends kListener {
 	private final ArrayList<String> kick;
 	
 	private PacketManager packetManager;
+	private MySQL mysql;
 
-	public AntiCrashListener(PacketManager packetManager) {
+	public AntiCrashListener(PacketManager packetManager,MySQL mysql) {
 		super(packetManager.getInstance(), "AntiCrashListener");
 		this.hitsavg = new HashMap<>();
 		this.switchavg = new HashMap<>();
@@ -42,6 +45,7 @@ public class AntiCrashListener extends kListener {
 		
 		this.kick=new ArrayList<>();
 		
+		this.mysql=mysql;
 		this.packetManager=packetManager;
 	}
 
@@ -70,6 +74,7 @@ public class AntiCrashListener extends kListener {
 					this.packetManager.SendPacket("BG", new BUNGEECORD_KICKEN(e.getPlayer().getName(), "&cStop!"));
 					Log("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
 					Log("Spieler "+iname+" wurde wegen Item Change Crash gekickt!");
+					UtilException.catchException(this.packetManager.getClient().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler "+name+" wurde wegen Animation Crash gekickt! "+" IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
 				}else{
 					this.switchcount.remove(iname);
 					this.switchavg.remove(iname);
@@ -112,6 +117,7 @@ public class AntiCrashListener extends kListener {
 					this.packetManager.SendPacket("BG", new BUNGEECORD_KICKEN(e.getPlayer().getName(), "&cStop!"));
 					Log("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
 					Log("Spieler "+name+" wurde wegen Animation Crash gekickt!");
+					UtilException.catchException(this.packetManager.getClient().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler "+name+" wurde wegen Animation Crash gekickt! "+" IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
 				}else{
 					this.hitscount.remove(name);
 					this.hitsavg.remove(name);

@@ -33,9 +33,13 @@ import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.entity.SlimeSplitEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.mysql.jdbc.log.Log;
 
 public class PetManager implements Listener{
 
@@ -76,8 +80,10 @@ public class PetManager implements Listener{
 	}
 	
 	public boolean isPet(LivingEntity c){
-		for(LivingEntity cs : this.activePetOwners.values())if(cs.getEntityId() == c.getEntityId())return true;
-		
+		if(c instanceof LivingEntity){
+			if(this.activePetOwners.containsValue(((LivingEntity)c)))return true;
+			if(this.petToLocation.containsKey(((LivingEntity)c)))return true;
+		}
 		return false;
 	}
 	
@@ -193,7 +199,16 @@ public class PetManager implements Listener{
 	    	ownerSpot=owner.getLocation();
 	    	
 	    	if(petSpot.getWorld().getUID()!=ownerSpot.getWorld().getUID()){
-	    		pet.teleport(owner);
+	    		if(pet.getPassenger() != null){
+		        	  passenger = pet.getPassenger();
+		        	  passenger.leaveVehicle();
+		        	  
+		        	  passenger.teleport(owner);
+		        	  pet.teleport(owner,TeleportCause.PLUGIN);
+		        	  pet.setPassenger(passenger);
+		          }else{
+		        	  pet.teleport(owner, TeleportCause.PLUGIN);
+		          }
 	    	}else{
 	    		xDiff = Math.abs(petSpot.getBlockX() - ownerSpot.getBlockX());
 		    	yDiff = Math.abs(petSpot.getBlockY() - ownerSpot.getBlockY());

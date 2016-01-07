@@ -115,6 +115,7 @@ public class InventoryBase extends kListener{
 	
 	Player p;
 	InventoryPageBase page;
+	InventoryTrade trade;
 	@EventHandler
 	public void UseInv(InventoryClickEvent ev){
 		if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
@@ -125,7 +126,7 @@ public class InventoryBase extends kListener{
 				p=(Player)ev.getWhoClicked();
 				
 				if(page instanceof InventoryTrade&&ev.getCurrentItem()!=null){
-					InventoryTrade trade = (InventoryTrade)page;
+					trade = (InventoryTrade)page;
 					if(trade.putItem(p, ev.getClickedInventory(), ev.getCurrentItem(), ev.getSlot()))return;
 				}
 				

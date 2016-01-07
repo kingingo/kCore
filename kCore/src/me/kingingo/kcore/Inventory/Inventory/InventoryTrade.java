@@ -22,12 +22,16 @@ public class InventoryTrade extends InventoryPageBase{
 	private Player t;
 	@Getter
 	private Player t1;
+	private ItemStack accept;
+	private ItemStack deny;
 	
 	public InventoryTrade(final Player t,final Player t1) {
 		super("InventoryTrade",InventorySize._45.getSize(),t.getName()+" and "+t1.getName());
 		setClickPlayerInventory(true);
 		this.t=t;
 		this.t1=t1;
+		this.accept=UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept");
+		this.deny=UtilItem.RenameItem(new ItemStack(Material.REDSTONE), "§cDeny");
 		
 		for(int i = 4 ; i < (4+5*9); i+=9){
 			setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)15), " "));
@@ -40,10 +44,10 @@ public class InventoryTrade extends InventoryPageBase{
 				if(player.getUniqueId()!=t.getUniqueId())return;
 				
 				if(accept_t.getItemStack().getType()==Material.REDSTONE){
-					accept_t.setItemStack(UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept"));
+					accept_t.setItemStack(accept);
 					accept_t.refreshItemStack();
 				}else{
-					accept_t.setItemStack(UtilItem.RenameItem(new ItemStack(Material.REDSTONE), "§cDeny"));
+					accept_t.setItemStack(deny);
 					accept_t.refreshItemStack();
 					if(accept_t1.getItemStack().getType()==Material.REDSTONE){
 						t.closeInventory();
@@ -51,7 +55,7 @@ public class InventoryTrade extends InventoryPageBase{
 				}
 			}
 			
-		}, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept"));
+		}, accept);
 		addButton(44, accept_t);
 		
 		accept_t1=new ButtonBase(new Click(){
@@ -60,10 +64,10 @@ public class InventoryTrade extends InventoryPageBase{
 			public void onClick(Player player, ActionType type, Object object) {
 				if(player.getUniqueId()!=t1.getUniqueId())return;
 				if(accept_t1.getItemStack().getType()==Material.REDSTONE){
-					accept_t1.setItemStack(UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept"));
+					accept_t1.setItemStack(accept);
 					accept_t1.refreshItemStack();
 				}else{
-					accept_t1.setItemStack(UtilItem.RenameItem(new ItemStack(Material.REDSTONE), "§cDeny"));
+					accept_t1.setItemStack(deny);
 					accept_t1.refreshItemStack();
 					if(accept_t.getItemStack().getType()==Material.REDSTONE){
 						t.closeInventory();
@@ -71,7 +75,7 @@ public class InventoryTrade extends InventoryPageBase{
 				}
 			}
 			
-		}, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept"));
+		}, accept);
 		addButton(36, accept_t1);
 		
 		for(int i = 36; i<40; i++){
@@ -95,17 +99,18 @@ public class InventoryTrade extends InventoryPageBase{
 	}
 	
 	public boolean putItem(Player player,Inventory clickedInv,ItemStack item,int slot){
-		accept_t.setItemStack(UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept"));
-		accept_t.refreshItemStack();
-		accept_t1.setItemStack(UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept"));
-		accept_t1.refreshItemStack();
-		
 		if(clickedInv instanceof PlayerInventory){
 			if(player.getUniqueId()==t1.getUniqueId()){
 				if(nextFreePlaceT1(item))clickedInv.setItem(slot, null);
 			}else if(player.getUniqueId()==t.getUniqueId()){
 				if(nextFreePlaceT(item))clickedInv.setItem(slot, null);
 			}
+			
+			accept_t.setItemStack(accept);
+			accept_t.refreshItemStack();
+			accept_t1.setItemStack(accept);
+			accept_t1.refreshItemStack();
+			
 			return true;
 		}else if(item!=null&&item.getType()!=Material.AIR){
 			if(player.getUniqueId()==this.t1.getUniqueId()&&(slot>=0&&slot<=3
@@ -114,6 +119,10 @@ public class InventoryTrade extends InventoryPageBase{
 					|| slot>=27&&slot<=30) ){
 				player.getInventory().addItem(item);
 				setItem(slot, null);
+				accept_t.setItemStack(accept);
+				accept_t.refreshItemStack();
+				accept_t1.setItemStack(accept);
+				accept_t1.refreshItemStack();
 				return true;
 			}else if(player.getUniqueId()==this.t.getUniqueId()&&(slot>=5&&slot<=8
 					|| slot>=14&&slot<=17
@@ -121,6 +130,12 @@ public class InventoryTrade extends InventoryPageBase{
 					|| slot>=32&&slot<=35)){
 				player.getInventory().addItem(item);
 				setItem(slot, null);
+				
+				accept_t.setItemStack(accept);
+				accept_t.refreshItemStack();
+				accept_t1.setItemStack(accept);
+				accept_t1.refreshItemStack();
+				
 				return true;
 			}
 		}
