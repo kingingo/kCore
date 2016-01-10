@@ -41,6 +41,9 @@ public class Gems extends kListener{
 	@Getter
 	@Setter
 	private boolean join_Check=true;
+	@Getter
+	@Setter
+	private boolean async=false;
 	
 	public Gems(MySQL mysql){
 		super(mysql.getInstance(),"Gems");
@@ -83,7 +86,11 @@ public class Gems extends kListener{
 	}
 	
 	public void CreateAccount(UUID uuid,String name){
-		mysql.Update("INSERT INTO gems_list (name,gems,uuid) SELECT '" +name.toLowerCase()+"','0','"+UtilPlayer.getRealUUID(name,uuid)+"' FROM DUAL WHERE NOT EXISTS (SELECT uuid FROM gems_list WHERE uuid='" +UtilPlayer.getRealUUID(name, uuid)+"');");
+		if(isAsync()){
+			mysql.asyncUpdate("INSERT INTO gems_list (name,gems,uuid) SELECT '" +name.toLowerCase()+"','0','"+UtilPlayer.getRealUUID(name,uuid)+"' FROM DUAL WHERE NOT EXISTS (SELECT uuid FROM gems_list WHERE uuid='" +UtilPlayer.getRealUUID(name, uuid)+"');");
+		}else{
+			mysql.Update("INSERT INTO gems_list (name,gems,uuid) SELECT '" +name.toLowerCase()+"','0','"+UtilPlayer.getRealUUID(name,uuid)+"' FROM DUAL WHERE NOT EXISTS (SELECT uuid FROM gems_list WHERE uuid='" +UtilPlayer.getRealUUID(name, uuid)+"');");
+		}
 	}
 	
 	public Integer getGems(Player p){
@@ -183,7 +190,11 @@ public class Gems extends kListener{
 	public void Quit(PlayerQuitEvent ev){
 		if(gems.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
 			if(change_gems.contains(UtilPlayer.getRealUUID(ev.getPlayer()))){
-				mysql.Update("UPDATE `gems_list` SET gems='"+gems.get(UtilPlayer.getRealUUID(ev.getPlayer()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(ev.getPlayer())+"'");
+				if(isAsync()){
+					mysql.asyncUpdate("UPDATE `gems_list` SET gems='"+gems.get(UtilPlayer.getRealUUID(ev.getPlayer()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(ev.getPlayer())+"'");
+				}else{
+					mysql.Update("UPDATE `gems_list` SET gems='"+gems.get(UtilPlayer.getRealUUID(ev.getPlayer()))+"' WHERE uuid='"+UtilPlayer.getRealUUID(ev.getPlayer())+"'");
+				}
 			}
 			change_gems.remove(UtilPlayer.getRealUUID(ev.getPlayer()));
 			gems.remove(UtilPlayer.getRealUUID(ev.getPlayer()));
@@ -211,7 +222,13 @@ public class Gems extends kListener{
 			int co=c-coins;
 			this.gems.put(UtilPlayer.getRealUUID(p), co);
 			change_gems.remove(UtilPlayer.getRealUUID(p));
-			mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
+			
 			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "GEMS_DEL",coins));
 		}
 		return true;
@@ -232,7 +249,13 @@ public class Gems extends kListener{
 			this.gems.remove(UtilPlayer.getRealUUID(p));
 			this.gems.put(UtilPlayer.getRealUUID(p), co);
 			change_gems.remove(UtilPlayer.getRealUUID(p));
-			mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
+			
 			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "GEMS_ADD",coins));
 		}
 	}
@@ -251,7 +274,11 @@ public class Gems extends kListener{
 		int c = getGems(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
 		this.gems.remove(UtilPlayer.getRealUUID(name, uuid));
-		mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		if(isAsync()){
+			mysql.asyncUpdate("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		}else{
+			mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		}
 	}
 	
 	public void addGems(UUID uuid,String name,Integer coi){
@@ -259,7 +286,11 @@ public class Gems extends kListener{
 		int c = getGems(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
 		this.gems.remove(UtilPlayer.getRealUUID(name, uuid));
-		mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		if(isAsync()){
+			mysql.asyncUpdate("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		}else{
+			mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		}
 	}
 	
 	public boolean delGems(Player p,boolean save,Integer coins){
@@ -278,7 +309,11 @@ public class Gems extends kListener{
 			change_gems.remove(UtilPlayer.getRealUUID(p));
 			this.gems.remove(UtilPlayer.getRealUUID(p));
 			this.gems.put(UtilPlayer.getRealUUID(p), co);
-			mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "GEMS_DEL",coins));
 		}
 		return true;
@@ -314,8 +349,12 @@ public class Gems extends kListener{
 			
 			change_gems.remove(UtilPlayer.getRealUUID(p));
 			this.gems.remove(UtilPlayer.getRealUUID(p));
-			this.gems.put(UtilPlayer.getRealUUID(p), co);
-			mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			this.gems.put(UtilPlayer.getRealUUID(p), co);	
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "GEMS_DEL",coins));
 		}
 		return true;
@@ -354,7 +393,11 @@ public class Gems extends kListener{
 			change_gems.remove(UtilPlayer.getRealUUID(p));
 			this.gems.remove(UtilPlayer.getRealUUID(p));
 			this.gems.put(UtilPlayer.getRealUUID(p), co);
-			mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "GEMS_ADD",coins));
 		}
 	}
@@ -374,7 +417,11 @@ public class Gems extends kListener{
 			change_gems.remove(UtilPlayer.getRealUUID(p));
 			this.gems.remove(UtilPlayer.getRealUUID(p));
 			this.gems.put(UtilPlayer.getRealUUID(p), co);
-			mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `gems_list` SET gems='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "GEMS_ADD",coins));
 		}
 	}

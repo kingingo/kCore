@@ -27,10 +27,12 @@ public class MySQL
   @Getter
   private JavaPlugin instance;
   private CustomTimingsHandler timings;
+  private CustomTimingsHandler asynctimings;
 
   public MySQL(String user,String pass,String host,String db,JavaPlugin plugin) {
 	  Bukkit.getPluginManager().registerEvents(new MySQLListener(this), plugin);
 	  this.timings=new CustomTimingsHandler("** MySQL");
+	  this.asynctimings=new CustomTimingsHandler("** MySQLAsync");
 	  this.user=user;
 	  this.pass=pass;
 	  this.instance=plugin;
@@ -38,6 +40,103 @@ public class MySQL
 	  this.db=db;
 	  connect();
 	}
+  
+  public void asyncUpdate(String qry){
+	  
+	  Bukkit.getScheduler().runTaskAsynchronously(getInstance(), new Runnable() {
+		
+		@Override
+		public void run() {
+			asynctimings.startTiming();
+			  
+			  try {
+				  Statement stmt = connection.createStatement();
+				  stmt.executeUpdate(qry);
+				  stmt.close();
+				  asynctimings.stopTiming();
+			  } catch (Exception ex) {
+				  ex.printStackTrace();
+				  asynctimings.stopTiming();
+			  }
+		}
+	});
+  }
+  
+  public void asyncGetInt(String qry,Callback callback){
+	  Bukkit.getScheduler().runTaskAsynchronously(getInstance(), new Runnable() {
+		
+		@Override
+		public void run() {
+			asynctimings.startTiming();
+			  ResultSet rs = null;
+			  try{
+				  Statement stmt = connection.createStatement();
+				  rs = stmt.executeQuery(qry);
+				  callback.done(rs.getInt(1));
+			  }catch (Exception ex) {
+				ex.printStackTrace();
+			  }
+			  asynctimings.stopTiming();
+		}
+	});
+  }
+  
+  public void asyncGetString(String qry,Callback callback){
+	  Bukkit.getScheduler().runTaskAsynchronously(getInstance(), new Runnable() {
+		
+		@Override
+		public void run() {
+			asynctimings.startTiming();
+			  ResultSet rs = null;
+			  try{
+				  Statement stmt = connection.createStatement();
+				  rs = stmt.executeQuery(qry);
+				  callback.done(rs.getString(1));
+			  }catch (Exception ex) {
+				ex.printStackTrace();
+			  }
+			  asynctimings.stopTiming();
+		}
+	});
+  }
+  
+  public void asyncGetDouble(String qry,Callback callback){
+	  Bukkit.getScheduler().runTaskAsynchronously(getInstance(), new Runnable() {
+		
+		@Override
+		public void run() {
+			asynctimings.startTiming();
+			  ResultSet rs = null;
+			  try{
+				  Statement stmt = connection.createStatement();
+				  rs = stmt.executeQuery(qry);
+				  callback.done(rs.getDouble(1));
+			  }catch (Exception ex) {
+				ex.printStackTrace();
+			  }
+			  asynctimings.stopTiming();
+		}
+	});
+  }
+  
+  public void asyncQuery(String qry,Callback callback){
+	  Bukkit.getScheduler().runTaskAsynchronously(getInstance(), new Runnable() {
+		
+		@Override
+		public void run() {
+			asynctimings.startTiming();
+			  ResultSet rs = null;
+			  try{
+				  Statement stmt = connection.createStatement();
+				  rs = stmt.executeQuery(qry);
+				  callback.done(rs);
+			  }catch (Exception ex) {
+				ex.printStackTrace();
+			  }
+			  asynctimings.stopTiming();
+		}
+	});
+  }
   
   public void close(){
 	timings.startTiming();
@@ -85,6 +184,14 @@ public class MySQL
 	}
 	Bukkit.getPluginManager().callEvent(new MySQLConnectEvent(this));
     timings.stopTiming();
+  }
+  
+  public void Update(boolean async,String qry) {
+	  if(async){
+		  asyncUpdate(qry);
+	  }else{
+		  Update(qry);
+	  }
   }
   
   public boolean Update(String qry) {
@@ -213,18 +320,16 @@ public class MySQL
   
   public ResultSet Query(String qry) {
 	  timings.startTiming();
-			  MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
-			  	Bukkit.getPluginManager().callEvent(ev);
-			    ResultSet rs = null;
-			    try
-			    {
-			      Statement stmt = connection.createStatement();
-			      rs = stmt.executeQuery(ev.getQuery());
-			    }
-			    catch (Exception ex) {
-			    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
-			    }
-				  timings.stopTiming();
-			    return rs;
-	  }
+	  MySQLQueryEvent ev = new MySQLQueryEvent(qry,this);
+	  Bukkit.getPluginManager().callEvent(ev);
+	  ResultSet rs = null;
+	  try{
+		  Statement stmt = connection.createStatement();
+		  rs = stmt.executeQuery(ev.getQuery());
+		}catch (Exception ex) {
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,ex,this));
+		}
+	  timings.stopTiming();
+	  return rs;
+  }
 }

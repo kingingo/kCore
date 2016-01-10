@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.DeliveryPet.DeliveryPet;
 import me.kingingo.kcore.GemsShop.GemsShop;
@@ -14,6 +15,8 @@ import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.TEAM_MESSAGE;
 import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
 import me.kingingo.kcore.Permission.kPermission;
+import me.kingingo.kcore.Update.Updater;
+import me.kingingo.kcore.UpdateAsync.UpdaterAsync;
 import net.minecraft.server.v1_8_R3.EntityHorse;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EntityWitherSkull;
@@ -41,13 +44,33 @@ public class UtilServer{
 	@Getter
 	private static boolean loghandleradded = false;
 	@Getter
-	private static kPacketListener listener;
+	@Setter
+	private static kPacketListener packetListener;
 	@Getter
+	@Setter
 	private static LagMeter lagMeter;
 	@Getter
+	@Setter
 	private static DeliveryPet deliveryPet;
 	@Getter
+	@Setter
 	private static GemsShop gemsShop;
+	@Getter
+	@Setter
+	private static Updater updater;
+	@Getter
+	@Setter
+	private static UpdaterAsync updaterAsync;
+	
+	public static UpdaterAsync createUpdaterAsync(JavaPlugin instance){
+		if(updaterAsync==null)updaterAsync=new UpdaterAsync(instance);
+		return updaterAsync;
+	}
+	
+	public static Updater createUpdater(JavaPlugin instance){
+		if(updater==null)updater=new Updater(instance);
+		return updater;
+	}
 	
 	public static GemsShop createGemsShop(GemsShop gemShop){
 		if(gemsShop==null&&gemShop!=null)gemsShop=gemShop;
@@ -65,8 +88,8 @@ public class UtilServer{
 	}
 	
 	public static kPacketListener createPacketListener(JavaPlugin instance){
-		if(listener==null)listener=new kPacketListener(instance);
-		return listener;
+		if(packetListener==null)packetListener=new kPacketListener(instance);
+		return packetListener;
 	}
 	
 	public static void DebugLog(long time,String[] Reason,String c){

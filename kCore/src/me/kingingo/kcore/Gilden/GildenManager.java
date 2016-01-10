@@ -74,14 +74,17 @@ public class GildenManager implements Listener {
 	HashMap<String,Integer> extra_prefix = new HashMap<>();
 	@Getter
 	private StatsManager statsManager;
+	@Getter
+	@Setter
+	private boolean async=false;
 	
 	public GildenManager(MySQL mysql,GildenType typ,CommandHandler cmd,StatsManager statsManager){
 		this.instance=statsManager.getPlugin();
 		this.typ=typ;
 		this.statsManager=statsManager;
 		this.mysql=mysql;
-		mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden_"+typ.getKürzel()+"(gilde varchar(30),gildentag varchar(30),member int,founder_uuid varchar(100),owner_uuid varchar(100))");
-		mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden_"+typ.getKürzel()+"_user(player varchar(30),UUID varchar(100),gilde varchar(30))");
+		mysql.Update(isAsync(),"CREATE TABLE IF NOT EXISTS list_gilden_"+typ.getKürzel()+"(gilde varchar(30),gildentag varchar(30),member int,founder_uuid varchar(100),owner_uuid varchar(100))");
+		mysql.Update(isAsync(),"CREATE TABLE IF NOT EXISTS list_gilden_"+typ.getKürzel()+"_user(player varchar(30),UUID varchar(100),gilde varchar(30))");
 		CreateTable();
 		cmd.register(CommandGilde.class, new CommandGilde(this));
 		Bukkit.getPluginManager().registerEvents(this, getInstance());
@@ -451,9 +454,9 @@ public class GildenManager implements Listener {
 		for(UUID n : l){
 			getGilden_player().remove(n);
 		}
-		mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+" WHERE gilde='" + name.toLowerCase() + "'");
-		mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+"_data WHERE gilde='" + name.toLowerCase() + "'");
-		mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+"_user WHERE gilde='" + name.toLowerCase() + "'");
+		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKürzel()+" WHERE gilde='" + name.toLowerCase() + "'");
+		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKürzel()+"_data WHERE gilde='" + name.toLowerCase() + "'");
+		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKürzel()+"_user WHERE gilde='" + name.toLowerCase() + "'");
 		gilden_data.remove(name);
 		gilden_tag.remove(name);
 		gilden_data_musst_saved.remove(name);
@@ -468,14 +471,14 @@ public class GildenManager implements Listener {
 		getGilden_players().remove(getPlayerGilde(uuid));
 		getGilden_count().remove(getPlayerGilde(uuid));
 		getGilden_player().remove(uuid);
-		mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+"_user WHERE uuid='" + uuid + "'");
-		mysql.Update("DELETE FROM list_gilden_"+typ.getKürzel()+"_user WHERE player='" + name.toLowerCase() + "'");
+		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKürzel()+"_user WHERE uuid='" + uuid + "'");
+		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKürzel()+"_user WHERE player='" + name.toLowerCase() + "'");
 	}
 	
 	public void createPlayerEintrag(Player player,String gilde){
 		gilde=gilde.toLowerCase();
 		GildenPlayerPut(player, gilde);
-		mysql.Update("INSERT INTO list_gilden_"+typ.getKürzel()+"_user (player,uuid,gilde) VALUES ('"+player.getName().toLowerCase()+"','"+UtilPlayer.getRealUUID(player)+"','"+gilde.toLowerCase()+"');");
+		mysql.Update(isAsync(),"INSERT INTO list_gilden_"+typ.getKürzel()+"_user (player,uuid,gilde) VALUES ('"+player.getName().toLowerCase()+"','"+UtilPlayer.getRealUUID(player)+"','"+gilde.toLowerCase()+"');");
 		Bukkit.getPluginManager().callEvent(new GildePlayerJoinEvent(gilde, player, this));
 	}
 	
@@ -566,11 +569,11 @@ public class GildenManager implements Listener {
 						}
 						
 						if(o instanceof Integer){
-							mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+							mysql.Update(isAsync(),"UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Integer)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
 						}else if(o instanceof String){
-							mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+							mysql.Update(isAsync(),"UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((String)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
 						}else if(o instanceof Double){
-							mysql.Update("UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
+							mysql.Update(isAsync(),"UPDATE list_gilden_"+typ.getKürzel()+"_data SET "+s.getTYP()+"='"+((Double)o)+"' WHERE gilde='" + g.toLowerCase() + "'");
 						}
 					}
 				}
@@ -924,7 +927,7 @@ public class GildenManager implements Listener {
 	
 	public void createGildenEintrag(String gilde,String gildentag,int member,UUID founder){
 		String t = "INSERT INTO list_gilden_"+typ.getKürzel()+" (gilde,gildentag,member,founder_uuid,owner_uuid) VALUES ('"+gilde.toLowerCase()+"','"+gildentag+"','"+member+"','"+founder+"','"+founder+"');";
-		mysql.Update(t);
+		mysql.Update(isAsync(),t);
 	}
 	
 	public void createDataEintrag(String gilde,GildenType typ){
@@ -936,7 +939,7 @@ public class GildenManager implements Listener {
 			ti=ti+"'0',";
 		}
 		String t = "INSERT INTO list_gilden_"+typ.getKürzel()+"_data ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
-		mysql.Update(t);
+		mysql.Update(isAsync(),t);
 	}
 	
 	public void CreateTable(){
@@ -944,6 +947,6 @@ public class GildenManager implements Listener {
 		for(Stats s : getTyp().getStats()){
 			tt=tt+s.getCREATE()+",";
 		}
-		mysql.Update("CREATE TABLE IF NOT EXISTS list_gilden_"+typ.getKürzel()+"_data("+tt.substring(0, tt.length()-1)+")");
+		mysql.Update(isAsync(),"CREATE TABLE IF NOT EXISTS list_gilden_"+typ.getKürzel()+"_data("+tt.substring(0, tt.length()-1)+")");
 	}
 }

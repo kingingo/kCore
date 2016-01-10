@@ -26,6 +26,7 @@ import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilFile;
 import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
+import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.Util.UtilTime;
 import me.kingingo.kcore.kConfig.kConfig;
 
@@ -67,6 +68,7 @@ public class GemsShop{
 		}
 		
 		cmd.register(CommandGems.class, new CommandGems(this));
+		UtilServer.setGemsShop(this);
 	}
 	
 	public void onDisable(){

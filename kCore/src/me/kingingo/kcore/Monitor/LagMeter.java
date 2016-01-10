@@ -3,6 +3,7 @@ import java.io.File;
 import java.util.HashSet;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Command.Admin.CommandEntities;
 import me.kingingo.kcore.Command.Admin.CommandLagg;
@@ -43,6 +44,9 @@ public class LagMeter extends kListener
   private long _startTime;
   @Getter
   private HashSet<Player> _monitoring = new HashSet();
+  @Getter
+  @Setter
+  private boolean autoChunkUnloader = false;
 
   public LagMeter(CommandHandler handler){
     super(handler.getPlugin(), "LagMeter");
@@ -55,6 +59,7 @@ public class LagMeter extends kListener
     handler.register(CommandUnloadChunks.class, new CommandUnloadChunks());
     handler.register(CommandEntities.class, new CommandEntities());
     handler.register(CommandMemFix.class, new CommandMemFix());
+    UtilServer.setLagMeter(this);
   }
 
   @EventHandler
@@ -63,6 +68,13 @@ public class LagMeter extends kListener
     this._monitoring.remove(event.getPlayer());
   }
 
+  @EventHandler
+  public void autoChunkUnloader(UpdateEvent event){
+	  if(isAutoChunkUnloader()&&event.getType() == UpdateType.MIN_08){
+		  unloadChunks(null, null);
+	  }
+  }
+  
   @EventHandler
   public void update(UpdateEvent event){
     if (event.getType() == UpdateType.SEC) {
@@ -82,6 +94,7 @@ public class LagMeter extends kListener
 
     this._count += 1;
     }
+    
   }
 
   public double getTicksPerSecond()
@@ -124,12 +137,12 @@ public class LagMeter extends kListener
   }
   
   public void sendUpdate(){
-	  	System.out.println("Online-Players: "+ UtilServer.getPlayers().size());
-	  	System.out.println("Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
-	    System.out.println("Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Max-Mem: "+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
-	    System.out.println("Online-Time: "+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
-	    System.out.println("Time-Now: "+ UtilTime.now());
-	    System.out.println("Worlds:");
+	  	Log("Online-Players: "+ UtilServer.getPlayers().size());
+	  	Log("Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
+	    Log("Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Max-Mem: "+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
+	    Log("Online-Time: "+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
+	    Log("Time-Now: "+ UtilTime.now());
+	    Log("Worlds:");
 	    
 	    for(World world : Bukkit.getWorlds()){
 	    	int tileEntities = 0;
@@ -144,7 +157,7 @@ public class LagMeter extends kListener
 	        {
 	      	 ex.printStackTrace(); 
 	        }  
-	        System.out.println("       "+world.getName()+": Chunks:"+world.getLoadedChunks().length+" Entities:"+world.getEntities().size()+" Tile:"+tileEntities);
+	        Log("       "+world.getName()+": Chunks:"+world.getLoadedChunks().length+" Entities:"+world.getEntities().size()+" Tile:"+tileEntities);
 	    }
 	  }
   
@@ -187,7 +200,7 @@ public class LagMeter extends kListener
             if(player!=null){
             	player.sendMessage(Language.getText(player, "PREFIX")+" unloaded Chunks:§e "+a);
             }else{
-                System.out.println(" unloaded Chunks: "+a);
+                Log(" unloaded Chunks: "+a);
             }
 		}else{
 			if(Bukkit.getWorld(world)!=null){
@@ -221,13 +234,13 @@ public class LagMeter extends kListener
                 if(player!=null){
                	 	player.sendMessage(Language.getText(player, "PREFIX")+" unloaded Chunks from "+world+":§e "+a);
                 }else{
-                	System.out.println("unloaded Chunks from "+world+": "+a);
+                	Log("unloaded Chunks from "+world+": "+a);
                 }
 			}else{
                 if(player!=null){
 	                player.sendMessage(Language.getText(player, "PREFIX")+"§cThe world §e"+world+"§c was not found!");
                 }else{
-					System.out.println("The world "+world+" was not found!");
+					Log("The world "+world+" was not found!");
                 }
 			}
 		}

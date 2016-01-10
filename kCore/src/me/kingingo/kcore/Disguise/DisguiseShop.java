@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Disguise.Events.DisguisePlayerLoadEvent;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
@@ -43,6 +44,9 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 	@Getter
 	private ArrayList<Player> change_settings = new ArrayList<>();
 	private HashMap<UUID,DisguiseType> settings = new HashMap<>();
+	@Getter
+	@Setter
+	private boolean async=false;
 	
 	public DisguiseShop(final InventoryBase base,final PermissionManager permissionManager,Gems gems,final Coins coins,DisguiseManager disguiseManager) {
 		super(36, "Disguise Shop");
@@ -237,12 +241,20 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 	}
 	
 	public void Delete(Player player){
-		getPermissionManager().getMysql().Update("DELETE FROM list_disguise WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+		if(isAsync()){
+			getPermissionManager().getMysql().asyncUpdate("DELETE FROM list_disguise WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+		}else{
+			getPermissionManager().getMysql().Update("DELETE FROM list_disguise WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+		}
 	}
 	
 	public void Insert(Player player){
 		if(getDisguiseManager().isDisguise(player)){
-			getPermissionManager().getMysql().Update("INSERT INTO list_disguise (uuid,disguise) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+getDisguiseManager().getDisguise(player).GetEntityTypeId()+"');");
+			if(isAsync()){
+				getPermissionManager().getMysql().asyncUpdate("INSERT INTO list_disguise (uuid,disguise) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+getDisguiseManager().getDisguise(player).GetEntityTypeId()+"');");
+			}else{
+				getPermissionManager().getMysql().Update("INSERT INTO list_disguise (uuid,disguise) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+getDisguiseManager().getDisguise(player).GetEntityTypeId()+"');");
+			}
 		}
 	}
 	

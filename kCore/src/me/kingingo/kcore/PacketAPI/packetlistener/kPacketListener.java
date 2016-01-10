@@ -8,6 +8,7 @@ import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.PacketHandler;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.ReceivedPacket;
 import me.kingingo.kcore.PacketAPI.packetlistener.handler.SentPacket;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -24,6 +25,7 @@ public class kPacketListener extends kListener implements IPacketEventHandler {
 
 	public kPacketListener(JavaPlugin instance){
 		super(instance,"kPacketListener");
+		UtilServer.setPacketListener(this);
 		UtilPacket.setInstance(instance);
 		this.instance=instance;
 		this.injector = new Injector();

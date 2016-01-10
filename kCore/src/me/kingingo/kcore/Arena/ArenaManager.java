@@ -181,6 +181,10 @@ public class ArenaManager extends kListener{
 							this.id=(Integer)this.rounds.get(type).keySet().toArray()[0];
 							this.round=(GameRound)this.rounds.get(type).get(id);
 							
+							if(UtilDebug.isDebug()){
+								UtilDebug.debug("UpdateAsyncEvent", new String[]{"Type: "+type.name(),"ROUND: "+this.round.getOwner().getName()});
+							}
+							
 							if(this.round.getOwner().isOnline()){
 								this.owner=round.getOwner();
 
@@ -250,6 +254,10 @@ public class ArenaManager extends kListener{
 								this.ba=false;
 								this.team_size=-2;
 								this.br=false;
+							}
+						}else{
+							if(UtilDebug.isDebug()){
+								UtilDebug.debug("UpdateAsyncEvent", new String[]{"Type: "+type.name(),"R: "+this.rounds.containsKey(type),"E"+this.rounds.get(type).isEmpty()});
 							}
 						}
 						

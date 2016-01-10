@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Listener.AntiCrashListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +9,13 @@ import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.BUNGEECORD_KICKEN;
+import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayInSetCreativeSlot;
+import me.kingingo.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
 import me.kingingo.kcore.Util.UtilException;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilServer;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_8_R3.PacketPlayInSetCreativeSlot;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -47,7 +53,9 @@ public class AntiCrashListener extends kListener {
 		
 		this.mysql=mysql;
 		this.packetManager=packetManager;
+//		UtilServer.createPacketListener(mysql.getInstance());
 	}
+	
 
 	String iname;
 	Long iavg;
@@ -135,6 +143,26 @@ public class AntiCrashListener extends kListener {
 		}
 	}
 
+//	@EventHandler
+//	public void packet(PacketListenerReceiveEvent ev){
+//		if(ev.getPacket() instanceof PacketPlayInSetCreativeSlot){
+//			kPacketPlayInSetCreativeSlot c = new kPacketPlayInSetCreativeSlot((PacketPlayInSetCreativeSlot)ev.getPacket());
+//			
+//			if(c.getItem()!=null&&c.getItem().hasTag()&&!c.getItem().getTag().isEmpty()){
+//				Log("NBT: "+c.getItem().getTag().isEmpty());
+//				Log("NBT: "+c.getItem().getEnchantments().size());
+//				Log("NBT: "+c.getItem().getTag().c().size());
+//				
+//				for(String s : c.getItem().getTag().c()){
+//					Log("N: "+s);
+//					
+//				}
+//				
+//				c.getItem().setTag(new NBTTagCompound());
+//			}
+//		}
+//	}
+	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e) {
 		this.switchavg.remove(e.getPlayer().getName());

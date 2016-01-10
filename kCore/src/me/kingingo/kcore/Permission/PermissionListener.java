@@ -14,6 +14,8 @@ import me.kingingo.kcore.Packet.Packets.PERMISSION_USER_REMOVE_ALL;
 import me.kingingo.kcore.Permission.Event.PlayerLoadPermissionEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.UpdateAsync.UpdateAsyncType;
+import me.kingingo.kcore.UpdateAsync.Event.UpdateAsyncEvent;
 import me.kingingo.kcore.Util.UtilList;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
@@ -64,8 +66,8 @@ public class PermissionListener extends kListener {
 	String p;
 	Map<String,Boolean> list;
 	@EventHandler
-	public void loadList(UpdateEvent ev){
-		if(ev.getType()==UpdateType.SEC_3){
+	public void loadList(UpdateAsyncEvent ev){
+		if(ev.getType()==UpdateAsyncType.SEC_4){
 			if(!manager.getLoad_now().isEmpty()){
 						cloned=(ArrayList<UUID>)manager.getLoad_now().clone();
 						for(Player player : UtilServer.getPlayers()){
@@ -158,14 +160,20 @@ public class PermissionListener extends kListener {
 									player.recalculatePermissions();
 									manager.getLoad().remove(uuid);
 									manager.getLoad_now().remove(uuid);
-									try{
-										manager.setTabList(player);
-									}catch(IllegalArgumentException e){
-										Log("TabList Spieler: "+player.getName()+" Error:");
-										e.printStackTrace();
-									}
 									
-									Bukkit.getPluginManager().callEvent(new PlayerLoadPermissionEvent(manager, player));
+									Bukkit.getScheduler().runTask(manager.getInstance(), new Runnable() {
+										
+										@Override
+										public void run() {
+											try{
+												manager.setTabList(player);
+											}catch(IllegalArgumentException e){
+												Log("TabList Spieler: "+player.getName()+" Error:");
+												e.printStackTrace();
+											}
+											Bukkit.getPluginManager().callEvent(new PlayerLoadPermissionEvent(manager, player));
+										}
+									});
 								}
 							}	
 						}	

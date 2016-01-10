@@ -89,6 +89,7 @@ public class DeliveryPet extends kListener{
 	
 	public DeliveryPet(InventoryBase base,HashMap<InventoryLotto2Type, ArrayList<LottoPackage>> pack, DeliveryObject[] objects,String name,EntityType type,Location location,ServerType serverType,Hologram hm,MySQL mysql) {
 		super(mysql.getInstance(), "DeliveryPet");
+		UtilServer.setDeliveryPet(this);
 		this.packages=pack;
 		this.mysql=mysql;
 		this.type=type;

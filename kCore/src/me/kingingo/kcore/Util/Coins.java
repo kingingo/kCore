@@ -12,6 +12,7 @@ import me.kingingo.kcore.Calendar.Calendar.CalendarType;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
+import me.kingingo.kcore.MySQL.Callback;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
@@ -44,6 +45,9 @@ public class Coins extends kListener{
 	@Getter
 	@Setter
 	private boolean join_Check=true;
+	@Getter
+	@Setter
+	private boolean async=false;
 	
 	public Coins(JavaPlugin instance,MySQL mysql){
 		super(instance,"Coins");
@@ -54,7 +58,11 @@ public class Coins extends kListener{
 	public void SaveAll(){
 		for(UUID uuid : coins.keySet()){
 			if(change_coins.contains(uuid))
-				mysql.Update("UPDATE `coins_list` SET coins='"+coins.get(uuid)+"' WHERE uuid='"+uuid+"'");
+				if(isAsync()){
+					mysql.asyncUpdate("UPDATE `coins_list` SET coins='"+coins.get(uuid)+"' WHERE uuid='"+uuid+"'");
+				}else{
+					mysql.Update("UPDATE `coins_list` SET coins='"+coins.get(uuid)+"' WHERE uuid='"+uuid+"'");
+				}
 		}
 		coins.clear();
 		change_coins.clear();
@@ -84,7 +92,23 @@ public class Coins extends kListener{
 	}
 	
 	public void CreateAccount(UUID uuid,String name){
-		mysql.Update("INSERT INTO coins_list (name,coins,uuid) SELECT '" +name.toLowerCase()+"','0','"+UtilPlayer.getRealUUID(name,uuid)+"' FROM DUAL WHERE NOT EXISTS (SELECT uuid FROM coins_list WHERE uuid='" +UtilPlayer.getRealUUID(name, uuid)+"');");
+		if(isAsync()){
+			mysql.asyncUpdate("INSERT INTO coins_list (name,coins,uuid) SELECT '" +name.toLowerCase()+"','0','"+UtilPlayer.getRealUUID(name,uuid)+"' FROM DUAL WHERE NOT EXISTS (SELECT uuid FROM coins_list WHERE uuid='" +UtilPlayer.getRealUUID(name, uuid)+"');");
+		}else{
+			mysql.Update("INSERT INTO coins_list (name,coins,uuid) SELECT '" +name.toLowerCase()+"','0','"+UtilPlayer.getRealUUID(name,uuid)+"' FROM DUAL WHERE NOT EXISTS (SELECT uuid FROM coins_list WHERE uuid='" +UtilPlayer.getRealUUID(name, uuid)+"');");
+		}
+	}
+	
+	public void getAsyncCoins(Player p,Callback callback){
+		getAsyncCoins(UtilPlayer.getRealUUID(p),p.getName(),callback);
+	}
+	
+	public void getAsyncCoins(UUID uuid,String name,Callback callback){
+		if(coins.containsKey(UtilPlayer.getRealUUID(name,uuid))){
+			callback.done(coins.get(UtilPlayer.getRealUUID(name,uuid)));
+		}else{
+			mysql.asyncGetInt("SELECT coins FROM coins_list WHERE uuid='" + UtilPlayer.getRealUUID(name,uuid) + "'", callback);
+		}
 	}
 	
 	public Integer getCoins(Player p){
@@ -186,7 +210,9 @@ public class Coins extends kListener{
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		if(coins.containsKey(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId())))coins.remove(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
-		if(join_Check) getCoins(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()),ev.getName());
+		if(join_Check){
+			getCoins(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()),ev.getName());
+		}
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins,GameType typ){
@@ -203,7 +229,13 @@ public class Coins extends kListener{
 			int co=c-coins;
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			change_coins.remove(UtilPlayer.getRealUUID(p));
-			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
+			
 			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "COINS_DEL",coins));
 		}
 		return true;
@@ -236,7 +268,13 @@ public class Coins extends kListener{
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
 			change_coins.remove(UtilPlayer.getRealUUID(p));
-			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
+			
 			p.sendMessage(Language.getText(p, "PREFIX_GAME",typ.name())+Language.getText(p, "COINS_ADD",coins));
 		}
 	}
@@ -254,7 +292,12 @@ public class Coins extends kListener{
 		change_coins.remove(UtilPlayer.getRealUUID(name, uuid));
 		int c = getCoins(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
-		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		
+		if(isAsync()){
+			mysql.asyncUpdate("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		}else{
+			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		}
 	}
 	
 	public void addCoins(UUID uuid,String name,Integer coi){
@@ -262,7 +305,12 @@ public class Coins extends kListener{
 		change_coins.remove(UtilPlayer.getRealUUID(name, uuid));
 		int c = getCoins(UtilPlayer.getRealUUID(name, uuid),name);
 		int co=c+coi;
-		mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		
+		if(isAsync()){
+			mysql.asyncUpdate("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		}else{
+			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(name, uuid)+"'");
+		}
 	}
 	
 	public boolean delCoins(Player p,boolean save,Integer coins){
@@ -281,7 +329,13 @@ public class Coins extends kListener{
 			change_coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
-			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
+			
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_DEL",coins));
 		}
 		return true;
@@ -317,7 +371,13 @@ public class Coins extends kListener{
 			change_coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
-			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
+			
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_DEL",coins));
 		}
 		return true;
@@ -364,7 +424,13 @@ public class Coins extends kListener{
 			change_coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
-			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
+			
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD",coins));
 		}
 	}
@@ -394,7 +460,13 @@ public class Coins extends kListener{
 			change_coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
-			mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			
+			if(isAsync()){
+				mysql.asyncUpdate("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}else{
+				mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
+			}
+			
 			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD",coins));
 		}
 	}

@@ -56,6 +56,9 @@ public class PermissionManager {
 	@Getter
 	@Setter
 	private NickManager nickManager;
+	@Getter
+	@Setter
+	private boolean async=false;
 	
 	public PermissionManager(JavaPlugin instance,GroupTyp typ,PacketManager packetManager,MySQL mysql){
 		this.mysql=mysql;
@@ -65,6 +68,7 @@ public class PermissionManager {
 		UtilServer.essPermissionHandler();
 		UtilTime.setTimeManager(this);
 		this.listener=new PermissionListener(this);
+		UtilServer.createUpdaterAsync(getInstance());
 	}
 	
 	public String getPrefix(Player p){
@@ -138,9 +142,9 @@ public class PermissionManager {
 	
 	public void setGroup(UUID uuid, String group,GroupTyp typ){
 		if(!getGroup(uuid).equalsIgnoreCase("default")){
-			mysql.Update("UPDATE game_perm SET pgroup='" + group+ "' WHERE uuid='" + uuid + "' AND permission='none' AND prefix='none' AND (grouptyp='"+typ.name()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
+			mysql.Update(isAsync(),"UPDATE game_perm SET pgroup='" + group+ "' WHERE uuid='" + uuid + "' AND permission='none' AND prefix='none' AND (grouptyp='"+typ.name()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
 		}else{
-			mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','none','"+group+"','"+typ.getName()+"','"+uuid+"');");
+			mysql.Update(isAsync(),"INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','none','"+group+"','"+typ.getName()+"','"+uuid+"');");
 		}
 		load.remove(uuid);
 		plist.remove(uuid);
@@ -161,7 +165,7 @@ public class PermissionManager {
 	}
 	
 	public void removeGroup(UUID uuid,String group,GroupTyp typ){
-		 mysql.Update("DELETE FROM game_perm WHERE uuid='" + uuid + "' AND pgroup='"+group+"' AND prefix='none' AND permission='none' AND (grouptyp='"+typ.name()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
+		 mysql.Update(isAsync(),"DELETE FROM game_perm WHERE uuid='" + uuid + "' AND pgroup='"+group+"' AND prefix='none' AND permission='none' AND (grouptyp='"+typ.name()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
 	}
 	
 	public void addPermission(UUID uuid, kPermission perm,GroupTyp typ){
@@ -183,7 +187,7 @@ public class PermissionManager {
 	}
 	
 	public void addPermission(UUID uuid, String perm,GroupTyp typ){
-		mysql.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','"+perm+"','none','"+typ.name()+"','"+uuid+"');");
+		mysql.Update(isAsync(),"INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,uuid) values ('none','"+perm+"','none','"+typ.name()+"','"+uuid+"');");
 	}
 	
 	public boolean setTabList(Player p){
@@ -471,7 +475,7 @@ public class PermissionManager {
 	}
 	
 	public void removePermission(UUID uuid, String perm,GroupTyp typ){
-		 mysql.Update("DELETE FROM game_perm WHERE uuid='" + uuid + "' AND prefix='none' AND permission='"+perm+"' AND (grouptyp='"+typ.name()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
+		 mysql.Update(isAsync(),"DELETE FROM game_perm WHERE uuid='" + uuid + "' AND prefix='none' AND permission='"+perm+"' AND (grouptyp='"+typ.name()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
 	}
 	
 }

@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Listener.kListener;
+import me.kingingo.kcore.MySQL.Callback;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -38,6 +39,9 @@ public class StatsManager extends kListener{
 	@Setter
 	private boolean onDisable=false;
 	private ArrayList<Ranking> rankings;
+	@Getter
+	@Setter
+	private boolean async=false;
 	
 	public StatsManager(JavaPlugin plugin,MySQL mysql,GameType typ){
 		super(plugin,"StatsManager");
@@ -122,6 +126,14 @@ public class StatsManager extends kListener{
 	    return list;
 	}
 	
+	public void mysqlUpdate(String qry){
+		if(isAsync()){
+			mysql.asyncUpdate(qry);
+		}else{
+			mysqlUpdate(qry);
+		}
+	}
+	
 	public void CreateTable(){
 		Stats[] stats = typ.getStats();
 		String tt = "player varchar(30),UUID varchar(100),";
@@ -129,7 +141,7 @@ public class StatsManager extends kListener{
 			tt=tt+s.getCREATE()+",";
 		}
 		String t = "CREATE TABLE IF NOT EXISTS users_"+typ.getKürzel()+"("+tt.substring(0, tt.length()-1)+")";
-		mysql.Update(t);
+		mysqlUpdate(t);
 	}
 	
 	public double getKDR(int k,int d){
@@ -145,11 +157,11 @@ public class StatsManager extends kListener{
 			for(Stats stats : list.get(player).keySet()){
 				if(!stats.isMysql())continue;
 				if(list.get(player).get(stats) instanceof Integer){
-					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Integer)list.get(player).get(stats)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(player) + "'");
+					mysqlUpdate("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Integer)list.get(player).get(stats)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(player) + "'");
 				}else if(list.get(player).get(stats) instanceof String){
-					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((String)list.get(player).get(stats)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(player) + "'");
+					mysqlUpdate("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((String)list.get(player).get(stats)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(player) + "'");
 				}else if(list.get(player).get(stats) instanceof Double){
-					mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Double)list.get(player).get(stats)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(player) + "'");
+					mysqlUpdate("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ ((Double)list.get(player).get(stats)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(player) + "'");
 				}
 			}
 		}
@@ -163,11 +175,11 @@ public class StatsManager extends kListener{
 		for(Stats st : list.get(p).keySet()){
 			if(!st.isMysql())continue;
 			if(list.get(p).get(st) instanceof Integer){
-				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Integer)list.get(p).get(st)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
+				mysqlUpdate("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Integer)list.get(p).get(st)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
 			}else if(list.get(p).get(st) instanceof String){
-				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((String)list.get(p).get(st)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
+				mysqlUpdate("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((String)list.get(p).get(st)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
 			}else if(list.get(p).get(st) instanceof Double){
-				mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Double)list.get(p).get(st)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
+				mysqlUpdate("UPDATE users_"+typ.getKürzel()+" SET "+st.getTYP()+"='"+ ((Double)list.get(p).get(st)) +"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
 			}
 		}
 		list.remove(p);
@@ -176,14 +188,14 @@ public class StatsManager extends kListener{
 	public void UpdatePlayer(Player p,Stats s,String i){
 		if(!s.isMysql())return;
 		ExistPlayer(p);
-		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
+		mysqlUpdate("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
 		list.get(p).remove(s);
 	}
 	
 	public void UpdatePlayer(Player p,Stats s,int i){
 		if(!s.isMysql())return;
 		ExistPlayer(p);
-		mysql.Update("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
+		mysqlUpdate("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+i+"' WHERE UUID='" + UtilPlayer.getRealUUID(p) + "'");
 		list.get(p).remove(s);
 	}
 	
@@ -196,7 +208,7 @@ public class StatsManager extends kListener{
 			ti=ti+"'0',";
 		}
 		String t = "INSERT INTO users_"+typ.getKürzel()+" ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
-		mysql.Update(t);
+		mysqlUpdate(t);
 		Bukkit.getPluginManager().callEvent(new PlayerStatsCreateEvent(this,p));
 	}
 	
@@ -376,34 +388,20 @@ public class StatsManager extends kListener{
 	    return n;
 	}
 	
-	public boolean ExistPlayer(String p){
-		boolean done = false;
-		try
-	    {
-	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+UtilPlayer.getUUID(p, mysql)+"'");
-	      while (rs.next()) {
-	    		  done=true;
-	      }
-	      rs.close();
-	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
-	    }
-		return done;
+	public void asyncExistPlayer(String player,Callback callback){
+		mysql.asyncGetString("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+UtilPlayer.getUUID(player, mysql)+"'", callback);
+	}
+	
+	public boolean ExistPlayer(String player){
+		return !mysql.getString("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+UtilPlayer.getUUID(player, mysql)+"'").equalsIgnoreCase("null");
+	}
+	
+	public void getAsyncName(UUID uuid,Callback callback){
+		mysql.asyncGetString("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+uuid+"'",callback);
 	}
 	
 	public String getName(UUID uuid){
-		String name="";
-		try
-	    {
-	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+uuid+"'");
-	      while (rs.next()) {
-	    	  name=rs.getString(1);
-	      }
-	      rs.close();
-	    } catch (Exception err) {
-	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
-	    }
-		return name;
+		return mysql.getString("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+uuid+"'");
 	}
 	
 	public String getStringWithString(Stats s,String p){

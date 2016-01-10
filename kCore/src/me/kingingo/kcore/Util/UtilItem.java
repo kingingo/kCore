@@ -1423,6 +1423,7 @@ public class UtilItem {
 	        }
 	        if (tag == null) tag = nmsStack.getTag();
 	        NBTTagList ench = new NBTTagList();
+	        
 	        tag.set("ench", ench);
 	        nmsStack.setTag(tag);
 	        return CraftItemStack.asCraftMirror(nmsStack);

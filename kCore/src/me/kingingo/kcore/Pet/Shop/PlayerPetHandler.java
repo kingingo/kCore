@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Enum.ServerType;
 import me.kingingo.kcore.Inventory.InventoryBase;
 import me.kingingo.kcore.Permission.PermissionManager;
@@ -65,6 +66,9 @@ public class PlayerPetHandler implements Listener{
 	private InventoryBase base;
 	@Getter
 	private ServerType serverType;
+	@Getter
+	@Setter
+	private boolean async=false;
 
 	public PlayerPetHandler(ServerType serverType,final PetManager manager,InventoryBase base,final PermissionManager permManager){
 		Bukkit.getPluginManager().registerEvents(this, permManager.getInstance());
@@ -142,13 +146,22 @@ public class PlayerPetHandler implements Listener{
 	}
 	
 	public void DeletePetSettings(Player player){
-		getPermManager().getMysql().Update("DELETE FROM "+serverType.name()+"_pets WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+		if(isAsync()){
+			getPermManager().getMysql().asyncUpdate("DELETE FROM "+serverType.name()+"_pets WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+		}else{
+			getPermManager().getMysql().Update("DELETE FROM "+serverType.name()+"_pets WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+		}
 	}
 	
 	public void InsertPetSettings(Player player){
 		if(manager.getActivePetOwners().containsKey(player.getName().toLowerCase())){
 			Entity c = manager.getActivePetOwners().get(player.getName().toLowerCase());
-			getPermManager().getMysql().Update("INSERT INTO "+serverType.name()+"_pets (uuid,pet) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+toString(c)+"');");
+
+			if(isAsync()){
+				getPermManager().getMysql().asyncUpdate("INSERT INTO "+serverType.name()+"_pets (uuid,pet) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+toString(c)+"');");
+			}else{
+				getPermManager().getMysql().Update("INSERT INTO "+serverType.name()+"_pets (uuid,pet) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+toString(c)+"');");
+			}
 		}
 	}
 	

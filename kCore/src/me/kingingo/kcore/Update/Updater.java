@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Update;
 
 import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +15,7 @@ public Updater(JavaPlugin plugin)
 {
   this._plugin = plugin;
   TaskID=this._plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this._plugin, this, 0L, 1L);
+  UtilServer.setUpdater(this);
 }
 
 public void stop(){

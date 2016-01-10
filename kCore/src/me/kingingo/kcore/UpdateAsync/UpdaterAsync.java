@@ -1,6 +1,7 @@
 package me.kingingo.kcore.UpdateAsync;
 
 import me.kingingo.kcore.UpdateAsync.Event.UpdateAsyncEvent;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,6 +15,7 @@ public class UpdaterAsync
   public UpdaterAsync(JavaPlugin plugin) {
     this._plugin = plugin;
     this.TaskID = this._plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, this, 1L, 1L);
+    UtilServer.setUpdaterAsync(this);
   }
 
   public void stop() {
