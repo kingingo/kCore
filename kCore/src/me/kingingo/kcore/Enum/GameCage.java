@@ -14,6 +14,7 @@ public enum GameCage {
 
 GLASS(true,new ItemStack(Material.STAINED_GLASS),UtilItem.Item(new ItemStack(Material.STAINED_GLASS), new String[]{"§aDefault Cage"}, "§7Glass Cage"),kPermission.CAGE_GLASS,3000),
 GRASS(false,new ItemStack(Material.FENCE),UtilItem.Item(new ItemStack(Material.GRASS), new String[]{""}, "§aGrass Cage"),kPermission.CAGE_GRASS,3000),
+SLIME(false,new ItemStack(Material.SLIME_BLOCK),UtilItem.Item(new ItemStack(Material.STAINED_GLASS,1,(byte)1), new String[]{}, ""),kPermission.CAGE_GRASS,3000),
 NETHER(true,new ItemStack(Material.NETHER_FENCE),UtilItem.Item(new ItemStack(Material.NETHER_BRICK), new String[]{""}, "§cNether Cage"),kPermission.CAGE_NETHER,3000);
 
 @Getter
