@@ -130,7 +130,7 @@ public class StatsManager extends kListener{
 		if(isAsync()){
 			mysql.asyncUpdate(qry);
 		}else{
-			mysqlUpdate(qry);
+			mysql.Update(qry);
 		}
 	}
 	

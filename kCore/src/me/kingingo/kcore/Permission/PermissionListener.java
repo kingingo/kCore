@@ -67,7 +67,7 @@ public class PermissionListener extends kListener {
 	Map<String,Boolean> list;
 	@EventHandler
 	public void loadList(UpdateAsyncEvent ev){
-		if(ev.getType()==UpdateAsyncType.SEC_4){
+		if(ev.getType()==UpdateAsyncType.SEC_2){
 			if(!manager.getLoad_now().isEmpty()){
 						cloned=(ArrayList<UUID>)manager.getLoad_now().clone();
 						for(Player player : UtilServer.getPlayers()){
