@@ -152,6 +152,26 @@ public class MySQL
     timings.stopTiming();
   }
 
+  public void asyncDelete(String table,String where){
+	  asyncUpdate("DELETE FROM `"+table+"`"+(where!=null?" WHERE "+where:""));
+  }
+  
+  public void asyncInsert(String table,String content,String values){
+	  asyncUpdate("INSERT INTO "+table+" ("+content+") VALUES ("+values+");");
+  }
+  
+  public void asyncQuery(String table,String select,String where, Callback callback){
+	  asyncQuery("SELECT "+select+" FROM `"+table+"`"+(where!=null?" WHERE "+where:""),callback);
+  }
+  
+  public void asyncUpdate(String table,String set,String where){
+	  asyncUpdate("UPDATE "+table+" SET "+set+""+(where!=null?" WHERE "+where:""));
+  }
+  
+  public void asyncCreateTable(String table,String content){
+	  asyncUpdate("CREATE TABLE IF NOT EXISTS "+table+"("+content+");");
+  }
+  
   public void Delete(String table,String where){
 	  Update("DELETE FROM `"+table+"`"+(where!=null?" WHERE "+where:""));
   }

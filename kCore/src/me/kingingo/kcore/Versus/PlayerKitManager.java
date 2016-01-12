@@ -1,11 +1,15 @@
 package me.kingingo.kcore.Versus;
 
+import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Enum.GameType;
+import me.kingingo.kcore.MySQL.Callback;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -24,6 +28,9 @@ public class PlayerKitManager{
 	private HashMap<UUID,PlayerKit> kits;
 	@Getter
 	private GameType type;
+	@Getter
+	@Setter
+	private boolean async=false;
 	
 	public PlayerKitManager(MySQL mysql,GameType type){
 		this.mysql=mysql;
@@ -72,7 +79,11 @@ public class PlayerKitManager{
 			kits.get(uuid).armor_content=inv.getArmorContents();
 		}
 		
-		getMysql().Insert("users_"+type.getKürzel()+"_kits", "player,uuid,id,content,armor_content", "'"+playerName+"','"+uuid+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
+		if(isAsync()){
+			getMysql().asyncInsert("users_"+type.getKürzel()+"_kits", "player,uuid,id,content,armor_content", "'"+playerName+"','"+uuid+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
+		}else{	
+			getMysql().Insert("users_"+type.getKürzel()+"_kits", "player,uuid,id,content,armor_content", "'"+playerName+"','"+uuid+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
+		}
 	}
 	
 	public void updateKit(UUID uuid,int id,PlayerInventory inv){
@@ -83,7 +94,11 @@ public class PlayerKitManager{
 			kits.get(uuid).armor_content=inv.getArmorContents();
 		}
 		
-		getMysql().Update("users_"+type.getKürzel()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "UUID='"+uuid+"' AND id='"+id+"'");
+		if(isAsync()){
+			getMysql().asyncUpdate("users_"+type.getKürzel()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "UUID='"+uuid+"' AND id='"+id+"'");
+		}else{	
+			getMysql().Update("users_"+type.getKürzel()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "UUID='"+uuid+"' AND id='"+id+"'");
+		}
 	}
 	
 	public void delKit(UUID uuid,int id){
@@ -93,7 +108,46 @@ public class PlayerKitManager{
 			kits.get(uuid).armor_content=null;
 			kits.remove(uuid);
 		}
-		getMysql().Delete("users_"+type.getKürzel()+"_kits", "UUID='"+uuid+"' AND id='"+id+"'");
+		
+		if(isAsync()){
+			getMysql().asyncDelete("users_"+type.getKürzel()+"_kits", "UUID='"+uuid+"' AND id='"+id+"'");
+		}else{	
+			getMysql().Delete("users_"+type.getKürzel()+"_kits", "UUID='"+uuid+"' AND id='"+id+"'");
+		}
+	}
+	
+	public void loadAsyncKit(UUID uuid,int id){
+		loadAsyncKit(uuid, id, null);
+	}
+	
+	public void loadAsyncKit(UUID uuid,int id,Callback callback){
+		if(!kits.containsKey(uuid)){
+			mysql.asyncQuery("users_"+type.getKürzel()+"_kits", "`content`,`armor_content`", "UUID='"+uuid+"' AND id='"+id+"'", new Callback() {
+				
+				@Override
+				public void done(Object value) {
+					if(value instanceof ResultSet){
+						
+						try {
+							ResultSet rs = (ResultSet) value;
+							
+							while (rs.next()) {
+								  kits.put(uuid, new PlayerKit());
+								  kits.get(uuid).id=id;
+								  kits.get(uuid).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
+								  kits.get(uuid).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
+								  
+								  if(callback!=null)callback.done(kits.get(uuid));
+							  }
+						} catch (SQLException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			});
+		}
 	}
 	
 	public PlayerKit getKit(UUID uuid,int id){
