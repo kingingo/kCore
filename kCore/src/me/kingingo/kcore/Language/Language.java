@@ -86,6 +86,7 @@ public class Language {
 		if(player==null){
 			System.out.println("[Language] Message "+name);
 			System.out.println("[Language] Spieler == null");
+			return;
 		}
 		player.sendMessage( toText(list.get(getLanguage(player)).get(name), input) );
 	}
@@ -94,8 +95,9 @@ public class Language {
 		if(player==null){
 			System.out.println("[Language] Message "+name);
 			System.out.println("[Language] Spieler == null");
+		}else{
+			player.sendMessage( toText(list.get(getLanguage(player)).get(name), input) );
 		}
-		player.sendMessage( toText(list.get(getLanguage(player)).get(name), input) );
 	}
 	
 	public static String getText(String name,Object input){
@@ -126,6 +128,7 @@ public class Language {
 		if(player==null){
 			System.out.println("[Language] Message "+name);
 			System.out.println("[Language] Spieler == null");
+			return list.get(LanguageType.ENGLISH).get(name);
 		}
 		if(!list.get(getLanguage(player)).containsKey(name)){
 			System.out.println("[Language] Message nicht gefunden "+name+" "+getLanguage(player).getDef());
@@ -138,6 +141,7 @@ public class Language {
 		if(player==null){
 			System.out.println("[Language] Message "+name);
 			System.out.println("[Language] Spieler == null");
+			return toText(list.get(LanguageType.ENGLISH).get(name), input);
 		}
 		if(!list.get(getLanguage(player)).containsKey(name)){
 			System.out.println("[Language] Message nicht gefunden "+name+" "+getLanguage(player).getDef());
@@ -150,6 +154,7 @@ public class Language {
 		if(player==null){
 			System.out.println("[Language] Message "+name);
 			System.out.println("[Language] Spieler == null");
+			return toText(list.get(LanguageType.ENGLISH).get(name), input);
 		}
 		if(!list.get(getLanguage(player)).containsKey(name)){
 			System.out.println("[Language] Message nicht gefunden "+name+" "+getLanguage(player).getDef());

@@ -38,13 +38,13 @@ TTT_DETECTIVE_PUNKTE("detectivepunkte int","detectivepunkte","Detective-Punkte",
 TTT_TRAITOR_PUNKTE("traitorpunkte int","traitorpunkte","Traitor-Punkte",true);
 
 @Getter
-String CREATE;
+private String CREATE;
 @Getter
-String TYP;
+private String TYP;
 @Getter
-String KÜRZEL;
+private String KÜRZEL;
 @Getter
-boolean mysql;
+private boolean mysql;
 
 private Stats(String CREATE,String TYP,String KÜRZEL,boolean mysql){
 	this.CREATE=CREATE;

@@ -2,20 +2,21 @@ package me.kingingo.kcore.Kit.Perks;
 
 import me.kingingo.kcore.Kit.Perk;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public class PerkGetXP extends Perk{
+public class PerkKeepXP extends Perk{
 	
-	public PerkGetXP() {
-		super("GetXP");
+	public PerkKeepXP() {
+		super("KeepXP");
 	}
 	
-	@EventHandler(priority=EventPriority.LOWEST)
+	@EventHandler(priority=EventPriority.LOW)
 	public void Death(PlayerDeathEvent ev){
-		if(getPerkData().hasPlayer(this, ev.getEntity().getKiller())){
-			ev.getEntity().getKiller().setExp( ev.getNewExp()+ev.getEntity().getKiller().getExp() );
+		if(ev.getEntity() instanceof Player && getPerkData().hasPlayer(this, ev.getEntity())){
+			ev.setKeepLevel(true);
 			ev.setDroppedExp(0);
 		}
 	}

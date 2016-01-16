@@ -72,7 +72,8 @@ public class MySQL
 			  try{
 				  Statement stmt = connection.createStatement();
 				  rs = stmt.executeQuery(qry);
-				  callback.done(rs.getInt(1));
+				  while(rs.next())callback.done(rs.getInt(1));
+				  rs.close();
 			  }catch (Exception ex) {
 				ex.printStackTrace();
 			  }
@@ -91,7 +92,8 @@ public class MySQL
 			  try{
 				  Statement stmt = connection.createStatement();
 				  rs = stmt.executeQuery(qry);
-				  callback.done(rs.getString(1));
+				  while(rs.next())callback.done(rs.getString(1));
+				  rs.close();
 			  }catch (Exception ex) {
 				ex.printStackTrace();
 			  }
@@ -110,7 +112,8 @@ public class MySQL
 			  try{
 				  Statement stmt = connection.createStatement();
 				  rs = stmt.executeQuery(qry);
-				  callback.done(rs.getDouble(1));
+				  while(rs.next())callback.done(rs.getDouble(1));
+				  rs.close();
 			  }catch (Exception ex) {
 				ex.printStackTrace();
 			  }
@@ -129,7 +132,8 @@ public class MySQL
 			  try{
 				  Statement stmt = connection.createStatement();
 				  rs = stmt.executeQuery(qry);
-				  callback.done(rs);
+				  while(rs.next())callback.done(rs);
+				  rs.close();
 			  }catch (Exception ex) {
 				ex.printStackTrace();
 			  }

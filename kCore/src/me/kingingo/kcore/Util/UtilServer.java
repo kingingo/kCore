@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.DeliveryPet.DeliveryPet;
+import me.kingingo.kcore.Disguise.DisguiseManager;
 import me.kingingo.kcore.GemsShop.GemsShop;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Monitor.LagMeter;
@@ -48,6 +49,9 @@ public class UtilServer{
 	private static kPacketListener packetListener;
 	@Getter
 	@Setter
+	private static DisguiseManager disguiseManager;
+	@Getter
+	@Setter
 	private static LagMeter lagMeter;
 	@Getter
 	@Setter
@@ -61,6 +65,11 @@ public class UtilServer{
 	@Getter
 	@Setter
 	private static UpdaterAsync updaterAsync;
+	
+	public static DisguiseManager createDisguiseManager(JavaPlugin instance){
+		if(disguiseManager==null)disguiseManager=new DisguiseManager(instance);
+		return disguiseManager;
+	}
 	
 	public static UpdaterAsync createUpdaterAsync(JavaPlugin instance){
 		if(updaterAsync==null)updaterAsync=new UpdaterAsync(instance);

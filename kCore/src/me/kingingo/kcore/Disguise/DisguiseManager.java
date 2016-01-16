@@ -1,5 +1,6 @@
 package me.kingingo.kcore.Disguise;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.Getter;
@@ -21,6 +22,7 @@ import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
+import me.kingingo.kcore.Util.UtilSkin;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
@@ -40,6 +42,8 @@ public class DisguiseManager extends kListener {
 	@Getter
 	private HashMap<Integer,DisguiseBase> disguise = new HashMap<>();
 	@Getter
+	private ArrayList<DisguisePlayer> skinLoad = new ArrayList<>();
+	@Getter
 	@Setter
 	private DisguiseShop disguiseShop;
 	
@@ -47,6 +51,7 @@ public class DisguiseManager extends kListener {
 		super(instance,"DisguiseManager");
 		this.instance=instance;
 		UtilServer.createPacketListener(instance);
+		UtilServer.setDisguiseManager(this);
 	}
 	
 	@EventHandler
@@ -182,6 +187,15 @@ public class DisguiseManager extends kListener {
 	public void create(DisguiseCreateEvent ev){
 		if(ev.getEntity() instanceof Player && ev.getBase() instanceof DisguiseInsentient){
 			UtilPlayer.sendHovbarText(((Player)ev.getEntity()), "§eDisguise §7» §a§l"+ ((DisguiseInsentient)ev.getBase()).GetEntityTypeId().name());
+		}
+	}
+	
+	@EventHandler
+	public void skinReload(UpdateEvent event){
+		if(event.getType()==UpdateType.MIN_10&&!skinLoad.isEmpty()){
+			for(int i = 0; i < skinLoad.size(); i++){
+				getSkinLoad().get(i).loadSkin(UtilSkin.loadSkin(getInstance(), getSkinLoad().get(i).getSkinUuid()));
+			}
 		}
 	}
 	

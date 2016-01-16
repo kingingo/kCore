@@ -16,6 +16,7 @@ import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilList;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -40,8 +41,14 @@ public class CommandPerk implements CommandExecutor{
 
 			@Override
 			public void onClick(Player player, ActionType type,Object object) {
+
+				if(manager.getUserData()!=null&&manager.getUserData().getConfigs().containsKey(UtilPlayer.getRealUUID(player))){
+					manager.getUserData().getConfig(player).set("perks."+perk.get(player), "true");
+				}
+				
 				getManager().addPlayer( perk.get(player) , player);
 				perk.remove(player);
+				
 				player.closeInventory();
 			}
 			
@@ -49,8 +56,14 @@ public class CommandPerk implements CommandExecutor{
 
 			@Override
 			public void onClick(Player player, ActionType type,Object object) {
+
+				if(manager.getUserData()!=null&&manager.getUserData().getConfigs().containsKey(UtilPlayer.getRealUUID(player))){
+					manager.getUserData().getConfig(player).set("perks."+perk.get(player), "false");
+				}
+				
 				getManager().removePlayer( perk.get(player) , player);
 				perk.remove(player);
+				
 				player.closeInventory();
 			}
 			
@@ -62,10 +75,16 @@ public class CommandPerk implements CommandExecutor{
 
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
-					if(manager.hasPlayer(((ItemStack)object).getItemMeta().getDisplayName(), player)){
-						perk.remove(player);
-						perk.put(player, ((ItemStack)object).getItemMeta().getDisplayName());
-						player.openInventory(or);
+					if(object instanceof ItemStack){
+						if(((ItemStack)object).hasItemMeta()){
+							if(((ItemStack)object).getItemMeta().hasDisplayName()){
+								if(manager.hasPlayer(((ItemStack)object).getItemMeta().getDisplayName(), player)){
+									perk.remove(player);
+									perk.put(player, ((ItemStack)object).getItemMeta().getDisplayName());
+									player.openInventory(or);
+								}
+							}
+						}
 					}
 				}
 				

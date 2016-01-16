@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PerkManager extends PerkData{
 	
+	@Getter
 	public UserDataConfig userData;
 	@Getter
 	public JavaPlugin instance;
@@ -74,14 +75,19 @@ public class PerkManager extends PerkData{
 		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player,null));
 	}
 	
+	public void addPlayer(Perk perk, Player player){
+		getPlayers().get(perk).add(player);
+		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player,perk.getName()));
+		
+	}
+	
 	public void addPlayer(String perkString, Player player){
 		for(Perk perk : getPlayers().keySet()){
 			if(perk.getName().equalsIgnoreCase(perkString)){
-				getPlayers().get(perk).add(player);
+				addPlayer(perk, player);
 				break;
 			}
 		}
-		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player,perkString));
 	}
 	
 	public void configPlayer(Player player){
@@ -100,14 +106,19 @@ public class PerkManager extends PerkData{
 		for(Perk perk : getPlayers().keySet()){
 			if(player.hasPermission(perk.getPermission().getPermissionToString())){
 				if(config.isSet("perks."+perk.getName())){
-					if(!config.getString("perks."+perk.getName()).equalsIgnoreCase("true")){
+					if(config.getString("perks."+perk.getName()).equalsIgnoreCase("true")){
+						getPlayers().get(perk).add(player);
+					}else{
 						getPlayers().get(perk).remove(player);
 					}
 				}else{
 					config.set("perks."+perk.getName(), "true");
+					config.save();
 				}
 			}
 		}
+
+		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player,null));
 	}
 	
 	public boolean hasPlayer(String perkString,Player player){

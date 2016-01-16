@@ -3,11 +3,21 @@ package me.kingingo.kcore.Inventory.Inventory;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
+import me.kingingo.kcore.Util.InventorySize;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class InventoryChoose extends InventoryPageBase{
+	
+
+	public InventoryChoose(Click click,int start_line,String Title,InventorySize size,ItemStack[] item) {
+		this(click,start_line,Title,size.getSize(),item);
+	}
+	
+	public InventoryChoose(Click click,String Title,InventorySize size,ItemStack[] item) {
+		this(click,Title,size.getSize(),item);
+	}
 	
 	public InventoryChoose(Click click,int start_line,String Title,int size,ItemStack[] item) {
 		super("InventoryChoose",size,Title);

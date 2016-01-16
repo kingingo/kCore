@@ -8,6 +8,7 @@ import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Pet.Setting.PetSetting;
 import me.kingingo.kcore.Pet.Shop.PlayerPetHandler;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.Material;
@@ -26,6 +27,7 @@ public class CommandPet implements CommandExecutor{
 	
 	public CommandPet(PlayerPetHandler handler){
 		this.handler=handler;
+		
 		this.choose=new InventoryChoose(new Click(){
 
 			@Override
@@ -41,7 +43,7 @@ public class CommandPet implements CommandExecutor{
 				player.closeInventory();
 			}
 			
-		}, "§aPets",18, getItems());
+		}, "§aPets",InventorySize.invSize(getItems().length), getItems());
 		handler.getBase().addPage(choose);
 	}
 

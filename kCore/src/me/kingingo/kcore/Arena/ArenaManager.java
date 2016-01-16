@@ -58,13 +58,13 @@ public class ArenaManager extends kListener{
 	private GameType t;
 	
 	public ArenaManager(PacketManager packetManager,StatsManager statsManager,GameType t,UpdateAsyncType updateSpeed){
-		super(packetManager.getInstance(),"ArenaManager:"+t.getKürzel());
+		super(packetManager.getInstance(),"ArenaManager:"+t.getKÃ¼rzel());
 		this.t=t;
 		this.server=new HashMap<>();
 		this.rules=new HashMap<>();
 		this.updateSpeed=updateSpeed;
 		this.wait_list=new HashMap<>();
-		this.timings=new CustomTimingsHandler("ArenaManager:"+t.getKürzel());
+		this.timings=new CustomTimingsHandler("ArenaManager:"+t.getKÃ¼rzel());
 		this.packetManager=packetManager;
 		this.statsManager=statsManager;
 		this.rounds=new HashMap<>();
@@ -163,7 +163,7 @@ public class ArenaManager extends kListener{
 				this.list.remove(arena.getServer()+arena.getArena());
 				
 				if(arena.getState()==GameState.LobbyPhase){
-					if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Game: "+getT().getKürzel(),"Found Arena: "+arena.getArena(),"Server: "+arena.getServer(),"Map: "+arena.getMap(),"Max Teams: "+arena.getTeams()});
+					if(UtilDebug.isDebug())UtilDebug.debug("UpdateAsyncEvent", new String[]{"Game: "+getT().getKÃ¼rzel(),"Found Arena: "+arena.getArena(),"Server: "+arena.getServer(),"Map: "+arena.getMap(),"Max Teams: "+arena.getTeams()});
 					
 					for(Team t : players.keySet())players.get(t).clear();
 					
@@ -262,7 +262,7 @@ public class ArenaManager extends kListener{
 						}
 						
 						if(!this.wait_list.containsKey(type)){
-							System.err.println("TYPE: "+t.getKürzel());
+							System.err.println("TYPE: "+t.getKÃ¼rzel());
 							System.err.println(" TYPE1:"+type);
 							continue;
 						}
@@ -306,7 +306,7 @@ public class ArenaManager extends kListener{
 											this.team=0;
 										}
 										
-										//Prüft ob die Teams voll genug sind!
+										//Prï¿½ft ob die Teams voll genug sind!
 										for(Team t : this.type.getTeam()){
 											if( players.get(t).size() >= arena.getMax_team() ){
 												ba=true;

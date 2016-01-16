@@ -137,6 +137,7 @@ PERK_RUNNER("epicpvp.perk.runner"),
 PERK_DOUBLE_XP("epicpvp.perk.doublexp"),
 PERK_NO_REPAIR("epicpvp.perk.norepair"),
 PERK_GET_XP("epicpvp.perk.getxp"),
+PERK_KEEP_XP("epicpvp.perk.keepxp"),
 PERK_ITEM_NAME("epicpvp.perk.itename"),
 PERK_MINER("epicpvp.perk.miner"),
 PERK_DROPPER("epicpvp.perk.dropper"),
@@ -190,6 +191,7 @@ TEAMSPEAK_VERIFIZIERT("epicpvp.ts.verifiziert"),
 TEAMSPEAK_AUFNAHME("epicpvp.ts.aufnahme"),
 //TS
 ADMIN_KIT("epicpvp.admin.kit"),
+ALL_KITS("epicpvp.kit.*"),
 //DEATHGAMES Kits
 DEATHGAMES_KIT_ANKER("epicpvp.kit.dg.anker"),
 DEATHGAMES_KIT_BOMBER("epicpvp.kit.dg.bomber"),
@@ -233,10 +235,10 @@ SHEEPWARS_KIT_ULTRA("epicpvp.kit.ultra"),
 SHEEPWARS_KIT_LEGEND("epicpvp.kit.legend"),
 SHEEPWARS_KIT_MVP("epicpvp.kit.mvp"),
 SHEEPWARS_KIT_MVPPLUS("epicpvp.kit.mvpplus"),
-ALL_KITS("epicpvp.kit.*"),
 //SHEEPWARS Kits
 
 //SHEEPWARS Kits
+SKYWARS_KIT_MLG("epicpvp.skywars.kit.mlg"),
 SKYWARS_KIT_HULK("epicpvp.skywars.kit.hulk"),
 SKYWARS_KIT_MARIO("epicpvp.skywars.kit.mario"),
 SKYWARS_KIT_STARTERKIT("epicpvp.skywars.kit.starter"),

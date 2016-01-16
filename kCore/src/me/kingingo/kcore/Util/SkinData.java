@@ -33,4 +33,8 @@ public class SkinData{
 			this.skinSignature=skinSignature;
 		}
 		
+		
+		public boolean isReady(){
+			return (skinName!=null&&skinValue!=null&&skinSignature!=null);
+		}
 	}

@@ -25,7 +25,7 @@ public class CommandHubFly extends kListener implements CommandExecutor{
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "fly",alias={"kfly"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		Player player = (Player)sender;
-		if(player.hasPermission(kPermission.kFLY.getPermissionToString())){
+		if(player.hasPermission(kPermission.FLY_LOBBY.getPermissionToString())||player.hasPermission(kPermission.kFLY.getPermissionToString())){
 			PlayerFlyFirstEvent ev = new PlayerFlyFirstEvent(player);
 			Bukkit.getPluginManager().callEvent(ev);
 			

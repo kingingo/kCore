@@ -12,6 +12,7 @@ import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
 import me.kingingo.kcore.PacketAPI.Packets.kPlayerInfoData;
 import me.kingingo.kcore.Util.SkinData;
+import me.kingingo.kcore.Util.UtilServer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 
@@ -25,6 +26,8 @@ public class DisguisePlayer extends DisguiseHuman
   private UUID uuid;
   @Getter
   private kGameProfile profile;
+  @Getter
+  private UUID skinUuid;
   @Getter
   @Setter
   private boolean tab=false;
@@ -47,7 +50,15 @@ public class DisguisePlayer extends DisguiseHuman
   }
   
   public void loadSkin(SkinData data){
-	  if(data!=null)this.profile.loadSkin(data);
+	  if(data!=null&&data.isReady()){
+		  this.profile.loadSkin(data);
+		  if(UtilServer.getDisguiseManager().getSkinLoad().contains(this))UtilServer.getDisguiseManager().getSkinLoad().remove(this);
+	  }else{
+		 if(data!=null){
+			 this.skinUuid=data.getUuid();
+			 if(!UtilServer.getDisguiseManager().getSkinLoad().contains(this))UtilServer.getDisguiseManager().getSkinLoad().add(this);
+		 }
+	  }
   }
   
   public void loadSkin(JavaPlugin instance){

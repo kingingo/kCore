@@ -70,6 +70,7 @@ public class RestartScheduler implements Listener{
 			
 			if(title==null){
 				this.title=new Title("§cServer Restarting in", "");
+				this.title.setStayTime(20*60*2);
 			}
 			title.setSubtitle("§7"+UtilTime.formatSeconds(start));
 			

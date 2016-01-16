@@ -4,9 +4,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.PacketAPI.Packets.kGameProfile;
 
 import org.bukkit.Bukkit;
@@ -31,6 +34,7 @@ public class UtilSkin {
 	}
 	
 	public static SkinData loadSkin(JavaPlugin instance,UUID uuid){
+		SkinData data = new SkinData(uuid);
 	    try
 	    {
 	      URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString().replaceAll("-", "") + "?unsigned=false");
@@ -50,34 +54,29 @@ public class UtilSkin {
 	           sb.append(s);
 	        }
 	        
-	      try{
-		         JsonElement element = new JsonParser().parse(sb.toString());
-			     JsonArray pro = (JsonArray)((JsonObject)element.getAsJsonObject()).get("properties");
-			     SkinData data = new SkinData(uuid);
-			     for (int i = 0; i < pro.size(); i++) {
-			    	 try {
-			    		 JsonObject property = (JsonObject)pro.get(i);
-			    		 data.setSkinName((String)property.get("name").getAsString());
-			    		 data.setSkinValue((String)property.get("value").getAsString());
-			    		 data.setSkinSignature(property.has("signature") ? (String)property.get("signature").getAsString() : null);
-				        }
-				        catch (Exception e){
-				          Bukkit.getLogger().log(Level.WARNING, "Failed to apply auth property", e);
-				        } 
-			     }
+		   	JsonElement element = new JsonParser().parse(sb.toString());
+		   	JsonArray pro = (JsonArray)((JsonObject)element.getAsJsonObject()).get("properties");
+			 for (int i = 0; i < pro.size(); i++) {
+			 try {
+				 JsonObject property = (JsonObject)pro.get(i);
+				 data.setSkinName((String)property.get("name").getAsString());
+				 data.setSkinValue((String)property.get("value").getAsString());
+			     data.setSkinSignature(property.has("signature") ? (String)property.get("signature").getAsString() : null);
+				}catch (Exception e){
+					Bukkit.getLogger().log(Level.WARNING, "Failed to apply auth property", e);
+				} 
+			}
 			     
 		         inr.close();
 		         reader.close();
 		         connection.disconnect();
 			     return data;
-	        }catch(IllegalStateException e){
-	        	e.printStackTrace();
-	        }
 	    }
 	    catch (Exception ex) {
+	    	System.out.println("[UtilSkin] Error: ");
 	    	ex.printStackTrace();
 	    }
-	    return null;
+	    return data;
   }
 	
 	public static void loadSkin(JavaPlugin instance,UUID uuid,kGameProfile profile){

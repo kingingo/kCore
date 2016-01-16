@@ -61,7 +61,7 @@ public class CommandGilde implements CommandExecutor{
 				Verlassen.use(p, args, manager);
 			}else if(args[0].equalsIgnoreCase("ranking")){
 				Ranking.use(p, args, manager);
-			}else if(args[0].equalsIgnoreCase("kicken")){
+			}else if(args[0].equalsIgnoreCase("kick")||args[0].equalsIgnoreCase("kicken")){
 				Kicken.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.PVP&&args[0].equalsIgnoreCase("sethome")){
 				Home.useSet(p, args, manager);

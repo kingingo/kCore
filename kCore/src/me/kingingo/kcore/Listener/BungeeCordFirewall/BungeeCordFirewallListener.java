@@ -4,6 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import lombok.Getter;
+import lombok.Setter;
+import me.kingingo.kcore.Command.CommandHandler;
+import me.kingingo.kcore.Command.Admin.CommandFirewall;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
@@ -20,14 +24,19 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class BungeeCordFirewallListener extends kListener{
 
 	private ArrayList<String> bungeecord_ips;
+	@Getter
 	private MySQL mysql;
 	private String server;
+	@Getter
+	@Setter
+	private boolean firewall=true;
 	
-	public BungeeCordFirewallListener(MySQL mysql,String server) {
+	public BungeeCordFirewallListener(MySQL mysql,CommandHandler cmd,String server) {
 		super(mysql.getInstance(), "BungeeCordFirewallListener");
 		this.mysql=mysql;
 		this.server=server;
 		this.bungeecord_ips=new ArrayList<>();
+		cmd.register(CommandFirewall.class, new CommandFirewall(this));
 		
 		loadBG();
 	}
@@ -54,6 +63,7 @@ public class BungeeCordFirewallListener extends kListener{
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void preLogin(PlayerJoinEvent ev){
+		if(!firewall)return;
 		if(!this.bungeecord_ips.contains(ev.getPlayer().spigot().getRawAddress().getAddress().getHostAddress())){
 			UtilException.catchException(server, mysql.getInstance().getServer().getIp(), mysql, "IP:"+ev.getPlayer().spigot().getRawAddress().getAddress().getHostAddress()+" tried to connect without a EP BG! PlayerIP:"+ev.getPlayer().getAddress().getAddress().getHostAddress());
 			ev.getPlayer().kickPlayer("§cPlease use the EpicPvP Proxy!");

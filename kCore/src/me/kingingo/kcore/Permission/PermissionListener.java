@@ -67,12 +67,16 @@ public class PermissionListener extends kListener {
 	Map<String,Boolean> list;
 	@EventHandler
 	public void loadList(UpdateAsyncEvent ev){
-		if(ev.getType()==UpdateAsyncType.SEC_2){
-			if(!manager.getLoad_now().isEmpty()){
+		if(ev.getType()==UpdateAsyncType.SEC_3){
+//			Bukkit.getScheduler().runTaskAsynchronously(manager.getInstance(), new Runnable() {
+//				
+//				@Override
+//				public void run() {
+					if(!manager.getLoad_now().isEmpty()){
 						cloned=(ArrayList<UUID>)manager.getLoad_now().clone();
 						for(Player player : UtilServer.getPlayers()){
 							uuid=UtilPlayer.getRealUUID(player);
-							if(cloned.contains(uuid)){
+							if(uuid!=null&&cloned.contains(uuid)){
 								if(UtilPlayer.getRealUUID(player).equals(uuid)){
 									if(player.isOp())player.setOp(false);
 									if(!manager.getPlist().containsKey(uuid))manager.getPlist().put(uuid, player.addAttachment(manager.getInstance()));
@@ -180,6 +184,8 @@ public class PermissionListener extends kListener {
 						cloned.clear();
 						cloned=null;
 			}
+//				}
+//			});
 		}
 	}
 	

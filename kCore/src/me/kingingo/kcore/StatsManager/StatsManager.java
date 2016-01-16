@@ -1,6 +1,7 @@
 package me.kingingo.kcore.StatsManager;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 import me.kingingo.kcore.StatsManager.Event.PlayerStatsChangeEvent;
 import me.kingingo.kcore.StatsManager.Event.PlayerStatsCreateEvent;
+import me.kingingo.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.UtilNumber;
@@ -42,14 +44,80 @@ public class StatsManager extends kListener{
 	@Getter
 	@Setter
 	private boolean async=false;
+	private String types;
+	private StatsManager statsManager;
 	
 	public StatsManager(JavaPlugin plugin,MySQL mysql,GameType typ){
 		super(plugin,"StatsManager");
+		this.statsManager=this;
 		this.plugin=plugin;
 		this.mysql=mysql;
 		this.typ=typ;
 		this.rankings=new ArrayList<>();
 		CreateTable();
+		
+		Stats[] stats = typ.getStats();
+		String tt = "";
+		for(Stats s : stats){
+			if(s.isMysql()){
+				tt=tt+s.getTYP()+",";
+			}
+		}
+		this.types=tt.substring(0, tt.length()-1);
+	}
+	
+	public void loadPlayerStats(Player player){
+		Stats[] stats = typ.getStats();
+		
+		if(isAsync()){
+			asyncExistPlayer(player, new Callback(){
+				@Override
+				public void done(Object value) {
+					if(value instanceof Boolean){
+						if(((Boolean)value)){
+							System.out.println("P: "+player.getName()+" "+((Boolean)value));
+							mysql.asyncQuery("SELECT "+types+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(player)+"' LIMIT 1;", new Callback() {
+								
+								@Override
+								public void done(Object value) {
+									if(value instanceof ResultSet){
+										try {
+											ResultSet rs = (ResultSet)value;
+											for(Stats s : stats){
+												if(s.isMysql()){
+													list.get(player).put(s, rs.getObject(s.getTYP()));
+												}
+											}
+											Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(statsManager, player));
+										} catch (SQLException e) {
+											Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,getMysql()));
+										}
+									}
+								}
+							});
+						}
+					}
+				}
+				
+			});
+		}else{
+			ExistPlayer(player);
+			
+			try{
+				ResultSet rs = mysql.Query("SELECT "+types+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(player)+"' LIMIT 1;");
+				while(rs.next()){
+					for(Stats s : stats){
+						if(s.isMysql()){
+							list.get(player).put(s, rs.getObject(s.getTYP()));
+						}
+					}
+				}
+				rs.close();
+				Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(statsManager, player));
+			}catch (Exception err){
+				Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
+			}
+		}
 	}
 	
 	public void addRanking(Ranking ranking){
@@ -233,6 +301,36 @@ public class StatsManager extends kListener{
 		return done;
 	}
 	
+	public void asyncExistPlayer(Player player, Callback callback){
+		if(list.containsKey(player)){
+			callback.done(true);
+		}else{
+			mysql.asyncQuery("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+UtilPlayer.getRealUUID(player)+"'", new Callback() {
+				
+				@Override
+				public void done(Object value) {
+					if(value instanceof ResultSet){
+						try {
+							ResultSet rs = (ResultSet)value;
+							boolean b = false;
+							
+							while(rs.next())b=true;
+
+							list.put(player, new HashMap<Stats,Object>());
+							if(!b){
+								createEintrag(player);
+							}
+							
+							callback.done(b);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			});
+		}
+	}
+	
 	public Integer getRank(Stats s,Player p){
 		ExistPlayer(p);
 		if(list.containsKey(p)&&list.get(p).containsKey(Stats.RANKING)){
@@ -260,6 +358,23 @@ public class StatsManager extends kListener{
 		
 		if(n!=-1)list.get(p).put(Stats.RANKING, n);
 	    return n;
+	}
+	
+	public void getAsyncString(Stats s,Player p,Callback callback){
+		if(list.containsKey(p)&&list.get(p).containsKey(s)){
+			callback.done((String)list.get(p).get(s));
+		}else{
+			mysql.asyncGetDouble("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(p)+"'", new Callback() {
+				
+				@Override
+				public void done(Object value) {
+					if(value instanceof String){
+						list.get(p).put(s, ((String)value));
+						callback.done((String)list.get(p).get(s));
+					}
+				}
+			});
+		}
 	}
 	
 	public String getString(Stats s,Player p){	
@@ -315,6 +430,23 @@ public class StatsManager extends kListener{
 		setDouble(p, i, s);
 	}
 	
+	public void getAsyncInt(Stats s,Player p,Callback callback){
+		if(list.containsKey(p)&&list.get(p).containsKey(s)){
+			callback.done(UtilNumber.toInt(list.get(p).get(s)));
+		}else{
+			mysql.asyncGetDouble("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(p)+"'", new Callback() {
+				
+				@Override
+				public void done(Object value) {
+					if(value instanceof Integer){
+						list.get(p).put(s, ((Integer)value));
+						callback.done(UtilNumber.toInt(list.get(p).get(s)));
+					}
+				}
+			});
+		}
+	}
+	
 	public Integer getInt(Stats s,Player p){
 		ExistPlayer(p);
 		if(list.containsKey(p)&&list.get(p).containsKey(s)){
@@ -341,6 +473,24 @@ public class StatsManager extends kListener{
 		ExistPlayer(p);
 		list.get(p).put(s, i);
 		Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(s,p));
+	}
+	
+
+	public void getAsyncDouble(Stats s,Player p,Callback callback){
+		if(list.containsKey(p)&&list.get(p).containsKey(s)){
+			callback.done(UtilNumber.toDouble(list.get(p).get(s)));
+		}else{
+			mysql.asyncGetDouble("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(p)+"'", new Callback() {
+				
+				@Override
+				public void done(Object value) {
+					if(value instanceof Double){
+						list.get(p).put(s, ((Double)value));
+						callback.done(UtilNumber.toDouble(list.get(p).get(s)));
+					}
+				}
+			});
+		}
 	}
 	
 	public double getDouble(Stats s,Player p){
@@ -393,6 +543,7 @@ public class StatsManager extends kListener{
 	}
 	
 	public boolean ExistPlayer(String player){
+		if(list.containsKey(player))return true;
 		return !mysql.getString("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+UtilPlayer.getUUID(player, mysql)+"'").equalsIgnoreCase("null");
 	}
 	
