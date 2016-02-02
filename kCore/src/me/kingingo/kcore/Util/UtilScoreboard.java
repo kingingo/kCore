@@ -130,6 +130,7 @@ public class UtilScoreboard {
 	public static void resetScore(Scoreboard b,int id,DisplaySlot typ){
 		net.minecraft.server.v1_8_R3.Scoreboard board = (net.minecraft.server.v1_8_R3.Scoreboard)UtilReflection.getValue("board", b);
 		for(ScoreboardScore sc: board.getScores()){
+			if(!sc.getObjective().getName().equalsIgnoreCase(typ.name()))continue;
 			if(sc.getScore()==id){
 				resetScore(b, b.getObjective( DisplaySlot.valueOf(sc.getObjective().getName()) ).getScore(sc.getPlayerName()).getEntry(), typ);
 			}
@@ -139,6 +140,14 @@ public class UtilScoreboard {
 	
 	public static void setScore(Scoreboard board,String p2,DisplaySlot typ,int i){
 		board.getObjective(typ).getScore(p2).setScore(i);
+	}
+	
+	public static void addLiveBoard(Scoreboard board,String DisplayName){
+		if(board.getObjective(DisplaySlot.BELOW_NAME.name())==null){
+			Objective o = board.registerNewObjective("showhealth", "health");
+			o.setDisplaySlot(DisplaySlot.BELOW_NAME);
+			o.setDisplayName(DisplayName);
+		}
 	}
 	
 	public static void addBoard(Scoreboard board,DisplaySlot typ,String DisplayName){

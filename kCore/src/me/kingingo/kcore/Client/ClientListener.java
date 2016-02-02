@@ -52,18 +52,43 @@ public class ClientListener extends kListener{
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void received(ClientReceiveMessageEvent ev){
-		if(ev.getMessage().equalsIgnoreCase("ping")){
+		if(ev.getMessage().contains("whitelist=?off")){
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "whitelist off");
+		}else if(ev.getMessage().contains("whitelist=?on")){
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "whitelist on");
+		}else if(ev.getMessage().equalsIgnoreCase("ping")){
 			Log("Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
 			getClient().sendMessageToServer("pong");
 		}else if(ev.getMessage().equalsIgnoreCase("stop=?now")){
 			Log("Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
+			Bukkit.getScheduler().runTask(getClient().getInstance(), new Runnable() {
+				
+				@Override
+				public void run() {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
+					
+				}
+			});
 		}else if(ev.getMessage().equalsIgnoreCase("restart=?now")){
 			Log("Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
+			Bukkit.getScheduler().runTask(getClient().getInstance(), new Runnable() {
+				
+				@Override
+				public void run() {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
+					
+				}
+			});
 		}else if(ev.getMessage().equalsIgnoreCase("reload=?now")){
 			Log("Der Client Empfaengt Nachricht '"+ev.getMessage()+"' vom Daten-Server.");
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "reload");
+			Bukkit.getScheduler().runTask(getClient().getInstance(), new Runnable() {
+				
+				@Override
+				public void run() {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "reload");
+					
+				}
+			});
 		}
 	}
 	

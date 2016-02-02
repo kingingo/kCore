@@ -6,12 +6,15 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Client.Client;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.DeliveryPet.DeliveryPet;
 import me.kingingo.kcore.Disguise.DisguiseManager;
 import me.kingingo.kcore.GemsShop.GemsShop;
+import me.kingingo.kcore.Hologram.Hologram;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Monitor.LagMeter;
+import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.TEAM_MESSAGE;
 import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
@@ -65,6 +68,63 @@ public class UtilServer{
 	@Getter
 	@Setter
 	private static UpdaterAsync updaterAsync;
+	@Getter
+	@Setter
+	private static CommandHandler commandHandler;
+	@Getter
+	@Setter
+	private static Client client;
+	@Getter
+	@Setter
+	private static PacketManager packetManager;
+	@Getter
+	@Setter
+	private static MySQL mysql;
+	@Getter
+	@Setter
+	private static Hologram hologram;
+	
+	public static void disable(){
+		if(hologram!=null)hologram.RemoveText();
+		if(deliveryPet!=null)deliveryPet.onDisable();
+		if(gemsShop!=null)gemsShop.onDisable();
+		if(updater!=null)updater.stop();
+		if(updaterAsync!=null)updaterAsync.stop();
+		if(packetListener!=null)packetListener.Disable();
+		if(client!=null)client.disconnect(false);
+		if(mysql!=null)mysql.close();
+	}
+	
+	public static Hologram createHologram(Hologram hm){
+		if(hologram==null&&hm!=null)hologram=hm;
+		return hologram;
+	}
+	
+	public static MySQL createMySQL(String user,String pass,String host,String db,JavaPlugin instance){
+		if(mysql==null)mysql=new MySQL(user, pass, host, db, instance);
+		return mysql;
+	}
+	
+	public static PacketManager createPacketManager(JavaPlugin instance){
+		if(packetManager==null){
+			if(client!=null){
+				packetManager=new PacketManager(instance, client);
+			}else{
+				System.err.println("[kCore:UtilServer] createPacketManager cannot start because CLIENT == NULL");
+			}
+		}
+		return packetManager;
+	}
+	
+	public static Client createClient(JavaPlugin instance,String host,int port,String name){
+		if(client==null)client=new Client(instance,host,port,name);
+		return client;
+	}
+	
+	public static CommandHandler createCommandHandler(JavaPlugin instance){
+		if(commandHandler==null)commandHandler=new CommandHandler(instance);
+		return commandHandler;
+	}
 	
 	public static DisguiseManager createDisguiseManager(JavaPlugin instance){
 		if(disguiseManager==null)disguiseManager=new DisguiseManager(instance);

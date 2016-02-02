@@ -1,17 +1,20 @@
 package me.kingingo.kcore.MySQL;
 
+import lombok.Getter;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.MySQL.Events.MySQLConnectEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLDisconnectEvent;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
 
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
-public class MySQLListener implements Listener{
+public class MySQLListener extends kListener{
 	
+	@Getter
 	private MySQL mysql;
 	
 	public MySQLListener(MySQL mysql){
+		super(mysql.getInstance(),"MySQLListener");
 		this.mysql=mysql;
 	}
 	
@@ -21,31 +24,29 @@ public class MySQLListener implements Listener{
 			case CONNECT:
 				break;
 			case UPDATE:
-				mysql.close();
-				mysql.connect();
+				this.mysql.close();
+				this.mysql.connect();
 				break;
 			case QUERY:
-				mysql.close();
-				mysql.connect();
+				this.mysql.close();
+				this.mysql.connect();
 				break;
 			case CLOSE:
 				break;
-			default:
-				break;
 		}
 		
-		System.err.println("[kCore] Error:");
+		Log("Error:");
 		ev.getException().printStackTrace();
 	}
 	
 	@EventHandler
 	public void Connect(MySQLConnectEvent ev){
-		System.out.println("[kCore] Die MySQL Verbindung wurde hergestellt.");
+		Log("Die MySQL Verbindung wurde hergestellt.");
 	}
 	
 	@EventHandler
 	public void Close(MySQLDisconnectEvent ev){
-		System.out.println("[kCore] Die MySQL Verbindung wurde geschlossen.");
+		Log("Die MySQL Verbindung wurde geschlossen.");
 	}
 	
 }

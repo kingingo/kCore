@@ -71,11 +71,11 @@ public class StatsManager extends kListener{
 		
 		if(isAsync()){
 			asyncExistPlayer(player, new Callback(){
+				
 				@Override
 				public void done(Object value) {
 					if(value instanceof Boolean){
 						if(((Boolean)value)){
-							System.out.println("P: "+player.getName()+" "+((Boolean)value));
 							mysql.asyncQuery("SELECT "+types+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(player)+"' LIMIT 1;", new Callback() {
 								
 								@Override
@@ -102,7 +102,6 @@ public class StatsManager extends kListener{
 			});
 		}else{
 			ExistPlayer(player);
-			
 			try{
 				ResultSet rs = mysql.Query("SELECT "+types+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+UtilPlayer.getRealUUID(player)+"' LIMIT 1;");
 				while(rs.next()){
@@ -277,7 +276,9 @@ public class StatsManager extends kListener{
 		}
 		String t = "INSERT INTO users_"+typ.getKürzel()+" ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
 		mysqlUpdate(t);
+		if(!list.containsKey(p))list.put(p, new HashMap<>());
 		Bukkit.getPluginManager().callEvent(new PlayerStatsCreateEvent(this,p));
+		Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(statsManager, p));
 	}
 	
 	public boolean ExistPlayer(Player p){
@@ -298,6 +299,7 @@ public class StatsManager extends kListener{
 		
 		list.put(p, new HashMap<Stats,Object>());
 		if(!done)createEintrag(p);
+		
 		return done;
 	}
 	
@@ -309,23 +311,15 @@ public class StatsManager extends kListener{
 				
 				@Override
 				public void done(Object value) {
-					if(value instanceof ResultSet){
-						try {
-							ResultSet rs = (ResultSet)value;
-							boolean b = false;
-							
-							while(rs.next())b=true;
-
-							list.put(player, new HashMap<Stats,Object>());
-							if(!b){
-								createEintrag(player);
-							}
-							
-							callback.done(b);
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-					}
+					list.put(player, new HashMap<Stats,Object>());
+					callback.done(true);
+				}
+			},new Callback() {
+				
+				@Override
+				public void done(Object value) {
+					createEintrag(player);
+					callback.done(false);
 				}
 			});
 		}

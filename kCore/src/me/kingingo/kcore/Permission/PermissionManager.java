@@ -320,14 +320,13 @@ public class PermissionManager {
 	
 	public void loadPermission(UUID uuid){
 		String g=getGroup(uuid);
-		ResultSet rs;
 		System.err.println("UUID: "+uuid+" group:"+g);
 		
 		if(!groups.containsKey(g)){
 				groups.put(g, new Group(g,typ));
 				try
 			    {
-			      rs = mysql.Query("SELECT permission FROM game_perm WHERE permission!='none' AND pgroup='"+g+"' AND prefix='none' AND uuid='none' AND (grouptyp='"+getTyp().getName()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
+				  ResultSet rs = mysql.Query("SELECT permission FROM game_perm WHERE permission!='none' AND pgroup='"+g+"' AND prefix='none' AND uuid='none' AND (grouptyp='"+getTyp().getName()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
 			      while (rs.next()){
 			    	  if(rs.getString(1).contains("epicpvp.perm.group.")){
 			    		  transfareGroupPermissionToGroup(g,rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[0],GroupTyp.get(rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[1]));
@@ -343,13 +342,13 @@ public class PermissionManager {
 			    }
 				
 				try {
-					rs = mysql.Query("SELECT prefix FROM game_perm WHERE prefix!='none' AND pgroup='"+ g.toLowerCase() + "' AND permission='none' AND uuid='none' AND (grouptyp='"+getTyp().getName()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
+					ResultSet rs1 = mysql.Query("SELECT prefix FROM game_perm WHERE prefix!='none' AND pgroup='"+ g.toLowerCase() + "' AND permission='none' AND uuid='none' AND (grouptyp='"+getTyp().getName()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
 
-					while (rs.next()) {
-						groups.get(g).setPrefix(rs.getString(1));
+					while (rs1.next()) {
+						groups.get(g).setPrefix(rs1.getString(1));
 					}
 
-					rs.close();
+					rs1.close();
 				} catch (Exception err) {
 					Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,mysql));
 				}
@@ -361,22 +360,21 @@ public class PermissionManager {
 		if(!load.containsKey(uuid)){
 			try
 		    {
-		      rs = mysql.Query("SELECT permission FROM game_perm WHERE permission!='none' AND uuid='"+uuid+"' AND prefix='none' AND pgroup='none' AND (grouptyp='"+getTyp().getName()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
-		      while (rs.next()){
-		    	  if(rs.getString(1).contains("epicpvp.perm.group.")){
-		    		  transfareGroupPermissionToUser(uuid,rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[0],GroupTyp.get(rs.getString(1).substring("epicpvp.perm.group.".length(), rs.getString(1).length()).split(":")[1]));
-		    	  }else if(rs.getString(1).contains("epicpvp.timer.group.")){
-		    		 if(System.currentTimeMillis() > UtilNumber.toLong(rs.getString(1).substring("epicpvp.timer.group.".length(), rs.getString(1).length()).split(":")[1])){
-		    			 removeGroup(uuid, rs.getString(1).substring("epicpvp.timer.group.".length(), rs.getString(1).length()).split(":")[0]);
-//		    			 setGroup(uuid, rs.getString(1).substring("epicpvp.timer.group.".length(), rs.getString(1).length()).split(":")[0]);
-		    			 removePermission(uuid, rs.getString(1));
+				ResultSet rs2 = mysql.Query("SELECT permission FROM game_perm WHERE permission!='none' AND uuid='"+uuid+"' AND prefix='none' AND pgroup='none' AND (grouptyp='"+getTyp().getName()+"' OR grouptyp='"+GroupTyp.ALL.name()+"')");
+		      while (rs2.next()){
+		    	  if(rs2.getString(1).contains("epicpvp.perm.group.")){
+		    		  transfareGroupPermissionToUser(uuid,rs2.getString(1).substring("epicpvp.perm.group.".length(), rs2.getString(1).length()).split(":")[0],GroupTyp.get(rs2.getString(1).substring("epicpvp.perm.group.".length(), rs2.getString(1).length()).split(":")[1]));
+		    	  }else if(rs2.getString(1).contains("epicpvp.timer.group.")){
+		    		 if(System.currentTimeMillis() > UtilNumber.toLong(rs2.getString(1).substring("epicpvp.timer.group.".length(), rs2.getString(1).length()).split(":")[1])){
+		    			 removeGroup(uuid, rs2.getString(1).substring("epicpvp.timer.group.".length(), rs2.getString(1).length()).split(":")[0]);
+		    			 removePermission(uuid, rs2.getString(1));
 		    		  }
 		    	  }else{
 			    	  if(!load.containsKey(uuid))load.put(uuid, new ArrayList<String>());
-			    	  load.get(uuid).add(rs.getString(1).toLowerCase());
+			    	  load.get(uuid).add(rs2.getString(1).toLowerCase());
 		    	  }
 		      }
-		      rs.close();
+		      rs2.close();
 		    }
 		    catch (SQLException e){
 		      Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));

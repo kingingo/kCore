@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Gilden;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import me.kingingo.kcore.Gilden.Events.GildePlayerJoinEvent;
 import me.kingingo.kcore.Gilden.Events.GildePlayerLeaveEvent;
 import me.kingingo.kcore.Gilden.Events.GildenChatEvent;
 import me.kingingo.kcore.Language.Language;
+import me.kingingo.kcore.MySQL.Callback;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -140,74 +142,72 @@ public class GildenManager implements Listener {
 	public void LoadRankingKills(boolean b){
 		if(ranking.isEmpty()||b){
 			extra_prefix.clear();
-			try{
-			     ResultSet rs = getMysql().Query("SELECT `kills`,`gilde` FROM `list_gilden_"+typ.getKürzel()+"_data` ORDER BY kills DESC LIMIT 15;");
-
-			      int zahl = 1;
-			      
-			      while (rs.next()) {
-			    	  if(zahl==1){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
-			  			}else if(zahl==2){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
-			  			}else if(zahl==3){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
-			  			}else if(zahl>=4 && zahl<=6){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
-			  			}else if(zahl>=7 && zahl<=9){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
-			  			}else if(zahl>=10 && zahl<=12){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
-			  			}else if(zahl>=13 && zahl<=15){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
-			  			}else{
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
-			  			}
-				     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
-				     zahl++;
-			      }
-
-			      rs.close();
-			 } catch (Exception err) {
-			      System.out.println("MySQL-Error: " + err.getMessage());
-			 }
+			getMysql().asyncQuery("SELECT `kills`,`gilde` FROM `list_gilden_"+typ.getKürzel()+"_data` ORDER BY kills DESC LIMIT 15;", new Callback() {
+				
+				@Override
+				public void done(Object value) {
+					try{
+						ResultSet rs = (ResultSet)value;
+						
+						if((ranking.size()+1)==1){
+							ranking.put(1, "§b#§6" + String.valueOf(1) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
+						}else if((ranking.size()+1)==2){
+					  		ranking.put(2, "§b#§6" + String.valueOf(2) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
+					  	}else if((ranking.size()+1)==3){
+					  		ranking.put(3, "§b#§6" + String.valueOf(3) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
+					  	}else if((ranking.size()+1)>=4 && (ranking.size()+1)<=6){
+					  		ranking.put(4, "§b#§6" + String.valueOf(4) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
+					  	}else if((ranking.size()+1)>=7 && (ranking.size()+1)<=9){
+					  		ranking.put(5, "§b#§6" + String.valueOf(5) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
+					  	}else if((ranking.size()+1)>=10 && (ranking.size()+1)<=12){
+					  		ranking.put(6, "§b#§6" + String.valueOf(6) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+					  	}else if((ranking.size()+1)>=13 && (ranking.size()+1)<=15){
+					  		ranking.put(7, "§b#§6" + String.valueOf(7) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
+					  	}else{
+					  		ranking.put(8, "§b#§6" + String.valueOf(8) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+					  	}
+						extra_prefix.put(rs.getString(2).toLowerCase(), ranking.size()+1);
+					 } catch (Exception err) {
+					      System.out.println("MySQL-Error: " + err.getMessage());
+					 }
+				}
+			});
 		}
 	}
 	
 	public void LoadRankingFame(boolean b){
 		if(ranking.isEmpty()||b){
 			extra_prefix.clear();
-			try{
-			     ResultSet rs = getMysql().Query("SELECT `elo`,`gilde` FROM `list_gilden_"+typ.getKürzel()+"_data` ORDER BY elo DESC LIMIT 15;");
-
-			      int zahl = 1;
-			      
-			      while (rs.next()) {
-			    	  if(zahl==1){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
-			  			}else if(zahl==2){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
-			  			}else if(zahl==3){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
-			  			}else if(zahl>=4 && zahl<=6){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
-			  			}else if(zahl>=7 && zahl<=9){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
-			  			}else if(zahl>=10 && zahl<=12){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
-			  			}else if(zahl>=13 && zahl<=15){
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
-			  			}else{
-			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
-			  			}
-				     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
-				     zahl++;
-			      }
-
-			      rs.close();
-			 } catch (Exception err) {
-			      System.out.println("MySQL-Error: " + err.getMessage());
-			 }
+			getMysql().asyncQuery("SELECT `elo`,`gilde` FROM `list_gilden_"+typ.getKürzel()+"_data` ORDER BY elo DESC LIMIT 15;", new Callback() {
+				
+				@Override
+				public void done(Object value) {
+					try{
+						ResultSet rs = (ResultSet)value;
+						
+						if((ranking.size()+1)==1){
+							ranking.put(1, "§b#§6" + String.valueOf(1) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
+						}else if((ranking.size()+1)==2){
+					  		ranking.put(2, "§b#§6" + String.valueOf(2) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
+					  	}else if((ranking.size()+1)==3){
+					  		ranking.put(3, "§b#§6" + String.valueOf(3) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
+					  	}else if((ranking.size()+1)>=4 && (ranking.size()+1)<=6){
+					  		ranking.put(4, "§b#§6" + String.valueOf(4) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
+					  	}else if((ranking.size()+1)>=7 && (ranking.size()+1)<=9){
+					  		ranking.put(5, "§b#§6" + String.valueOf(5) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
+					  	}else if((ranking.size()+1)>=10 && (ranking.size()+1)<=12){
+					  		ranking.put(6, "§b#§6" + String.valueOf(6) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+					  	}else if((ranking.size()+1)>=13 && (ranking.size()+1)<=15){
+					  		ranking.put(7, "§b#§6" + String.valueOf(7) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
+					  	}else{
+					  		ranking.put(8, "§b#§6" + String.valueOf(8) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+					  	}
+						extra_prefix.put(rs.getString(2).toLowerCase(), ranking.size()+1);
+					 } catch (Exception err) {
+					      System.out.println("MySQL-Error: " + err.getMessage());
+					 }
+				}
+			});
 		}
 	}
 	
@@ -218,24 +218,61 @@ public class GildenManager implements Listener {
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
 	
+	Player attack;
+	Player defend;
 	@EventHandler(priority=EventPriority.HIGH)
 	public void DamageTeam(EntityDamageByEntityEvent ev){
-		if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Player){
-			Player attack = (Player)ev.getDamager();
-			Player defend = (Player)ev.getEntity();
-			if(isPlayerInGilde(UtilPlayer.getRealUUID(attack))&&isPlayerInGilde(UtilPlayer.getRealUUID(defend))){
-				if(getPlayerGilde(attack).equalsIgnoreCase(getPlayerGilde(defend))){
-					ev.setCancelled(true);
+		if(!ev.isCancelled()){
+			if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Player){
+				attack = (Player)ev.getDamager();
+				if(this.gilden_player.containsKey(UtilPlayer.getRealUUID( attack))){
+					defend = (Player)ev.getEntity();
+					if(this.gilden_player.containsKey(UtilPlayer.getRealUUID( defend ))){
+						if(!this.gilden_player.get(UtilPlayer.getRealUUID( attack)).equalsIgnoreCase("-")){
+							if(!this.gilden_player.get(UtilPlayer.getRealUUID( defend )).equalsIgnoreCase("-")){
+								if(this.gilden_player.get(UtilPlayer.getRealUUID( attack)).equalsIgnoreCase(this.gilden_player.get(UtilPlayer.getRealUUID( defend )))){
+									ev.setCancelled(true);
+								}
+							}
+						}
+					}
 				}
+				
+//				if(isPlayerInGilde(UtilPlayer.getRealUUID(attack))&&isPlayerInGilde(UtilPlayer.getRealUUID(defend))){
+//					if(getPlayerGilde(attack).equalsIgnoreCase(getPlayerGilde(defend))){
+//						ev.setCancelled(true);
+//					}
+//				}
 			}
-		}else if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Projectile){
-			Projectile attack = (Projectile)ev.getDamager();
-			Player defend = (Player)ev.getEntity();
-			if(!(attack.getShooter() instanceof Player))return;
-			if(isPlayerInGilde(UtilPlayer.getRealUUID( ((Player)attack.getShooter())) )&&isPlayerInGilde(UtilPlayer.getRealUUID( defend ) )){
-				if(getPlayerGilde(((Player)attack.getShooter())).equalsIgnoreCase(getPlayerGilde(defend))){
-					ev.setCancelled(true);
+		}
+	}
+
+	Projectile projectile;
+	@EventHandler(priority=EventPriority.HIGH)
+	public void DamageProjectile(EntityDamageByEntityEvent ev){
+		if(!ev.isCancelled()){
+			if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Projectile){
+				projectile = (Projectile)ev.getDamager();
+				if(!(projectile.getShooter() instanceof Player))return;
+				
+				if(this.gilden_player.containsKey(UtilPlayer.getRealUUID( ((Player)projectile.getShooter())))){
+					defend = (Player)ev.getEntity();
+					if(this.gilden_player.containsKey(UtilPlayer.getRealUUID( defend ))){
+						if(!this.gilden_player.get(UtilPlayer.getRealUUID( ((Player)projectile.getShooter()))).equalsIgnoreCase("-")){
+							if(!this.gilden_player.get(UtilPlayer.getRealUUID( defend )).equalsIgnoreCase("-")){
+								if(this.gilden_player.get(UtilPlayer.getRealUUID( ((Player)projectile.getShooter()))).equalsIgnoreCase(this.gilden_player.get(UtilPlayer.getRealUUID( defend )))){
+									ev.setCancelled(true);
+								}
+							}
+						}
+					}
+					
 				}
+//				if(isPlayerInGilde(UtilPlayer.getRealUUID( ((Player)projectile.getShooter())) )&&isPlayerInGilde(UtilPlayer.getRealUUID( defend ) )){
+//					if(getPlayerGilde(((Player)projectile.getShooter())).equalsIgnoreCase(getPlayerGilde(defend))){
+//						ev.setCancelled(true);
+//					}
+//				}
 			}
 		}
 	}
@@ -462,6 +499,86 @@ public class GildenManager implements Listener {
 		gilden_data_musst_saved.remove(name);
 	}
 	
+	public void loadTag(final String gilde){
+		if(gilden_tag.containsKey(gilde.toLowerCase()))return;
+		getMysql().asyncGetString("SELECT `gildentag` FROM `list_gilden_"+typ.getKürzel()+"` WHERE gilde='"+gilde.toLowerCase()+"'", new Callback() {
+			
+			@Override
+			public void done(Object value) {
+				gilden_tag.put(gilde.toLowerCase(),((String)value));
+			}
+		});
+	}
+	
+	public void loadStats(final String gilde){
+		for(Stats stats : typ.getStats()){
+			if(!this.gilden_data.get(gilde.toLowerCase()).get(typ).containsKey(stats)){
+				getMysql().asyncGetObject("SELECT "+stats.getTYP()+" FROM list_gilden_"+typ.getKürzel()+"_data WHERE gilde= '"+gilde.toLowerCase()+"'", new Callback() {
+					@Override
+					public void done(Object value) {
+						if(value instanceof Double){
+							gilden_data.get(gilde.toLowerCase()).get(typ).put(stats, ((Double)value));
+						}else if(value instanceof Integer){
+							gilden_data.get(gilde.toLowerCase()).get(typ).put(stats, ((Integer)value));
+						}else if(value instanceof String){
+							gilden_data.get(gilde.toLowerCase()).get(typ).put(stats, ((String)value));
+						}else{
+							gilden_data.get(gilde.toLowerCase()).get(typ).put(stats, ((Object)value));
+						}
+					}
+				});
+			}
+		}
+	}
+	
+	public void LoadExistGildeData(final String gilde,GildenType typ){
+		if(gilden_data.containsKey(gilde.toLowerCase()))return;
+		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKürzel()+"_data` WHERE gilde='"+gilde.toLowerCase()+"'", new Callback() {
+			
+			@Override
+			public void done(Object value) {
+				gilden_data.put(gilde.toLowerCase(),new HashMap<GildenType,HashMap<Stats,Object>>());
+				gilden_data.get(gilde.toLowerCase()).put(typ, new HashMap<Stats,Object>());
+				loadTag(gilde.toLowerCase());
+				loadStats(gilde.toLowerCase());
+			}
+		}, new Callback() {
+			
+			@Override
+			public void done(Object value) {
+				createDataEintrag(gilde.toLowerCase(), typ);
+				gilden_data.put(gilde.toLowerCase(),new HashMap<GildenType,HashMap<Stats,Object>>());
+				gilden_data.get(gilde.toLowerCase()).put(typ, new HashMap<Stats,Object>());
+				loadTag(gilde.toLowerCase());
+			}
+		});
+	}
+	
+	public void loadPlayer(Player player){
+		if(this.gilden_player.containsKey(UtilPlayer.getRealUUID(player)))return;
+		
+		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKürzel()+"_user` WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'", new Callback() {
+			
+			@Override
+			public void done(Object value) {
+				if(value instanceof ResultSet){
+					try {
+						GildenPlayerPut(player,((ResultSet)value).getString(1));
+						LoadExistGildeData(((ResultSet)value).getString(1).toLowerCase(), typ);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		},new Callback() {
+			
+			@Override
+			public void done(Object value) {
+				GildenPlayerPut(player,"-");
+			}
+		});
+	}
+	
 	public void removePlayerEintrag(Player player){
 		removePlayerEintrag(UtilPlayer.getRealUUID(player),player.getName());
 	}
@@ -674,19 +791,22 @@ public class GildenManager implements Listener {
 	
 	public String getTag(String gilde){
 		gilde=gilde.toLowerCase();
+		if(gilden_tag.containsKey(gilde))return gilden_tag.get(gilde);
 		String tag = "";
 		try
 	    {
 	      ResultSet rs = mysql.Query("SELECT `gildentag` FROM `list_gilden_"+typ.getKürzel()+"` WHERE gilde='"+gilde.toLowerCase()+"'");
 
 	      while (rs.next()) {
-	    		  tag=rs.getString(1);
+	    	  tag=rs.getString(1);
 	      }
 
 	      rs.close();
 	    } catch (Exception err) {
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
+		
+		gilden_tag.put(gilde,tag);
 		return tag;
 	}
 	
@@ -940,6 +1060,12 @@ public class GildenManager implements Listener {
 		}
 		String t = "INSERT INTO list_gilden_"+typ.getKürzel()+"_data ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
 		mysql.Update(isAsync(),t);
+		
+		for(Stats s : typ.getStats()){
+			if(Stats.LOC_X!=s&&Stats.LOC_Y!=s&&Stats.LOC_Z!=s&&Stats.WORLD!=s){
+				this.gilden_data.get(gilde.toLowerCase()).get(typ).put(s, 0);
+			}
+		}
 	}
 	
 	public void CreateTable(){

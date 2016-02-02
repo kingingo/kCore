@@ -131,14 +131,12 @@ public class PlayerKitManager{
 						try {
 							ResultSet rs = (ResultSet) value;
 							
-							while (rs.next()) {
-								  kits.put(uuid, new PlayerKit());
-								  kits.get(uuid).id=id;
-								  kits.get(uuid).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
-								  kits.get(uuid).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
-								  
-								  if(callback!=null)callback.done(kits.get(uuid));
-							  }
+							kits.put(uuid, new PlayerKit());
+							kits.get(uuid).id=id;
+							kits.get(uuid).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
+							kits.get(uuid).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
+								 
+							if(callback!=null)callback.done(kits.get(uuid));
 						} catch (SQLException e) {
 							e.printStackTrace();
 						} catch (IOException e) {

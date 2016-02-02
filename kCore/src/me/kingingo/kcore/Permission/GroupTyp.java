@@ -5,6 +5,7 @@ ALL("all"),
 GAME("game"),
 PVP("pvp"),
 SKY("sky"),
+GUNGAME("gungame"),
 BUILD("build"),
 WARZ("warz");
 

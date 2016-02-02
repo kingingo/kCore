@@ -5,9 +5,11 @@ import lombok.Getter;
 import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
 import me.kingingo.kcore.Hologram.nametags.NameTagType;
 import me.kingingo.kcore.Hologram.nametags.Events.HologramRemoveEvent;
+import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.Util.TimeSpan;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,7 +21,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Hologram implements Listener{
+public class Hologram extends kListener{
 	
 	@Getter
 	private HashMap<NameTagMessage, Long> timer = new HashMap<NameTagMessage,Long>();
@@ -27,7 +29,8 @@ public class Hologram implements Listener{
 	private HashMap<Integer, NameTagMessage> creatures = new HashMap<Integer, NameTagMessage>();
 	
 	public Hologram(JavaPlugin plugin){
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+		super(plugin,"Hologram");
+		UtilServer.createHologram(this);
 	}
 	
 	HashMap<NameTagMessage,Long> clone;

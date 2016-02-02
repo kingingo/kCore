@@ -35,6 +35,7 @@ import me.kingingo.kcore.Packet.Packets.TWITTER_PLAYER_FOLLOW;
 import me.kingingo.kcore.Packet.Packets.WORLD_CHANGE_DATA;
 import me.kingingo.kcore.Packet.Packets.YOUTUBE_GET_DATA;
 import me.kingingo.kcore.Packet.Packets.YOUTUBE_IS_DATA;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -50,6 +51,7 @@ public class PacketManager {
 		this.instance=instance;
 		this.client=client;
 		new PacketListener(this);
+		UtilServer.setPacketManager(this);
 	}
 	
 	public Packet getPacket(String packet) {	

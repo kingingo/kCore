@@ -85,13 +85,18 @@ public class GemsShop{
 	}
 	
 	public void setCreature(Location location){
+		location.getChunk().load();
 		this.config.setLocation("Main.Location", location);
 		this.config.save();
-		location.getChunk().load();
 		Entity v = location.getWorld().spawnEntity(location, EntityType.CREEPER);
 		UtilEnt.setNoAI(v, true);
-		m = new NameTagMessage(NameTagType.SERVER, v.getLocation().add(0, 2.1, 0), "§a§lGem-Shop");
-		m.send();
+		
+		if(m!=null){
+			m.move(v.getLocation().add(0, 2.1, 0));
+		}else{
+			m = new NameTagMessage(NameTagType.SERVER, v.getLocation().add(0, 2.1, 0), "§a§lGem-Shop");
+			m.send();
+		}
 		
 		if(listener==null){
 			listener=new EntityClickListener(getPermission().getInstance(), new Click(){
@@ -103,6 +108,7 @@ public class GemsShop{
 				
 			}, v);
 		}else{
+			listener.getEntity().remove();
 			listener.setEntity(v);
 		}
 			

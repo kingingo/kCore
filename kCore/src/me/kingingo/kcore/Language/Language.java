@@ -566,6 +566,11 @@ public class Language {
 			add(type,"NOT_ENOUGH_COINS","§cYou have not enough Coins.");
 			add(type,"NOT_ENOUGH_GEMS","§cYou have not enough Gems.");
 			add(type,"LANGUAGE_CHANGE","§aEpicPvP will now be displayed in §eEnglish§a!");
+			add(type,"HUB_SG_1VS1_REQUEST","§aPlease wait a moment! We are looking for a free BedWars Server...");
+			add(type,"HUB_SG_1VS1_CANCEL","§cYour BedWars round was cancelled!");
+			add(type,"HUB_SG_1VS1_QUESTION","§7You invite §a{INPUT0}§7 to a BedWars 1vs1 round!");
+			add(type,"HUB_SG_1VS1_FROM_QUESTION","§7You were invited from §a{INPUT0}§7 to a BedWars 1vs1 round!");
+			add(type,"HUB_SG_1VS1_NO_FREE_ARENAS","§cPlease wait all BedWars arenas are in inGame mode!");
 			add(type,"HUB_BEDWARS_1VS1_REQUEST","§aPlease wait a moment! We are looking for a free BedWars Server...");
 			add(type,"HUB_BEDWARS_1VS1_CANCEL","§cYour BedWars round was cancelled!");
 			add(type,"HUB_BEDWARS_1VS1_QUESTION","§7You invite §a{INPUT0}§7 to a BedWars 1vs1 round!");
@@ -619,6 +624,8 @@ public class Language {
 			add(type,"enchantmentNotFound","§cEnchantment did not found!");
 			add(type,"POTION_GOT","§apotions received!");
 			add(type,"GAMECAGE_CHANGE","§aYour Cage changed!");
+			add(type,"GUNGAME_MAP_COUNTING","§aThe map will change in {INPUT0} seconds!");
+			add(type,"GUNGAME_MAP_CHANGE","§aThe map changed!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -1015,6 +1022,11 @@ public class Language {
 			add(type,"KIT_SHOP_PREMIUM","§7Dieses Kit ist ein Premium-Kit!");
 			add(type,"KIT_BACK","§czurück");
 			add(type,"LANGUAGE_CHANGE","§aEpicPvP wird dir nun in §eDeutsch §aangezeigt!");
+			add(type,"HUB_SG_1VS1_CANCEL","§cDeine BedWars Runde wurde annuliert");
+			add(type,"HUB_SG_1VS1_REQUEST","§aBitte warte! Es wird nach einen freien BedWars Server gesucht...");
+			add(type,"HUB_SG_1VS1_QUESTION","§7Du hast §a{INPUT0}§7 eine BedWars 1vs1 anfrage gesendet!");
+			add(type,"HUB_SG_1VS1_FROM_QUESTION","§7Du hast von §a{INPUT0}§7 eine BedWars 1vs1 anfrage erhalten!");
+			add(type,"HUB_SG_1VS1_NO_FREE_ARENAS","§cAlle BedWars Arenen sind momentan besetzt...!");
 			add(type,"HUB_BEDWARS_1VS1_CANCEL","§cDeine BedWars Runde wurde annuliert");
 			add(type,"HUB_BEDWARS_1VS1_REQUEST","§aBitte warte! Es wird nach einen freien BedWars Server gesucht...");
 			add(type,"HUB_BEDWARS_1VS1_QUESTION","§7Du hast §a{INPUT0}§7 eine BedWars 1vs1 anfrage gesendet!");
@@ -1064,6 +1076,8 @@ public class Language {
 			add(type,"NEAR_FIND","§aDer Spieler §7{INPUT1}§a ist §7{INPUT2}§a Blöcke entfernt!");
 			add(type,"POTION_GOT","§aDu hast deine Potions erhalten!");
 			add(type,"GAMECAGE_CHANGE","§aDein Cage wurde geändert!");
+			add(type,"GUNGAME_MAP_COUNTING","§aDie Map wird in §e{INPUT0}§a gewechselt!");
+			add(type,"GUNGAME_MAP_CHANGE","§aDie Map wurde gewechselt!");
 		}
 	}
 	

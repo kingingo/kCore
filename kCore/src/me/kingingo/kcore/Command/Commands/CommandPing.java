@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class CommandPing implements CommandExecutor{
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "ping", sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "ping", alias={"kping"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		((Player)sender).sendMessage(Language.getText(((Player)sender), "PREFIX")+"Player-Ping: §e"+UtilPlayer.getPlayerPing(((Player)sender))+"§7 Server-TPS: §e"+(int)UtilServer.getLagMeter().getTicksPerSecond());
 		return false;

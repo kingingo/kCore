@@ -1,5 +1,4 @@
 package me.kingingo.kcore.Client;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -15,6 +14,7 @@ import me.kingingo.kcore.Client.Events.ClientLostConnectionEvent;
 import me.kingingo.kcore.Client.Events.ClientReceiveMessageEvent;
 import me.kingingo.kcore.Client.Events.ClientSendMessageEvent;
 import me.kingingo.kcore.Update.Updater;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,12 +43,16 @@ public class Client {
 	@Getter
 	@Setter
 	private boolean connected=false;
+	@Getter
+	private JavaPlugin instance;
 	
 	public Client(JavaPlugin instance, String host,int port,String name){
 		this.host=host;
 		this.port=port;
 		this.name=name;
+		this.instance=instance;
 		this.listener=new ClientListener(instance, this);
+		UtilServer.setClient(this);
 		connect();
 	}
 	

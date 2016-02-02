@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import lombok.Getter;
+import me.kingingo.kcore.Util.UtilServer;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.command.CommandExecutor;
@@ -28,6 +29,7 @@ public class CommandHandler {
 
 	public CommandHandler(JavaPlugin p){
 		this.plugin = p;
+		UtilServer.setCommandHandler(this);
 	}
 	
 	public void register(Class clazz,CommandExecutor cExe){

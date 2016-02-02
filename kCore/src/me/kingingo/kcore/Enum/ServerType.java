@@ -5,6 +5,7 @@ import me.kingingo.kcore.Gilden.GildenType;
 import me.kingingo.kcore.Permission.GroupTyp;
 
 public enum ServerType {
+GUNGAME("gungame",GroupTyp.GUNGAME,GildenType.PVP,GameType.GUNGAME),
 PVP("pvp",GroupTyp.PVP,GildenType.PVP,GameType.PVP),
 WARZ("warz",GroupTyp.WARZ,GildenType.WARZ,GameType.WARZ),
 SKYBLOCK("skyblock",GroupTyp.SKY,GildenType.SKY,GameType.SKYBLOCK),

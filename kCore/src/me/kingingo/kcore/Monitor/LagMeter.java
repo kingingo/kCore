@@ -72,6 +72,7 @@ public class LagMeter extends kListener
   public void autoChunkUnloader(UpdateEvent event){
 	  if(isAutoChunkUnloader()&&event.getType() == UpdateType.MIN_08){
 		  unloadChunks(null, null);
+		  Log("Chunksunloaded...");
 	  }
   }
   
@@ -97,6 +98,12 @@ public class LagMeter extends kListener
     
   }
 
+  public int getAvgPing(){
+	  int ping=0;
+	  for(Player player : UtilServer.getPlayers())ping+=UtilPlayer.getPlayerPing(player);
+	  return (ping/UtilServer.getPlayers().size());
+  }
+  
   public double getTicksPerSecond()
   {
     return this._ticksPerSecond;
@@ -110,7 +117,7 @@ public class LagMeter extends kListener
   
   public String[] getUpdate(){
 	  String s;
-	  s="Online-Players: "+ UtilServer.getPlayers().size()+"-/-";
+	  s="Online-Players: "+ UtilServer.getPlayers().size()+" Avg-Ping:"+getAvgPing()+"-/-";
 	  	s+="Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) })+"-/-";
 	    s+="Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Max-Mem: "+Runtime.getRuntime().maxMemory() / 1048576L+ "MB"+"-/-";
 	    s+="Online-Time: "+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) )+"-/-";
@@ -137,7 +144,7 @@ public class LagMeter extends kListener
   }
   
   public void sendUpdate(){
-	  	Log("Online-Players: "+ UtilServer.getPlayers().size());
+	  	Log("Online-Players: "+ UtilServer.getPlayers().size()+" Avg-Ping:"+getAvgPing());
 	  	Log("Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
 	    Log("Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Max-Mem: "+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
 	    Log("Online-Time: "+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
@@ -255,7 +262,7 @@ public class LagMeter extends kListener
     player.sendMessage(" ");
     player.sendMessage(" ");
     player.sendMessage(" ");
-    player.sendMessage(Language.getText(player,"PREFIX")+"Online-Players: §e"+ UtilServer.getPlayers().size() + " §7Your-Ping: §e"+ UtilPlayer.getPlayerPing(player));
+    player.sendMessage(Language.getText(player,"PREFIX")+"Online-Players: §e"+ UtilServer.getPlayers().size() + " §7Your-Ping: §e"+ UtilPlayer.getPlayerPing(player) +" §7Avg-Ping:§e "+getAvgPing());
     player.sendMessage(Language.getText(player,"PREFIX")+"Live: §e" + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " §7Avg:§e " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
     player.sendMessage(Language.getText(player,"PREFIX")+"Free-Mem:§e " + Runtime.getRuntime().freeMemory() / 1048576L + "MB §7Max-Mem: §e"+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
     player.sendMessage(Language.getText(player,"PREFIX")+"View-Distance: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.viewDistance+ "§7 Tracking-Player-Range: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.playerTrackingRange );

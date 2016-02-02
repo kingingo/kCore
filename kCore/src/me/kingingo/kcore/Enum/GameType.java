@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.kingingo.kcore.StatsManager.Stats;
 
 public enum GameType {
+GUNGAME(true,"GunGame-Server", "GunGame", ServerType.GUNGAME,new Stats[] { Stats.KILLS, Stats.DEATHS,Stats.LEVEL}), 
 SurvivalGames1vs1(false,"SurvivalGames1vs1","SG1vs1",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE}),
 BedWars1vs1(false,"BedWars1vs1","BW1vs1",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.WIN,Stats.LOSE,Stats.BEDWARS_ZERSTOERTE_BEDs}),
 SkyWars1vs1(false,"SkyWars1vs1","SkyWars1vs1",ServerType.GAME,new Stats[]{Stats.KILLS,Stats.DEATHS,Stats.LOSE,Stats.WIN}),

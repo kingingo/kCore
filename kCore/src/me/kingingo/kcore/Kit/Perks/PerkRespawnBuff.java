@@ -16,8 +16,8 @@ public class PerkRespawnBuff extends Perk{
 		this.potion=potion;
 	}
 	
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void Respawn(final PlayerRespawnEvent ev){
+	@EventHandler(priority=EventPriority.LOWEST)
+	public void Respawn(PlayerRespawnEvent ev){
 		if(this.getPerkData().hasPlayer(this,ev.getPlayer())){
 			for(PotionEffect e : potion){
 				ev.getPlayer().addPotionEffect(new PotionEffect(e.getType(),e.getDuration(),e.getAmplifier()));

@@ -8,15 +8,11 @@ import me.kingingo.kcore.Permission.PermissionManager;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class ChatListener extends kListener{
 
@@ -43,14 +39,6 @@ public class ChatListener extends kListener{
 	public ChatListener(JavaPlugin instance,GildenManager gildenmanager){
 		super(instance,"ChatListener");
 		this.gildenmanager=gildenmanager;
-//		if(Bukkit.getPluginManager().getPlugin("PermissionsEx")!=null)pex=PermissionsEx.getPermissionManager();
-	}
-	
-	@EventHandler
-	public void Command(PlayerCommandPreprocessEvent ev){
-		if(ev.getMessage().contains("/minecraft:")){
-			
-		}
 	}
 	
 	String g;
@@ -96,10 +84,8 @@ public class ChatListener extends kListener{
 				}
 			
 				if(manager!=null)event.setFormat(manager.getPrefix(p)+ tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(kPermission.SUFFIX.getPermissionToString())?(this.userData!=null?(this.userData.getConfig(p).contains("Chat.Suffix")?this.userData.getConfig(p).getString("Chat.Suffix"):""):""):"") + msg);
-//				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§")+ tag + pex.getUser(p).getPrefix().replaceAll("&", "§").subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(kPermission.SUFFIX.getPermissionToString())?(this.userData!=null?(this.userData.getConfig(p).contains("Chat.Suffix")?this.userData.getConfig(p).getString("Chat.Suffix"):""):""):"") + msg);
 			}else{
 				if(manager!=null)event.setFormat(manager.getPrefix(p) + p.getName() + suffix + (p.hasPermission(kPermission.SUFFIX.getPermissionToString())?(this.userData!=null?(this.userData.getConfig(p).contains("Chat.Suffix")?this.userData.getConfig(p).getString("Chat.Suffix"):""):""):"") + msg);	
-//				if(pex!=null)event.setFormat(pex.getUser(p).getPrefix().replaceAll("&", "§") + p.getName() + suffix + (p.hasPermission(kPermission.SUFFIX.getPermissionToString())?(this.userData!=null?(this.userData.getConfig(p).contains("Chat.Suffix")?this.userData.getConfig(p).getString("Chat.Suffix"):""):""):"") + msg);
 			}
 		}
 	}

@@ -116,6 +116,7 @@ public class NameTagMessage extends ImageMessage {
 	
 	public void move(Player player, Location location) {
 		if(getType()==NameTagType.PACKET){
+			setLocation(location);
 			Location copy = location.clone();
 
 			for (int i = 0; i < this.lines.length; i++) {

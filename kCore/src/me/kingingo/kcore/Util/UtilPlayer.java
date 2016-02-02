@@ -39,6 +39,7 @@ import org.bukkit.util.Vector;
 
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
+import com.sun.jna.Callback;
 
 public class UtilPlayer
 {
@@ -234,7 +235,6 @@ public class UtilPlayer
   }
   
   public static void RespawnNow(final Player p,JavaPlugin plugin){
-//	  p.spigot().respawn();
       Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
     	   public void run() {
     		   p.spigot().respawn();

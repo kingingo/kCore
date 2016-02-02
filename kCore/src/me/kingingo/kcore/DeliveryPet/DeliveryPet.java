@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.kingingo.kcore.Enum.ServerType;
 import me.kingingo.kcore.Hologram.Hologram;
 import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
@@ -83,6 +84,7 @@ public class DeliveryPet extends kListener{
 	@Getter
 	private Hologram hologramm;
 	@Getter
+	@Setter
 	private Location location;
 	@Getter
 	private String name;
@@ -191,6 +193,24 @@ public class DeliveryPet extends kListener{
 		if(pack!=null)this.base.addPage(lotto);
 		createPet();
 		UtilServer.createDeliveryPet(this);
+	}
+	
+	public void teleportPet(Location location){
+		if(this.jockey!=null){
+			setLocation(location.clone());
+			if(this.jockey.getPassenger()!=null){
+				this.jockey.eject();
+				this.jockey.teleport(getLocation());
+				this.entity.teleport(getLocation());
+				this.jockey.setPassenger(this.entity);
+			}else{
+				this.jockey.teleport(getLocation());
+			}
+			
+			for(Player player : this.players_hm.keySet()){
+				this.players_hm.get(player).move(player, this.jockey.getLocation().add(0, 2.1, 0));
+			}
+		}
 	}
 	
 	public void createPet(){

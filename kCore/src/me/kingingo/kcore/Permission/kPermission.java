@@ -238,6 +238,10 @@ SHEEPWARS_KIT_MVPPLUS("epicpvp.kit.mvpplus"),
 //SHEEPWARS Kits
 
 //SHEEPWARS Kits
+SKYWARS_KIT_DAGOBERT_DUCK("epicpvp.skywars.kit.dagobertduck"),
+SKYWARS_KIT_FORSTER("epicpvp.skywars.kit.forster"),
+SKYWARS_KIT_DOKTOR("epicpvp.skywars.kit.doktor"),
+SKYWARS_KIT_SPINNE("epicpvp.skywars.kit.spinne"),
 SKYWARS_KIT_MLG("epicpvp.skywars.kit.mlg"),
 SKYWARS_KIT_HULK("epicpvp.skywars.kit.hulk"),
 SKYWARS_KIT_MARIO("epicpvp.skywars.kit.mario"),

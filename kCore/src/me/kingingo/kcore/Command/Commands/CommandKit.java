@@ -6,6 +6,9 @@ import java.util.HashMap;
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
+import me.kingingo.kcore.Command.Commands.Events.AddKitEvent;
+import me.kingingo.kcore.Command.Commands.Events.DeleteKitEvent;
+import me.kingingo.kcore.Command.Commands.Events.ResetKitEvent;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.UserDataConfig.UserDataConfig;
@@ -17,6 +20,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 public class CommandKit implements CommandExecutor{
@@ -40,9 +44,38 @@ public class CommandKit implements CommandExecutor{
 			kits.put(kit, config.getInventory("kits."+kit+".Inventory").getContents());
 			if(config.isSet("kits."+kit+".Delay"))kits_delay.put(kit, config.getLong("kits."+kit+".Delay"));
 		}
-		cmd.register(CommandDelKit.class, new CommandDelKit(this,config));
-		cmd.register(CommandSetKit.class, new CommandSetKit(this,config));
-		cmd.register(CommandResetKit.class, new CommandResetKit(this));
+		cmd.register(CommandDelKit.class, new CommandDelKit(config));
+		cmd.register(CommandSetKit.class, new CommandSetKit(config));
+		cmd.register(CommandResetKit.class, new CommandResetKit());
+	}
+	
+	@EventHandler
+	public void reset(ResetKitEvent ev){
+		if(getKits().containsKey(ev.getKit())){
+			//epicpvp.kit.use.starter
+			if(ev.getPlayer().hasPermission(kPermission.KIT.getPermissionToString()+"."+ev.getKit())){
+				if(getKits().containsKey(ev.getKit())&&!ev.getPlayer().hasPermission(kPermission.KIT_BYEPASS_DELAY.getPermissionToString())){
+					getUserData().getConfig(ev.getPlayer()).set("timestamps.kits."+ev.getKit(),getKits_delay().get(ev.getKit())+System.currentTimeMillis());
+					ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+Language.getText(ev.getPlayer(), "KIT_DELAY",UtilTime.formatMili(getUserData().getConfig(ev.getPlayer()).getLong("timestamps.kits."+ev.getKit())-System.currentTimeMillis())));
+				}
+			}
+		}else{
+			ev.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void added(AddKitEvent ev){
+		if(ev.getDelay()!=0)getKits_delay().put(ev.getKit(), ev.getDelay());
+		getKits().put(ev.getKit(), ev.getPlayer().getInventory().getContents().clone());
+	}
+	
+	@EventHandler
+	public void delete(DeleteKitEvent ev){
+		if(getKits().containsKey(ev.getKit())){
+			getKits().remove(ev.getKit());
+			getKits_delay().remove(ev.getKit());
+		}
 	}
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "kit", sender = Sender.PLAYER)
