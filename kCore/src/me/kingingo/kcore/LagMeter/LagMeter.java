@@ -1,4 +1,4 @@
-package me.kingingo.kcore.Monitor;
+package me.kingingo.kcore.LagMeter;
 import java.io.File;
 import java.util.HashSet;
 
@@ -11,6 +11,7 @@ import me.kingingo.kcore.Command.Admin.CommandMemFix;
 import me.kingingo.kcore.Command.Admin.CommandMonitor;
 import me.kingingo.kcore.Command.Admin.CommandUnloadChunks;
 import me.kingingo.kcore.Command.Commands.CommandPing;
+import me.kingingo.kcore.LagMeter.Chunks.ChunkCleanup;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
@@ -44,36 +45,28 @@ public class LagMeter extends kListener
   private long _startTime;
   @Getter
   private HashSet<Player> _monitoring = new HashSet();
-  @Getter
-  @Setter
-  private boolean autoChunkUnloader = false;
 
   public LagMeter(CommandHandler handler){
     super(handler.getPlugin(), "LagMeter");
+    
     this._startTime = System.currentTimeMillis();
     this._lastRun = System.currentTimeMillis();
     this._lastAverage = System.currentTimeMillis();
+    
     handler.register(CommandLagg.class, new CommandLagg());
     handler.register(CommandMonitor.class, new CommandMonitor());
     handler.register(CommandPing.class, new CommandPing());
     handler.register(CommandUnloadChunks.class, new CommandUnloadChunks());
     handler.register(CommandEntities.class, new CommandEntities());
     handler.register(CommandMemFix.class, new CommandMemFix());
+    
+    new ChunkCleanup(handler.getPlugin());
     UtilServer.setLagMeter(this);
   }
 
   @EventHandler
-  public void playerQuit(PlayerQuitEvent event)
-  {
+  public void playerQuit(PlayerQuitEvent event){
     this._monitoring.remove(event.getPlayer());
-  }
-
-  @EventHandler
-  public void autoChunkUnloader(UpdateEvent event){
-	  if(isAutoChunkUnloader()&&event.getType() == UpdateType.MIN_08){
-		  unloadChunks(null, null);
-		  Log("Chunksunloaded...");
-	  }
   }
   
   @EventHandler

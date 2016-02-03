@@ -18,6 +18,7 @@ import me.kingingo.kcore.Packet.Packets.ARENA_SETTINGS;
 import me.kingingo.kcore.Packet.Packets.ARENA_STATUS;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
+import me.kingingo.kcore.Update.UpdateType;
 import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.UpdateAsync.UpdateAsyncType;
 import me.kingingo.kcore.UpdateAsync.Event.UpdateAsyncEvent;
@@ -25,12 +26,13 @@ import me.kingingo.kcore.Util.UtilBG;
 import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilMath;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class ArenaManager extends kThreadListener  {
+public class ArenaManager extends kListener  {
 
 	/*
 	 * Game Rounds
@@ -149,8 +151,28 @@ public class ArenaManager extends kThreadListener  {
 	Player owner;
 	GameRound round;
 	int id;
-	public void run(){
-		if(updateSpeed.Elapsed()&&!server.isEmpty()&&!this.wait_list.isEmpty()&&this.packetManager.getClient().isConnected()){
+	@EventHandler
+	public void clean(UpdateAsyncEvent ev){
+			if(UpdateAsyncType.MIN_16==ev.getType()){
+				try{
+					getRounds().clear();
+					for(ArenaType type : ArenaType.values())getRounds().put(type, new HashMap<Integer,GameRound>());
+					getRounds_player().clear();
+					setRound_counter(0);
+					
+					getServer().clear();
+					getWait_list().clear();
+					for(ArenaType type : ArenaType.values())getWait_list().put(type, new ArrayList<Player>());
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+	}
+	
+	@EventHandler
+	public void Update(UpdateAsyncEvent ev){
+		
+		if(ev.getType()==updateSpeed&&!server.isEmpty()&&!this.wait_list.isEmpty()&&this.packetManager.getClient().isConnected()){
 			try{
 				if(this.players==null){
 					this.players=new HashMap<>();
@@ -392,261 +414,13 @@ public class ArenaManager extends kThreadListener  {
 						if(isEmpty())break;
 					}
 				}
+
 			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}
+		
 	}
-	
-//	@EventHandler
-//	public void Update(UpdateAsyncEvent ev){
-//		if(ev.getType()==updateSpeed&&!server.isEmpty()&&!this.wait_list.isEmpty()&&this.packetManager.getClient().isConnected()){
-//			try{
-//				if(this.players==null){
-//					this.players=new HashMap<>();
-//					for(Team t : ArenaType._TEAMx6.getTeam())players.put(t, new ArrayList<Player>());
-//				}
-//				
-//				if(list==null)list=new ArrayList<>();
-//				list.clear();
-//				for(String arena : this.server.keySet())this.list.add(arena);
-//				
-//				if(list.isEmpty()){
-//					if(UtilDebug.isDebug()){
-//						Log("LISTE IS EMPTY!!!!");
-//					}
-//				}
-//				
-//				for(int r = 0; r<this.server.size(); r++){
-//					if(list.isEmpty())break;
-//					arena = (ARENA_STATUS)this.server.get( list.get(UtilMath.r(list.size())) );
-//					this.list.remove(arena.getServer()+arena.getArena());
-//					
-//					if(arena.getState()==GameState.LobbyPhase){
-//						for(Team t : players.keySet())players.get(t).clear();
-//						
-//						for(int i = arena.getTeams(); i >= 2 ; i--){
-//							this.type=(ArenaType)ArenaType.byInt( i );
-//							this.team=0;
-//							this.owner=null;
-//							this.ba=false;
-//							this.team_size=-2;
-//							this.br=false;
-//
-//							if(this.rounds.containsKey(type)&&!this.rounds.get(type).isEmpty()){
-//								this.id=(Integer)this.rounds.get(type).keySet().toArray()[0];
-//								this.round=(GameRound)this.rounds.get(type).get(id);
-//								if(UtilDebug.isDebug()&&this.round.getOwner()!=null&&this.round.getOwner().getName().equalsIgnoreCase("kingingo")){
-//									Log("Owner: kingingo");
-//								}
-//								
-//								
-//								if(this.round.getOwner().isOnline()){
-//									this.owner=round.getOwner();
-//									
-//									if(UtilDebug.isDebug()&&this.owner.getName().equalsIgnoreCase("kingingo")){
-//										Log("Online");
-//									}
-//									
-//									for(Player player : this.round.getPlayers()){
-//										if(player.isOnline()){
-//											this.players.get(this.type.getTeam()[this.team]).add(player);
-//											this.team++;
-//											if(this.type.getTeam().length==this.team){
-//												this.team=0;
-//											}
-//										}else{
-//											ba=true;
-//											break;
-//										}
-//									}
-//									
-//									if(!ba){
-//										if(type==ArenaType._TEAMx2){
-//											arena.setMin_team(1);
-//											arena.setMax_team(1);
-//										}else{
-//											arena.setMin_team(statsManager.getInt(Stats.TEAM_MIN, this.owner));
-//											arena.setMax_team(statsManager.getInt(Stats.TEAM_MAX, this.owner));
-//										}
-//										arena.setKit(this.owner.getName());
-//										arena.setState(GameState.Laden);
-//									
-//										this.settings=new ARENA_SETTINGS(this.type, arena.getArena(), arena.getKit(), this.owner, Team.BLACK, arena.getMin_team(), arena.getMax_team());
-//
-//										for(Team t : this.type.getTeam()){
-//											for(Player player : this.players.get(t)){
-//												this.settings.setTeam(t);
-//												this.settings.setPlayer(player.getName());
-//												this.packetManager.SendPacket(arena.getServer(), this.settings);
-//											}
-//										}
-//										
-//										for(Team t : this.type.getTeam()){
-//											for(Player player : this.players.get(t)){
-//												this.rounds_player.remove(player.getUniqueId());
-//												arena.setOnline(arena.getOnline()+1);
-//												UtilBG.sendToServer(player, arena.getServer(), this.packetManager.getInstance());
-//											}
-//											this.players.get(t).clear();
-//										}
-//
-//										if(UtilDebug.isDebug()&&this.owner.getName().equalsIgnoreCase("kingingo")){
-//											Log("ALLES GUT!");
-//										}
-//										
-//										this.round.remove();
-//										this.rounds.get(type).remove(this.id);
-//										break;
-//									}else{
-//										if(UtilDebug.isDebug()&&this.owner.getName().equalsIgnoreCase("kingingo")){
-//											Log("MITSPIELER OFFLINE");
-//										}
-//									}
-//
-//									this.round.remove();
-//									this.rounds.get(type).remove(this.id);
-//									
-//									this.team=0;
-//									this.owner=null;
-//									this.ba=false;
-//									this.team_size=-2;
-//									this.br=false;
-//								}
-//							}
-//							
-//							if(!this.wait_list.containsKey(type)){
-//								System.err.println("TYPE: "+t.getKürzel());
-//								System.err.println(" TYPE1:"+type);
-//								continue;
-//							}
-//							
-//							this.players_size=this.wait_list.get(type).size();
-//							
-//							if(this.players_size<this.type.getTeam().length){
-//								continue;
-//							}
-//							
-//							if(this.wait_list.containsKey(type)&&!this.wait_list.get(type).isEmpty()){
-//								for(Player player : this.wait_list.get(type)){
-//										if(!player.isOnline())continue;
-//										if(this.owner==null){
-//											this.owner=player;
-//											
-//											if(type==ArenaType._TEAMx2){
-//												arena.setMin_team(1);
-//												arena.setMax_team(1);
-//											}else{
-//												arena.setMin_team(statsManager.getInt(Stats.TEAM_MIN, this.owner));
-//												arena.setMax_team(statsManager.getInt(Stats.TEAM_MAX, this.owner));
-//											}
-//											
-//											if(arena.getMin_team()*this.type.getTeam().length>this.players_size){
-//												br=true;
-//												break;
-//											}
-//											
-//											arena.setKit(this.owner.getName());
-//										}
-//										if(this.owner==player || RuleCheck(this.owner, player, type, arena,this.players)){
-//											this.players.get(this.type.getTeam()[this.team]).add(player);
-//											this.team++;
-//											if(this.type.getTeam().length==this.team){
-//												this.team=0;
-//											}
-//											
-//											//Pr�ft ob die Teams voll genug sind!
-//											for(Team t : this.type.getTeam()){
-//												if( players.get(t).size() >= arena.getMax_team() ){
-//													ba=true;
-//												}else{
-//													ba=false;
-//													break;
-//												}
-//											}
-//											
-//											if(ba){
-//												break;
-//											}
-//										}
-//								}
-//								
-//								if(br)continue;
-//								
-//								for(Team t : this.type.getTeam()){
-//									if(this.players.get(t).size()<arena.getMin_team()){
-//										br=true;
-//										break;
-//									}
-//								}
-//								
-//								if(br){
-//									continue;
-//								}
-//								
-//								for(Team t : this.type.getTeam()){
-//									this.team_size=this.players.get(t).size();
-//									for(Team t1 : this.type.getTeam()){
-//										if(this.players.get(t1).size() < this.team_size){
-//											this.team_size=-1;
-//											break;
-//										}
-//									}
-//									
-//									if(this.team_size!=-1)break;
-//								}
-//								
-//								if(this.team_size<=0){
-//									break;
-//								}
-//								
-//								arena.setState(GameState.Laden);
-//								this.settings=new ARENA_SETTINGS(this.type, arena.getArena(), arena.getKit(), this.owner, Team.BLACK, arena.getMin_team(), arena.getMax_team());
-//								
-//								for(Team t : this.type.getTeam()){
-//									if(this.players.get(t).size()>this.team_size){
-//										this.team_remove=this.players.get(t).size()-this.team_size;
-//										for(int a = 0; a<this.players.get(t).size(); a++){
-//											if(this.players.get(t).get(a)==this.owner){
-//												continue;
-//											}
-//											this.team_remove--;
-//											this.players.get(t).remove(a);
-//											
-//											if(team_remove==0){
-//												break;
-//											}
-//										}
-//									}
-//									
-//									for(Player player : this.players.get(t)){
-//										this.settings.setTeam(t);
-//										this.settings.setPlayer(player.getName());
-//										this.packetManager.SendPacket(arena.getServer(), this.settings);
-//									}
-//								}
-//								
-//								for(Team t : this.type.getTeam()){
-//									for(Player player : this.players.get(t)){
-//										this.wait_list.get(type).remove(player);
-//										arena.setOnline(arena.getOnline()+1);
-//										UtilBG.sendToServer(player, arena.getServer(), this.packetManager.getInstance());
-//									}
-//									this.players.get(t).clear();
-//								}
-//								
-//								break;
-//							}
-//						}
-//						
-//						if(isEmpty())break;
-//					}
-//				}
-//			}catch(Exception e){
-//				e.printStackTrace();
-//			}
-//		}
-//	}
 	
 	public boolean isEmpty(){
 		for(ArenaType type : this.wait_list.keySet()){

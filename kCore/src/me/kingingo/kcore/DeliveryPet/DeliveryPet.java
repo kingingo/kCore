@@ -231,6 +231,7 @@ public class DeliveryPet extends kListener{
 				UtilEnt.setChickenDropEgg( ((Chicken)this.jockey) , true);
 				
 				this.entity=(Creature)getLocation().getWorld().spawnCreature(getLocation(), EntityType.ZOMBIE);
+				UtilEnt.setSilent(entity, true);
 				this.entity.setCustomName("");
 				this.entity.setCustomNameVisible(true);
 				this.entity.setRemoveWhenFarAway(false);

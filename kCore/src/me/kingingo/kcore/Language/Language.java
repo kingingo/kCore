@@ -35,7 +35,7 @@ public class Language {
 			 while (rs.next()){
 				 if(LanguageType.get(rs.getString(1))==null)continue;
 				 if(!list.containsKey(LanguageType.get(rs.getString(1))))list.put(LanguageType.get(rs.getString(1)), new HashMap<String,String>());
-				 list.get(LanguageType.get(rs.getString(1))).put(rs.getString(2), rs.getString(3).replaceAll("<3", "♥"));
+				 list.get(LanguageType.get(rs.getString(1))).put(rs.getString(2), rs.getString(3).replaceAll("<3", "❤"));
 			 }
 			 rs.close();
 		}catch (SQLException e){
@@ -626,6 +626,9 @@ public class Language {
 			add(type,"GAMECAGE_CHANGE","§aYour Cage changed!");
 			add(type,"GUNGAME_MAP_COUNTING","§aThe map will change in {INPUT0} seconds!");
 			add(type,"GUNGAME_MAP_CHANGE","§aThe map changed!");
+			add(type,"GUNGAME_KILL","§7You killed §a{INPUT0}§7.");
+			add(type,"GUNGAME_KILLED_BY","§cYou were killed by §e{INPUT0}§c.");
+			add(type,"GUNGAME_LEVEL_UP","§a{INPUT0} §7reached level §e{INPUT1}§7. It took him §a{INPUT2}§7!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -1078,6 +1081,9 @@ public class Language {
 			add(type,"GAMECAGE_CHANGE","§aDein Cage wurde geändert!");
 			add(type,"GUNGAME_MAP_COUNTING","§aDie Map wird in §e{INPUT0}§a gewechselt!");
 			add(type,"GUNGAME_MAP_CHANGE","§aDie Map wurde gewechselt!");
+			add(type,"GUNGAME_KILL","§7Du hast §a{INPUT0} §7getötet.");
+			add(type,"GUNGAME_KILLED_BY","§cDu wurdest von §e{INPUT0} §cgetötet.");
+			add(type,"GUNGAME_LEVEL_UP","§a{INPUT0} §7hat Level §e{INPUT1} §7erreicht und dafuer §a{INPUT2}§7 gebraucht!");
 		}
 	}
 	

@@ -54,4 +54,11 @@ private Stats(String CREATE,String TYP,String KÜRZEL,boolean mysql){
 	this.mysql=mysql;
 }
 
+public static Stats get(String s){
+	for(Stats stats : values()){
+		if(stats.getTYP().equalsIgnoreCase(s))return stats;
+	}
+	return null;
+}
+
 }

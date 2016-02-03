@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Permission;
 
 public enum kPermission {
+STATS_ADMIN("epicpvp.statsadmin"),
 COINS_ONE_ADD("epicpvp.coins.one"),
 COINS_TWO_ADD("epicpvp.coins.two"),
 COINS_THREE_ADD("epicpvp.coins.three"),

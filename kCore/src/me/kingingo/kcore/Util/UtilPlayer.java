@@ -49,7 +49,7 @@ public class UtilPlayer
 	}
 	
 	public static void sendHovbarText(Player player,String text){
-		sendPacket(player, new kPacketPlayOutChat(text.replaceAll("&", "§"),kPacketPlayOutChat.ChatMode.HOVBAR));
+		sendPacket(player, new kPacketPlayOutChat(text.replaceAll("&", "Â§"),kPacketPlayOutChat.ChatMode.HOVBAR));
 	}
 	
 	public static void sendPacket(Player player,Packet packet){
@@ -107,11 +107,11 @@ public class UtilPlayer
 	}
 	
 	public static String getPlayerLiveString(Player player){
-		String s="§c";
+		String s="Â§c";
 		for(int i = 0; i<getHealth(player); i++){
 			s+=Zeichen.HERZ.getIcon();
 		}
-		s+="§f";
+		s+="Â§f";
 		for(int i = 0; i<(getMaxHealth(player)-getHealth(player)); i++){
 			s+=Zeichen.HERZ.getIcon();
 		}
@@ -119,7 +119,7 @@ public class UtilPlayer
 	}
 	
 	public static void setScoreboard(Player player,Gems gems){
-		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
+		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "Â§6Â§lEpicPvP.eu");
 		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 12);
 		UtilScoreboard.setScore(player.getScoreboard(),""+gems.getGems(player), DisplaySlot.SIDEBAR, 11);
 		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 10);
@@ -136,7 +136,7 @@ public class UtilPlayer
 	}
 	
 	public static void setScoreboard(Player player,Gems gems,Coins coins){
-		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
+		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "Â§6Â§lEpicPvP.eu");
 		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 15);
 		UtilScoreboard.setScore(player.getScoreboard(),""+gems.getGems(player), DisplaySlot.SIDEBAR, 14);
 		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 13);
@@ -220,6 +220,23 @@ public class UtilPlayer
 	
 	public static double getMaxHealth(Player player){
 		return getCraftPlayer(player).getMaxHealth();
+	}
+	
+	public static String getHealthBar(Player player){
+		String bar="";
+		double health = getHealth(player);
+		for(int i=0;i<20;i++){
+			if(i<=health && i%2==0){
+				bar+=ChatColor.RED+"â¤";
+			}else if(health==i && i%2!=0){
+				bar+=ChatColor.RED+"â¥";
+			}else if(i%2==0){
+				bar+=ChatColor.GRAY+"â¤";
+			}
+		}
+		
+		bar+=" Â§7(Â§e"+(health/2)+"Â§7)";
+		return bar;
 	}
 	
 	public static double getHealth(Player player){
@@ -440,8 +457,8 @@ public class UtilPlayer
     player.setHealth(health);
   }
   
-  public static void addPotionEffect(Player p,PotionEffectType typ, int time,int stärke){
-	  p.addPotionEffect(new PotionEffect(typ,time*20,stärke),true);
+  public static void addPotionEffect(Player p,PotionEffectType typ, int time,int stÃ¤rke){
+	  p.addPotionEffect(new PotionEffect(typ,time*20,stÃ¤rke),true);
   }
 
   public static void hunger(Player player, int mod){

@@ -266,6 +266,10 @@ public class StatsManager extends kListener{
 		list.get(p).remove(s);
 	}
 	
+	public void deleteEintrag(Player p){
+		mysqlUpdate("DELETE FROM users_"+typ.getKürzel()+" WHERE UUID='"+UtilPlayer.getRealUUID(p)+"';");
+	}
+	
 	public void createEintrag(Player p){
 		Stats[] stats = typ.getStats();
 		String tt = "player,UUID,";
@@ -389,6 +393,67 @@ public class StatsManager extends kListener{
 		}
 		
 		list.get(p).put(s, i);
+		return i;
+	}
+	
+	public boolean ExistPlayer(UUID uuid){
+		boolean done = false;
+		if(UtilPlayer.isOnline(uuid) && list.containsKey(Bukkit.getPlayer(uuid)))return true;
+		try
+	    {
+	      ResultSet rs = mysql.Query("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+uuid+"'");
+
+	      while (rs.next()) {
+	    	  done=true;
+	      }
+
+	      rs.close();
+	    } catch (Exception err) {
+	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
+	    }
+		
+		if(UtilPlayer.isOnline(uuid)){
+			list.put(Bukkit.getPlayer(uuid), new HashMap<Stats,Object>());
+			if(!done)createEintrag(Bukkit.getPlayer(uuid));
+		}
+		return done;
+	}
+	
+	public int addInt(UUID uuid,int i,Stats s){
+		i+=getInt(s, uuid);
+		return setInt(uuid, i, s);
+	}
+	
+	public int setInt(UUID uuid,int i,Stats s){
+		ExistPlayer(uuid);
+		if(UtilPlayer.isOnline(uuid)&&list.containsKey(Bukkit.getPlayer(uuid))){
+			list.get(Bukkit.getPlayer(uuid)).put(s, i);
+			Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(s,Bukkit.getPlayer(uuid)));
+		}else{
+			mysqlUpdate("UPDATE users_"+typ.getKürzel()+" SET "+s.getTYP()+"='"+ i +"' WHERE UUID='" + uuid + "'");
+		}
+		return i;
+	}
+	
+	public Integer getInt(Stats s,UUID uuid){
+		ExistPlayer(uuid);
+		if(UtilPlayer.isOnline(uuid) && list.containsKey(Bukkit.getPlayer(uuid))&&list.get(Bukkit.getPlayer(uuid)).containsKey(s)){
+			return (Integer)list.get(Bukkit.getPlayer(uuid)).get(s);
+		}
+		
+		int i = -1;
+		try{
+			ResultSet rs = mysql.Query("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+uuid+"'");
+			while(rs.next()){
+				i=rs.getInt(1);
+			}
+			rs.close();
+		}catch (Exception err){
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
+		}
+		
+		if(UtilPlayer.isOnline(uuid) && i!=-1 && list.containsKey(Bukkit.getPlayer(uuid)))list.get(Bukkit.getPlayer(uuid)).put(s, i);
+		
 		return i;
 	}
 	
