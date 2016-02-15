@@ -4,6 +4,7 @@ import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerAddEvent;
 import me.kingingo.kcore.Kit.Perks.Event.PerkPlayerRemoveEvent;
 import me.kingingo.kcore.Kit.Perks.Event.PerkStartEvent;
+import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -19,7 +21,7 @@ public class PerkRunner extends Perk{
 	private float speed;
 	
 	public PerkRunner(float speed) {
-		super("Runner");
+		super("Runner",UtilItem.RenameItem(new ItemStack(Material.SUGAR),"§eRunner"));
 		this.speed=speed;
 	}
 	

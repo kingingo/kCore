@@ -39,7 +39,6 @@ import org.bukkit.util.Vector;
 
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
-import com.sun.jna.Callback;
 
 public class UtilPlayer
 {
@@ -235,7 +234,7 @@ public class UtilPlayer
 			}
 		}
 		
-		bar+=" §7(§e"+(health/2)+"§7)";
+		bar+=" §7(§e"+UtilMath.trim(2,(health/2))+"§7)";
 		return bar;
 	}
 	

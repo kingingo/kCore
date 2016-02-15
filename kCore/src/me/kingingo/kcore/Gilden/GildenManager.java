@@ -662,11 +662,10 @@ public class GildenManager implements Listener {
 	    } catch (Exception err) {
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
-		
-		if(!done)createDataEintrag(gilde, typ);
-		
+
 		gilden_data.put(gilde,new HashMap<GildenType,HashMap<Stats,Object>>());
 		gilden_data.get(gilde).put(typ, new HashMap<Stats,Object>());
+		if(!done)createDataEintrag(gilde, typ);
 		return done;
 	}
 	

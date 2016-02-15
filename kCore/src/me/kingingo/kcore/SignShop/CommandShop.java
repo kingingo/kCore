@@ -26,14 +26,14 @@ public class CommandShop extends kListener implements CommandExecutor{
 
 	private Player player;
 	
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "shop", sender = Sender.PLAYER)
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "sshop", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player = (Player)sender;
 		if(player.hasPermission(kPermission.ALL_PERMISSION.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"/shop sale");
-				player.sendMessage(Language.getText(player, "PREFIX")+"/shop buy");
-				player.sendMessage(Language.getText(player, "PREFIX")+"/shop all");
+				player.sendMessage(Language.getText(player, "PREFIX")+"/sshop sale");
+				player.sendMessage(Language.getText(player, "PREFIX")+"/sshop buy");
+				player.sendMessage(Language.getText(player, "PREFIX")+"/sshop all");
 			}else{
 				if(args[0].equalsIgnoreCase("sale")){
 					Block b = player.getTargetBlock((Set<Material>) null, 100);

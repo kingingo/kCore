@@ -91,6 +91,7 @@ public class ButtonBase implements IButtonOneSlot{
 		this.name=null;
 		this.description=null;
 		this.itemStack=null;
+		if(this.inventoryPageBase!=null)this.inventoryPageBase.setItem(slot, null);
 		this.slot=0;
 		this.inventoryPageBase=null;
 	}

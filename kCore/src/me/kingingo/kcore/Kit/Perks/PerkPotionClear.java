@@ -5,12 +5,15 @@ import java.util.HashMap;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Util.TimeSpan;
+import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilParticle;
 import me.kingingo.kcore.Util.UtilTime;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -19,7 +22,7 @@ public class PerkPotionClear extends Perk{
 	private HashMap<String,Long> timer = new HashMap<>();
 	
 	public PerkPotionClear() {
-		super("PotionClear");
+		super("PotionClear",UtilItem.RenameItem(new ItemStack(374),"§ePotionClear"));
 	}
 	
 	public boolean is(Player player){

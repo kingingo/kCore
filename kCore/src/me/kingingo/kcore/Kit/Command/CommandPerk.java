@@ -4,121 +4,68 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Inventory.InventoryBase;
-import me.kingingo.kcore.Inventory.Inventory.InventoryChoose;
-import me.kingingo.kcore.Inventory.Inventory.InventoryYesNo;
-import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Inventory.Inventory.InventoryCopy;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonPerkOnOff;
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Kit.PerkManager;
 import me.kingingo.kcore.Language.Language;
-import me.kingingo.kcore.Update.UpdateType;
-import me.kingingo.kcore.Update.Event.UpdateEvent;
-import me.kingingo.kcore.Util.UtilEvent.ActionType;
-import me.kingingo.kcore.Util.UtilItem;
-import me.kingingo.kcore.Util.UtilList;
-import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.InventorySize;
+import me.kingingo.kcore.Util.InventorySplit;
+import me.kingingo.kcore.Util.UtilInv;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 public class CommandPerk implements CommandExecutor{
 	
 	@Getter
 	private PerkManager manager;
-	private InventoryYesNo or;
-	private InventoryChoose choose;
-	private HashMap<Player,String> perk = new HashMap<>();
+	private HashMap<ItemStack,Perk> perklist;
 	
-	public CommandPerk(final PerkManager manager,InventoryBase base){
+	public CommandPerk(final PerkManager manager){
 		this.manager=manager;
+		this.perklist=new HashMap<>();
+		UtilInv.getBase(manager.getInstance());
+		manager.setPage(new InventoryCopy(InventorySize._45.getSize(), "Perk:"));
 		
-		or = new InventoryYesNo("Perk An/Aus", new Click(){
-
-			@Override
-			public void onClick(Player player, ActionType type,Object object) {
-
-				if(manager.getUserData()!=null&&manager.getUserData().getConfigs().containsKey(UtilPlayer.getRealUUID(player))){
-					manager.getUserData().getConfig(player).set("perks."+perk.get(player), "true");
-				}
-				
-				getManager().addPlayer( perk.get(player) , player);
-				perk.remove(player);
-				
-				player.closeInventory();
-			}
-			
-		}, new Click(){
-
-			@Override
-			public void onClick(Player player, ActionType type,Object object) {
-
-				if(manager.getUserData()!=null&&manager.getUserData().getConfigs().containsKey(UtilPlayer.getRealUUID(player))){
-					manager.getUserData().getConfig(player).set("perks."+perk.get(player), "false");
-				}
-				
-				getManager().removePlayer( perk.get(player) , player);
-				perk.remove(player);
-				
-				player.closeInventory();
-			}
-			
-		});
-		
-		base.addPage(or);
-		
-		choose=new InventoryChoose(new Click(){
-
-				@Override
-				public void onClick(Player player, ActionType type,Object object) {
-					if(object instanceof ItemStack){
-						if(((ItemStack)object).hasItemMeta()){
-							if(((ItemStack)object).getItemMeta().hasDisplayName()){
-								if(manager.hasPlayer(((ItemStack)object).getItemMeta().getDisplayName(), player)){
-									perk.remove(player);
-									perk.put(player, ((ItemStack)object).getItemMeta().getDisplayName());
-									player.openInventory(or);
-								}
-							}
-						}
-					}
-				}
-				
-			},"§aPerk Auswahl",18,getItems());
-		base.addPage(choose);
-	}
-
-	@me.kingingo.kcore.Command.CommandHandler.Command(command = "perk", sender = Sender.PLAYER)
-	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
-		Player p = (Player)cs;
-		if(manager.hasPlayer(p)){
-			p.openInventory(choose);
-		}else{
-			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "PERK_NOT_BOUGHT"));
+		int slot = 0;
+		for (Perk perk : manager.getPlayers().keySet()) {
+			manager.getPage().addButton(slot,new ButtonPerkOnOff(slot+9,slot, perk));
+		    slot++;
+		    
+		    if(slot==(InventorySplit._9.getMax()+1)){
+		    	slot=InventorySplit._36.getMin();
+		    }
 		}
-		return false;
-	}
-	
-	@EventHandler
-	public void Update(UpdateEvent ev){
-		if(ev.getType()==UpdateType.MIN_64){
-			for(Player p : perk.keySet())p.closeInventory();
-			UtilList.CleanList(perk);
-		}
+		manager.getPage().fill(Material.STAINED_GLASS_PANE,7);
+		((InventoryCopy)manager.getPage()).setCreate_new_inv(true);
+		UtilInv.getBase().addPage(manager.getPage());
 	}
 	
 	public ItemStack[] getItems(){
 		ItemStack[] items = new ItemStack[getManager().getPlayers().size()];
 		int perks = 0;
 		for(Perk perk : getManager().getPlayers().keySet()){
-			items[perks]=UtilItem.RenameItem(new ItemStack(Material.EMERALD), perk.getName());
+			items[perks]=perk.getItem();
+			perklist.put(perk.getItem(), perk);
 			perks++;
 		}
 		return items;
 	}
 	
+
+	@me.kingingo.kcore.Command.CommandHandler.Command(command = "perk", sender = Sender.PLAYER)
+	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
+		Player p = (Player)cs;
+		if(manager.hasPlayer(p)){
+			((InventoryCopy)manager.getPage()).open(p, UtilInv.getBase());
+		}else{
+			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "PERK_NOT_BOUGHT"));
+		}
+		return false;
+	}
 }

@@ -2,6 +2,7 @@ package me.kingingo.kcore.Kit.Perks;
 
 import me.kingingo.kcore.Kit.Perk;
 import me.kingingo.kcore.Util.UtilInv;
+import me.kingingo.kcore.Util.UtilItem;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -11,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 public class PerkDropper extends Perk{
 	
 	public PerkDropper() {
-		super("Dropper");
+		super("Dropper",UtilItem.RenameItem(new ItemStack(Material.BUCKET),"§eDropper"));
 	}
 	
 	int a=0;

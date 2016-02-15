@@ -111,7 +111,7 @@ public class ChunkCleanup{
 					if ((!event.isCancelled())&& (ci.unload(ChunkCleanup.this.saveChunks)))cleanedChunks++;
 				}
 				
-				System.err.println("[ChunkCleanup]  Unloaded " + cleanedChunks + "/" + loadedChunks.size()
+				System.err.println("[ChunkCleanup] Unloaded " + cleanedChunks + "/" + loadedChunks.size()
 								+ " non-ignored chunks in "
 								+ ChunkCleanup.this.limiter.elapsedTime()
 								+ "ms");

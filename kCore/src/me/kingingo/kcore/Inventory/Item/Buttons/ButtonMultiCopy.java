@@ -6,7 +6,4 @@ public class ButtonMultiCopy extends ButtonMultiSlotBase{
 	public ButtonMultiCopy(ButtonForMultiButtonsCopy[] buttons) {
 		super(buttons);
 	}
-
-	
-
 }

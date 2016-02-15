@@ -11,8 +11,7 @@ public class UtilMath
 {
   public static Random random = new Random();
 
-  public static double trim(int degree, double d)
-  {
+  public static double trim(int degree, double d){
     String format = "#.#";
 
     for (int i = 1; i < degree; i++) {

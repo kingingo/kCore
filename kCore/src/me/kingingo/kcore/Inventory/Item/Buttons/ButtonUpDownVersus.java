@@ -19,7 +19,6 @@ public class ButtonUpDownVersus extends ButtonMultiCopy{
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
-//				System.out.println("ButtonUpDownVersus STONE "+player.getName());
 				if( (stats==Stats.TEAM_MAX && statsManager.getInt( Stats.TEAM_MIN, player) <= statsManager.getInt( Stats.TEAM_MAX , player)) ||
 						(stats==Stats.TEAM_MIN && statsManager.getInt( Stats.TEAM_MIN, player) < statsManager.getInt( Stats.TEAM_MAX , player)) ){
 					if(player.getOpenInventory().getItem(slot).getAmount()<max&&player.getOpenInventory().getItem(slot).getAmount()>=min){
@@ -36,7 +35,6 @@ public class ButtonUpDownVersus extends ButtonMultiCopy{
 		new ButtonForMultiButtonsCopy(page,slot+InventorySize._9.getSize(),new Click(){
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
-//				System.out.println("ButtonUpDownVersus WOOD "+player.getName());
 				if( (stats==Stats.TEAM_MAX && statsManager.getInt( Stats.TEAM_MIN, player) < statsManager.getInt( Stats.TEAM_MAX , player)) ||
 						(stats==Stats.TEAM_MIN && statsManager.getInt( Stats.TEAM_MIN, player) <= statsManager.getInt( Stats.TEAM_MAX , player)) ){
 					if(player.getOpenInventory().getItem(slot).getAmount()<=max&&player.getOpenInventory().getItem(slot).getAmount()>min){

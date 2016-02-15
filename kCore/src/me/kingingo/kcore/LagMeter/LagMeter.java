@@ -3,7 +3,6 @@ import java.io.File;
 import java.util.HashSet;
 
 import lombok.Getter;
-import lombok.Setter;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Command.Admin.CommandEntities;
 import me.kingingo.kcore.Command.Admin.CommandLagg;
@@ -11,7 +10,6 @@ import me.kingingo.kcore.Command.Admin.CommandMemFix;
 import me.kingingo.kcore.Command.Admin.CommandMonitor;
 import me.kingingo.kcore.Command.Admin.CommandUnloadChunks;
 import me.kingingo.kcore.Command.Commands.CommandPing;
-import me.kingingo.kcore.LagMeter.Chunks.ChunkCleanup;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
@@ -26,6 +24,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -60,7 +61,7 @@ public class LagMeter extends kListener
     handler.register(CommandEntities.class, new CommandEntities());
     handler.register(CommandMemFix.class, new CommandMemFix());
     
-    new ChunkCleanup(handler.getPlugin());
+//    new ChunkCleanup(handler.getPlugin());
     UtilServer.setLagMeter(this);
   }
 
@@ -92,6 +93,7 @@ public class LagMeter extends kListener
   }
 
   public int getAvgPing(){
+	  if(UtilServer.getPlayers().isEmpty())return 0;
 	  int ping=0;
 	  for(Player player : UtilServer.getPlayers())ping+=UtilPlayer.getPlayerPing(player);
 	  return (ping/UtilServer.getPlayers().size());
@@ -112,7 +114,7 @@ public class LagMeter extends kListener
 	  String s;
 	  s="Online-Players: "+ UtilServer.getPlayers().size()+" Avg-Ping:"+getAvgPing()+"-/-";
 	  	s+="Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) })+"-/-";
-	    s+="Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Max-Mem: "+Runtime.getRuntime().maxMemory() / 1048576L+ "MB"+"-/-";
+	    s+="Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Max-Mem: "+(Runtime.getRuntime().maxMemory() / 1048576L)+ "MB"+"-/-";
 	    s+="Online-Time: "+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) )+"-/-";
 	    s+="Time-Now: "+ UtilTime.now()+"-/-";
 	    s+="Worlds:"+"-/-";
@@ -160,6 +162,31 @@ public class LagMeter extends kListener
 	        Log("       "+world.getName()+": Chunks:"+world.getLoadedChunks().length+" Entities:"+world.getEntities().size()+" Tile:"+tileEntities);
 	    }
 	  }
+  
+  	public void entitiesClearAll(){
+  		int a = 0;
+		for(World w : Bukkit.getWorlds()){
+			for(Entity e : w.getEntities()){
+            	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
+            		
+            		if(UtilServer.getDeliveryPet()!=null){
+						if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
+						if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
+					}
+
+            		if(UtilServer.getPerkManager()!=null&&UtilServer.getPerkManager().getEntity()!=null&&UtilServer.getPerkManager().getEntity().getEntityId()==e.getEntityId())continue;
+					
+					if(UtilServer.getGemsShop()!=null){
+						if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
+					}
+            		
+            		a++;
+            		e.remove();
+            	}
+			}
+			System.out.println(" All entities "+w.getName()+" removed: "+a);
+		}
+  	}
   
 	public void unloadChunks(String world,Player player){
 		long timings=0;

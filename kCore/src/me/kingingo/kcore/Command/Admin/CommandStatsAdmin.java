@@ -1,33 +1,22 @@
 package me.kingingo.kcore.Command.Admin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import lombok.Getter;
-import me.kingingo.kcore.Arena.ArenaManager;
-import me.kingingo.kcore.Arena.ArenaType;
-import me.kingingo.kcore.Arena.GameRound;
 import me.kingingo.kcore.Command.CommandHandler.Sender;
-import me.kingingo.kcore.Command.Commands.CommandHome;
-import me.kingingo.kcore.Command.Commands.Events.PlayerHomeEvent;
-import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
-import me.kingingo.kcore.TeleportManager.Teleporter;
+import me.kingingo.kcore.StatsManager.Event.PlayerStatsChangeEvent;
+import me.kingingo.kcore.StatsManager.Event.PlayerStatsCreateEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
-import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class CommandStatsAdmin implements CommandExecutor{
 	
@@ -44,12 +33,12 @@ public class CommandStatsAdmin implements CommandExecutor{
 		
 		if(player.hasPermission(kPermission.STATS_ADMIN.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage("/statsadmin reset all");
-				player.sendMessage("/statsadmin reset [Player]");
-				player.sendMessage("/statsadmin add [Player] [Stats] [-/+ INT]");
-				player.sendMessage("/statsadmin set [Player] [Stats] [-/+ INT]");
+				player.sendMessage("§6/statsadmin reset all");
+				player.sendMessage("§6/statsadmin reset [Player]");
+				player.sendMessage("§6/statsadmin add [Player] [Stats] [-/+ INT]");
+				player.sendMessage("§6/statsadmin set [Player] [Stats] [-/+ INT]");
 			}else{
-				if((args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("set"))&&args.length==3){
+				if((args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("set"))){
 					UUID uuid = null;
 					
 					if(UtilPlayer.isOnline(args[1])){
@@ -75,7 +64,7 @@ public class CommandStatsAdmin implements CommandExecutor{
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+"§cStats Type nicht gefunden!?");
 					}
-				}else if(args[0].equalsIgnoreCase("reset") && args.length==2){
+				}else if(args[0].equalsIgnoreCase("reset")){
 						Player target = null;
 						
 						if(UtilPlayer.isOnline(args[1])){
@@ -87,6 +76,9 @@ public class CommandStatsAdmin implements CommandExecutor{
 						if(target!=null){
 							statsManager.deleteEintrag(target);
 							statsManager.createEintrag(target);
+							for(Stats sa : statsManager.getTyp().getStats()){
+								Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(sa, target));
+							}
 							player.sendMessage(Language.getText(player, "PREFIX")+"§cDie Stats wurden von den Spieler §e"+target.getName()+"§c resetet!");
 						}else{
 							player.sendMessage(Language.getText(player, "PREFIX")+"§cDieser Spieler wurde nicht gefunden!");

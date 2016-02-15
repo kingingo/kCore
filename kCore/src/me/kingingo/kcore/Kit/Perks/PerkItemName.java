@@ -13,11 +13,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class PerkItemName extends Perk implements CommandExecutor{
 	
 	public PerkItemName(CommandHandler cmd) {
-		super("ItemName");
+		super("ItemName",UtilItem.RenameItem(new ItemStack(Material.NAME_TAG),"§eItemName"));
 		if(cmd!=null)cmd.register(PerkItemName.class, this);
 	}
 	

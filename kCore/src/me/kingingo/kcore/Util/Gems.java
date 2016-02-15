@@ -178,7 +178,6 @@ public class Gems extends kListener{
 			}
 		}else if(ev.getPacket() instanceof GIVE_GEMS){
 			GIVE_GEMS packet = (GIVE_GEMS)ev.getPacket();
-			
 			if(UtilPlayer.isOnline(packet.getPlayer())){
 				addGemsWithScoreboardUpdate(Bukkit.getPlayer(packet.getPlayer()), true, packet.getGems());
 				Log("Der Spieler "+packet.getPlayer()+" soll "+packet.getGems()+" Gems erhalten!");

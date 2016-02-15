@@ -1,6 +1,7 @@
 package me.kingingo.kcore.Kit.Perks;
 
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Material;
@@ -9,13 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class PerkHealPotion extends Perk{
 
-	int more;
+	private int more;
 	
 	public PerkHealPotion(int more) {
-		super("HealPotion");
+		super("HealPotion",UtilItem.RenameItem(new ItemStack(Material.POTION,1,(byte)16421),"§eHealPotion"));
 		this.more=more;
 	}
 

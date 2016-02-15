@@ -53,6 +53,10 @@ public class UtilItem {
 		return item;
 	}
 	
+	public static void modifyMaxStack(net.minecraft.server.v1_8_R3.Item item, int amount) {
+		UtilReflection.setValue("maxStackSize", item, amount);
+	}
+	
 	public static ItemStack parseStringMeta(ItemStack item, int fromArg,String[] string) throws Exception{
 		Pattern splitPattern = Pattern.compile("[:+',;.]");
 		for (int i = fromArg; i < string.length; i++){
@@ -1409,6 +1413,16 @@ public class UtilItem {
 	    return i;
 	  }
 	  
+	  public static boolean isEnchantmentGlow(ItemStack item){ 
+		  if(item==null){
+		  	System.out.println("[EpicPvP]: isEnchantmentGlow");
+		  	System.out.println("[EpicPvP]: ITEM == NULL");
+		  }
+		  
+		  net.minecraft.server.v1_8_R3.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+	      return nmsStack.getTag().hasKey("ench");
+	  }
+	  
 	  public static ItemStack addEnchantmentGlow(ItemStack item){ 
 		  	if(item==null){
 		  		System.out.println("[EpicPvP]: addEnchantmentGlow");
@@ -1442,7 +1456,7 @@ public class UtilItem {
 	            nmsStack.setTag(tag);
 	        }
 	        if (tag == null) tag = nmsStack.getTag();
-	        tag.set("ench", null);
+	        tag.remove("ench");
 	        nmsStack.setTag(tag);
 	        return CraftItemStack.asCraftMirror(nmsStack);
 	    }

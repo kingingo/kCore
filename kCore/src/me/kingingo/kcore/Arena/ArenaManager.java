@@ -6,30 +6,28 @@ import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Arena.BestOf.GameRoundBestOf;
 import me.kingingo.kcore.Enum.GameState;
 import me.kingingo.kcore.Enum.GameType;
 import me.kingingo.kcore.Enum.Team;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.Listener.kThreadListener;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Events.PacketReceiveEvent;
 import me.kingingo.kcore.Packet.Packets.ARENA_SETTINGS;
 import me.kingingo.kcore.Packet.Packets.ARENA_STATUS;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
-import me.kingingo.kcore.Update.UpdateType;
-import me.kingingo.kcore.Update.Event.UpdateEvent;
 import me.kingingo.kcore.UpdateAsync.UpdateAsyncType;
 import me.kingingo.kcore.UpdateAsync.Event.UpdateAsyncEvent;
 import me.kingingo.kcore.Util.UtilBG;
 import me.kingingo.kcore.Util.UtilDebug;
 import me.kingingo.kcore.Util.UtilMath;
+import me.kingingo.kcore.Util.UtilPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ArenaManager extends kListener  {
@@ -104,11 +102,11 @@ public class ArenaManager extends kListener  {
 			
 			for(ArenaType type : ArenaType.values()){
 				if(this.rounds.get(type).containsKey(c)){
-					for(Player p : this.rounds.get(type).get(c).getPlayers()){
-						if(withMsg){
-							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "HUB_VERSUS_1VS1_CANCEL"));
+					for(UUID p : this.rounds.get(type).get(c).getPlayers()){
+						if(withMsg&&UtilPlayer.isOnline(p)){
+							Bukkit.getPlayer(p).sendMessage(Language.getText(Bukkit.getPlayer(p), "PREFIX")+Language.getText(Bukkit.getPlayer(p), "HUB_VERSUS_1VS1_CANCEL"));
 						}
-						this.rounds_player.remove(p.getUniqueId());
+						this.rounds_player.remove(p);
 					}
 					this.rounds.get(type).get(c).remove();
 					this.rounds.get(type).remove(c);
@@ -121,7 +119,7 @@ public class ArenaManager extends kListener  {
 	}
 	
 	public boolean addRound(GameRound round){
-		for(Player player : round.getPlayers())if(this.rounds_player.containsKey(player.getUniqueId()))return false;
+		for(UUID player : round.getPlayers())if(this.rounds_player.containsKey(player))return false;
 		
 		this.rounds.get(round.getType()).put(this.round_counter, round);
 		this.round_counter++;
@@ -208,21 +206,21 @@ public class ArenaManager extends kListener  {
 							if(this.rounds.containsKey(type)&&!this.rounds.get(type).isEmpty()){
 								this.id=(Integer)this.rounds.get(type).keySet().toArray()[0];
 								this.round=(GameRound)this.rounds.get(type).get(id);
-								if(UtilDebug.isDebug()&&this.round.getOwner()!=null&&this.round.getOwner().getName().equalsIgnoreCase("kingingo")){
+								if(UtilDebug.isDebug()&&this.round.getOwner()!=null&&UtilPlayer.isOnline(this.round.getOwner())&&Bukkit.getPlayer(this.round.getOwner()).getName().equalsIgnoreCase("kingingo")){
 									Log("Owner: kingingo");
 								}
 								
 								
-								if(this.round.getOwner().isOnline()){
-									this.owner=round.getOwner();
+								if(UtilPlayer.isOnline(this.round.getOwner())){
+									this.owner=Bukkit.getPlayer(this.round.getOwner());
 									
 									if(UtilDebug.isDebug()&&this.owner.getName().equalsIgnoreCase("kingingo")){
 										Log("Online");
 									}
 									
-									for(Player player : this.round.getPlayers()){
-										if(player.isOnline()){
-											this.players.get(this.type.getTeam()[this.team]).add(player);
+									for(UUID player : this.round.getPlayers()){
+										if(UtilPlayer.isOnline(player)){
+											this.players.get(this.type.getTeam()[this.team]).add(Bukkit.getPlayer(player));
 											this.team++;
 											if(this.type.getTeam().length==this.team){
 												this.team=0;
@@ -267,7 +265,7 @@ public class ArenaManager extends kListener  {
 											Log("ALLES GUT!");
 										}
 										
-										this.round.remove();
+										if(!(this.round instanceof GameRoundBestOf))this.round.remove();
 										this.rounds.get(type).remove(this.id);
 										break;
 									}else{
@@ -276,7 +274,7 @@ public class ArenaManager extends kListener  {
 										}
 									}
 
-									this.round.remove();
+									if(!(this.round instanceof GameRoundBestOf))this.round.remove();
 									this.rounds.get(type).remove(this.id);
 									
 									this.team=0;

@@ -25,7 +25,7 @@ public class UtilFile
 {
 	
 	public static String getYMLFile(JavaPlugin instance,String file){
-		return getPluginFolder(instance)+File.separator+file+".yml";
+		return getPluginFolder(instance)+File.separator+file+(file.endsWith(".yml")?"":".yml");
 	}
 	
 	public static String getPluginFolder(JavaPlugin instance){

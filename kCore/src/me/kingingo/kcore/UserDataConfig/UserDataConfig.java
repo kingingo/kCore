@@ -13,6 +13,7 @@ import me.kingingo.kcore.Packet.Packets.WORLD_CHANGE_DATA;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import me.kingingo.kcore.Util.UtilPlayer;
+import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.kConfig.kConfig;
 
 import org.bukkit.Bukkit;
@@ -43,6 +44,7 @@ public class UserDataConfig extends kListener{
 	
 	public UserDataConfig(JavaPlugin instance){
 		super(instance,"UserDataConfig");
+		UtilServer.setUserData(this);
 		this.configs= new HashMap<>();
 		this.instance=instance;
 		this.dataFolder="plugins"+File.separator+instance.getPlugin(instance.getClass()).getName()+File.separator+"userdata";

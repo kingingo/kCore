@@ -4,6 +4,8 @@ import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Click;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
 import me.kingingo.kcore.Language.Language;
+import me.kingingo.kcore.StatsManager.Stats;
+import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Util.Coins;
 import me.kingingo.kcore.Util.Gems;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;

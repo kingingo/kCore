@@ -54,7 +54,7 @@ public class StandingTreasureChest extends kListener{
 	@Getter
 	private Player player; //Der Spieler der momentan dran ist
 	@Getter
-	private TreasureChestType chest_type; // Den TreasureChest Type ( UNCOMMON,RARE,MYTHICAL)
+	private TreasureChestType chest_type = TreasureChestType.UNCOMMON; // Den TreasureChest Type ( UNCOMMON,RARE,MYTHICAL)
 	private long time; //WAIT TIME
 	@Getter
 	private String status = "NULL"; // Was er als nächstes tun muss ( SET CHEST, WAIT, DELETE)

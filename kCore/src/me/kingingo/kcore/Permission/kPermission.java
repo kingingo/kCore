@@ -1,6 +1,13 @@
 package me.kingingo.kcore.Permission;
 
 public enum kPermission {
+GUNGAME_SKIP_LEVEL_25("epicpvp.gg.skip.level.25"),
+GUNGAME_SKIP_LEVEL_20("epicpvp.gg.skip.level.20"),
+GUNGAME_SKIP_LEVEL_15("epicpvp.gg.skip.level.15"),
+GUNGAME_SKIP_LEVEL_10("epicpvp.gg.skip.level.10"),
+GUNGAME_START_LEVEL_3("epicpvp.gg.startlevel.3"),
+GUNGAME_START_LEVEL_2("epicpvp.gg.startlevel.2"),
+GUNGAME_START_LEVEL_4("epicpvp.gg.startlevel.4"),
 STATS_ADMIN("epicpvp.statsadmin"),
 COINS_ONE_ADD("epicpvp.coins.one"),
 COINS_TWO_ADD("epicpvp.coins.two"),

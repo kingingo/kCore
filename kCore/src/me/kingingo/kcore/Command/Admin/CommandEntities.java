@@ -74,6 +74,8 @@ public class CommandEntities implements CommandExecutor{
 										if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
 									}
 									
+									if(UtilServer.getPerkManager()!=null&&UtilServer.getPerkManager().getEntity()!=null&&UtilServer.getPerkManager().getEntity().getEntityId()==e.getEntityId())continue;
+									
 									if(UtilServer.getGemsShop()!=null&&UtilServer.getGemsShop().getListener()!=null&&UtilServer.getGemsShop().getListener().getEntity()!=null){
 										if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
 									}
@@ -97,6 +99,8 @@ public class CommandEntities implements CommandExecutor{
 										if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
 									}
 
+			                		if(UtilServer.getPerkManager()!=null&&UtilServer.getPerkManager().getEntity()!=null&&UtilServer.getPerkManager().getEntity().getEntityId()==e.getEntityId())continue;
+									
 									if(UtilServer.getGemsShop()!=null&&UtilServer.getGemsShop().getListener()!=null&&UtilServer.getGemsShop().getListener().getEntity()!=null){
 										if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
 									}
@@ -138,6 +142,18 @@ public class CommandEntities implements CommandExecutor{
 					for(World w : Bukkit.getWorlds()){
 						for(Entity e : w.getEntities()){
 		                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
+		                		
+		                		if(UtilServer.getDeliveryPet()!=null){
+									if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
+									if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
+								}
+
+		                		if(UtilServer.getPerkManager()!=null&&UtilServer.getPerkManager().getEntity()!=null&&UtilServer.getPerkManager().getEntity().getEntityId()==e.getEntityId())continue;
+								
+								if(UtilServer.getGemsShop()!=null){
+									if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
+								}
+		                		
 		                		a++;
 		                		e.remove();
 		                	}
@@ -155,6 +171,8 @@ public class CommandEntities implements CommandExecutor{
 									if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
 									if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
 								}
+
+		                		if(UtilServer.getPerkManager()!=null&&UtilServer.getPerkManager().getEntity()!=null&&UtilServer.getPerkManager().getEntity().getEntityId()==e.getEntityId())continue;
 								
 								if(UtilServer.getGemsShop()!=null){
 									if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;

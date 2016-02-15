@@ -19,7 +19,7 @@ public class SERVER_STATUS extends Packet{
 	int max_online;
 	@Setter
 	@Getter
-	String map;
+	String map="loading..";
 	@Setter
 	@Getter
 	GameType typ;

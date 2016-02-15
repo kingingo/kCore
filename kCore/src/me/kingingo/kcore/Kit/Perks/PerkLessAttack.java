@@ -5,7 +5,6 @@ import me.kingingo.kcore.Kit.Perk;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 public class PerkLessAttack extends Perk{
 

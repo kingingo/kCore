@@ -30,10 +30,13 @@ public class InventoryCopy extends InventoryPageBase{
 	public void open(Player player,InventoryBase base){
 		if(create_new_inv){
 			InventoryPageBase page = clone();
+			
+			base.addAnother(page);
+			player.openInventory(page);
 			SalesPackageBase sale;
 			ButtonCopy c;
 			ButtonMultiCopy cc;
-			for(IButton b : page.getButtons()){
+			for(IButton b : this.getButtons()){
 				if(b instanceof IButtonOneSlot){
 					if(b instanceof SalesPackageBase){
 						sale = (SalesPackageBase) b;
@@ -49,13 +52,11 @@ public class InventoryCopy extends InventoryPageBase{
 					if(b instanceof ButtonMultiCopy){
 						cc = (ButtonMultiCopy)b;
 						cc.setRemove(false);
-//						System.out.println("CC: "+cc.getButtons().length);
 						cc.setInventoryPageBase(page);
 						ButtonForMultiButtonsCopy ccb;
 						for (ButtonForMultiButtons cb : cc.getButtons()) {
 							cb.setInventoryPageBase(page);
 							if(cb instanceof ButtonForMultiButtonsCopy){
-//								System.out.println("CC: 1");
 								ccb=(ButtonForMultiButtonsCopy)cb;
 								if(ccb.getSet()!=null)ccb.getSet().onClick(player, ActionType.AIR, page);
 							}
@@ -63,9 +64,6 @@ public class InventoryCopy extends InventoryPageBase{
 					}
 				}
 			}
-
-			base.addAnother(page);
-			player.openInventory(page);
 		}else{
 			player.openInventory(this);
 		}

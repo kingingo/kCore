@@ -51,8 +51,16 @@ public class UtilScoreboard {
 		return (board.getTeam(Team)!=null);
 	}
 	
+	public static void removePlayerFromTeam(Scoreboard board,String Team,Player p){
+		if(board.getTeam(Team)==null)return;
+		if(!board.getTeam(Team).getPlayers().contains(p))return;
+		Team r = board.getTeam(Team);
+		r.removePlayer(p);
+	}
+	
 	public static void addPlayerToTeam(Scoreboard board,String Team,Player p){
 		if(board.getTeam(Team)==null)return;
+		if(board.getTeam(Team).getPlayers().contains(p))return;
 		Team r = board.getTeam(Team);
 		r.addPlayer(p);
 	}

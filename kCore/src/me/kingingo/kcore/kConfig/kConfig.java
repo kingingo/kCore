@@ -143,6 +143,39 @@ public class kConfig extends YamlConfiguration{
 		setLocation(path+".location", entity.getLocation());
 	}
 	
+	private Location StringToLocation(String loc){
+		String[] s = loc.split(";");
+		Location l = new Location(Bukkit.getWorld(s[5]),Double.valueOf(s[0]),Double.valueOf(s[1]),Double.valueOf(s[2]));
+		l.setYaw(Float.valueOf(s[3]));
+		l.setPitch(Float.valueOf(s[4]));
+		return l;
+	}
+	
+	private String locationToString(Location loc){
+		return loc.getX()+";"+loc.getY()+";"+loc.getZ()+";"+loc.getYaw()+";"+loc.getPitch()+";"+loc.getWorld().getName();
+	}
+	
+	public List<Location> getLocationList(String path){
+		ArrayList<Location> locs = new ArrayList<>();
+		List<String> l = getStringList(path);
+		for(String s : l)locs.add(StringToLocation(s));
+		return locs;
+	}
+	
+	public void setLocationList(String path,ArrayList<Location> locs){
+		ArrayList<String> s = new ArrayList<>();
+		
+		for(Location l : locs)s.add(locationToString(l));
+		set(path, s);
+	}
+	
+	public void setLocationList(String path,Location[] locs){
+		ArrayList<String> s = new ArrayList<>();
+		
+		for(Location l : locs)s.add(locationToString(l));
+		set(path, s);
+	}
+	
 	public void setLocation(String path,Location location){
 		set(path+".world", location.getWorld().getName());
 		set(path+".x", location.getX());

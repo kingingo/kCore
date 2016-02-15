@@ -1,12 +1,9 @@
 package me.kingingo.kcore.kListen;
 
 import java.util.Comparator;
-import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import org.bukkit.entity.Player;
 
 public class kRank implements Comparable<kRank>{
 

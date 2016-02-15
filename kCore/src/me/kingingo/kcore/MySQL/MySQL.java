@@ -39,17 +39,20 @@ public class MySQL {
 
 	public void close() {
 		try {
-			if (connection != null)
+			if (connection != null){
 				connection.close();
-				connection=null;
-			Bukkit.getPluginManager().callEvent(new MySQLDisconnectEvent(this));
+				Bukkit.getPluginManager().callEvent(new MySQLDisconnectEvent(this));
+			}
+			connection=null;
 		} catch (Exception e) {
-			Bukkit.getPluginManager().callEvent(
-					new MySQLErrorEvent(MySQLErr.CLOSE, e, this));
+			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.CLOSE, e, this));
 		}
 	}
 
 	public void connect() {
+		close();
+		
+		if(user==null||pass==null||host==null||db==null)return;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://" + host
 					+ ":3306/" + db + "?autoReconnect=true", user, pass);

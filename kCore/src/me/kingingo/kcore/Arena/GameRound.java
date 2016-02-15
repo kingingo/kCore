@@ -1,19 +1,25 @@
 package me.kingingo.kcore.Arena;
 
+import java.util.UUID;
+
 import lombok.Getter;
+import lombok.Setter;
 
 import org.bukkit.entity.Player;
 
 public class GameRound {
 
 	@Getter
-	private Player[] players;
+	@Setter
+	private UUID[] players;
 	@Getter
+	@Setter
 	private ArenaType type;
 	@Getter
-	private Player owner;
+	@Setter
+	private UUID owner;
 	
-	public GameRound(Player owner,Player[] players,ArenaType type){
+	public GameRound(UUID owner,UUID[] players,ArenaType type){
 		this.players=players;
 		this.type=type;
 		this.owner=owner;

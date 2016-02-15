@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Inventory.Inventory.InventoryNextPage;
 import me.kingingo.kcore.Inventory.Inventory.InventoryTrade;
 import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.Update.UpdateType;
@@ -102,11 +103,17 @@ public class InventoryBase extends kListener{
 	    return ((CraftInventory) first).getInventory().equals(((CraftInventory) second).getInventory());
 	}
 	
+	InventoryNextPage n;
 	@EventHandler
 	public void CloseInv(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.MIN_005)return;
 		for(int i = 0; i < another.size(); i++){
 			if(another.get(i).getViewers().isEmpty()){
+				if(another.get(i) instanceof InventoryNextPage){
+					n=(InventoryNextPage)another.get(i);
+					System.out.println("PLAYER: "+n.getPlayer().getName()+" "+(n.getPlayer().getOpenInventory()==null));
+					if(n.getPlayer().getOpenInventory()!=null)continue;
+				}
 				another.get(i).remove();
 				another.remove(i);
 			}

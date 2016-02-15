@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -388,6 +389,52 @@ public class UtilLocation {
 		}
 		
 		return min;
+	}
+	
+	public static Location setBlockFaceDirection(Location loc, BlockFace face){
+		switch(face){
+		case NORTH:
+			loc.setPitch(0);
+			loc.setYaw(180);
+			return loc;
+		case SOUTH:
+			loc.setPitch(0);
+			loc.setYaw(0);
+			return loc;
+		case WEST:
+			loc.setPitch(0);
+			loc.setYaw(90);
+			return loc;
+		case EAST:
+			loc.setPitch(0);
+			loc.setYaw(-90);
+			return loc;
+		case NORTH_EAST:
+			loc.setPitch(0);
+			loc.setYaw(-135);
+			return loc;
+		case NORTH_WEST:
+			loc.setYaw(135);
+			loc.setPitch(0);
+			return loc;
+		case SOUTH_EAST:
+			loc.setPitch(0);
+			loc.setYaw(-45);
+			return loc;
+		case SOUTH_WEST:
+			loc.setPitch(0);
+			loc.setYaw(45);
+			return loc;
+		case DOWN:
+			loc.setYaw(0);
+			loc.setPitch(90);
+			return loc;
+		case UP:
+			loc.setYaw(0);
+			loc.setPitch(-90);
+			return loc;
+		}
+		return loc;
 	}
 	
 	public static ArrayList<Location> SpiralLocs(World w,int locs,int border,Location loc){

@@ -23,6 +23,7 @@ public class ListenerCMD extends kListener{
 	String[] parts;
 	@EventHandler
 	public void CMD(PlayerCommandPreprocessEvent ev){
+		if(ev.getPlayer().isOp())return;
 		cmd = "";
 	    if (ev.getMessage().contains(" ")){
 	      parts = ev.getMessage().split(" ");
@@ -46,6 +47,10 @@ public class ListenerCMD extends kListener{
 	    }else if(cmd.toLowerCase().contains("/essentials:")){
 	    	ev.setCancelled(true);
 	    }else if(cmd.toLowerCase().contains("/about")){
+	    	ev.setCancelled(true);
+	    }else if(cmd.toLowerCase().contains("/ver")){
+	    	ev.setCancelled(true);
+	    }else if(cmd.toLowerCase().contains("/version")){
 	    	ev.setCancelled(true);
 	    }
 	}

@@ -12,6 +12,7 @@ import me.kingingo.kcore.Inventory.Item.Buttons.ButtonCopy;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonForMultiButtonsCopy;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonMultiCopy;
 import me.kingingo.kcore.Inventory.Item.Buttons.ButtonMultiSlotBase;
+import me.kingingo.kcore.Inventory.Item.Buttons.ButtonPerkOnOff;
 import me.kingingo.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import me.kingingo.kcore.Util.InventorySize;
 import me.kingingo.kcore.Util.InventorySplit;
@@ -66,23 +67,7 @@ public class InventoryPageBase extends CraftInventoryCustom{
 					return button.isCancelled();
 				}
 			}else if(button instanceof IButtonMultiSlot){
-//				if(player.getName().contains("kingingo")){
-//					System.out.println("BUTTO 1");
-//					IButtonMultiSlot b = (IButtonMultiSlot)button;
-//					for(ButtonBase bas : b.getButtons()){
-//						if(bas!=null){
-//							if(bas.getItemStack()!=null){
-//								System.out.println("BUTTO "+bas.getSlot()+" "+bas.getItemStack().getType());
-//							}else{
-//								System.out.println("BUTTO "+bas.getSlot()+" ITEM==NULL");
-//							}
-//						}else{
-//							System.out.println("BUTTO NULL");
-//						}
-//					}
-//				}
 				if(button.isSlot(slot)){
-					if(player.getName().contains("kingingo"))System.out.println("CLICK "+slot);
 					((IButtonMultiSlot)button).Clicked(slot,player, type,item);
 					return button.isCancelled();
 				}
@@ -187,7 +172,6 @@ public class InventoryPageBase extends CraftInventoryCustom{
 	}
 	
 	public void addButton(IButton button){
-		
 		button.setInventoryPageBase(this);
 		
 		if(button instanceof IButtonOneSlot){
@@ -198,6 +182,16 @@ public class InventoryPageBase extends CraftInventoryCustom{
 		}
 		
 		this.buttons.add(button);
+	}
+	
+	public void delButton(int slot){
+		if(!isSlot(slot,"addButton(int,IButton)"))return;
+		IButton button = getButton(slot);
+		
+		if(button!=null){
+			button.remove();
+			getButtons().remove(button);
+		}
 	}
 	
 	public void addButton(int slot,IButton button){
@@ -236,6 +230,10 @@ public class InventoryPageBase extends CraftInventoryCustom{
 		page.setContents(getContents());
 		page.updateInventory();
 		return page;
+	}
+	
+	public void setTitle(String title){
+		
 	}
 	
 	public void closeInventory(){

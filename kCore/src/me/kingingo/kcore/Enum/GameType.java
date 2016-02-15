@@ -46,9 +46,14 @@ private GameType(boolean solo,String Typ,String Kürzel,ServerType serverType,Sta
 }
 
 public static GameType get(String g){
+	g=g.replaceAll("-", "");
 	g=g.replaceAll(" ", "");
 	for(GameType t : GameType.values()){
-		if(t.getTyp().replaceAll(" ", "").equalsIgnoreCase(g))return t;
+		if(t.getTyp().replaceAll(" ", "").replaceAll("-", "").equalsIgnoreCase(g))return t;
+	}
+	
+	for(GameType t : GameType.values()){
+		if(t.getKürzel().replaceAll(" ", "").replaceAll("-", "").equalsIgnoreCase(g))return t;
 	}
 	return null;
 }

@@ -3,11 +3,14 @@ package me.kingingo.kcore.Kit.Perks;
 import lombok.Getter;
 import lombok.Setter;
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Util.UtilItem;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -21,7 +24,7 @@ public class PerkArrowPotionEffect extends Perk{
 	private int sec=5;
 	
 	public PerkArrowPotionEffect() {
-		super("ArrowPotionEffect");
+		super("ArrowPotionEffect",UtilItem.RenameItem(new ItemStack(Material.ARROW),"§EArrowPotionEffect"));
 	}
 
 	Player shooter;

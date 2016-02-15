@@ -5,6 +5,7 @@ import me.kingingo.kcore.Client.Client;
 import me.kingingo.kcore.Packet.Events.PacketSendEvent;
 import me.kingingo.kcore.Packet.Packets.ARENA_SETTINGS;
 import me.kingingo.kcore.Packet.Packets.ARENA_STATUS;
+import me.kingingo.kcore.Packet.Packets.ARENA_WIN;
 import me.kingingo.kcore.Packet.Packets.BG_IP_RELOAD;
 import me.kingingo.kcore.Packet.Packets.BROADCAST;
 import me.kingingo.kcore.Packet.Packets.GIVE_COINS;
@@ -26,6 +27,8 @@ import me.kingingo.kcore.Packet.Packets.SERVER_RESET;
 import me.kingingo.kcore.Packet.Packets.SERVER_SETTINGS;
 import me.kingingo.kcore.Packet.Packets.SERVER_STATUS;
 import me.kingingo.kcore.Packet.Packets.SERVER_TYPE_CHANGE;
+import me.kingingo.kcore.Packet.Packets.SIGNS_GET;
+import me.kingingo.kcore.Packet.Packets.SIGN_SEND;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_ADD_CLIENT_GROUP;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_CLIENT;
 import me.kingingo.kcore.Packet.Packets.TEAMSPEAK_REMOVE_ALL_CLIENT_GROUP;
@@ -121,6 +124,12 @@ public class PacketManager {
 			return new GIVE_COINS(packet.split("-/-"));
 		}else if(packet.contains("BG_IP_RELOAD")){
 			return new BG_IP_RELOAD(packet.split("-/-"));
+		}else if(packet.contains("SIGNS_GET")){
+			return new SIGNS_GET(packet.split("-/-"));
+		}else if(packet.contains("SIGN_SEND")){
+			return new SIGN_SEND(packet.split("-/-"));
+		}else if(packet.contains("ARENA_WIN")){
+			return new ARENA_WIN(packet.split("-/-"));
 		}
 	 return null;
 	}

@@ -32,7 +32,34 @@ public class UtilInv
 	  if(base==null)base=new InventoryBase(instance);
 	  return base;
   }
+  
+  public static ItemStack getFirstItem(Inventory inventory)
+  {
+	for(ItemStack i : inventory.getContents()){
+		if(i!=null&&i.getType()!=Material.AIR)return i;
+	}
 	
+    return null;
+  }
+
+  public static boolean itemsAllSame(Inventory inventory)
+  {
+	ItemStack item = null;
+	for(ItemStack i : inventory.getContents()){
+		if(i!=null&&i.getType()!=Material.AIR){
+			if(item==null)item=i;
+			
+			if(item!=null){
+				if(i.getType()!=item.getType()||i.getData().getData()!=item.getData().getData()){
+					return false;
+				}
+			}
+		}
+	}
+	
+    return true;
+  }
+  
   public static boolean insert(Player player, ItemStack stack)
   {
     player.getInventory().addItem(new ItemStack[] { stack });
@@ -40,6 +67,29 @@ public class UtilInv
     return true;
   }
 
+  public static boolean contains(Inventory inv, Material item, byte data, int required)
+  {
+    for (Iterator localIterator = inv.all(item).keySet().iterator(); localIterator.hasNext(); ) { int i = ((Integer)localIterator.next()).intValue();
+
+      if (required <= 0) {
+        return true;
+      }
+      ItemStack stack = inv.getItem(i);
+
+      if ((stack != null) && (stack.getAmount() > 0) && ((stack.getData() == null) || (stack.getData().getData() == data)))
+      {
+        required -= stack.getAmount();
+      }
+    }
+
+    if (required <= 0)
+    {
+      return true;
+    }
+
+    return false;
+  }
+  
   public static boolean contains(Player player, Material item, byte data, int required)
   {
     for (Iterator localIterator = player.getInventory().all(item).keySet().iterator(); localIterator.hasNext(); ) { int i = ((Integer)localIterator.next()).intValue();
@@ -250,6 +300,34 @@ public class UtilInv
     return true;
   }
   
+  public static boolean remove(Inventory inv, Material item, byte data, int toRemove)
+  {
+    if (!contains(inv, item, data, toRemove)) {
+      return false;
+    }
+    for (Iterator localIterator = inv.all(item).keySet().iterator(); localIterator.hasNext(); ) { int i = ((Integer)localIterator.next()).intValue();
+
+      if (toRemove > 0)
+      {
+        ItemStack stack = inv.getItem(i);
+
+        if ((stack.getData() == null) || (stack.getData().getData() == data)){
+          int foundAmount = stack.getAmount();
+
+          if (toRemove >= foundAmount){
+            toRemove -= foundAmount;
+            inv.setItem(i, null);
+          }else{
+            stack.setAmount(foundAmount - toRemove);
+            inv.setItem(i, stack);
+            toRemove = 0;
+          }
+        }
+      }
+    }
+    return true;
+  }
+  
   public static boolean remove(Player player,int item, byte data, int toRemove)
   {
 	  return remove(player, Material.getMaterial(item),data,toRemove);
@@ -418,6 +496,20 @@ public class UtilInv
 		return false;
 	}
   
+	public static Integer AnzahlInInventory(Inventory inv,int id,byte data){
+		int a = 0;
+		
+		for(ItemStack i : inv){
+			if(i!=null){
+				if((i.getTypeId()==id && GetData(i) == data) || (id==0)){
+					a=a+i.getAmount();
+				}
+			}
+		}
+		
+		return a;
+	}
+	
   public static Integer AnzahlInInventory(Player p,int id,byte data){
 		int a = 0;
 		

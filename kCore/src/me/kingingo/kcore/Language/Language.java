@@ -30,16 +30,18 @@ public class Language {
 	private static MySQL mysql;
 	
 	public static void loadLanguage(LanguageType type){
-		try{				
-			ResultSet rs = mysql.Query("SELECT type,name,msg FROM language WHERE type='"+type.getDef()+"'");
-			 while (rs.next()){
-				 if(LanguageType.get(rs.getString(1))==null)continue;
-				 if(!list.containsKey(LanguageType.get(rs.getString(1))))list.put(LanguageType.get(rs.getString(1)), new HashMap<String,String>());
-				 list.get(LanguageType.get(rs.getString(1))).put(rs.getString(2), rs.getString(3).replaceAll("<3", "❤"));
-			 }
-			 rs.close();
-		}catch (SQLException e){
-			Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
+		if(mysql!=null){
+			try{				
+				ResultSet rs = mysql.Query("SELECT type,name,msg FROM language WHERE type='"+type.getDef()+"'");
+				 while (rs.next()){
+					 if(LanguageType.get(rs.getString(1))==null)continue;
+					 if(!list.containsKey(LanguageType.get(rs.getString(1))))list.put(LanguageType.get(rs.getString(1)), new HashMap<String,String>());
+					 list.get(LanguageType.get(rs.getString(1))).put(rs.getString(2), rs.getString(3).replaceAll("<3", "❤"));
+				 }
+				 rs.close();
+			}catch (SQLException e){
+				Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,e,mysql));
+			}
 		}
 		addAll(type);	
 	}
@@ -53,11 +55,11 @@ public class Language {
 	
 	public static void load(MySQL mysql){
 		setMysql(mysql);
-		if(listener==null)listener=new LanguageListener(mysql.getInstance());
+		if(mysql!=null&&listener==null)listener=new LanguageListener(mysql.getInstance());
 		list=new HashMap<>();
 		languages=new HashMap<>();
-		mysql.Update("CREATE TABLE IF NOT EXISTS language(type varchar(30),name varchar(30),msg varchar(30))");
-		mysql.Update("CREATE TABLE IF NOT EXISTS language_user(uuid varchar(100),language varchar(100))");
+		if(mysql!=null)mysql.Update("CREATE TABLE IF NOT EXISTS language(type varchar(30),name varchar(30),msg varchar(30))");
+		if(mysql!=null)mysql.Update("CREATE TABLE IF NOT EXISTS language_user(uuid varchar(100),language varchar(100))");
 		loadLanguage(LanguageType.ENGLISH);
 	}
 
@@ -67,15 +69,16 @@ public class Language {
 			return LanguageType.ENGLISH;
 		}else if(!languages.containsKey(UtilPlayer.getRealUUID(player))){
 			
-			String def=Language.getMysql().getString("SELECT language FROM language_user WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
-			if(!def.equalsIgnoreCase("null")){
-				if(!Language.getList().containsKey(LanguageType.get(def)))Language.loadLanguage(LanguageType.get(def));
-				Language.getLanguages().put(UtilPlayer.getRealUUID(player), LanguageType.get(def));
-			}else{
-				Language.getMysql().Update("INSERT INTO language_user (uuid,language) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+LanguageType.ENGLISH.getDef()+"');");
-				Language.getLanguages().put(UtilPlayer.getRealUUID(player), LanguageType.ENGLISH);
+			if(mysql!=null){
+				String def=Language.getMysql().getString("SELECT language FROM language_user WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+				if(!def.equalsIgnoreCase("null")){
+					if(!Language.getList().containsKey(LanguageType.get(def)))Language.loadLanguage(LanguageType.get(def));
+					Language.getLanguages().put(UtilPlayer.getRealUUID(player), LanguageType.get(def));
+				}else{
+					Language.getMysql().Update("INSERT INTO language_user (uuid,language) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+LanguageType.ENGLISH.getDef()+"');");
+					Language.getLanguages().put(UtilPlayer.getRealUUID(player), LanguageType.ENGLISH);
+				}
 			}
-			
 			System.out.println("[Language] Spieler "+player.getName()+" nicht abgespeichert");
 			return LanguageType.ENGLISH;
 		}
@@ -629,6 +632,8 @@ public class Language {
 			add(type,"GUNGAME_KILL","§7You killed §a{INPUT0}§7.");
 			add(type,"GUNGAME_KILLED_BY","§cYou were killed by §e{INPUT0}§c.");
 			add(type,"GUNGAME_LEVEL_UP","§a{INPUT0} §7reached level §e{INPUT1}§7. It took him §a{INPUT2}§7!");
+			add(type,"SHOP_EMPTY","§cThe Store are empty!");
+			add(type,"SHOP_AMOUNT_NOT_ENOUGH","§cWe have not enough Items..");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -1084,12 +1089,14 @@ public class Language {
 			add(type,"GUNGAME_KILL","§7Du hast §a{INPUT0} §7getötet.");
 			add(type,"GUNGAME_KILLED_BY","§cDu wurdest von §e{INPUT0} §cgetötet.");
 			add(type,"GUNGAME_LEVEL_UP","§a{INPUT0} §7hat Level §e{INPUT1} §7erreicht und dafuer §a{INPUT2}§7 gebraucht!");
+			add(type,"SHOP_EMPTY","§cDer Shop ist leer...");
+			add(type,"SHOP_AMOUNT_NOT_ENOUGH","§cEs sind nicht genug Items auflager!");
 		}
 	}
 	
 	public static void add(LanguageType type,String name,String msg){
 		if(!list.get(type).containsKey(name)){
-			mysql.Update("INSERT INTO language (type,name,msg) VALUES ('"+type.getDef()+"','"+name+"','"+msg+"');");
+			if(mysql!=null)mysql.Update("INSERT INTO language (type,name,msg) VALUES ('"+type.getDef()+"','"+name+"','"+msg+"');");
 			list.get(type).put(name, msg);
 		}
 	}

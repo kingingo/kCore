@@ -6,12 +6,14 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.kingingo.kcore.Arena.BestOf.BestOf;
 import me.kingingo.kcore.Client.Client;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.DeliveryPet.DeliveryPet;
 import me.kingingo.kcore.Disguise.DisguiseManager;
 import me.kingingo.kcore.GemsShop.GemsShop;
 import me.kingingo.kcore.Hologram.Hologram;
+import me.kingingo.kcore.Kit.PerkManager;
 import me.kingingo.kcore.LagMeter.LagMeter;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.MySQL.MySQL;
@@ -21,6 +23,7 @@ import me.kingingo.kcore.PacketAPI.packetlistener.kPacketListener;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Update.Updater;
 import me.kingingo.kcore.UpdateAsync.UpdaterAsync;
+import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 import net.minecraft.server.v1_8_R3.EntityHorse;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EntityWitherSkull;
@@ -67,6 +70,9 @@ public class UtilServer{
 	private static Updater updater;
 	@Getter
 	@Setter
+	private static UserDataConfig userData;
+	@Getter
+	@Setter
 	private static UpdaterAsync updaterAsync;
 	@Getter
 	@Setter
@@ -83,6 +89,12 @@ public class UtilServer{
 	@Getter
 	@Setter
 	private static Hologram hologram;
+	@Getter
+	@Setter
+	private static PerkManager perkManager;
+	@Getter
+	@Setter
+	private static BestOf bestOf;
 	
 	public static void disable(){
 		if(hologram!=null)hologram.RemoveText();
@@ -93,6 +105,16 @@ public class UtilServer{
 		if(packetListener!=null)packetListener.Disable();
 		if(client!=null)client.disconnect(false);
 		if(mysql!=null)mysql.close();
+	}
+	
+	public static UserDataConfig createUserData(UserDataConfig userData){
+		if(getUserData()==null&&userData!=null)setUserData(userData);
+		return getUserData();
+	}
+	
+	public static PerkManager createPerkManager(PerkManager perkManager){
+		if(getPerkManager()==null&&perkManager!=null)setPerkManager(perkManager);
+		return getPerkManager();
 	}
 	
 	public static Hologram createHologram(Hologram hm){
@@ -184,6 +206,13 @@ public class UtilServer{
 		System.err.println("[DebugMode]: "+m);
 	}
 	
+	public static double getLineY(int i){
+		double d=0;
+		for(int a = 0; a<=i; a++)d+=0.2;
+		
+		return d;
+	}
+	
 	public static List<Integer> showLine(Location loc, String text) {
 		
 	      WorldServer world = ((CraftWorld) loc.getWorld()).getHandle();
@@ -236,6 +265,14 @@ public class UtilServer{
 			ess.getPermissionsHandler().setUseSuperperms(true);
 			ess.getPermissionsHandler().checkPermissions();
 		}
+	}
+	
+	public static double getMaxMemoryMB(){
+		return Runtime.getRuntime().maxMemory()/(1024.0 * 1024.0);
+	}
+	
+	public static double getMaxMemoryGB(){
+		return Runtime.getRuntime().maxMemory()/(1024.0 * 1024.0 * 1024.0);
 	}
 	
 	public static void spawnRabbit(Location loc){

@@ -1,16 +1,19 @@
 package me.kingingo.kcore.Kit.Perks;
 
 import me.kingingo.kcore.Kit.Perk;
+import me.kingingo.kcore.Util.UtilItem;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.inventory.ItemStack;
 
 public class PerkNoFiredamage extends Perk{
 
 	public PerkNoFiredamage() {
-		super("noFiredamage");
+		super("noFiredamage",UtilItem.RenameItem(new ItemStack(Material.POTION,1,(byte)16451),"§enoFiredamage"));
 	}
 	
 	@EventHandler

@@ -12,6 +12,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Sign;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Bed;
@@ -39,6 +40,18 @@ public class UtilBlock
       }else{
           return (block.getRelative(((Bed)block.getState().getData()).getFacing().getOppositeFace())).getLocation();
       }
+  }
+  
+  public static BlockFace getSignFace(Sign sign){
+	  org.bukkit.material.Sign matSign =  new org.bukkit.material.Sign(Material.WALL_SIGN);
+	  matSign.setData(sign.getData().getData());
+	  return matSign.getFacing();
+  }
+  
+  public static BlockFace getSignAttachedFace(Sign sign){
+	  org.bukkit.material.Sign matSign =  new org.bukkit.material.Sign(Material.WALL_SIGN);
+	  matSign.setData(sign.getData().getData());
+	  return matSign.getAttachedFace();
   }
   
   public static Location getBlockCenterUP(Location loc) {

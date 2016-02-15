@@ -32,9 +32,9 @@ public class AddonDay implements Listener {
 		if(getWorld().isThundering()){
 			getWorld().setStorm(false);
 		}
-		if(getWorld().getTime()<24000&&getWorld().getTime()>12000){
+		if(getWorld().getTime()<3000&&getWorld().getTime()>9000){
 			time=getWorld().getTime();
-			time+=80;
+			time+=100;
 			getWorld().setStorm(false);
 			getWorld().setTime(time);
 		}

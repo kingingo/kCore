@@ -2,7 +2,6 @@ package me.kingingo.kcore.Client;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import lombok.Getter;
@@ -13,7 +12,6 @@ import me.kingingo.kcore.Client.Events.ClientErrorConnectEvent;
 import me.kingingo.kcore.Client.Events.ClientLostConnectionEvent;
 import me.kingingo.kcore.Client.Events.ClientReceiveMessageEvent;
 import me.kingingo.kcore.Client.Events.ClientSendMessageEvent;
-import me.kingingo.kcore.Update.Updater;
 import me.kingingo.kcore.Util.UtilServer;
 
 import org.bukkit.Bukkit;

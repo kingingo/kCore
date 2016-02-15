@@ -20,7 +20,7 @@ private TreasureChestType(Integer[] ints,int chance){
 
 public static TreasureChestType rdm(TreasureChestType type){
 	int rdm = UtilMath.RandomInt(10, 1);
-	rdm=rdm+type.getChance();
+	rdm+=type.getChance();
 	return getType((rdm>10 ? 10 : rdm));
 }
 

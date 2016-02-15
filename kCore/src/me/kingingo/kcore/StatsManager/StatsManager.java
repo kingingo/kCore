@@ -267,6 +267,11 @@ public class StatsManager extends kListener{
 	}
 	
 	public void deleteEintrag(Player p){
+		if(list.containsKey(p)){
+			list.get(p).clear();
+			list.remove(p);
+		}
+		
 		mysqlUpdate("DELETE FROM users_"+typ.getKürzel()+" WHERE UUID='"+UtilPlayer.getRealUUID(p)+"';");
 	}
 	
@@ -280,7 +285,9 @@ public class StatsManager extends kListener{
 		}
 		String t = "INSERT INTO users_"+typ.getKürzel()+" ("+tt.substring(0, tt.length()-1)+") VALUES ("+ti.subSequence(0, ti.length()-1)+");";
 		mysqlUpdate(t);
-		if(!list.containsKey(p))list.put(p, new HashMap<>());
+		if(!list.containsKey(p)){
+			list.put(p, new HashMap<>());
+		}
 		Bukkit.getPluginManager().callEvent(new PlayerStatsCreateEvent(this,p));
 		Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(statsManager, p));
 	}

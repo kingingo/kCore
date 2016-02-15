@@ -5,6 +5,7 @@ import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +15,15 @@ public class CommandPing implements CommandExecutor{
 	
 	@me.kingingo.kcore.Command.CommandHandler.Command(command = "ping", alias={"kping"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		((Player)sender).sendMessage(Language.getText(((Player)sender), "PREFIX")+"Player-Ping: §e"+UtilPlayer.getPlayerPing(((Player)sender))+"§7 Server-TPS: §e"+(int)UtilServer.getLagMeter().getTicksPerSecond());
+		if(args.length==0){
+			((Player)sender).sendMessage(Language.getText(((Player)sender), "PREFIX")+"Player-Ping: §e"+UtilPlayer.getPlayerPing(((Player)sender))+"§7 Server-TPS: §e"+(int)UtilServer.getLagMeter().getTicksPerSecond());
+		}else{
+			if(((Player)sender).isOp()){
+				if(UtilPlayer.isOnline(args[0])){
+					((Player)sender).sendMessage(Language.getText(((Player)sender), "PREFIX")+args[0]+"-Ping: §e"+UtilPlayer.getPlayerPing(Bukkit.getPlayer(args[0]))+"§7 Server-TPS: §e"+(int)UtilServer.getLagMeter().getTicksPerSecond());
+				}
+			}
+		}
 		return false;
 	}
 

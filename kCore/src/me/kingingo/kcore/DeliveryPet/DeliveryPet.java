@@ -1,7 +1,6 @@
 package me.kingingo.kcore.DeliveryPet;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -21,7 +20,6 @@ import me.kingingo.kcore.Inventory.Item.Buttons.ButtonBase;
 import me.kingingo.kcore.Inventory.Item.Buttons.LottoPackage;
 import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.MySQL.Callback;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.MySQL.MySQLErr;
 import me.kingingo.kcore.MySQL.Events.MySQLErrorEvent;
@@ -203,10 +201,14 @@ public class DeliveryPet extends kListener{
 				this.jockey.teleport(getLocation());
 				this.entity.teleport(getLocation());
 				this.jockey.setPassenger(this.entity);
+				UtilEnt.setNoAI(entity, true);
+				UtilEnt.setSilent(entity, true);
 			}else{
 				this.jockey.teleport(getLocation());
 			}
-			
+
+			UtilEnt.setNoAI(jockey, true);
+			UtilEnt.setSilent(jockey, true);
 			for(Player player : this.players_hm.keySet()){
 				this.players_hm.get(player).move(player, this.jockey.getLocation().add(0, 2.1, 0));
 			}
@@ -221,6 +223,7 @@ public class DeliveryPet extends kListener{
 			this.jockey.setCustomNameVisible(true);
 			this.jockey.setRemoveWhenFarAway(false);
 			UtilEnt.setNoAI(jockey, true);
+			UtilEnt.setSilent(jockey, true);
 			
 			if(jockey.getType()==EntityType.ENDERMAN){
 				Enderman e = (Enderman) this.jockey;
@@ -241,6 +244,10 @@ public class DeliveryPet extends kListener{
 				zombie.setVillager(false);
 				UtilEnt.setNoAI(entity, true);
 				this.jockey.setPassenger(this.entity);
+			}
+			
+			for(Player player : this.players_hm.keySet()){
+				this.players_hm.get(player).move(player, this.jockey.getLocation().add(0, 2.1, 0));
 			}
 		}
 	}
