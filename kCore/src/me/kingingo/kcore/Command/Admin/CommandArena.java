@@ -31,6 +31,13 @@ public class CommandArena implements CommandExecutor{
 		if(player.isOp()){
 			if(args.length==0){
 				for(ArenaManager m : list){
+					for(ArenaType t : m.getRounds().keySet()){
+						player.sendMessage(" "+ t.name()+" : "+m.getRounds().get(t).size());
+					}
+
+					player.sendMessage("Rounds_player: "+ m.getRounds_player().size());
+					player.sendMessage("Server: "+ m.getServer().size());
+					player.sendMessage("Wait_list: "+ m.getWait_list().size());
 					m.getRounds().clear();
 					for(ArenaType type : ArenaType.values())m.getRounds().put(type, new HashMap<Integer,GameRound>());
 					m.getRounds_player().clear();
