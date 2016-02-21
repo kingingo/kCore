@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -321,6 +322,18 @@ public class UtilFile
     folder.delete();
   }
 
+  public static ArrayList<File> loadFiles(File folder,String fileType){
+		 ArrayList<File> files = new ArrayList<>();
+		 if (!folder.exists()) folder.mkdirs();
+		 
+		 for (File file : folder.listFiles()){
+			 if (file.isFile()){
+				 if(fileType==null||file.getName().endsWith(fileType))files.add(file);
+		     }
+		 }
+		 return files;
+	 }
+  
   public static void CopyToDirectory(File file, String outputDirectory)
   {
     FileInputStream fileInputStream = null;

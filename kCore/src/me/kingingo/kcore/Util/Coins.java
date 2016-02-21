@@ -453,7 +453,7 @@ public class Coins extends kListener{
 			int co=c+coins;
 			this.coins.remove(UtilPlayer.getRealUUID(p));
 			this.coins.put(UtilPlayer.getRealUUID(p), co);
-			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD",coins));
+			if(coins!=0)p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD",coins));
 		}else{
 			int c = getCoins(p);
 			int co=c+coins;
@@ -467,7 +467,7 @@ public class Coins extends kListener{
 				mysql.Update("UPDATE `coins_list` SET coins='"+co+"' WHERE uuid='"+UtilPlayer.getRealUUID(p)+"'");
 			}
 			
-			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD",coins));
+			if(coins!=0)p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "COINS_ADD",coins));
 		}
 	}
 	

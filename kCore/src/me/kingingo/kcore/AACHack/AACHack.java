@@ -16,8 +16,8 @@ import me.kingingo.kcore.Packet.Packets.BUNGEECORD_ZEITBAN;
 import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 import me.konsolas.aac.api.HackType;
+import me.konsolas.aac.api.PlayerViolationCommandEvent;
 import me.konsolas.aac.api.PlayerViolationEvent;
-import me.konsolas.aac.api.PlayerViolationKickEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -61,35 +61,37 @@ public class AACHack extends kListener{
 	
 	int anzahl=0;
 	@EventHandler
-	public void onPlayerViolationKick(PlayerViolationKickEvent ev){
-		if(!ev.isCancelled()){
-			Date now = new GregorianCalendar().getTime();
-			getMysql().Update("INSERT INTO AAC_HACK (name,ip,uuid,server,time,hackType,violations) VALUES ('"+ev.getPlayer().getName().toLowerCase()+"','"+ev.getPlayer().getAddress().getAddress().getHostAddress()+"','"+UtilPlayer.getRealUUID(ev.getPlayer())+"','"+server+"','"+df2.format(now)+"','"+ev.getHackType().getName()+"','"+ev.getViolations()+"');");
-			
-			if(getAntiLogoutManager()!=null&&ev.getHackType()!=HackType.SPAM)getAntiLogoutManager().del(ev.getPlayer());
-			
-			if(ev.getHackType()==HackType.FLY
-				||	ev.getHackType()==HackType.FASTBOW
-				|| ev.getHackType()==HackType.FIGHTSPEED
-				|| ev.getHackType()==HackType.FORCEFIELD){
-				anzahl=getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='"+ev.getHackType().getName()+"' AND name='"+ev.getPlayer().getName().toLowerCase()+"' AND ip='"+ev.getPlayer().getAddress().getAddress().getHostAddress()+"' AND uuid='"+UtilPlayer.getRealUUID(ev.getPlayer())+"'");
+	public void onPlayerViolationKick(PlayerViolationCommandEvent ev){
+		if(ev.getCommand().contains("kick")){
+			if(!ev.isCancelled()){
+				Date now = new GregorianCalendar().getTime();
+				getMysql().Update("INSERT INTO AAC_HACK (name,ip,uuid,server,time,hackType,violations) VALUES ('"+ev.getPlayer().getName().toLowerCase()+"','"+ev.getPlayer().getAddress().getAddress().getHostAddress()+"','"+UtilPlayer.getRealUUID(ev.getPlayer())+"','"+server+"','"+df2.format(now)+"','"+ev.getHackType().getName()+"','0');");
 				
-				if(anzahl>=5){
-					String type="";
-					int a = 0;
-					if(anzahl<=15){
-						a=anzahl*2;
-						type="min";
-					}else if(anzahl<=20){
-						a=anzahl;
-						type="std";
-					}else{
-						a=anzahl/2;
-						type="tag";
-					}
+				if(getAntiLogoutManager()!=null&&ev.getHackType()!=HackType.SPAM)getAntiLogoutManager().del(ev.getPlayer());
+				
+				if(ev.getHackType()==HackType.FLY
+					||	ev.getHackType()==HackType.FASTBOW
+					|| ev.getHackType()==HackType.FIGHTSPEED
+					|| ev.getHackType()==HackType.FORCEFIELD){
+					anzahl=getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='"+ev.getHackType().getName()+"' AND name='"+ev.getPlayer().getName().toLowerCase()+"' AND ip='"+ev.getPlayer().getAddress().getAddress().getHostAddress()+"' AND uuid='"+UtilPlayer.getRealUUID(ev.getPlayer())+"'");
 					
-					setZeitBan(ev.getPlayer(), a, type, ev.getHackType().getName());
-					ev.setCancelled(true);
+					if(anzahl>=5){
+						String type="";
+						int a = 0;
+						if(anzahl<=15){
+							a=anzahl*2;
+							type="min";
+						}else if(anzahl<=20){
+							a=anzahl;
+							type="std";
+						}else{
+							a=anzahl/2;
+							type="tag";
+						}
+						
+						setZeitBan(ev.getPlayer(), a, type, ev.getHackType().getName());
+						ev.setCancelled(true);
+					}
 				}
 			}
 		}

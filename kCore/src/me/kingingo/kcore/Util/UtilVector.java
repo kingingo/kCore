@@ -9,6 +9,21 @@ public class UtilVector {
 	    return new Vector(a.getBlockX() + b.getBlockX(), a.getBlockY() + b.getBlockY(), a.getBlockZ() + b.getBlockZ());
 	  }
 	
+	public static int subtractY(Vector a, Vector b)
+	  {
+	    return (b.getBlockY() - a.getBlockY());
+	  }
+	
+	public static int subtractZ(Vector a, Vector b)
+	  {
+	    return (b.getBlockZ() - a.getBlockZ());
+	  }
+	
+	public static int subtractX(Vector a, Vector b)
+	  {
+	    return (b.getBlockX() - a.getBlockX());
+	  }
+	
 	public static Vector subtract(Vector a, Vector b)
 	  {
 	    return new Vector(b.getBlockX() - a.getBlockX(),b.getBlockY() - a.getBlockY(), b.getBlockZ() - a.getBlockZ());

@@ -2,7 +2,7 @@ package me.kingingo.kcore.Kit.Perks;
 
 import me.kingingo.kcore.Kit.Perk;
 import me.konsolas.aac.api.HackType;
-import me.konsolas.aac.api.PlayerViolationKickEvent;
+import me.konsolas.aac.api.PlayerViolationEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class PerkNoKnockback extends Perk{
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
-	public void kick(PlayerViolationKickEvent ev){
+	public void kick(PlayerViolationEvent ev){
 		if(ev.getHackType()==HackType.KNOCKBACK){
 			if(this.getPerkData().hasPlayer(this, ev.getPlayer())){
 				ev.setCancelled(true);

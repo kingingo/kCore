@@ -82,6 +82,10 @@ public class CommandItemShop implements CommandExecutor{
 					
 					shop.setCreature(player.getLocation());
 					player.sendMessage(Language.getText(player, "PREFIX")+"§aLocation saved!");
+				}else if(args[0].equalsIgnoreCase("move")){
+					player.openInventory(shop.getMove());
+				}else if(args[0].equalsIgnoreCase("edit")){
+					player.openInventory(shop.getEdit());
 				}
 			}else{
 				player.openInventory(shop.getShop());

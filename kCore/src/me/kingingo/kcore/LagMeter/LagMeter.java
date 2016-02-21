@@ -26,6 +26,7 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,6 +47,8 @@ public class LagMeter extends kListener
   private long _startTime;
   @Getter
   private HashSet<Player> _monitoring = new HashSet();
+  @Getter
+  private HashSet<EntityType> entitiesBlackList = new HashSet();
 
   public LagMeter(CommandHandler handler){
     super(handler.getPlugin(), "LagMeter");
@@ -168,6 +171,8 @@ public class LagMeter extends kListener
 		for(World w : Bukkit.getWorlds()){
 			for(Entity e : w.getEntities()){
             	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
+            		
+            		if(this.entitiesBlackList.contains(e.getType()))continue;
             		
             		if(UtilServer.getDeliveryPet()!=null){
 						if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;

@@ -22,6 +22,9 @@ public class InventoryCopy extends InventoryPageBase{
 	@Getter
 	@Setter
 	private boolean create_new_inv=false;
+	@Getter
+	@Setter
+	private boolean for_with_copy_page = true;
 	
 	public InventoryCopy(int size, String title) {
 		super(size, title);
@@ -36,7 +39,7 @@ public class InventoryCopy extends InventoryPageBase{
 			SalesPackageBase sale;
 			ButtonCopy c;
 			ButtonMultiCopy cc;
-			for(IButton b : this.getButtons()){
+			for(IButton b : (for_with_copy_page ? page.getButtons() : getButtons())){
 				if(b instanceof IButtonOneSlot){
 					if(b instanceof SalesPackageBase){
 						sale = (SalesPackageBase) b;

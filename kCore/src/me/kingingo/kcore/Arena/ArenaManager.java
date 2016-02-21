@@ -458,11 +458,11 @@ public class ArenaManager extends kListener  {
 			if(s.getTyp()==getT()){
 				if(server.containsKey((s.getServer()+s.getArena()))){
 					server.get(s.getServer()+s.getArena()).Set(s.toString());
-					s=null;
 				}else{
 					server.remove(s.getServer()+s.getArena());
 					server.put(s.getServer()+s.getArena(), s);
 				}
+				s=null;
 			}
 		}
 	}
