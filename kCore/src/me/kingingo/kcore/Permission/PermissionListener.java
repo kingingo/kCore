@@ -55,7 +55,7 @@ public class PermissionListener extends kListener {
 			}
 			
 			if(!b){
-				ev.disallow(Result.KICK_WHITELIST, "§cWartungsmodus");
+				ev.disallow(Result.KICK_WHITELIST, "§cWartungsarbeiten... Bald wieder erreichbar!");
 				return;
 			}
 		}

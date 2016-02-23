@@ -137,17 +137,15 @@ public class PerkManager extends PerkData{
 	
 	public void configPlayer(Player player,kConfig config){
 		for(Perk perk : getPlayers().keySet()){
-			if(player.hasPermission(perk.getPermission().getPermissionToString())){
-				if(config.isSet("perks."+perk.getName())){
-					if(config.getString("perks."+perk.getName()).equalsIgnoreCase("true")){
-						getPlayers().get(perk).add(player);
-					}else{
-						getPlayers().get(perk).remove(player);
-					}
+			if(config.isSet("perks."+perk.getName())){
+				if(config.getString("perks."+perk.getName()).equalsIgnoreCase("true")){
+					getPlayers().get(perk).add(player);
 				}else{
-					config.set("perks."+perk.getName(), "true");
-					config.save();
+					getPlayers().get(perk).remove(player);
 				}
+			}else{
+				config.set("perks."+perk.getName(), "false");
+				config.save();
 			}
 		}
 

@@ -2,6 +2,7 @@ package me.kingingo.kcore.Inventory.Item.Buttons;
 
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
@@ -27,9 +28,18 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 					for(int i = 0; i<(amount/64); i++){
 						player.getInventory().addItem(new ItemStack(page.getItem(4).getType(),64,page.getItem(4).getData().getData()));
 					}
+					
 					if((amount%64)!=0){
 						player.getInventory().addItem(new ItemStack(page.getItem(4).getType(),(amount%64),page.getItem(4).getData().getData()));
 					}
+					
+					if(item.getData().getData()==0){
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SIGN_SHOP_GET",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf( (amount*money) )}));
+					}else{
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SIGN_SHOP_GET_",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf(item.getData().getData()),String.valueOf( (amount*money) )}));
+					}
+				}else{
+					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NOT_ENOUGH_MONEY"));
 				}
 				
 				page.clear();
@@ -94,6 +104,7 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 		for(int i = (fslots+18); i<54; i++){
 			page.setItem(i, blocked);
 		}
+		setAmount(page, 0, 0);
 	}
 	
 	public static int changeItems(InventoryPageBase page,int amount){

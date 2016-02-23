@@ -314,6 +314,21 @@ public class StatsManager extends kListener{
 		return done;
 	}
 	
+	public void asyncExistPlayer(UUID uuid, Callback callback){
+		mysql.asyncQuery("SELECT `player` FROM `users_"+typ.getKürzel()+"` WHERE UUID='"+uuid+"'", new Callback() {
+			@Override
+			public void done(Object value) {
+				callback.done(true);
+			}
+		},new Callback() {
+				
+			@Override
+			public void done(Object value) {
+				callback.done(false);
+			}
+		});
+	}
+	
 	public void asyncExistPlayer(Player player, Callback callback){
 		if(list.containsKey(player)){
 			callback.done(true);
@@ -540,7 +555,6 @@ public class StatsManager extends kListener{
 		list.get(p).put(s, i);
 		Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(s,p));
 	}
-	
 
 	public void getAsyncDouble(Stats s,Player p,Callback callback){
 		if(list.containsKey(p)&&list.get(p).containsKey(s)){
@@ -602,6 +616,40 @@ public class StatsManager extends kListener{
 	    }
 		
 	    return n;
+	}
+	
+	public void getAsyncDouble(Stats s,UUID uuid,Callback callback){
+		mysql.asyncGetDouble("SELECT "+s.getTYP()+" FROM users_"+typ.getKürzel()+" WHERE UUID= '"+uuid+"'", new Callback() {
+				
+			@Override
+			public void done(Object value) {
+				if(value instanceof Double){
+					callback.done(UtilNumber.toDouble(((Double)value)));
+				}
+			}
+		});
+	}
+	
+	public void asyncaddDouble(UUID uuid,double a, Stats stats){
+		asyncExistPlayer(uuid, new Callback(){
+			
+			@Override
+			public void done(Object value) {
+				if(value instanceof Boolean){
+					if(((Boolean)value)){
+						getAsyncDouble(stats, uuid, new Callback(){
+
+							@Override
+							public void done(Object value) {
+								mysql.asyncUpdate("UPDATE users_"+typ.getKürzel()+" SET "+stats.getTYP()+"='"+ (((Double)value)+a) +"' WHERE UUID='" + uuid + "'");
+							}
+							
+						});
+					}
+				}
+			}
+			
+		});
 	}
 	
 	public void asyncExistPlayer(String player,Callback callback){

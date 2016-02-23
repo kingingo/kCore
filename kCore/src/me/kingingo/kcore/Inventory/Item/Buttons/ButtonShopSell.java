@@ -2,6 +2,7 @@ package me.kingingo.kcore.Inventory.Item.Buttons;
 
 import me.kingingo.kcore.Inventory.InventoryPageBase;
 import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Language.Language;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.Util.UtilEvent.ActionType;
@@ -22,10 +23,18 @@ public class ButtonShopSell extends ButtonMultiCopy{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				int amount = getAmount(page);
-				statsManager.addDouble(player, +(amount*money), Stats.MONEY);
-				UtilInv.remove(player, page.getItem(4).getType(), page.getItem(4).getData().getData(), amount);
-				page.clear();
-				player.openInventory(shop);
+				if(amount>0){
+					statsManager.addDouble(player, +(amount*money), Stats.MONEY);
+					UtilInv.remove(player, page.getItem(4).getType(), page.getItem(4).getData().getData(), amount);
+					page.clear();
+					player.openInventory(shop);
+					
+					if(item.getData().getData()!=0){
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SIGN_SHOP_VERKAUFT_",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf(item.getData().getData()),String.valueOf((amount*money))}));
+					}else{
+						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SIGN_SHOP_VERKAUFT",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf((amount*money))}));
+					}
+				}
 			}
 		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)5), "§aVerkaufen"), null),	
 		new ButtonForMultiButtonsCopy(page, 1, new Click() {
@@ -84,8 +93,7 @@ public class ButtonShopSell extends ButtonMultiCopy{
 				changePrice(page,(money*(setAmount(page, getAll(page), money))));
 			}
 		}, UtilItem.Item(new ItemStack(Material.TRIPWIRE_HOOK), new String[]{"§eInsgesamt "+UtilInv.AnzahlInInventory(player, item.getType(), item.getData().getData())},"§6Alles auswählen"), null)});
-		page.setItem(4, UtilItem.SetDescriptions(item, new String[]{"§eAnzahl "+1,"§e1 » §a"+money+" Epics","§e10 » §a"+(money*10)+" Epics","§e64 » §a"+(money*64)+" Epics"}));
-		
+		page.setItem(4, UtilItem.SetDescriptions(item, new String[]{"§eAnzahl 0","§e1 » §a"+money+" Epics","§e10 » §a"+(money*10)+" Epics","§e64 » §a"+(money*64)+" Epics"}));
 		for(int i=InventorySplit._18.getMin(); i<=InventorySplit._18.getMax(); i++)if(page.getItem(i)==null)page.setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)15)," "));
 	}
 	
@@ -121,9 +129,9 @@ public class ButtonShopSell extends ButtonMultiCopy{
 	}
 	
 	public static int setAmount(InventoryPageBase page,int amount ,int money){
-		if(amount<=0){
+		if(amount<0){
 			amount = changeItems(page,1);
-			page.setItem(4, UtilItem.SetDescriptions(page.getItem(4), new String[]{"§eAnzahl "+1,"§e1 » §a"+money+" Epics","§e10 » §a"+(money*10)+" Epics","§e64 » §a"+(money*64)+" Epics"}));
+			page.setItem(4, UtilItem.SetDescriptions(page.getItem(4), new String[]{"§eAnzahl 0","§e1 » §a"+money+" Epics","§e10 » §a"+(money*10)+" Epics","§e64 » §a"+(money*64)+" Epics"}));
 			return 1;
 		}else{
 			amount = changeItems(page,amount);

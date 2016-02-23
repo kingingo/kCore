@@ -13,9 +13,11 @@ import me.kingingo.kcore.DeliveryPet.DeliveryPet;
 import me.kingingo.kcore.Disguise.DisguiseManager;
 import me.kingingo.kcore.GemsShop.GemsShop;
 import me.kingingo.kcore.Hologram.Hologram;
+import me.kingingo.kcore.ItemShop.ItemShop;
 import me.kingingo.kcore.Kit.PerkManager;
 import me.kingingo.kcore.LagMeter.LagMeter;
 import me.kingingo.kcore.Language.Language;
+import me.kingingo.kcore.Listener.EntityClick.EntityClickListener;
 import me.kingingo.kcore.MySQL.MySQL;
 import me.kingingo.kcore.Packet.PacketManager;
 import me.kingingo.kcore.Packet.Packets.TEAM_MESSAGE;
@@ -39,6 +41,7 @@ import org.bukkit.Server;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.ItemStack;
@@ -73,6 +76,9 @@ public class UtilServer{
 	private static UserDataConfig userData;
 	@Getter
 	@Setter
+	private static ItemShop itemShop;
+	@Getter
+	@Setter
 	private static UpdaterAsync updaterAsync;
 	@Getter
 	@Setter
@@ -97,9 +103,12 @@ public class UtilServer{
 	private static BestOf bestOf;
 	
 	public static void disable(){
+		for(Entity e : EntityClickListener.getEntities())e.remove();
 		if(hologram!=null)hologram.RemoveText();
 		if(deliveryPet!=null)deliveryPet.onDisable();
+		if(itemShop!=null&&itemShop.getListener()!=null&&itemShop.getListener().getEntity()!=null)itemShop.getListener().getEntity().remove();
 		if(gemsShop!=null)gemsShop.onDisable();
+		if(perkManager!=null&&perkManager.getEntity()!=null)perkManager.getEntity().remove();
 		if(updater!=null)updater.stop();
 		if(updaterAsync!=null)updaterAsync.stop();
 		if(packetListener!=null)packetListener.Disable();
@@ -110,6 +119,11 @@ public class UtilServer{
 	public static UserDataConfig createUserData(UserDataConfig userData){
 		if(getUserData()==null&&userData!=null)setUserData(userData);
 		return getUserData();
+	}
+	
+	public static ItemShop createItemShop(ItemShop itemShop){
+		if(getItemShop()==null&&itemShop!=null)setItemShop(itemShop);
+		return getItemShop();
 	}
 	
 	public static PerkManager createPerkManager(PerkManager perkManager){

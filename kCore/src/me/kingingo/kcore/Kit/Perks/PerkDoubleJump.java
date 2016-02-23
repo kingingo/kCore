@@ -36,7 +36,4 @@ public class PerkDoubleJump extends Perk{
 			ev.getPlayer().removePotionEffect(typ);
 		}
 	}
-	
-	
-
 }

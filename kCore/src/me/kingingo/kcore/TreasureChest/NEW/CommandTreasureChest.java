@@ -38,20 +38,30 @@ public class CommandTreasureChest implements CommandExecutor{
 			}else{
 				if(args[0].equalsIgnoreCase("saveTemplate")){
 					if(args.length==2){
-						this.treasureChest.saveTemplate(player, args[1]);
+						treasureChest.addBuilding(player, args[1]);
 						player.sendMessage(Language.getText(player, "PREFIX")+"§aDein Template §e"+args[1]+"§a wurde gespeichert!");
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+"/tc saveTemplate [Name]");
 					}
-				}else if(args[0].equalsIgnoreCase("placeTemplate")){
+				}else if(args[0].equalsIgnoreCase("createChest")){
+					if(args.length==3){
+						treasureChest.addTreasureChest(player.getItemInHand(), args[1],  args[2]);
+						player.sendMessage(Language.getText(player, "PREFIX")+"§aDie Treasure Chest "+args[2]+" mit dem Template "+args[1]+" wurde erstellt.");
+					}else{
+						player.sendMessage(Language.getText(player, "PREFIX")+"/tc createChest [Template] [Chest]");
+					}
+				}else if(args[0].equalsIgnoreCase("start")){
 					if(args.length==2){
-						if(this.treasureChest.placeTemplate(player.getLocation(), args[1])){
-							player.sendMessage(Language.getText(player, "PREFIX")+"§aDas Template wurde gesetzt!");
+						TreasureChest c = treasureChest.getChest(args[1]);
+						
+						if(c!=null){
+							c.start(player);
+							player.sendMessage("C != NULL");
 						}else{
-							player.sendMessage(Language.getText(player, "PREFIX")+"§cDas Template wurde nicht gefunden!");
+							player.sendMessage("C == NULL");
 						}
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/tc placeTemplate [Name]");
+						player.sendMessage(Language.getText(player, "PREFIX")+"/tc start [Name]");
 					}
 				}
 			}

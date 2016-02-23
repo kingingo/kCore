@@ -5,6 +5,7 @@ import java.io.IOException;
 import lombok.Getter;
 import me.kingingo.kcore.Command.CommandHandler;
 import me.kingingo.kcore.Enum.ServerType;
+import me.kingingo.kcore.GemsShop.Events.PlayerGemsBuyEvent;
 import me.kingingo.kcore.Hologram.Hologram;
 import me.kingingo.kcore.Hologram.nametags.NameTagMessage;
 import me.kingingo.kcore.Hologram.nametags.NameTagType;
@@ -30,6 +31,7 @@ import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.Util.UtilTime;
 import me.kingingo.kcore.kConfig.kConfig;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -226,6 +228,8 @@ public class GemsShop{
 												e.printStackTrace();
 											}
 										}
+										
+										Bukkit.getPluginManager().callEvent(new PlayerGemsBuyEvent(player, it, price));
 									}
 									
 								},"Kaufen",getGems(),price);

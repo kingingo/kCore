@@ -81,10 +81,9 @@ public class ItemShop{
 		this.cmd=cmd;
 		load();
 		
-		if(this.config.contains("Main.Location")){
-			setCreature();
-		}
+		if(this.config.contains("Main.Location"))setCreature();
 		
+		UtilServer.setItemShop(this);
 		cmd.register(CommandItemShop.class, new CommandItemShop(this));
 	}
 	

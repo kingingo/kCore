@@ -1,6 +1,7 @@
 package me.kingingo.kcore.UserStores;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import lombok.Getter;
 import me.kingingo.kcore.Inventory.InventoryPageBase;
@@ -15,6 +16,7 @@ import me.kingingo.kcore.Listener.kListener;
 import me.kingingo.kcore.StatsManager.Stats;
 import me.kingingo.kcore.StatsManager.StatsManager;
 import me.kingingo.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
+import me.kingingo.kcore.UserStores.Events.PlayerCreateUserStoreEvent;
 import me.kingingo.kcore.Util.AnvilGUI;
 import me.kingingo.kcore.Util.AnvilGUI.AnvilClickEvent;
 import me.kingingo.kcore.Util.InventorySize;
@@ -25,6 +27,7 @@ import me.kingingo.kcore.Util.UtilInv;
 import me.kingingo.kcore.Util.UtilItem;
 import me.kingingo.kcore.Util.UtilLocation;
 import me.kingingo.kcore.Util.UtilNumber;
+import me.kingingo.kcore.Util.UtilPlayer;
 import me.kingingo.kcore.Util.UtilServer;
 import me.kingingo.kcore.kConfig.kConfig;
 
@@ -60,7 +63,8 @@ public class UserStores extends kListener{
 	@Getter
 	private StatsManager statsManager;
 	private InventoryCopy page;
-
+	private String prefix = " §b[UserStore]  ";
+	
 	public UserStores(StatsManager statsManager){
 		super(statsManager.getPlugin(),"UserStores");
 		this.statsManager=statsManager;
@@ -114,6 +118,7 @@ public class UserStores extends kListener{
 									Location l = getStringLoc(loc);
 									l.getBlock().setType(Material.AIR);
 									c.set("UserStores."+loc, null);
+									c.save();
 									player.closeInventory();
 								}
 								
@@ -138,6 +143,7 @@ public class UserStores extends kListener{
 											        if(i>0){
 											        	setPreis(s, i);
 														c.set("UserStores."+loc+".preis", ev.getName());
+														c.save();
 														player.closeInventory();
 											        }
 												}
@@ -183,7 +189,9 @@ public class UserStores extends kListener{
 		}, null, UtilItem.RenameItem(new ItemStack(Material.CHEST), "§a Deine aktuellen Stores")));
 		page.fill(Material.STAINED_GLASS_PANE,15);
 		page.setCreate_new_inv(true);
+		page.setFor_with_copy_page(false);
 		UtilInv.getBase(statsManager.getPlugin()).addPage(page);
+		UtilServer.getCommandHandler().register(CommandUserStore.class, new CommandUserStore(this));
 	}
 	
 	public void openInv(Player player){
@@ -247,7 +255,7 @@ public class UserStores extends kListener{
 			if(ev.getClickedBlock().getState() instanceof Sign){
 				sign = (Sign)ev.getClickedBlock().getState();
 				
-				if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA + "[UserStore]")){
+				if(sign.getLine(0).startsWith(prefix)){
 					if(sign.getBlock().getRelative(BlockFace.DOWN).getState() instanceof Chest){
 						chest = (Chest)ev.getClickedBlock().getRelative(BlockFace.DOWN).getState();
 						p=ev.getPlayer();
@@ -276,18 +284,26 @@ public class UserStores extends kListener{
 							}
 							
 							if( (preis*anzahl) <= getStatsManager().getDouble(Stats.MONEY, p)){
-								if(Integer.valueOf(getAnzahl(sign))==0){
+								if(Integer.valueOf(getAnzahl(sign))>0){
 									item=UtilInv.getFirstItem(chest.getInventory());
 									if(Integer.valueOf(getAnzahl(sign)) >= (anzahl)){
-										getStatsManager().addDouble(p, -(preis*anzahl), Stats.MONEY);
+										Log("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+item.getTypeId()+" gekauft und "+(preis*anzahl)+" Epics bezahlt. "+UtilLocation.getLocString(sign.getLocation())+" "+sign.getLocation().getWorld());
+				            			getStatsManager().addDouble(p, -(preis*anzahl), Stats.MONEY);
+										UUID uuid=getUUID(sign);
+										
+										if( UtilPlayer.isOnline(uuid) ){
+											getStatsManager().addDouble(Bukkit.getPlayer(uuid), (preis*anzahl), Stats.MONEY);
+										}else{
+											getStatsManager().asyncaddDouble(uuid, (preis*anzahl), Stats.MONEY);
+										}
+										
 										UtilInv.remove(chest.getInventory(), item.getType(), item.getData().getData(), anzahl);
 										setAnzahl(sign, (Integer.valueOf(getAnzahl(sign))-anzahl));
 										item.setAmount(anzahl);
 										p.getInventory().addItem(item);
 										p.updateInventory();
 			        					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SIGN_SHOP_GET",new String[]{String.valueOf(anzahl), String.valueOf(item.getTypeId()),String.valueOf((preis*anzahl))}));
-			        					Log("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+item.getTypeId()+" gekauft und "+(preis*anzahl)+" Epics bezahlt. "+UtilLocation.getLocString(sign.getLocation()));
-			            			}else{
+			        				}else{
 										p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SHOP_AMOUNT_NOT_ENOUGH"));
 									}
 								}else{
@@ -325,10 +341,10 @@ public class UserStores extends kListener{
 			if(ev.getCurrentItem().getTypeId()==click_id&&ev.getCurrentItem().getData().getData()==click_data){
 				if(ev.getClickedInventory().getName().equalsIgnoreCase("container.chest")&&ev.getInventory().getName().equalsIgnoreCase("container.chest")){
 					click_p.getInventory().addItem(ev.getCurrentItem());
-					UtilInv.remove(ev.getInventory(),Material.getMaterial(click_id), click_data, ev.getCurrentItem().getAmount());
+					ev.getInventory().setItem(ev.getSlot(), null);
 				}else{
 					ev.getInventory().addItem(ev.getCurrentItem());
-					UtilInv.remove(click_p,Material.getMaterial(click_id), click_data, ev.getCurrentItem().getAmount());
+					click_p.getInventory().setItem(ev.getSlot(), null);
 				}
 			}
 		}
@@ -338,6 +354,7 @@ public class UserStores extends kListener{
 	public void createConfig(UserDataConfigLoadEvent ev){
 		if(!ev.getConfig().contains("Stores")){
 			ev.getConfig().set("Stores", 5);
+			ev.getConfig().save();
 		}
 	}
 	
@@ -355,13 +372,21 @@ public class UserStores extends kListener{
 		if(ev.getBlock().getState() instanceof Sign){
 			bbreak_sign=(Sign)ev.getBlock().getState();
 			
-			if(bbreak_sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA + "[UserStore]") ){
+			if(bbreak_sign.getLine(0).startsWith(prefix) ){
 				bbreak_config=UtilServer.getUserData().getConfig(ev.getPlayer());
 				
 				if(bbreak_config.contains("UserStores."+getLocString(bbreak_sign.getLocation()))){
 					bbreak_config.set("UserStores."+getLocString(bbreak_sign.getLocation()), null);
 					bbreak_sign.setType(Material.AIR);
 				}else{
+					ev.setCancelled(true);
+				}
+			}
+		}else if(ev.getBlock().getState() instanceof Chest){
+			if(ev.getBlock().getRelative(BlockFace.UP).getState() instanceof Sign){
+				bbreak_sign=(Sign)ev.getBlock().getRelative(BlockFace.UP).getState();
+				
+				if(bbreak_sign.getLine(0).startsWith(prefix) ){
 					ev.setCancelled(true);
 				}
 			}
@@ -393,7 +418,7 @@ public class UserStores extends kListener{
 				for(BlockFace face : faces){
 					if(block_loc.getRelative(face).getState() instanceof Chest){
 						if(block_loc.getRelative(face).getRelative(BlockFace.UP).getState() instanceof Sign){
-							if( ((Sign)block_loc.getRelative(face).getRelative(BlockFace.UP).getState()).getLine(0).equalsIgnoreCase(ChatColor.AQUA + "[UserStore]") ){
+							if( ((Sign)block_loc.getRelative(face).getRelative(BlockFace.UP).getState()).getLine(0).startsWith(prefix) ){
 								ev.setCancelled(true);
 								break;
 							}
@@ -413,7 +438,7 @@ public class UserStores extends kListener{
 				if(ev.getClickedBlock().getRelative(BlockFace.UP).getState() instanceof Sign){
 					open_sign=(Sign)ev.getClickedBlock().getRelative(BlockFace.UP).getState();
 					
-					if(open_sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA + "[UserStore]")){
+					if(open_sign.getLine(0).startsWith(prefix)){
 						open_config=UtilServer.getUserData().getConfig(ev.getPlayer());
 						
 						if(!open_config.contains("UserStores."+getLocString(open_sign.getLocation()))){
@@ -427,6 +452,8 @@ public class UserStores extends kListener{
 			}
 		}
 	}
+	//[UserStore]
+	//PREIS
 	
 	double store_preis;
 	Chest store_chest;
@@ -435,7 +462,7 @@ public class UserStores extends kListener{
 	String ll;
 	@EventHandler
 	public void createSign(SignChangeEvent ev){
-		if(ev.getLine(0).equalsIgnoreCase("[UserStore]")){
+		if(ev.getLine(0).equalsIgnoreCase("[UserStore]")||ev.getLine(0).equalsIgnoreCase("[UserShop]")){
 			if(!ev.getPlayer().isOp()){
 				store_anzahl=UtilServer.getUserData().getConfig(ev.getPlayer()).getInt("Stores");
 				
@@ -453,37 +480,47 @@ public class UserStores extends kListener{
 					if(store_preis>0){
 						if(ev.getBlock().getRelative(BlockFace.DOWN).getType()==Material.CHEST){
 							store_chest = (Chest)ev.getBlock().getRelative(BlockFace.DOWN).getState();
-							if(!UtilInv.isInventoryEmpty(store_chest.getInventory())){
-								if(UtilInv.itemsAllSame(store_chest.getInventory())){
-									ItemStack i = UtilInv.getFirstItem(store_chest.getInventory());
-									
-									if(i.getData().getData()==0){
-										setID(ev, i.getTypeId());
+							if(store_chest.getInventory().getSize() == InventorySize._27.getSize()){
+								if(!UtilInv.isInventoryEmpty(store_chest.getInventory())){
+									if(UtilInv.itemsAllSame(store_chest.getInventory())){
+										ItemStack i = UtilInv.getFirstItem(store_chest.getInventory());
+										
+										if(i.getData().getData()==0){
+											setID(ev, i.getTypeId());
+										}else{
+											setIDundData(ev, i.getTypeId(),i.getData().getData());
+										}
+										ev.setLine(0,this.prefix+"/"+UtilPlayer.getRealUUID(ev.getPlayer()));
+										setPreis(ev, store_preis);
+										store_config = UtilServer.getUserData().getConfig(ev.getPlayer());
+										store_config.set("Stores", (store_anzahl-1));
+										store_anzahl = UtilInv.AnzahlInInventory(store_chest.getInventory(), i.getTypeId(), i.getData().getData());
+										setAnzahl(ev, store_anzahl);
+										
+										ll = getLocString(ev.getBlock().getLocation());
+										store_config.set("UserStores."+ll+".preis", store_preis);
+										store_config.set("UserStores."+ll+".id", i.getTypeId());
+										store_config.set("UserStores."+ll+".data", i.getData().getData());
+										store_config.set("UserStores."+ll+".anzahl", store_anzahl);
+										store_config.save();
+										
+										Bukkit.getPluginManager().callEvent(new PlayerCreateUserStoreEvent(ev.getPlayer(), (Sign)ev.getBlock().getState()));
+										return;
 									}else{
-										setIDundData(ev, i.getTypeId(),i.getData().getData());
+										ev.setLine(0, "§4ERROR: ");
+										ev.setLine(1, "§4Keine gleichen");
+										ev.setLine(2, "§4Items in der");
+										ev.setLine(3, "§4Chest");
 									}
-									ev.setLine(0, ChatColor.AQUA + "[UserStore]");
-									setPreis(ev, store_preis);
-									store_config = UtilServer.getUserData().getConfig(ev.getPlayer());
-									store_config.set("Stores", (store_anzahl-1));
-									store_anzahl = UtilInv.AnzahlInInventory(store_chest.getInventory(), i.getTypeId(), i.getData().getData());
-									setAnzahl(ev, store_anzahl);
-									
-									ll = getLocString(ev.getBlock().getLocation());
-									store_config.set("UserStores."+ll+".preis", store_preis);
-									store_config.set("UserStores."+ll+".id", i.getTypeId());
-									store_config.set("UserStores."+ll+".data", i.getData().getData());
-									store_config.set("UserStores."+ll+".anzahl", store_anzahl);
-									return;
 								}else{
 									ev.setLine(0, "§4ERROR: ");
-									ev.setLine(1, "§4Keine gleichen");
-									ev.setLine(2, "§4Items in der");
-									ev.setLine(3, "§4Chest");
+									ev.setLine(1, "§4Chest ist leer");
 								}
 							}else{
 								ev.setLine(0, "§4ERROR: ");
-								ev.setLine(1, "§4Chest ist leer");
+								ev.setLine(1, "§4Double Chests");
+								ev.setLine(2, "§4sind nicht");
+								ev.setLine(3, "§4erlaubt§l!");
 							}
 						}else{
 							ev.setLine(0, "§4ERROR: ");
@@ -505,6 +542,10 @@ public class UserStores extends kListener{
 				ev.setLine(1, "§4Der Preis fehlt");
 			}
 		}
+	}
+	
+	public UUID getUUID(Sign sign){
+		return UUID.fromString(sign.getLine(0).split("/")[1]);
 	}
 	
 	public void setIDundData(SignChangeEvent sign,int id,byte data){

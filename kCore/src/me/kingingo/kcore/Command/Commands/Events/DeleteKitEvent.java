@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class DeleteKitEvent  extends Event {
+public class DeleteKitEvent extends Event {
 	private static HandlerList handlers = new HandlerList();
 	@Getter
 	private Player player;

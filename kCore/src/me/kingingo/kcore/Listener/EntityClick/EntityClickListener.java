@@ -1,12 +1,7 @@
 package me.kingingo.kcore.Listener.EntityClick;
 
-import lombok.Getter;
-import lombok.Setter;
-import me.kingingo.kcore.Inventory.Item.Click;
-import me.kingingo.kcore.Listener.kListener;
-import me.kingingo.kcore.Update.UpdateType;
-import me.kingingo.kcore.Update.Event.UpdateEvent;
-import me.kingingo.kcore.Util.UtilEvent.ActionType;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -21,7 +16,18 @@ import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import lombok.Getter;
+import lombok.Setter;
+import me.kingingo.kcore.Inventory.Item.Click;
+import me.kingingo.kcore.Listener.kListener;
+import me.kingingo.kcore.Update.UpdateType;
+import me.kingingo.kcore.Update.Event.UpdateEvent;
+import me.kingingo.kcore.Util.UtilEvent.ActionType;
+
 public class EntityClickListener extends kListener{
+	
+	@Getter
+	private static ArrayList<Entity> entities=new ArrayList<>();
 	
 	private Click click;
 	@Getter
@@ -36,6 +42,7 @@ public class EntityClickListener extends kListener{
 		this.entity=entity;
 		this.location=entity.getLocation();
 		this.type=entity.getType();
+		entities.add(entity);
 	}
 	
 	@EventHandler

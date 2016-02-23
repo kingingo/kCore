@@ -1,9 +1,57 @@
 package me.kingingo.kcore.Util;
 
+import java.util.ArrayList;
+
 import org.bukkit.util.Vector;
+
+import me.kingingo.kcore.TreasureChest.NEW.Templates.BlockVector;
 
 public class UtilVector {
 
+	public static int getMaxZ(ArrayList<BlockVector> list){
+		int z = 0;
+		boolean b = false;
+		for(int i = 0; i<list.size(); i++){
+			z=list.get(i).getBlockZ();
+			b=true;
+			for(BlockVector v1 : list){
+				if(z < v1.getBlockZ()){
+					z=0;
+					b=false;
+					break;
+				}
+			}
+			
+			if(b){
+				break;
+			}
+		}
+		
+		return z;
+	}
+	
+	public static int getMaxX(ArrayList<BlockVector> list){
+		int x = 0;
+		boolean b = false;
+		for(int i = 0; i<list.size(); i++){
+			x=list.get(i).getBlockX();
+			b=true;
+			for(BlockVector v1 : list){
+				if(x < v1.getBlockX()){
+					x=0;
+					b=false;
+					break;
+				}
+			}
+			
+			if(b){
+				break;
+			}
+		}
+		
+		return x;
+	}
+	
 	public static Vector add(Vector a, Vector b)
 	  {
 	    return new Vector(a.getBlockX() + b.getBlockX(), a.getBlockY() + b.getBlockY(), a.getBlockZ() + b.getBlockZ());
@@ -27,6 +75,11 @@ public class UtilVector {
 	public static Vector subtract(Vector a, Vector b)
 	  {
 	    return new Vector(b.getBlockX() - a.getBlockX(),b.getBlockY() - a.getBlockY(), b.getBlockZ() - a.getBlockZ());
+	  }
+	
+	public static BlockVector subtract(BlockVector a, BlockVector b)
+	  {
+	    return new BlockVector(b.getBlockX() - a.getBlockX(),b.getBlockY() - a.getBlockY(), b.getBlockZ() - a.getBlockZ(),0,(byte)0);
 	  }
 	
 	public static final Vector rotateAroundAxisX(Vector v, double angle)

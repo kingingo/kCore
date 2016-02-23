@@ -12,6 +12,9 @@ import me.kingingo.kcore.PacketAPI.kPacket;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutChat;
 import me.kingingo.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
 import me.kingingo.kcore.Permission.kPermission;
+import me.kingingo.kcore.StatsManager.Stats;
+import me.kingingo.kcore.StatsManager.StatsManager;
+import me.kingingo.kcore.UserDataConfig.UserDataConfig;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
 import net.minecraft.server.v1_8_R3.Packet;
@@ -115,6 +118,20 @@ public class UtilPlayer
 			s+=Zeichen.HERZ.getIcon();
 		}
 		return s;
+	}
+	
+	public static void setSkyBlockScoreboard(Player player,Gems gems,StatsManager statsManager, UserDataConfig userData){
+		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
+		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 9);
+		UtilScoreboard.setScore(player.getScoreboard(),""+gems.getGems(player), DisplaySlot.SIDEBAR, 8);
+		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 7);
+		UtilScoreboard.setScore(player.getScoreboard(),"§6§lMoney", DisplaySlot.SIDEBAR, 6);
+		UtilScoreboard.setScore(player.getScoreboard(),UtilMath.trim(2, statsManager.getDouble(Stats.MONEY, player))+"$", DisplaySlot.SIDEBAR, 5);
+		UtilScoreboard.setScore(player.getScoreboard()," ", DisplaySlot.SIDEBAR, 4);
+		UtilScoreboard.setScore(player.getScoreboard(),"§c§lUserstore-Slots", DisplaySlot.SIDEBAR, 3);
+		UtilScoreboard.setScore(player.getScoreboard(),""+(player.isOp()?"UNLIMITED":userData.getConfig(player).getInt("Stores")), DisplaySlot.SIDEBAR, 2);
+		UtilScoreboard.setScore(player.getScoreboard(),"----------------", DisplaySlot.SIDEBAR, 1);
+		player.setScoreboard(player.getScoreboard());
 	}
 	
 	public static void setScoreboard(Player player,Gems gems){

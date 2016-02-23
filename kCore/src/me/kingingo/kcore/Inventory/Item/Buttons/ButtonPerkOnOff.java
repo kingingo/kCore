@@ -23,9 +23,11 @@ public class ButtonPerkOnOff extends ButtonCopy{
     	((InventoryPageBase)object).setItem(slot, perk.getItem());
     	  
         if (((object instanceof InventoryPageBase)) &&   (player.hasPermission(perk.getPermission().getPermissionToString())) &&  (UtilServer.getUserData().getConfigs().containsKey(UtilPlayer.getRealUUID(player)))){
-        	if (UtilServer.getUserData().getConfig(player).getString("perks." + perk.getName()).equalsIgnoreCase("true")){
-        		((InventoryPageBase)object).setItem(toggle_slot, UtilItem.RenameItem(new ItemStack(351,1,(byte)10), "§aON"));
-        		return;
+        	if(UtilServer.getUserData().getConfig(player).contains("perks." + perk.getName())){
+        		if (UtilServer.getUserData().getConfig(player).getString("perks." + perk.getName()).equalsIgnoreCase("true")){
+            		((InventoryPageBase)object).setItem(toggle_slot, UtilItem.RenameItem(new ItemStack(351,1,(byte)10), "§aON"));
+            		return;
+            	}
         	}
         }
         ((InventoryPageBase)object).setItem(toggle_slot, UtilItem.RenameItem(new ItemStack(351,1,(byte)8), "§cOff"));

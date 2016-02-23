@@ -353,7 +353,10 @@ public class Language {
 			add(type, "TELEPORT_ANFRAGE_EMPFÄNGER", "§e{INPUT0}§a is asking to teleport to you. Use §7/tpaccept§a or §7/tpdeny");
 			add(type, "TELEPORT_ANFRAGE_SENDER", "§aSend teleport request to §e{INPUT0}§a!");
 			add(type, "WARP_EXIST", "§cThis warp does not exist.");
+			add(type, "SHOP_EXIST", "§cThis shop warp does not exist.");
 			add(type, "WARP_SET", "§aWarp §e{INPUT0}§a set!");
+			add(type, "SHOP_SET", "§aShop warp set!");
+			add(type, "SHOP_NOT", "§cYou must own a Shop!");
 			add(type, "KIT_USE", "§aYou selected kit §e{INPUT0}§a!");
 			add(type, "KIT_SET", "§aKit §e{INPUT0}§a saved!");
 			add(type, "KIT_EXIST", "§cThis kit does not exist!");
@@ -450,6 +453,7 @@ public class Language {
 			add(type, "HOME_ISLAND", "§aA request to set a home was send!");
 			add(type, "WARP_DEL", "§aWarp §e{INPUT0}§a removed!");
 			add(type, "WARP_EXIST", "§cThis warp does not exist!");
+			add(type, "SHOP_DEL", "§aShop Warp removed!");
 			add(type, "GILDE_PLAYER_LEAVE", "§a{INPUT0}§7 left the server!");
 			add(type, "VOTE_THX", "§aThank you for §a§lVoting§a! You recieved your reward!");
 			add(type, "ANIT_LOGOUT_FIGHT_CMD", "§cYou cannot use §e{INPUT0}§c in combat!");
@@ -634,6 +638,7 @@ public class Language {
 			add(type,"GUNGAME_LEVEL_UP","§a{INPUT0} §7reached level §e{INPUT1}§7. It took him §a{INPUT2}§7!");
 			add(type,"SHOP_EMPTY","§cThe Store are empty!");
 			add(type,"SHOP_AMOUNT_NOT_ENOUGH","§cWe have not enough Items..");
+			add(type, "SHOP_NOT_IN_WORLD", "§cYou cannot set the store warp at the spawn!");
 		}
 		
 		if(type==LanguageType.GERMAN){
@@ -826,7 +831,9 @@ public class Language {
 	        add(type, "TELEPORT_ANFRAGE_EMPFÄNGER", "§aDer Spieler §e{INPUT0}§a fragt, ob er sich zu dir telepotieren darf. Um zu akzeptieren §7/tpaccept§a um abzulehnen §7/tpdeny");
 	        add(type, "TELEPORT_ANFRAGE_SENDER", "§aDu hast §e{INPUT0}§a eine Teleport Anfrage gesendet!");
 	        add(type, "WARP_EXIST", "§cDer Warp existiert nicht.");
+	        add(type, "SHOP_EXIST", "§cDer Shop Warp existiert nicht.");
 	        add(type, "WARP_SET", "§aDer Warp §e{INPUT0}§a wurde gespeichert!");
+	        add(type, "SHOP_SET", "§aDer Shop Warp wurde gespeichert!");
 	        add(type, "KIT_USE", "§aDu hast das Kit §e{INPUT0}§a ausgewaehlt!");
 	        add(type, "KIT_SET", "§aDas Kit §e{INPUT0}§a wurde gespeichert!");
 	        add(type, "KIT_EXIST", "§cDieses Kit existiert nicht!");
@@ -922,6 +929,7 @@ public class Language {
 	        add(type, "HOME_QUESTION", "§7Der Spieler §a{INPUT0}§7 fragt, ob er ein Home setzen darf. §e/homeaccept §7oder §e/homedeny");
 	        add(type, "HOME_ISLAND", "§aEs wurde eine Anfrage zum setzen des Homes abgesetzt!");
 	        add(type, "WARP_DEL", "§aDer Warp §e{INPUT0}§a wurde geloescht!");
+	        add(type, "SHOP_DEL", "§aDer Shop Warp wurde geloescht!");
 	        add(type, "WARP_EXIST", "§cDieser Warp exestiert nicht!");
 	        add(type, "GILDE_PLAYER_LEAVE", "§a{INPUT0}§7 hat den Server verlassen!");
 	        add(type, "VOTE_THX", "§aDanke fürs §a§lVoten§a du hast deine Belohnung erhalten!");
@@ -1091,6 +1099,8 @@ public class Language {
 			add(type,"GUNGAME_LEVEL_UP","§a{INPUT0} §7hat Level §e{INPUT1} §7erreicht und dafuer §a{INPUT2}§7 gebraucht!");
 			add(type,"SHOP_EMPTY","§cDer Shop ist leer...");
 			add(type,"SHOP_AMOUNT_NOT_ENOUGH","§cEs sind nicht genug Items auflager!");
+			add(type, "SHOP_NOT", "§cDu musst einen Shop besitzten!");
+			add(type, "SHOP_NOT_IN_WORLD", "§cDu kannst den Shop Warp nicht am Spawn setzten!");
 		}
 	}
 	

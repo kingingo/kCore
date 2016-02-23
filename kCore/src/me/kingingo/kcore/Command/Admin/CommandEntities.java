@@ -2,6 +2,7 @@ package me.kingingo.kcore.Command.Admin;
 
 import me.kingingo.kcore.Command.CommandHandler.Sender;
 import me.kingingo.kcore.Language.Language;
+import me.kingingo.kcore.Listener.EntityClick.EntityClickListener;
 import me.kingingo.kcore.Permission.kPermission;
 import me.kingingo.kcore.Util.UtilServer;
 
@@ -69,7 +70,12 @@ public class CommandEntities implements CommandExecutor{
 						for(World w : Bukkit.getWorlds()){
 							for(Entity e : w.getEntities()){
 			                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
-									if(UtilServer.getDeliveryPet()!=null){
+									
+			                		if(EntityClickListener.getEntities().contains(e)){
+										continue;
+									}
+			                		
+			                		if(UtilServer.getDeliveryPet()!=null){
 										if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
 										if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
 									}
@@ -78,6 +84,14 @@ public class CommandEntities implements CommandExecutor{
 									
 									if(UtilServer.getGemsShop()!=null&&UtilServer.getGemsShop().getListener()!=null&&UtilServer.getGemsShop().getListener().getEntity()!=null){
 										if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
+									}
+									
+									if(UtilServer.getPerkManager()!=null&&UtilServer.getGemsShop().getListener().getEntity()!=null){
+										if(UtilServer.getPerkManager().getEntity().getEntityId()==e.getEntityId())continue;
+									}
+									
+									if(UtilServer.getItemShop()!=null&&UtilServer.getItemShop().getListener()!=null&&UtilServer.getItemShop().getListener().getEntity()!=null){
+										if(UtilServer.getItemShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
 									}
 									
 			                		a++;
@@ -94,6 +108,10 @@ public class CommandEntities implements CommandExecutor{
 			                for(Entity e : Bukkit.getWorld(args[0]).getEntities()){
 			                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
 			                		
+			                		if(EntityClickListener.getEntities().contains(e)){
+										continue;
+									}
+			                		
 			                		if(UtilServer.getDeliveryPet()!=null){
 										if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
 										if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
@@ -104,7 +122,11 @@ public class CommandEntities implements CommandExecutor{
 									if(UtilServer.getGemsShop()!=null&&UtilServer.getGemsShop().getListener()!=null&&UtilServer.getGemsShop().getListener().getEntity()!=null){
 										if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
 									}
-			                		
+
+									if(UtilServer.getItemShop()!=null&&UtilServer.getItemShop().getListener()!=null&&UtilServer.getItemShop().getListener().getEntity()!=null){
+										if(UtilServer.getItemShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
+									}
+									
 			                		a++;
 			                		e.remove();
 			                	}
@@ -142,7 +164,11 @@ public class CommandEntities implements CommandExecutor{
 					for(World w : Bukkit.getWorlds()){
 						for(Entity e : w.getEntities()){
 		                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
-		                		
+
+		                		if(EntityClickListener.getEntities().contains(e)){
+									continue;
+								}
+								
 		                		if(UtilServer.getDeliveryPet()!=null){
 									if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
 									if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
@@ -152,6 +178,10 @@ public class CommandEntities implements CommandExecutor{
 								
 								if(UtilServer.getGemsShop()!=null){
 									if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
+								}
+
+								if(UtilServer.getItemShop()!=null&&UtilServer.getItemShop().getListener()!=null&&UtilServer.getItemShop().getListener().getEntity()!=null){
+									if(UtilServer.getItemShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
 								}
 		                		
 		                		a++;
@@ -166,7 +196,11 @@ public class CommandEntities implements CommandExecutor{
 		                
 		                for(Entity e : Bukkit.getWorld(args[0]).getEntities()){
 		                	if((!(e instanceof Player))&&(!(e instanceof ItemFrame))&&(!(e instanceof ArmorStand))){
-		                		
+
+		                		if(EntityClickListener.getEntities().contains(e)){
+									continue;
+								}
+								
 		                		if(UtilServer.getDeliveryPet()!=null){
 									if(UtilServer.getDeliveryPet().getJockey()!=null&&UtilServer.getDeliveryPet().getJockey().getEntityId()==e.getEntityId())continue;
 									if(UtilServer.getDeliveryPet().getEntity()!=null&&UtilServer.getDeliveryPet().getEntity().getEntityId()==e.getEntityId())continue;
@@ -176,6 +210,10 @@ public class CommandEntities implements CommandExecutor{
 								
 								if(UtilServer.getGemsShop()!=null){
 									if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
+								}
+
+								if(UtilServer.getItemShop()!=null&&UtilServer.getItemShop().getListener()!=null&&UtilServer.getItemShop().getListener().getEntity()!=null){
+									if(UtilServer.getItemShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
 								}
 		                		
 		                		a++;
