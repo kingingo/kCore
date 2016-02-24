@@ -50,6 +50,13 @@ public class CommandTreasureChest implements CommandExecutor{
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+"/tc createChest [Template] [Chest]");
 					}
+				}else if(args[0].equalsIgnoreCase("addItem")){
+					if(args.length==3){
+						treasureChest.getChest(args[1]).addItem(player.getItemInHand(), Integer.valueOf(args[2]));
+						player.sendMessage(Language.getText(player, "PREFIX")+"§aDas Item wurde zu der Chest hinzugefügt!");
+					}else{
+						player.sendMessage(Language.getText(player, "PREFIX")+"/tc addItem [Chest] [Nenner]");
+					}
 				}else if(args[0].equalsIgnoreCase("start")){
 					if(args.length==2){
 						TreasureChest c = treasureChest.getChest(args[1]);

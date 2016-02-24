@@ -16,8 +16,6 @@ public class AddonDay implements Listener {
 	JavaPlugin instance;
 	@Getter
 	World world;
-	@Getter
-	boolean drehen=false;
 	
 	public AddonDay(JavaPlugin plugin,World w){
 		this.world=w;
