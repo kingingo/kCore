@@ -1,6 +1,6 @@
 package eu.epicpvp.kcore.Gilden;
 
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import lombok.Getter;
 
 public enum GildenType {

@@ -16,9 +16,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.LoadedPlayer;
-import dev.wolveringer.dataclient.protocoll.packets.PacketInPlayerSettings;
-import dev.wolveringer.dataclient.protocoll.packets.PacketInPlayerSettings.SettingValue;
-import dev.wolveringer.dataclient.protocoll.packets.PacketOutChangePlayerSettings.Setting;
+import dev.wolveringer.dataserver.player.Setting;
+import dev.wolveringer.dataserver.protocoll.packets.PacketOutPlayerSettings;
+import dev.wolveringer.dataserver.protocoll.packets.PacketOutPlayerSettings.SettingValue;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
@@ -83,10 +83,10 @@ public class LoginManager extends kListener{
 		if(this.register.contains(playername.toLowerCase()))this.register.remove(playername.toLowerCase());
 		
 		LoadedPlayer loadedplayer = this.client.getPlayerAndLoad(playername);
-		loadedplayer.getSettings(Setting.PASSWORD).getAsync( new Callback<PacketInPlayerSettings.SettingValue[]>() {
+		loadedplayer.getSettings(Setting.PASSWORD).getAsync( new Callback<PacketOutPlayerSettings.SettingValue[]>() {
 
 			@Override
-			public void call(SettingValue[] response) {
+			public void call(PacketOutPlayerSettings .SettingValue[] response) {
 				if (response.length == 1 && response[0].getSetting() == Setting.PASSWORD){
 					if(response[0].getValue()!=null){
 						if(UtilPlayer.isOnline(playername)){

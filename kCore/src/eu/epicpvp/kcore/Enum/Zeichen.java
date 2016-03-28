@@ -3,20 +3,10 @@ package eu.epicpvp.kcore.Enum;
 import lombok.Getter;
 
 public enum Zeichen {
-HÄKCHEN_FETT("âœ”","[(=A=)]"),
-HÄKCHEN("âœ“","[(=B=)]"),
-HÄKCHEN_Angehaktes_KÃ¤stchen("â˜‘","[(=C=)]"),
-KÄTCHEN("â˜§","[(=D=)]"),
-KÄTCHEN_BIG("â– ","[(=E=)]"),
 MAHLZEICHEN("✖","[(=F=)]"),
 MAHLZEICHEN_FETT("✖","[(=G=)]"),
-Andreaskreuz("â˜“","[(=H=)]"),
-WAHL_X("âœ—","[(=I=)]"),
-WAHL_X_FETT("âœ˜","[(=J=)]"),
 HERZ("❤","[(=K=)]"),
-BIG_HERZ("❤","[(=L=)]"),
-ROTATE_HERZ("â§¥","[(=M=)]"),
-DOPPEL_PFEIL("Â»","[(=N=)]");
+BIG_HERZ("❤","[(=L=)]");
 
 @Getter
 private String icon;

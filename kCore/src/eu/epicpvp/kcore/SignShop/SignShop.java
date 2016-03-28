@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sk89q.worldguard.protection.flags.StateFlag;
 
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import lombok.Getter;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Language.Language;

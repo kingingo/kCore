@@ -17,8 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.wolveringer.client.connection.PacketListener;
-import dev.wolveringer.dataclient.gamestats.GameType;
-import dev.wolveringer.dataclient.protocoll.packets.Packet;
+import dev.wolveringer.dataserver.gamestats.GameType;
+import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.Arena.ArenaManager;
 import eu.epicpvp.kcore.Command.Admin.CommandLocations;
 import eu.epicpvp.kcore.Language.Language;
@@ -55,7 +55,7 @@ public class BestOf extends kListener{
 		this.wait_list=new HashMap<>();
 		this.players_name=new HashMap<>();
 		this.spawn=CommandLocations.getLocation("BestOf");
-		this.item=UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY, 1,(byte)14), "\u00A75cBestOf Runde beenden");
+		this.item=UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY, 1,(byte)14), "§cBestOf Runde beenden");
 		
 		UtilServer.getClient().getHandle().getHandlerBoss().addListener(new PacketListener() {
 			
@@ -91,11 +91,11 @@ public class BestOf extends kListener{
 				Bukkit.getPlayer(round.getPlayers()[0]).teleport(CommandLocations.getLocation("spawn"));
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().clear();
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(0, UtilItem.RenameItem(new ItemStack(Material.CHEST), Language.getText(Bukkit.getPlayer(round.getPlayers()[0]), "HUB_ITEM_CHEST")));
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(1,UtilItem.RenameItem(new ItemStack(Material.FISHING_ROD), "\u00A75aBestOf"));
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(5,UtilItem.RenameItem(new ItemStack(Material.BOW), "\u00A75aSurvivalGames 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "\u00A75aBedWars 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(8,UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "\u00A75aVersus 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(7,UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "\u00A75aSkyWars 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(1,UtilItem.RenameItem(new ItemStack(Material.FISHING_ROD), "§aBestOf"));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(5,UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedWars 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(8,UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(7,UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1"));
 			
 				for(Player p : UtilServer.getPlayers()){
 					p.showPlayer(Bukkit.getPlayer(round.getPlayers()[0]));
@@ -107,11 +107,11 @@ public class BestOf extends kListener{
 				Bukkit.getPlayer(round.getPlayers()[1]).teleport(CommandLocations.getLocation("spawn"));
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().clear();
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(0, UtilItem.RenameItem(new ItemStack(Material.CHEST), Language.getText(Bukkit.getPlayer(round.getPlayers()[1]), "HUB_ITEM_CHEST")));
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(1,UtilItem.RenameItem(new ItemStack(Material.FISHING_ROD), "\u00A75aBestOf"));
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(5,UtilItem.RenameItem(new ItemStack(Material.BOW), "\u00A75aSurvivalGames 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "\u00A75aBedWars 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(8,UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "\u00A75aVersus 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(7,UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "\u00A75aSkyWars 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(1,UtilItem.RenameItem(new ItemStack(Material.FISHING_ROD), "§aBestOf"));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(5,UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedWars 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(8,UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(7,UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1"));
 			
 				for(Player p : UtilServer.getPlayers()){
 					p.showPlayer(Bukkit.getPlayer(round.getPlayers()[1]));
@@ -209,7 +209,7 @@ public class BestOf extends kListener{
 							}
 						}else{
 							if(UtilPlayer.isOnline(winner)){
-								Title title = new Title("\u00A75a\u00A75lBestOf WINNER", "\u00A75c\u00A75l"+Bukkit.getPlayer(winner).getName());
+								Title title = new Title("§a§lBestOf WINNER", "§c§l"+Bukkit.getPlayer(winner).getName());
 								for(UUID player : round.getPlayers()){
 									if(UtilPlayer.isOnline(player)){
 										title.send(Bukkit.getPlayer(player));
@@ -259,7 +259,7 @@ public class BestOf extends kListener{
 				}
 			}
 			
-			new Title("\u00A75c"+this.players.get(ev.getPlayer().getUniqueId()).getRound()+"/"+this.players.get(ev.getPlayer().getUniqueId()).getTypes().length +" Runde"," ").send(ev.getPlayer());
+			new Title("§c"+this.players.get(ev.getPlayer().getUniqueId()).getRound()+"/"+this.players.get(ev.getPlayer().getUniqueId()).getTypes().length +" Runde"," ").send(ev.getPlayer());
 			
 			if(this.players.get(ev.getPlayer().getUniqueId()).canNextRound()){
 				this.wait_list.put(this.players.get(ev.getPlayer().getUniqueId()), System.currentTimeMillis());

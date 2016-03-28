@@ -31,7 +31,7 @@ public class CommandGilde implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		p = (Player)cs;
 		if(args.length==0){
-			p.sendMessage("\u00A75b\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A756\u00A75l GILDE \u00A75b\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75");
+			p.sendMessage("§b§§§§§§§§§§§§§§§§§§§§§§§§§§§§§6§l GILDE §b§§§§§§§§§§§§§§§§§§§§§§§§§§§§");
 			p.sendMessage(Language.getText(p, "GILDE_CMD1"));
 			p.sendMessage(Language.getText(p, "GILDE_CMD2"));
 			p.sendMessage(Language.getText(p, "GILDE_CMD3"));
@@ -49,7 +49,7 @@ public class CommandGilde implements CommandExecutor{
 				p.sendMessage(Language.getText(p, "GILDE_CMD12"));
 				p.sendMessage(Language.getText(p, "GILDE_CMD13"));
 			}
-			p.sendMessage("\u00A75b\u00A75 \u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A756\u00A75l GILDE \u00A75b\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75");
+			p.sendMessage("§b§ §§§§§§§§§§§§§§§§§§§§§§§§§§§6§l GILDE §b§§§§§§§§§§§§§§§§§§§§§§§§§§§§");
 		}else if(args.length > 0){
 			if(args[0].equalsIgnoreCase("erstellen")||args[0].equalsIgnoreCase("create")){
 				Erstellen.use(p, args, manager);
@@ -78,7 +78,7 @@ public class CommandGilde implements CommandExecutor{
 			}else if(manager.getTyp()==GildenType.SKY&&p.hasPermission(PermissionType.GILDE_NEWISLAND.getPermissionToString())&&args[0].equalsIgnoreCase("newisland")){
 				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
 				sky.getSky().getGilden_world().newIsland(args[1]);
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+"\u00A75aDone.");
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+"§aDone.");
 			}
 		}
 		return false;

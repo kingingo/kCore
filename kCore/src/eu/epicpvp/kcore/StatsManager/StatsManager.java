@@ -12,11 +12,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.LoadedPlayer;
-import dev.wolveringer.dataclient.gamestats.GameType;
-import dev.wolveringer.dataclient.gamestats.Statistic;
-import dev.wolveringer.dataclient.gamestats.StatsKey;
-import dev.wolveringer.dataclient.protocoll.packets.PacketOutStatsEdit.Action;
-import dev.wolveringer.dataclient.protocoll.packets.PacketOutStatsEdit.EditStats;
+import dev.wolveringer.dataserver.gamestats.GameType;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
+import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.Action;
+import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.EditStats;
+import dev.wolveringer.gamestats.Statistic;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangeEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
@@ -85,16 +85,16 @@ public class StatsManager extends kListener{
 	
 	public void SendRankingMessage(Player player,Ranking ranking,String Zeitraum){
 		if(ranking.getRanking().isEmpty())ranking.load();
-		player.sendMessage("\u00A75\u00A75b\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A756 \u00A75\u00A75lPlayer Ranking | "+Zeitraum+" | Top "+ranking.getLength()+" \u00A75\u00A75b\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75");
-		player.sendMessage("\u00A75\u00A75b Platz | "+(ranking.getStats().getMySQLName().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getMySQLName())+" | Player");
-		for(Integer i : ranking.getRanking().keySet())player.sendMessage("\u00A75\u00A75b#\u00A75\u00A756" + String.valueOf(i) + "\u00A75\u00A75b | \u00A75\u00A756" + String.valueOf(ranking.getRanking().get(i).stats) + " \u00A75\u00A75b|\u00A75\u00A756 " +ranking.getRanking().get(i).player);
+		player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | "+Zeitraum+" | Top "+ranking.getLength()+" §b■■■■■■■■");
+		player.sendMessage("§b Platz | "+(ranking.getStats().getMySQLName().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getMySQLName())+" | Player");
+		for(Integer i : ranking.getRanking().keySet())player.sendMessage("§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player);
 	}
 	
 	public void SendRankingMessage(Player player,Ranking ranking){
 		if(ranking.getRanking().isEmpty())ranking.load();
-		player.sendMessage("\u00A75\u00A75b\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A756 \u00A75\u00A75lPlayer Ranking | Top "+ranking.getLength()+" \u00A75\u00A75b\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75");
-		player.sendMessage("\u00A75\u00A75b Platz | "+(ranking.getStats().getMySQLName().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getMySQLName())+" | Player");
-		for(Integer i : ranking.getRanking().keySet())player.sendMessage("\u00A75\u00A75b#\u00A75\u00A756" + String.valueOf(i) + "\u00A75\u00A75b | \u00A75\u00A756" + String.valueOf(ranking.getRanking().get(i).stats) + " \u00A75\u00A75b|\u00A75\u00A756 " +ranking.getRanking().get(i).player);
+		player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top "+ranking.getLength()+" §b■■■■■■■■");
+		player.sendMessage("§b Platz | "+(ranking.getStats().getMySQLName().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getMySQLName())+" | Player");
+		for(Integer i : ranking.getRanking().keySet())player.sendMessage("§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player);
 	}
 	
 	public long getLong(StatsKey key,Player player){

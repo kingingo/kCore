@@ -3,15 +3,16 @@ package eu.epicpvp.kcore.Events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import dev.wolveringer.dataclient.protocoll.packets.PacketOutServerStatus;
+import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
+import dev.wolveringer.dataserver.protocoll.packets.PacketOutServerStatus;
 import lombok.Getter;
 
 public class ServerStatusUpdateEvent  extends Event {
 	private static HandlerList handlers = new HandlerList();
 	@Getter
-	private PacketOutServerStatus packet;
+	private PacketInServerStatus packet;
 	
-	public ServerStatusUpdateEvent(PacketOutServerStatus packet){
+	public ServerStatusUpdateEvent(PacketInServerStatus packet){
 		this.packet=packet;
 	}
 	

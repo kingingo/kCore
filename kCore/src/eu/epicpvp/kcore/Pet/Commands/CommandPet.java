@@ -35,7 +35,7 @@ public class CommandPet implements CommandExecutor{
 				if(((ItemStack)object).getType()==Material.BARRIER){
 					handler.getManager().RemovePet(player, true);
 				} else if(player.hasPermission( handler.getPerm( ((ItemStack)object).getItemMeta().getDisplayName() ).getPermissionToString() )){
-					handler.getManager().AddPetOwner(player, "\u00A757"+player.getName()+"s Pet", handler.getEntityType(handler.getPerm( ((ItemStack)object).getItemMeta().getDisplayName() )), player.getLocation());
+					handler.getManager().AddPetOwner(player, "§7"+player.getName()+"s Pet", handler.getEntityType(handler.getPerm( ((ItemStack)object).getItemMeta().getDisplayName() )), player.getLocation());
 					if(!handler.getChange_settings().contains(player))handler.getChange_settings().add(player);
 				}else{
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PET_MUST_BUYED_IN_SHOP"));
@@ -43,14 +43,14 @@ public class CommandPet implements CommandExecutor{
 				player.closeInventory();
 			}
 			
-		}, "\u00A75aPets",InventorySize.invSize(getItems().length), getItems());
+		}, "§aPets",InventorySize.invSize(getItems().length), getItems());
 		handler.getBase().addPage(choose);
 	}
 
 	public ItemStack[] getItems(){
 		ItemStack[] items = new ItemStack[getHandler().getManager().getSetting_list().size()+1];
 		int i = 0;	
-		items[i]=UtilItem.RenameItem(new ItemStack(Material.BARRIER), "\u00A75cPet delete");
+		items[i]=UtilItem.RenameItem(new ItemStack(Material.BARRIER), "§cPet delete");
 		
 		for(PetSetting s : getHandler().getManager().getSetting_list().values()){
 			i++;

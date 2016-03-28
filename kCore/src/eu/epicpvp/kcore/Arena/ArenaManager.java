@@ -11,10 +11,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.connection.PacketListener;
-import dev.wolveringer.dataclient.gamestats.GameType;
-import dev.wolveringer.dataclient.gamestats.StatsKey;
-import dev.wolveringer.dataclient.protocoll.packets.Packet;
-import dev.wolveringer.dataclient.protocoll.packets.PacketOutServerStatus.GameState;
+import dev.wolveringer.dataserver.gamestats.GameType;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
+import dev.wolveringer.dataserver.protocoll.packets.Packet;
+import dev.wolveringer.dataserver.gamestats.GameState;
 import eu.epicpvp.kcore.Arena.BestOf.GameRoundBestOf;
 import eu.epicpvp.kcore.Enum.Team;
 import eu.epicpvp.kcore.Language.Language;
@@ -344,7 +344,7 @@ public class ArenaManager extends kListener  {
 												this.team=0;
 											}
 											
-											//Pr\u00A75\u00A75\u00A75ft ob die Teams voll genug sind!
+											//Pr§§§ft ob die Teams voll genug sind!
 											for(Team t : this.type.getTeam()){
 												if( players.get(t).size() >= arena.getMax_team() ){
 													ba=true;

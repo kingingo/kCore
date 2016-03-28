@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Util.TimeSpan;
@@ -94,16 +94,16 @@ public class Home {
 			
 			if(sky.getSky().getGilden_world().getIslands().containsKey(args[1].toLowerCase())){
 				p.teleport(sky.getSky().getGilden_world().getIslandHome(args[1].toLowerCase()));
-				p.sendMessage(Language.getText(p, "PREFIX")+"\u00A75aDu wurdest Teleporiert.");
+				p.sendMessage(Language.getText(p, "PREFIX")+"§aDu wurdest Teleporiert.");
 			}else{
-				p.sendMessage(Language.getText(p, "PREFIX")+"\u00A75cGilde nicht gefunden");
+				p.sendMessage(Language.getText(p, "PREFIX")+"§cGilde nicht gefunden");
 			}
 		}else if(args.length==2&&p.isOp()){
 			if(manager.ExistGilde(args[1])){
 				manager.TeleportToHome(p, args[1]);
-				p.sendMessage(Language.getText(p, "PREFIX")+"\u00A75aDu wurdest Teleporiert.");
+				p.sendMessage(Language.getText(p, "PREFIX")+"§aDu wurdest Teleporiert.");
 			}else{
-				p.sendMessage(Language.getText(p, "PREFIX")+"\u00A75cGilde nicht gefunden");
+				p.sendMessage(Language.getText(p, "PREFIX")+"§cGilde nicht gefunden");
 			}
 		}else{
 			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde "+args[0]);

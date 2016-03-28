@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
-import dev.wolveringer.dataclient.protocoll.DataBuffer;
+import dev.wolveringer.dataserver.protocoll.DataBuffer;
 
 public class PermissionChannelHandler implements PluginMessageListener{
 	ArrayList<PermissionChannelListener> listener = new ArrayList<>();

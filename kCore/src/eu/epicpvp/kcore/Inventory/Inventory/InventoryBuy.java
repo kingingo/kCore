@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBase;
@@ -43,7 +43,7 @@ public class InventoryBuy extends InventoryPageBase{
 					player.closeInventory();
 				}
 					
-			},Material.GOLD_INGOT,"\u00A75e"+c+" Coins"));
+			},Material.GOLD_INGOT,"§e"+c+" Coins"));
 		}
 			
 		if(g!=0){
@@ -60,7 +60,7 @@ public class InventoryBuy extends InventoryPageBase{
 					player.closeInventory();
 				}
 					
-			},Material.EMERALD,"\u00A75a"+g+" Gems"));
+			},Material.EMERALD,"§a"+g+" Gems"));
 		}
 		
 		fill(Material.STAINED_GLASS_PANE,7);

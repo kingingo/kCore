@@ -25,11 +25,12 @@ import dev.wolveringer.client.connection.ClientType;
 import dev.wolveringer.client.connection.ServerInformations;
 import dev.wolveringer.client.external.ServerActionListener;
 import dev.wolveringer.client.threadfactory.ThreadFactory;
-import dev.wolveringer.dataclient.gamestats.GameType;
-import dev.wolveringer.dataclient.protocoll.DataBuffer;
-import dev.wolveringer.dataclient.protocoll.packets.PacketOutChangePlayerSettings.Setting;
-import dev.wolveringer.dataclient.protocoll.packets.PacketOutServerStatus;
-import dev.wolveringer.dataclient.protocoll.packets.PacketOutServerStatus.GameState;
+import dev.wolveringer.dataserver.gamestats.GameState;
+import dev.wolveringer.dataserver.gamestats.GameType;
+import dev.wolveringer.dataserver.player.Setting;
+import dev.wolveringer.dataserver.protocoll.DataBuffer;
+import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
+import dev.wolveringer.dataserver.protocoll.packets.PacketOutServerStatus;
 import eu.epicpvp.kcore.Arena.BestOf.BestOf;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.DeliveryPet.DeliveryPet;
@@ -183,8 +184,8 @@ public class UtilServer{
 			},new ServerInformations() {
 				
 				@Override
-				public PacketOutServerStatus getStatus() {
-					ServerStatusUpdateEvent ev = new ServerStatusUpdateEvent(new PacketOutServerStatus(0, 0, 0, "", GameType.NONE, GameState.Laden, false, ""));
+				public PacketInServerStatus getStatus() {
+					ServerStatusUpdateEvent ev = new ServerStatusUpdateEvent(new PacketInServerStatus(0, 0, 0, "", GameType.NONE,GameState.Laden, "none", false, ""));
 					Bukkit.getPluginManager().callEvent(ev);
 					return ev.getPacket();
 				}

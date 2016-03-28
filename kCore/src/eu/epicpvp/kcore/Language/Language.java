@@ -415,6 +415,7 @@ public class Language {
 			add(type, "SKYBLOCK_REMOVE_ISLAND_ONE", "§cYou can only delete your island once a day or create a guild island as an §bUltra §c ranked member!");
 			add(type, "SIGN_SHOP_NO_ITEM_ON_INV", "§cYou do not have this in your inventory or not enough of it!");
 			add(type, "SIGN_SHOP_VERKAUFT_", "§7You sold §6{INPUT0}§7 times §e{INPUT1}:{INPUT2}§7 and recieved §a{INPUT3}§7 Epics!");
+			add(type, "SIGN_SHOP_VERKAUFT_ALL", "§7You sold §6{INPUT0}§7 Items and recieved §a{INPUT1}§7 Epics!");
 			add(type, "SIGN_SHOP_VERKAUFT", "§7You sold §6{INPUT0}§7 times §e{INPUT1}§7 and recieved §a{INPUT2}§7 Epics!");
 			add(type, "SIGN_SHOP_DELAY", "§cYou can only sell something every §e{INPUT0}§c seconds!");
 			add(type, "SIGN_SHOP_GET", "§7You bought §6{INPUT0}§7 times §e{INPUT1}§7 and paid §a{INPUT2} Epics §7!");
@@ -892,6 +893,7 @@ public class Language {
 	        add(type, "SKYBLOCK_REMOVE_ISLAND_ONE", "§cDu kannst nur einmal am Tag deine Insel loeschen oder als §bUltra §ceine Gilden Insel erstellen!");
 	        add(type, "SIGN_SHOP_NO_ITEM_ON_INV", "§cDu hast dieses Item nicht im Inventar oder zu wenig davon!");
 	        add(type, "SIGN_SHOP_VERKAUFT_", "§7Du hast §6{INPUT0}§7 mal §e{INPUT1}:{INPUT2}§7 Verkauft und hast §a{INPUT3}§7 Epics erhalten!");
+			add(type, "SIGN_SHOP_VERKAUFT_ALL", "§7Du hast §6{INPUT0}§7 Items Verkauft und hast §a{INPUT1}§7 Epics erhalten!");
 	        add(type, "SIGN_SHOP_VERKAUFT", "§7Du hast §6{INPUT0}§7 mal §e{INPUT1}§7 verkauft und hast §a{INPUT2} Epics §7erhalten!");
 	        add(type, "SIGN_SHOP_DELAY", "§cDu kannst nur alle §e{INPUT0}§c Sekunden was verkaufen!");
 	        add(type, "SIGN_SHOP_GET", "§7Du hast §6{INPUT0}§7 mal §e{INPUT1}§7 bekommen dir wurden §a{INPUT2} Epics §7abgezogen!");

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataclient.gamestats.GameType;
+import dev.wolveringer.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.Arena.ArenaType;
 import eu.epicpvp.kcore.Arena.GameRound;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
@@ -80,11 +80,11 @@ public class GameRoundBestOf extends GameRound{
 			if(types[this.round-1]!=null){
 				if(nameTagMessage.getLines().length>=(this.round-1)){
 					System.out.println("TYPE: "+types.length +" ROUND: "+this.round+" "+nameTagMessage.getLines().length);
-					nameTagMessage.getLines()[this.round-1]="\u00A757[\u00A75eWinner Runde "+(this.round)+"\u00A757] "+types[this.round-1].name()+" \u00A757\u00A75 \u00A75a"+UtilServer.getBestOf().getPlayers_name().get(player);
+					nameTagMessage.getLines()[this.round-1]="§7[§eWinner Runde "+(this.round)+"§7] "+types[this.round-1].name()+" §7§ §a"+UtilServer.getBestOf().getPlayers_name().get(player);
 				};
 				
 			}else{
-				nameTagMessage.getLines()[this.round-1]="\u00A757[\u00A75eWinner Runde "+(this.round)+"\u00A757] Random \u00A757\u00A75 \u00A75a";
+				nameTagMessage.getLines()[this.round-1]="§7[§eWinner Runde "+(this.round)+"§7] Random §7§ §a";
 			}
 			UtilServer.getBestOf().sendHologramm(this);
 		}

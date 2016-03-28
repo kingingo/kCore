@@ -10,7 +10,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import dev.wolveringer.dataclient.gamestats.ServerType;
+import dev.wolveringer.dataserver.gamestats.ServerType;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.GemsShop.Events.PlayerGemsBuyEvent;
 import eu.epicpvp.kcore.Hologram.Hologram;

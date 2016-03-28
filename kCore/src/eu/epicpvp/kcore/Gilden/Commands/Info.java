@@ -3,7 +3,7 @@ package eu.epicpvp.kcore.Gilden.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Gilden.GildenManager;
@@ -22,22 +22,22 @@ public class Info {
 				if(s==StatsKey.LOC_X||s==StatsKey.LOC_Y||s==StatsKey.LOC_Z||s==StatsKey.WORLD)continue;
 				
 				if(s==StatsKey.ELO){
-					p.sendMessage("\u00A756FAME: \u00A75b"+manager.getDouble(s, g, manager.getTyp()));
+					p.sendMessage("§6FAME: §b"+manager.getDouble(s, g, manager.getTyp()));
 				}else if(s.getType() == int.class){
-					p.sendMessage("\u00A756"+s.getMySQLName()+": \u00A75b"+manager.getInt(s, g, manager.getTyp()));
+					p.sendMessage("§6"+s.getMySQLName()+": §b"+manager.getInt(s, g, manager.getTyp()));
 				}else if(s.getType() == double.class){
-					p.sendMessage("\u00A756"+s.getMySQLName()+": \u00A75b"+manager.getDouble(s, g, manager.getTyp()));
+					p.sendMessage("§6"+s.getMySQLName()+": §b"+manager.getDouble(s, g, manager.getTyp()));
 				}
 			}
 			manager.getMember(g);
-			p.sendMessage("\u00A756Anzahl: \u00A75b"+manager.getAnzahl(g)+"/10");
+			p.sendMessage("§6Anzahl: §b"+manager.getAnzahl(g)+"/10");
 			String[] players = manager.getGildenPlayersName(g);
-			String l = "\u00A756List: ";
+			String l = "§6List: ";
 			for(String player : players){
 				if(UtilPlayer.isOnline(player)){
-					l=l+" \u00A75a"+Bukkit.getPlayer(player).getName()+",";
+					l=l+" §a"+Bukkit.getPlayer(player).getName()+",";
 				}else{
-					l=l+" \u00A75c"+player+",";
+					l=l+" §c"+player+",";
 				}
 			}
 			l=l.substring(0, l.length()-1);
@@ -53,21 +53,21 @@ public class Info {
 				if(s==StatsKey.LOC_X||s==StatsKey.LOC_Y||s==StatsKey.LOC_Z||s==StatsKey.WORLD)continue;
 				
 				if(s==StatsKey.ELO){
-					p.sendMessage("\u00A756FAME: \u00A75b"+manager.getDouble(s, g, manager.getTyp()));
+					p.sendMessage("§6FAME: §b"+manager.getDouble(s, g, manager.getTyp()));
 				}else if(s.getType() == int.class){
-					p.sendMessage("\u00A756"+s.getMySQLName()+": \u00A75b"+manager.getInt(s, g, manager.getTyp()));
+					p.sendMessage("§6"+s.getMySQLName()+": §b"+manager.getInt(s, g, manager.getTyp()));
 				}else if(s.getType() == double.class){
-					p.sendMessage("\u00A756"+s.getMySQLName()+": \u00A75b"+manager.getDouble(s, g, manager.getTyp()));
+					p.sendMessage("§6"+s.getMySQLName()+": §b"+manager.getDouble(s, g, manager.getTyp()));
 				}
 			}
 			manager.getMember(g);
 			String[] players = manager.getGildenPlayersName(g);
-			String l = "\u00A756List: ";
+			String l = "§6List: ";
 			for(String player : players){
 				if(UtilPlayer.isOnline(player)){
-					l=l+" \u00A75a"+Bukkit.getPlayer(player).getName()+",";
+					l=l+" §a"+Bukkit.getPlayer(player).getName()+",";
 				}else{
-					l=l+" \u00A75c"+player+",";
+					l=l+" §c"+player+",";
 				}
 			}
 			l=l.substring(0, l.length()-1);

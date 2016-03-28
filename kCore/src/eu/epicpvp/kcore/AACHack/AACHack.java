@@ -21,7 +21,6 @@ import lombok.Getter;
 import lombok.Setter;
 import me.konsolas.aac.api.HackType;
 import me.konsolas.aac.api.PlayerViolationCommandEvent;
-import me.konsolas.aac.api.PlayerViolationEvent;
 
 public class AACHack extends kListener{
 
@@ -101,10 +100,10 @@ public class AACHack extends kListener{
 //			AACAPIProvider.getAPI().reloadAAC();
 //		}
 //	}
-	
-	@EventHandler
-    public void onPlayerViolation(PlayerViolationEvent ev) {
-	}
+//	
+//	@EventHandler
+//    public void onPlayerViolation(PlayerViolationEvent ev) {
+//	}
 	
 	private void setZeitBan(Player banned,int ti,String typ,String reason){
 		long time=0;

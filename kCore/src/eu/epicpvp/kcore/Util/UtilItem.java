@@ -21,8 +21,8 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.Potion;
 
-import dev.wolveringer.dataclient.gamestats.ServerType;
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.ServerType;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryLotto2.InventoryLotto2Type;
 import eu.epicpvp.kcore.Inventory.Item.BooleanClick;
 import eu.epicpvp.kcore.Inventory.Item.Click;

@@ -13,10 +13,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import dev.wolveringer.dataclient.gamestats.ServerType;
-import dev.wolveringer.dataclient.gamestats.GameType;
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.GameType;
+import dev.wolveringer.dataserver.gamestats.ServerType;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 
 public class CommandMoney implements CommandExecutor{
 	
@@ -49,7 +48,7 @@ public class CommandMoney implements CommandExecutor{
 
 					if(UtilPlayer.isOnline(args[0])){
 						target=Bukkit.getPlayer(args[0]);
-						player.sendMessage(prefix+target.getName()+" Kontostand betr\u00A75\u00A75gt:\u00A75\u00A753 " + stats.getDouble(target, StatsKey.MONEY));
+						player.sendMessage(prefix+target.getName()+" Kontostand betr§§gt:§§3 " + stats.getDouble(target, StatsKey.MONEY));
 					}else{
 						player.sendMessage(prefix+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}

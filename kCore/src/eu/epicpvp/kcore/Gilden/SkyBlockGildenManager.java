@@ -9,7 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kSkyblock.SkyBlockManager;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Gilden.Events.GildenPlayerTeleportEvent;
@@ -78,21 +78,21 @@ public class SkyBlockGildenManager extends GildenManager{
 			      
 			      while (rs.next()) {
 			    	  if(zahl==1){
-			  				ranking.put(zahl, "\u00A75\u00A75b#\u00A75\u00A756" + String.valueOf(zahl) + "\u00A75\u00A75b | \u00A75\u00A756" + String.valueOf(rs.getInt(1)) + " \u00A75\u00A75b|\u00A75\u00A754\u00A75\u00A75l " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§4§§l " + rs.getString(2));
 			  			}else if(zahl==2){
-			  				ranking.put(zahl, "\u00A75\u00A75b#\u00A75\u00A756" + String.valueOf(zahl) + "\u00A75\u00A75b | \u00A75\u00A756" + String.valueOf(rs.getInt(1)) + " \u00A75\u00A75b|\u00A75\u00A752\u00A75\u00A75l " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§2§§l " + rs.getString(2));
 			  			}else if(zahl==3){
-			  				ranking.put(zahl, "\u00A75\u00A75b#\u00A75\u00A756" + String.valueOf(zahl) + "\u00A75\u00A75b | \u00A75\u00A756" + String.valueOf(rs.getInt(1)) + " \u00A75\u00A75b|\u00A75\u00A75e\u00A75\u00A75l " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§e§§l " + rs.getString(2));
 			  			}else if(zahl>=4 && zahl<=6){
-			  				ranking.put(zahl, "\u00A75\u00A75b#\u00A75\u00A756" + String.valueOf(zahl) + "\u00A75\u00A75b | \u00A75\u00A756" + String.valueOf(rs.getInt(1)) + " \u00A75\u00A75b|\u00A75\u00A753 " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§3 " + rs.getString(2));
 			  			}else if(zahl>=7 && zahl<=9){
-			  				ranking.put(zahl, "\u00A75\u00A75b#\u00A75\u00A756" + String.valueOf(zahl) + "\u00A75\u00A75b | \u00A75\u00A756" + String.valueOf(rs.getInt(1)) + " \u00A75\u00A75b|\u00A75\u00A75d " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§d " + rs.getString(2));
 			  			}else if(zahl>=10 && zahl<=12){
-			  				ranking.put(zahl, "\u00A75\u00A75b#\u00A75\u00A756" + String.valueOf(zahl) + "\u00A75\u00A75b | \u00A75\u00A756" + String.valueOf(rs.getInt(1)) + " \u00A75\u00A75b|\u00A75\u00A75a " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§a " + rs.getString(2));
 			  			}else if(zahl>=13 && zahl<=15){
-			  				ranking.put(zahl, "\u00A75\u00A75b#\u00A75\u00A756" + String.valueOf(zahl) + "\u00A75\u00A75b | \u00A75\u00A756" + String.valueOf(rs.getInt(1)) + " \u00A75\u00A75b|\u00A75\u00A75b " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§b " + rs.getString(2));
 			  			}else{
-			  				ranking.put(zahl, "\u00A75\u00A75b#\u00A75\u00A756" + String.valueOf(zahl) + "\u00A75\u00A75b | \u00A75\u00A756" + String.valueOf(rs.getInt(1)) + " \u00A75\u00A75b|\u00A75\u00A756 " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§6 " + rs.getString(2));
 			  			}
 				     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
 				     zahl++;
@@ -106,8 +106,8 @@ public class SkyBlockGildenManager extends GildenManager{
 	}
 	
 	public void Ranking(Player p){
-		p.sendMessage("\u00A75\u00A75b\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75 \u00A75\u00A756\u00A75\u00A75lGilden Ranking | Top 15 \u00A75\u00A75b\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75\u00A75");
-		p.sendMessage("\u00A75\u00A75b Place | Money | Gilde");
+		p.sendMessage("§§b§§§§§§§§§§§§§§§§§§§§§§§§ §§6§§lGilden Ranking | Top 15 §§b§§§§§§§§§§§§§§§§§§§§§§§§");
+		p.sendMessage("§§b Place | Money | Gilde");
 		LoadRanking(false);
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}

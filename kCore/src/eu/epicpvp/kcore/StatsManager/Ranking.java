@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.StatsManager.Event.RankingUpdateEvent;
 import lombok.Getter;

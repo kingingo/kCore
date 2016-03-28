@@ -1,5 +1,8 @@
 package eu.epicpvp.kcore.ItemShop;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -7,23 +10,27 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryShopBuy;
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryShopSell;
+import eu.epicpvp.kcore.Inventory.Inventory.InventoryYesNo;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBack;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBase;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonItemShopMove;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesPackageBase;
+import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Util.AnvilGUI;
 import eu.epicpvp.kcore.Util.AnvilGUI.AnvilClickEvent;
 import eu.epicpvp.kcore.Util.InventorySize;
+import eu.epicpvp.kcore.Util.InventorySplit;
 import eu.epicpvp.kcore.Util.UtilEnt;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilFile;
@@ -54,12 +61,14 @@ public class ItemShop{
 	@Getter
 	private EntityClickListener listener;
 	private NameTagMessage m;
+	private HashMap<String, Integer> sales;
 	
 	public ItemShop(StatsManager statsManager,CommandHandler cmd){
 		this.config=new kConfig(UtilFile.getYMLFile(cmd.getPlugin(), "itemshop"));
 		UtilInv.getBase(cmd.getPlugin());
 		this.statsManager=statsManager;
 		this.cmd=cmd;
+		this.sales=new HashMap<>();
 		load();
 		
 		if(this.config.contains("Main.Location"))setCreature();
@@ -195,6 +204,51 @@ public class ItemShop{
 		shop=new InventoryPageBase(InventorySize._54, "Item-Shop");
 		move=new InventoryPageBase(InventorySize._54, "Item-Shop §c[Move]");
 		edit=new InventoryPageBase(InventorySize._54, "Item-Shop §c[Edit]");
+		
+		InventoryPageBase sellall = new InventoryYesNo("Sell All",new Click(){
+
+			@Override
+			public void onClick(Player player, ActionType type, Object object) {
+				if(object instanceof InventoryYesNo){
+					((InventoryYesNo)object).setItem(InventorySplit._9.getMiddle(), UtilItem.Item(new ItemStack(Material.BOOK), new String[]{"§7Du verkauft alle Items","§7die in deinem Inventar sind."}, "§7INFO"));
+				}
+			}
+			
+		},new Click(){
+
+			@Override
+			public void onClick(Player player, ActionType type, Object object) {
+				ItemStack item;
+				int amount=0;
+				int money=0;
+				for(int i = 0; i < player.getInventory().getContents().length ; i++){
+					item=player.getInventory().getContents()[i];
+					
+					if(item != null){
+						if(sales.containsKey(item.getTypeId()+":"+item.getData().getData())){
+							amount+=item.getAmount();
+							money+=(item.getAmount() * sales.get(item.getTypeId()+":"+item.getData().getData()));
+							getStatsManager().add(player, StatsKey.MONEY, item.getAmount() * sales.get(item.getTypeId()+":"+item.getData().getData()));
+							player.getInventory().remove(item);
+						}
+					}
+				}
+				
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SIGN_SHOP_VERKAUFT_ALL",new String[]{String.valueOf(amount),String.valueOf(money)}));
+				player.closeInventory();
+			}
+			
+		}, new Click(){
+
+			@Override
+			public void onClick(Player player, ActionType type, Object object) {
+				player.closeInventory();
+				player.openInventory(shop);
+			}
+			
+		});
+		UtilInv.getBase().addPage(sellall);
+		shop.addButton(InventorySplit._54.getMin(), new ButtonOpenInventory(sellall, UtilItem.Item(new ItemStack(Material.TRIPWIRE_HOOK), new String[]{"§7Du verkauft alle Items","§7die in deinem Inventar sind."}, "§cAlles Verkaufen")));
 		UtilInv.getBase().addPage(shop);
 		fixInventory(shop);
 		UtilInv.getBase().addPage(move);
@@ -232,7 +286,7 @@ public class ItemShop{
 								int bprice = getConfig().getInt("Main."+i+"."+p+"."+a+".buy");
 								int sprice = getConfig().getInt("Main."+i+"."+p+"."+a+".sell");
 								ItemStack it = getConfig().getItemStack("Main."+i+"."+p+"."+a+".Item");
-								
+								sales.put(it.getTypeId()+":"+it.getData().getData(), sprice);
 								page.addButton(a,new SalesPackageBase(new Click(){
 
 									@Override

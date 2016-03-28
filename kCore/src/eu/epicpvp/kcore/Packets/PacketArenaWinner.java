@@ -1,9 +1,9 @@
 package eu.epicpvp.kcore.Packets;
 import java.util.UUID;
 
-import dev.wolveringer.dataclient.gamestats.GameType;
-import dev.wolveringer.dataclient.protocoll.DataBuffer;
-import dev.wolveringer.dataclient.protocoll.packets.Packet;
+import dev.wolveringer.dataserver.gamestats.GameType;
+import dev.wolveringer.dataserver.protocoll.DataBuffer;
+import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import lombok.Getter;
 import lombok.Setter;
 

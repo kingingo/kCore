@@ -11,8 +11,7 @@ import org.bukkit.entity.Player;
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.LoadedPlayer;
-import dev.wolveringer.dataclient.gamestats.StatsKey;
-import dev.wolveringer.dataclient.protocoll.packets.PacketOutStatsEdit.Action;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
@@ -34,7 +33,7 @@ public class CommandGiveCoins implements CommandExecutor{
 			Player player = (Player)sender;
 			if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 				if(args.length==0){
-					player.sendMessage(Language.getText(player, "PREFIX")+"\u00A75a/givecoins [Spieler] [+/- Gems]");
+					player.sendMessage(Language.getText(player, "PREFIX")+"§a/givecoins [Spieler] [+/- Gems]");
 				}else if(args.length >= 2){
 					String spieler = args[0];
 					int c=UtilInteger.isNumber(args[1]);

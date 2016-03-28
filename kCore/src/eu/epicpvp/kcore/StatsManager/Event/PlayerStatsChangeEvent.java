@@ -3,7 +3,7 @@ package eu.epicpvp.kcore.StatsManager.Event;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import lombok.Getter;
 

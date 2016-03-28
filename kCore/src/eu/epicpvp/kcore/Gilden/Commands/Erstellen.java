@@ -2,7 +2,7 @@ package eu.epicpvp.kcore.Gilden.Commands;
 
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Gilden.GildenManager;
@@ -35,7 +35,7 @@ public class Erstellen {
 			}
 			
 			if(!g.matches("[a-zA-Z0-9]*")){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" \u00A75c\u00A75lDu hast ein Ung\u00A75ltiges Zeichen in deinen Clannamen!");
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" §c§lDu hast ein Ung§ltiges Zeichen in deinen Clannamen!");
 				return;
 			}
 			
@@ -49,7 +49,7 @@ public class Erstellen {
 				}
 			}
 			
-			manager.createGildenEintrag(g, "\u00A757"+g+"\u00A75b*\u00A75f", 10, UtilPlayer.getRealUUID(p));
+			manager.createGildenEintrag(g, "§7"+g+"§b*§f", 10, UtilPlayer.getRealUUID(p));
 			manager.createPlayerEintrag(p, g);
 			if(manager.getTyp()==GildenType.PVP){
 				manager.setInt(g, p.getLocation().getBlockX(), StatsKey.LOC_X);

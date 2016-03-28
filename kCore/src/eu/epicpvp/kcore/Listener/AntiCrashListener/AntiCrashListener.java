@@ -72,7 +72,7 @@ public class AntiCrashListener extends kListener {
 				if ((iavg != null) && (iavg.longValue() / 200L < 50000L)) {
 					this.kick.add(e.getPlayer().getName());
 					LoadedPlayer loadedplayer = this.client.getPlayerAndLoad( UtilPlayer.getRealUUID(e.getPlayer()) );
-					loadedplayer.kickPlayer("\u00A75cStop!");
+					loadedplayer.kickPlayer("§cStop!");
 					Log("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
 					Log("Spieler "+iname+" wurde wegen Item Change Crash gekickt!");
 					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler "+name+" wurde wegen Animation Crash gekickt! "+" IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
@@ -116,7 +116,7 @@ public class AntiCrashListener extends kListener {
 				if ((avg != null) && (avg.longValue() / 200L < 50000L)) {
 					this.kick.add(e.getPlayer().getName());
 					LoadedPlayer loadedplayer = this.client.getPlayerAndLoad( UtilPlayer.getRealUUID(e.getPlayer()) );
-					loadedplayer.kickPlayer("\u00A75cStop!");
+					loadedplayer.kickPlayer("§cStop!");
 					Log("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
 					Log("Spieler "+name+" wurde wegen Animation Crash gekickt!");
 					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler "+name+" wurde wegen Animation Crash gekickt! "+" IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());

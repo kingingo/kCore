@@ -29,7 +29,7 @@ import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 
 import dev.wolveringer.client.Callback;
-import dev.wolveringer.dataclient.gamestats.StatsKey;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.MySQL.MySQL;
