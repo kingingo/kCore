@@ -2,9 +2,9 @@ package eu.epicpvp.kcore.Inventory.Item.Buttons;
 
 import org.bukkit.inventory.ItemStack;
 
-import lombok.Getter;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
+import lombok.Getter;
 
 public class ButtonForMultiButtonsCopy extends ButtonForMultiButtons{
 

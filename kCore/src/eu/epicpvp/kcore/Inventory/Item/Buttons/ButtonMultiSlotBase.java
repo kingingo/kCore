@@ -2,11 +2,11 @@ package eu.epicpvp.kcore.Inventory.Item.Buttons;
 
 import org.bukkit.entity.Player;
 
-import lombok.Getter;
-import lombok.Setter;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.IButtonMultiSlot;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
+import lombok.Getter;
+import lombok.Setter;
 
 public class ButtonMultiSlotBase implements IButtonMultiSlot{
 

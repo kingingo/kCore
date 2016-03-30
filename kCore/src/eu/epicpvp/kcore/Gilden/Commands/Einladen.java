@@ -5,10 +5,10 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Util.UtilDebug;
 import eu.epicpvp.kcore.Util.UtilPlayer;
-import eu.epicpvp.kcore.Gilden.GildenManager;
 
 public class Einladen {
 

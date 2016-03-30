@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import dev.wolveringer.bukkit.permissions.PermissionType;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Language.Language;
-import eu.epicpvp.kcore.Permission.Permission;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilNumber;
 

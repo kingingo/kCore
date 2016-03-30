@@ -6,8 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
-import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Gilden.Commands.Annehmen;
 import eu.epicpvp.kcore.Gilden.Commands.Einladen;
 import eu.epicpvp.kcore.Gilden.Commands.Erstellen;
@@ -17,6 +15,8 @@ import eu.epicpvp.kcore.Gilden.Commands.Kicken;
 import eu.epicpvp.kcore.Gilden.Commands.Money;
 import eu.epicpvp.kcore.Gilden.Commands.Ranking;
 import eu.epicpvp.kcore.Gilden.Commands.Verlassen;
+import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Permission.PermissionType;
 
 public class CommandGilde implements CommandExecutor{
 	

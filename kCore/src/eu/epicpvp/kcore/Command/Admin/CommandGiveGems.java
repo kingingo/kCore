@@ -9,8 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.wolveringer.client.Callback;
-import dev.wolveringer.client.ClientWrapper;
-import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Language.Language;

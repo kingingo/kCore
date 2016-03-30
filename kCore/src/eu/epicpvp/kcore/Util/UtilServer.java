@@ -30,7 +30,6 @@ import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
-import dev.wolveringer.dataserver.protocoll.packets.PacketOutServerStatus;
 import eu.epicpvp.kcore.Arena.BestOf.BestOf;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.DeliveryPet.DeliveryPet;

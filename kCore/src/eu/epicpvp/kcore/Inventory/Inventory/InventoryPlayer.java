@@ -7,9 +7,9 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftHumanEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import lombok.Getter;
 import eu.epicpvp.kcore.Inventory.Inventory.Craft.CraftInventoryPlayer;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import lombok.Getter;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.ItemStack;
 import net.minecraft.server.v1_8_R3.PlayerInventory;

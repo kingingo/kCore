@@ -15,14 +15,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import lombok.Getter;
-import lombok.Setter;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kConfig.kConfig;
+import lombok.Getter;
+import lombok.Setter;
 
 public class UserDataConfig extends kListener{
 

@@ -10,8 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import lombok.Getter;
-import lombok.Setter;
 import eu.epicpvp.kcore.PacketAPI.Packets.kGameProfile;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutAnimation;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutBed;
@@ -25,6 +23,8 @@ import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutRelEntityMoveLook;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPlayerInfoData;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.v1_8_R3.DataWatcher;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;

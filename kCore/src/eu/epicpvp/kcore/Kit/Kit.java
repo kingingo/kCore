@@ -6,11 +6,11 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import lombok.Getter;
 import eu.epicpvp.kcore.Disguise.DisguiseManager;
 import eu.epicpvp.kcore.Disguise.DisguiseType;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Util.UtilItem;
+import lombok.Getter;
 
 public class Kit extends PerkData{
 

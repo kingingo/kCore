@@ -11,10 +11,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.connection.PacketListener;
+import dev.wolveringer.dataserver.gamestats.GameState;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
-import dev.wolveringer.dataserver.gamestats.GameState;
 import eu.epicpvp.kcore.Arena.BestOf.GameRoundBestOf;
 import eu.epicpvp.kcore.Enum.Team;
 import eu.epicpvp.kcore.Language.Language;

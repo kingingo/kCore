@@ -7,7 +7,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import lombok.Getter;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.PacketAPI.UtilPacket;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
@@ -16,6 +15,7 @@ import eu.epicpvp.kcore.PacketAPI.packetlistener.handler.PacketHandler;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.handler.ReceivedPacket;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.handler.SentPacket;
 import eu.epicpvp.kcore.Util.UtilServer;
+import lombok.Getter;
 
 public class kPacketListener extends kListener implements IPacketEventHandler {
 

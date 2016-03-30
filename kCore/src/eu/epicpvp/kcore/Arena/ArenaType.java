@@ -1,7 +1,7 @@
 package eu.epicpvp.kcore.Arena;
 
-import lombok.Getter;
 import eu.epicpvp.kcore.Enum.Team;
+import lombok.Getter;
 
 public enum ArenaType {
 _TEAMx2(new Team[]{Team.RED,Team.BLUE}),

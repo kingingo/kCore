@@ -1,6 +1,5 @@
 package eu.epicpvp.kcore.ItemShop;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Location;

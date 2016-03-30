@@ -6,7 +6,6 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
-import lombok.Getter;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Command.Commands.CommandReTpa;
 import eu.epicpvp.kcore.Command.Commands.CommandTpa;
@@ -17,6 +16,7 @@ import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
+import lombok.Getter;
 
 public class TeleportManager extends kListener{
 

@@ -21,9 +21,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
-import lombok.Getter;
-import lombok.Setter;
 import eu.epicpvp.kcore.Command.CommandHandler;
+import eu.epicpvp.kcore.Gilden.Events.GildeLoadEvent;
+import eu.epicpvp.kcore.Gilden.Events.GildePlayerJoinEvent;
+import eu.epicpvp.kcore.Gilden.Events.GildePlayerLeaveEvent;
+import eu.epicpvp.kcore.Gilden.Events.GildenChatEvent;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.MySQL.Callback;
 import eu.epicpvp.kcore.MySQL.MySQL;
@@ -36,10 +38,8 @@ import eu.epicpvp.kcore.Util.UtilDebug;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilTime;
-import eu.epicpvp.kcore.Gilden.Events.GildeLoadEvent;
-import eu.epicpvp.kcore.Gilden.Events.GildePlayerJoinEvent;
-import eu.epicpvp.kcore.Gilden.Events.GildePlayerLeaveEvent;
-import eu.epicpvp.kcore.Gilden.Events.GildenChatEvent;
+import lombok.Getter;
+import lombok.Setter;
 
 public class GildenManager implements Listener {
 

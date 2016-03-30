@@ -5,10 +5,10 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
-import eu.epicpvp.kcore.Gilden.GildenManager;
 
 public class Money {
 

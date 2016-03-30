@@ -2,8 +2,6 @@ package eu.epicpvp.kcore.Inventory.Inventory;
 
 import org.bukkit.entity.Player;
 
-import lombok.Getter;
-import lombok.Setter;
 import eu.epicpvp.kcore.Inventory.InventoryBase;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.IButton;
@@ -16,6 +14,8 @@ import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonMultiCopy;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilItem;
+import lombok.Getter;
+import lombok.Setter;
 
 public class InventoryCopy extends InventoryPageBase{
 

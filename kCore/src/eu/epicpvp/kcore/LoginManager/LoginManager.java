@@ -18,7 +18,6 @@ import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.packets.PacketOutPlayerSettings;
-import dev.wolveringer.dataserver.protocoll.packets.PacketOutPlayerSettings.SettingValue;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;

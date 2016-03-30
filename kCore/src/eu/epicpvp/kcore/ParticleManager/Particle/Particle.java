@@ -2,8 +2,8 @@ package eu.epicpvp.kcore.ParticleManager.Particle;
 
 import org.bukkit.entity.Player;
 
-import lombok.Getter;
 import eu.epicpvp.kcore.Util.UtilParticle;
+import lombok.Getter;
 
 public abstract class Particle {
 

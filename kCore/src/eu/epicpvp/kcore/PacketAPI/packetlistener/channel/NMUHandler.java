@@ -9,13 +9,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
+import eu.epicpvp.kcore.PacketAPI.UtilPacket;
+import eu.epicpvp.kcore.PacketAPI.packetlistener.Cancellable;
+import eu.epicpvp.kcore.PacketAPI.packetlistener.reflection.NMSUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import eu.epicpvp.kcore.PacketAPI.UtilPacket;
-import eu.epicpvp.kcore.PacketAPI.packetlistener.Cancellable;
-import eu.epicpvp.kcore.PacketAPI.packetlistener.reflection.NMSUtils;
 
 public class NMUHandler implements Handler {
 

@@ -1,7 +1,5 @@
 package eu.epicpvp.kcore.Command.Admin;
 
-import java.util.UUID;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +9,6 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Permission.PermissionManager;
-import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandURang implements CommandExecutor{
 

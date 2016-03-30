@@ -7,9 +7,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import lombok.Setter;
 import eu.epicpvp.kcore.Kit.Perk;
 import eu.epicpvp.kcore.Util.UtilItem;
+import lombok.Setter;
 
 public class PerkGoldenApple extends Perk{
 

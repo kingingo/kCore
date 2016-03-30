@@ -3,9 +3,9 @@ package eu.epicpvp.kcore.MySQL.Events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import eu.epicpvp.kcore.MySQL.MySQL;
 import lombok.Getter;
 import lombok.Setter;
-import eu.epicpvp.kcore.MySQL.MySQL;
 
 public class MySQLQueryEvent extends Event{
 	private static HandlerList handlers = new HandlerList();

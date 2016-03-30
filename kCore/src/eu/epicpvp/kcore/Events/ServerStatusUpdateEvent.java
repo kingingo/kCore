@@ -4,7 +4,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
-import dev.wolveringer.dataserver.protocoll.packets.PacketOutServerStatus;
 import lombok.Getter;
 
 public class ServerStatusUpdateEvent  extends Event {

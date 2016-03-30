@@ -1,9 +1,9 @@
 package eu.epicpvp.kcore.PacketAPI.Packets;
 
-import lombok.Getter;
-import lombok.Setter;
 import eu.epicpvp.kcore.PacketAPI.kPacket;
 import eu.epicpvp.kcore.Util.UtilReflection;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.v1_8_R3.ItemStack;
 import net.minecraft.server.v1_8_R3.PacketPlayInSetCreativeSlot;
 

@@ -7,15 +7,15 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.kcore.Gilden.GildenManager;
+import eu.epicpvp.kcore.Gilden.GildenType;
+import eu.epicpvp.kcore.Gilden.SkyBlockGildenManager;
+import eu.epicpvp.kcore.Gilden.Events.GildenPlayerTeleportEvent;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilDebug;
 import eu.epicpvp.kcore.Util.UtilPlayer;
-import eu.epicpvp.kcore.Gilden.GildenManager;
-import eu.epicpvp.kcore.Gilden.GildenType;
-import eu.epicpvp.kcore.Gilden.SkyBlockGildenManager;
-import eu.epicpvp.kcore.Gilden.Events.GildenPlayerTeleportEvent;
 
 public class Home {
 	

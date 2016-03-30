@@ -14,8 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import lombok.Getter;
-import lombok.Setter;
 import eu.epicpvp.kcore.Disguise.Events.DisguisePlayerLoadEvent;
 import eu.epicpvp.kcore.Inventory.InventoryBase;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
@@ -30,6 +28,8 @@ import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import lombok.Getter;
+import lombok.Setter;
 
 public class DisguiseShop extends InventoryPageBase implements Listener{
 

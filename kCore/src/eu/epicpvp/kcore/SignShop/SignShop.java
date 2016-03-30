@@ -17,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
-import lombok.Getter;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
@@ -29,6 +28,7 @@ import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilList;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilWorldGuard;
+import lombok.Getter;
 
 public class SignShop extends kListener{
 

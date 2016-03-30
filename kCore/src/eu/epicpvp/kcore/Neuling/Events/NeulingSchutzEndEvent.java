@@ -4,8 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import lombok.Getter;
 import eu.epicpvp.kcore.Neuling.NeulingManager;
+import lombok.Getter;
 
 public class NeulingSchutzEndEvent extends Event
 {

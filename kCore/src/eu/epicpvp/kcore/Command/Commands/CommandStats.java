@@ -6,12 +6,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
-import lombok.Getter;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.StatsManager.Ranking;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import lombok.Getter;
 
 public class CommandStats implements CommandExecutor{
 	@Getter

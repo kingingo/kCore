@@ -5,8 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import lombok.Getter;
 import eu.epicpvp.kcore.Listener.kListener;
+import lombok.Getter;
 
 public class AddonSun extends kListener {
 

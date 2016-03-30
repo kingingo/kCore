@@ -9,16 +9,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import lombok.Getter;
-import lombok.Setter;
-import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Command.Admin.CommandFirewall;
+import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.MySQL.MySQLErr;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;
 import eu.epicpvp.kcore.Util.UtilException;
+import lombok.Getter;
+import lombok.Setter;
 
 public class BungeeCordFirewallListener extends kListener{
 

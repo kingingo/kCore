@@ -12,10 +12,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import lombok.Getter;
-import lombok.Setter;
 import eu.epicpvp.kcore.Util.UtilParticle;
 import eu.epicpvp.kcore.Util.UtilVector;
+import lombok.Getter;
+import lombok.Setter;
 
 public class ParticlePicture extends Particle{
 

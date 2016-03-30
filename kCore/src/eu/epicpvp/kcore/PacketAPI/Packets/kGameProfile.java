@@ -7,11 +7,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-import lombok.Getter;
-import lombok.Setter;
 import eu.epicpvp.kcore.Util.SkinData;
 import eu.epicpvp.kcore.Util.UtilReflection;
 import eu.epicpvp.kcore.Util.UtilSkin;
+import lombok.Getter;
+import lombok.Setter;
 
 public class kGameProfile extends GameProfile{
     @Getter

@@ -10,14 +10,14 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
-import lombok.Getter;
-import lombok.Setter;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilParticle;
 import eu.epicpvp.kcore.Util.UtilString;
 import eu.epicpvp.kcore.Util.UtilVector;
+import lombok.Getter;
+import lombok.Setter;
 
 public class TextParticle extends kListener{
 

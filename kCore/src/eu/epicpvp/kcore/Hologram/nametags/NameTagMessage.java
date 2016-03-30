@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 
 import com.google.common.base.Preconditions;
 
+import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 import lombok.Setter;
-import eu.epicpvp.kcore.Util.UtilServer;
 
 public class NameTagMessage extends ImageMessage {
 
