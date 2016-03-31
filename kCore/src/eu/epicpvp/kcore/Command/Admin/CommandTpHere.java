@@ -21,7 +21,7 @@ public class CommandTpHere implements CommandExecutor{
 		player = (Player)cs;
 		if(player.hasPermission(PermissionType.PLAYER_TELEPORT_HERE.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"ยง6/tphere [Player]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"ง6/tphere [Player]");
 			}else{
 					if(UtilPlayer.isOnline(args[0])){
 						tp=Bukkit.getPlayer(args[0]);

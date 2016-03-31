@@ -7,10 +7,11 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.DisplaySlot;
 
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Permission.Listener.PermissionListener;
+import eu.epicpvp.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
 import eu.epicpvp.kcore.Util.UtilServer;
@@ -25,6 +26,9 @@ public class PermissionManager{
 
 	public static void setManager(PermissionManager manager) {
 		PermissionManager.manager = manager;
+		Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+		Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.BELOW_NAME);
+		Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.PLAYER_LIST);
 	}
 
 	@Getter
@@ -43,33 +47,24 @@ public class PermissionManager{
 		Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, "permission");
 		new PermissionListener(this);
 	}
-
-	public Scoreboard getScoreboard(){
-		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-		
-		for(Group g : getGroups()){
-			UtilScoreboard.addTeam(board, g.getName(), g.getPrefix());
-		}
-		
-		for(Player player : UtilServer.getPlayers()){
-			board.getTeam(getPlayer(player).getGroups().get(0).getName()).addPlayer(player);
-		}
-		return board;
-	}
 	
 	public void setTabList(Player player) {
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		
-		for(Group group : getGroups())UtilScoreboard.addTeam(player.getScoreboard(), group.getName(), group.getPrefix());
-		
 		for(Player p : UtilServer.getPlayers()){
-			if(p.getScoreboard().getTeam(getPlayer(player).getGroups().get(0).getName())!=null){
-				UtilScoreboard.addTeam(player.getScoreboard(), getPlayer(player).getGroups().get(0).getName(), getPlayer(player).getGroups().get(0).getPrefix());
+			if(p.getScoreboard().getTeam(getPlayer(player).getGroups().get(0).getName())==null){
+				UtilScoreboard.addTeam(p.getScoreboard(), getPlayer(player).getGroups().get(0).getName(), getPlayer(player).getGroups().get(0).getPrefix());
+			}
+			
+			if(player.getScoreboard().getTeam(getPlayer(p).getGroups().get(0).getName())==null){
+				UtilScoreboard.addTeam(player.getScoreboard(), getPlayer(p).getGroups().get(0).getName(), getPlayer(p).getGroups().get(0).getPrefix());
 			}
 			
 			UtilScoreboard.addPlayerToTeam(player.getScoreboard(), getPlayer(p).getGroups().get(0).getName(), p);
 			UtilScoreboard.addPlayerToTeam(p.getScoreboard(), getPlayer(player).getGroups().get(0).getName(), player);
 		}
+		
+		Bukkit.getPluginManager().callEvent(new PlayerSetScoreboardEvent(player));
 	}
 	
 	public void loadPlayer(Player p,UUID player) {

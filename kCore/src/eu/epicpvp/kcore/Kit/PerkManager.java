@@ -67,7 +67,7 @@ public class PerkManager extends PerkData{
 		UtilEnt.setNoAI(entity, true);
 		UtilEnt.setSilent(entity, true);
 		
-		NameTagMessage m = new NameTagMessage(NameTagType.SERVER, entity.getLocation().add(0, 2.1, 0), "Â§cÂ§lPerks");
+		NameTagMessage m = new NameTagMessage(NameTagType.SERVER, entity.getLocation().add(0, 2.1, 0), "§c§lPerks");
 		m.send();
 		
 		 new EntityClickListener(getInstance(), new Click() {

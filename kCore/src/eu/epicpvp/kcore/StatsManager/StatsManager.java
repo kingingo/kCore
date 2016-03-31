@@ -85,16 +85,16 @@ public class StatsManager extends kListener{
 	
 	public void SendRankingMessage(Player player,Ranking ranking,String Zeitraum){
 		if(ranking.getRanking().isEmpty())ranking.load();
-		player.sendMessage("Â§bâ– â– â– â– â– â– â– â– Â§6 Â§lPlayer Ranking | "+Zeitraum+" | Top "+ranking.getLength()+" Â§bâ– â– â– â– â– â– â– â– ");
-		player.sendMessage("Â§b Platz | "+(ranking.getStats().getMySQLName().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getMySQLName())+" | Player");
-		for(Integer i : ranking.getRanking().keySet())player.sendMessage("Â§b#Â§6" + String.valueOf(i) + "Â§b | Â§6" + String.valueOf(ranking.getRanking().get(i).stats) + " Â§b|Â§6 " +ranking.getRanking().get(i).player);
+		player.sendMessage("§b– – – – – – – – §6 §lPlayer Ranking | "+Zeitraum+" | Top "+ranking.getLength()+" §b– – – – – – – – ");
+		player.sendMessage("§b Platz | "+(ranking.getStats().getMySQLName().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getMySQLName())+" | Player");
+		for(Integer i : ranking.getRanking().keySet())player.sendMessage("§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player);
 	}
 	
 	public void SendRankingMessage(Player player,Ranking ranking){
 		if(ranking.getRanking().isEmpty())ranking.load();
-		player.sendMessage("Â§bâ– â– â– â– â– â– â– â– Â§6 Â§lPlayer Ranking | Top "+ranking.getLength()+" Â§bâ– â– â– â– â– â– â– â– ");
-		player.sendMessage("Â§b Platz | "+(ranking.getStats().getMySQLName().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getMySQLName())+" | Player");
-		for(Integer i : ranking.getRanking().keySet())player.sendMessage("Â§b#Â§6" + String.valueOf(i) + "Â§b | Â§6" + String.valueOf(ranking.getRanking().get(i).stats) + " Â§b|Â§6 " +ranking.getRanking().get(i).player);
+		player.sendMessage("§b– – – – – – – – §6 §lPlayer Ranking | Top "+ranking.getLength()+" §b– – – – – – – – ");
+		player.sendMessage("§b Platz | "+(ranking.getStats().getMySQLName().equalsIgnoreCase("elo") ? "FAME" : ranking.getStats().getMySQLName())+" | Player");
+		for(Integer i : ranking.getRanking().keySet())player.sendMessage("§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats) + " §b|§6 " +ranking.getRanking().get(i).player);
 	}
 	
 	public long getLong(StatsKey key,Player player){

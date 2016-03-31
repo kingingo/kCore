@@ -17,7 +17,7 @@ public class InventoryRename{
 		gui = new AnvilGUI(player,instance, anvil);
 		ItemStack renamed = UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), Title);
 		gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, renamed);
-		gui.setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "Â§aFertig"));
+		gui.setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "§aFertig"));
 		gui.open();
 	}
 

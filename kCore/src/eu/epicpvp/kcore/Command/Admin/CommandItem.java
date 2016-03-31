@@ -38,7 +38,7 @@ public class CommandItem implements CommandExecutor{
 							sb.append(" ");
 						}
 						sb.setLength(sb.length() - 1);
-						String line = sb.toString().replaceAll("&", "ยง");
+						String line = sb.toString().replaceAll("&", "ง");
 						
 						ItemMeta im = player.getItemInHand().getItemMeta();
 						if(!im.hasLore())im.setLore(new ArrayList<String>());
@@ -59,7 +59,7 @@ public class CommandItem implements CommandExecutor{
 							sb.append(" ");
 						}
 						sb.setLength(sb.length() - 1);
-						String line = sb.toString().replaceAll("&", "ยง");
+						String line = sb.toString().replaceAll("&", "ง");
 						
 						ItemMeta im = player.getItemInHand().getItemMeta();
 						if(!im.hasLore())im.setLore(new ArrayList<String>());

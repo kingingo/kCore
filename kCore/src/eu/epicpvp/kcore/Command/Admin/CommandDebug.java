@@ -16,14 +16,14 @@ public class CommandDebug implements CommandExecutor{
 			Player p = (Player)sender;
 			if(p.isOp()){
 				if(args.length==0){
-					p.sendMessage(Language.getText(p, "PREFIX")+"Â§aDebug: "+ (UtilDebug.isDebug() ? "Â§atrue" : "Â§cfalse") );
+					p.sendMessage(Language.getText(p, "PREFIX")+"§aDebug: "+ (UtilDebug.isDebug() ? "§atrue" : "§cfalse") );
 				}else{
 					if(args[0].equalsIgnoreCase("on")||args[0].equalsIgnoreCase("true")||args[0].equalsIgnoreCase("an")){
 						UtilDebug.setDebug(true);
-						p.sendMessage(Language.getText(p, "PREFIX")+"Â§aDebug: "+ (UtilDebug.isDebug() ? "Â§atrue" : "Â§cfalse") );
+						p.sendMessage(Language.getText(p, "PREFIX")+"§aDebug: "+ (UtilDebug.isDebug() ? "§atrue" : "§cfalse") );
 					}else if(args[0].equalsIgnoreCase("off")||args[0].equalsIgnoreCase("false")||args[0].equalsIgnoreCase("aus")){
 						UtilDebug.setDebug(false);
-						p.sendMessage(Language.getText(p, "PREFIX")+"Â§aDebug: "+ (UtilDebug.isDebug() ? "Â§atrue" : "Â§cfalse") );
+						p.sendMessage(Language.getText(p, "PREFIX")+"§aDebug: "+ (UtilDebug.isDebug() ? "§atrue" : "§cfalse") );
 					}
 				}
 			}

@@ -33,7 +33,7 @@ public class CommandTpa implements CommandExecutor{
 		player = (Player)cs;
 		if(getManager().getPermManager().hasPermission(player, PermissionType.PLAYER_TELEPORT_A)){
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"Â§6/tpa [Player]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"§6/tpa [Player]");
 			}else{
 				s=UtilTime.getTimeManager().check(cmd.getName(), player);
 				if(s!=null){
@@ -50,7 +50,7 @@ public class CommandTpa implements CommandExecutor{
 							getManager().getTeleport_anfrage().put(tp, new Teleporter(player, tp,3));
 						}
 						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT_ANFRAGE_SENDER",tp.getName()));
-						tp.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT_ANFRAGE_EMPFÂ§NGER",player.getName()));
+						tp.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT_ANFRAGE_EMPF§NGER",player.getName()));
 						l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
 						if( l!=0 ){
 							UtilTime.getTimeManager().add(cmd.getName(), player, l);

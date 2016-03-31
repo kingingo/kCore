@@ -95,7 +95,7 @@ public class ItemShop{
 		if(m!=null){
 			m.move(v.getLocation().add(0, 2.1, 0));
 		}else{
-			m = new NameTagMessage(NameTagType.SERVER, v.getLocation().add(0, 2.1, 0), "Â§aÂ§lItem-Shop");
+			m = new NameTagMessage(NameTagType.SERVER, v.getLocation().add(0, 2.1, 0), "§a§lItem-Shop");
 			m.send();
 		}
 		
@@ -116,8 +116,8 @@ public class ItemShop{
 	}
 	
 	public void fixInventory(InventoryPageBase page){
-		page.setItem(4, UtilItem.RenameItem(new ItemStack(Material.CHEST), "Â§aÂ§lItem-Shop"));
-		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"   Â§7Shop.EpicPvP.de   "}, "     Â§aOnline-Shop     "));
+		page.setItem(4, UtilItem.RenameItem(new ItemStack(Material.CHEST), "§a§lItem-Shop"));
+		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"   §7Shop.EpicPvP.de   "}, "     §aOnline-Shop     "));
 	}
 	
 	public void delCategory(int slot){
@@ -131,7 +131,7 @@ public class ItemShop{
 			getConfig().setItemStack("Main."+slot+".Item", item);
 			getConfig().set("Main."+slot+".PageName", pageName);
 			getConfig().save();
-			return "Category hinzugefÂ§gt";
+			return "Category hinzugef§gt";
 		}else{
 			return "Der Slot ist besetzt!";
 		}
@@ -167,7 +167,7 @@ public class ItemShop{
 				getConfig().set("Main."+cSlot+"."+page+"."+slot+".buy",buy);
 				getConfig().set("Main."+cSlot+"."+page+"."+slot+".sell",sell);
 				getConfig().save();
-				return "Item hinzugefÂ§gt";
+				return "Item hinzugef§gt";
 			}else{
 				return "Der Slot ist besetzt!";
 			}
@@ -186,7 +186,7 @@ public class ItemShop{
 								int bprice = getConfig().getInt("Main."+i+"."+p+"."+a+".buy");
 								int sprice = getConfig().getInt("Main."+i+"."+p+"."+a+".sell");
 								ItemStack it = getConfig().getItemStack("Main."+i+"."+p+"."+a+".Item");
-								UtilItem.SetDescriptions(it, new String[]{"Â§7Â§ Â§cBuy","Â§7-","Â§e1 Â§ Â§a"+bprice+" Epics","Â§e10 Â§ Â§a"+(bprice*10)+" Epics","Â§e64 Â§ Â§a"+(bprice*64)+" Epics","Â§7----------","Â§7Â§ Â§cSell","Â§7-","Â§e1 Â§ Â§a"+sprice+" Epics","Â§e10 Â§ Â§a"+(sprice*10)+" Epics","Â§e64 Â§ Â§a"+(sprice*64)+" Epics"});
+								UtilItem.SetDescriptions(it, new String[]{"§7§ §cBuy","§7-","§e1 § §a"+bprice+" Epics","§e10 § §a"+(bprice*10)+" Epics","§e64 § §a"+(bprice*64)+" Epics","§7----------","§7§ §cSell","§7-","§e1 § §a"+sprice+" Epics","§e10 § §a"+(sprice*10)+" Epics","§e64 § §a"+(sprice*64)+" Epics"});
 								getConfig().setItemStack("Main."+i+"."+p+"."+a+".Item", it);
 							}
 						}
@@ -201,15 +201,15 @@ public class ItemShop{
 	
 	public void load(){
 		shop=new InventoryPageBase(InventorySize._54, "Item-Shop");
-		move=new InventoryPageBase(InventorySize._54, "Item-Shop Â§c[Move]");
-		edit=new InventoryPageBase(InventorySize._54, "Item-Shop Â§c[Edit]");
+		move=new InventoryPageBase(InventorySize._54, "Item-Shop §c[Move]");
+		edit=new InventoryPageBase(InventorySize._54, "Item-Shop §c[Edit]");
 		
 		InventoryPageBase sellall = new InventoryYesNo("Sell All",new Click(){
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(object instanceof InventoryYesNo){
-					((InventoryYesNo)object).setItem(InventorySplit._9.getMiddle(), UtilItem.Item(new ItemStack(Material.BOOK), new String[]{"Â§7Du verkauft alle Items","Â§7die in deinem Inventar sind."}, "Â§7INFO"));
+					((InventoryYesNo)object).setItem(InventorySplit._9.getMiddle(), UtilItem.Item(new ItemStack(Material.BOOK), new String[]{"§7Du verkauft alle Items","§7die in deinem Inventar sind."}, "§7INFO"));
 				}
 			}
 			
@@ -247,7 +247,7 @@ public class ItemShop{
 			
 		});
 		UtilInv.getBase().addPage(sellall);
-		shop.addButton(InventorySplit._54.getMin(), new ButtonOpenInventory(sellall, UtilItem.Item(new ItemStack(Material.TRIPWIRE_HOOK), new String[]{"Â§7Du verkauft alle Items","Â§7die in deinem Inventar sind."}, "Â§cAlles Verkaufen")));
+		shop.addButton(InventorySplit._54.getMin(), new ButtonOpenInventory(sellall, UtilItem.Item(new ItemStack(Material.TRIPWIRE_HOOK), new String[]{"§7Du verkauft alle Items","§7die in deinem Inventar sind."}, "§cAlles Verkaufen")));
 		UtilInv.getBase().addPage(shop);
 		fixInventory(shop);
 		UtilInv.getBase().addPage(move);
@@ -271,11 +271,11 @@ public class ItemShop{
 				for(int p = 1; p <= 30; p++){
 					if(getConfig().contains("Main."+i+"."+p)){
 						page = new InventoryPageBase(InventorySize._54.getSize(), "Item-Shop/"+getConfig().getString("Main."+i+".PageName")+" "+p);
-						page.addButton(0, new ButtonBack(shop, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)14), "Â§cZurÂ§ck / Back")));
+						page.addButton(0, new ButtonBack(shop, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)14), "§cZur§ck / Back")));
 						page_move = new InventoryPageBase(InventorySize._54.getSize(), "Item-Shop/"+getConfig().getString("Main."+i+".PageName")+" "+p);
-						page_move.addButton(0, new ButtonBack(move, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)14), "Â§cZurÂ§ck / Back")));
+						page_move.addButton(0, new ButtonBack(move, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)14), "§cZur§ck / Back")));
 						page_edit = new InventoryPageBase(InventorySize._54.getSize(), "Item-Shop/"+getConfig().getString("Main."+i+".PageName")+" "+p);
-						page_edit.addButton(0, new ButtonBack(edit, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)14), "Â§cZurÂ§ck / Back")));
+						page_edit.addButton(0, new ButtonBack(edit, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)14), "§cZur§ck / Back")));
 						fixInventory(page);
 						fixInventory(page_move);
 						fixInventory(page_edit);
@@ -313,9 +313,9 @@ public class ItemShop{
 
 									@Override
 									public void onClick(Player player,ActionType type, Object object) {
-										InventoryPageBase editinv = new InventoryPageBase(InventorySize._54, "Â§cEdit");
+										InventoryPageBase editinv = new InventoryPageBase(InventorySize._54, "§cEdit");
 										editinv.setItem(22, it);
-										editinv.addButton(0, new ButtonBack(bbpp, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)14), "Â§cZurÂ§ck / Back")));
+										editinv.addButton(0, new ButtonBack(bbpp, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)14), "§cZur§ck / Back")));
 										editinv.addButton(33, new ButtonBase(new Click(){
 
 											@Override
@@ -328,7 +328,7 @@ public class ItemShop{
 												player.openInventory(bbpp);
 											}
 											
-										}, UtilItem.RenameItem(new ItemStack(Material.BARRIER), "Â§cItem lÂ§schen")));
+										}, UtilItem.RenameItem(new ItemStack(Material.BARRIER), "§cItem l§schen")));
 										
 										editinv.addButton(31, new ButtonBase(new Click(){
 
@@ -346,7 +346,7 @@ public class ItemShop{
 																getConfig().set("Main."+ii+"."+pp+"."+aa+".sell", i);
 																int bprice = getConfig().getInt("Main."+ii+"."+pp+"."+aa+".buy");
 																ItemStack it = getConfig().getItemStack("Main."+ii+"."+pp+"."+aa+".Item");
-																UtilItem.SetDescriptions(it, new String[]{"Â§7Â§ Â§cBuy","Â§7-","Â§e1 Â§ Â§a"+bprice+" Epics","Â§e10 Â§ Â§a"+(bprice*10)+" Epics","Â§e64 Â§ Â§a"+(bprice*64)+" Epics","Â§7----------","Â§7Â§ Â§cSell","Â§7-","Â§e1 Â§ Â§a"+i+" Epics","Â§e10 Â§ Â§a"+(i*10)+" Epics","Â§e64 Â§ Â§a"+(i*64)+" Epics"});
+																UtilItem.SetDescriptions(it, new String[]{"§7§ §cBuy","§7-","§e1 § §a"+bprice+" Epics","§e10 § §a"+(bprice*10)+" Epics","§e64 § §a"+(bprice*64)+" Epics","§7----------","§7§ §cSell","§7-","§e1 § §a"+i+" Epics","§e10 § §a"+(i*10)+" Epics","§e64 § §a"+(i*64)+" Epics"});
 																getConfig().setItemStack("Main."+ii+"."+pp+"."+aa+".Item", it);
 																getConfig().save();
 													        }catch(NumberFormatException e){
@@ -361,11 +361,11 @@ public class ItemShop{
 									    		
 												ItemStack renamed = UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "Zahl");
 												gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, renamed);
-												gui.setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "Â§aFertig"));
+												gui.setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "§aFertig"));
 												gui.open();
 											}
 											
-										}, UtilItem.RenameItem(new ItemStack(Material.SIGN), "Â§cVerkaufpreis")));
+										}, UtilItem.RenameItem(new ItemStack(Material.SIGN), "§cVerkaufpreis")));
 										
 										editinv.addButton(29, new ButtonBase(new Click(){
 
@@ -383,7 +383,7 @@ public class ItemShop{
 																getConfig().set("Main."+ii+"."+pp+"."+aa+".buy", i);
 																int sprice = getConfig().getInt("Main."+ii+"."+pp+"."+aa+".sell");
 																ItemStack it = getConfig().getItemStack("Main."+ii+"."+pp+"."+aa+".Item");
-																UtilItem.SetDescriptions(it, new String[]{"Â§7Â§ Â§cBuy","Â§7-","Â§e1 Â§ Â§a"+i+" Epics","Â§e10 Â§ Â§a"+(i*10)+" Epics","Â§e64 Â§ Â§a"+(i*64)+" Epics","Â§7----------","Â§7Â§ Â§cSell","Â§7-","Â§e1 Â§ Â§a"+sprice+" Epics","Â§e10 Â§ Â§a"+(sprice*10)+" Epics","Â§e64 Â§ Â§a"+(sprice*64)+" Epics"});
+																UtilItem.SetDescriptions(it, new String[]{"§7§ §cBuy","§7-","§e1 § §a"+i+" Epics","§e10 § §a"+(i*10)+" Epics","§e64 § §a"+(i*64)+" Epics","§7----------","§7§ §cSell","§7-","§e1 § §a"+sprice+" Epics","§e10 § §a"+(sprice*10)+" Epics","§e64 § §a"+(sprice*64)+" Epics"});
 																getConfig().setItemStack("Main."+ii+"."+pp+"."+aa+".Item", it);
 																getConfig().save();
 													        }catch(NumberFormatException e){
@@ -398,11 +398,11 @@ public class ItemShop{
 									    		
 												ItemStack renamed = UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "Zahl");
 												gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, renamed);
-												gui.setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "Â§aFertig"));
+												gui.setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "§aFertig"));
 												gui.open();
 											}
 											
-										}, UtilItem.RenameItem(new ItemStack(Material.SIGN), "Â§cKaufpreis")));
+										}, UtilItem.RenameItem(new ItemStack(Material.SIGN), "§cKaufpreis")));
 
 										editinv.fill(Material.STAINED_GLASS_PANE, 15);
 										UtilInv.getBase().addAnother(editinv);
@@ -416,18 +416,18 @@ public class ItemShop{
 						}
 						
 						if(page_back!=null){
-							page.addButton(48, new ButtonOpenInventory(page_back, UtilItem.RenameItem(new ItemStack(Material.ARROW), "Â§cÂ§ "+(p-1))));
-							page_back.addButton(50, new ButtonOpenInventory(page, UtilItem.RenameItem(new ItemStack(Material.ARROW), "Â§a"+(p)+" Â§")));
+							page.addButton(48, new ButtonOpenInventory(page_back, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c§ "+(p-1))));
+							page_back.addButton(50, new ButtonOpenInventory(page, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a"+(p)+" §")));
 						}
 						
 						if(page_back_move!=null){
-							page_move.addButton(48, new ButtonOpenInventory(page_back_move, UtilItem.RenameItem(new ItemStack(Material.ARROW), "Â§cÂ§ "+(p-1))));
-							page_back_move.addButton(50, new ButtonOpenInventory(page_move, UtilItem.RenameItem(new ItemStack(Material.ARROW), "Â§a"+(p)+" Â§")));
+							page_move.addButton(48, new ButtonOpenInventory(page_back_move, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c§ "+(p-1))));
+							page_back_move.addButton(50, new ButtonOpenInventory(page_move, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a"+(p)+" §")));
 						}
 						
 						if(page_back_edit!=null){
-							page_edit.addButton(48, new ButtonOpenInventory(page_back_edit, UtilItem.RenameItem(new ItemStack(Material.ARROW), "Â§cÂ§ "+(p-1))));
-							page_back_edit.addButton(50, new ButtonOpenInventory(page_edit, UtilItem.RenameItem(new ItemStack(Material.ARROW), "Â§a"+(p)+" Â§")));
+							page_edit.addButton(48, new ButtonOpenInventory(page_back_edit, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c§ "+(p-1))));
+							page_back_edit.addButton(50, new ButtonOpenInventory(page_edit, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a"+(p)+" §")));
 						}
 
 						page_back=page;
@@ -460,7 +460,7 @@ public class ItemShop{
 				
 				ItemStack item = getConfig().getItemStack("Main."+i+".Item");
 				
-				if(item==null)item = UtilItem.RenameItem(new ItemStack(Material.BEDROCK), "Â§cERROR");
+				if(item==null)item = UtilItem.RenameItem(new ItemStack(Material.BEDROCK), "§cERROR");
 
 				move.addButton(i,new ButtonOpenInventory(page_one_move, item));
 				edit.addButton(i,new ButtonOpenInventory(page_one_edit, item));

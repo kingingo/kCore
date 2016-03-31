@@ -65,7 +65,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				player.closeInventory();
 			}
 			
-		}, Material.SKULL_ITEM,SkullType.PLAYER.ordinal(),"Â§cPlayer", new String[]{"Â§7Du wirst wieder ein normaler Spieler."}));
+		}, Material.SKULL_ITEM,SkullType.PLAYER.ordinal(),"§cPlayer", new String[]{"§7Du wirst wieder ein normaler Spieler."}));
 		
 		addButton(11, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -86,7 +86,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,54, "Â§aZombie", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 7000","Â§aGems: 3000"}));
+		}, Material.MONSTER_EGG,54, "§aZombie", new String[]{"§6Kaufbares-Pet","§eCoins: 7000","§aGems: 3000"}));
 		
 		addButton(12, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -107,7 +107,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,58, "Â§aEnderman", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 7000","Â§aGems: 3000"}));
+		}, Material.MONSTER_EGG,58, "§aEnderman", new String[]{"§6Kaufbares-Pet","§eCoins: 7000","§aGems: 3000"}));
 		
 		addButton(13, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -128,7 +128,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,61, "Â§aBlaze", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 7000","Â§aGems: 3000"}));
+		}, Material.MONSTER_EGG,61, "§aBlaze", new String[]{"§6Kaufbares-Pet","§eCoins: 7000","§aGems: 3000"}));
 		
 		addButton(14, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -149,7 +149,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,95, "Â§aWolf", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 6000","Â§aGems: 2500"}));
+		}, Material.MONSTER_EGG,95, "§aWolf", new String[]{"§6Kaufbares-Pet","§eCoins: 6000","§aGems: 2500"}));
 		
 		addButton(15, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -170,7 +170,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,90, "Â§aPig", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 5000","Â§aGems: 2000"}));
+		}, Material.MONSTER_EGG,90, "§aPig", new String[]{"§6Kaufbares-Pet","§eCoins: 5000","§aGems: 2000"}));
 		
 		addButton(16, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -191,7 +191,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,91, "Â§aSheep", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 5000","Â§aGems: 2000"}));
+		}, Material.MONSTER_EGG,91, "§aSheep", new String[]{"§6Kaufbares-Pet","§eCoins: 5000","§aGems: 2000"}));
 		
 		addButton(19, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -212,7 +212,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,50, "Â§aCreeper", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 7000","Â§aGems: 3000"}));
+		}, Material.MONSTER_EGG,50, "§aCreeper", new String[]{"§6Kaufbares-Pet","§eCoins: 7000","§aGems: 3000"}));
 		
 		addButton(20, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -223,7 +223,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				player.closeInventory();
 			}
 			
-		}, Material.MONSTER_EGG,68, "Â§6Guardian", new String[]{"Â§aPremium-Pet"}));
+		}, Material.MONSTER_EGG,68, "§6Guardian", new String[]{"§aPremium-Pet"}));
 		
 		addButton(21, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -234,7 +234,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 				player.closeInventory();
 			}
 			
-		}, Material.SKULL_ITEM,SkullType.WITHER.ordinal(), "Â§cWither", new String[]{"Â§cNicht kaufbar!"}));
+		}, Material.SKULL_ITEM,SkullType.WITHER.ordinal(), "§cWither", new String[]{"§cNicht kaufbar!"}));
 		
 		fill(Material.STAINED_GLASS_PANE,(byte)7);
 	}

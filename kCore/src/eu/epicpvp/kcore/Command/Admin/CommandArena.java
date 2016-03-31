@@ -61,7 +61,7 @@ public class CommandArena implements CommandExecutor{
 
 				}
 				
-				player.sendMessage("Â§ACLEAREDD!!!");
+				player.sendMessage("§ACLEAREDD!!!");
 			}else{
 				if(args[0].equalsIgnoreCase("save")){
 					try {
@@ -125,20 +125,20 @@ public class CommandArena implements CommandExecutor{
 						m.setRound_counter(0);
 					}
 					
-					player.sendMessage("Â§aC1!!!");
+					player.sendMessage("§aC1!!!");
 				}else if(args[0].equalsIgnoreCase("c2")){
 					for(ArenaManager m : list){
 						m.getServer().clear();
 					}
 					
-					player.sendMessage("Â§aC2!!!");
+					player.sendMessage("§aC2!!!");
 				}else if(args[0].equalsIgnoreCase("c3")){
 					for(ArenaManager m : list){
 						m.getWait_list().clear();
 						for(ArenaType type : ArenaType.values())m.getWait_list().put(type, new ArrayList<Player>());
 					}
 					
-					player.sendMessage("Â§aC3!!!");
+					player.sendMessage("§aC3!!!");
 				}else if(args[0].equalsIgnoreCase("skywars")){
 					ArenaManager a = null;
 					

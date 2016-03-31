@@ -89,7 +89,7 @@ public class LoginManager extends kListener{
 				if (response.length == 1 && response[0].getSetting() == Setting.PASSWORD){
 					if(response[0].getValue()!=null){
 						if(UtilPlayer.isOnline(playername)){
-							Title title = new Title("Â§c/login [Password]","");
+							Title title = new Title("§c/login [Password]","");
 							title.setStayTime(60*60*100);
 							title.send(Bukkit.getPlayer(playername));
 						}
@@ -118,7 +118,7 @@ public class LoginManager extends kListener{
 	
 	public void sendCaptcha(String playername){
 		if(UtilPlayer.isOnline(playername)){
-			Title title = new Title("Â§a"+this.captcha.get(playername.toLowerCase()),"Â§c/captcha [Captcha]");
+			Title title = new Title("§a"+this.captcha.get(playername.toLowerCase()),"§c/captcha [Captcha]");
 			Bukkit.getPlayer(playername).sendMessage("                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ");
 			title.setStayTime(60*60*100);
 			title.send(Bukkit.getPlayer(playername));
@@ -131,11 +131,11 @@ public class LoginManager extends kListener{
 		if(ev.getType() == UpdateType.SEC_3){
 			for(Player player : UtilServer.getPlayers()){
 				if(this.login.containsKey(player.getName().toLowerCase())){
-					player.sendMessage(Language.getText(player, "PREFIX")+"Â§c/login [Password]");
+					player.sendMessage(Language.getText(player, "PREFIX")+"§c/login [Password]");
 				}else if(this.register.contains(player.getName().toLowerCase())){
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "REGISTER_MESSAGE"));
 				}else if(this.captcha.containsKey(player.getName().toLowerCase())){
-					player.sendMessage(Language.getText(player, "PREFIX")+"Â§c/captcha [CAPTCHA]");
+					player.sendMessage(Language.getText(player, "PREFIX")+"§c/captcha [CAPTCHA]");
 				}
 			}
 		}
@@ -150,7 +150,7 @@ public class LoginManager extends kListener{
 			for(Player player : this.timer.keySet()){
 				if(player.isOnline()){
 					if( (System.currentTimeMillis()-this.timer.get(player)) > TimeSpan.MINUTE * 2){
-						player.kickPlayer("Â§cDie Zeit ist abgelaufen!");
+						player.kickPlayer("§cDie Zeit ist abgelaufen!");
 					}else{
 						continue;
 					}
@@ -169,7 +169,7 @@ public class LoginManager extends kListener{
 		}
 		
 		if(this.login.containsKey(ev.getPlayer().getName().toLowerCase())){
-			Title title = new Title("Â§c/login [Password]","");
+			Title title = new Title("§c/login [Password]","");
 			title.setStayTime(60*60*100);
 			title.send(ev.getPlayer());
 		}

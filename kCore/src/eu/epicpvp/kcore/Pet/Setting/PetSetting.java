@@ -54,14 +54,14 @@ public class PetSetting extends InventoryPageBase{
 					@Override
 					public void onAnvilClick(AnvilClickEvent event) {
 						Entity c = manager.getActivePetOwners().get(player.getName().toLowerCase());
-						c.setCustomName(event.getName().replaceAll("&", "Â§"));
+						c.setCustomName(event.getName().replaceAll("&", "§"));
 						c.setCustomNameVisible(true);
 					}
 					
-				}, manager.getInstance(), "Namen Â§ndern");
+				}, manager.getInstance(), "Namen §ndern");
 				if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 			}
-		}, Material.ANVIL, "Â§aNamen Â§ndern"));
+		}, Material.ANVIL, "§aNamen §ndern"));
 		
 		Entity e = Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"),0,60,0), type);
 		if(e instanceof CraftAgeable){
@@ -79,7 +79,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 				}
-			},Material.GRASS,"Â§aAlter Â§ndern"));
+			},Material.GRASS,"§aAlter §ndern"));
 		}
 		
 		if(type==EntityType.SHEEP){
@@ -93,7 +93,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Farbe Â§ndern",18,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)0), "WeiÂ§"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), "Orange"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)2),"Magneta"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)3),"Hell Blau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)4),"Gelb"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)5),"Hell GrÂ§n"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)6),"Pink"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)7),"Grau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)9),"Cyan"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)10),"Lila"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)11),"Blau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12),"Braun"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)13),"GrÂ§n"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)14),"Rot"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)15),"Schwarz")});
+			},"Farbe §ndern",18,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)0), "Wei§"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), "Orange"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)2),"Magneta"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)3),"Hell Blau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)4),"Gelb"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)5),"Hell Gr§n"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)6),"Pink"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)7),"Grau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)9),"Cyan"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)10),"Lila"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)11),"Blau"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12),"Braun"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)13),"Gr§n"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)14),"Rot"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)15),"Schwarz")});
 			base.addPage(inv_choose);
 			button++;
 			addButton(button, new ButtonBase(new Click(){
@@ -103,7 +103,7 @@ public class PetSetting extends InventoryPageBase{
 					player.openInventory(inv_choose);
 					if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 				}
-			},Material.WOOL,"Â§aFarbe Â§ndern"));
+			},Material.WOOL,"§aFarbe §ndern"));
 		}else if(type==EntityType.SLIME||type==EntityType.MAGMA_CUBE){
 			
 			final InventoryChoose inv_typ=new InventoryChoose(new Click(){
@@ -116,7 +116,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Size Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "0"),UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "1"),UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "2"),UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "3")});
+			},"Size §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "0"),UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "1"),UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "2"),UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "3")});
 			base.addPage(inv_typ);
 			
 			button++;
@@ -126,7 +126,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					player.openInventory(inv_typ);
 				}
-			},Material.HAY_BLOCK,"Size Â§ndern"));
+			},Material.HAY_BLOCK,"Size §ndern"));
 			
 		}else if(type==EntityType.GUARDIAN){
 			
@@ -143,7 +143,7 @@ public class PetSetting extends InventoryPageBase{
 					}
 					if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 				}
-			},Material.FISHING_ROD,"Â§aElder An/Aus"));
+			},Material.FISHING_ROD,"§aElder An/Aus"));
 		}else if(type==EntityType.CREEPER){
 			
 			button++;
@@ -159,7 +159,7 @@ public class PetSetting extends InventoryPageBase{
 					}
 					if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 				}
-			},Material.NETHER_STAR,"Â§aPowered An/Aus"));
+			},Material.NETHER_STAR,"§aPowered An/Aus"));
 		}else if(type==EntityType.HORSE){
 			final InventoryChoose inv_armor=new InventoryChoose(new Click(){
 				@Override
@@ -171,7 +171,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Armor Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(417,1), "Iron Armor"),UtilItem.RenameItem(new ItemStack(418,1), "Gold Armor"),UtilItem.RenameItem(new ItemStack(419,1), "Diamond Armor"),UtilItem.RenameItem(new ItemStack(Material.ARMOR_STAND), "Keine Armor")});
+			},"Armor §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(417,1), "Iron Armor"),UtilItem.RenameItem(new ItemStack(418,1), "Gold Armor"),UtilItem.RenameItem(new ItemStack(419,1), "Diamond Armor"),UtilItem.RenameItem(new ItemStack(Material.ARMOR_STAND), "Keine Armor")});
 			base.addPage(inv_armor);
 			
 			button++;
@@ -181,7 +181,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					player.openInventory(inv_armor);
 				}
-			},Material.IRON_BARDING,"Armor Â§ndern"));
+			},Material.IRON_BARDING,"Armor §ndern"));
 			
 			final InventoryChoose inv_color=new InventoryChoose(new Click(){
 				@Override
@@ -193,7 +193,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Color Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), "CHESTNUT"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12), "BROWN"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)8), "CREAMY"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12), "DARK_BROWN"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1), "WHITE"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)15), "BLACK"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)7), "GRAY")});
+			},"Color §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), "CHESTNUT"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12), "BROWN"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)8), "CREAMY"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)12), "DARK_BROWN"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1), "WHITE"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)15), "BLACK"),UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)7), "GRAY")});
 			base.addPage(inv_color);
 			
 			button++;
@@ -203,7 +203,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					player.openInventory(inv_color);
 				}
-			},Material.WOOL,"Color Â§ndern"));
+			},Material.WOOL,"Color §ndern"));
 			
 			final InventoryChoose inv_typ=new InventoryChoose(new Click(){
 				@Override
@@ -215,7 +215,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Type Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.BONE,1), "UNDEAD_HORSE"),UtilItem.RenameItem(new ItemStack(Material.BONE,1), "SKELETON_HORSE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "MULE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "HORSE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "DONKEY")});
+			},"Type §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.BONE,1), "UNDEAD_HORSE"),UtilItem.RenameItem(new ItemStack(Material.BONE,1), "SKELETON_HORSE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "MULE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "HORSE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "DONKEY")});
 			base.addPage(inv_typ);
 			
 			button++;
@@ -225,7 +225,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					player.openInventory(inv_typ);
 				}
-			},Material.HAY_BLOCK,"Type Â§ndern"));
+			},Material.HAY_BLOCK,"Type §ndern"));
 			
 			final InventoryChoose inv_style=new InventoryChoose(new Click(){
 				@Override
@@ -237,7 +237,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Style Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "NONE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "WHITEFIELD"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "WHITE_DOTS"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "BLACK_DOTS"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "WHITE")});
+			},"Style §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "NONE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "WHITEFIELD"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "WHITE_DOTS"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "BLACK_DOTS"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "WHITE")});
 			base.addPage(inv_style);
 			
 			button++;
@@ -247,7 +247,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					player.openInventory(inv_style);
 				}
-			},Material.CARROT_STICK,"Style Â§ndern"));
+			},Material.CARROT_STICK,"Style §ndern"));
 			
 		}else if(type==EntityType.RABBIT){
 			final InventoryChoose inv_chest=new InventoryChoose(new Click(){
@@ -260,7 +260,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Rabbit Type Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "WHITE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "THE_KILLER_BUNNY"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "SALT_AND_PEPPER"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "GOLD"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "BROWN"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "BLACK_AND_WHITE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "BLACK")});
+			},"Rabbit Type §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "WHITE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "THE_KILLER_BUNNY"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "SALT_AND_PEPPER"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "GOLD"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "BROWN"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "BLACK_AND_WHITE"),UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "BLACK")});
 			base.addPage(inv_chest);
 			
 			button++;
@@ -270,7 +270,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					player.openInventory(inv_chest);
 				}
-			},Material.RABBIT,"Â§aRabbit Type"));
+			},Material.RABBIT,"§aRabbit Type"));
 		}else if(type==EntityType.VILLAGER){
 			final InventoryChoose inv_chest=new InventoryChoose(new Click(){
 				@Override
@@ -282,7 +282,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Profession Type Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(351,1), Profession.BLACKSMITH.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)1), Profession.BUTCHER.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)7), Profession.FARMER.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)6), Profession.LIBRARIAN.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)5), Profession.PRIEST.name())});
+			},"Profession Type §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(351,1), Profession.BLACKSMITH.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)1), Profession.BUTCHER.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)7), Profession.FARMER.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)6), Profession.LIBRARIAN.name()),UtilItem.RenameItem(new ItemStack(351,1,(byte)5), Profession.PRIEST.name())});
 			base.addPage(inv_chest);
 			
 			button++;
@@ -292,7 +292,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					player.openInventory(inv_chest);
 				}
-			},Material.BONE,"Â§aProfession Type"));
+			},Material.BONE,"§aProfession Type"));
 		}else if(type==EntityType.SKELETON){
 			final InventoryChoose inv_chest=new InventoryChoose(new Click(){
 				@Override
@@ -304,7 +304,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Skeleton Type Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM,1,(byte)SkullType.SKELETON.ordinal()), SkeletonType.NORMAL.name()),UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM,1,(byte)SkullType.WITHER.ordinal()), SkeletonType.WITHER.name())});
+			},"Skeleton Type §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM,1,(byte)SkullType.SKELETON.ordinal()), SkeletonType.NORMAL.name()),UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM,1,(byte)SkullType.WITHER.ordinal()), SkeletonType.WITHER.name())});
 			base.addPage(inv_chest);
 			
 			button++;
@@ -314,7 +314,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					player.openInventory(inv_chest);
 				}
-			},Material.BONE,"Â§aSkeleton Type"));
+			},Material.BONE,"§aSkeleton Type"));
 		}else if(type==EntityType.WOLF){
 			
 			button++;
@@ -330,7 +330,7 @@ public class PetSetting extends InventoryPageBase{
 					}
 					if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 				}
-			},Material.CARROT_STICK,"Â§aAngry An/Aus"));
+			},Material.CARROT_STICK,"§aAngry An/Aus"));
 		}else if(type==EntityType.ZOMBIE||type==EntityType.PIG_ZOMBIE){
 			final InventoryChoose inv_helm=new InventoryChoose(new Click(){
 				@Override
@@ -342,7 +342,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Helm Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_HELMET,1,(byte)0), "Leder Helm"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_HELMET,1,(byte)0), "Ketten Helm"),UtilItem.RenameItem(new ItemStack(Material.GOLD_HELMET,1,(byte)0), "Gold Helm"),UtilItem.RenameItem(new ItemStack(Material.IRON_HELMET,1,(byte)0), "Iron Helm"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_HELMET,1,(byte)0), "Diamond Helm")});
+			},"Helm §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_HELMET,1,(byte)0), "Leder Helm"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_HELMET,1,(byte)0), "Ketten Helm"),UtilItem.RenameItem(new ItemStack(Material.GOLD_HELMET,1,(byte)0), "Gold Helm"),UtilItem.RenameItem(new ItemStack(Material.IRON_HELMET,1,(byte)0), "Iron Helm"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_HELMET,1,(byte)0), "Diamond Helm")});
 			base.addPage(inv_helm);
 			
 			final InventoryChoose inv_chest=new InventoryChoose(new Click(){
@@ -355,7 +355,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Brustpanzer Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_CHESTPLATE,1,(byte)0), "Leder Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_CHESTPLATE,1,(byte)0), "Ketten Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.GOLD_CHESTPLATE,1,(byte)0), "Gold Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.IRON_CHESTPLATE,1,(byte)0), "Iron Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_CHESTPLATE,1,(byte)0), "Diamond Brustpanzer")});
+			},"Brustpanzer §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_CHESTPLATE,1,(byte)0), "Leder Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_CHESTPLATE,1,(byte)0), "Ketten Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.GOLD_CHESTPLATE,1,(byte)0), "Gold Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.IRON_CHESTPLATE,1,(byte)0), "Iron Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_CHESTPLATE,1,(byte)0), "Diamond Brustpanzer")});
 			base.addPage(inv_chest);
 			
 			final InventoryChoose inv_legg=new InventoryChoose(new Click(){
@@ -368,7 +368,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Hose Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_LEGGINGS,1,(byte)0), "Leder Hose"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_LEGGINGS,1,(byte)0), "Ketten Hose"),UtilItem.RenameItem(new ItemStack(Material.GOLD_LEGGINGS,1,(byte)0), "Gold Hose"),UtilItem.RenameItem(new ItemStack(Material.IRON_LEGGINGS,1,(byte)0), "Iron Hose"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_LEGGINGS,1,(byte)0), "Diamond Hose")});
+			},"Hose §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_LEGGINGS,1,(byte)0), "Leder Hose"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_LEGGINGS,1,(byte)0), "Ketten Hose"),UtilItem.RenameItem(new ItemStack(Material.GOLD_LEGGINGS,1,(byte)0), "Gold Hose"),UtilItem.RenameItem(new ItemStack(Material.IRON_LEGGINGS,1,(byte)0), "Iron Hose"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_LEGGINGS,1,(byte)0), "Diamond Hose")});
 			base.addPage(inv_legg);
 			
 			final InventoryChoose inv_boots=new InventoryChoose(new Click(){
@@ -381,7 +381,7 @@ public class PetSetting extends InventoryPageBase{
 						if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 					}
 				}
-			},"Schuhe Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_BOOTS,1,(byte)0), "Leder Schuhe"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_BOOTS,1,(byte)0), "Ketten Schuhe"),UtilItem.RenameItem(new ItemStack(Material.GOLD_BOOTS,1,(byte)0), "Gold Schuhe"),UtilItem.RenameItem(new ItemStack(Material.IRON_BOOTS,1,(byte)0), "Iron Schuhe"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_BOOTS,1,(byte)0), "Diamond Schuhe")});
+			},"Schuhe §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.LEATHER_BOOTS,1,(byte)0), "Leder Schuhe"),UtilItem.RenameItem(new ItemStack(Material.CHAINMAIL_BOOTS,1,(byte)0), "Ketten Schuhe"),UtilItem.RenameItem(new ItemStack(Material.GOLD_BOOTS,1,(byte)0), "Gold Schuhe"),UtilItem.RenameItem(new ItemStack(Material.IRON_BOOTS,1,(byte)0), "Iron Schuhe"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_BOOTS,1,(byte)0), "Diamond Schuhe")});
 			base.addPage(inv_boots);
 			
 			final InventoryChoose inv_equip=new InventoryChoose(new Click(){
@@ -419,7 +419,7 @@ public class PetSetting extends InventoryPageBase{
 						}
 					}
 				}
-			},"Equipment Â§ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.CARROT_ITEM), "Item"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_BOOTS), "Schuhe"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_LEGGINGS), "Hose"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_CHESTPLATE), "Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_HELMET), "Helm")});
+			},"Equipment §ndern",9,new ItemStack[]{UtilItem.RenameItem(new ItemStack(Material.CARROT_ITEM), "Item"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_BOOTS), "Schuhe"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_LEGGINGS), "Hose"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_CHESTPLATE), "Brustpanzer"),UtilItem.RenameItem(new ItemStack(Material.DIAMOND_HELMET), "Helm")});
 			base.addPage(inv_equip);
 			
 			button++;
@@ -429,7 +429,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					player.openInventory(inv_equip);
 				}
-			},Material.DIAMOND_CHESTPLATE,"Â§aEquipment Â§ndern"));
+			},Material.DIAMOND_CHESTPLATE,"§aEquipment §ndern"));
 			
 			button++;
 			addButton(button, new ButtonBase(new Click(){
@@ -445,7 +445,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 				}
-			},Material.GRASS,"Â§aZombie Alter Â§ndern"));
+			},Material.GRASS,"§aZombie Alter §ndern"));
 			
 			button++;
 			addButton(button, new ButtonBase(new Click(){
@@ -461,7 +461,7 @@ public class PetSetting extends InventoryPageBase{
 					player.closeInventory();
 					if(!manager.getHandler().getChange_settings().contains(player))manager.getHandler().getChange_settings().add(player);
 				}
-			},Material.SKULL_ITEM,2,"Â§aZombie Type Â§ndern"));
+			},Material.SKULL_ITEM,2,"§aZombie Type §ndern"));
 		}
 		
 		

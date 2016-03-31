@@ -20,19 +20,19 @@ public class ButtonBestOfSwitch extends ButtonCopy{
 			public void onClick(Player player, ActionType type,Object object) {
 				if(UtilServer.getUserData().getConfig(player).getInt("BestOf.Rounds")>slot){
 					if(slot==0){
-						((InventoryPageBase)object).setItem(slot,UtilItem.addEnchantmentGlow( UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "Â§aRundeÂ§7 Â»Â§e"+(slot+1)+" Â§7[Â§cEditÂ§7]")));
+						((InventoryPageBase)object).setItem(slot,UtilItem.addEnchantmentGlow( UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "§aRunde§7 »§e"+(slot+1)+" §7[§cEdit§7]")));
 						setGame(player, UtilServer.getUserData().getConfig(player).getString("BestOf.Round."+(slot+1)));
 					}else if(slot==17){
 						if(((InventoryPageBase)object).getItem(22).getAmount()%2==0){
-							((InventoryPageBase)object).setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "Â§6EntscheidungsrundeÂ§7 Â»Â§e Â§7[Â§cEditÂ§7]"));
+							((InventoryPageBase)object).setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "§6Entscheidungsrunde§7 »§e §7[§cEdit§7]"));
 						}else{
-							((InventoryPageBase)object).setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "Â§6EntscheidungsrundeÂ§7 Â»Â§e Â§7[Â§cLockedÂ§7]"));
+							((InventoryPageBase)object).setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "§6Entscheidungsrunde§7 »§e §7[§cLocked§7]"));
 						}
 					}else{
-						((InventoryPageBase)object).setItem(slot, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "Â§aRundeÂ§7 Â»Â§e"+(slot+1)+" Â§7[Â§cEditÂ§7]"));
+						((InventoryPageBase)object).setItem(slot, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "§aRunde§7 »§e"+(slot+1)+" §7[§cEdit§7]"));
 					}
 				}else{
-					((InventoryPageBase)object).setItem(slot, UtilItem.Item(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), new String[]{"Â§eWÃ¤hle mehr Runden aus fÃ¼rs Bearbeiten."},"Â§aRundeÂ§7 Â»Â§e"+(slot+1)+" Â§7[Â§cLockedÂ§7]"));
+					((InventoryPageBase)object).setItem(slot, UtilItem.Item(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), new String[]{"§eWÃ¤hle mehr Runden aus fÃ¼rs Bearbeiten."},"§aRunde§7 »§e"+(slot+1)+" §7[§cLocked§7]"));
 				}
 			}
 			
@@ -60,48 +60,48 @@ public class ButtonBestOfSwitch extends ButtonCopy{
 	public static void removeEnchant(Player player){
 		for(int i = InventorySplit._9.getMin(); i<=InventorySplit._9.getMax(); i++){
 			if(player.getOpenInventory().getItem(22).getAmount()>i){
-				player.getOpenInventory().setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "Â§aRundeÂ§7 Â»Â§e"+(i+1)+" Â§7[Â§cEditÂ§7]"));
+				player.getOpenInventory().setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "§aRunde§7 »§e"+(i+1)+" §7[§cEdit§7]"));
 			}else{
-				player.getOpenInventory().setItem(i, UtilItem.Item(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), new String[]{"Â§eWÃ¤hle mehr Runden aus fÃ¼rs Bearbeiten."},"Â§aRundeÂ§7 Â»Â§e"+(i+1)+" Â§7[Â§cLockedÂ§7]"));
+				player.getOpenInventory().setItem(i, UtilItem.Item(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), new String[]{"§eWÃ¤hle mehr Runden aus fÃ¼rs Bearbeiten."},"§aRunde§7 »§e"+(i+1)+" §7[§cLocked§7]"));
 			}
 		}
 		
 		if(player.getOpenInventory().getItem(22).getAmount()%2==0){
-			player.getOpenInventory().setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "Â§6EntscheidungsrundeÂ§7 Â»Â§e Â§7[Â§cEditÂ§7]"));
+			player.getOpenInventory().setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "§6Entscheidungsrunde§7 »§e §7[§cEdit§7]"));
 		}else{
-			player.getOpenInventory().setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "Â§6EntscheidungsrundeÂ§7 Â»Â§e Â§7[Â§cLockedÂ§7]"));
+			player.getOpenInventory().setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "§6Entscheidungsrunde§7 »§e §7[§cLocked§7]"));
 		}
 	}
 
 	public static void setGame(Player player, String game){
 		if(game.equalsIgnoreCase("Bedwars1vs1")){
-			player.getOpenInventory().setItem(38, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "Â§aBedwars 1vs1")));
+			player.getOpenInventory().setItem(38, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedwars 1vs1")));
 		}else{
-			player.getOpenInventory().setItem(38, UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "Â§aBedwars 1vs1"));
+			player.getOpenInventory().setItem(38, UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedwars 1vs1"));
 		}
 		
 		if(game.equalsIgnoreCase("Versus")){
-			player.getOpenInventory().setItem(39, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "Â§aVersus 1vs1")));
+			player.getOpenInventory().setItem(39, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1")));
 		}else{
-			player.getOpenInventory().setItem(39, UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "Â§aVersus 1vs1"));
+			player.getOpenInventory().setItem(39, UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1"));
 		}
 		
 		if(game.equalsIgnoreCase("SkyWars1vs1")){
-			player.getOpenInventory().setItem(41, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "Â§aSkyWars 1vs1")));
+			player.getOpenInventory().setItem(41, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1")));
 		}else{
-			player.getOpenInventory().setItem(41, UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "Â§aSkyWars 1vs1"));
+			player.getOpenInventory().setItem(41, UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1"));
 		}
 		
 		if(game.equalsIgnoreCase("SurvivalGames1vs1")){
-			player.getOpenInventory().setItem(42, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.BOW), "Â§aSurvivalGames 1vs1")));
+			player.getOpenInventory().setItem(42, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1")));
 		}else{
-			player.getOpenInventory().setItem(42, UtilItem.RenameItem(new ItemStack(Material.BOW), "Â§aSurvivalGames 1vs1"));
+			player.getOpenInventory().setItem(42, UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1"));
 		}
 		
 		if(game.equalsIgnoreCase("Random")){
-			player.getOpenInventory().setItem(49, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "Â§aRandom 1vs1")));
+			player.getOpenInventory().setItem(49, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aRandom 1vs1")));
 		}else{
-			player.getOpenInventory().setItem(49, UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "Â§aRandom 1vs1"));
+			player.getOpenInventory().setItem(49, UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aRandom 1vs1"));
 		}
 	}
 	

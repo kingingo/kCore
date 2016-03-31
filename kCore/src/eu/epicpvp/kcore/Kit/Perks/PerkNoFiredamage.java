@@ -13,7 +13,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 public class PerkNoFiredamage extends Perk{
 
 	public PerkNoFiredamage() {
-		super("noFiredamage",UtilItem.RenameItem(new ItemStack(Material.POTION,1,(byte)16451),"Â§enoFiredamage"));
+		super("noFiredamage",UtilItem.RenameItem(new ItemStack(Material.POTION,1,(byte)16451),"§enoFiredamage"));
 	}
 	
 	@EventHandler

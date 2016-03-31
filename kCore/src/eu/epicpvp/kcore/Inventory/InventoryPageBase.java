@@ -93,7 +93,7 @@ public class InventoryPageBase extends CraftInventoryCustom{
 			UtilDebug.debug(this,methode, "index("+index+"<0) ist zu klein.");
 			return false;
 		}else if( index>getSize() ){
-			UtilDebug.debug(this,methode, "index("+index+">"+getSize()+") ist zu groÂ§.");
+			UtilDebug.debug(this,methode, "index("+index+">"+getSize()+") ist zu gro§.");
 			return false;
 		}
 		return true;

@@ -16,11 +16,11 @@ public class CommandPing implements CommandExecutor{
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "ping", alias={"kping"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(args.length==0){
-			((Player)sender).sendMessage(Language.getText(((Player)sender), "PREFIX")+"Player-Ping: ยงe"+UtilPlayer.getPlayerPing(((Player)sender))+"ยง7 Server-TPS: ยงe"+(int)UtilServer.getLagMeter().getTicksPerSecond());
+			((Player)sender).sendMessage(Language.getText(((Player)sender), "PREFIX")+"Player-Ping: งe"+UtilPlayer.getPlayerPing(((Player)sender))+"ง7 Server-TPS: งe"+(int)UtilServer.getLagMeter().getTicksPerSecond());
 		}else{
 			if(((Player)sender).isOp()){
 				if(UtilPlayer.isOnline(args[0])){
-					((Player)sender).sendMessage(Language.getText(((Player)sender), "PREFIX")+args[0]+"-Ping: ยงe"+UtilPlayer.getPlayerPing(Bukkit.getPlayer(args[0]))+"ยง7 Server-TPS: ยงe"+(int)UtilServer.getLagMeter().getTicksPerSecond());
+					((Player)sender).sendMessage(Language.getText(((Player)sender), "PREFIX")+args[0]+"-Ping: งe"+UtilPlayer.getPlayerPing(Bukkit.getPlayer(args[0]))+"ง7 Server-TPS: งe"+(int)UtilServer.getLagMeter().getTicksPerSecond());
 				}
 			}
 		}

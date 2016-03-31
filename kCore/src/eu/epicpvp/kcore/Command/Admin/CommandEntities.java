@@ -48,10 +48,10 @@ public class CommandEntities implements CommandExecutor{
 		                    for(EntityType type : EntityType.values()){
 		                    	if(type==null||type==EntityType.UNKNOWN)continue;
 		                    	if(world.getEntitiesByClass(type.getEntityClass()).size()<=0)continue;
-		                    	player.sendMessage(Language.getText(player,"PREFIX")+"Â§e"+world.getName()+"Â§7: Entity Type:Â§e"+type.name()+" Â§7Counted:Â§e"+world.getEntitiesByClass(type.getEntityClass()).size());
+		                    	player.sendMessage(Language.getText(player,"PREFIX")+"§e"+world.getName()+"§7: Entity Type:§e"+type.name()+" §7Counted:§e"+world.getEntitiesByClass(type.getEntityClass()).size());
 		                    }
 		                    
-		                	player.sendMessage(Language.getText(player,"PREFIX")+"Â§e"+world.getName()+"Â§7: Chunks:Â§e"+world.getLoadedChunks().length+" Â§7Entities:Â§e"+world.getEntities().size()+" Â§7Tile:Â§e"+tileEntities);
+		                	player.sendMessage(Language.getText(player,"PREFIX")+"§e"+world.getName()+"§7: Chunks:§e"+world.getLoadedChunks().length+" §7Entities:§e"+world.getEntities().size()+" §7Tile:§e"+tileEntities);
 		                }
 					}else if(args[0].equalsIgnoreCase("hm")){
 						int a = 0;
@@ -62,7 +62,7 @@ public class CommandEntities implements CommandExecutor{
 									a++;
 			                	}
 							}
-			                player.sendMessage(Language.getText(player, "PREFIX")+" All entities "+w.getName()+" removed:Â§e "+a);
+			                player.sendMessage(Language.getText(player, "PREFIX")+" All entities "+w.getName()+" removed:§e "+a);
 			                a=0;
 						}
 					}else if(args[0].equalsIgnoreCase("clearall")){
@@ -98,7 +98,7 @@ public class CommandEntities implements CommandExecutor{
 			                		e.remove();
 			                	}
 							}
-			                player.sendMessage(Language.getText(player, "PREFIX")+" All entities "+w.getName()+" removed:Â§e "+a);
+			                player.sendMessage(Language.getText(player, "PREFIX")+" All entities "+w.getName()+" removed:§e "+a);
 			                a=0;
 						}
 					}else{
@@ -132,9 +132,9 @@ public class CommandEntities implements CommandExecutor{
 			                	}
 			                }
 			                
-			                player.sendMessage(Language.getText(player, "PREFIX")+" All entities from "+args[0]+" removed:Â§e "+a);
+			                player.sendMessage(Language.getText(player, "PREFIX")+" All entities from "+args[0]+" removed:§e "+a);
 						}else{
-			                player.sendMessage(Language.getText(player, "PREFIX")+"Â§cThe world Â§e"+args[0]+"Â§c was not found!");
+			                player.sendMessage(Language.getText(player, "PREFIX")+"§cThe world §e"+args[0]+"§c was not found!");
 						}
 					}
 				}
@@ -157,7 +157,7 @@ public class CommandEntities implements CommandExecutor{
 	                    {
 	                  	 ex.printStackTrace(); 
 	                    }  
-	                    System.out.println(world.getName()+": Chunks:"+world.getLoadedChunks().length+" Entities:"+world.getEntities().size()+" Tile:Â§e"+tileEntities);
+	                    System.out.println(world.getName()+": Chunks:"+world.getLoadedChunks().length+" Entities:"+world.getEntities().size()+" Tile:§e"+tileEntities);
 	                }
 				}else if(args[0].equalsIgnoreCase("clearall")){
 					int a = 0;
@@ -221,7 +221,7 @@ public class CommandEntities implements CommandExecutor{
 		                	}
 		                }
 		                
-		                System.out.println("All entities from "+args[0]+" removed:Â§e "+a);
+		                System.out.println("All entities from "+args[0]+" removed:§e "+a);
 					}else{
 						System.out.println("The world "+args[0]+" was not found!");
 					}

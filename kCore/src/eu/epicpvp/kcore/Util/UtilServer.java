@@ -34,6 +34,8 @@ import eu.epicpvp.kcore.Arena.BestOf.BestOf;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.DeliveryPet.DeliveryPet;
 import eu.epicpvp.kcore.Disguise.DisguiseManager;
+import eu.epicpvp.kcore.Events.ClientConnectedEvent;
+import eu.epicpvp.kcore.Events.ClientDisconnectedEvent;
 import eu.epicpvp.kcore.Events.ServerChangeGameTypeEvent;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Events.ServerStatusUpdateEvent;
@@ -155,12 +157,12 @@ public class UtilServer{
 				
 				@Override
 				public void disconnected() {
-					System.out.println("[Client]: Disconnected");
+					Bukkit.getPluginManager().callEvent(new ClientDisconnectedEvent(client));
 				}
 				
 				@Override
 				public void connected() {
-					System.out.println("[Client]: Connected");
+					Bukkit.getPluginManager().callEvent(new ClientConnectedEvent(client));
 				}
 				
 				@Override

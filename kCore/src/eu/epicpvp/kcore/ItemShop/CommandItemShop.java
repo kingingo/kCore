@@ -30,14 +30,14 @@ public class CommandItemShop implements CommandExecutor{
 			if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 				if(args[0].equalsIgnoreCase("addc")){
 					if(args.length>=2){
-						player.sendMessage(Language.getText(player, "PREFIX")+shop.addCategory(UtilNumber.toInt(args[1]), args[2], UtilItem.RenameItem(player.getItemInHand(), "Â§a"+args[2].replaceAll("_", " "))));
+						player.sendMessage(Language.getText(player, "PREFIX")+shop.addCategory(UtilNumber.toInt(args[1]), args[2], UtilItem.RenameItem(player.getItemInHand(), "§a"+args[2].replaceAll("_", " "))));
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+"/shop addc [SLOT] [PageName]");
 					}
 				}else if(args[0].equalsIgnoreCase("delc")){
 					if(args.length==2){
 						shop.delCategory(UtilNumber.toInt(args[1]));
-						player.sendMessage(Language.getText(player, "PREFIX")+"Â§cCategory entfernt!");
+						player.sendMessage(Language.getText(player, "PREFIX")+"§cCategory entfernt!");
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+"/shop delc [CSLOT]");
 					}
@@ -50,11 +50,11 @@ public class CommandItemShop implements CommandExecutor{
 				}else if(args[0].equalsIgnoreCase("addi")){
 					if(args.length==6){
 						ItemStack hand = player.getItemInHand();
-						hand=UtilItem.SetDescriptions(hand, new String[]{"Â§7Â§ Â§cBuy","Â§7-","Â§e1 Â» Â§a"+UtilNumber.toInt(args[3])+" Epics","Â§e10 Â» Â§a"+(UtilNumber.toInt(args[3])*10)+" Epics","Â§e64 Â» Â§a"+(UtilNumber.toInt(args[3])*64)+" Epics","Â§7----------","Â§7Â§ Â§cSell","Â§7-","Â§e1 Â» Â§a"+UtilNumber.toInt(args[4])+" Epics","Â§e10 Â» Â§a"+(UtilNumber.toInt(args[4])*10)+" Epics","Â§e64 Â» Â§a"+(UtilNumber.toInt(args[4])*64)+" Epics"});
+						hand=UtilItem.SetDescriptions(hand, new String[]{"§7§ §cBuy","§7-","§e1 » §a"+UtilNumber.toInt(args[3])+" Epics","§e10 » §a"+(UtilNumber.toInt(args[3])*10)+" Epics","§e64 » §a"+(UtilNumber.toInt(args[3])*64)+" Epics","§7----------","§7§ §cSell","§7-","§e1 » §a"+UtilNumber.toInt(args[4])+" Epics","§e10 » §a"+(UtilNumber.toInt(args[4])*10)+" Epics","§e64 » §a"+(UtilNumber.toInt(args[4])*64)+" Epics"});
 						player.sendMessage(Language.getText(player, "PREFIX")+shop.add(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]), hand, UtilNumber.toInt(args[3]),UtilNumber.toInt(args[4]),UtilNumber.toInt(args[5])));
 					}else if(args.length==5){
 						ItemStack hand = player.getItemInHand();
-						hand=UtilItem.SetDescriptions(hand, new String[]{"Â§7Â§ Â§cBuy","Â§7-","Â§e1 Â» Â§a"+UtilNumber.toInt(args[2])+" Epics","Â§e10 Â» Â§a"+(UtilNumber.toInt(args[2])*10)+" Epics","Â§e64 Â» Â§a"+(UtilNumber.toInt(args[2])*64)+" Epics","Â§7----------","Â§7Â§ Â§cSell","Â§7-","Â§e1 Â» Â§a"+UtilNumber.toInt(args[3])+" Epics","Â§e10 Â» Â§a"+(UtilNumber.toInt(args[3])*10)+" Epics","Â§e64 Â» Â§a"+(UtilNumber.toInt(args[3])*64)+" Epics"});
+						hand=UtilItem.SetDescriptions(hand, new String[]{"§7§ §cBuy","§7-","§e1 » §a"+UtilNumber.toInt(args[2])+" Epics","§e10 » §a"+(UtilNumber.toInt(args[2])*10)+" Epics","§e64 » §a"+(UtilNumber.toInt(args[2])*64)+" Epics","§7----------","§7§ §cSell","§7-","§e1 » §a"+UtilNumber.toInt(args[3])+" Epics","§e10 » §a"+(UtilNumber.toInt(args[3])*10)+" Epics","§e64 » §a"+(UtilNumber.toInt(args[3])*64)+" Epics"});
 						player.sendMessage(Language.getText(player, "PREFIX")+shop.add(UtilNumber.toInt(args[1]), -1, hand, UtilNumber.toInt(args[2]),UtilNumber.toInt(args[3]),UtilNumber.toInt(args[4])));
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+"/shop addi [CSLOT] [SLOT] [BUY] [SELL] [PAGE]");
@@ -62,7 +62,7 @@ public class CommandItemShop implements CommandExecutor{
 				}else if(args[0].equalsIgnoreCase("deli")){
 					if(args.length>=1){
 						shop.del(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]), UtilNumber.toInt(args[3]));
-						player.sendMessage(Language.getText(player, "PREFIX")+"Â§cItem entfernt!");
+						player.sendMessage(Language.getText(player, "PREFIX")+"§cItem entfernt!");
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+"/shop deli [CSLOT] [SLOT] [PAGE]");
 					}
@@ -70,12 +70,12 @@ public class CommandItemShop implements CommandExecutor{
 					if(shop.getShop()!=null)shop.getShop().remove();
 					shop.setShop(null);
 					shop.load();
-					player.sendMessage(Language.getText(player, "PREFIX")+"Â§aReloaded");
+					player.sendMessage(Language.getText(player, "PREFIX")+"§aReloaded");
 				}else if(args[0].equalsIgnoreCase("setloc")){
 					if(shop.getListener()!=null&&shop.getListener().getEntity()!=null)shop.getListener().getEntity().remove();
 					
 					shop.setCreature(player.getLocation());
-					player.sendMessage(Language.getText(player, "PREFIX")+"Â§aLocation saved!");
+					player.sendMessage(Language.getText(player, "PREFIX")+"§aLocation saved!");
 				}else if(args[0].equalsIgnoreCase("move")){
 					player.openInventory(shop.getMove());
 				}else if(args[0].equalsIgnoreCase("edit")){

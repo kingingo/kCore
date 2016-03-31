@@ -55,7 +55,7 @@ public class UtilPlayer
 	}
 	
 	public static void sendHovbarText(Player player,String text){
-		sendPacket(player, new kPacketPlayOutChat(text.replaceAll("&", "Â§"),kPacketPlayOutChat.ChatMode.HOVBAR));
+		sendPacket(player, new kPacketPlayOutChat(text.replaceAll("&", "§"),kPacketPlayOutChat.ChatMode.HOVBAR));
 	}
 	
 	public static void sendPacket(Player player,Packet packet){
@@ -113,11 +113,11 @@ public class UtilPlayer
 	}
 	
 	public static String getPlayerLiveString(Player player){
-		String s="Â§c";
+		String s="§c";
 		for(int i = 0; i<getHealth(player); i++){
 			s+=Zeichen.BIG_HERZ.getIcon();
 		}
-		s+="Â§f";
+		s+="§f";
 		for(int i = 0; i<(getMaxHealth(player)-getHealth(player)); i++){
 			s+=Zeichen.BIG_HERZ.getIcon();
 		}
@@ -125,15 +125,15 @@ public class UtilPlayer
 	}
 	
 	public static void setSkyBlockScoreboard(Player player,StatsManager money,StatsManager statsManager, UserDataConfig userData){
-		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "Â§6Â§lEpicPvP.eu");
-		player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("Â§6Â§lEpicPvP.eu");
+		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
+		player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("§6§lEpicPvP.eu");
 		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 9);
 		UtilScoreboard.setScore(player.getScoreboard(),"Loading...", DisplaySlot.SIDEBAR, 8);
 		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 7);
-		UtilScoreboard.setScore(player.getScoreboard(),"Â§6Â§lMoney", DisplaySlot.SIDEBAR, 6);
+		UtilScoreboard.setScore(player.getScoreboard(),"§6§lMoney", DisplaySlot.SIDEBAR, 6);
 		UtilScoreboard.setScore(player.getScoreboard(),"Loading...", DisplaySlot.SIDEBAR, 5);
 		UtilScoreboard.setScore(player.getScoreboard()," ", DisplaySlot.SIDEBAR, 4);
-		UtilScoreboard.setScore(player.getScoreboard(),"Â§cÂ§lUserstore-Slots", DisplaySlot.SIDEBAR, 3);
+		UtilScoreboard.setScore(player.getScoreboard(),"§c§lUserstore-Slots", DisplaySlot.SIDEBAR, 3);
 		UtilScoreboard.setScore(player.getScoreboard(),""+(player.isOp()?"UNLIMITED":userData.getConfig(player).getInt("Stores")), DisplaySlot.SIDEBAR, 2);
 		UtilScoreboard.setScore(player.getScoreboard(),"----------------", DisplaySlot.SIDEBAR, 1);
 		player.setScoreboard(player.getScoreboard());
@@ -166,8 +166,8 @@ public class UtilPlayer
 	}
 	
 	public static void setScoreboardGems(Player player,StatsManager money){
-		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "Â§6Â§lEpicPvP.eu");
-		player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("Â§6Â§lEpicPvP.eu");
+		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
+		player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("§6§lEpicPvP.eu");
 		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 12);
 		UtilScoreboard.setScore(player.getScoreboard(),"Loading...", DisplaySlot.SIDEBAR, 11);
 		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 10);
@@ -197,8 +197,8 @@ public class UtilPlayer
 	}
 	
 	public static void setScoreboardGemsAndCoins(Player player,StatsManager money){
-		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "Â§6Â§lEpicPvP.eu");
-		player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("Â§6Â§lEpicPvP.eu");
+		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
+		player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("§6§lEpicPvP.eu");
 		UtilScoreboard.setScore(player.getScoreboard(),Language.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 15);
 		UtilScoreboard.setScore(player.getScoreboard(),"Loading...", DisplaySlot.SIDEBAR, 14);
 		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 13);
@@ -323,7 +323,7 @@ public class UtilPlayer
 			}
 		}
 		
-		bar+=" Â§7(Â§e"+UtilMath.trim(2,(health/2))+"Â§7)";
+		bar+=" §7(§e"+UtilMath.trim(2,(health/2))+"§7)";
 		return bar;
 	}
 	
@@ -563,8 +563,8 @@ public class UtilPlayer
     player.setHealth(health);
   }
   
-  public static void addPotionEffect(Player p,PotionEffectType typ, int time,int stÃƒÂ¤rke){
-	  p.addPotionEffect(new PotionEffect(typ,time*20,stÃƒÂ¤rke),true);
+  public static void addPotionEffect(Player p,PotionEffectType typ, int time,int stÃƒ¤rke){
+	  p.addPotionEffect(new PotionEffect(typ,time*20,stÃƒ¤rke),true);
   }
 
   public static void hunger(Player player, int mod){

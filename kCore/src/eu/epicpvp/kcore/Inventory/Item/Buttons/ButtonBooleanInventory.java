@@ -49,11 +49,11 @@ public class ButtonBooleanInventory implements IButtonOneSlot{
 		this.toggle=toggle;
 		if(toggle){
 			this.description=new String[]{" "};
-			this.name=name.substring(0, name.indexOf(" | "))+"ยงa ON";
+			this.name=name.substring(0, name.indexOf(" | "))+"งa ON";
 			this.itemStack=UtilItem.Item(new ItemStack(Material.WOOL,1,(byte)5), getDescription(), getName());
 		}else{
 			this.description=new String[]{" "};
-			this.name=name.substring(0, name.indexOf(" | "))+"ยง4 OFF";
+			this.name=name.substring(0, name.indexOf(" | "))+"ง4 OFF";
 			this.itemStack=UtilItem.Item(new ItemStack(Material.WOOL,1,(byte)14), getDescription(), getName());
 		}
 		getInventoryPageBase().setItem(getSlot(), getItemStack());

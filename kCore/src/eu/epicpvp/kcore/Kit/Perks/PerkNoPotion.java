@@ -17,7 +17,7 @@ public class PerkNoPotion extends Perk{
 	public PerkNoPotion(PotionEffectType type){
 		super("NoPotion");
 		this.type=type;
-		setItem(UtilItem.RenameItem(new ItemStack(Material.POTION,1,(byte)8292), "Â§eAnti Potion"));
+		setItem(UtilItem.RenameItem(new ItemStack(Material.POTION,1,(byte)8292), "§eAnti Potion"));
 	}
 	
 	@EventHandler

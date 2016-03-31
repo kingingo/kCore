@@ -30,8 +30,8 @@ public class InventoryTrade extends InventoryPageBase{
 		setClickPlayerInventory(true);
 		this.t=t;
 		this.t1=t1;
-		this.accept=UtilItem.RenameItem(new ItemStack(Material.EMERALD), "Â§aAccept");
-		this.deny=UtilItem.RenameItem(new ItemStack(Material.REDSTONE), "Â§cDeny");
+		this.accept=UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§aAccept");
+		this.deny=UtilItem.RenameItem(new ItemStack(Material.REDSTONE), "§cDeny");
 		
 		for(int i = 4 ; i < (4+5*9); i+=9){
 			setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)15), " "));
@@ -83,7 +83,7 @@ public class InventoryTrade extends InventoryPageBase{
 				continue;
 			}
 			
-			setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), "Â§c"+t1.getName()));
+			setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), "§c"+t1.getName()));
 		}
 		
 		for(int i = 40; i<44; i++){
@@ -91,7 +91,7 @@ public class InventoryTrade extends InventoryPageBase{
 				continue;
 			}
 			
-			setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)11), "Â§b"+t.getName()));
+			setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)11), "§b"+t.getName()));
 		}
 		
 		t.openInventory(this);

@@ -263,7 +263,7 @@ public class DeliveryPet extends kListener{
 			players_hm.get(ev.getPlayer()).sendToPlayer(ev.getPlayer());
 		}else{
 			players_hm_reward.put(ev.getPlayer(), getRewards(ev.getPlayer()));
-			players_hm.put(ev.getPlayer(), getHologramm().setCreatureName(ev.getPlayer(), (this.entity!=null?this.entity:this.jockey), new String[]{Language.getText(ev.getPlayer(), (players_hm_reward.get(ev.getPlayer())>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"ยงfยงl"+players_hm_reward.get(ev.getPlayer())),name,Language.getText(ev.getPlayer(),"DELIVERY_HM_3")}));
+			players_hm.put(ev.getPlayer(), getHologramm().setCreatureName(ev.getPlayer(), (this.entity!=null?this.entity:this.jockey), new String[]{Language.getText(ev.getPlayer(), (players_hm_reward.get(ev.getPlayer())>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"งfงl"+players_hm_reward.get(ev.getPlayer())),name,Language.getText(ev.getPlayer(),"DELIVERY_HM_3")}));
 		}
 	}
 	
@@ -346,16 +346,16 @@ public class DeliveryPet extends kListener{
 			for(Player player : players_hm.keySet()){
 				if(player.getLocation().getWorld()==getLocation().getWorld()&&player.getLocation().distance(getLocation())<25 && players_hm_reward.containsKey(player)){
 					if(players_hm_reward.get(player)==0){
-						if(!players_hm.get(player).getLines()[0].startsWith("ยง7")){
-							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"ยง7"+players_hm_reward.get(player)));
+						if(!players_hm.get(player).getLines()[0].startsWith("ง7")){
+							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"ง7"+players_hm_reward.get(player)));
 							players_hm.get(player).clear(player);
 							players_hm.get(player).sendToPlayer(player);
 						}
 					}else{
-						if(players_hm.get(player).getLines()[0].startsWith("ยงfยงl")||players_hm.get(player).getLines()[0].startsWith("ยง7")){
-							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"ยงcยงl"+players_hm_reward.get(player)));
+						if(players_hm.get(player).getLines()[0].startsWith("งfงl")||players_hm.get(player).getLines()[0].startsWith("ง7")){
+							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"งcงl"+players_hm_reward.get(player)));
 						}else{
-							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"ยงfยงl"+players_hm_reward.get(player)));
+							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"งfงl"+players_hm_reward.get(player)));
 						}
 						players_hm.get(player).clear(player);
 						players_hm.get(player).sendToPlayer(player);
@@ -504,7 +504,7 @@ public class DeliveryPet extends kListener{
 							}
 						}
 						
-					}, Material.JUKEBOX, "ยง7Lotto"));	
+					}, Material.JUKEBOX, "ง7Lotto"));	
 				}
 				
 				if(!players_obj.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){

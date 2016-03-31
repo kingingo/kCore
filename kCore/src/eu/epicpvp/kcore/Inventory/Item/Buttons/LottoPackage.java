@@ -17,7 +17,7 @@ import lombok.Getter;
 public class LottoPackage extends SalesPackageBase{
 	public static int counter=0;
 
-	//Â§berprÂ§ft ob der User dies schon besitzt!
+	//§berpr§ft ob der User dies schon besitzt!
 	private BooleanClick booleanClick;
 	@Getter
 	private InventoryLotto2.InventoryLotto2Type type;
@@ -37,7 +37,7 @@ public class LottoPackage extends SalesPackageBase{
 			ItemMeta meta = itemStack.getItemMeta();
 			List<String> l = meta.getLore();
 			l.add(" ");
-			l.add("Â§7N"+id);
+			l.add("§7N"+id);
 			meta.setLore(l);
 			itemStack.setItemMeta(meta);
 		}

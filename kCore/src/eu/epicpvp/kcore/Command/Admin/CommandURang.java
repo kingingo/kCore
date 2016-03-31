@@ -43,7 +43,7 @@ public class CommandURang implements CommandExecutor{
 			if(c){
 				System.out.println("[Befehl] /urang [Player] [Rang] [Upgrade Rang]");
 			}else{
-				p.sendMessage("Â§a[Befehl] Â§c/urang [Player] [Rang] [Upgrade Rang]");
+				p.sendMessage("§a[Befehl] §c/urang [Player] [Rang] [Upgrade Rang]");
 			}
 		}
 		
@@ -69,14 +69,14 @@ public class CommandURang implements CommandExecutor{
 				String toGroup = args[2];
 				
 				if(setGroup(player,isGroup,toGroup)){
-					p.sendMessage("Â§a[Buycraft UPGRADE Rang] Â§c" + player + " old Group : " + isGroup + " | new Group : " + toGroup);
+					p.sendMessage("§a[Buycraft UPGRADE Rang] §c" + player + " old Group : " + isGroup + " | new Group : " + toGroup);
 				}else{
 					System.err.println("[Fehler] es ist ein Fehler passiert! ");
 					System.err.println("[Fehler] Player : " + player);
 					System.err.println("[Fehler] isGroup : " + isGroup);
 					System.err.println("[Fehler] toGroup : " + toGroup);
 					System.err.println("[Fehler] es ist ein Fehler passiert!");
-					p.sendMessage("Â§c[Fehler] kuck in die Console");
+					p.sendMessage("§c[Fehler] kuck in die Console");
 				}
 			}
 		}

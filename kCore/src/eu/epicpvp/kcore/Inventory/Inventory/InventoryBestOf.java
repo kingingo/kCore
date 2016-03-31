@@ -38,74 +38,74 @@ public class InventoryBestOf extends InventoryCopy{
 				for(int i = InventorySplit._9.getMin(); i<=InventorySplit._9.getMax(); i++){
 					if(((ItemStack)o).getAmount()>i){
 						if(i==0){
-							p.getOpenInventory().setItem(i, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "Â§aRundeÂ§7 Â§Â§e"+(i+1)+" Â§7[Â§cEditÂ§7]")));
+							p.getOpenInventory().setItem(i, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "§aRunde§7 §§e"+(i+1)+" §7[§cEdit§7]")));
 							ButtonBestOfSwitch.setGame(p, UtilServer.getUserData().getConfig(p).getString("BestOf.Round."+(i+1)));
 						}else{
-							p.getOpenInventory().setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "Â§aRundeÂ§7 Â§Â§e"+(i+1)+" Â§7[Â§cEditÂ§7]"));
+							p.getOpenInventory().setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "§aRunde§7 §§e"+(i+1)+" §7[§cEdit§7]"));
 						}
 					}else{
-						p.getOpenInventory().setItem(i, UtilItem.Item(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), new String[]{"Â§eWÂ§hle mehr Runden aus fÂ§rs Bearbeiten."},"Â§aRundeÂ§7 Â§Â§e"+(i+1)+" Â§7[Â§cLockedÂ§7]"));
+						p.getOpenInventory().setItem(i, UtilItem.Item(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), new String[]{"§eW§hle mehr Runden aus f§rs Bearbeiten."},"§aRunde§7 §§e"+(i+1)+" §7[§cLocked§7]"));
 					}
 				}
 				
 				if(((ItemStack)o).getAmount()%2==0){
-					p.getOpenInventory().setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "Â§6EntscheidungsrundeÂ§7 Â§Â§e Â§7[Â§cEditÂ§7]"));
+					p.getOpenInventory().setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "§6Entscheidungsrunde§7 §§e §7[§cEdit§7]"));
 				}else{
-					p.getOpenInventory().setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "Â§6EntscheidungsrundeÂ§7 Â§Â§e Â§7[Â§cLockedÂ§7]"));
+					p.getOpenInventory().setItem(17, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)1), "§6Entscheidungsrunde§7 §§e §7[§cLocked§7]"));
 				}
 			}
 			
-		}, true,this, UtilItem.RenameItem(new ItemStack(Material.NETHER_STAR,0), "Â§fRounds"), 22, 3, 9));
+		}, true,this, UtilItem.RenameItem(new ItemStack(Material.NETHER_STAR,0), "§fRounds"), 22, 3, 9));
 		
 		addButton(38, new ButtonBase(new Click() {
 			
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				setRoundGameItems( player );
-				player.getOpenInventory().setItem(38, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"Â§7Â§ Â§aAusgewÂ§hlt"})));
+				player.getOpenInventory().setItem(38, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"§7§ §aAusgew§hlt"})));
 				UtilServer.getUserData().getConfig(player).set("BestOf.Round."+getRound(player), "Bedwars1vs1");
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "Â§aBedwars 1vs1")));
+		}, UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedwars 1vs1")));
 		
 		addButton(39, new ButtonBase(new Click() {
 			
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				setRoundGameItems( player );
-				player.getOpenInventory().setItem(39, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"Â§7Â§ Â§aAusgewÂ§hlt"})));
+				player.getOpenInventory().setItem(39, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"§7§ §aAusgew§hlt"})));
 				UtilServer.getUserData().getConfig(player).set("BestOf.Round."+getRound(player), "Versus");
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "Â§aVersus 1vs1")));
+		}, UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1")));
 		
 		addButton(41, new ButtonBase(new Click() {
 			
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				setRoundGameItems( player );
-				player.getOpenInventory().setItem(41, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"Â§7Â§ Â§aAusgewÂ§hlt"})));
+				player.getOpenInventory().setItem(41, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"§7§ §aAusgew§hlt"})));
 				UtilServer.getUserData().getConfig(player).set("BestOf.Round."+getRound(player), "SkyWars1vs1");
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "Â§aSkyWars 1vs1")));
+		}, UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1")));
 		
 		addButton(42, new ButtonBase(new Click() {
 			
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				setRoundGameItems( player );
-				player.getOpenInventory().setItem(42, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"Â§7Â§ Â§aAusgewÂ§hlt"})));
+				player.getOpenInventory().setItem(42, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"§7§ §aAusgew§hlt"})));
 				UtilServer.getUserData().getConfig(player).set("BestOf.Round."+getRound(player), "SurvivalGames1vs1");
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.BOW), "Â§aSurvivalGames 1vs1")));
+		}, UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1")));
 		
 		addButton(49, new ButtonBase(new Click() {
 			
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				setRoundGameItems( player );
-				player.getOpenInventory().setItem(49, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"Â§7Â§ Â§aAusgewÂ§hlt"})));
+				player.getOpenInventory().setItem(49, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"§7§ §aAusgew§hlt"})));
 				UtilServer.getUserData().getConfig(player).set("BestOf.Round."+getRound(player), "Random");
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "Â§aRandom")));
+		}, UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aRandom")));
 		
 		addButton(53, new ButtonBase(new Click() {
 			
@@ -113,7 +113,7 @@ public class InventoryBestOf extends InventoryCopy{
 			public void onClick(Player player, ActionType type, Object object) {
 				player.openInventory(base);
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)5), "Â§aFertig")));
+		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)5), "§aFertig")));
 		
 		fill(Material.STAINED_GLASS_PANE,7);
 	}
@@ -133,10 +133,10 @@ public class InventoryBestOf extends InventoryCopy{
 	}
 	
 	public static void setRoundGameItems(Player player){
-		player.getOpenInventory().setItem(38, UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "Â§aBedwars 1vs1"));
-		player.getOpenInventory().setItem(39, UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "Â§aVersus 1vs1"));
-		player.getOpenInventory().setItem(41, UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "Â§aSkyWars 1vs1"));
-		player.getOpenInventory().setItem(42, UtilItem.RenameItem(new ItemStack(Material.BOW), "Â§aSurvivalGames 1vs1"));
-		player.getOpenInventory().setItem(49, UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "Â§aRandom 1vs1"));
+		player.getOpenInventory().setItem(38, UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedwars 1vs1"));
+		player.getOpenInventory().setItem(39, UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1"));
+		player.getOpenInventory().setItem(41, UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1"));
+		player.getOpenInventory().setItem(42, UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1"));
+		player.getOpenInventory().setItem(49, UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aRandom 1vs1"));
 	}
 }

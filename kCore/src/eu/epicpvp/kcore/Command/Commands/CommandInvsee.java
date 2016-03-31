@@ -62,7 +62,7 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 								player.openInventory(target.getInventory());
 							}
 						}else{
-							player.sendMessage(Language.getText(player, "PREFIX")+"Â§cnicht gefunden!");
+							player.sendMessage(Language.getText(player, "PREFIX")+"§cnicht gefunden!");
 						}
 						
 					}

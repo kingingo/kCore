@@ -21,7 +21,7 @@ public class PerkGoldenApple extends Perk{
 	private int resistenz=20*60*5;
 	
 	public PerkGoldenApple() {
-		super("GoldenApple",UtilItem.RenameItem(new ItemStack(Material.GOLDEN_APPLE),"Â§eGoldenApple"));
+		super("GoldenApple",UtilItem.RenameItem(new ItemStack(Material.GOLDEN_APPLE),"§eGoldenApple"));
 	}
 
 	@EventHandler

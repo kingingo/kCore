@@ -44,7 +44,7 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 				page.clear();
 				player.openInventory(shop);
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)5), "Â§aKaufen"), null),	
+		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)5), "§aKaufen"), null),	
 		new ButtonForMultiButtonsCopy(page, 1, new Click() {
 			
 			@Override
@@ -52,7 +52,7 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 
 				changePrice(page,(money*(setAmount(page, getAmount(page)-64, money))));
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.STONE_PLATE), "Â§c-64"), null),
+		}, UtilItem.RenameItem(new ItemStack(Material.STONE_PLATE), "§c-64"), null),
 		new ButtonForMultiButtonsCopy(page, 2, new Click() {
 			
 			@Override
@@ -60,7 +60,7 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 
 				changePrice(page,(money*(setAmount(page, getAmount(page)-10, money))));
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.STONE_BUTTON), "Â§c-10"), null),
+		}, UtilItem.RenameItem(new ItemStack(Material.STONE_BUTTON), "§c-10"), null),
 		new ButtonForMultiButtonsCopy(page, 3, new Click() {
 			
 			@Override
@@ -68,7 +68,7 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 
 				changePrice(page,(money*(setAmount(page, getAmount(page)-1, money))));
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.WOOD_BUTTON), "Â§c-1"), null),
+		}, UtilItem.RenameItem(new ItemStack(Material.WOOD_BUTTON), "§c-1"), null),
 		
 		new ButtonForMultiButtonsCopy(page, 5, new Click() {
 			
@@ -77,7 +77,7 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 
 				changePrice(page,(money*(setAmount(page, getAmount(page)+1, money))));
 			}
-		},  UtilItem.RenameItem(new ItemStack(Material.WOOD_BUTTON), "Â§a+1"), null),
+		},  UtilItem.RenameItem(new ItemStack(Material.WOOD_BUTTON), "§a+1"), null),
 		new ButtonForMultiButtonsCopy(page, 6, new Click() {
 			
 			@Override
@@ -85,7 +85,7 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 				
 				changePrice(page,(money*(setAmount(page, getAmount(page)+10, money))));
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.STONE_BUTTON), "Â§a+10"), null),
+		}, UtilItem.RenameItem(new ItemStack(Material.STONE_BUTTON), "§a+10"), null),
 		new ButtonForMultiButtonsCopy(page, 7, new Click() {
 			
 			@Override
@@ -93,13 +93,13 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 
 				changePrice(page,(money*(setAmount(page, getAmount(page)+64, money))));
 			}
-		}, UtilItem.RenameItem(new ItemStack(Material.WOOD_PLATE), "Â§a+64"), null)});
-		page.setItem(4, UtilItem.SetDescriptions(item, new String[]{"Â§eAnzahl "+1,"Â§e1 Â§ Â§a"+money+" Epics","Â§e10 Â§ Â§a"+(money*10)+" Epics","Â§e64 Â§ Â§a"+(money*64)+" Epics"}));
+		}, UtilItem.RenameItem(new ItemStack(Material.WOOD_PLATE), "§a+64"), null)});
+		page.setItem(4, UtilItem.SetDescriptions(item, new String[]{"§eAnzahl "+1,"§e1 § §a"+money+" Epics","§e10 § §a"+(money*10)+" Epics","§e64 § §a"+(money*64)+" Epics"}));
 		
 		for(int i=InventorySplit._18.getMin(); i<=InventorySplit._18.getMax(); i++)page.setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)15)," "));
 	
 		int fslots = UtilInv.FreeInventory(player);
-		ItemStack blocked = UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14 ), "Â§cBelegt");
+		ItemStack blocked = UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14 ), "§cBelegt");
 		for(int i = (fslots+18); i<54; i++){
 			page.setItem(i, blocked);
 		}
@@ -112,14 +112,14 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 		
 		for(int s = InventorySplit._27.getMin(); s<54; s++){
 			if(page.getItem(s)!=null){
-				if(page.getItem(s).hasItemMeta()&&page.getItem(s).getItemMeta().hasDisplayName()&&page.getItem(s).getItemMeta().getDisplayName().equalsIgnoreCase("Â§cBelegt"))break;
+				if(page.getItem(s).hasItemMeta()&&page.getItem(s).getItemMeta().hasDisplayName()&&page.getItem(s).getItemMeta().getDisplayName().equalsIgnoreCase("§cBelegt"))break;
 				page.setItem(s, null);
 			}
 		}
 		
 		for(int i = 0; i<(amount/64); i++){
 			if(slot>53)return a;
-			if(page.getItem(slot)!=null&&page.getItem(slot).hasItemMeta()&&page.getItem(slot).getItemMeta().hasDisplayName()&&page.getItem(slot).getItemMeta().getDisplayName().equalsIgnoreCase("Â§cBelegt"))return a;
+			if(page.getItem(slot)!=null&&page.getItem(slot).hasItemMeta()&&page.getItem(slot).getItemMeta().hasDisplayName()&&page.getItem(slot).getItemMeta().getDisplayName().equalsIgnoreCase("§cBelegt"))return a;
 			page.setItem(slot, new ItemStack(page.getItem(4).getType(),64,page.getItem(4).getData().getData()));
 			a+=64;
 			slot++;
@@ -127,7 +127,7 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 		
 		if((amount%64)!=0){
 			if(slot>53)return a;
-			if(page.getItem(slot)!=null&&page.getItem(slot).hasItemMeta()&&page.getItem(slot).getItemMeta().hasDisplayName()&&page.getItem(slot).getItemMeta().getDisplayName().equalsIgnoreCase("Â§cBelegt"))return a;
+			if(page.getItem(slot)!=null&&page.getItem(slot).hasItemMeta()&&page.getItem(slot).getItemMeta().hasDisplayName()&&page.getItem(slot).getItemMeta().getDisplayName().equalsIgnoreCase("§cBelegt"))return a;
 			page.setItem(slot, new ItemStack(page.getItem(4).getType(),(amount%64),page.getItem(4).getData().getData()));
 			a+=(amount%64);
 		}
@@ -137,11 +137,11 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 	public static int setAmount(InventoryPageBase page,int amount ,int money){
 		if(amount<=0){
 			amount = changeItems(page,1);
-			page.setItem(4, UtilItem.SetDescriptions(page.getItem(4), new String[]{"Â§eAnzahl "+1,"Â§e1 Â§ Â§a"+money+" Epics","Â§e10 Â§ Â§a"+(money*10)+" Epics","Â§e64 Â§ Â§a"+(money*64)+" Epics"}));
+			page.setItem(4, UtilItem.SetDescriptions(page.getItem(4), new String[]{"§eAnzahl "+1,"§e1 § §a"+money+" Epics","§e10 § §a"+(money*10)+" Epics","§e64 § §a"+(money*64)+" Epics"}));
 			return 1;
 		}else{
 			amount = changeItems(page,amount);
-			page.setItem(4, UtilItem.SetDescriptions(page.getItem(4), new String[]{"Â§eAnzahl "+amount,"Â§e1 Â§ Â§a"+money+" Epics","Â§e10 Â§ Â§a"+(money*10)+" Epics","Â§e64 Â§ Â§a"+(money*64)+" Epics"}));
+			page.setItem(4, UtilItem.SetDescriptions(page.getItem(4), new String[]{"§eAnzahl "+amount,"§e1 § §a"+money+" Epics","§e10 § §a"+(money*10)+" Epics","§e64 § §a"+(money*64)+" Epics"}));
 		}
 		return amount;
 	}
@@ -151,6 +151,6 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 	}
 	
 	public static void changePrice(InventoryPageBase page ,int money){
-		page.setItem(8, UtilItem.SetDescriptions(page.getItem(8), new String[]{"Â§e"+money+" Epics"}));
+		page.setItem(8, UtilItem.SetDescriptions(page.getItem(8), new String[]{"§e"+money+" Epics"}));
 	}
 }

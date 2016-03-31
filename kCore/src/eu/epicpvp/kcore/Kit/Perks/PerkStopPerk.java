@@ -44,13 +44,13 @@ public class PerkStopPerk extends Perk{
 				if(ev.getEntity() instanceof Player){
 					d=(Player)ev.getEntity();
 					if(!list.containsKey(d)){
-						d.sendMessage(Language.getText(d, "PREFIX")+"Â§eDeine Perks wurden fÂ§r Â§b"+time+" secÂ§e aufgehoben.");
+						d.sendMessage(Language.getText(d, "PREFIX")+"§eDeine Perks wurden f§r §b"+time+" sec§e aufgehoben.");
 						list.put(d, (TimeSpan.SECOND*time)+System.currentTimeMillis());	
 					}
 				}else if(ev.getEntity() instanceof Projectile){
 					d=(Player) ((Projectile)ev.getEntity()).getShooter();
 					if(!list.containsKey(d)){
-						d.sendMessage(Language.getText(d, "PREFIX")+"Â§eDeine Perks wurden fÂ§r Â§b"+time+" secÂ§e aufgehoben.");
+						d.sendMessage(Language.getText(d, "PREFIX")+"§eDeine Perks wurden f§r §b"+time+" sec§e aufgehoben.");
 						list.put(d, (TimeSpan.SECOND*time)+System.currentTimeMillis());	
 					}
 				}

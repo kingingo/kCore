@@ -96,7 +96,7 @@ public class GemsShop{
 		if(m!=null){
 			m.move(v.getLocation().add(0, 2.1, 0));
 		}else{
-			m = new NameTagMessage(NameTagType.SERVER, v.getLocation().add(0, 2.1, 0), "Â§aÂ§lGem-Shop");
+			m = new NameTagMessage(NameTagType.SERVER, v.getLocation().add(0, 2.1, 0), "§a§lGem-Shop");
 			m.send();
 		}
 		
@@ -117,9 +117,9 @@ public class GemsShop{
 	}
 	
 	public void fixInventory(InventoryPageBase page){
-		page.setItem(4, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "Â§aÂ§lGem-Shop"));
-		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"","Â§7Shop.EpicPvP.de"}, "Â§aOnline-Shop: "));
-		if(getBase().getMain()!=page)page.addButton(0, new ButtonBack(getBase().getMain(), UtilItem.RenameItem(new ItemStack(Material.ARROW), "Â§cBack")));
+		page.setItem(4, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§a§lGem-Shop"));
+		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"","§7Shop.EpicPvP.de"}, "§aOnline-Shop: "));
+		if(getBase().getMain()!=page)page.addButton(0, new ButtonBack(getBase().getMain(), UtilItem.RenameItem(new ItemStack(Material.ARROW), "§cBack")));
 	}
 	
 	public void delCategory(int slot){
@@ -132,7 +132,7 @@ public class GemsShop{
 			getConfig().setItemStack("Main."+slot+".Item", item);
 			getConfig().set("Main."+slot+".PageName", pageName);
 			getConfig().save();
-			return "Category hinzugefÂ§gt";
+			return "Category hinzugef§gt";
 		}else{
 			return "Der Slot ist besetzt!";
 		}
@@ -152,7 +152,7 @@ public class GemsShop{
 				getConfig().set("Main."+cSlot+"."+slot+".Reward", "/"+cmd);
 				getConfig().set("Main."+cSlot+"."+slot+".Gems",gems);
 				getConfig().save();
-				return "Item hinzugefÂ§gt";
+				return "Item hinzugef§gt";
 			}else{
 				return "Der Slot ist besetzt!";
 			}
@@ -169,7 +169,7 @@ public class GemsShop{
 					getConfig().set("Main."+cSlot+"."+slot+".Reward", perm);
 					getConfig().set("Main."+cSlot+"."+slot+".Gems",gems);
 					getConfig().save();
-					return "Item hinzugefÂ§gt";
+					return "Item hinzugef§gt";
 				}else{
 					return "Der Slot ist besetzt!";
 				}
@@ -188,7 +188,7 @@ public class GemsShop{
 				getConfig().setItemStackArray("Main."+cSlot+"."+slot+".Reward", reward);
 				getConfig().set("Main."+cSlot+"."+slot+".Gems",gems);
 				getConfig().save();
-				return "Item hinzugefÂ§gt";
+				return "Item hinzugef§gt";
 			}else{
 				return "Der Slot ist besetzt!";
 			}
@@ -270,7 +270,7 @@ public class GemsShop{
 				
 				ItemStack item = getConfig().getItemStack("Main."+i+".Item");
 				
-				if(item==null)item = UtilItem.RenameItem(new ItemStack(Material.BEDROCK), "Â§cERROR");
+				if(item==null)item = UtilItem.RenameItem(new ItemStack(Material.BEDROCK), "§cERROR");
 				
 				this.base.getMain().addButton(i,new ButtonOpenInventoryCopy(page,getBase(), item));
 				this.base.addPage(page);

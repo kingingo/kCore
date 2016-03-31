@@ -24,7 +24,7 @@ public class CommandRenameItem implements CommandExecutor{
 				player.sendMessage(Language.getText(player, "PREFIX")+"/renameitem [Name]");
 			}else{
 				if(player.getItemInHand()!=null&&player.getItemInHand().getType()!=Material.AIR){
-					UtilItem.RenameItem(player.getItemInHand(), args[0].replaceAll("&", "ยง"));
+					UtilItem.RenameItem(player.getItemInHand(), args[0].replaceAll("&", "ง"));
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ITEM_RENAME"));
 				}else{
 					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_ITEM_IN_HAND"));

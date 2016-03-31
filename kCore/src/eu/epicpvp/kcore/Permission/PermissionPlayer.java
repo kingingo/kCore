@@ -32,18 +32,18 @@ public class PermissionPlayer {
 	}
 	
 	private void loadPermissions(){
-		System.out.println("Requesting player Permissions");
+		System.out.println("[PermissionManager]: Requesting player Permissions");
+		
 		DataBuffer buffer = manager.handler.sendMessage(player, new DataBuffer().writeByte(0).writeUUID(uuid)).getSync(); //Action: 0 (Get-Perms)
 		if(buffer == null){
-			System.out.println("Response == null");
+			System.out.println("[PermissionManager]: Response == null");
 			return;
 		}
 		int length = buffer.readInt();
 		if(length == -1){ //Error
-			System.out.println("Having an error: "+buffer.readString());
+			System.out.println("[PermissionManager]: Having an error: "+buffer.readString());
 			return;
 		}
-		
 		ArrayList<String> sgroups = new ArrayList<>();
 		for(int i = 0;i<length;i++){
 			sgroups.add(buffer.readString());
@@ -53,7 +53,7 @@ public class PermissionPlayer {
 		for(int i = 0;i<length;i++){
 			permissions.add(new Permission(buffer.readString(), GroupTyp.values()[buffer.readByte()]));
 		}
-		System.out.println("Permissions geladen. Lade gruppen");
+		System.out.println("[PermissionManager]: Permissions geladen. Lade gruppen");
 		
 		for(String s : sgroups){
 			Group g = manager.getGroup(s);
@@ -61,7 +61,7 @@ public class PermissionPlayer {
 				g = manager.loadGroup(s);
 			groups.add(g);
 		}
-		System.out.println("Player geladen");
+		System.out.println("[PermissionManager]: Player geladen");
 		
 		Bukkit.getScheduler().runTask(manager.getInstance(), new BukkitRunnable() {
 			

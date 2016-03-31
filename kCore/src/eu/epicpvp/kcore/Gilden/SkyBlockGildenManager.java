@@ -78,21 +78,21 @@ public class SkyBlockGildenManager extends GildenManager{
 			      
 			      while (rs.next()) {
 			    	  if(zahl==1){
-			  				ranking.put(zahl, "Â§Â§b#Â§Â§6" + String.valueOf(zahl) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§4Â§Â§l " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§4§§l " + rs.getString(2));
 			  			}else if(zahl==2){
-			  				ranking.put(zahl, "Â§Â§b#Â§Â§6" + String.valueOf(zahl) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§2Â§Â§l " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§2§§l " + rs.getString(2));
 			  			}else if(zahl==3){
-			  				ranking.put(zahl, "Â§Â§b#Â§Â§6" + String.valueOf(zahl) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§eÂ§Â§l " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§e§§l " + rs.getString(2));
 			  			}else if(zahl>=4 && zahl<=6){
-			  				ranking.put(zahl, "Â§Â§b#Â§Â§6" + String.valueOf(zahl) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§3 " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§3 " + rs.getString(2));
 			  			}else if(zahl>=7 && zahl<=9){
-			  				ranking.put(zahl, "Â§Â§b#Â§Â§6" + String.valueOf(zahl) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§d " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§d " + rs.getString(2));
 			  			}else if(zahl>=10 && zahl<=12){
-			  				ranking.put(zahl, "Â§Â§b#Â§Â§6" + String.valueOf(zahl) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§a " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§a " + rs.getString(2));
 			  			}else if(zahl>=13 && zahl<=15){
-			  				ranking.put(zahl, "Â§Â§b#Â§Â§6" + String.valueOf(zahl) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§b " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§b " + rs.getString(2));
 			  			}else{
-			  				ranking.put(zahl, "Â§Â§b#Â§Â§6" + String.valueOf(zahl) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§6 " + rs.getString(2));
+			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§6 " + rs.getString(2));
 			  			}
 				     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
 				     zahl++;
@@ -106,8 +106,8 @@ public class SkyBlockGildenManager extends GildenManager{
 	}
 	
 	public void Ranking(Player p){
-		p.sendMessage("Â§Â§bÂ§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§ Â§Â§6Â§Â§lGilden Ranking | Top 15 Â§Â§bÂ§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§");
-		p.sendMessage("Â§Â§b Place | Money | Gilde");
+		p.sendMessage("§§b§§§§§§§§§§§§§§§§§§§§§§§§ §§6§§lGilden Ranking | Top 15 §§b§§§§§§§§§§§§§§§§§§§§§§§§");
+		p.sendMessage("§§b Place | Money | Gilde");
 		LoadRanking(false);
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}

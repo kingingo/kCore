@@ -36,7 +36,7 @@ public class CommandSuffix implements CommandExecutor{
 					this.color = args[0];
 					
 					if(color.contains("&")){
-						this.color=this.color.replaceAll("&", "ยง");
+						this.color=this.color.replaceAll("&", "ง");
 						
 						if(this.color.length()>=2){
 							if(this.color.length()<=10){

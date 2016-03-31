@@ -65,38 +65,20 @@ public class UtilScoreboard {
 		r.addPlayer(p);
 	}
 	
-	public static Team addTeam(Scoreboard board,String Team, String prefix,String suffix){
-		if(board.getTeam(Team)!=null)return null;
-		Team r = board.registerNewTeam(Team);
-		String pr = UtilString.cut(prefix);
-		if(prefix!=null)r.setPrefix(pr);
-		if(suffix!=null)r.setSuffix(UtilString.cut(suffix));
-		return r;
+	public static Team addTeam(Scoreboard board,String Team,String displayName){
+		return addTeam(board, Team, displayName, null, null);
 	}
 	
-	public static Team addTeam(Scoreboard board,String Team, String prefix,String suffix,ArrayList<Player> list){
-		if(board.getTeam(Team)!=null)return null;
-		Team r = board.registerNewTeam(Team);
-		if(prefix!=null)r.setPrefix(UtilString.cut(prefix));
-		if(list!=null)for(Player p : list)r.addPlayer(p);
-		if(suffix!=null)r.setSuffix(UtilString.cut(suffix));
-		return r;
+	public static Team addTeam(Scoreboard board,String Team,String displayName, String prefix){
+		return addTeam(board, Team, displayName, prefix, null);
 	}
 	
-	public static Team addTeam(Scoreboard board,String Team, String prefix,String suffix,Player[] list){
+	public static Team addTeam(Scoreboard board,String Team,String displayName, String prefix,String suffix){
 		if(board.getTeam(Team)!=null)return null;
 		Team r = board.registerNewTeam(Team);
+		if(displayName!=null)r.setPrefix(UtilString.cut(displayName,32));
 		if(prefix!=null)r.setPrefix(UtilString.cut(prefix));
 		if(suffix!=null)r.setSuffix(UtilString.cut(suffix));
-		if(list!=null)for(Player p : list)r.addPlayer(p);
-		return r;
-	}
-	
-	public static Team addTeam(Scoreboard board,String Team, String prefix){
-		if(board.getTeam(Team)!=null)return null;
-		Team r = board.registerNewTeam(Team);
-		String pr = UtilString.cut(prefix);
-		if(prefix!=null)r.setPrefix(pr);
 		return r;
 	}
 	
@@ -113,22 +95,6 @@ public class UtilScoreboard {
 			scores.add(b.getObjective( DisplaySlot.valueOf(sc.getObjective().getName()) ).getScore(sc.getPlayerName()));
 		}
 		return scores;
-	}
-	
-	public static Team addTeam(Scoreboard board,String Team, String prefix,ArrayList<Player> list){
-		if(board.getTeam(Team)!=null)return null;
-		Team r = board.registerNewTeam(Team);
-		if(prefix!=null)r.setPrefix(UtilString.cut(prefix));
-		if(list!=null)for(Player p : list)r.addPlayer(p);
-		return r;
-	}
-	
-	public static Team addTeam(Scoreboard board,String Team, String prefix,Player[] list){
-		if(board.getTeam(Team)!=null)return null;
-		Team r = board.registerNewTeam(Team);
-		if(prefix!=null)r.setPrefix(UtilString.cut(prefix));
-		if(list!=null)for(Player p : list)r.addPlayer(p);
-		return r;
 	}
 	
 	public static void resetScore(Scoreboard board,String p1,DisplaySlot typ){

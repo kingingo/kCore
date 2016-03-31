@@ -18,7 +18,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 public class PerkItemName extends Perk implements CommandExecutor{
 	
 	public PerkItemName(CommandHandler cmd) {
-		super("ItemName",UtilItem.RenameItem(new ItemStack(Material.NAME_TAG),"Â§eItemName"));
+		super("ItemName",UtilItem.RenameItem(new ItemStack(Material.NAME_TAG),"§eItemName"));
 		if(cmd!=null)cmd.register(PerkItemName.class, this);
 	}
 	
@@ -30,19 +30,19 @@ public class PerkItemName extends Perk implements CommandExecutor{
 	public void Pickup(PlayerPickupItemEvent ev){
 		if(getPerkData().hasPlayer(this, ev.getPlayer())){
 			if(ev.getItem().getItemStack().getType()==Material.IRON_AXE||ev.getItem().getItemStack().getType()==Material.DIAMOND_AXE||ev.getItem().getItemStack().getType()==Material.WOOD_AXE||ev.getItem().getItemStack().getType()==Material.GOLD_AXE){
-				UtilItem.RenameItem(ev.getItem().getItemStack(), "Â§3Axt vonÂ§6 "+ev.getPlayer().getName());
+				UtilItem.RenameItem(ev.getItem().getItemStack(), "§3Axt von§6 "+ev.getPlayer().getName());
 			}else if(ev.getItem().getItemStack().getType()==Material.IRON_PICKAXE||ev.getItem().getItemStack().getType()==Material.DIAMOND_PICKAXE||ev.getItem().getItemStack().getType()==Material.WOOD_PICKAXE||ev.getItem().getItemStack().getType()==Material.GOLD_PICKAXE){
-				UtilItem.RenameItem(ev.getItem().getItemStack(), "Â§3Spitzhacke vonÂ§6 "+ev.getPlayer().getName());
+				UtilItem.RenameItem(ev.getItem().getItemStack(), "§3Spitzhacke von§6 "+ev.getPlayer().getName());
 			}else if(ev.getItem().getItemStack().getType()==Material.IRON_SWORD||ev.getItem().getItemStack().getType()==Material.DIAMOND_SWORD||ev.getItem().getItemStack().getType()==Material.WOOD_SWORD||ev.getItem().getItemStack().getType()==Material.GOLD_SWORD){
-				UtilItem.RenameItem(ev.getItem().getItemStack(), "Â§3Schwert vonÂ§6 "+ev.getPlayer().getName());
+				UtilItem.RenameItem(ev.getItem().getItemStack(), "§3Schwert von§6 "+ev.getPlayer().getName());
 			}else if(ev.getItem().getItemStack().getType()==Material.IRON_SPADE||ev.getItem().getItemStack().getType()==Material.DIAMOND_SPADE||ev.getItem().getItemStack().getType()==Material.WOOD_SPADE||ev.getItem().getItemStack().getType()==Material.GOLD_SPADE){
-				UtilItem.RenameItem(ev.getItem().getItemStack(), "Â§3Schaufel vonÂ§6 "+ev.getPlayer().getName());
+				UtilItem.RenameItem(ev.getItem().getItemStack(), "§3Schaufel von§6 "+ev.getPlayer().getName());
 			}else if(ev.getItem().getItemStack().getType()==Material.IRON_HOE||ev.getItem().getItemStack().getType()==Material.DIAMOND_HOE||ev.getItem().getItemStack().getType()==Material.WOOD_HOE||ev.getItem().getItemStack().getType()==Material.GOLD_HOE){
-				UtilItem.RenameItem(ev.getItem().getItemStack(), "Â§3Harke vonÂ§6 "+ev.getPlayer().getName());
+				UtilItem.RenameItem(ev.getItem().getItemStack(), "§3Harke von§6 "+ev.getPlayer().getName());
 			}else if(ev.getItem().getItemStack().getTypeId()>=298&&ev.getItem().getItemStack().getTypeId()<=317){
-				UtilItem.RenameItem(ev.getItem().getItemStack(), "Â§3Ruestungsteil vonÂ§6 "+ev.getPlayer().getName());
+				UtilItem.RenameItem(ev.getItem().getItemStack(), "§3Ruestungsteil von§6 "+ev.getPlayer().getName());
 			}else if(ev.getItem().getItemStack().getType()==Material.BOW){
-				UtilItem.RenameItem(ev.getItem().getItemStack(), "Â§3Bogen vonÂ§6 "+ev.getPlayer().getName());
+				UtilItem.RenameItem(ev.getItem().getItemStack(), "§3Bogen von§6 "+ev.getPlayer().getName());
 			}
 		}
 	}
@@ -53,13 +53,13 @@ public class PerkItemName extends Perk implements CommandExecutor{
 		
 		if(getPerkData().hasPlayer(this, p)){
 			if(args.length==0){
-				p.sendMessage(Language.getText(p, "PREFIX")+"Â§c/itemname [Name]");
+				p.sendMessage(Language.getText(p, "PREFIX")+"§c/itemname [Name]");
 			}else{
 				if(p.getItemInHand()!=null&&p.getItemInHand().getType()!=Material.AIR){
-					UtilItem.RenameItem(p.getItemInHand(), args[0].replaceAll("&", "Â§"));
-					p.sendMessage(Language.getText(p, "PREFIX")+"Â§aDas Item wurde umbenannt zu Â§e"+args[0].replaceAll("&", "Â§"));
+					UtilItem.RenameItem(p.getItemInHand(), args[0].replaceAll("&", "§"));
+					p.sendMessage(Language.getText(p, "PREFIX")+"§aDas Item wurde umbenannt zu §e"+args[0].replaceAll("&", "§"));
 				}else{
-					p.sendMessage(Language.getText(p, "PREFIX")+"Â§cDu musst ein Item in der Hand halten.");
+					p.sendMessage(Language.getText(p, "PREFIX")+"§cDu musst ein Item in der Hand halten.");
 				}
 			}
 		}

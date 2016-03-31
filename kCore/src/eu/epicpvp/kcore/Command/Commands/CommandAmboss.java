@@ -18,7 +18,7 @@ public class CommandAmboss implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player=(Player)sender;
 		if(player.hasPermission(PermissionType.AMBOSS.getPermissionToString())){
-			player.openInventory(Bukkit.createInventory(null, InventoryType.ANVIL, "Â§cAnvil"));
+			player.openInventory(Bukkit.createInventory(null, InventoryType.ANVIL, "§cAnvil"));
 			return true;
 		}
 		return false;

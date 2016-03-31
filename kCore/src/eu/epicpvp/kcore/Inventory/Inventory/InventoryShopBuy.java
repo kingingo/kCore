@@ -16,7 +16,7 @@ public class InventoryShopBuy extends InventoryPageBase{
 	public InventoryShopBuy(InventoryPageBase shop,Player player, ItemStack item,StatsManager statsManager, int money) {
 		super("InventoryShopBuy",InventorySize._54.getSize(),"Buy");
 		addButton(new ButtonShopBuy(shop,player,statsManager,this, item,money));
-		addButton(0, new ButtonBack(shop, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)14), "Â§cAbbrechen")));
+		addButton(0, new ButtonBack(shop, UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY,1,(byte)14), "§cAbbrechen")));
 	}
 
 }

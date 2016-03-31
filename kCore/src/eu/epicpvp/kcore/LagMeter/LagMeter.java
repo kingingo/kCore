@@ -238,7 +238,7 @@ public class LagMeter extends kListener
             	}
             }
             if(player!=null){
-            	player.sendMessage(Language.getText(player, "PREFIX")+" unloaded Chunks:Â§e "+a);
+            	player.sendMessage(Language.getText(player, "PREFIX")+" unloaded Chunks:§e "+a);
             }else{
                 Log(" unloaded Chunks: "+a);
             }
@@ -279,13 +279,13 @@ public class LagMeter extends kListener
             	}
                 
                 if(player!=null){
-               	 	player.sendMessage(Language.getText(player, "PREFIX")+" unloaded Chunks from "+world+":Â§e "+a);
+               	 	player.sendMessage(Language.getText(player, "PREFIX")+" unloaded Chunks from "+world+":§e "+a);
                 }else{
                 	Log("unloaded Chunks from "+world+": "+a);
                 }
 			}else{
                 if(player!=null){
-	                player.sendMessage(Language.getText(player, "PREFIX")+"Â§cThe world Â§e"+world+"Â§c was not found!");
+	                player.sendMessage(Language.getText(player, "PREFIX")+"§cThe world §e"+world+"§c was not found!");
                 }else{
 					Log("The world "+world+" was not found!");
                 }
@@ -302,12 +302,12 @@ public class LagMeter extends kListener
     player.sendMessage(" ");
     player.sendMessage(" ");
     player.sendMessage(" ");
-    player.sendMessage(Language.getText(player,"PREFIX")+"Online-Players: Â§e"+ UtilServer.getPlayers().size() + " Â§7Your-Ping: Â§e"+ UtilPlayer.getPlayerPing(player) +" Â§7Avg-Ping:Â§e "+getAvgPing());
-    player.sendMessage(Language.getText(player,"PREFIX")+"Live: Â§e" + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Â§7Avg:Â§e " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
-    player.sendMessage(Language.getText(player,"PREFIX")+"Free-Mem:Â§e " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Â§7Max-Mem: Â§e"+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
-    player.sendMessage(Language.getText(player,"PREFIX")+"View-Distance: Â§e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.viewDistance+ "Â§7 Tracking-Player-Range: Â§e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.playerTrackingRange );
-    player.sendMessage(Language.getText(player,"PREFIX")+ "Online-Time: Â§e"+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
-    player.sendMessage(Language.getText(player, "PREFIX")+"Time-Now: Â§e"+ UtilTime.now());
+    player.sendMessage(Language.getText(player,"PREFIX")+"Online-Players: §e"+ UtilServer.getPlayers().size() + " §7Your-Ping: §e"+ UtilPlayer.getPlayerPing(player) +" §7Avg-Ping:§e "+getAvgPing());
+    player.sendMessage(Language.getText(player,"PREFIX")+"Live: §e" + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " §7Avg:§e " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
+    player.sendMessage(Language.getText(player,"PREFIX")+"Free-Mem:§e " + Runtime.getRuntime().freeMemory() / 1048576L + "MB §7Max-Mem: §e"+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
+    player.sendMessage(Language.getText(player,"PREFIX")+"View-Distance: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.viewDistance+ "§7 Tracking-Player-Range: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.playerTrackingRange );
+    player.sendMessage(Language.getText(player,"PREFIX")+ "Online-Time: §e"+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
+    player.sendMessage(Language.getText(player, "PREFIX")+"Time-Now: §e"+ UtilTime.now());
     player.sendMessage(Language.getText(player,"PREFIX")+ "Worlds:");
     
     for(World world : Bukkit.getWorlds()){
@@ -323,7 +323,7 @@ public class LagMeter extends kListener
         {
       	 ex.printStackTrace(); 
         }  
-    	player.sendMessage(Language.getText(player,"PREFIX")+"       Â§e"+world.getName()+"Â§7: Chunks:Â§e"+world.getLoadedChunks().length+" Â§7Entities:Â§e"+world.getEntities().size()+" Â§7Tile:Â§e"+tileEntities);
+    	player.sendMessage(Language.getText(player,"PREFIX")+"       §e"+world.getName()+"§7: Chunks:§e"+world.getLoadedChunks().length+" §7Entities:§e"+world.getEntities().size()+" §7Tile:§e"+tileEntities);
     }
   }
 }

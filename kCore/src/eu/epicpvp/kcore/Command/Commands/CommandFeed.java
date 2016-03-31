@@ -18,7 +18,7 @@ public class CommandFeed implements CommandExecutor{
 	private String s;
 	private Long l;
 	
-	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "feed",alias={"eat","essen","fÂ§ttern"}, sender = Sender.PLAYER)
+	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "feed",alias={"eat","essen","f§ttern"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player = (Player)sender;
 		if(player.hasPermission(PermissionType.FEED.getPermissionToString())){

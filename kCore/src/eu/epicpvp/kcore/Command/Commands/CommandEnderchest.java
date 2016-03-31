@@ -54,7 +54,7 @@ public class CommandEnderchest extends kListener implements CommandExecutor{
 						if(target!=null){
 							player.openInventory(target.getEnderChest());
 						}else{
-							player.sendMessage(Language.getText(player, "PREFIX")+"Â§cnicht gefunden!");
+							player.sendMessage(Language.getText(player, "PREFIX")+"§cnicht gefunden!");
 						}
 						
 					}

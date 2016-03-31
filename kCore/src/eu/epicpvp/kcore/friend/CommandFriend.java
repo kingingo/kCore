@@ -27,12 +27,12 @@ public class CommandFriend implements CommandExecutor{
 		p = (Player)cs;
 		if(args.length==0){
 
-			p.sendMessage("Â§bâ– â– â– â– â– â– â– â– â– â– â– â– â– â– Â§6Â§l FRIEND Â§bâ– â– â– â– â– â– â– â– â– â– â– â– â– â– ");
-			p.sendMessage("Â§6/f hinzufÃ¼gen [Player] Â§8|Â§7 Freundschaftanfrage senden.");
-			p.sendMessage("Â§6/f entfernen [Player] Â§8|Â§7 Freundschaftanfrage zurÃ¼ck ziehen.");
-			p.sendMessage("Â§6/f annehmen Â§8|Â§7 Freundschaftanfrage annehmen.");
-			p.sendMessage("Â§6/f list Â§8|Â§7 Freundschaften auflisten.");
-			p.sendMessage("Â§bâ– â– â– â– â– â– â– â– â– â– â– â– â– â– Â§6Â§l FRIEND Â§bâ– â– â– â– â– â– â– â– â– â– â– â– â– â– ");
+			p.sendMessage("§b– – – – – – – – – – – – – – §6§l FRIEND §b– – – – – – – – – – – – – – ");
+			p.sendMessage("§6/f hinzufÃ¼gen [Player] §8|§7 Freundschaftanfrage senden.");
+			p.sendMessage("§6/f entfernen [Player] §8|§7 Freundschaftanfrage zurÃ¼ck ziehen.");
+			p.sendMessage("§6/f annehmen §8|§7 Freundschaftanfrage annehmen.");
+			p.sendMessage("§6/f list §8|§7 Freundschaften auflisten.");
+			p.sendMessage("§b– – – – – – – – – – – – – – §6§l FRIEND §b– – – – – – – – – – – – – – ");
 		}else{
 			if(!manager.getFriendList().containsKey(UtilPlayer.getRealUUID(p)))manager.getFriendList().put(UtilPlayer.getRealUUID(p), manager.getFriendList(p));
 			if(args[0].equalsIgnoreCase("add")||args[0].equalsIgnoreCase("hinzufÃ¼gen")){
@@ -109,10 +109,10 @@ public class CommandFriend implements CommandExecutor{
 					String l = "List: ";
 					for(UUID n : manager.getFriendList().get(UtilPlayer.getRealUUID(p))){
 						if(UtilPlayer.isOnline(n)){
-							l=l+"Â§a"+Bukkit.getPlayer(n).getName()+"Â§7,";
+							l=l+"§a"+Bukkit.getPlayer(n).getName()+"§7,";
 						}else{
 							if(Bukkit.getOfflinePlayer(n)==null)continue;
-							l=l+"Â§c"+Bukkit.getOfflinePlayer(n).getName()+"Â§7,";
+							l=l+"§c"+Bukkit.getOfflinePlayer(n).getName()+"§7,";
 						}
 					}
 					l=l.substring(0, l.length()-1);

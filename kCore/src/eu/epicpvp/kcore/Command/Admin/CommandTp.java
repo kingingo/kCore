@@ -23,7 +23,7 @@ public class CommandTp implements CommandExecutor{
 		player = (Player)cs;
 		if(player.hasPermission(PermissionType.PLAYER_TELEPORT.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"ยง6/tp [Player]");
+				player.sendMessage(Language.getText(player, "PREFIX")+"ง6/tp [Player]");
 			}else{
 				if(args.length==1){
 					if(UtilPlayer.isOnline(args[0])){

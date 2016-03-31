@@ -57,7 +57,7 @@ public class StandingTreasureChest extends kListener{
 	private TreasureChestType chest_type = TreasureChestType.UNCOMMON; // Den TreasureChest Type ( UNCOMMON,RARE,MYTHICAL)
 	private long time; //WAIT TIME
 	@Getter
-	private String status = "NULL"; // Was er als nÂ§chstes tun muss ( SET CHEST, WAIT, DELETE)
+	private String status = "NULL"; // Was er als n§chstes tun muss ( SET CHEST, WAIT, DELETE)
 	@Getter
 	private HashMap<TreasureChestType,ArrayList<TreasureChestPackage>> itemList; // ITEM LIST
 	@Getter
@@ -69,7 +69,7 @@ public class StandingTreasureChest extends kListener{
 	@Getter
 	private Hologram hologram; // HOLOGRAMM MANAGER
 	@Getter
-	private InventoryBase base; // WAHL MENÂ§
+	private InventoryBase base; // WAHL MEN§
 	private HashMap<Entity,NameTagMessage> dropped_items;
 	
 	public StandingTreasureChest(JavaPlugin instance,Hologram hologram,Location location) {
@@ -109,7 +109,7 @@ public class StandingTreasureChest extends kListener{
 		//SETZT DIE WAHL CHEST
 		this.location.getBlock().setType(Material.CHEST);
 		
-		//ERSTELLT DAS WAHL MENÂ§
+		//ERSTELLT DAS WAHL MEN§
 		this.base=new InventoryBase(getInstance(), InventorySize._9.getSize(), "TreasureChest: ");
 		this.base.getMain().addButton(2, new ButtonBase(new Click(){
 

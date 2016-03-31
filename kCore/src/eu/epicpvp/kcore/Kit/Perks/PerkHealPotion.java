@@ -17,7 +17,7 @@ public class PerkHealPotion extends Perk{
 	private int more;
 	
 	public PerkHealPotion(int more) {
-		super("HealPotion",UtilItem.RenameItem(new ItemStack(Material.POTION,1,(byte)16421),"Â§eHealPotion"));
+		super("HealPotion",UtilItem.RenameItem(new ItemStack(Material.POTION,1,(byte)16421),"§eHealPotion"));
 		this.more=more;
 	}
 

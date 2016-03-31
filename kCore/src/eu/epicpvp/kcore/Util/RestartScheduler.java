@@ -65,10 +65,10 @@ public class RestartScheduler implements Listener{
 			start--;
 			
 			if(title==null){
-				this.title=new Title("Â§cServer Restarting in", "");
+				this.title=new Title("§cServer Restarting in", "");
 				this.title.setStayTime(20*60*2);
 			}
-			title.setSubtitle("Â§7"+UtilTime.formatSeconds(start));
+			title.setSubtitle("§7"+UtilTime.formatSeconds(start));
 			
 			if(start>0){
 				for(Player p : UtilServer.getPlayers()){

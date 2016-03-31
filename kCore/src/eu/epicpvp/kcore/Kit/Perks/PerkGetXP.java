@@ -12,7 +12,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 public class PerkGetXP extends Perk{
 	
 	public PerkGetXP() {
-		super("GetXP",UtilItem.RenameItem(new ItemStack(Material.ENCHANTMENT_TABLE),"Â§eGetXP"));
+		super("GetXP",UtilItem.RenameItem(new ItemStack(Material.ENCHANTMENT_TABLE),"§eGetXP"));
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)

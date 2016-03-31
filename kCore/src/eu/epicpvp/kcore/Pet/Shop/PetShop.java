@@ -39,7 +39,7 @@ public class PetShop extends InventoryPageBase{
 				player.closeInventory();
 			}
 			
-		}, Material.BARRIER, "Â§cPet entfernen", new String[]{"Â§cEntfernt das momentan gesetzte Pet."}));
+		}, Material.BARRIER, "§cPet entfernen", new String[]{"§cEntfernt das momentan gesetzte Pet."}));
 		
 		addButton(11, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -61,7 +61,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,95, "Â§aWolf", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 4000","Â§aGems: 1000"}));
+		}, Material.MONSTER_EGG,95, "§aWolf", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(12, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -83,7 +83,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,90, "Â§aPig", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 4000","Â§aGems: 1000"}));
+		}, Material.MONSTER_EGG,90, "§aPig", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(13, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -105,7 +105,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,91, "Â§aSchaf", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 4000","Â§aGems: 1000"}));
+		}, Material.MONSTER_EGG,91, "§aSchaf", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(14, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -126,7 +126,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.IRON_BLOCK, "Â§aIronGolem", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 10000","Â§aGems: 2500"}));
+		}, Material.IRON_BLOCK, "§aIronGolem", new String[]{"§6Kaufbares-Pet","§eCoins: 10000","§aGems: 2500"}));
 		
 		addButton(15, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -147,7 +147,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		},  Material.MONSTER_EGG,92, "Â§aCow", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 4000","Â§aGems: 1000"}));
+		},  Material.MONSTER_EGG,92, "§aCow", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(16, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -168,7 +168,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,57, "Â§aZombie", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 7000","Â§aGems: 2000"}));
+		}, Material.MONSTER_EGG,57, "§aZombie", new String[]{"§6Kaufbares-Pet","§eCoins: 7000","§aGems: 2000"}));
 		
 		addButton(19, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -189,7 +189,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,52, "Â§aSpider", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 4000","Â§aGems: 1000"}));
+		}, Material.MONSTER_EGG,52, "§aSpider", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(20, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -210,7 +210,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,100, "Â§aHorse", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 15000","Â§aGems: 4000"}));
+		}, Material.MONSTER_EGG,100, "§aHorse", new String[]{"§6Kaufbares-Pet","§eCoins: 15000","§aGems: 4000"}));
 		
 		addButton(21, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -231,7 +231,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,101, "Â§aRabbit", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 8000","Â§aGems: 2000"}));
+		}, Material.MONSTER_EGG,101, "§aRabbit", new String[]{"§6Kaufbares-Pet","§eCoins: 8000","§aGems: 2000"}));
 		
 		addButton(22, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -255,7 +255,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,94, "Â§aSquid", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 8000","Â§aGems: 2000"}));
+		}, Material.MONSTER_EGG,94, "§aSquid", new String[]{"§6Kaufbares-Pet","§eCoins: 8000","§aGems: 2000"}));
 		
 		addButton(23, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -276,7 +276,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,98, "Â§aOcelot", new String[]{"Â§6Kaufbares-Pet","Â§eCoins: 4000","Â§aGems: 1000"}));
+		}, Material.MONSTER_EGG,98, "§aOcelot", new String[]{"§6Kaufbares-Pet","§eCoins: 4000","§aGems: 1000"}));
 		
 		addButton(24, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -290,7 +290,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.SKULL_ITEM,4, "Â§aCreeper", new String[]{"Â§eVip Pet"}));
+		}, Material.SKULL_ITEM,4, "§aCreeper", new String[]{"§eVip Pet"}));
 		
 		addButton(25, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -304,7 +304,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,120, "Â§aVillager", new String[]{"Â§6Ultra Pet"}));
+		}, Material.MONSTER_EGG,120, "§aVillager", new String[]{"§6Ultra Pet"}));
 		
 		addButton(28, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -318,7 +318,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,61, "Â§aBlaze", new String[]{"Â§5Legend Pet"}));
+		}, Material.MONSTER_EGG,61, "§aBlaze", new String[]{"§5Legend Pet"}));
 		
 		addButton(29, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -332,7 +332,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,51, "Â§aSkeleton", new String[]{"Â§3MVP Pet"}));
+		}, Material.MONSTER_EGG,51, "§aSkeleton", new String[]{"§3MVP Pet"}));
 		
 		addButton(30, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -346,7 +346,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.MONSTER_EGG,66, "Â§aWitch", new String[]{"Â§9MVP+ Pet"}));
+		}, Material.MONSTER_EGG,66, "§aWitch", new String[]{"§9MVP+ Pet"}));
 		
 		addButton(31, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -360,7 +360,7 @@ public class PetShop extends InventoryPageBase{
 				}
 			}
 			
-		}, Material.CARROT_ITEM, "Â§aSnowman", new String[]{"Â§cXMAS Pet"}));
+		}, Material.CARROT_ITEM, "§aSnowman", new String[]{"§cXMAS Pet"}));
 		
 		fill(Material.STAINED_GLASS_PANE,(byte)7);
 		getHandle().getBase().addPage(this);

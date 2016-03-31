@@ -72,7 +72,7 @@ public class UserStores extends kListener{
 	@Getter
 	private StatsManager statsManager;
 	private InventoryCopy page;
-	private String prefix = " Â§b[UserStore]  ";
+	private String prefix = " §b[UserStore]  ";
 	
 	public UserStores(StatsManager statsManager){
 		super(statsManager.getInstance(),"UserStores");
@@ -85,9 +85,9 @@ public class UserStores extends kListener{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				kConfig c = UtilServer.getUserData().getConfig(player);
-				((InventoryPageBase)object).setItem(4, UtilItem.SetDescriptions(((InventoryPageBase)object).getItem(4), new String[]{"Â§e"+c.getPathList("UserStores").size()+" Stores"}));
+				((InventoryPageBase)object).setItem(4, UtilItem.SetDescriptions(((InventoryPageBase)object).getItem(4), new String[]{"§e"+c.getPathList("UserStores").size()+" Stores"}));
 
-				ItemStack free = UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "Â§aFreier Platz");
+				ItemStack free = UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "§aFreier Platz");
 				int slot=18;
 				InventoryPageBase cp = ((InventoryPageBase)object);
 				for(String loc : c.getPathList("UserStores").keySet()){
@@ -98,7 +98,7 @@ public class UserStores extends kListener{
 							InventoryPageBase page = new InventoryPageBase(InventorySize._54, "Shop");
 							page.setItem(4, ((ItemStack)o));
 							
-							page.addButton(0, new ButtonOpenInventory(((InventoryPageBase)object), UtilItem.RenameItem(new ItemStack(Material.BARRIER), "Â§cZurÂ§ck")));
+							page.addButton(0, new ButtonOpenInventory(((InventoryPageBase)object), UtilItem.RenameItem(new ItemStack(Material.BARRIER), "§cZur§ck")));
 							
 							page.addButton(33, new ButtonBase(new Click(){
 
@@ -117,7 +117,7 @@ public class UserStores extends kListener{
 									}
 								}
 								
-							}, UtilItem.RenameItem(new ItemStack(Material.ENDER_PEARL), "Â§eTeleport")));
+							}, UtilItem.RenameItem(new ItemStack(Material.ENDER_PEARL), "§eTeleport")));
 							
 							page.addButton(31, new ButtonBase(new Click(){
 
@@ -131,7 +131,7 @@ public class UserStores extends kListener{
 									player.closeInventory();
 								}
 								
-							}, UtilItem.RenameItem(new ItemStack(Material.BARRIER), "Â§cStore lÂ§schen")));
+							}, UtilItem.RenameItem(new ItemStack(Material.BARRIER), "§cStore l§schen")));
 							
 							page.addButton(29, new ButtonBase(new Click(){
 
@@ -160,12 +160,12 @@ public class UserStores extends kListener{
 							    		
 										ItemStack renamed = UtilItem.RenameItem(new ItemStack(Material.SIGN), "Zahl");
 										gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, renamed);
-										gui.setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.SIGN), "Â§aFertig"));
+										gui.setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.SIGN), "§aFertig"));
 										gui.open(); 
 									}
 								}
 								
-							}, UtilItem.RenameItem(new ItemStack(Material.SIGN), "Â§aPreis Â§ndern")));
+							}, UtilItem.RenameItem(new ItemStack(Material.SIGN), "§aPreis §ndern")));
 							
 							
 							page.fill(Material.STAINED_GLASS_PANE,15);
@@ -173,13 +173,13 @@ public class UserStores extends kListener{
 							player.openInventory(page);
 						}
 						
-					}, Material.getMaterial(c.getInt("UserStores."+loc+".id")), Byte.valueOf(c.getString("UserStores."+loc+".data")), "Â§aStore", new String[]{"Â§aPreis Â§7Â§Â§e "+c.getString("UserStores."+loc+".preis"),"Â§aAnzahl Â§7Â§Â§e "+c.getString("UserStores."+loc+".anzahl")}));
+					}, Material.getMaterial(c.getInt("UserStores."+loc+".id")), Byte.valueOf(c.getString("UserStores."+loc+".data")), "§aStore", new String[]{"§aPreis §7§§e "+c.getString("UserStores."+loc+".preis"),"§aAnzahl §7§§e "+c.getString("UserStores."+loc+".anzahl")}));
 					slot++;
 					if(slot==52){
 						for(int i = slot; i<=51; i++)cp.setItem(i, free);
 						InventoryPageBase newpage =new InventoryNextPage(player,InventorySize._54, "Stores");
-						cp.addButton(53, new ButtonOpenInventory(newpage, UtilItem.RenameItem(new ItemStack(Material.ARROW), "Â§a1 Â§")));
-						newpage.addButton(52, new ButtonOpenInventory(cp, UtilItem.RenameItem(new ItemStack(Material.ARROW), "Â§cÂ§ 1")));
+						cp.addButton(53, new ButtonOpenInventory(newpage, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a1 §")));
+						newpage.addButton(52, new ButtonOpenInventory(cp, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c§ 1")));
 						UtilInv.getBase().addAnother(newpage);
 						newpage.fill(Material.STAINED_GLASS_PANE,15);
 						cp=newpage;
@@ -193,7 +193,7 @@ public class UserStores extends kListener{
 					}
 				}
 			}
-		}, null, UtilItem.RenameItem(new ItemStack(Material.CHEST), "Â§a Deine aktuellen Stores")));
+		}, null, UtilItem.RenameItem(new ItemStack(Material.CHEST), "§a Deine aktuellen Stores")));
 		page.fill(Material.STAINED_GLASS_PANE,15);
 		page.setCreate_new_inv(true);
 		page.setFor_with_copy_page(false);
@@ -270,7 +270,7 @@ public class UserStores extends kListener{
 						
 						if(Action.RIGHT_CLICK_BLOCK == a && Action.LEFT_CLICK_BLOCK == a){
 							ev.setCancelled(true);
-							p.sendMessage(Language.getText(p, "PREFIX")+"Â§cNicht so Schnell ...");
+							p.sendMessage(Language.getText(p, "PREFIX")+"§cNicht so Schnell ...");
 							return;
 						}else if(Action.RIGHT_CLICK_BLOCK == a){
 							if(this.timer.containsKey(p)){
@@ -337,14 +337,14 @@ public class UserStores extends kListener{
 	public void changePrice(Player player,double preis,Sign s,String loc){
 		if(change_price.containsKey(player))return;
 		change_price.put(player, s);
-		NameTagMessage msg = new NameTagMessage(NameTagType.PACKET, s.getLocation().add(0.5, 0, 0.5), new String[]{"Â§cPreisÂ§nderung in","Â§l 16 sekunden"});
+		NameTagMessage msg = new NameTagMessage(NameTagType.PACKET, s.getLocation().add(0.5, 0, 0.5), new String[]{"§cPreis§nderung in","§l 16 sekunden"});
 		new kScheduler(getStatsManager().getInstance(), new kScheduler.kSchedulerHandler() {
 			
 			@Override
 			public void onRun(kScheduler scheduler) {
 
 				int sec = (UtilNumber.toInt( msg.getLines()[1].split(" ")[1] )-1);
-				msg.getLines()[1]="Â§l "+sec+" sekunden";
+				msg.getLines()[1]="§l "+sec+" sekunden";
 				
 				if(sec == -1){
 					kConfig c = UtilServer.getUserData().getConfig(player);
@@ -570,10 +570,10 @@ public class UserStores extends kListener{
 				store_anzahl=UtilServer.getUserData().getConfig(ev.getPlayer()).getInt("Stores");
 				
 				if(store_anzahl<=0){
-					ev.setLine(0, "Â§4ERROR: ");
-					ev.setLine(1, "Â§4Du hast keine");
-					ev.setLine(2, "Â§4freien Stores");
-					ev.setLine(3, "Â§4mehr zum setzten!");
+					ev.setLine(0, "§4ERROR: ");
+					ev.setLine(1, "§4Du hast keine");
+					ev.setLine(2, "§4freien Stores");
+					ev.setLine(3, "§4mehr zum setzten!");
 					return;
 				}
 			}
@@ -610,39 +610,39 @@ public class UserStores extends kListener{
 										Bukkit.getPluginManager().callEvent(new PlayerCreateUserStoreEvent(ev.getPlayer(), (Sign)ev.getBlock().getState()));
 										return;
 									}else{
-										ev.setLine(0, "Â§4ERROR: ");
-										ev.setLine(1, "Â§4Keine gleichen");
-										ev.setLine(2, "Â§4Items in der");
-										ev.setLine(3, "Â§4Chest");
+										ev.setLine(0, "§4ERROR: ");
+										ev.setLine(1, "§4Keine gleichen");
+										ev.setLine(2, "§4Items in der");
+										ev.setLine(3, "§4Chest");
 									}
 								}else{
-									ev.setLine(0, "Â§4ERROR: ");
-									ev.setLine(1, "Â§4Chest ist leer");
+									ev.setLine(0, "§4ERROR: ");
+									ev.setLine(1, "§4Chest ist leer");
 								}
 							}else{
-								ev.setLine(0, "Â§4ERROR: ");
-								ev.setLine(1, "Â§4Double Chests");
-								ev.setLine(2, "Â§4sind nicht");
-								ev.setLine(3, "Â§4erlaubtÂ§l!");
+								ev.setLine(0, "§4ERROR: ");
+								ev.setLine(1, "§4Double Chests");
+								ev.setLine(2, "§4sind nicht");
+								ev.setLine(3, "§4erlaubt§l!");
 							}
 						}else{
-							ev.setLine(0, "Â§4ERROR: ");
-							ev.setLine(1, "Â§4Chest fehlt");
+							ev.setLine(0, "§4ERROR: ");
+							ev.setLine(1, "§4Chest fehlt");
 						}
 					}else{
-						ev.setLine(0, "Â§4ERROR: ");
-						ev.setLine(1, "Â§4Der Preis muss");
-						ev.setLine(2, "Â§4Â§ber 0.0 sein!");
+						ev.setLine(0, "§4ERROR: ");
+						ev.setLine(1, "§4Der Preis muss");
+						ev.setLine(2, "§4§ber 0.0 sein!");
 					}
 				}catch(NumberFormatException e){
-					ev.setLine(0, "Â§4ERROR: ");
-					ev.setLine(1, "Â§4Das '"+ev.getLine(1)+"' ist");
-					ev.setLine(2, "Â§4keine Zahl!");
-					ev.setLine(3, "Â§a1.0 <-");
+					ev.setLine(0, "§4ERROR: ");
+					ev.setLine(1, "§4Das '"+ev.getLine(1)+"' ist");
+					ev.setLine(2, "§4keine Zahl!");
+					ev.setLine(3, "§a1.0 <-");
 				}
 			}else{
-				ev.setLine(0, "Â§4ERROR: ");
-				ev.setLine(1, "Â§4Der Preis fehlt");
+				ev.setLine(0, "§4ERROR: ");
+				ev.setLine(1, "§4Der Preis fehlt");
 			}
 		}
 	}
@@ -664,11 +664,11 @@ public class UserStores extends kListener{
 	}
 	
 	public void setAnzahl(SignChangeEvent sign,int anzahl){
-		sign.setLine(3, anzahl +" StÂ§ck");
+		sign.setLine(3, anzahl +" St§ck");
 	}
 	
 	public void setAnzahl(Sign sign,int anzahl){
-		sign.setLine(3, anzahl +" StÂ§ck");
+		sign.setLine(3, anzahl +" St§ck");
 		sign.update();
 	}
 	

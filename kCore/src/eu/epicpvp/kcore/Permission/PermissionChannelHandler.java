@@ -36,11 +36,13 @@ public class PermissionChannelHandler implements PluginMessageListener{
 	
 	public PluginMessageFutureTask<DataBuffer> sendMessage(Player player,DataBuffer buffer){
 		if(player == null){
-			System.out.println("Cant send plugin message (player == null)");
+			System.out.println("[PermissionManager]: Cant send plugin message (player == null)");
 			return new PluginMessageFutureTask<>();
 		}
 		final UUID taskId = UUID.randomUUID();
+
 		final PluginMessageFutureTask<DataBuffer> task = new PluginMessageFutureTask<>();
+		
 		addListener(new PermissionChannelListener() {
 			@Override
 			public void handle(UUID fromPacket, DataBuffer buffer) {

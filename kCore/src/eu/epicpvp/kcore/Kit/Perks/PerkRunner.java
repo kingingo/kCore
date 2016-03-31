@@ -24,7 +24,7 @@ public class PerkRunner extends Perk{
 	private float speed;
 	
 	public PerkRunner(float speed) {
-		super("Runner",UtilItem.RenameItem(new ItemStack(Material.SUGAR),"Â§eRunner"));
+		super("Runner",UtilItem.RenameItem(new ItemStack(Material.SUGAR),"§eRunner"));
 		this.speed=speed;
 	}
 	

@@ -47,7 +47,7 @@ public class CampingTreasureChest extends kListener{
 		super(instance,"[TreasureChest]");
 		this.instance=instance;
 		this.type=type;
-		this.treasurechest=UtilItem.RenameItem(new ItemStack(Material.CHEST), "Â§bTreasureChest");
+		this.treasurechest=UtilItem.RenameItem(new ItemStack(Material.CHEST), "§bTreasureChest");
 	}
 	
 	public void give(Player player,TreasureChestHandler handler){

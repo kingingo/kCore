@@ -23,7 +23,7 @@ public class CommandLagg implements CommandExecutor{
 				}else{
 					if(args[0].equalsIgnoreCase("gc")){
 						System.gc();
-						player.sendMessage(Language.getText(player, "PREFIX")+"Â§aSystem GC ausgefÂ§hrt!");
+						player.sendMessage(Language.getText(player, "PREFIX")+"§aSystem GC ausgef§hrt!");
 					}
 				}	
 			}
@@ -33,7 +33,7 @@ public class CommandLagg implements CommandExecutor{
 			}else{
 				if(args[0].equalsIgnoreCase("gc")){
 					System.gc();
-					System.out.println("[LagMeter] System GC ausgefÂ§hrt!");
+					System.out.println("[LagMeter] System GC ausgef§hrt!");
 				}
 			}	
 		}

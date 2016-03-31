@@ -21,7 +21,7 @@ public class PerkPotionClear extends Perk{
 	private HashMap<String,Long> timer = new HashMap<>();
 	
 	public PerkPotionClear() {
-		super("PotionClear",UtilItem.RenameItem(new ItemStack(374),"Â§ePotionClear"));
+		super("PotionClear",UtilItem.RenameItem(new ItemStack(374),"§ePotionClear"));
 	}
 	
 	public boolean is(Player player){
@@ -47,7 +47,7 @@ public class PerkPotionClear extends Perk{
 								if(e.getType()!=PotionEffectType.JUMP)((Player)ev.getRightClicked()).removePotionEffect(e.getType());
 							}
 							}else{
-								ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+"Â§cDu musst noch Â§4"+UtilTime.formatMili( (timer.get(ev.getPlayer().getName())-System.currentTimeMillis()) )+"Â§c warten");
+								ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+"§cDu musst noch §4"+UtilTime.formatMili( (timer.get(ev.getPlayer().getName())-System.currentTimeMillis()) )+"§c warten");
 							}
 						}
 				}

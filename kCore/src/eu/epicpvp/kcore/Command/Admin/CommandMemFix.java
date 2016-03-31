@@ -18,11 +18,11 @@ public class CommandMemFix implements CommandExecutor{
 			
 			if(p.hasPermission(PermissionType.COMMAND_MEM.getPermissionToString())){
 				System.gc();
-				p.sendMessage(Language.getText(p,"PREFIX")+"Â§aMemory Fix wurde durchgefÂ§hrt!");
+				p.sendMessage(Language.getText(p,"PREFIX")+"§aMemory Fix wurde durchgef§hrt!");
 			}
 		}else{
 			System.gc();
-			System.out.println("[EpicPvP]: Memory Fix wurde durchgefÂ§hrt!");
+			System.out.println("[EpicPvP]: Memory Fix wurde durchgef§hrt!");
 		}
 		return false;
 	}

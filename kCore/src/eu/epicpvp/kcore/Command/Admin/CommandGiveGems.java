@@ -31,7 +31,7 @@ public class CommandGiveGems implements CommandExecutor{
 			Player player = (Player)sender;
 			if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 				if(args.length==0){
-					player.sendMessage(Language.getText(player, "PREFIX")+"Â§a/GiveGems [Spieler] [+/- Gems]");
+					player.sendMessage(Language.getText(player, "PREFIX")+"§a/GiveGems [Spieler] [+/- Gems]");
 				}else if(args.length >= 2){
 					String spieler = args[0];
 					int c=UtilInteger.isNumber(args[1]);

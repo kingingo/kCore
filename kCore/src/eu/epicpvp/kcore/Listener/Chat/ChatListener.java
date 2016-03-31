@@ -20,7 +20,7 @@ public class ChatListener extends kListener{
 	private PermissionManager manager;
 	@Setter
 	private GildenManager gildenmanager;
-	private String suffix="ยง8 ยง ยง7";
+	private String suffix="ง8 ง ง7";
 	@Setter
 	private UserDataConfig userData;
 	
@@ -53,11 +53,11 @@ public class ChatListener extends kListener{
 			 
 			msg=msg.replaceAll("%","");
 			if(p.hasPermission(PermissionType.CHAT_FARBIG.getPermissionToString())){
-				msg=msg.replaceAll("&", "ยง");
+				msg=msg.replaceAll("&", "ง");
 				if(!p.hasPermission(PermissionType.CHAT_NERV.getPermissionToString())){
-					msg=msg.replaceAll("ยงl", "");
-					msg=msg.replaceAll("ยงn", "");
-					msg=msg.replaceAll("ยงk", "");
+					msg=msg.replaceAll("งl", "");
+					msg=msg.replaceAll("งn", "");
+					msg=msg.replaceAll("งk", "");
 				}
 			}
 			
@@ -67,19 +67,19 @@ public class ChatListener extends kListener{
 				g=g.toLowerCase();
 				if(gildenmanager.getExtra_prefix().containsKey(g)){
 					if(gildenmanager.getExtra_prefix().get(g)==1){
-						tag=tag.replaceAll("ยง7", "ยง4ยงl");
+						tag=tag.replaceAll("ง7", "ง4งl");
 					}else if(gildenmanager.getExtra_prefix().get(g)==2){
-						tag=tag.replaceAll("ยง7", "ยง2ยงl");
+						tag=tag.replaceAll("ง7", "ง2งl");
 					}else if(gildenmanager.getExtra_prefix().get(g)==3){
-						tag=tag.replaceAll("ยง7", "ยงeยงl");
+						tag=tag.replaceAll("ง7", "งeงl");
 					}else if(gildenmanager.getExtra_prefix().get(g)>=4 && gildenmanager.getExtra_prefix().get(g)<=6){
-						tag=tag.replaceAll("ยง7", "ยง3");
+						tag=tag.replaceAll("ง7", "ง3");
 					}else if(gildenmanager.getExtra_prefix().get(g)>=7 && gildenmanager.getExtra_prefix().get(g)<=9){
-						tag=tag.replaceAll("ยง7", "ยงd");
+						tag=tag.replaceAll("ง7", "งd");
 					}else if(gildenmanager.getExtra_prefix().get(g)>=10 && gildenmanager.getExtra_prefix().get(g)<=12){
-						tag=tag.replaceAll("ยง7", "ยงa");
+						tag=tag.replaceAll("ง7", "งa");
 					}else if(gildenmanager.getExtra_prefix().get(g)>=13 && gildenmanager.getExtra_prefix().get(g)<=15){
-						tag=tag.replaceAll("ยง7", "ยงb");
+						tag=tag.replaceAll("ง7", "งb");
 					}
 				}
 			

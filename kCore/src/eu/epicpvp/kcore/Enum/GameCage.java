@@ -12,10 +12,10 @@ import lombok.Getter;
 
 public enum GameCage {
 
-GLASS(true,new ItemStack(Material.STAINED_GLASS),UtilItem.Item(new ItemStack(Material.STAINED_GLASS), new String[]{"Â§aDefault Cage"}, "Â§7Glass Cage"),PermissionType.CAGE_GLASS,3000),
-GRASS(false,new ItemStack(Material.FENCE),UtilItem.Item(new ItemStack(Material.GRASS), new String[]{""}, "Â§aGrass Cage"),PermissionType.CAGE_GRASS,3000),
+GLASS(true,new ItemStack(Material.STAINED_GLASS),UtilItem.Item(new ItemStack(Material.STAINED_GLASS), new String[]{"§aDefault Cage"}, "§7Glass Cage"),PermissionType.CAGE_GLASS,3000),
+GRASS(false,new ItemStack(Material.FENCE),UtilItem.Item(new ItemStack(Material.GRASS), new String[]{""}, "§aGrass Cage"),PermissionType.CAGE_GRASS,3000),
 SLIME(false,new ItemStack(Material.SLIME_BLOCK),UtilItem.Item(new ItemStack(Material.STAINED_GLASS,1,(byte)1), new String[]{}, ""),PermissionType.CAGE_GRASS,3000),
-NETHER(true,new ItemStack(Material.NETHER_FENCE),UtilItem.Item(new ItemStack(Material.NETHER_BRICK), new String[]{""}, "Â§cNether Cage"),PermissionType.CAGE_NETHER,3000);
+NETHER(true,new ItemStack(Material.NETHER_FENCE),UtilItem.Item(new ItemStack(Material.NETHER_BRICK), new String[]{""}, "§cNether Cage"),PermissionType.CAGE_NETHER,3000);
 
 @Getter
 private ItemStack ground;

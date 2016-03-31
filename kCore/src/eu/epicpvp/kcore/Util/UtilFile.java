@@ -64,11 +64,11 @@ public class UtilFile
 	public static void copyDir(File quelle, File ziel) throws FileNotFoundException, IOException {
 		
 		File[] files = quelle.listFiles();
-		File newFile = null; // in diesem Objekt wird fÂ§r jedes File der Zielpfad gespeichert.
+		File newFile = null; // in diesem Objekt wird f§r jedes File der Zielpfad gespeichert.
 				     // 1. Der alte Zielpfad
 				     // 2. Das systemspezifische Pfadtrennungszeichen
 				     // 3. Der Name des aktuellen Ordners/der aktuellen Datei
-		ziel.mkdirs();	     // erstellt alle benÂ§tigten Ordner
+		ziel.mkdirs();	     // erstellt alle ben§tigten Ordner
 		if (files != null) {
 			for (int i = 0; i < files.length; i++) {
 					newFile = new File(ziel.getAbsolutePath() + System.getProperty("file.separator") + files[i].getName());
@@ -89,10 +89,10 @@ public class UtilFile
 		if (files != null) {
 			for (int i = 0; i < files.length; i++) {
 				if (files[i].isDirectory()) {
-					size += getDirSize(files[i]); // GesamtgrÂ§Â§e des Verzeichnisses aufaddieren
+					size += getDirSize(files[i]); // Gesamtgr§§e des Verzeichnisses aufaddieren
 				}
 				else {
-					size += files[i].length(); // GrÂ§Â§e der Datei aufaddieren
+					size += files[i].length(); // Gr§§e der Datei aufaddieren
 				}
 			}
 		}

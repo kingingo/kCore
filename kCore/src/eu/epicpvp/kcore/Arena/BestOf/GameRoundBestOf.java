@@ -80,11 +80,11 @@ public class GameRoundBestOf extends GameRound{
 			if(types[this.round-1]!=null){
 				if(nameTagMessage.getLines().length>=(this.round-1)){
 					System.out.println("TYPE: "+types.length +" ROUND: "+this.round+" "+nameTagMessage.getLines().length);
-					nameTagMessage.getLines()[this.round-1]="Â§7[Â§eWinner Runde "+(this.round)+"Â§7] "+types[this.round-1].name()+" Â§7Â§ Â§a"+UtilServer.getBestOf().getPlayers_name().get(player);
+					nameTagMessage.getLines()[this.round-1]="§7[§eWinner Runde "+(this.round)+"§7] "+types[this.round-1].name()+" §7§ §a"+UtilServer.getBestOf().getPlayers_name().get(player);
 				};
 				
 			}else{
-				nameTagMessage.getLines()[this.round-1]="Â§7[Â§eWinner Runde "+(this.round)+"Â§7] Random Â§7Â§ Â§a";
+				nameTagMessage.getLines()[this.round-1]="§7[§eWinner Runde "+(this.round)+"§7] Random §7§ §a";
 			}
 			UtilServer.getBestOf().sendHologramm(this);
 		}

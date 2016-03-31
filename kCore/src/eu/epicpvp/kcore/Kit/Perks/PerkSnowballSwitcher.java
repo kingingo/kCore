@@ -19,7 +19,7 @@ public class PerkSnowballSwitcher extends Perk{
 	
 	public PerkSnowballSwitcher() {
 		super("SnowballSwitcher");
-		this.s=UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.SNOW_BALL), "Â§bSwitcher"));
+		this.s=UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(Material.SNOW_BALL), "§bSwitcher"));
 	}
 	
 	@EventHandler

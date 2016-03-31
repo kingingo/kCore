@@ -83,28 +83,28 @@ public class PlayerPetHandler implements Listener{
 		this.manager.setSetting(true);
 		this.mysql.Update("CREATE TABLE IF NOT EXISTS "+serverType.name()+"_pets(uuid varchar(100),pet varchar(100))");
 		
-		this.manager.getSetting_list().put(EntityType.SNOWMAN, new PetSetting(base,manager,EntityType.SNOWMAN,UtilItem.RenameItem(new ItemStack(Material.CARROT_ITEM), "Â§aSnowman")));
-//		this.manager.getSetting_list().put(EntityType.MAGMA_CUBE, new PetSetting(base,manager,EntityType.MAGMA_CUBE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 62), "Â§aMagma Cube")));
-		this.manager.getSetting_list().put(EntityType.VILLAGER, new PetSetting(base,manager,EntityType.VILLAGER,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 120), "Â§aVillager")));
-		this.manager.getSetting_list().put(EntityType.WITCH, new PetSetting(base,manager,EntityType.WITCH,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 66), "Â§aWitch")));
-		this.manager.getSetting_list().put(EntityType.SKELETON, new PetSetting(base,manager,EntityType.SKELETON,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 51), "Â§aSkeleton")));
-		this.manager.getSetting_list().put(EntityType.CHICKEN, new PetSetting(base,manager,EntityType.CHICKEN,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 93), "Â§aChicken")));
-//		this.manager.getSetting_list().put(EntityType.SLIME, new PetSetting(base,manager,EntityType.SLIME,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 55), "Â§aSlime")));
-		this.manager.getSetting_list().put(EntityType.ENDERMAN, new PetSetting(base,manager,EntityType.ENDERMAN,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 58), "Â§aEnderman")));
-		this.manager.getSetting_list().put(EntityType.COW, new PetSetting(base,manager,EntityType.COW,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 92), "Â§aKuh")));
-		this.manager.getSetting_list().put(EntityType.IRON_GOLEM, new PetSetting(base,manager,EntityType.IRON_GOLEM,UtilItem.RenameItem(new ItemStack(Material.IRON_BLOCK), "Â§aIronGolem")));
-		this.manager.getSetting_list().put(EntityType.PIG, new PetSetting(base,manager,EntityType.PIG,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 90), "Â§aPig")));
-		this.manager.getSetting_list().put(EntityType.WOLF, new PetSetting(base,manager,EntityType.WOLF,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 95), "Â§aWolf")));
-		this.manager.getSetting_list().put(EntityType.SHEEP, new PetSetting(base,manager,EntityType.SHEEP,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 91), "Â§aSchaf")));
-		this.manager.getSetting_list().put(EntityType.COW, new PetSetting(base,manager,EntityType.COW,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 92), "Â§aCow")));
-		this.manager.getSetting_list().put(EntityType.ZOMBIE, new PetSetting(base,manager,EntityType.ZOMBIE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 57), "Â§aZombie")));
-		this.manager.getSetting_list().put(EntityType.OCELOT, new PetSetting(base,manager,EntityType.OCELOT,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 98), "Â§aOcelot")));
-		this.manager.getSetting_list().put(EntityType.CREEPER, new PetSetting(base,manager,EntityType.CREEPER,UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM,1,(byte)4), "Â§aCreeper")));
-		this.manager.getSetting_list().put(EntityType.SPIDER, new PetSetting(base,manager,EntityType.SPIDER,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 59), "Â§aSpider")));
-		this.manager.getSetting_list().put(EntityType.HORSE, new PetSetting(base,manager,EntityType.HORSE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 100), "Â§aHorse")));
-		this.manager.getSetting_list().put(EntityType.RABBIT, new PetSetting(base,manager,EntityType.RABBIT,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 101), "Â§aRabbit")));
-		this.manager.getSetting_list().put(EntityType.SQUID, new PetSetting(base,manager,EntityType.SQUID,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 94), "Â§aSquid")));
-		this.manager.getSetting_list().put(EntityType.BLAZE, new PetSetting(base,manager,EntityType.BLAZE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 61), "Â§aBlaze")));
+		this.manager.getSetting_list().put(EntityType.SNOWMAN, new PetSetting(base,manager,EntityType.SNOWMAN,UtilItem.RenameItem(new ItemStack(Material.CARROT_ITEM), "§aSnowman")));
+//		this.manager.getSetting_list().put(EntityType.MAGMA_CUBE, new PetSetting(base,manager,EntityType.MAGMA_CUBE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 62), "§aMagma Cube")));
+		this.manager.getSetting_list().put(EntityType.VILLAGER, new PetSetting(base,manager,EntityType.VILLAGER,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 120), "§aVillager")));
+		this.manager.getSetting_list().put(EntityType.WITCH, new PetSetting(base,manager,EntityType.WITCH,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 66), "§aWitch")));
+		this.manager.getSetting_list().put(EntityType.SKELETON, new PetSetting(base,manager,EntityType.SKELETON,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 51), "§aSkeleton")));
+		this.manager.getSetting_list().put(EntityType.CHICKEN, new PetSetting(base,manager,EntityType.CHICKEN,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 93), "§aChicken")));
+//		this.manager.getSetting_list().put(EntityType.SLIME, new PetSetting(base,manager,EntityType.SLIME,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 55), "§aSlime")));
+		this.manager.getSetting_list().put(EntityType.ENDERMAN, new PetSetting(base,manager,EntityType.ENDERMAN,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 58), "§aEnderman")));
+		this.manager.getSetting_list().put(EntityType.COW, new PetSetting(base,manager,EntityType.COW,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 92), "§aKuh")));
+		this.manager.getSetting_list().put(EntityType.IRON_GOLEM, new PetSetting(base,manager,EntityType.IRON_GOLEM,UtilItem.RenameItem(new ItemStack(Material.IRON_BLOCK), "§aIronGolem")));
+		this.manager.getSetting_list().put(EntityType.PIG, new PetSetting(base,manager,EntityType.PIG,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 90), "§aPig")));
+		this.manager.getSetting_list().put(EntityType.WOLF, new PetSetting(base,manager,EntityType.WOLF,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 95), "§aWolf")));
+		this.manager.getSetting_list().put(EntityType.SHEEP, new PetSetting(base,manager,EntityType.SHEEP,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 91), "§aSchaf")));
+		this.manager.getSetting_list().put(EntityType.COW, new PetSetting(base,manager,EntityType.COW,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 92), "§aCow")));
+		this.manager.getSetting_list().put(EntityType.ZOMBIE, new PetSetting(base,manager,EntityType.ZOMBIE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 57), "§aZombie")));
+		this.manager.getSetting_list().put(EntityType.OCELOT, new PetSetting(base,manager,EntityType.OCELOT,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 98), "§aOcelot")));
+		this.manager.getSetting_list().put(EntityType.CREEPER, new PetSetting(base,manager,EntityType.CREEPER,UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM,1,(byte)4), "§aCreeper")));
+		this.manager.getSetting_list().put(EntityType.SPIDER, new PetSetting(base,manager,EntityType.SPIDER,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 59), "§aSpider")));
+		this.manager.getSetting_list().put(EntityType.HORSE, new PetSetting(base,manager,EntityType.HORSE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 100), "§aHorse")));
+		this.manager.getSetting_list().put(EntityType.RABBIT, new PetSetting(base,manager,EntityType.RABBIT,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 101), "§aRabbit")));
+		this.manager.getSetting_list().put(EntityType.SQUID, new PetSetting(base,manager,EntityType.SQUID,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 94), "§aSquid")));
+		this.manager.getSetting_list().put(EntityType.BLAZE, new PetSetting(base,manager,EntityType.BLAZE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 61), "§aBlaze")));
 	}
 	
 	public String toString(Entity c){
@@ -169,28 +169,28 @@ public class PlayerPetHandler implements Listener{
 	
 	public PermissionType getPerm(String s){
 		switch(s){
-		case "Â§aEnderman": return PermissionType.PET_ENDERMAN;
-		case "Â§aSlime": return PermissionType.PET_SLIME;
-		case "Â§aChicken": return PermissionType.PET_CHICKEN;
-		case "Â§aCreeper": return PermissionType.PET_CREEPER;
-		case "Â§aCow": return PermissionType.PET_COW;
-		case "Â§aIronGolem": return PermissionType.PET_IRON_GOLEM;
-		case "Â§aOcelot": return PermissionType.PET_OCELOT;
-		case "Â§aZombie": return PermissionType.PET_ZOMBIE;
-		case "Â§aWolf": return PermissionType.PET_WOLF;
-		case "Â§aSchaf": return PermissionType.PET_SHEEP;
-		case "Â§aPig": return PermissionType.PET_PIG;
-		case "Â§APigZombie": return PermissionType.PET_PIGZOMBIE;
-		case "Â§aSpider": return PermissionType.PET_SPIDER;
-		case "Â§aSquid": return PermissionType.PET_SQUID;
-		case "Â§aRabbit": return PermissionType.PET_RABBIT;
-		case "Â§aHorse": return PermissionType.PET_HORSE;
-		case "Â§aBlaze": return PermissionType.PET_BLAZE;
-		case "Â§aMagma Cube": return PermissionType.PET_MAGMACUBE;
-		case "Â§aVillager": return PermissionType.PET_VILLAGER;
-		case "Â§aWitch": return PermissionType.PET_WITCH;
-		case "Â§aSkeleton": return PermissionType.PET_SKELETON;
-		case "Â§aSnowman": return PermissionType.PET_SNOWMAN;
+		case "§aEnderman": return PermissionType.PET_ENDERMAN;
+		case "§aSlime": return PermissionType.PET_SLIME;
+		case "§aChicken": return PermissionType.PET_CHICKEN;
+		case "§aCreeper": return PermissionType.PET_CREEPER;
+		case "§aCow": return PermissionType.PET_COW;
+		case "§aIronGolem": return PermissionType.PET_IRON_GOLEM;
+		case "§aOcelot": return PermissionType.PET_OCELOT;
+		case "§aZombie": return PermissionType.PET_ZOMBIE;
+		case "§aWolf": return PermissionType.PET_WOLF;
+		case "§aSchaf": return PermissionType.PET_SHEEP;
+		case "§aPig": return PermissionType.PET_PIG;
+		case "§APigZombie": return PermissionType.PET_PIGZOMBIE;
+		case "§aSpider": return PermissionType.PET_SPIDER;
+		case "§aSquid": return PermissionType.PET_SQUID;
+		case "§aRabbit": return PermissionType.PET_RABBIT;
+		case "§aHorse": return PermissionType.PET_HORSE;
+		case "§aBlaze": return PermissionType.PET_BLAZE;
+		case "§aMagma Cube": return PermissionType.PET_MAGMACUBE;
+		case "§aVillager": return PermissionType.PET_VILLAGER;
+		case "§aWitch": return PermissionType.PET_WITCH;
+		case "§aSkeleton": return PermissionType.PET_SKELETON;
+		case "§aSnowman": return PermissionType.PET_SNOWMAN;
 		default:
 			return PermissionType.NONE;
 		}
