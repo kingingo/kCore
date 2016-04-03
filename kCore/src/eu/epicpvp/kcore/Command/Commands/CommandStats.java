@@ -20,7 +20,7 @@ public class CommandStats implements CommandExecutor{
 	
 	public CommandStats(StatsManager statsmanager,MySQL mysql){
 		this.statsManager=statsmanager;
-		this.ranking=new Ranking(mysql,statsManager, StatsKey.KILLS, -1, 10);
+		this.ranking=new Ranking(statsmanager.getType(),StatsKey.KILLS);
 		this.statsManager.addRanking(ranking);
 	}
 

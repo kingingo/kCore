@@ -28,7 +28,7 @@ public class CommandMoney implements CommandExecutor{
 	
 	public CommandMoney(StatsManager stats,MySQL mysql,ServerType type){
 		this.stats=stats;
-		this.ranking=new Ranking(mysql,stats, StatsKey.MONEY, -1, 10);
+		this.ranking=new Ranking(stats.getType(), StatsKey.MONEY);
 		this.stats.addRanking(ranking);
 		this.prefix=(type==ServerType.SKYBLOCK?Language.getText("PREFIX_GAME",GameType.SKYBLOCK.getTyp()):Language.getText("PREFIX"));
 	}

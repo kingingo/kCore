@@ -1,12 +1,12 @@
 package eu.epicpvp.kcore.StatsManager;
-import java.sql.ResultSet;
-import java.util.HashMap;
+import org.bukkit.entity.Player;
 
-import org.bukkit.Bukkit;
-
+import dev.wolveringer.client.Callback;
+import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
-import eu.epicpvp.kcore.MySQL.MySQL;
-import eu.epicpvp.kcore.StatsManager.Event.RankingUpdateEvent;
+import dev.wolveringer.dataserver.protocoll.packets.PacketOutTopTen;
+import dev.wolveringer.dataserver.protocoll.packets.PacketOutTopTen.RankInformation;
+import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 
 public class Ranking {
@@ -14,53 +14,31 @@ public class Ranking {
 	@Getter
 	public StatsKey stats;
 	@Getter
-	public long time;
-	private MySQL mysql;
+	public GameType type;
 	@Getter
-	private HashMap<Integer,PlayerRank> ranking;
-	@Getter
-	private int length;
-	private StatsManager statsManager;
+	private RankInformation[] ranking;
 	
-	public Ranking(MySQL mysql,StatsManager statsManager,StatsKey stats,long time,int length){
+	public Ranking(GameType type,StatsKey stats){
 		this.stats=stats;
-		this.ranking= new HashMap<>();
-		this.time=time;
-		this.length=length;
-		this.mysql=mysql;
-		this.statsManager=statsManager;
+		this.type=type;
 	}
 	
+
 	public void load(){
-		if(ranking.isEmpty()){
-			try{
-				 ResultSet rs = mysql.Query("SELECT `"+getStats().getMySQLName()+"`,`player` FROM `users_"+statsManager.getType().getTyp()+"`"+(getTime()==-1?"":"WHERE time<'"+(System.currentTimeMillis()+(time/2))+"' AND time>'"+(System.currentTimeMillis()-(time/2))+"'")+" ORDER BY "+getStats().getMySQLName()+" DESC LIMIT "+getLength()+";");
-
-			      int zahl = 1;
-
-			      while (rs.next()) {
-			    	if(ranking.containsKey(zahl)){
-			    		ranking.get(zahl).player=rs.getString(2);
-			    		if(stats.getType() == int.class){
-				    		ranking.get(zahl).stats=Math.round(rs.getInt(1));
-			    		}else if(stats.getType() == double.class){
-				    		ranking.get(zahl).stats=Math.round(rs.getDouble(1));
-			    		}
-			    	}else{
-			    		if(stats.getType() == int.class){
-					        ranking.put(zahl, new PlayerRank(rs.getString(2),Math.round(rs.getInt(1))));
-			    		}else if(stats.getType() == double.class){
-					        ranking.put(zahl, new PlayerRank(rs.getString(2),Math.round(rs.getDouble(1))));
-			    		}
-			    	}
-			        zahl++;
-			      }
-			      rs.close();
-			      Bukkit.getPluginManager().callEvent(new RankingUpdateEvent(statsManager,this));
-			 } catch (Exception err) {
-			      System.out.println("MySQL-Error: " + err.getMessage());
-			 }
-		}
+		load(null);
+	}
+	
+	public void load(Callback<Object> call){
+		UtilServer.getClient().getTopTen(getType(), getStats()).getAsync(new Callback<PacketOutTopTen>() {
+			
+			@Override
+			public void call(PacketOutTopTen packet) {
+				if(packet != null){
+					ranking=packet.getRanks();
+					if(call!=null)call.call(null);
+				}
+			}
+		});
 	}
 	
 }

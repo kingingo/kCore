@@ -11,8 +11,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import dev.wolveringer.client.Callback;
 import dev.wolveringer.dataserver.gamestats.GameType;
-import eu.epicpvp.kcore.MySQL.Callback;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.MySQL.MySQLErr;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;
@@ -120,12 +120,12 @@ public class PlayerKitManager{
 		loadAsyncKit(uuid, id, null);
 	}
 	
-	public void loadAsyncKit(UUID uuid,int id,Callback callback){
+	public void loadAsyncKit(UUID uuid,int id,Callback<PlayerKit> callback){
 		if(!kits.containsKey(uuid)){
-			mysql.asyncQuery("users_"+type.getKuerzel()+"_kits", "`content`,`armor_content`", "UUID='"+uuid+"' AND id='"+id+"'", new Callback() {
+			mysql.asyncQuery("users_"+type.getKuerzel()+"_kits", "`content`,`armor_content`", "UUID='"+uuid+"' AND id='"+id+"'", new Callback<ResultSet>() {
 				
 				@Override
-				public void done(Object value) {
+				public void call(ResultSet value) {
 					if(value instanceof ResultSet){
 						
 						try {
@@ -136,7 +136,7 @@ public class PlayerKitManager{
 							kits.get(uuid).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
 							kits.get(uuid).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
 								 
-							if(callback!=null)callback.done(kits.get(uuid));
+							if(callback!=null)callback.call(kits.get(uuid));
 						} catch (SQLException e) {
 							e.printStackTrace();
 						} catch (IOException e) {

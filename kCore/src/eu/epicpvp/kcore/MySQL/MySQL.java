@@ -5,10 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import dev.wolveringer.client.Callback;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import eu.epicpvp.kcore.MySQL.Events.MySQLConnectEvent;
 import eu.epicpvp.kcore.MySQL.Events.MySQLDisconnectEvent;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;
@@ -85,7 +84,7 @@ public class MySQL {
 				});
 	}
 
-	public void asyncGetObject(String qry, Callback callback) {
+	public void asyncGetObject(String qry, Callback<Object> callback) {
 		if (connection == null)return;
 		Bukkit.getScheduler().runTaskAsynchronously(getInstance(),
 				new Runnable() {
@@ -97,7 +96,7 @@ public class MySQL {
 							Statement stmt = connection.createStatement();
 							rs = stmt.executeQuery(qry);
 							while (rs.next())
-								callback.done(rs.getObject(1));
+								callback.call(rs.getObject(1));
 							rs.close();
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -106,7 +105,7 @@ public class MySQL {
 				});
 	}
 
-	public void asyncGetInt(String qry, Callback callback) {
+	public void asyncGetInt(String qry, Callback<Integer> callback) {
 		if (connection == null)return;
 		Bukkit.getScheduler().runTaskAsynchronously(getInstance(),
 				new Runnable() {
@@ -119,7 +118,7 @@ public class MySQL {
 							Statement stmt = connection.createStatement();
 							rs = stmt.executeQuery(qry);
 							while (rs.next())
-								callback.done(rs.getInt(1));
+								callback.call(rs.getInt(1));
 							rs.close();
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -129,7 +128,7 @@ public class MySQL {
 				});
 	}
 
-	public void asyncGetString(String qry, Callback callback) {
+	public void asyncGetString(String qry, Callback<String> callback) {
 		if (connection == null)
 			return;
 		Bukkit.getScheduler().runTaskAsynchronously(getInstance(),
@@ -143,7 +142,7 @@ public class MySQL {
 							Statement stmt = connection.createStatement();
 							rs = stmt.executeQuery(qry);
 							while (rs.next())
-								callback.done(rs.getString(1));
+								callback.call(rs.getString(1));
 							rs.close();
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -153,7 +152,7 @@ public class MySQL {
 				});
 	}
 
-	public void asyncGetDouble(String qry, Callback callback) {
+	public void asyncGetDouble(String qry, Callback<Double> callback) {
 		if (connection == null)
 			return;
 		Bukkit.getScheduler().runTaskAsynchronously(getInstance(),
@@ -167,7 +166,7 @@ public class MySQL {
 							Statement stmt = connection.createStatement();
 							rs = stmt.executeQuery(qry);
 							while (rs.next())
-								callback.done(rs.getDouble(1));
+								callback.call(rs.getDouble(1));
 							rs.close();
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -177,11 +176,11 @@ public class MySQL {
 				});
 	}
 
-	public void asyncQuery(String qry, Callback callback) {
+	public void asyncQuery(String qry, Callback<ResultSet> callback) {
 		asyncQuery(qry, callback, null);
 	}
 
-	public void asyncQuery(String qry, Callback callback, Callback noAnswer) {
+	public void asyncQuery(String qry, Callback<ResultSet> callback, Callback<Boolean> noAnswer) {
 		if (connection == null)
 			return;
 		Bukkit.getScheduler().runTaskAsynchronously(getInstance(),
@@ -196,12 +195,12 @@ public class MySQL {
 							rs = stmt.executeQuery(qry);
 							boolean b = false;
 							while (rs.next()) {
-								callback.done(rs);
+								callback.call(rs);
 								b = true;
 							}
 
 							if (!b && noAnswer != null)
-								noAnswer.done(false);
+								noAnswer.call(false);
 							rs.close();
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -222,7 +221,7 @@ public class MySQL {
 	}
 
 	public void asyncQuery(String table, String select, String where,
-			Callback callback) {
+			Callback<ResultSet> callback) {
 		asyncQuery("SELECT " + select + " FROM `" + table + "`"
 				+ (where != null ? " WHERE " + where : ""), callback);
 	}

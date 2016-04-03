@@ -18,6 +18,7 @@ import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.Action;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.EditStats;
+import dev.wolveringer.dataserver.protocoll.packets.PacketOutTopTen.RankInformation;
 import dev.wolveringer.gamestats.Statistic;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangeEvent;
@@ -64,6 +65,7 @@ public class StatsManager extends kListener {
 	}
 
 	public void addRanking(Ranking ranking) {
+		ranking.load();
 		rankings.add(ranking);
 	}
 
@@ -97,30 +99,20 @@ public class StatsManager extends kListener {
 		});
 	}
 
-	public void SendRankingMessage(Player player, Ranking ranking, String Zeitraum) {
-		if (ranking.getRanking().isEmpty())
-			ranking.load();
-		player.sendMessage("§b§§§§§§§§§§§§§§§§§6 §lPlayer Ranking | " + Zeitraum + " | Top " + ranking.getLength()
-				+ " §b§§§§§§§§§§§§§§§§");
-		player.sendMessage("§b Platz | " + (ranking.getStats().getMySQLName().equalsIgnoreCase("elo") ? "FAME"
-				: ranking.getStats().getMySQLName()) + " | Player");
-		for (Integer i : ranking.getRanking().keySet())
-			player.sendMessage(
-					"§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats)
-							+ " §b|§6 " + ranking.getRanking().get(i).player);
-	}
-
 	public void SendRankingMessage(Player player, Ranking ranking) {
-		if (ranking.getRanking().isEmpty())
-			ranking.load();
-		player.sendMessage(
-				"§b§§§§§§§§§§§§§§§§§6 §lPlayer Ranking | Top " + ranking.getLength() + " §b§§§§§§§§§§§§§§§§");
-		player.sendMessage("§b Platz | " + (ranking.getStats().getMySQLName().equalsIgnoreCase("elo") ? "FAME"
-				: ranking.getStats().getMySQLName()) + " | Player");
-		for (Integer i : ranking.getRanking().keySet())
-			player.sendMessage(
-					"§b#§6" + String.valueOf(i) + "§b | §6" + String.valueOf(ranking.getRanking().get(i).stats)
-							+ " §b|§6 " + ranking.getRanking().get(i).player);
+		if(ranking.getRanking() ==null){
+			ranking.load(new Callback() {
+				@Override
+				public void call(Object obj) {
+					statsManager.SendRankingMessage(player, ranking);
+				}
+			});
+		}else{
+			player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top "+ranking.getRanking().length+" §b■■■■■■■■");
+			player.sendMessage("§b Platz | " + ranking.getStats().getMySQLName() + " | Player");
+			for (int i = 0; i < ranking.getRanking().length ; i++)
+				player.sendMessage("§b#§6" + (i+1) + "§b | §6" + ranking.getRanking()[i].getTopValue() + " §b|§6 " + ranking.getRanking()[i].getPlayer());
+		}
 	}
 
 	public long getLong(StatsKey key, Player player) {

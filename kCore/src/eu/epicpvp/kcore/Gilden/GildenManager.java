@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import dev.wolveringer.client.Callback;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Gilden.Events.GildeLoadEvent;
@@ -27,7 +28,6 @@ import eu.epicpvp.kcore.Gilden.Events.GildePlayerJoinEvent;
 import eu.epicpvp.kcore.Gilden.Events.GildePlayerLeaveEvent;
 import eu.epicpvp.kcore.Gilden.Events.GildenChatEvent;
 import eu.epicpvp.kcore.Language.Language;
-import eu.epicpvp.kcore.MySQL.Callback;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.MySQL.MySQLErr;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;
@@ -103,7 +103,7 @@ public class GildenManager implements Listener {
 	@EventHandler
 	public void chat(AsyncPlayerChatEvent ev){
 		if(ev.getMessage().startsWith("#")&&isPlayerInGilde(ev.getPlayer())){
-			ev.setMessage(ev.getMessage().substring(1, ev.getMessage().length()).replaceAll("&", "Â§Â§"));
+			ev.setMessage(ev.getMessage().substring(1, ev.getMessage().length()).replaceAll("&", "§"));
 			if(chatevent==null)chatevent=new GildenChatEvent(ev.getPlayer(), ev.getMessage(), getPlayerGilde(ev.getPlayer()), this);
 			chatevent.setCancelled(false);
 			chatevent.setPlayer(ev.getPlayer());
@@ -141,29 +141,29 @@ public class GildenManager implements Listener {
 	public void LoadRankingKills(boolean b){
 		if(ranking.isEmpty()||b){
 			extra_prefix.clear();
-			getMysql().asyncQuery("SELECT `kills`,`gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` ORDER BY kills DESC LIMIT 15;", new Callback() {
+			getMysql().asyncQuery("SELECT `kills`,`gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` ORDER BY kills DESC LIMIT 15;", new Callback<ResultSet>() {
 				
 				@Override
-				public void done(Object value) {
+				public void call(ResultSet value) {
 					try{
 						ResultSet rs = (ResultSet)value;
 						
 						if((ranking.size()+1)==1){
-							ranking.put(1, "Â§Â§b#Â§Â§6" + String.valueOf(1) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§4Â§Â§l " + rs.getString(2));
+							ranking.put(1, "§b#§6" + String.valueOf(1) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
 						}else if((ranking.size()+1)==2){
-					  		ranking.put(2, "Â§Â§b#Â§Â§6" + String.valueOf(2) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§2Â§Â§l " + rs.getString(2));
+					  		ranking.put(2, "§b#§6" + String.valueOf(2) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)==3){
-					  		ranking.put(3, "Â§Â§b#Â§Â§6" + String.valueOf(3) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§eÂ§Â§l " + rs.getString(2));
+					  		ranking.put(3, "§b#§6" + String.valueOf(3) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=4 && (ranking.size()+1)<=6){
-					  		ranking.put(4, "Â§Â§b#Â§Â§6" + String.valueOf(4) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§3 " + rs.getString(2));
+					  		ranking.put(4, "§b#§6" + String.valueOf(4) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=7 && (ranking.size()+1)<=9){
-					  		ranking.put(5, "Â§Â§b#Â§Â§6" + String.valueOf(5) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§d " + rs.getString(2));
+					  		ranking.put(5, "§b#§6" + String.valueOf(5) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=10 && (ranking.size()+1)<=12){
-					  		ranking.put(6, "Â§Â§b#Â§Â§6" + String.valueOf(6) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§a " + rs.getString(2));
+					  		ranking.put(6, "§b#§6" + String.valueOf(6) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=13 && (ranking.size()+1)<=15){
-					  		ranking.put(7, "Â§Â§b#Â§Â§6" + String.valueOf(7) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§b " + rs.getString(2));
+					  		ranking.put(7, "§b#§6" + String.valueOf(7) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
 					  	}else{
-					  		ranking.put(8, "Â§Â§b#Â§Â§6" + String.valueOf(8) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§6 " + rs.getString(2));
+					  		ranking.put(8, "§b#§6" + String.valueOf(8) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
 					  	}
 						extra_prefix.put(rs.getString(2).toLowerCase(), ranking.size()+1);
 					 } catch (Exception err) {
@@ -177,29 +177,29 @@ public class GildenManager implements Listener {
 	public void LoadRankingFame(boolean b){
 		if(ranking.isEmpty()||b){
 			extra_prefix.clear();
-			getMysql().asyncQuery("SELECT `elo`,`gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` ORDER BY elo DESC LIMIT 15;", new Callback() {
+			getMysql().asyncQuery("SELECT `elo`,`gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` ORDER BY elo DESC LIMIT 15;", new Callback<ResultSet>() {
 				
 				@Override
-				public void done(Object value) {
+				public void call(ResultSet value) {
 					try{
 						ResultSet rs = (ResultSet)value;
 						
 						if((ranking.size()+1)==1){
-							ranking.put(1, "Â§Â§b#Â§Â§6" + String.valueOf(1) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§4Â§Â§l " + rs.getString(2));
+							ranking.put(1, "§b#§6" + String.valueOf(1) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
 						}else if((ranking.size()+1)==2){
-					  		ranking.put(2, "Â§Â§b#Â§Â§6" + String.valueOf(2) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§2Â§Â§l " + rs.getString(2));
+					  		ranking.put(2, "§b#§6" + String.valueOf(2) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)==3){
-					  		ranking.put(3, "Â§Â§b#Â§Â§6" + String.valueOf(3) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§eÂ§Â§l " + rs.getString(2));
+					  		ranking.put(3, "§b#§6" + String.valueOf(3) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=4 && (ranking.size()+1)<=6){
-					  		ranking.put(4, "Â§Â§b#Â§Â§6" + String.valueOf(4) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§3 " + rs.getString(2));
+					  		ranking.put(4, "§b#§6" + String.valueOf(4) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=7 && (ranking.size()+1)<=9){
-					  		ranking.put(5, "Â§Â§b#Â§Â§6" + String.valueOf(5) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§d " + rs.getString(2));
+					  		ranking.put(5, "§b#§6" + String.valueOf(5) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=10 && (ranking.size()+1)<=12){
-					  		ranking.put(6, "Â§Â§b#Â§Â§6" + String.valueOf(6) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§a " + rs.getString(2));
+					  		ranking.put(6, "§b#§6" + String.valueOf(6) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=13 && (ranking.size()+1)<=15){
-					  		ranking.put(7, "Â§Â§b#Â§Â§6" + String.valueOf(7) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§b " + rs.getString(2));
+					  		ranking.put(7, "§b#§6" + String.valueOf(7) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
 					  	}else{
-					  		ranking.put(8, "Â§Â§b#Â§Â§6" + String.valueOf(8) + "Â§Â§b | Â§Â§6" + String.valueOf(rs.getInt(1)) + " Â§Â§b|Â§Â§6 " + rs.getString(2));
+					  		ranking.put(8, "§b#§6" + String.valueOf(8) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
 					  	}
 						extra_prefix.put(rs.getString(2).toLowerCase(), ranking.size()+1);
 					 } catch (Exception err) {
@@ -211,8 +211,8 @@ public class GildenManager implements Listener {
 	}
 	
 	public void Ranking(Player p){
-		p.sendMessage("Â§Â§bÂ§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§ Â§Â§6Â§Â§lGilden Ranking | Top 15 Â§Â§bÂ§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§");
-		p.sendMessage("Â§Â§b Place | "+(GildenType.PVP==getTyp()?"FAME":"Kills")+" | Gilde");
+		p.sendMessage("§b– – – – – – – –  §6§lGilden Ranking | Top 15 §b– – – – – – – – ");
+		p.sendMessage("§b Place | "+(GildenType.PVP==getTyp()?"FAME":"Kills")+" | Gilde");
 		LoadRanking(false);
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
@@ -500,10 +500,10 @@ public class GildenManager implements Listener {
 	
 	public void loadTag(final String gilde){
 		if(gilden_tag.containsKey(gilde.toLowerCase()))return;
-		getMysql().asyncGetString("SELECT `gildentag` FROM `list_gilden_"+typ.getKuerzel()+"` WHERE gilde='"+gilde.toLowerCase()+"'", new Callback() {
+		getMysql().asyncGetString("SELECT `gildentag` FROM `list_gilden_"+typ.getKuerzel()+"` WHERE gilde='"+gilde.toLowerCase()+"'", new Callback<String>() {
 			
 			@Override
-			public void done(Object value) {
+			public void call(String value) {
 				gilden_tag.put(gilde.toLowerCase(),((String)value));
 			}
 		});
@@ -512,9 +512,9 @@ public class GildenManager implements Listener {
 	public void loadStats(final String gilde){
 		for(StatsKey stats : typ.getStats()){
 			if(!this.gilden_data.get(gilde.toLowerCase()).get(typ).containsKey(stats)){
-				getMysql().asyncGetObject("SELECT "+stats.getMySQLName()+" FROM list_gilden_"+typ.getKuerzel()+"_data WHERE gilde= '"+gilde.toLowerCase()+"'", new Callback() {
+				getMysql().asyncGetObject("SELECT "+stats.getMySQLName()+" FROM list_gilden_"+typ.getKuerzel()+"_data WHERE gilde= '"+gilde.toLowerCase()+"'", new Callback<Object>() {
 					@Override
-					public void done(Object value) {
+					public void call(Object value) {
 						if(value instanceof Double){
 							gilden_data.get(gilde.toLowerCase()).get(typ).put(stats, ((Double)value));
 						}else if(value instanceof Integer){
@@ -532,19 +532,19 @@ public class GildenManager implements Listener {
 	
 	public void LoadExistGildeData(final String gilde,GildenType typ){
 		if(gilden_data.containsKey(gilde.toLowerCase()))return;
-		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` WHERE gilde='"+gilde.toLowerCase()+"'", new Callback() {
+		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` WHERE gilde='"+gilde.toLowerCase()+"'", new Callback<ResultSet>() {
 			
 			@Override
-			public void done(Object value) {
+			public void call(ResultSet value) {
 				gilden_data.put(gilde.toLowerCase(),new HashMap<GildenType,HashMap<StatsKey,Object>>());
 				gilden_data.get(gilde.toLowerCase()).put(typ, new HashMap<StatsKey,Object>());
 				loadTag(gilde.toLowerCase());
 				loadStats(gilde.toLowerCase());
 			}
-		}, new Callback() {
+		}, new Callback<Boolean>() {
 			
 			@Override
-			public void done(Object value) {
+			public void call(Boolean value) {
 				createDataEintrag(gilde.toLowerCase(), typ);
 				gilden_data.put(gilde.toLowerCase(),new HashMap<GildenType,HashMap<StatsKey,Object>>());
 				gilden_data.get(gilde.toLowerCase()).put(typ, new HashMap<StatsKey,Object>());
@@ -556,10 +556,10 @@ public class GildenManager implements Listener {
 	public void loadPlayer(Player player){
 		if(this.gilden_player.containsKey(UtilPlayer.getRealUUID(player)))return;
 		
-		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'", new Callback() {
+		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'", new Callback<ResultSet>() {
 			
 			@Override
-			public void done(Object value) {
+			public void call(ResultSet value) {
 				if(value instanceof ResultSet){
 					try {
 						GildenPlayerPut(player,((ResultSet)value).getString(1));
@@ -569,10 +569,10 @@ public class GildenManager implements Listener {
 					}
 				}
 			}
-		},new Callback() {
+		},new Callback<Boolean>() {
 			
 			@Override
-			public void done(Object value) {
+			public void call(Boolean value) {
 				GildenPlayerPut(player,"-");
 			}
 		});
