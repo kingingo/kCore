@@ -98,7 +98,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(helm_choose);
 		
 		this.chestplate_choose=new InventorySortChoose(new Click(){
@@ -119,7 +119,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(chestplate_choose);
 		this.leggings_choose=new InventorySortChoose(new Click(){
 
@@ -139,7 +139,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(leggings_choose);
 		this.boots_choose=new InventorySortChoose(new Click(){
 
@@ -159,7 +159,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(boots_choose);
 		this.main_item_inventory1=new InventoryChoose(new Click(){
 
@@ -179,7 +179,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(main_item_inventory1);
 		this.main_item_inventory2=new InventoryChoose(new Click(){
 
@@ -199,7 +199,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(main_item_inventory2);
 		second_item1=new InventoryChoose(new Click(){
 
@@ -219,7 +219,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(second_item1);
 		second_item2=new InventoryChoose(new Click(){
 
@@ -239,7 +239,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(second_item2);
 		ItemStack[] i = loadPotions();
 		potion=new InventoryChoose(new Click(){
@@ -260,7 +260,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory(inventorys.get(player));
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(potion);
 		
 		this.helm_enchant=new InventoryChoose(new Click(){
@@ -286,7 +286,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(helm_enchant);
 		
 		this.chestplate_enchant=new InventoryChoose(new Click(){
@@ -312,7 +312,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(chestplate_enchant);
 		
 		this.leggings_enchant=new InventoryChoose(new Click(){
@@ -338,7 +338,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(leggings_enchant);
 		
 		this.boots_enchant=new InventoryChoose(new Click(){
@@ -364,7 +364,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(boots_enchant);
 		
 		this.main_item_bow_enchant=new InventoryChoose(new Click(){
@@ -390,7 +390,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(main_item_bow_enchant);
 		
 		this.main_item_sword_enchant=new InventoryChoose(new Click(){
@@ -416,7 +416,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(main_item_sword_enchant);
 		
 		this.amount=new InventoryChoose(new Click(){
@@ -442,7 +442,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.openInventory( inventorys.get(player) );
 			}
 			
-		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "�cZurück")));
+		},UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)14), "§cZurück")));
 		this.base.addPage(amount);
 	}
 
@@ -573,7 +573,7 @@ public class KitSettingInventorys extends InventoryBase{
 				player.closeInventory();
 			}
 			
-		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)4), "�aKit Speichern")));
+		}, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(short)4), "§aKit Speichern")));
 		
 		
 		page.addButton(helm_place, new ButtonBase(new Click(){

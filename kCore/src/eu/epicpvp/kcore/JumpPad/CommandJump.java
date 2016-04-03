@@ -45,13 +45,13 @@ public class CommandJump extends kListener implements CommandExecutor {
 		Player p = (Player)cs;
 		if(p.isOp()){
 			if(p.getLocation().add(0,-1,0).getBlock().getType()==Material.GOLD_PLATE){
-				p.sendMessage(Language.getText(p, "PREFIX")+"§cDu musst auf einer Gold Platte stehen!");
+				p.sendMessage(Language.getText(p, "PREFIX")+"Â§cDu musst auf einer Gold Platte stehen!");
 				return false;
 			}
 			config.setLocation("Jump."+list.size()+".From", p.getLocation().add(0, 1, 0));
 			config.save();
 			player=p;
-			p.sendMessage(Language.getText(p, "PREFIX")+"§aDie Jump Platte "+list.size()+" wurde gesetzt!");
+			p.sendMessage(Language.getText(p, "PREFIX")+"Â§aDie Jump Platte "+list.size()+" wurde gesetzt!");
 		}
 		return false;
 	}
@@ -76,7 +76,7 @@ public class CommandJump extends kListener implements CommandExecutor {
 		if(player!=null&&player==ev.getPlayer()){
 			config.setLocation("Jump."+list.size()+".To", ev.getPlayer().getLocation().add(0, 1, 0));
 			config.save();
-			ev.getPlayer().sendMessage(Language.getText(player, "PREFIX")+"§cDie Jump Platte "+list.size()+" wurde gesetzt!");
+			ev.getPlayer().sendMessage(Language.getText(player, "PREFIX")+"Â§cDie Jump Platte "+list.size()+" wurde gesetzt!");
 			JumpPad jump = new TeleportPad(config.getLocation("Jump."+list.size()+".From"),config.getLocation("Jump."+list.size()+".To"));
 			list.put(config.getLocation("Jump."+list.size()+".From"), jump);
 			player=null;

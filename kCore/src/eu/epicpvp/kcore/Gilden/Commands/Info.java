@@ -22,22 +22,22 @@ public class Info {
 				if(s==StatsKey.LOC_X||s==StatsKey.LOC_Y||s==StatsKey.LOC_Z||s==StatsKey.WORLD)continue;
 				
 				if(s==StatsKey.ELO){
-					p.sendMessage("ง6FAME: งb"+manager.getDouble(s, g, manager.getTyp()));
+					p.sendMessage("ยง6FAME: ยงb"+manager.getDouble(s, g, manager.getTyp()));
 				}else if(s.getType() == int.class){
-					p.sendMessage("ง6"+s.getMySQLName()+": งb"+manager.getInt(s, g, manager.getTyp()));
+					p.sendMessage("ยง6"+s.getMySQLName()+": ยงb"+manager.getInt(s, g, manager.getTyp()));
 				}else if(s.getType() == double.class){
-					p.sendMessage("ง6"+s.getMySQLName()+": งb"+manager.getDouble(s, g, manager.getTyp()));
+					p.sendMessage("ยง6"+s.getMySQLName()+": ยงb"+manager.getDouble(s, g, manager.getTyp()));
 				}
 			}
 			manager.getMember(g);
-			p.sendMessage("ง6Anzahl: งb"+manager.getAnzahl(g)+"/10");
+			p.sendMessage("ยง6Anzahl: ยงb"+manager.getAnzahl(g)+"/10");
 			String[] players = manager.getGildenPlayersName(g);
-			String l = "ง6List: ";
+			String l = "ยง6List: ";
 			for(String player : players){
 				if(UtilPlayer.isOnline(player)){
-					l=l+" งa"+Bukkit.getPlayer(player).getName()+",";
+					l=l+" ยงa"+Bukkit.getPlayer(player).getName()+",";
 				}else{
-					l=l+" งc"+player+",";
+					l=l+" ยงc"+player+",";
 				}
 			}
 			l=l.substring(0, l.length()-1);
@@ -53,21 +53,21 @@ public class Info {
 				if(s==StatsKey.LOC_X||s==StatsKey.LOC_Y||s==StatsKey.LOC_Z||s==StatsKey.WORLD)continue;
 				
 				if(s==StatsKey.ELO){
-					p.sendMessage("ง6FAME: งb"+manager.getDouble(s, g, manager.getTyp()));
+					p.sendMessage("ยง6FAME: ยงb"+manager.getDouble(s, g, manager.getTyp()));
 				}else if(s.getType() == int.class){
-					p.sendMessage("ง6"+s.getMySQLName()+": งb"+manager.getInt(s, g, manager.getTyp()));
+					p.sendMessage("ยง6"+s.getMySQLName()+": ยงb"+manager.getInt(s, g, manager.getTyp()));
 				}else if(s.getType() == double.class){
-					p.sendMessage("ง6"+s.getMySQLName()+": งb"+manager.getDouble(s, g, manager.getTyp()));
+					p.sendMessage("ยง6"+s.getMySQLName()+": ยงb"+manager.getDouble(s, g, manager.getTyp()));
 				}
 			}
 			manager.getMember(g);
 			String[] players = manager.getGildenPlayersName(g);
-			String l = "ง6List: ";
+			String l = "ยง6List: ";
 			for(String player : players){
 				if(UtilPlayer.isOnline(player)){
-					l=l+" งa"+Bukkit.getPlayer(player).getName()+",";
+					l=l+" ยงa"+Bukkit.getPlayer(player).getName()+",";
 				}else{
-					l=l+" งc"+player+",";
+					l=l+" ยงc"+player+",";
 				}
 			}
 			l=l.substring(0, l.length()-1);

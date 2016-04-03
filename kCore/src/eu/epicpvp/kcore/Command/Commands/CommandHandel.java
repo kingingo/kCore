@@ -55,15 +55,15 @@ public class CommandHandel extends kListener implements CommandExecutor{
 					anfrage.remove(player);
 				}else{
 					if(anfrage.containsKey(player1)&&anfrage.get(player1).getUniqueId()==player.getUniqueId()){
-						player.sendMessage(Language.getText(player1, "PREFIX")+"§cDu hast diesen Spieler bereits eine Anfrage gesendet!");
+						player.sendMessage(Language.getText(player1, "PREFIX")+"Â§cDu hast diesen Spieler bereits eine Anfrage gesendet!");
 						return false;
 					}
 					
 					anfrage.remove(player1);
 					anfrage.put(player1, player);
-					player.sendMessage(Language.getText(player1, "PREFIX")+"§aDu hast §7"+player1.getName()+"§a eine anfrage gesendet!");
-					player1.sendMessage(Language.getText(player1, "PREFIX")+"§aDu hast von §7"+player.getName()+"§a eine Handel anfrage erhalten!");
-					player1.sendMessage(Language.getText(player1, "PREFIX")+"§azum Annehmen §7/Handel "+player.getName());
+					player.sendMessage(Language.getText(player1, "PREFIX")+"Â§aDu hast Â§7"+player1.getName()+"Â§a eine anfrage gesendet!");
+					player1.sendMessage(Language.getText(player1, "PREFIX")+"Â§aDu hast von Â§7"+player.getName()+"Â§a eine Handel anfrage erhalten!");
+					player1.sendMessage(Language.getText(player1, "PREFIX")+"Â§azum Annehmen Â§7/Handel "+player.getName());
 				}
 			}else{
 				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));

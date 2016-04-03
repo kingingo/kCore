@@ -30,7 +30,7 @@ public class ClientListener extends kListener{
 				try {
 					client.getHandle().connect("HelloWorld".getBytes());
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println("[Client]: Cannot connect...");
 				}
 			}
 		}

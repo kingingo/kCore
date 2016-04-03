@@ -15,16 +15,16 @@ public class CommandXP implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		Player p = (Player)cs;
 		if(args.length==0){
-			p.sendMessage(Language.getText(p, "PREFIX")+"§c/xp send <Player> <LVL>");
+			p.sendMessage(Language.getText(p, "PREFIX")+"Â§c/xp send <Player> <LVL>");
 		}else{
 			if(args[0].equalsIgnoreCase("send")){
 				
 				if(args.length == 1){
-					p.sendMessage(Language.getText(p, "PREFIX")+"§c/xp send <Player> <LVL>");
+					p.sendMessage(Language.getText(p, "PREFIX")+"Â§c/xp send <Player> <LVL>");
 					return false;
 				}
 				if(args.length == 2){
-					p.sendMessage(Language.getText(p, "PREFIX")+"§c/xp send <Player> <LVL>");
+					p.sendMessage(Language.getText(p, "PREFIX")+"Â§c/xp send <Player> <LVL>");
 					return false;
 				}
 				if(args.length == 3){

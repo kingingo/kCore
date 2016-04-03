@@ -87,7 +87,7 @@ public class VillagerShop extends kListener{
 				player.openInventory(getInventory());
 			}
 			
-		}, UtilItem.Item(new ItemStack(Material.REDSTONE), new String[]{}, "§aInventory Shop")));
+		}, UtilItem.Item(new ItemStack(Material.REDSTONE), new String[]{}, "Â§aInventory Shop")));
 		this.inventory.addButton(0, new ButtonBase(new Click(){
 
 			@Override
@@ -96,7 +96,7 @@ public class VillagerShop extends kListener{
 				player.openInventory(getInventoryMerchant());
 			}
 			
-		}, UtilItem.Item(new ItemStack(Material.GLOWSTONE_DUST), new String[]{}, "§aInventory Shop")));
+		}, UtilItem.Item(new ItemStack(Material.GLOWSTONE_DUST), new String[]{}, "Â§aInventory Shop")));
 		UtilInv.getBase(instance).addPage(inventoryMerchant);
 		UtilInv.getBase(instance).addPage(inventory);
 		spawn(spawn);

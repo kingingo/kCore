@@ -21,7 +21,7 @@ public class InventoryMerchant extends InventoryPageBase{
 	public InventoryMerchant(Merchant merchant,InventoryPageBase backbutton){
 		this(merchant);
 		
-		addButton(0, new ButtonOpenInventory(backbutton, UtilItem.RenameItem(new ItemStack(Material.BARRIER), "§cback")));
+		addButton(0, new ButtonOpenInventory(backbutton, UtilItem.RenameItem(new ItemStack(Material.BARRIER), "Â§cback")));
 	}
 	
 	public InventoryMerchant(Merchant merchant){
@@ -56,7 +56,7 @@ public class InventoryMerchant extends InventoryPageBase{
 					}
 				}
 				
-			}, UtilItem.Item(offer.getOutput(), new String[]{ "§e"+offer.getFirstInput().getAmount()+" "+offer.getFirstInput().getItemMeta().getDisplayName() }, offer.getOutput().getItemMeta().getDisplayName())));
+			}, UtilItem.Item(offer.getOutput(), new String[]{ "Â§e"+offer.getFirstInput().getAmount()+" "+offer.getFirstInput().getItemMeta().getDisplayName() }, offer.getOutput().getItemMeta().getDisplayName())));
 			
 			slot--;
 		}

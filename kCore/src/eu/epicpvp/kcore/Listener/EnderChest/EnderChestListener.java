@@ -61,7 +61,7 @@ public class EnderChestListener extends kListener{
 			}
 			setEnderchestAddon(ev.getPlayer(), UtilItem.convertItemStackArray(config.getItemStackArray("Enderchest")));
 		}
-		ev.getManager().getPlayer(ev.getPlayer()).addPermission(PermissionType.ENDERCHEST_USE.getPermissionToString());
+		ev.getManager().getPermissionPlayer(ev.getPlayer()).addPermission(PermissionType.ENDERCHEST_USE.getPermissionToString());
 	}
 	
 	@EventHandler

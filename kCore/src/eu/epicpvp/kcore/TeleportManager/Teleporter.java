@@ -114,7 +114,7 @@ public class Teleporter {
 				}
 				
 				if(getTime() > System.currentTimeMillis()){
-					from.sendMessage(Language.getText(from, "PREFIX")+Language.getText(from, "TELEPORT_VERZ§GERUNG",UtilTime.formatMili(getTime()-System.currentTimeMillis())));
+					from.sendMessage(Language.getText(from, "PREFIX")+Language.getText(from, "TELEPORT_VERZÂ§GERUNG",UtilTime.formatMili(getTime()-System.currentTimeMillis())));
 					return false;
 				}
 

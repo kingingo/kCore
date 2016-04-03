@@ -19,7 +19,7 @@ public class PerkDoubleJump extends Perk{
 	private int staerke;
 	
 	public PerkDoubleJump() {
-		super("DoubleJump",UtilItem.RenameItem(new ItemStack(Material.IRON_BOOTS),"§eDoubleJump"));
+		super("DoubleJump",UtilItem.RenameItem(new ItemStack(Material.IRON_BOOTS),"Â§eDoubleJump"));
 		this.staerke=2;
 		this.typ=PotionEffectType.JUMP;
 	}

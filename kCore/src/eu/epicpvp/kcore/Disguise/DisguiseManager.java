@@ -186,7 +186,7 @@ public class DisguiseManager extends kListener {
 	@EventHandler
 	public void create(DisguiseCreateEvent ev){
 		if(ev.getEntity() instanceof Player && ev.getBase() instanceof DisguiseInsentient){
-			UtilPlayer.sendHovbarText(((Player)ev.getEntity()), "§eDisguise §7§ §a§l"+ ((DisguiseInsentient)ev.getBase()).GetEntityTypeId().name());
+			UtilPlayer.sendHovbarText(((Player)ev.getEntity()), "Â§eDisguise Â§7Â§ Â§aÂ§l"+ ((DisguiseInsentient)ev.getBase()).GetEntityTypeId().name());
 		}
 	}
 	

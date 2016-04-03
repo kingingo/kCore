@@ -27,7 +27,7 @@ public class CommandRegister implements CommandExecutor{
 		
 		if(!getLoginManager().getRegister().contains(player.getName().toLowerCase()))return false;
 		if(args.length==0){
-			player.sendMessage(Language.getText(player, "PREFIX")+"§c/register [Password]");
+			player.sendMessage(Language.getText(player, "PREFIX")+"Â§c/register [Password]");
 			return true;
 		}else{
 			String password = args[0];

@@ -25,7 +25,7 @@ public class ButtonSwitch extends ButtonMultiCopy{
 				}
 			}
 			
-		}, UtilItem.RenameItem(new ItemStack(Material.STONE_BUTTON), "ง6+"),null),
+		}, UtilItem.RenameItem(new ItemStack(Material.STONE_BUTTON), "ยง6+"),null),
 		
 		
 		new ButtonForMultiButtonsCopy(page,(wagerecht ? slot-1:slot+InventorySize._9.getSize()),new Click(){
@@ -39,7 +39,7 @@ public class ButtonSwitch extends ButtonMultiCopy{
 				}
 			}
 			
-		}, UtilItem.RenameItem(new ItemStack(Material.WOOD_BUTTON), "ง6-"),null),
+		}, UtilItem.RenameItem(new ItemStack(Material.WOOD_BUTTON), "ยง6-"),null),
 		
 		new ButtonForMultiButtonsCopy(page, slot, null, items[0], new Click(){
 

@@ -12,7 +12,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 public class PerkDropper extends Perk{
 	
 	public PerkDropper() {
-		super("Dropper",UtilItem.RenameItem(new ItemStack(Material.BUCKET),"§eDropper"));
+		super("Dropper",UtilItem.RenameItem(new ItemStack(Material.BUCKET),"Â§eDropper"));
 	}
 	
 	int a=0;

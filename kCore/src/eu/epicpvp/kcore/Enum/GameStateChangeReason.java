@@ -6,7 +6,7 @@ public enum GameStateChangeReason {
 GAME_END("Game Endet"),
 LAST_PLAYER("Es ist nur noch ein Spieler Online!"),
 CUSTOM("Plugin"),
-CHANGE_TYPE("Server Game Type §ndert sich!"),
+CHANGE_TYPE("Server Game Type Â§ndert sich!"),
 LAST_TEAM("Es ist nun noch ein Team da!");
 
 @Getter

@@ -10,9 +10,12 @@ public class ServerChangeGameTypeEvent  extends Event {
 	private static HandlerList handlers = new HandlerList();
 	@Getter
 	private GameType type;
+	@Getter
+	private String subType;
 	
-	public ServerChangeGameTypeEvent(GameType type){
+	public ServerChangeGameTypeEvent(GameType type,String subType){
 		this.type=type;
+		this.subType=(subType == null ? "none" : subType);
 	}
 	
 	@Override

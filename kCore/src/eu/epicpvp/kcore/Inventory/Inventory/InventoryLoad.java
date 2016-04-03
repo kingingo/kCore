@@ -25,7 +25,7 @@ public class InventoryLoad extends InventoryPageBase implements Listener{
 	@EventHandler
 	public void Updater(UpdateEvent ev){
 		if(ev.getType()==UpdateType.FAST){
-			//DER SLOT WIRD ZUR§CKGESETZT WENN DER SLOT-1 >=0
+			//DER SLOT WIRD ZURÂ§CKGESETZT WENN DER SLOT-1 >=0
 			if(slot-1>=0)setItem(slot-1, new ItemStack(Material.WOOL));
 			if(slot<8){
 				slot=slot+1;

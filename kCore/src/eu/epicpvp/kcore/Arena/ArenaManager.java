@@ -344,7 +344,7 @@ public class ArenaManager extends kListener  {
 												this.team=0;
 											}
 											
-											//Pr§§§ft ob die Teams voll genug sind!
+											//PrÂ§Â§Â§ft ob die Teams voll genug sind!
 											for(Team t : this.type.getTeam()){
 												if( players.get(t).size() >= arena.getMax_team() ){
 													ba=true;

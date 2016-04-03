@@ -120,15 +120,15 @@
 			<version>6.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>DatenClient</groupId>
-			<artifactId>DatenClient</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.16.8</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>DatenClient</groupId>
+			<artifactId>DatenClient</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

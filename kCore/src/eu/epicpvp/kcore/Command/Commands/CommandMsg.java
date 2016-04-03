@@ -37,8 +37,8 @@ public class CommandMsg implements CommandExecutor{
 				sb.setLength(sb.length() - 1);
 				msg = sb.toString();
 				Bukkit.getPluginManager().callEvent(new PlayerMsgSendEvent(player, target, msg,true));
-				target.sendMessage(Language.getText(target, "PREFIX")+player.getName()+"->"+Language.getText(target, "ME")+": §b"+msg);
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ME")+"->"+target.getName()+": §b"+msg);
+				target.sendMessage(Language.getText(target, "PREFIX")+player.getName()+"->"+Language.getText(target, "ME")+": Â§b"+msg);
+				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ME")+"->"+target.getName()+": Â§b"+msg);
 			}else{
 				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 			}

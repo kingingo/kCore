@@ -16,7 +16,7 @@ public class UtilBG {
 	private static boolean isRegestiert=false;
 	@Getter
 	@Setter
-	public static String hub = "hub1";
+	public static String hub = "hub";
 	
 	public static void RegisterBungeeCord(JavaPlugin plugin){
 		Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");

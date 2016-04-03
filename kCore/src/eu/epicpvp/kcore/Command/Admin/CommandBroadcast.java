@@ -19,7 +19,7 @@ public class CommandBroadcast implements CommandExecutor{
 			Player p = (Player)sender;
 			if(!p.hasPermission(PermissionType.BROADCAST.getPermissionToString()))return false;
 			if(args.length==0){
-				p.sendMessage(Language.getText(p, "PREFIX")+"ง7/broadcast [Message]");
+				p.sendMessage(Language.getText(p, "PREFIX")+"ยง7/broadcast [Message]");
 			}else{
 				broadcast(args);
 			}
@@ -42,7 +42,7 @@ public class CommandBroadcast implements CommandExecutor{
 		sb.setLength(sb.length() - 1);
 		String msg = sb.toString();
 		
-		UtilServer.broadcast(msg.replaceAll("&", "ง"));
+		UtilServer.broadcast(msg.replaceAll("&", "ยง"));
 	}
 	
 }

@@ -33,7 +33,6 @@ public class PermissionPlayer {
 	
 	private void loadPermissions(){
 		System.out.println("[PermissionManager]: Requesting player Permissions");
-		
 		DataBuffer buffer = manager.handler.sendMessage(player, new DataBuffer().writeByte(0).writeUUID(uuid)).getSync(); //Action: 0 (Get-Perms)
 		if(buffer == null){
 			System.out.println("[PermissionManager]: Response == null");
@@ -62,14 +61,6 @@ public class PermissionPlayer {
 			groups.add(g);
 		}
 		System.out.println("[PermissionManager]: Player geladen");
-		
-		Bukkit.getScheduler().runTask(manager.getInstance(), new BukkitRunnable() {
-			
-			@Override
-			public void run() {
-				manager.setTabList(player);
-			}
-		});
 	}
 	
 	public void reloadPermissions(){

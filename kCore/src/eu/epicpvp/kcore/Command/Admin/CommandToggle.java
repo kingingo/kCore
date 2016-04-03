@@ -34,7 +34,7 @@ public class CommandToggle extends kListener implements CommandExecutor{
 			Player p = (Player)cs;
 			if(p.hasPermission(PermissionType.COMMAND_TOGGLE.getPermissionToString())){
 				if(args.length == 0){
-					p.sendMessage(Language.getText(p, "PREFIX")+"§a/toggle [Plugin]");
+					p.sendMessage(Language.getText(p, "PREFIX")+"Â§a/toggle [Plugin]");
 					return false;
 				}else if(args[0].equalsIgnoreCase("list")){
 					String list = "";
@@ -42,13 +42,13 @@ public class CommandToggle extends kListener implements CommandExecutor{
 					
 					for(Plugin pl: plugins){
 						if(pl.isEnabled()){
-							list = list + "§a" + pl.getName() + "§7,";
+							list = list + "Â§a" + pl.getName() + "Â§7,";
 						}else{
-							list = list + "§c" + pl.getName() + "§7,";
+							list = list + "Â§c" + pl.getName() + "Â§7,";
 						}
 					}
 					
-					p.sendMessage(Language.getText(p, "PREFIX")+"§aPlugins §7: " + list);
+					p.sendMessage(Language.getText(p, "PREFIX")+"Â§aPlugins Â§7: " + list);
 					return false;
 				}else if(args[0].equalsIgnoreCase("load")){
 					File pl = new File(args[1]);
@@ -64,7 +64,7 @@ public class CommandToggle extends kListener implements CommandExecutor{
 						System.err.println(e);
 						e.printStackTrace();
 					}
-					p.sendMessage(Language.getText(p, "PREFIX")+"§cDas Plugin wurde geladen!");
+					p.sendMessage(Language.getText(p, "PREFIX")+"Â§cDas Plugin wurde geladen!");
 				}else if(args.length == 1){
 					
 					boolean on = false;
@@ -77,22 +77,22 @@ public class CommandToggle extends kListener implements CommandExecutor{
 					if(on){
 						Plugin pl = Bukkit.getPluginManager().getPlugin(args[0]);
 					if(pl.getName().equalsIgnoreCase("kHub")||pl.getName().equalsIgnoreCase("kSkyBlock")||pl.getName().equalsIgnoreCase("kCore")||pl.getName().equalsIgnoreCase("kPvP")||pl.getName().equalsIgnoreCase("kArcade")||pl.getName().equalsIgnoreCase("kWarZ")){
-						p.sendMessage(Language.getText(p, "PREFIX")+"§cDu kannst das Plugin nicht Disablen!");
+						p.sendMessage(Language.getText(p, "PREFIX")+"Â§cDu kannst das Plugin nicht Disablen!");
 						return false;
 					}
 					
 					if(Bukkit.getPluginManager().isPluginEnabled(args[0])){
 						Bukkit.getPluginManager().disablePlugin(pl);
-						p.sendMessage(Language.getText(p, "PREFIX")+"§cDas Plugin " + pl.getName() + " wurde Disable!");
+						p.sendMessage(Language.getText(p, "PREFIX")+"Â§cDas Plugin " + pl.getName() + " wurde Disable!");
 						
 					}else{
 						
 						Bukkit.getPluginManager().enablePlugin(pl);
-						p.sendMessage(Language.getText(p, "PREFIX")+"§aDas Plugin " + pl.getName() + " wurde Enable!");
+						p.sendMessage(Language.getText(p, "PREFIX")+"Â§aDas Plugin " + pl.getName() + " wurde Enable!");
 						
 					}
 					}else{
-						p.sendMessage(Language.getText(p, "PREFIX")+"§cDas Plugin wurde nicht gefunden " + args[0]);
+						p.sendMessage(Language.getText(p, "PREFIX")+"Â§cDas Plugin wurde nicht gefunden " + args[0]);
 						return false;
 					}
 				} 

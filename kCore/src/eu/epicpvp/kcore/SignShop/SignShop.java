@@ -66,21 +66,21 @@ public class SignShop extends kListener{
 					
 					for(Player player : UtilServer.getPlayers())
 						if(player.hasPermission(PermissionType.SHOP_SIGN_CREATE_MSG.getPermissionToString())){
-							player.sendMessage(Language.getText(player,"PREFIX")+"Shop Schild erstellt von §c"+p.getName()+"§7: ");
+							player.sendMessage(Language.getText(player,"PREFIX")+"Shop Schild erstellt von Â§c"+p.getName()+"Â§7: ");
 							for(String line : ev.getLines()){
 								player.sendMessage(Language.getText(player,"PREFIX")+line);
 							}
 							player.sendMessage(Language.getText(player, "PREFIX")+" Welt:"+ev.getBlock().getLocation().getWorld().getName()+" X:"+ev.getBlock().getLocation().getBlockX()+" Y:"+ev.getBlock().getLocation().getBlockY()+" Z:"+ev.getBlock().getLocation().getBlockZ());
 					}
 					
-					p.sendMessage(Language.getText(p, "PREFIX")+"§eDie Sign wurde erstellt!");
+					p.sendMessage(Language.getText(p, "PREFIX")+"Â§eDie Sign wurde erstellt!");
 					return;
 				}
 			}
-			ev.setLine(0, "N§!");
-			ev.setLine(1, "N§!");
-			ev.setLine(2, "N§!");
-			ev.setLine(3, "N§!");
+			ev.setLine(0, "NÂ§!");
+			ev.setLine(1, "NÂ§!");
+			ev.setLine(2, "NÂ§!");
+			ev.setLine(3, "NÂ§!");
 		}
 	}
 	
@@ -269,7 +269,7 @@ public class SignShop extends kListener{
 			
 			if(Action.RIGHT_CLICK_BLOCK == a && Action.LEFT_CLICK_BLOCK == a){
 				ev.setCancelled(true);
-				p.sendMessage(Language.getText(p, "PREFIX")+"§cNicht so Schnell ...");
+				p.sendMessage(Language.getText(p, "PREFIX")+"Â§cNicht so Schnell ...");
 				return;
 			}else if(Action.RIGHT_CLICK_BLOCK == a){
 				
@@ -316,7 +316,7 @@ public class SignShop extends kListener{
 
 	                				ItemStack i = new ItemStack(id, 32,Short.parseShort(idnach) );
 	                				p.getInventory().addItem(i);
-	            					p.updateInventory(); //"§6Du hast " + 32 + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " §bEpics §6abgezogen ."
+	            					p.updateInventory(); //"Â§6Du hast " + 32 + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " Â§bEpics Â§6abgezogen ."
 	            					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SIGN_SHOP_GET_",new String[]{"32",String.valueOf(id),idnach,String.valueOf(Preis)}));
 	            					getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)-Preis, StatsKey.MONEY);
 	            					Log("Der Spieler "+p.getName()+" hat 32 mal "+id+":"+idnach+" gekauft und "+Preis+" Epics bezahlt.");
@@ -364,7 +364,7 @@ public class SignShop extends kListener{
 	        				ItemStack i = new ItemStack(id, anzahl);
 	        				p.getInventory().addItem(i);
 	        				p.updateInventory();
-	        				//"§6Du hast " + anzahl + " mal " + id+" bekommen dir wurden " + Preis + " §bEpics §6abgezogen ."
+	        				//"Â§6Du hast " + anzahl + " mal " + id+" bekommen dir wurden " + Preis + " Â§bEpics Â§6abgezogen ."
 	    					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SIGN_SHOP_GET",new String[]{String.valueOf(anzahl),String.valueOf(id),String.valueOf(Preis)}));
 	    					getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)-Preis, StatsKey.MONEY);
 	                		Log("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+id+" gekauft und "+Preis+" Epics bezahlt.");
@@ -437,7 +437,7 @@ public class SignShop extends kListener{
 	                		
 	    					p.updateInventory();
 	    				
-	    					VerkaufPreis=VerkaufPreis*b;	//"§6Du hast " + b + " mal " + id+" Verkauft und hast " + VerkaufPreis+" Epic's erhalten."
+	    					VerkaufPreis=VerkaufPreis*b;	//"Â§6Du hast " + b + " mal " + id+" Verkauft und hast " + VerkaufPreis+" Epic's erhalten."
 	    					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SIGN_SHOP_VERKAUFT",new String[]{String.valueOf(b),String.valueOf(id),String.valueOf(VerkaufPreis)}));
 	    					
 	    					getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)+VerkaufPreis, StatsKey.MONEY);
@@ -460,7 +460,7 @@ public class SignShop extends kListener{
 	    						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SIGN_SHOP_NO_ITEM_ON_INV"));
 	    						return;
 	    					}
-	        				p.updateInventory();	//"§6Du hast " + 32 + " mal " + id+":"+idnach + " Verkauft und hast " + VerkaufPreis+" Epic's erhalten."
+	        				p.updateInventory();	//"Â§6Du hast " + 32 + " mal " + id+":"+idnach + " Verkauft und hast " + VerkaufPreis+" Epic's erhalten."
 	        				p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SIGN_SHOP_VERKAUFT_",new String[]{String.valueOf(anzahl),String.valueOf(id),idnach,String.valueOf(VerkaufPreis)}));
 	        				getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)+VerkaufPreis, StatsKey.MONEY);
 	                		Log("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+id+":"+idnach+" verkauft und "+VerkaufPreis+" Epics erhalten.");

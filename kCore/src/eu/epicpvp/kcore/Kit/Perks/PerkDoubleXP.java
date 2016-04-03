@@ -11,7 +11,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 public class PerkDoubleXP extends Perk{
 	
 	public PerkDoubleXP() {
-		super("DoubleXP",UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE),"§eDoubleXP"));
+		super("DoubleXP",UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE),"Â§eDoubleXP"));
 	}
 	
 	@EventHandler

@@ -12,7 +12,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 public class PerkHat extends Perk{
 
 	public PerkHat() {
-		super("Hat",UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM),"§eHat"));
+		super("Hat",UtilItem.RenameItem(new ItemStack(Material.SKULL_ITEM),"Â§eHat"));
 	}
 	
 	@EventHandler

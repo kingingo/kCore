@@ -26,13 +26,13 @@ public class CommandCaptcha implements CommandExecutor{
 		
 		if(!getLoginManager().getCaptcha().containsKey(player.getName().toLowerCase()))return false;
 		if(args.length==0){
-			player.sendMessage(Language.getText(player, "PREFIX")+"§c/captcha [CAPTCHA]");
+			player.sendMessage(Language.getText(player, "PREFIX")+"Â§c/captcha [CAPTCHA]");
 			return true;
 		}else{
 			if(args[0].equalsIgnoreCase(getLoginManager().getCaptcha().get(player.getName().toLowerCase()))){
 				getLoginManager().getCaptcha().remove(player.getName().toLowerCase());
 				getLoginManager().getRegister().add(player.getName().toLowerCase());
-				Title title = new Title("§cRegister",Language.getText(player, "REGISTER_MESSAGE"));
+				Title title = new Title("Â§cRegister",Language.getText(player, "REGISTER_MESSAGE"));
 				title.setStayTime(60*60*10);
 				title.send(player);
 				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "REGISTER_MESSAGE"));

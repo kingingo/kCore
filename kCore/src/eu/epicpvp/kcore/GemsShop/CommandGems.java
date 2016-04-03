@@ -39,7 +39,7 @@ public class CommandGems implements CommandExecutor{
 				}else if(args[0].equalsIgnoreCase("delc")){
 					if(args.length>=1){
 						shop.delCategory(UtilNumber.toInt(args[1]));
-						player.sendMessage(Language.getText(player, "PREFIX")+"§cCategory entfernt!");
+						player.sendMessage(Language.getText(player, "PREFIX")+"Â§cCategory entfernt!");
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+"/gems delc [SLOT]");
 					}
@@ -80,7 +80,7 @@ public class CommandGems implements CommandExecutor{
 				}else if(args[0].equalsIgnoreCase("del")){
 					if(args.length>=1){
 						shop.del(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]));
-						player.sendMessage(Language.getText(player, "PREFIX")+"§cItem entfernt!");
+						player.sendMessage(Language.getText(player, "PREFIX")+"Â§cItem entfernt!");
 					}else{
 						player.sendMessage(Language.getText(player, "PREFIX")+"/gems del [CSLOT] [SLOT]");
 					}
@@ -114,12 +114,12 @@ public class CommandGems implements CommandExecutor{
 					shop.getBase().getPages().clear();
 					
 					shop.load();
-					player.sendMessage(Language.getText(player, "PREFIX")+"§aReloaded");
+					player.sendMessage(Language.getText(player, "PREFIX")+"Â§aReloaded");
 				}else if(args[0].equalsIgnoreCase("setloc")){
 					if(shop.getListener()!=null&&shop.getListener().getEntity()!=null)shop.getListener().getEntity().remove();
 					
 					shop.setCreature(player.getLocation());
-					player.sendMessage(Language.getText(player, "PREFIX")+"§aLocation saved!");
+					player.sendMessage(Language.getText(player, "PREFIX")+"Â§aLocation saved!");
 				}
 			}else{
 				player.openInventory(shop.getBase().getMain());

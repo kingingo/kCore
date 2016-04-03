@@ -8,6 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
 
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Permission.Listener.PermissionListener;
@@ -48,22 +50,44 @@ public class PermissionManager{
 		new PermissionListener(this);
 	}
 	
-	public void setTabList(Player player) {
-		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+	public Scoreboard getScoreboard(){
+		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
 		
 		for(Player p : UtilServer.getPlayers()){
-			if(p.getScoreboard().getTeam(getPlayer(player).getGroups().get(0).getName())==null){
-				UtilScoreboard.addTeam(p.getScoreboard(), getPlayer(player).getGroups().get(0).getName(), getPlayer(player).getGroups().get(0).getPrefix());
-			}
 			
-			if(player.getScoreboard().getTeam(getPlayer(p).getGroups().get(0).getName())==null){
-				UtilScoreboard.addTeam(player.getScoreboard(), getPlayer(p).getGroups().get(0).getName(), getPlayer(p).getGroups().get(0).getPrefix());
+			if(board.getTeam(getPermissionPlayer(p).getGroups().get(0).getName()) == null){
+				UtilScoreboard.addTeam(board, getPermissionPlayer(p).getGroups().get(0).getName(), null,  getPermissionPlayer(p).getGroups().get(0).getPrefix());
 			}
-			
-			UtilScoreboard.addPlayerToTeam(player.getScoreboard(), getPlayer(p).getGroups().get(0).getName(), p);
-			UtilScoreboard.addPlayerToTeam(p.getScoreboard(), getPlayer(player).getGroups().get(0).getName(), player);
+			UtilScoreboard.addPlayerToTeam(board, getPermissionPlayer(p).getGroups().get(0).getName(), p);
 		}
 		
+		return board;
+	}
+	
+	public void setTabList(Player player) {
+			player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+			if(player.getScoreboard().getTeam(getPermissionPlayer(player).getGroups().get(0).getName())==null){
+				UtilScoreboard.addTeam(player.getScoreboard(), getPermissionPlayer(player).getGroups().get(0).getName(), null, getPermissionPlayer(player).getGroups().get(0).getPrefix());
+				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), getPermissionPlayer(player).getGroups().get(0).getName(), player);
+			}
+			
+			for(Player p : UtilServer.getPlayers()){
+				
+				if(p.getScoreboard().getTeam(getPermissionPlayer(player).getGroups().get(0).getName()) == null){
+					UtilScoreboard.addTeam(p.getScoreboard(), getPermissionPlayer(player).getGroups().get(0).getName(), null,  getPermissionPlayer(player).getGroups().get(0).getPrefix());
+				}
+				
+				if(getPermissionPlayer(p) == null){
+					System.err.println("Cant find permissionplayer for "+p.getName()+" ["+getClass().getName()+"]");
+					continue;
+				}
+				
+				if(!getPermissionPlayer(p).getGroups().isEmpty() && player.getScoreboard().getTeam(getPermissionPlayer(p).getGroups().get(0).getName()) == null){
+					UtilScoreboard.addTeam(player.getScoreboard(), getPermissionPlayer(p).getGroups().get(0).getName(), null,  getPermissionPlayer(p).getGroups().get(0).getPrefix());
+				}
+				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), getPermissionPlayer(p).getGroups().get(0).getName(), p);
+				UtilScoreboard.addPlayerToTeam(p.getScoreboard(), getPermissionPlayer(player).getGroups().get(0).getName(), player);
+			}
 		Bukkit.getPluginManager().callEvent(new PlayerSetScoreboardEvent(player));
 	}
 	
@@ -72,11 +96,11 @@ public class PermissionManager{
 			user.put(player, new PermissionPlayer(p,this, player));
 	}
 
-	public PermissionPlayer getPlayer(Player player){
-		return getPlayer(UtilPlayer.getRealUUID(player));
+	public PermissionPlayer getPermissionPlayer(Player player){
+		return getPermissionPlayer(UtilPlayer.getRealUUID(player));
 	}
 	
-	public PermissionPlayer getPlayer(UUID player) {
+	public PermissionPlayer getPermissionPlayer(UUID player) {
 		return user.get(player);
 	}
 
@@ -97,7 +121,7 @@ public class PermissionManager{
 	}
 	
 	public String getPrefix(Player player){
-		return getPlayer(player).getGroups().get(0).getPrefix();
+		return getPermissionPlayer(player).getGroups().get(0).getPrefix();
 	}
 	
 	public boolean hasPermission(Player player, String permission, boolean message) {
@@ -118,7 +142,7 @@ public class PermissionManager{
 	}
 
 	public void addPermission(Player player,PermissionType type){
-		getPlayer(player).addPermission(type.getPermissionToString());
+		getPermissionPlayer(player).addPermission(type.getPermissionToString());
 	}
 	
 	public Group getGroup(String name) {

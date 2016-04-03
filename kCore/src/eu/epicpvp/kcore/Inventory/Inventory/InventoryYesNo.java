@@ -15,8 +15,8 @@ public class InventoryYesNo extends InventoryPageBase{
 	
 	public InventoryYesNo(String Title,Click items,Click Ja,Click Nein) {
 		super("InventoryYesNo",9,Title);
-		addButton(2,new ButtonBase(Ja,Material.EMERALD_BLOCK,"§aJA"));
-		addButton(6,new ButtonBase(Nein,Material.REDSTONE_BLOCK,"§aNEIN"));
+		addButton(2,new ButtonBase(Ja,Material.EMERALD_BLOCK,"Â§aJA"));
+		addButton(6,new ButtonBase(Nein,Material.REDSTONE_BLOCK,"Â§aNEIN"));
 		if(items!=null)items.onClick(null, ActionType.R, this);
 		this.fill(Material.STAINED_GLASS_PANE,7);
 	}

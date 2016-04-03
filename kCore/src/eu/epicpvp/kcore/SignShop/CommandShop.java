@@ -40,7 +40,7 @@ public class CommandShop extends kListener implements CommandExecutor{
 					
 					if(b.getState() instanceof Sign){
 						Sign s = (Sign)b.getState();
-						s.setLine(0, "§b[Shop-Sale]");
+						s.setLine(0, "Â§b[Shop-Sale]");
 						s.update();
 					}
 				}else if(args[0].equalsIgnoreCase("buy")){
@@ -48,7 +48,7 @@ public class CommandShop extends kListener implements CommandExecutor{
 					
 					if(b.getState() instanceof Sign){
 						Sign s = (Sign)b.getState();
-						s.setLine(0, "§b[Shop-Buy]");
+						s.setLine(0, "Â§b[Shop-Buy]");
 						s.update();
 					}
 				}else if(args[0].equalsIgnoreCase("all")){
@@ -56,7 +56,7 @@ public class CommandShop extends kListener implements CommandExecutor{
 					
 					if(b.getState() instanceof Sign){
 						Sign s = (Sign)b.getState();
-						s.setLine(0, "§b[Shop]");
+						s.setLine(0, "Â§b[Shop]");
 						s.update();
 					}
 				}
@@ -68,11 +68,11 @@ public class CommandShop extends kListener implements CommandExecutor{
 	@EventHandler
 	public void Sign(SignShopUseEvent ev){
 		if(ev.getAction()==SignShopAction.BUY){
-			if(ev.getSign().getLine(0).equalsIgnoreCase("§b[Shop-Sale]")){
+			if(ev.getSign().getLine(0).equalsIgnoreCase("Â§b[Shop-Sale]")){
 				ev.setCancelled(true);
 			}
 		}else if(ev.getAction()==SignShopAction.SALE){
-			if(ev.getSign().getLine(0).equalsIgnoreCase("§b[Shop-Buy]")){
+			if(ev.getSign().getLine(0).equalsIgnoreCase("Â§b[Shop-Buy]")){
 				ev.setCancelled(true);
 			}
 		}

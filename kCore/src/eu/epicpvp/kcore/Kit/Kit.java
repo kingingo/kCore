@@ -66,11 +66,11 @@ public class Kit extends PerkData{
 		
 		if(KitType.KAUFEN==type||KitType.KAUFEN_COINS==type||KitType.KAUFEN_GEMS==type){
 			if(coins_preis>0){
-				this.description[i]="§eCoins: "+coins_preis;
+				this.description[i]="Â§eCoins: "+coins_preis;
 				i++;
 			}
 			if(gems_preis>0){
-				this.description[i]="§aGems: "+gems_preis;
+				this.description[i]="Â§aGems: "+gems_preis;
 				i++;
 			}
 			this.description[i]=" ";

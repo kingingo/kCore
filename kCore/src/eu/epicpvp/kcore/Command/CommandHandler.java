@@ -93,7 +93,7 @@ public class CommandHandler {
 		public String[] alias() default {};
 		public Sender sender() default Sender.EVERYONE;
 		public String[] permissions() default {};
-		public String permissionMessage() default "§3§cDu hast nicht die Rechte, dies zu tun!";
+		public String permissionMessage() default "Â§3Â§cDu hast nicht die Rechte, dies zu tun!";
 	}
 	
 	public class DynamicCommand extends org.bukkit.command.Command implements PluginIdentifiableCommand{
@@ -122,7 +122,7 @@ public class CommandHandler {
 		@Override
 		public boolean execute(CommandSender sender, String commandLabel, String[] args) {
 			try{
-				if(!isValidExecutor(sender)){sender.sendMessage("§c§lDu bist kein §3" + s.getSenderClass().getSimpleName());return false;}
+				if(!isValidExecutor(sender)){sender.sendMessage("Â§cÂ§lDu bist kein Â§3" + s.getSenderClass().getSimpleName());return false;}
 				if(permission.length != 0 && !hasAnyPerm(sender)){sender.sendMessage(permissionMessage);return false;}
 				return (boolean)owner.invoke(cExe, sender,this,commandLabel,args);
 			}catch(Exception e){

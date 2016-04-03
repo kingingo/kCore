@@ -66,7 +66,7 @@ public class BungeeCordFirewallListener extends kListener{
 		if(!this.bungeecord_ips.contains(ev.getPlayer().spigot().getRawAddress().getAddress().getHostAddress())){
 			UtilException.catchException(server, mysql.getInstance().getServer().getIp(), mysql, "IP:"+ev.getPlayer().spigot().getRawAddress().getAddress().getHostAddress()+" tried to connect without a EP BG! PlayerIP:"+ev.getPlayer().getAddress().getAddress().getHostAddress());
 			
-			ev.getPlayer().kickPlayer("§cPlease use the EpicPvP Proxy!");
+			ev.getPlayer().kickPlayer("Â§cPlease use the EpicPvP Proxy!");
 		}
 	}
 

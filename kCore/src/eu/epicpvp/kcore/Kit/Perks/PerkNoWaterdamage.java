@@ -13,7 +13,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 public class PerkNoWaterdamage extends Perk{
 
 	public PerkNoWaterdamage() {
-		super("noWaterdamage",UtilItem.RenameItem(new ItemStack(Material.POTION),"§enoWaterdamage"));
+		super("noWaterdamage",UtilItem.RenameItem(new ItemStack(Material.POTION),"Â§enoWaterdamage"));
 	}
 	
 	@EventHandler

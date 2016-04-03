@@ -17,7 +17,7 @@ public class PerkStrength extends Perk{
 	
 	public PerkStrength() {
 		super("PerkStrength");
-		setItem(UtilItem.RenameItem(new ItemStack(Material.BLAZE_POWDER), "§estaerke II (Dauerhaft)"));
+		setItem(UtilItem.RenameItem(new ItemStack(Material.BLAZE_POWDER), "Â§estaerke II (Dauerhaft)"));
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)

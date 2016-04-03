@@ -48,7 +48,7 @@ public class CommandMoney implements CommandExecutor{
 
 					if(UtilPlayer.isOnline(args[0])){
 						target=Bukkit.getPlayer(args[0]);
-						player.sendMessage(prefix+target.getName()+" Kontostand betr§§gt:§§3 " + stats.getDouble(target, StatsKey.MONEY));
+						player.sendMessage(prefix+target.getName()+" Kontostand betrÂ§Â§gt:Â§Â§3 " + stats.getDouble(target, StatsKey.MONEY));
 					}else{
 						player.sendMessage(prefix+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}

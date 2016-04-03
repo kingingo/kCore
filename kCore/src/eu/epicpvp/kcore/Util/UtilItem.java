@@ -59,7 +59,7 @@ public class UtilItem {
 	    String[] split = splitPattern.split(string, 2);
 	    
 	    if ((split.length > 1) && (split[0].equalsIgnoreCase("name"))){
-	      String displayName = split[1].replaceAll("_", " ").replaceAll("&", "§");
+	      String displayName = split[1].replaceAll("_", " ").replaceAll("&", "Â§");
 	      ItemMeta meta = item.getItemMeta();
 	      meta.setDisplayName(displayName);
 	      item.setItemMeta(meta);
@@ -67,7 +67,7 @@ public class UtilItem {
 	      List lore = new ArrayList();
 	      for (String line : split[1].split("\\|"))
 	      {
-	        lore.add(line.replaceAll("_", " ").replaceAll("&", "§"));
+	        lore.add(line.replaceAll("_", " ").replaceAll("&", "Â§"));
 	      }
 	      ItemMeta meta = item.getItemMeta();
 	      meta.setLore(lore);
@@ -275,59 +275,59 @@ public class UtilItem {
 //			
 //			if(type==ServerType.PVP){
 //				//ARMOR #########################################################
-//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_HELMET), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Helm"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
-//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_CHESTPLATE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Chestplate"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
-//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_LEGGINGS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Leggings"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
-//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_BOOTS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamant Boots"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
+//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_HELMET), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Diamand Helm"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
+//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_CHESTPLATE), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Diamand Chestplate"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
+//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_LEGGINGS), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Diamand Leggings"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
+//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_BOOTS), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Diamant Boots"), new String[]{"all"}), InventoryLotto2Type.DIVINE));
 //			
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_HELMET), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Helm"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_CHESTPLATE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Chestplate"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_LEGGINGS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Leggings"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_BOOTS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Boots"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_HELMET), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Iron Helm"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_CHESTPLATE), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Iron Chestplate"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_LEGGINGS), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Iron Leggings"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_BOOTS), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Iron Boots"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
 //			
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_HELMET), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Helm"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_CHESTPLATE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Chestplate"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_LEGGINGS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Leggings"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_BOOTS), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Boots"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_HELMET), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Gold Helm"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_CHESTPLATE), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Gold Chestplate"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_LEGGINGS), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Gold Leggings"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null, EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_BOOTS), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Gold Boots"), new String[]{"all"}), InventoryLotto2Type.LEGENDARY));
 //				//ARMOR #########################################################
 //				
 //				//WEAPONS #########################################################
-//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_PICKAXE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Pickaxe"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
-//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SPADE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Shovel"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
-//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SWORD), new String[]{"§7Lotto Item"}, "§bFull-Enchant Diamand Sword"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
-//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.BOW), new String[]{"§7Lotto Item"}, "§bFull-Enchant Bow"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
+//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_PICKAXE), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Diamand Pickaxe"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
+//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SPADE), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Diamand Shovel"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
+//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SWORD), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Diamand Sword"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
+//				lottoList.get(InventoryLotto2Type.DIVINE).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.BOW), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Bow"), new String[]{"all"}),InventoryLotto2Type.DIVINE));
 //				
 //				
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_PICKAXE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Pickaxe"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SPADE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Shovel"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SWORD), new String[]{"§7Lotto Item"}, "§bFull-Enchant Iron Sword"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_PICKAXE), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Iron Pickaxe"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SPADE), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Iron Shovel"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SWORD), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Iron Sword"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
 //				
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_PICKAXE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Pickaxe"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SPADE), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Spade"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
-//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SWORD), new String[]{"§7Lotto Item"}, "§bFull-Enchant Gold Sword"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_PICKAXE), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Gold Pickaxe"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SPADE), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Gold Spade"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
+//				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SWORD), new String[]{"Â§7Lotto Item"}, "Â§bFull-Enchant Gold Sword"), new String[]{"all"}),InventoryLotto2Type.LEGENDARY));
 //				//WEAPONS #########################################################
 //				
 //				//ITEMS #########################################################
-//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,64), new String[]{"§7Lotto Item"}, "§bBedrock"),InventoryLotto2Type.RARE));
-//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,5), new String[]{"§7Lotto Item"}, "§bMob-spawner"),InventoryLotto2Type.RARE));
-//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,48,(byte)1), new String[]{"§7Lotto Item"}, "§bOp §pfel"),InventoryLotto2Type.RARE));
+//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,64), new String[]{"Â§7Lotto Item"}, "Â§bBedrock"),InventoryLotto2Type.RARE));
+//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,5), new String[]{"Â§7Lotto Item"}, "Â§bMob-spawner"),InventoryLotto2Type.RARE));
+//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,48,(byte)1), new String[]{"Â§7Lotto Item"}, "Â§bOp Â§pfel"),InventoryLotto2Type.RARE));
 //				
-//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,32), new String[]{"§7Lotto Item"}, "§bBedrock"),InventoryLotto2Type.RARE));
-//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,3), new String[]{"§7Lotto Item"}, "§bMob-spawner"),InventoryLotto2Type.RARE));
-//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,32,(byte)1), new String[]{"§7Lotto Item"}, "§bOp §pfel"),InventoryLotto2Type.RARE));
+//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,32), new String[]{"Â§7Lotto Item"}, "Â§bBedrock"),InventoryLotto2Type.RARE));
+//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,3), new String[]{"Â§7Lotto Item"}, "Â§bMob-spawner"),InventoryLotto2Type.RARE));
+//				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,32,(byte)1), new String[]{"Â§7Lotto Item"}, "Â§bOp Â§pfel"),InventoryLotto2Type.RARE));
 //				
-//				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,16), new String[]{"§7Lotto Item"}, "§bBedrock"),InventoryLotto2Type.UNCOMMON));
-//				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,1), new String[]{"§7Lotto Item"}, "§bMob-spawner"),InventoryLotto2Type.UNCOMMON));
-//				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,16,(byte)1), new String[]{"§7Lotto Item"}, "§bOp §pfel"),InventoryLotto2Type.UNCOMMON));
+//				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,16), new String[]{"Â§7Lotto Item"}, "Â§bBedrock"),InventoryLotto2Type.UNCOMMON));
+//				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,1), new String[]{"Â§7Lotto Item"}, "Â§bMob-spawner"),InventoryLotto2Type.UNCOMMON));
+//				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,16,(byte)1), new String[]{"Â§7Lotto Item"}, "Â§bOp Â§pfel"),InventoryLotto2Type.UNCOMMON));
 //				
-//				lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.DIAMOND,16), new String[]{"§7Lotto Item"}, "§bDiamond"),InventoryLotto2Type.COMMON));
+//				lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null,UtilItem.Item(new ItemStack(Material.DIAMOND,16), new String[]{"Â§7Lotto Item"}, "Â§bDiamond"),InventoryLotto2Type.COMMON));
 //				
 //				Potion potion;
 //				for(int i = 8193; i<=16489;i++){
 //					try{
 //						potion= Potion.fromItemStack(new ItemStack(Material.POTION,32,(byte)i));
 //						if(!potion.getEffects().isEmpty()){
-//							lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null, UtilItem.Item(potion.toItemStack(32), new String[]{"§7Lotto Item"}, "§bPotion"), InventoryLotto2Type.COMMON));
+//							lottoList.get(InventoryLotto2Type.COMMON).add(new LottoPackage(null, null, UtilItem.Item(potion.toItemStack(32), new String[]{"Â§7Lotto Item"}, "Â§bPotion"), InventoryLotto2Type.COMMON));
 //						}
 //					}catch(Exception e){
 //						
@@ -352,7 +352,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_JUMP);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.IRON_BOOTS,1), new String[]{"§7Lotto Perks"}, "§cPerk Double Jump"),InventoryLotto2Type.LEGENDARY));
+//				},UtilItem.Item(new ItemStack(Material.IRON_BOOTS,1), new String[]{"Â§7Lotto Perks"}, "Â§cPerk Double Jump"),InventoryLotto2Type.LEGENDARY));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -370,7 +370,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_NO_HUNGER);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.COOKIE,1), new String[]{"§7Lotto Perks"}, "§cPerk No Hunger"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.COOKIE,1), new String[]{"Â§7Lotto Perks"}, "Â§cPerk No Hunger"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -388,7 +388,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_NO_FIRE);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.FIRE,1), new String[]{"§7Lotto Perks"}, "§cPerk Anti Fire"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.FIRE,1), new String[]{"Â§7Lotto Perks"}, "Â§cPerk Anti Fire"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -406,7 +406,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_DOUBLE_XP);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"§7Lotto Perks"}, "§cPerk Double XP"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"Â§7Lotto Perks"}, "Â§cPerk Double XP"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -424,7 +424,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_GET_XP);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE,1), new String[]{"§7Lotto Perks"}, "§cPerk Get XP"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE,1), new String[]{"Â§7Lotto Perks"}, "Â§cPerk Get XP"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -442,7 +442,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_ITEM_NAME);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.NAME_TAG,1), new String[]{"§7Lotto Perks"}, "§cPerk Item Name"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.NAME_TAG,1), new String[]{"Â§7Lotto Perks"}, "Â§cPerk Item Name"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -460,7 +460,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_DROPPER);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.BUCKET,1), new String[]{"§7Lotto Perks"}, "§cPerk Dropper"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.BUCKET,1), new String[]{"Â§7Lotto Perks"}, "Â§cPerk Dropper"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -478,7 +478,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_GOLENAPPLE);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8236), new String[]{"§7Lotto Perks"}, "§cPerk Potion Clear"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8236), new String[]{"Â§7Lotto Perks"}, "Â§cPerk Potion Clear"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -496,7 +496,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_HEALER);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)16389), new String[]{"§7Lotto Perks"}, "§cPerk Heal Potion"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)16389), new String[]{"Â§7Lotto Perks"}, "Â§cPerk Heal Potion"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -514,7 +514,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_HAT);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.SKULL_ITEM,1,(byte)3), new String[]{"§7Lotto Perks"}, "§cPerk EnemyHead"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.SKULL_ITEM,1,(byte)3), new String[]{"Â§7Lotto Perks"}, "Â§cPerk EnemyHead"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(new Click(){
 //
@@ -532,7 +532,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_RUNNER);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8194), new String[]{"§7Lotto Perks"}, "§cPerk Runner"),InventoryLotto2Type.LEGENDARY));
+//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8194), new String[]{"Â§7Lotto Perks"}, "Â§cPerk Runner"),InventoryLotto2Type.LEGENDARY));
 //				
 //				lottoList.get(InventoryLotto2Type.LEGENDARY).add(new LottoPackage(new Click(){
 //
@@ -550,7 +550,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_APPLE);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,1), new String[]{"§7Lotto Perks"}, "§cPerk GoldenApple"),InventoryLotto2Type.LEGENDARY));
+//				},UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,1), new String[]{"Â§7Lotto Perks"}, "Â§cPerk GoldenApple"),InventoryLotto2Type.LEGENDARY));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -568,7 +568,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_ARROW_POTIONEFFECT);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.ARROW,1), new String[]{"§7Lotto Perks"}, "§cPerk Arrow Potion Effect"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.ARROW,1), new String[]{"Â§7Lotto Perks"}, "Â§cPerk Arrow Potion Effect"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -586,7 +586,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_WATER_DAMAGE);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.WATER,1), new String[]{"§7Lotto Perks"}, "§cPerk noWaterdamage"),InventoryLotto2Type.RARE));
+//				},UtilItem.Item(new ItemStack(Material.WATER,1), new String[]{"Â§7Lotto Perks"}, "Â§cPerk noWaterdamage"),InventoryLotto2Type.RARE));
 //				//PERKS #########################################################
 //				
 //				//COINS #########################################################
@@ -598,7 +598,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 2500+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b2500 Epics"),InventoryLotto2Type.RARE));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7Lotto Coins"}, "Â§b2500 Epics"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -608,7 +608,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 2000+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b2000 Epics"),InventoryLotto2Type.RARE));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7Lotto Coins"}, "Â§b2000 Epics"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -618,7 +618,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 1500+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b1500 Epics"),InventoryLotto2Type.RARE));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7Lotto Coins"}, "Â§b1500 Epics"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -628,7 +628,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 1250+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b1250 Epics"),InventoryLotto2Type.RARE));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7Lotto Coins"}, "Â§b1250 Epics"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -638,7 +638,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 1000+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b1000 Epics"),InventoryLotto2Type.RARE));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7Lotto Coins"}, "Â§b1000 Epics"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.RARE).add(new LottoPackage(new Click(){
 //
@@ -648,7 +648,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 1000+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b1000 Epics"),InventoryLotto2Type.RARE));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7Lotto Coins"}, "Â§b1000 Epics"),InventoryLotto2Type.RARE));
 //				
 //				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(new Click(){
 //
@@ -658,7 +658,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 750+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b750 Epics"),InventoryLotto2Type.UNCOMMON));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7Lotto Coins"}, "Â§b750 Epics"),InventoryLotto2Type.UNCOMMON));
 //				
 //				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(new Click(){
 //
@@ -668,7 +668,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 500+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b500 Epics"),InventoryLotto2Type.UNCOMMON));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7Lotto Coins"}, "Â§b500 Epics"),InventoryLotto2Type.UNCOMMON));
 //				
 //				lottoList.get(InventoryLotto2Type.UNCOMMON).add(new LottoPackage(new Click(){
 //
@@ -678,7 +678,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 250+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7Lotto Coins"}, "§b250 Epics"),InventoryLotto2Type.UNCOMMON));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7Lotto Coins"}, "Â§b250 Epics"),InventoryLotto2Type.UNCOMMON));
 //				//COINS #########################################################
 //			}else if(type==ServerType.GAME){
 //				// RANK #########################################################
@@ -702,57 +702,57 @@ public class UtilItem {
 //			ItemList.put(TreasureChestType.MYTHICAL, new ArrayList<TreasureChestPackage>());
 //			
 //			if(type==ServerType.PVP){
-//				//R§STUNG #########################################################
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null,null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_HELMET), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthelm"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_LEGGINGS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthose"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_CHESTPLATE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_BOOTS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
+//				//RÂ§STUNG #########################################################
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null,null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_HELMET), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamanthelm"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_LEGGINGS), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamanthose"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_CHESTPLATE), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_BOOTS), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
 //				
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_HELMET), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthelm"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_LEGGINGS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthose"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_CHESTPLATE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_BOOTS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_HELMET), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamanthelm"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_LEGGINGS), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamanthose"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_CHESTPLATE), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_BOOTS), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
 //				
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_HELMET), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthelm"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_LEGGINGS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthose"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_CHESTPLATE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_BOOTS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_HELMET), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamanthelm"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_LEGGINGS), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamanthose"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_CHESTPLATE), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_BOOTS), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
 //				
-//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_HELMET), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthelm"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_LEGGINGS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamanthose"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_CHESTPLATE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_BOOTS), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_HELMET), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamanthelm"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_LEGGINGS), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamanthose"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_CHESTPLATE), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantbrustpanzer"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_BOOTS), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantschuhe"), new String[]{"all"})));
 //				
-//				//R§STUNG #########################################################
+//				//RÂ§STUNG #########################################################
 //				
 //				//WEAPONS #########################################################
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_PICKAXE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SPADE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SWORD), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschwert"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.BOW), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Bow"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_PICKAXE), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SPADE), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.DIAMOND_SWORD), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantschwert"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.BOW), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Bow"), new String[]{"all"})));
 //				
 //				
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_PICKAXE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SPADE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SWORD), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschwert"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_PICKAXE), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SPADE), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.IRON_SWORD), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantschwert"), new String[]{"all"})));
 //				
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_PICKAXE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SPADE), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
-//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SWORD), new String[]{"§7TreasureChest Item"}, "§bFull-Enchant Diamantschwert"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_PICKAXE), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantspitzhacke"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SPADE), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantschaufel"), new String[]{"all"})));
+//				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(null, null,EnchantItem(UtilItem.Item(new ItemStack(Material.GOLD_SWORD), new String[]{"Â§7TreasureChest Item"}, "Â§bFull-Enchant Diamantschwert"), new String[]{"all"})));
 //				//WEAPONS #########################################################
 //				
 //				//ITEMS #########################################################
-//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,64), new String[]{"§7TreasureChest Item"}, "§bBedrock")));
-//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,5), new String[]{"§7TreasureChest Item"}, "§bMob-spawner")));
-//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,48,(byte)1), new String[]{"§7TreasureChest Item"}, "§bOp §pfel")));
+//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,64), new String[]{"Â§7TreasureChest Item"}, "Â§bBedrock")));
+//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,5), new String[]{"Â§7TreasureChest Item"}, "Â§bMob-spawner")));
+//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,48,(byte)1), new String[]{"Â§7TreasureChest Item"}, "Â§bOp Â§pfel")));
 //				
-//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,32), new String[]{"§7TreasureChest Item"}, "§bBedrock")));
-//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,3), new String[]{"§7TreasureChest Item"}, "§bMob-spawner")));
-//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,32,(byte)1), new String[]{"§7TreasureChest Item"}, "§bOp §pfel")));
+//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,32), new String[]{"Â§7TreasureChest Item"}, "Â§bBedrock")));
+//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,3), new String[]{"Â§7TreasureChest Item"}, "Â§bMob-spawner")));
+//				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,32,(byte)1), new String[]{"Â§7TreasureChest Item"}, "Â§bOp Â§pfel")));
 //				
-//				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,16), new String[]{"§7TreasureChest Item"}, "§bBedrock")));
-//				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,1), new String[]{"§7TreasureChest Item"}, "§bMob-spawner")));
-//				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,16,(byte)1), new String[]{"§7TreasureChest Item"}, "§bOp §pfel")));
+//				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.BEDROCK,16), new String[]{"Â§7TreasureChest Item"}, "Â§bBedrock")));
+//				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.MOB_SPAWNER,1), new String[]{"Â§7TreasureChest Item"}, "Â§bMob-spawner")));
+//				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(null, null,UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,16,(byte)1), new String[]{"Â§7TreasureChest Item"}, "Â§bOp Â§pfel")));
 //				//ITEMS #########################################################
 //				
 //				//PERKS #########################################################
@@ -772,7 +772,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_JUMP);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.IRON_BOOTS,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Double Jump")));
+//				},UtilItem.Item(new ItemStack(Material.IRON_BOOTS,1), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk Double Jump")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -790,7 +790,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_NO_HUNGER);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.COOKIE,1), new String[]{"§7TreasureChest Perks"}, "§cPerk No Hunger")));
+//				},UtilItem.Item(new ItemStack(Material.COOKIE,1), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk No Hunger")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -808,7 +808,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_NO_FIRE);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.FIRE,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Anti Fire")));
+//				},UtilItem.Item(new ItemStack(Material.FIRE,1), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk Anti Fire")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -826,7 +826,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_DOUBLE_XP);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"§7TreasureChest Perks"}, "§cPerk Double XP")));
+//				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk Double XP")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -844,7 +844,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_GET_XP);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Get XP")));
+//				},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE,1), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk Get XP")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -862,7 +862,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_ITEM_NAME);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.NAME_TAG,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Item Name")));
+//				},UtilItem.Item(new ItemStack(Material.NAME_TAG,1), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk Item Name")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -880,7 +880,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_DROPPER);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.BUCKET,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Dropper")));
+//				},UtilItem.Item(new ItemStack(Material.BUCKET,1), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk Dropper")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -898,7 +898,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_GOLENAPPLE);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8236), new String[]{"§7TreasureChest Perks"}, "§cPerk Potion Clear")));
+//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8236), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk Potion Clear")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -916,7 +916,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_HEALER);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)16389), new String[]{"§7TreasureChest Perks"}, "§cPerk Heal Potion")));
+//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)16389), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk Heal Potion")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -934,7 +934,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_HAT);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.SKULL_ITEM,1,(byte)3), new String[]{"§7TreasureChest Perks"}, "§cPerk EnemyHead")));
+//				},UtilItem.Item(new ItemStack(Material.SKULL_ITEM,1,(byte)3), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk EnemyHead")));
 //				
 //				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(new Click(){
 //
@@ -952,7 +952,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_RUNNER);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8194), new String[]{"§7TreasureChest Perks"}, "§cPerk Runner")));
+//				},UtilItem.Item(new ItemStack(Material.POTION,1,(byte)8194), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk Runner")));
 //				
 //				ItemList.get(TreasureChestType.MYTHICAL).add(new TreasureChestPackage(new Click(){
 //
@@ -970,7 +970,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_APPLE);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,1), new String[]{"§7TreasureChest Perks"}, "§cPerk GoldenApple")));
+//				},UtilItem.Item(new ItemStack(Material.GOLDEN_APPLE,1), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk GoldenApple")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -988,7 +988,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_ARROW_POTIONEFFECT);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.ARROW,1), new String[]{"§7TreasureChest Perks"}, "§cPerk Arrow Potion Effect")));
+//				},UtilItem.Item(new ItemStack(Material.ARROW,1), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk Arrow Potion Effect")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -1006,7 +1006,7 @@ public class UtilItem {
 //						return permissionManager.haskPermission(player, PermissionType.PERK_WATER_DAMAGE);
 //					}
 //					
-//				},UtilItem.Item(new ItemStack(Material.WATER,1), new String[]{"§7TreasureChest Perks"}, "§cPerk noWaterdamage")));
+//				},UtilItem.Item(new ItemStack(Material.WATER,1), new String[]{"Â§7TreasureChest Perks"}, "Â§cPerk noWaterdamage")));
 //				//PERKS #########################################################
 //				
 //				//COINS #########################################################
@@ -1018,7 +1018,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 2500+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b2500 Epics")));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7TreasureChest Coins"}, "Â§b2500 Epics")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -1028,7 +1028,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 2000+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b2000 Epics")));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7TreasureChest Coins"}, "Â§b2000 Epics")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -1038,7 +1038,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 1500+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b1500 Epics")));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7TreasureChest Coins"}, "Â§b1500 Epics")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -1048,7 +1048,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 1250+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b1250 Epics")));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7TreasureChest Coins"}, "Â§b1250 Epics")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -1058,7 +1058,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 1000+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b1000 Epics")));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7TreasureChest Coins"}, "Â§b1000 Epics")));
 //				
 //				ItemList.get(TreasureChestType.RARE).add(new TreasureChestPackage(new Click(){
 //
@@ -1068,7 +1068,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 1000+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b1000 Epics")));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7TreasureChest Coins"}, "Â§b1000 Epics")));
 //				
 //				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click(){
 //
@@ -1078,7 +1078,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 750+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b750 Epics")));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7TreasureChest Coins"}, "Â§b750 Epics")));
 //				
 //				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click(){
 //
@@ -1088,7 +1088,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 500+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b500 Epics")));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7TreasureChest Coins"}, "Â§b500 Epics")));
 //				
 //				ItemList.get(TreasureChestType.UNCOMMON).add(new TreasureChestPackage(new Click(){
 //
@@ -1098,7 +1098,7 @@ public class UtilItem {
 //						statsManager.setInt(player, 250+statsManager.getInt(StatsKey.MONEY, player), StatsKey.MONEY);
 //					}
 //					
-//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"§7TreasureChest Coins"}, "§b250 Epics")));
+//				}, null,UtilItem.Item(new ItemStack(Material.DOUBLE_PLANT,1), new String[]{"Â§7TreasureChest Coins"}, "Â§b250 Epics")));
 //				//COINS #########################################################
 //			}else if(type==ServerType.GAME){
 //				
@@ -1214,17 +1214,17 @@ public class UtilItem {
 		if(armor[0]==null||armor[0].getType()!=Material.LEATHER_HELMET)setArmorColor(armor,colors[0]);
 		
 		for(int i = 0; i<armor.length; i++){
-			//SUCHT DAS LETZTE R§STUNGSTEIL
+			//SUCHT DAS LETZTE RÂ§STUNGSTEIL
 			if( ((LeatherArmorMeta)armor[i].getItemMeta()).getColor().equals(colors[0]) ){
 				//SETZT DIE AMOR WIEDER AUF COLOR[0]
 				setArmorColor(armor,colors[0]);
-				//SETZT DAS N§CHSTE AMOR TEIL AUF COLOR[1]
+				//SETZT DAS NÂ§CHSTE AMOR TEIL AUF COLOR[1]
 				armor[ (i==3 ? 0 : (i+1)) ]=LSetColor(armor[ (i==3 ? 0 : (i+1)) ], colors[1] );
 				break;
 			}
 		}
 		colors[0]=colors[1];
-		//COLOR[1] == SETZT DEN N§CHSTEN COLOR CODE EIN!
+		//COLOR[1] == SETZT DEN NÂ§CHSTEN COLOR CODE EIN!
 		colors[1]=nextColor( colors[0] );
 		return armor;
 	}

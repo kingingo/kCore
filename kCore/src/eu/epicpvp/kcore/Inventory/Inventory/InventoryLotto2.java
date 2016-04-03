@@ -123,7 +123,7 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 						if(i==13&&getItem(i)!=null
 								&&getItem(i).hasItemMeta()
 								&&getItem(i).getItemMeta().hasLore()
-								&&getItem(i).getItemMeta().getLore().get(getItem(i).getItemMeta().getLore().size()-1).equalsIgnoreCase("§7N"+win.getId())){
+								&&getItem(i).getItemMeta().getLore().get(getItem(i).getItemMeta().getLore().size()-1).equalsIgnoreCase("Â§7N"+win.getId())){
 							this.durchlauf_counter++;
 							if(this.durchlauf_counter>=this.durchlauf){
 								this.status=InventoryLotto2Status.GET;
@@ -187,11 +187,11 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 	}
 	
 	public enum InventoryLotto2Type{
-		COMMON("§fCommon",Material.STAINED_GLASS_PANE,(byte)0,0),
-		UNCOMMON("§7Uncommon",Material.STAINED_GLASS_PANE,(byte)7,1),
-		RARE("§dRare",Material.STAINED_GLASS_PANE,(byte)6,2),
-		LEGENDARY("§aLegendary",Material.STAINED_GLASS_PANE,(byte)5,3),
-		DIVINE("§5Divine",Material.STAINED_GLASS_PANE,(byte)2,4);
+		COMMON("Â§fCommon",Material.STAINED_GLASS_PANE,(byte)0,0),
+		UNCOMMON("Â§7Uncommon",Material.STAINED_GLASS_PANE,(byte)7,1),
+		RARE("Â§dRare",Material.STAINED_GLASS_PANE,(byte)6,2),
+		LEGENDARY("Â§aLegendary",Material.STAINED_GLASS_PANE,(byte)5,3),
+		DIVINE("Â§5Divine",Material.STAINED_GLASS_PANE,(byte)2,4);
 		
 		@Getter
 		private Material material;

@@ -24,7 +24,7 @@ public class PerkArrowPotionEffect extends Perk{
 	private int sec=5;
 	
 	public PerkArrowPotionEffect() {
-		super("ArrowPotionEffect",UtilItem.RenameItem(new ItemStack(Material.ARROW),"§EArrowPotionEffect"));
+		super("ArrowPotionEffect",UtilItem.RenameItem(new ItemStack(Material.ARROW),"Â§EArrowPotionEffect"));
 	}
 
 	Player shooter;

@@ -12,7 +12,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 public class PerkNoHunger extends Perk{
 
 	public PerkNoHunger(){
-		super("NoHunger",UtilItem.RenameItem(new ItemStack(Material.BREAD),"§eNoHunger"));
+		super("NoHunger",UtilItem.RenameItem(new ItemStack(Material.BREAD),"Â§eNoHunger"));
 	}
 	
 	@EventHandler

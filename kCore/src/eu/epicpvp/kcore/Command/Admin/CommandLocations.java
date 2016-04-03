@@ -34,7 +34,7 @@ public class CommandLocations implements CommandExecutor{
 					player.sendMessage(Language.getText(player, "PREFIX")+"/loc "+s);
 			}else{
 				setLocation(player.getLocation(), args[0]);
-				player.sendMessage(Language.getText(player, "PREFIX")+"§aDie Location wurde gespeichert!");
+				player.sendMessage(Language.getText(player, "PREFIX")+"Â§aDie Location wurde gespeichert!");
 			}
 		}
 		return false;

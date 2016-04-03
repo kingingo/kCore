@@ -29,7 +29,7 @@ public class TimeManager extends kListener{
 		if(!perms.containsKey(typ))perms.put(typ, new HashMap<UUID,Long>());
 		if(perms.containsKey(typ)&&!perms.get(typ).containsKey(UtilPlayer.getRealUUID(player))){
 			if(player.hasPermission("epicpvp.timer."+typ)){
-				for(Permission perm : manager.getPlayer(player).getPermissions()){
+				for(Permission perm : manager.getPermissionPlayer(player).getPermissions()){
 					if(!perm.getPermission().equalsIgnoreCase("epicpvp.timer."+typ)&&perm.getPermission().contains("epicpvp.timer."+typ+".")){
 						perms.get(typ).put(UtilPlayer.getRealUUID(player), Long.valueOf(perm.getPermission().substring(("epicpvp.timer."+typ+".").length(), perm.getPermission().length() )));
 						break;

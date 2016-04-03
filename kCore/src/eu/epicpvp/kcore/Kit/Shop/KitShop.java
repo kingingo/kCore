@@ -116,7 +116,7 @@ public class KitShop implements Listener {
 	@EventHandler
 	public void ShopOpen(PlayerInteractEvent ev){
 		if(UtilEvent.isAction(ev, ActionType.R)){
-			if(ev.getPlayer().getItemInHand()!=null&&UtilItem.ItemNameEquals(ev.getPlayer().getItemInHand(), UtilItem.RenameItem(new ItemStack(Material.CHEST), "§bKitShop"))){
+			if(ev.getPlayer().getItemInHand()!=null&&UtilItem.ItemNameEquals(ev.getPlayer().getItemInHand(), UtilItem.RenameItem(new ItemStack(Material.CHEST), "Â§bKitShop"))){
 				getInv(ev.getPlayer());
 			}
 		}
@@ -137,7 +137,7 @@ public class KitShop implements Listener {
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_ADMIN")} ,"§4Spezial-Kit"));
+					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_ADMIN")} ,"Â§4Spezial-Kit"));
 				}
 			}else if(kit.getType()==KitType.SPEZIAL_KIT){
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, PermissionType.ALL_KITS)){
@@ -147,7 +147,7 @@ public class KitShop implements Listener {
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_SPEZIAL1"),Language.getText(p, "KIT_SHOP_SPEZIAL2")} ,"§4Spezial-Kit"));
+					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_SPEZIAL1"),Language.getText(p, "KIT_SHOP_SPEZIAL2")} ,"Â§4Spezial-Kit"));
 				}
 			}else if(kit.getType()==KitType.MVP||kit.getType()==KitType.MVP_PLUS||kit.getType()==KitType.VIP||kit.getType()==KitType.ULTRA||kit.getType()==KitType.LEGEND){
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, PermissionType.ALL_KITS)){
@@ -157,7 +157,7 @@ public class KitShop implements Listener {
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_PREMIUM"),"§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
+					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_PREMIUM"),"Â§eShop.EpicPvP.de"} ,"Â§cPremium-Kit"));
 				}
 			}else{
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, PermissionType.ALL_KITS)){
@@ -203,16 +203,16 @@ public class KitShop implements Listener {
 		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName()+" "+Language.getText(p,"KIT_SHOP_BUY"));
 		switch(kit.getType()){
 			case KAUFEN:
-				inventory.setItem(3, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§e"+kit.getCoins_preis()+" Coins"));
-				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§a"+kit.getGems_preis()+" Gems"));
+				inventory.setItem(3, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "Â§e"+kit.getCoins_preis()+" Coins"));
+				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "Â§a"+kit.getGems_preis()+" Gems"));
 				inventory.setItem(1, kit.getItem());
 				break;
 			case KAUFEN_COINS:
-				inventory.setItem(5, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§e"+kit.getCoins_preis()+" Coins"));
+				inventory.setItem(5, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "Â§e"+kit.getCoins_preis()+" Coins"));
 				inventory.setItem(1, kit.getItem());
 				break;
 			case KAUFEN_GEMS:
-				inventory.setItem(5, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§a"+kit.getGems_preis()+" Gems"));
+				inventory.setItem(5, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "Â§a"+kit.getGems_preis()+" Gems"));
 				inventory.setItem(1, kit.getItem());
 				break;
 		}
@@ -254,7 +254,7 @@ public class KitShop implements Listener {
 						kit.addPlayer(p);
 						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_ADD",kit.getName()));
 						p.closeInventory();
-						UtilInv.remove(p, UtilItem.RenameItem(new ItemStack(Material.CHEST), "§bKitShop"), 1);
+						UtilInv.remove(p, UtilItem.RenameItem(new ItemStack(Material.CHEST), "Â§bKitShop"), 1);
 					}else if(ev.getCurrentItem().getType()==Material.GLOWSTONE_DUST){
 						p.openInventory(getKaufen(kit,p));
 					}

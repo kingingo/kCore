@@ -22,7 +22,7 @@ public class AddonHalloween extends kListener{
 	
 	public AddonHalloween(JavaPlugin instance) {
 		super(instance, "AddonHalloween");
-		this.pumpkin=UtilItem.RenameItem(new ItemStack(Material.PUMPKIN), "§6§lHelloween Pumpkin");
+		this.pumpkin=UtilItem.RenameItem(new ItemStack(Material.PUMPKIN), "Â§6Â§lHelloween Pumpkin");
 		UtilServer.createPacketListener(instance);
 		setPumpkin();
 	}

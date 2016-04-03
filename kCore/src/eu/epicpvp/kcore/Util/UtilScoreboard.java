@@ -74,9 +74,10 @@ public class UtilScoreboard {
 	}
 	
 	public static Team addTeam(Scoreboard board,String Team,String displayName, String prefix,String suffix){
-		if(board.getTeam(Team)!=null)return null;
-		Team r = board.registerNewTeam(Team);
-		if(displayName!=null)r.setPrefix(UtilString.cut(displayName,32));
+		if(board.getTeam(Team)!=null)return board.getTeam(Team);
+		Team r = board.registerNewTeam(UtilString.cut(Team));
+		
+		if(displayName!=null)r.setDisplayName(UtilString.cut(displayName,32));
 		if(prefix!=null)r.setPrefix(UtilString.cut(prefix));
 		if(suffix!=null)r.setSuffix(UtilString.cut(suffix));
 		return r;
@@ -101,19 +102,19 @@ public class UtilScoreboard {
 		board.resetScores(p1);
 	}
 	
-	public static void resetScore(Scoreboard b,int id,DisplaySlot typ){
-		net.minecraft.server.v1_8_R3.Scoreboard board = (net.minecraft.server.v1_8_R3.Scoreboard)UtilReflection.getValue("board", b);
+	public static void resetScore(Scoreboard b,int id, DisplaySlot typ){
+		net.minecraft.server.v1_8_R3.Scoreboard board = (net.minecraft.server.v1_8_R3.Scoreboard) UtilReflection.getValue("board", b);
 		for(ScoreboardScore sc: board.getScores()){
-			if(!sc.getObjective().getName().equalsIgnoreCase(typ.name()))continue;
-			if(sc.getScore()==id){
+			if(!sc.getObjective().getName().equalsIgnoreCase(typ.name())) continue;
+			if(sc.getScore() == id){
 				resetScore(b, b.getObjective( DisplaySlot.valueOf(sc.getObjective().getName()) ).getScore(sc.getPlayerName()).getEntry(), typ);
 			}
 		}
 		
 	}
 	
-	public static void setScore(Scoreboard board,String p2,DisplaySlot typ,int i){
-		board.getObjective(typ).getScore(p2).setScore(i);
+	public static void setScore(Scoreboard board,String scorename,DisplaySlot typ,int i){
+		board.getObjective(typ).getScore(scorename).setScore(i);
 	}
 	
 	public static void addLiveBoard(Scoreboard board,String DisplayName){

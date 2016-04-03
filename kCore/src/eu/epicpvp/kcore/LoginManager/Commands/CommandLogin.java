@@ -26,7 +26,7 @@ public class CommandLogin implements CommandExecutor{
 		
 		if(!getLoginManager().getLogin().containsKey(player.getName().toLowerCase()))return false;
 		if(args.length==0){
-			player.sendMessage(Language.getText(player, "PREFIX")+"§c/login [Password]");
+			player.sendMessage(Language.getText(player, "PREFIX")+"Â§c/login [Password]");
 			return true;
 		}else{
 			if(args[0].equalsIgnoreCase(getLoginManager().getLogin().get(player.getName().toLowerCase()))){

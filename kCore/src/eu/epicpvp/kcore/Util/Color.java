@@ -4,27 +4,27 @@ import org.bukkit.DyeColor;
 
 public class Color {
 
-	public static String GRAY = "ง7";
-	public static String DARK_GRAY = "ง8";
-	public static String RED = "งc";
-	public static String DARK_RED = "ง4";
-	public static String YELLOW = "งe";
-	public static String GREEN = "งa";
-	public static String BLACK = "ง0";
-	public static String BLUE = "ง1";
-	public static String AQUA = "งb";
-	public static String WHITE = "งf";
-	public static String ORANGE = "ง6";
-	public static String PURPLE = "ง5";
-	public static String DARK_GREEN = "ง2";
-	public static String PINK = "งd";
-	public static String CYAN = "ง3";
+	public static String GRAY = "ยง7";
+	public static String DARK_GRAY = "ยง8";
+	public static String RED = "ยงc";
+	public static String DARK_RED = "ยง4";
+	public static String YELLOW = "ยงe";
+	public static String GREEN = "ยงa";
+	public static String BLACK = "ยง0";
+	public static String BLUE = "ยง1";
+	public static String AQUA = "ยงb";
+	public static String WHITE = "ยงf";
+	public static String ORANGE = "ยง6";
+	public static String PURPLE = "ยง5";
+	public static String DARK_GREEN = "ยง2";
+	public static String PINK = "ยงd";
+	public static String CYAN = "ยง3";
 
-	public static String BOLD = "งl";
-	public static String ITALIC = "งo";
-	public static String RESET = "งr";
-	public static String STRIKE_THROUGH = "งm";
-	public static String OBFUSCATED = "งk";
+	public static String BOLD = "ยงl";
+	public static String ITALIC = "ยงo";
+	public static String RESET = "ยงr";
+	public static String STRIKE_THROUGH = "ยงm";
+	public static String OBFUSCATED = "ยงk";
 
 	public static String[] FORMAT = new String[]{BOLD,ITALIC,RESET,STRIKE_THROUGH,OBFUSCATED};
 	public static String[] COLORS = new String[]{DARK_GREEN,GRAY,DARK_RED,DARK_GRAY,RED,YELLOW,GREEN,BLACK,BLUE,AQUA,WHITE,ORANGE,PURPLE,PINK,CYAN};
@@ -38,11 +38,11 @@ public class Color {
 	}
 	
 	public static boolean isColor(String color){
-		if(color.contains("ง")||color.contains("&")){
-			color=color.replaceAll("&", "ง");
+		if(color.contains("ยง")||color.contains("&")){
+			color=color.replaceAll("&", "ยง");
 			
-			if(UtilString.countNumbers("ง")>1){
-				String[] colors = color.split("ง");
+			if(UtilString.countNumbers("ยง")>1){
+				String[] colors = color.split("ยง");
 				
 				for(String c : colors){
 					if(!isColor(c)){

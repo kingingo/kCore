@@ -47,7 +47,7 @@ public class NickManager extends kListener{
 //			for(Player player : UtilServer.getPlayers()){
 //				if(hasNick(player)){
 //					delNick(player);
-//					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_DISALLOW_TEMPOR§R"));
+//					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_DISALLOW_TEMPORÂ§R"));
 //				}
 //			}
 //		}
@@ -229,7 +229,7 @@ public class NickManager extends kListener{
 //						for(int id : getNicks().keySet()){
 //							if(!UtilPlayer.isOnline(getNicks().get(id).GetEntity().getUniqueID()))continue;
 //							if(txt.contains(Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName())){
-//								txt=txt.replaceAll(Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName(),Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName()+" §7§o["+getNicks().get(id).getName()+"§7§o]");
+//								txt=txt.replaceAll(Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName(),Bukkit.getPlayer(getNicks().get(id).GetEntity().getUniqueID()).getName()+" Â§7Â§o["+getNicks().get(id).getName()+"Â§7Â§o]");
 //							}
 //						}
 //						chat.setIChatBaseComponent( CraftChatMessage.fromString(txt)[0] );
@@ -257,7 +257,7 @@ public class NickManager extends kListener{
 ////												ev.getPlayer().getScoreboard()
 ////												, player
 ////												, st.getPrefix()
-////												, "§7 "+getNick(Bukkit.getPlayer(player)).getName());
+////												, "Â§7 "+getNick(Bukkit.getPlayer(player)).getName());
 ////									}
 ////									st.setTeamName(player);
 ////								}

@@ -27,6 +27,13 @@ public class PermissionListener extends kListener{
 			@Override
 			public void run() {
 				manager.loadPlayer(ev.getPlayer(), UtilPlayer.getRealUUID(ev.getPlayer()));
+				
+				Bukkit.getScheduler().runTask(manager.getInstance(), new BukkitRunnable() {
+					@Override
+					public void run() {
+						manager.setTabList(ev.getPlayer());
+					}
+				});
 			}
 		});
 	}

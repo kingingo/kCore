@@ -128,7 +128,8 @@ public class UtilServer{
 	
 	public static ClientWrapper createClient(JavaPlugin instance,ClientType type,String host,int port,String name){
 		if(client==null){
-			ThreadFactory.setFactory(new ThreadFactory());
+			createUpdaterAsync(instance);
+			ThreadFactory.setFactory(new ThreadFactory()); //149.202.150.185
 			client=new ClientWrapper(Client.createServerClient(type, name, new InetSocketAddress(host, port), new ServerActionListener() {
 				
 				@Override
@@ -174,24 +175,25 @@ public class UtilServer{
 							if(player.hasPermission(permission)){
 								player.sendMessage(message);
 							}
-						}
+						} 
 					}
 				}
 				
-				@Override
-				public void setGamemode(GameType game) {
-					Bukkit.getPluginManager().callEvent(new ServerChangeGameTypeEvent(game));
+				public void setGamemode(GameType game,String subtype) {
+					Bukkit.getPluginManager().callEvent(new ServerChangeGameTypeEvent(game,subtype));
 				}
+
 			},new ServerInformations() {
 				
 				@Override
 				public PacketInServerStatus getStatus() {
-					ServerStatusUpdateEvent ev = new ServerStatusUpdateEvent(new PacketInServerStatus(0, 0, 0, "", GameType.NONE,GameState.Laden, "none", false, ""));
+					ServerStatusUpdateEvent ev = new ServerStatusUpdateEvent(new PacketInServerStatus(0, 0, 0, "", GameType.NONE,GameState.Laden, "none", true, name));
 					Bukkit.getPluginManager().callEvent(ev);
 					return ev.getPacket();
 				}
 			}));
 			try {
+				
 				client.getHandle().connect("HelloWorld".getBytes());
 			} catch (Exception e) {
 				e.printStackTrace();

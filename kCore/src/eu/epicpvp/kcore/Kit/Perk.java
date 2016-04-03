@@ -23,7 +23,7 @@ public abstract class Perk implements Listener{
 	private ItemStack item;
 	
 	public Perk(String name){
-		this(name,UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§e"+name));
+		this(name,UtilItem.RenameItem(new ItemStack(Material.EMERALD), "Â§e"+name));
 	}
 	
 	public Perk(String name,ItemStack item){

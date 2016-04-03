@@ -35,7 +35,7 @@ public class Erstellen {
 			}
 			
 			if(!g.matches("[a-zA-Z0-9]*")){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" §c§lDu hast ein Ung§ltiges Zeichen in deinen Clannamen!");
+				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" Â§cÂ§lDu hast ein UngÂ§ltiges Zeichen in deinen Clannamen!");
 				return;
 			}
 			
@@ -49,7 +49,7 @@ public class Erstellen {
 				}
 			}
 			
-			manager.createGildenEintrag(g, "§7"+g+"§b*§f", 10, UtilPlayer.getRealUUID(p));
+			manager.createGildenEintrag(g, "Â§7"+g+"Â§b*Â§f", 10, UtilPlayer.getRealUUID(p));
 			manager.createPlayerEintrag(p, g);
 			if(manager.getTyp()==GildenType.PVP){
 				manager.setInt(g, p.getLocation().getBlockX(), StatsKey.LOC_X);

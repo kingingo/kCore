@@ -55,7 +55,7 @@ public class BestOf extends kListener{
 		this.wait_list=new HashMap<>();
 		this.players_name=new HashMap<>();
 		this.spawn=CommandLocations.getLocation("BestOf");
-		this.item=UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY, 1,(byte)14), "§cBestOf Runde beenden");
+		this.item=UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY, 1,(byte)14), "Â§cBestOf Runde beenden");
 		
 		UtilServer.getClient().getHandle().getHandlerBoss().addListener(new PacketListener() {
 			
@@ -91,11 +91,11 @@ public class BestOf extends kListener{
 				Bukkit.getPlayer(round.getPlayers()[0]).teleport(CommandLocations.getLocation("spawn"));
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().clear();
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(0, UtilItem.RenameItem(new ItemStack(Material.CHEST), Language.getText(Bukkit.getPlayer(round.getPlayers()[0]), "HUB_ITEM_CHEST")));
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(1,UtilItem.RenameItem(new ItemStack(Material.FISHING_ROD), "§aBestOf"));
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(5,UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedWars 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(8,UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(7,UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(1,UtilItem.RenameItem(new ItemStack(Material.FISHING_ROD), "Â§aBestOf"));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(5,UtilItem.RenameItem(new ItemStack(Material.BOW), "Â§aSurvivalGames 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "Â§aBedWars 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(8,UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "Â§aVersus 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(7,UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "Â§aSkyWars 1vs1"));
 			
 				for(Player p : UtilServer.getPlayers()){
 					p.showPlayer(Bukkit.getPlayer(round.getPlayers()[0]));
@@ -107,11 +107,11 @@ public class BestOf extends kListener{
 				Bukkit.getPlayer(round.getPlayers()[1]).teleport(CommandLocations.getLocation("spawn"));
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().clear();
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(0, UtilItem.RenameItem(new ItemStack(Material.CHEST), Language.getText(Bukkit.getPlayer(round.getPlayers()[1]), "HUB_ITEM_CHEST")));
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(1,UtilItem.RenameItem(new ItemStack(Material.FISHING_ROD), "§aBestOf"));
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(5,UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedWars 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(8,UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1"));
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(7,UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(1,UtilItem.RenameItem(new ItemStack(Material.FISHING_ROD), "Â§aBestOf"));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(5,UtilItem.RenameItem(new ItemStack(Material.BOW), "Â§aSurvivalGames 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "Â§aBedWars 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(8,UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "Â§aVersus 1vs1"));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(7,UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "Â§aSkyWars 1vs1"));
 			
 				for(Player p : UtilServer.getPlayers()){
 					p.showPlayer(Bukkit.getPlayer(round.getPlayers()[1]));
@@ -209,7 +209,7 @@ public class BestOf extends kListener{
 							}
 						}else{
 							if(UtilPlayer.isOnline(winner)){
-								Title title = new Title("§a§lBestOf WINNER", "§c§l"+Bukkit.getPlayer(winner).getName());
+								Title title = new Title("Â§aÂ§lBestOf WINNER", "Â§cÂ§l"+Bukkit.getPlayer(winner).getName());
 								for(UUID player : round.getPlayers()){
 									if(UtilPlayer.isOnline(player)){
 										title.send(Bukkit.getPlayer(player));
@@ -259,7 +259,7 @@ public class BestOf extends kListener{
 				}
 			}
 			
-			new Title("§c"+this.players.get(ev.getPlayer().getUniqueId()).getRound()+"/"+this.players.get(ev.getPlayer().getUniqueId()).getTypes().length +" Runde"," ").send(ev.getPlayer());
+			new Title("Â§c"+this.players.get(ev.getPlayer().getUniqueId()).getRound()+"/"+this.players.get(ev.getPlayer().getUniqueId()).getTypes().length +" Runde"," ").send(ev.getPlayer());
 			
 			if(this.players.get(ev.getPlayer().getUniqueId()).canNextRound()){
 				this.wait_list.put(this.players.get(ev.getPlayer().getUniqueId()), System.currentTimeMillis());

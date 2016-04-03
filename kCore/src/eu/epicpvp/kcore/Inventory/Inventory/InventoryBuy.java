@@ -43,7 +43,7 @@ public class InventoryBuy extends InventoryPageBase{
 					player.closeInventory();
 				}
 					
-			},Material.GOLD_INGOT,"§e"+c+" Coins"));
+			},Material.GOLD_INGOT,"Â§e"+c+" Coins"));
 		}
 			
 		if(g!=0){
@@ -60,7 +60,7 @@ public class InventoryBuy extends InventoryPageBase{
 					player.closeInventory();
 				}
 					
-			},Material.EMERALD,"§a"+g+" Gems"));
+			},Material.EMERALD,"Â§a"+g+" Gems"));
 		}
 		
 		fill(Material.STAINED_GLASS_PANE,7);

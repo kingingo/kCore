@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.Util;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -31,6 +32,33 @@ public class UtilInv
   public static InventoryBase getBase(JavaPlugin instance){
 	  if(base==null)base=new InventoryBase(instance);
 	  return base;
+  }
+  
+  public static ArrayList<ItemStack> getItems(Inventory inventory,int amount){
+	ArrayList<ItemStack> items = new ArrayList<>();
+	int count = 0;
+	for(int i = 0; i<inventory.getContents().length; i++){
+		ItemStack item = inventory.getContents()[i];
+		
+		if(item!=null&&item.getType()!=Material.AIR){
+			if( (item.getAmount()+count) >= amount ){
+				int rest = amount - count;
+				
+				ItemStack item2 = item.clone();
+				item2.setAmount(rest);
+				items.add(item2);
+				
+				item.setAmount( item.getAmount()-rest );
+				inventory.setItem(i, item);
+				count = amount;
+			}else{
+				items.add(item);
+				count+=item.getAmount();
+				inventory.setItem(i, null);
+			}
+		}
+	}
+    return items;
   }
   
   public static ItemStack getFirstItem(Inventory inventory,int id, byte data)

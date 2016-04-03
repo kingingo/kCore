@@ -27,10 +27,10 @@ public class CommandFirewall extends kListener implements CommandExecutor{
 				if(args.length == 0){
 					if(instance.isFirewall()){
 						instance.setFirewall(false);
-						p.sendMessage(Language.getText(p, "PREFIX")+ "§cfalse");
+						p.sendMessage(Language.getText(p, "PREFIX")+ "Â§cfalse");
 					}else{
 						instance.setFirewall(true);
-						p.sendMessage(Language.getText(p, "PREFIX")+ "§atrue");
+						p.sendMessage(Language.getText(p, "PREFIX")+ "Â§atrue");
 					}
 				}
 			}
