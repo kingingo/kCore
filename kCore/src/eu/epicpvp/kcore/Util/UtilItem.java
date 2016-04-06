@@ -47,6 +47,15 @@ public class UtilItem {
 		UtilReflection.setValue("maxStackSize", item, amount);
 	}
 	
+	public static boolean isUnbreakable(ItemStack item){
+		return item.getItemMeta().spigot().isUnbreakable();
+	}
+	
+	public static ItemStack setUnbreakable(ItemStack item, boolean unbreakable){
+		item.getItemMeta().spigot().setUnbreakable(unbreakable);
+		return item;
+	}
+	
 	public static ItemStack parseStringMeta(ItemStack item, int fromArg,String[] string) throws Exception{
 		Pattern splitPattern = Pattern.compile("[:+',;.]");
 		for (int i = fromArg; i < string.length; i++){
