@@ -1,5 +1,6 @@
 package eu.epicpvp.kcore.PacketAPI.Packets;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import eu.epicpvp.kcore.PacketAPI.kPacket;
@@ -34,6 +35,12 @@ public class kPacketPlayOutPlayerInfo implements kPacket{
 	
 	public EnumPlayerInfoAction getEnumPlayerInfoAction(){
 		return (EnumPlayerInfoAction) UtilReflection.getValue(ENUM_PLAYER_INFO_ACTION, packet);
+	}
+	
+	public void setkList(List<kPlayerInfoData> list){
+		List<PlayerInfoData> l = new ArrayList<>();
+		l.addAll(list);
+		setList(l);
 	}
 	
 	public void setList(List<PlayerInfoData> list){

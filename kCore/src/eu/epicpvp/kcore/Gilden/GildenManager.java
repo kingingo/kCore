@@ -35,6 +35,7 @@ import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilDebug;
+import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilTime;
@@ -103,7 +104,7 @@ public class GildenManager implements Listener {
 	@EventHandler
 	public void chat(AsyncPlayerChatEvent ev){
 		if(ev.getMessage().startsWith("#")&&isPlayerInGilde(ev.getPlayer())){
-			ev.setMessage(ev.getMessage().substring(1, ev.getMessage().length()).replaceAll("&", "§"));
+			ev.setMessage(ev.getMessage().substring(1, ev.getMessage().length()).replaceAll("&", "Â§"));
 			if(chatevent==null)chatevent=new GildenChatEvent(ev.getPlayer(), ev.getMessage(), getPlayerGilde(ev.getPlayer()), this);
 			chatevent.setCancelled(false);
 			chatevent.setPlayer(ev.getPlayer());
@@ -149,21 +150,21 @@ public class GildenManager implements Listener {
 						ResultSet rs = (ResultSet)value;
 						
 						if((ranking.size()+1)==1){
-							ranking.put(1, "§b#§6" + String.valueOf(1) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
+							ranking.put(1, "Â§b#Â§6" + String.valueOf(1) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§4Â§l " + rs.getString(2));
 						}else if((ranking.size()+1)==2){
-					  		ranking.put(2, "§b#§6" + String.valueOf(2) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
+					  		ranking.put(2, "Â§b#Â§6" + String.valueOf(2) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§2Â§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)==3){
-					  		ranking.put(3, "§b#§6" + String.valueOf(3) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
+					  		ranking.put(3, "Â§b#Â§6" + String.valueOf(3) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§eÂ§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=4 && (ranking.size()+1)<=6){
-					  		ranking.put(4, "§b#§6" + String.valueOf(4) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
+					  		ranking.put(4, "Â§b#Â§6" + String.valueOf(4) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§3 " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=7 && (ranking.size()+1)<=9){
-					  		ranking.put(5, "§b#§6" + String.valueOf(5) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
+					  		ranking.put(5, "Â§b#Â§6" + String.valueOf(5) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§d " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=10 && (ranking.size()+1)<=12){
-					  		ranking.put(6, "§b#§6" + String.valueOf(6) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+					  		ranking.put(6, "Â§b#Â§6" + String.valueOf(6) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§a " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=13 && (ranking.size()+1)<=15){
-					  		ranking.put(7, "§b#§6" + String.valueOf(7) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
+					  		ranking.put(7, "Â§b#Â§6" + String.valueOf(7) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§b " + rs.getString(2));
 					  	}else{
-					  		ranking.put(8, "§b#§6" + String.valueOf(8) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+					  		ranking.put(8, "Â§b#Â§6" + String.valueOf(8) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§6 " + rs.getString(2));
 					  	}
 						extra_prefix.put(rs.getString(2).toLowerCase(), ranking.size()+1);
 					 } catch (Exception err) {
@@ -185,21 +186,21 @@ public class GildenManager implements Listener {
 						ResultSet rs = (ResultSet)value;
 						
 						if((ranking.size()+1)==1){
-							ranking.put(1, "§b#§6" + String.valueOf(1) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
+							ranking.put(1, "Â§b#Â§6" + String.valueOf(1) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§4Â§l " + rs.getString(2));
 						}else if((ranking.size()+1)==2){
-					  		ranking.put(2, "§b#§6" + String.valueOf(2) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
+					  		ranking.put(2, "Â§b#Â§6" + String.valueOf(2) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§2Â§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)==3){
-					  		ranking.put(3, "§b#§6" + String.valueOf(3) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
+					  		ranking.put(3, "Â§b#Â§6" + String.valueOf(3) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§eÂ§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=4 && (ranking.size()+1)<=6){
-					  		ranking.put(4, "§b#§6" + String.valueOf(4) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
+					  		ranking.put(4, "Â§b#Â§6" + String.valueOf(4) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§3 " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=7 && (ranking.size()+1)<=9){
-					  		ranking.put(5, "§b#§6" + String.valueOf(5) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
+					  		ranking.put(5, "Â§b#Â§6" + String.valueOf(5) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§d " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=10 && (ranking.size()+1)<=12){
-					  		ranking.put(6, "§b#§6" + String.valueOf(6) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+					  		ranking.put(6, "Â§b#Â§6" + String.valueOf(6) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§a " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=13 && (ranking.size()+1)<=15){
-					  		ranking.put(7, "§b#§6" + String.valueOf(7) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
+					  		ranking.put(7, "Â§b#Â§6" + String.valueOf(7) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§b " + rs.getString(2));
 					  	}else{
-					  		ranking.put(8, "§b#§6" + String.valueOf(8) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+					  		ranking.put(8, "Â§b#Â§6" + String.valueOf(8) + "Â§b | Â§6" + String.valueOf(rs.getInt(1)) + " Â§b|Â§6 " + rs.getString(2));
 					  	}
 						extra_prefix.put(rs.getString(2).toLowerCase(), ranking.size()+1);
 					 } catch (Exception err) {
@@ -211,8 +212,8 @@ public class GildenManager implements Listener {
 	}
 	
 	public void Ranking(Player p){
-		p.sendMessage("§b– – – – – – – –  §6§lGilden Ranking | Top 15 §b– – – – – – – – ");
-		p.sendMessage("§b Place | "+(GildenType.PVP==getTyp()?"FAME":"Kills")+" | Gilde");
+		p.sendMessage("Â§bÂ§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§ Â§6Â§lGilden Ranking | Top 15 Â§bÂ§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§Â§");
+		p.sendMessage("Â§b Place | "+(GildenType.PVP==getTyp()?"FAME":"Kills")+" | Gilde");
 		LoadRanking(false);
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
@@ -870,7 +871,7 @@ public class GildenManager implements Listener {
 		if(!ExistGilde(gilde))return 0.0;
 		ExistGildeData(gilde, typ);
 		if(gilden_data.containsKey(gilde)&&gilden_data.get(gilde).containsKey(typ)&&gilden_data.get(gilde).get(typ).containsKey(s)){
-			return (double)gilden_data.get(gilde).get(typ).get(s);
+			return UtilNumber.toDouble( gilden_data.get(gilde).get(typ).get(s) );
 		}
 		double i = -1;
 		try{
@@ -913,7 +914,7 @@ public class GildenManager implements Listener {
 		if(!ExistGilde(gilde))return null;
 		ExistGildeData(gilde, typ);
 		if(gilden_data.containsKey(gilde)&&gilden_data.get(gilde).containsKey(typ)&&gilden_data.get(gilde).get(typ).containsKey(s)){
-			return (int)gilden_data.get(gilde).get(typ).get(s);
+			return UtilNumber.toInt(gilden_data.get(gilde).get(typ).get(s));
 		}
 		int i = -1;
 		try{

@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Language.Language;
-import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.StatsManager.Ranking;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import lombok.Getter;
@@ -18,7 +17,7 @@ public class CommandStats implements CommandExecutor{
 	private StatsManager statsManager;
 	private Ranking ranking;
 	
-	public CommandStats(StatsManager statsmanager,MySQL mysql){
+	public CommandStats(StatsManager statsmanager){
 		this.statsManager=statsmanager;
 		this.ranking=new Ranking(statsmanager.getType(),StatsKey.KILLS);
 		this.statsManager.addRanking(ranking);
@@ -32,7 +31,6 @@ public class CommandStats implements CommandExecutor{
 			p.sendMessage(Language.getText(p, "STATS_KILLS")+statsManager.getInt(p, StatsKey.KILLS));
 			p.sendMessage(Language.getText(p, "STATS_DEATHS")+statsManager.getInt(p, StatsKey.DEATHS));
 			p.sendMessage(Language.getText(p, "STATS_KDR")+getStatsManager().getKDR(statsManager.getInt(p, StatsKey.KILLS), statsManager.getInt(p, StatsKey.DEATHS)));
-//			p.sendMessage(Language.getText(p, "STATS_RANKING")+getStatsManager().getRank(Stats.KILLS, p));
 		}else if(args[0].equalsIgnoreCase("ranking")){
 			if(args.length==1){
 				getStatsManager().SendRankingMessage(p, ranking);
