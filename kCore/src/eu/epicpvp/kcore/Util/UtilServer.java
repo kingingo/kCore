@@ -182,7 +182,6 @@ public class UtilServer{
 				public void setGamemode(GameType game,String subtype) {
 					Bukkit.getPluginManager().callEvent(new ServerChangeGameTypeEvent(game,subtype));
 				}
-
 			},new ServerInformations() {
 				
 				@Override

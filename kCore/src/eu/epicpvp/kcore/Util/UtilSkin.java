@@ -13,19 +13,17 @@ import eu.epicpvp.kcore.PacketAPI.Packets.kGameProfile;
 public class UtilSkin {
 	
 	public static void setSkinPlayer(Player player, Skin data){
-		kGameProfile profile = (kGameProfile)UtilPlayer.getCraftPlayer(player).getProfile();
+		kGameProfile profile = (kGameProfile) UtilPlayer.getCraftPlayer(player).getProfile();
 		profile.loadSkin(data);
 	}
 	
 	public static void loadSkin(Callback<Skin> callback, String playerName){
 		ProgressFuture<Skin> response = UtilServer.getClient().getSkin(playerName);
-		
 		response.getAsync(callback);
 	}
 	
 	public static void loadSkin(kGameProfile profile, String playerName){
 		loadSkin(new Callback<Skin>() {
-			
 			@Override
 			public void call(Skin skin) {
 				 profile.loadSkin(skin);
@@ -45,7 +43,6 @@ public class UtilSkin {
 	
 	public static void loadSkin(kGameProfile profile, UUID uuid){
 		loadSkin(new Callback<Skin>() {
-			
 			@Override
 			public void call(Skin skin) {
 				 profile.loadSkin(skin);

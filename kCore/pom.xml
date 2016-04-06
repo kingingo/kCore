@@ -71,11 +71,31 @@
 			<groupId>eu.epicpvp</groupId>
 			<artifactId>core-karcarde</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>DatenClient</artifactId>
+					<groupId>DatenClient</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>kCore</artifactId>
+					<groupId>kCore</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>eu.epicpvp</groupId>
-			<artifactId>core-kSkyBlock</artifactId>
+			<artifactId>core-kskyblock</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>DatenClient</artifactId>
+					<groupId>DatenClient</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>kCore</artifactId>
+					<groupId>kCore</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>eu.epicpvp</groupId>
@@ -83,9 +103,9 @@
 			<version>1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>net.minecraft</groupId>
-			<artifactId>server</artifactId>
-			<version>8.8</version>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<version>1.8.8-R0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
