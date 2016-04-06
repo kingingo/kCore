@@ -4,16 +4,15 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.entity.EntityType;
-import org.bukkit.plugin.java.JavaPlugin;
 
+import dev.wolveringer.skin.Skin;
 import eu.epicpvp.kcore.Disguise.disguises.DisguiseHuman;
 import eu.epicpvp.kcore.PacketAPI.kPacket;
 import eu.epicpvp.kcore.PacketAPI.Packets.kGameProfile;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPlayerInfoData;
-import eu.epicpvp.kcore.Util.SkinData;
-import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.Util.UtilSkin;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
@@ -47,24 +46,14 @@ public class DisguisePlayer extends DisguiseHuman
     this.profile=new kGameProfile(this.uuid, this._name);
   }
   
-  public void loadSkin(SkinData data){
-	  if(data!=null&&data.isReady()){
+  public void loadSkin(Skin data){
+	  if(data!=null){
 		  this.profile.loadSkin(data);
-		  if(UtilServer.getDisguiseManager().getSkinLoad().contains(this))UtilServer.getDisguiseManager().getSkinLoad().remove(this);
 	  }else{
 		 if(data!=null){
-			 this.skinUuid=data.getUuid();
-			 if(!UtilServer.getDisguiseManager().getSkinLoad().contains(this))UtilServer.getDisguiseManager().getSkinLoad().add(this);
+			 UtilSkin.loadSkin(this.profile, getUuid());
 		 }
 	  }
-  }
-  
-  public void loadSkin(JavaPlugin instance){
-	  loadSkin(instance,this.uuid);
-  }
-  
-  public void loadSkin(JavaPlugin instance,UUID uuid){
-	  this.profile.loadSkin(instance,uuid);
   }
   
   public String getName(){
