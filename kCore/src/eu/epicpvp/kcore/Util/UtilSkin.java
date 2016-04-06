@@ -10,6 +10,22 @@ import eu.epicpvp.kcore.PacketAPI.Packets.kGameProfile;
 
 public class UtilSkin {
 	
+	public static void loadSkin(Callback<Skin> callback, String playerName){
+		ProgressFuture<Skin> response = UtilServer.getClient().getSkin(playerName);
+		
+		response.getAsync(callback);
+	}
+	
+	public static void loadSkin(kGameProfile profile, String playerName){
+		loadSkin(new Callback<Skin>() {
+			
+			@Override
+			public void call(Skin skin) {
+				 profile.loadSkin(skin);
+			}
+		}, playerName);
+	}
+	
 	public static void loadSteveSkin(kGameProfile profile){
 		profile.loadSkin( new SteveSkin() );
 	}
