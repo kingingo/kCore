@@ -46,13 +46,17 @@ public class DisguisePlayer extends DisguiseHuman
     this.profile=new kGameProfile(this.uuid, this._name);
   }
   
+  public void loadSkin(UUID uuid){
+	  UtilSkin.loadSkin(this.profile, uuid);
+  }
+  
+  public void loadSkin(String playerName){
+	  UtilSkin.loadSkin(this.profile, playerName);
+  }
+  
   public void loadSkin(Skin data){
 	  if(data!=null){
 		  this.profile.loadSkin(data);
-	  }else{
-		 if(data!=null){
-			 UtilSkin.loadSkin(this.profile, getUuid());
-		 }
 	  }
   }
   
