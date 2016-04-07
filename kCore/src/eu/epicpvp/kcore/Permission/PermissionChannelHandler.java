@@ -3,13 +3,18 @@ package eu.epicpvp.kcore.Permission;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
+import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class PermissionChannelHandler implements PluginMessageListener, Listener{
 	ArrayList<PermissionChannelListener> listener = new ArrayList<>();
@@ -80,5 +85,24 @@ public class PermissionChannelHandler implements PluginMessageListener, Listener
 			else if(action == 1)
 				manager.updateGroup(e.getBuffer().readString());
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void load(PlayerLoginEvent ev){
+		Bukkit.getScheduler().runTaskAsynchronously(manager.getInstance(), new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				manager.loadPlayer(ev.getPlayer(), UtilPlayer.getRealUUID(ev.getPlayer()));
+				
+				Bukkit.getScheduler().runTask(manager.getInstance(), new BukkitRunnable() {
+					@Override
+					public void run() {
+						manager.setTabList(ev.getPlayer());
+					}
+				});
+			}
+		});
 	}
 }

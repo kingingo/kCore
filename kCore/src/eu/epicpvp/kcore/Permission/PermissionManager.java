@@ -11,7 +11,6 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
 
 import eu.epicpvp.kcore.Permission.Group.Group;
-import eu.epicpvp.kcore.Permission.Listener.PermissionListener;
 import eu.epicpvp.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
@@ -51,7 +50,6 @@ public class PermissionManager{
 		this.handler = new PermissionChannelHandler(this);
 		Bukkit.getMessenger().registerIncomingPluginChannel(plugin, "permission", handler);
 		Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, "permission");
-		new PermissionListener(this);
 	}
 	
 	/**
