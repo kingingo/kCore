@@ -1,4 +1,4 @@
-package dev.wolveringer.skinupdater;
+package eu.epicpvp.kcore.Listener.Skin;
 
 import java.util.HashSet;
 
@@ -9,10 +9,12 @@ import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.skin.Skin;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
+import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -30,9 +32,10 @@ import net.minecraft.server.v1_8_R3.PlayerAbilities;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
 import net.minecraft.server.v1_8_R3.WorldSettings.EnumGamemode;
 
-public class SkinUpdateListener implements Listener {
-	public SkinUpdateListener() {
-		System.out.println("Skin listener registered!");
+public class SkinUpdateListener extends kListener {
+	public SkinUpdateListener(JavaPlugin instance) {
+		super(instance,"SkinUpdateListener");
+		Log("Skin listener registered!");
 	}
 	
 	@EventHandler
@@ -41,15 +44,15 @@ public class SkinUpdateListener implements Listener {
 			if (e.getBuffer().readByte() == 0) {
 				Player player = Bukkit.getPlayer(e.getBuffer().readString());
 				if(player == null || !player.isOnline()){
-					System.out.println("Cant update player skin!");
+					Log("Cant update player skin!");
 					return;
 				}
-				System.out.println("Updating skin for "+player.getName());
+				Log("Updating skin for "+player.getName());
 				UtilServer.getClient().getPlayerAndLoad(player.getUniqueId()).getOwnSkin().getAsync(new Callback<Skin>() {
 					@Override
 					public void call(Skin obj) {
 						updateSkin(player,obj);
-						System.out.println("Updated the skin of "+player.getName());
+						Log("Updated the skin of "+player.getName());
 					}
 				});
 			}

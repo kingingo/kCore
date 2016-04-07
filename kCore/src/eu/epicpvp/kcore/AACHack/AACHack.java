@@ -12,13 +12,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.LoadedPlayer;
+import dev.wolveringer.client.connection.PacketListener;
+import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.AntiLogout.AntiLogoutManager;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
+import eu.epicpvp.kcore.Packets.PacketAACReload;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 import lombok.Setter;
+import me.konsolas.aac.api.AACAPIProvider;
 import me.konsolas.aac.api.HackType;
 import me.konsolas.aac.api.PlayerViolationCommandEvent;
 
@@ -52,6 +56,17 @@ public class AACHack extends kListener{
 		this.df2.setTimeZone(TimeZone.getDefault());
 		this.df2.format(MyDate);
 	
+		
+		UtilServer.getClient().getHandle().getHandlerBoss().addListener(new PacketListener() {
+			
+			@Override
+			public void handle(Packet packet) {
+				if(packet instanceof PacketAACReload){
+					AACAPIProvider.getAPI().reloadAAC();
+				}
+			}
+		});
+		
 		getMysql().Update("CREATE TABLE IF NOT EXISTS AAC_HACK(name varchar(30),ip varchar(30),uuid varchar(100),server varchar(30),time varchar(30),hackType varchar(30),violations int)");
 		Log("AACHack System aktiviert");
 	}
@@ -93,17 +108,6 @@ public class AACHack extends kListener{
 			}
 		}
 	}
-	
-//	@EventHandler
-//	public void reload(PacketReceiveEvent ev){
-//		if(ev.getPacket() instanceof AAC_RELOAD){
-//			AACAPIProvider.getAPI().reloadAAC();
-//		}
-//	}
-//	
-//	@EventHandler
-//    public void onPlayerViolation(PlayerViolationEvent ev) {
-//	}
 	
 	private void setZeitBan(Player banned,int ti,String typ,String reason){
 		long time=0;
