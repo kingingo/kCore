@@ -18,7 +18,7 @@ public class PermissionListener extends kListener{
 		super(manager.getInstance(), "PermissionListener");
 		this.manager=manager;
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void load(PlayerLoginEvent ev){

@@ -8,10 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
-import eu.epicpvp.kcore.Packets.PacketPlayerPermissionReload;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Permission.Listener.PermissionListener;
 import eu.epicpvp.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
@@ -25,7 +23,6 @@ public class PermissionManager{
 
 	public static PermissionManager getManager() {
 		return manager;
-		
 	}
 
 	public static void setManager(PermissionManager manager) {

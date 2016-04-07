@@ -63,7 +63,7 @@ public class Language {
 
 	public static LanguageType getLanguage(Player player){
 		if(player==null){
-			System.out.println("[Language] Spieler == null");
+			new NullPointerException("player == NULL");
 			return LanguageType.ENGLISH;
 		}else if(!languages.containsKey(UtilPlayer.getRealUUID(player))){
 			
@@ -85,8 +85,7 @@ public class Language {
 	
 	public static void sendText(Player player,String name,Object[] input){
 		if(player==null){
-			System.out.println("[Language] Message "+name);
-			System.out.println("[Language] Spieler == null");
+			new NullPointerException("player == NULL");
 			return;
 		}
 		player.sendMessage( toText(list.get(getLanguage(player)).get(name), input) );
@@ -94,8 +93,7 @@ public class Language {
 	
 	public static void sendText(Player player,String name,Object input){
 		if(player==null){
-			System.out.println("[Language] Message "+name);
-			System.out.println("[Language] Spieler == null");
+			new NullPointerException("player == NULL");
 		}else{
 			player.sendMessage( toText(list.get(getLanguage(player)).get(name), input) );
 		}
@@ -103,7 +101,7 @@ public class Language {
 	
 	public static String getText(String name,Object input){
 		if(!list.get(LanguageType.ENGLISH).containsKey(name)){
-			System.out.println("[Language] Message nicht gefunden "+name);
+			new NullPointerException("Message nicht gefunden "+name);
 			return Language.getText("MSG_NOT_FOUND", name);
 		}
 		return toText(list.get(LanguageType.ENGLISH).get(name), input);
@@ -111,7 +109,7 @@ public class Language {
 	
 	public static String getText(String name,Object[] input){
 		if(!list.get(LanguageType.ENGLISH).containsKey(name)){
-			System.out.println("[Language] Message nicht gefunden "+name);
+			new NullPointerException("Message nicht gefunden "+name);
 			return Language.getText("MSG_NOT_FOUND", name);
 		}
 		return toText(list.get(LanguageType.ENGLISH).get(name), input);
@@ -119,7 +117,7 @@ public class Language {
 	
 	public static String getText(String name){
 		if(!list.get(LanguageType.ENGLISH).containsKey(name)){
-			System.out.println("[Language] Message nicht gefunden "+name);
+			new NullPointerException("Message nicht gefunden "+name);
 			return Language.getText("MSG_NOT_FOUND", name);
 		}
 		return list.get(LanguageType.ENGLISH).get(name);
@@ -127,12 +125,11 @@ public class Language {
 	
 	public static String getText(Player player,String name){
 		if(player==null){
-			System.out.println("[Language] Message "+name);
-			System.out.println("[Language] Spieler == null");
+			new NullPointerException("player == NULL");
 			return list.get(LanguageType.ENGLISH).get(name);
 		}
 		if(!list.get(getLanguage(player)).containsKey(name)){
-			System.out.println("[Language] Message nicht gefunden "+name+" "+getLanguage(player).getDef());
+			new NullPointerException("Message nicht gefunden "+name);
 			return Language.getText(player,"MSG_NOT_FOUND", name);
 		}
 		return list.get(getLanguage(player)).get(name);
@@ -140,12 +137,11 @@ public class Language {
 	
 	public static String getText(Player player,String name,Object[] input){
 		if(player==null){
-			System.out.println("[Language] Message "+name);
-			System.out.println("[Language] Spieler == null");
+			new NullPointerException("player == NULL");
 			return toText(list.get(LanguageType.ENGLISH).get(name), input);
 		}
 		if(!list.get(getLanguage(player)).containsKey(name)){
-			System.out.println("[Language] Message nicht gefunden "+name+" "+getLanguage(player).getDef());
+			new NullPointerException("Message nicht gefunden "+name);
 			return Language.getText(player,"MSG_NOT_FOUND", name);
 		}
 		return toText(list.get(getLanguage(player)).get(name), input);
@@ -153,13 +149,12 @@ public class Language {
 	
 	public static String getText(Player player,String name,Object input){
 		if(player==null){
-			System.out.println("[Language] Message "+name);
-			System.out.println("[Language] Spieler == null");
+			new NullPointerException("player == NULL");
 			return toText(list.get(LanguageType.ENGLISH).get(name), input);
 		}
 		if(!list.containsKey(getLanguage(player)))return Language.getText(player,"MSG_NOT_FOUND", name);
 		if(!list.get(getLanguage(player)).containsKey(name)){
-			System.out.println("[Language] Message nicht gefunden "+name+" "+getLanguage(player).getDef());
+			new NullPointerException("Message nicht gefunden "+name);
 			return Language.getText(player,"MSG_NOT_FOUND", name);
 		}
 		return toText(list.get(getLanguage(player)).get(name), input);
