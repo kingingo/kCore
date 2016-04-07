@@ -27,10 +27,15 @@ public class PermissionManager{
 
 	public static void setManager(PermissionManager manager) {
 		PermissionManager.manager = manager;
+		/**
+		 * Schwachsin... aufbau.... ;(
+		 */
 		Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
 		Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.BELOW_NAME);
 		Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.PLAYER_LIST);
 	}
+	
+	private ArrayList<Group> groupUpdates = new ArrayList<>();
 
 	@Getter
 	private ArrayList<Group> groups = new ArrayList<>();
@@ -49,6 +54,9 @@ public class PermissionManager{
 		new PermissionListener(this);
 	}
 	
+	/**
+	 * TabManager.java????
+	 */
 	public Scoreboard getScoreboard(){
 		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
 		
@@ -62,7 +70,10 @@ public class PermissionManager{
 		
 		return board;
 	}
-	
+
+	/**
+	 * TabManager.java????
+	 */
 	public void setTabList(Player player) {
 			player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 			if(player.getScoreboard().getTeam(getPermissionPlayer(player).getGroups().get(0).getName())==null){
@@ -156,5 +167,18 @@ public class PermissionManager{
 			groups.add(new Group(this, name));
 		}
 		return getGroup(name);
+	}
+
+	protected void updatePlayer(UUID player) {
+		if(user.containsKey(player))
+			user.remove(player);
+		if(Bukkit.getOnlinePlayers().size() != 0)
+			if(Bukkit.getPlayer(player) != null)
+				loadPlayer(Bukkit.getPlayer(player),player);
+	}
+	
+	protected void updateGroup(String group){
+		groups.remove(group);
+		loadGroup(group);
 	}
 }

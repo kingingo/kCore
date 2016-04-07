@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
+import eu.epicpvp.kcore.Events.ServerMessageEvent;
 
-public class PermissionChannelHandler implements PluginMessageListener{
+public class PermissionChannelHandler implements PluginMessageListener, Listener{
 	ArrayList<PermissionChannelListener> listener = new ArrayList<>();
 	PermissionManager manager;
 	
@@ -66,5 +69,16 @@ public class PermissionChannelHandler implements PluginMessageListener{
 		System.arraycopy(buffer.array(), 0, bbuffer, 0, buffer.writerIndex());
 		
 		player.sendPluginMessage(manager.getInstance(), "permission", bbuffer);
+	}
+	
+	@EventHandler
+	public void a(ServerMessageEvent e){
+		if(e.getChannel().equalsIgnoreCase("permission")){
+			byte action = e.getBuffer().readByte();
+			if(action == 0)
+				manager.updatePlayer(e.getBuffer().readUUID());
+			else if(action == 1)
+				manager.updateGroup(e.getBuffer().readString());
+		}
 	}
 }

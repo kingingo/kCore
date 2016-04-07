@@ -32,25 +32,25 @@ import net.minecraft.server.v1_8_R3.WorldSettings.EnumGamemode;
 
 public class SkinUpdateListener extends kListener {
 	public SkinUpdateListener(JavaPlugin instance) {
-		super(instance,"SkinUpdateListener");
+		super(instance, "SkinUpdateListener");
 		Log("Skin listener registered!");
 	}
-	
+
 	@EventHandler
 	public void a(ServerMessageEvent e) {
 		if (e.getChannel().equalsIgnoreCase("skin")) {
 			if (e.getBuffer().readByte() == 0) {
 				Player player = Bukkit.getPlayer(e.getBuffer().readString());
-				if(player == null || !player.isOnline()){
+				if (player == null || !player.isOnline()) {
 					Log("Cant update player skin!");
 					return;
 				}
-				Log("Updating skin for "+player.getName());
+				Log("Updating skin for " + player.getName());
 				UtilServer.getClient().getPlayerAndLoad(player.getUniqueId()).getOwnSkin().getAsync(new Callback<Skin>() {
 					@Override
 					public void call(Skin obj) {
-						updateSkin(player,obj);
-						Log("Updated the skin of "+player.getName());
+						updateSkin(player, obj);
+						Log("Updated the skin of " + player.getName());
 					}
 				});
 			}
