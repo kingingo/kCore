@@ -4,7 +4,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import dev.wolveringer.client.ClientWrapper;
-import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import lombok.Getter;
 
 public class ClientConnectedEvent  extends Event {

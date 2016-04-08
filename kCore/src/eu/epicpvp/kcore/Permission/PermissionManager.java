@@ -26,9 +26,6 @@ public class PermissionManager{
 
 	public static void setManager(PermissionManager manager) {
 		PermissionManager.manager = manager;
-		/**
-		 * Schwachsin... aufbau.... ;(
-		 */
 		Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.SIDEBAR);
 		Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.BELOW_NAME);
 		Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.PLAYER_LIST);
@@ -52,9 +49,6 @@ public class PermissionManager{
 		Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, "permission");
 	}
 	
-	/**
-	 * TabManager.java????
-	 */
 	public Scoreboard getScoreboard(){
 		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
 		
@@ -69,9 +63,6 @@ public class PermissionManager{
 		return board;
 	}
 
-	/**
-	 * TabManager.java????
-	 */
 	public void setTabList(Player player) {
 			player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 			if(player.getScoreboard().getTeam(getPermissionPlayer(player).getGroups().get(0).getName())==null){

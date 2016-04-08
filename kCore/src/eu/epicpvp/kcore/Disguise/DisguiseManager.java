@@ -1,6 +1,5 @@
 package eu.epicpvp.kcore.Disguise;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -28,7 +27,6 @@ import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
-import eu.epicpvp.kcore.Util.UtilSkin;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;

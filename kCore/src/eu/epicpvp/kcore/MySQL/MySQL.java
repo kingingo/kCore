@@ -5,9 +5,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import dev.wolveringer.client.Callback;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import dev.wolveringer.client.Callback;
 import eu.epicpvp.kcore.MySQL.Events.MySQLConnectEvent;
 import eu.epicpvp.kcore.MySQL.Events.MySQLDisconnectEvent;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;

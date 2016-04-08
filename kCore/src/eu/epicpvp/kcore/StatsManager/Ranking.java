@@ -1,6 +1,4 @@
 package eu.epicpvp.kcore.StatsManager;
-import org.bukkit.entity.Player;
-
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
