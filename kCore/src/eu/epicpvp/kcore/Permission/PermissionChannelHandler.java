@@ -14,13 +14,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
+import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
-public class PermissionChannelHandler implements PluginMessageListener, Listener{
+public class PermissionChannelHandler extends kListener implements PluginMessageListener{
 	ArrayList<PermissionChannelListener> listener = new ArrayList<>();
 	PermissionManager manager;
 	
 	public PermissionChannelHandler(PermissionManager manager) {
+		super(manager.getInstance(),"PermissionChannelHandler");
 		this.manager = manager;
 	}
 	
@@ -44,7 +46,7 @@ public class PermissionChannelHandler implements PluginMessageListener, Listener
 	
 	public PluginMessageFutureTask<DataBuffer> sendMessage(Player player,DataBuffer buffer){
 		if(player == null){
-			System.out.println("[PermissionManager]: Cant send plugin message (player == null)");
+			Log("Cant send plugin message (player == null)");
 			return new PluginMessageFutureTask<>();
 		}
 		final UUID taskId = UUID.randomUUID();

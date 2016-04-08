@@ -31,7 +31,7 @@ public class PermissionManager{
 		Bukkit.getScoreboardManager().getMainScoreboard().clearSlot(DisplaySlot.PLAYER_LIST);
 	}
 	
-	private ArrayList<Group> groupUpdates = new ArrayList<>();
+//	private ArrayList<Group> groupUpdates = new ArrayList<>();
 
 	@Getter
 	private ArrayList<Group> groups = new ArrayList<>();

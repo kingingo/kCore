@@ -61,9 +61,21 @@ public class DisguiseManager extends kListener {
 					if (ev.getPlayer().getEntityId() != entityLiving.getEntityID()
 							&& getDisguise().containsKey(entityLiving.getEntityID())
 							&& getDisguise().get(entityLiving.getEntityID()) != null) {
-						if (getDisguise().get(entityLiving.getEntityID()) instanceof DisguisePlayer)
-							sendPacket(ev.getPlayer(),
-									((DisguisePlayer) getDisguise().get(entityLiving.getEntityID())).getTabList());
+						if (getDisguise().get(entityLiving.getEntityID()) instanceof DisguisePlayer){
+							DisguisePlayer dplayer = ((DisguisePlayer) getDisguise().get(entityLiving.getEntityID()));
+							sendPacket(ev.getPlayer(), dplayer.getTabList());
+							if(!dplayer.isTab()){
+								Bukkit.getScheduler().scheduleSyncDelayedTask(getInstance(), new Runnable() {
+									
+									@Override
+									public void run() {
+										sendPacket(ev.getPlayer(),dplayer.removeFromTablist());
+										
+									}
+								},20*4);
+							}
+						}
+						
 						ev.setPacket(getDisguise().get(entityLiving.getEntityID()).GetSpawnPacket().getPacket());
 					}
 					entityLiving.setPacket(null);

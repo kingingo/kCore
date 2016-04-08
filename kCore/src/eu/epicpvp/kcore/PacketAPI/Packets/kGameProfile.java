@@ -18,8 +18,13 @@ public class kGameProfile extends GameProfile{
     @Setter
     private String skinSignature;
     
-	public kGameProfile(UUID uuid,String name){
+    public kGameProfile(UUID uuid,String name){
+    	this(uuid,name,null);
+    }
+    
+	public kGameProfile(UUID uuid,String name,Skin data){
 		super(uuid,name);
+		if(data!=null)loadSkin(data);
 	}
 	
 	public void setUUID(UUID uuid){

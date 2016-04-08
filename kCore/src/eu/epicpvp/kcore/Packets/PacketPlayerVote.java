@@ -2,28 +2,19 @@ package eu.epicpvp.kcore.Packets;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 public class PacketPlayerVote extends Packet{
 
 	public static void register(){
-		registerToClient();
-		registerToServer();
-	}
-	
-	public static void registerToClient(){
 		Packet.registerPacket(0xA4, PacketPlayerVote.class, PacketDirection.TO_CLIENT);
-	}
-	
-	public static void registerToServer(){
-		Packet.registerPacket(0xA4, PacketPlayerVote.class, PacketDirection.TO_SERVER);
 	}
 	
 	@Getter
 	@Setter
 	private String playername;
-	
-	public PacketPlayerVote(){}
 	
 	public PacketPlayerVote(DataBuffer buffer){
 		read(buffer);

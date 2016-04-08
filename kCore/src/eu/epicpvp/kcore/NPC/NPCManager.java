@@ -7,10 +7,11 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.NPC.Event.PlayerInteractNPCEvent;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayInUseEntity;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
@@ -21,7 +22,7 @@ import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.PacketPlayInUseEntity;
 
-public class NPCManager implements Listener {
+public class NPCManager extends kListener {
 
 	@Getter
 	private HashMap<Integer,NPC> NPCList = new HashMap<>();
@@ -30,9 +31,9 @@ public class NPCManager implements Listener {
 	private HashMap<NPC,Player> owner;
 	
 	public NPCManager(JavaPlugin instance){
+		super(instance,"NPCManager");
 		this.instance=instance;
 		UtilServer.createPacketListener(instance);
-		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
 	
 	@EventHandler
@@ -54,16 +55,28 @@ public class NPCManager implements Listener {
 	                	});
 	                }
 	            } catch (Exception e){
-	            	System.err.println("[NPCManager] Error: ");
+	            	Log("Error: ");
 	            	e.printStackTrace();
 	            }
+		}
+	}
+	
+	public void addNPC(NPC npc){
+		if(this.NPCList.containsKey(npc.getEntityID()))return;
+		this.NPCList.put(npc.getEntityID(), npc);
+	}
+	
+	@EventHandler
+	public void join(PlayerJoinEvent ev){
+		for(NPC npc : NPCList.values()){
+			npc.show(ev.getPlayer());
 		}
 	}
 	
 	@EventHandler
 	public void Respawn(PlayerRespawnEvent ev){
 		for(NPC npc : NPCList.values()){
-			UtilPlayer.sendPacket(ev.getPlayer(), npc.getSpawn_packet());
+			UtilPlayer.sendPacket(ev.getPlayer(), npc.getSpawnPacket());
 		}
 	}
 	

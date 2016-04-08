@@ -5,21 +5,14 @@ import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 public class PacketArenaWinner extends Packet{
 
 	public static void register(){
-		registerToClient();
-		registerToServer();
-	}
-	
-	public static void registerToClient(){
 		Packet.registerPacket(0xA2, PacketArenaWinner.class, PacketDirection.TO_CLIENT);
-	}
-	
-	public static void registerToServer(){
-		Packet.registerPacket(0xA2, PacketArenaWinner.class, PacketDirection.TO_SERVER);
 	}
 	
 	@Setter
@@ -32,8 +25,6 @@ public class PacketArenaWinner extends Packet{
 	private String arena;
 	@Getter
 	private String server;
-	
-	public PacketArenaWinner(){}
 	
 	public PacketArenaWinner(DataBuffer buffer){
 		read(buffer);

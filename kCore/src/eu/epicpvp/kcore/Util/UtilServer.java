@@ -30,6 +30,7 @@ import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
+import eu.epicpvp.kcore.Arena.TabManager;
 import eu.epicpvp.kcore.Arena.BestOf.BestOf;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.DeliveryPet.DeliveryPet;
@@ -111,6 +112,9 @@ public class UtilServer{
 	private static PerkManager perkManager;
 	@Getter
 	@Setter
+	private static TabManager tabManager;
+	@Getter
+	@Setter
 	private static BestOf bestOf;
 	
 	public static void disable(){
@@ -130,6 +134,7 @@ public class UtilServer{
 		if(client==null){
 			createUpdaterAsync(instance);
 			ThreadFactory.setFactory(new ThreadFactory()); //149.202.150.185
+			
 			client=new ClientWrapper(Client.createServerClient(type, name, new InetSocketAddress(host, port), new ServerActionListener() {
 				
 				@Override

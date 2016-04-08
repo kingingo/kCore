@@ -6,21 +6,14 @@ import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.Arena.ArenaType;
 import eu.epicpvp.kcore.Enum.Team;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 public class PacketArenaSettings extends Packet{
 
 	public static void register(){
-		registerToClient();
-		registerToServer();
-	}
-	
-	public static void registerToClient(){
 		Packet.registerPacket(0xA0, PacketArenaSettings.class, PacketDirection.TO_CLIENT);
-	}
-	
-	public static void registerToServer(){
-		Packet.registerPacket(0xA0, PacketArenaSettings.class, PacketDirection.TO_SERVER);
 	}
 	
 	@Getter

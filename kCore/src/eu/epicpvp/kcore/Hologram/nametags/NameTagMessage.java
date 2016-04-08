@@ -130,6 +130,10 @@ public class NameTagMessage extends ImageMessage {
 		if(getType()==NameTagType.PACKET){
 			for(Player player : UtilServer.getPlayers())clear(player);
 		}else{
+			if(this.entitySpawner==null){
+				new NullPointerException("entitySpawner == NULL");
+				return;
+			}
 			this.entitySpawner.clearNameTags();
 		}
 	}
@@ -139,5 +143,4 @@ public class NameTagMessage extends ImageMessage {
 			this.packetSpawner.clearNameTags(player);
 		}
 	}
-	
 }

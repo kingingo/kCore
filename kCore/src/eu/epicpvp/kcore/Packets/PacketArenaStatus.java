@@ -4,21 +4,14 @@ import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 public class PacketArenaStatus extends Packet{
 	
 	public static void register(){
-		registerToClient();
-		registerToServer();
-	}
-	
-	public static void registerToClient(){
 		Packet.registerPacket(0xA1, PacketArenaStatus.class, PacketDirection.TO_CLIENT);
-	}
-	
-	public static void registerToServer(){
-		Packet.registerPacket(0xA1, PacketArenaStatus.class, PacketDirection.TO_SERVER);
 	}
 	
 	@Setter
@@ -32,7 +25,7 @@ public class PacketArenaStatus extends Packet{
 	private int online;
 	@Setter
 	@Getter
-	private GameType typ;
+	private GameType type;
 	@Getter
 	private String arena;
 	@Getter
@@ -54,19 +47,17 @@ public class PacketArenaStatus extends Packet{
 	@Setter
 	private String kit;
 	
-	public PacketArenaStatus(){}
-	
 	public PacketArenaStatus(DataBuffer buffer){
 		read(buffer);
 	}
 	
-	public PacketArenaStatus(GameState state,int online,int teams, int team,GameType typ, String server, String arena,boolean apublic,String map,int min_team,int max_team,String kit) {
+	public PacketArenaStatus(GameState state,int online,int teams, int team,GameType type, String server, String arena,boolean apublic,String map,int min_team,int max_team,String kit) {
 	    this.state = state;
 	    this.teams=teams;
 	    this.online=online;
 	    this.team=team;
 	    this.server=server;
-	    this.typ = typ;
+	    this.type = type;
 	    this.arena = arena;
 	    this.apublic=apublic;
 	    this.map=map;
@@ -76,9 +67,9 @@ public class PacketArenaStatus extends Packet{
 	}
 
 	public void read(DataBuffer buffer) {
-		this.state = GameState.valueOf(buffer.readString());
+		this.state = GameState.values()[buffer.readByte()];
 		this.team = buffer.readInt();
-		this.typ = GameType.get(buffer.readString());
+		this.type = GameType.values()[buffer.readByte()];
 		this.arena = buffer.readString();
 		this.apublic=buffer.readBoolean();
 		this.server = buffer.readString();
@@ -91,9 +82,9 @@ public class PacketArenaStatus extends Packet{
 	}
 	
 	public void write(DataBuffer buffer){
-		buffer.writeString(state.name());
+		buffer.writeByte(state.ordinal());
 		buffer.writeInt(team);
-		buffer.writeString(typ.name());
+		buffer.writeByte(type.ordinal());
 		buffer.writeString(arena);
 		buffer.writeBoolean(apublic);
 		buffer.writeString(server);
@@ -102,6 +93,6 @@ public class PacketArenaStatus extends Packet{
 		buffer.writeInt(min_team);
 		buffer.writeInt(max_team);
 		buffer.writeString(kit);
-		buffer.writeInt(max_team);
+		buffer.writeInt(teams);
 	}
 }

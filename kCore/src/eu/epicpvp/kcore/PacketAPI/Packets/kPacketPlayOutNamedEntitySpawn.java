@@ -85,11 +85,11 @@ public class kPacketPlayOutNamedEntitySpawn implements kPacket{
 	}
 	
 	public float getPitch(){
-		return (float)UtilReflection.getValue(PITCH, packet);
+		return (float) UtilReflection.getValue(PITCH, packet);
 	}
 	
 	public float getYaw(){
-		return (float)UtilReflection.getValue(YAW, packet);
+		return (float) UtilReflection.getValue(YAW, packet);
 	}
 	
 	public void setX(double x){

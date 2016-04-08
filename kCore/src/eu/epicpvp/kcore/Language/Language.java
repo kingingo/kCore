@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Language.Listener.LanguageListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.MySQL.MySQLErr;
@@ -177,7 +178,7 @@ public class Language {
 			add(type, "MASTERBUILDER_PARTICLE_PLACE", "§aparticle are placed.");
 			add(type, "MASTERBUILDER_PARTICLE_MAX", "§cYou cannot place more as 20 particles.");
 			add(type, "MASTERBUILDER_WIN", "{INPUT0}# {INPUT1}");
-			add(type, "EVENT_TNTFIGHT_PREFIX", "§6TNTFight §8§ §7");
+			add(type, "EVENT_TNTFIGHT_PREFIX", "§6TNTFight §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7");
 			add(type, "TREASURE_CHEST_TIME_AWAY", "§cThe time has expired!");
 			add(type, "VERSUS_ADDED", "§aYou where added to the match making queue!");
 			add(type, "VERSUS_REMOVE", "§aYou removed from the list!");
@@ -236,8 +237,8 @@ public class Language {
 			add(type, "VOTE_TEAM_FULL", "§7{INPUT0}§c is full!");
 			add(type, "VOTE_MIN", "§cThere have to be atleast §e{INPUT0}§c players online for this game to start!");
 			add(type, "KICKED_BY_PREMIUM", "§cYou were kicked so a player with a rank can join! Want that too? §6shop.EpicPvP.de");
-			add(type, "PREFIX_GAME", "§6{INPUT0} §8§ §7");
-			add(type, "PREFIX", "§6EpicPvP §8§ §7");
+			add(type, "PREFIX_GAME", "§6{INPUT0} §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+"  §7");
+			add(type, "PREFIX", "§6EpicPvP §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+"  §7");
 			add(type, "TEAM_WIN", "§aTeam {INPUT0}§a won the game!");
 			add(type, "TEAM_OUT", "§7{INPUT0}§c has fallen!");
 			add(type, "RESTART_FROM_ADMIN", "§cThe server was restarted by an administrator!");
@@ -294,8 +295,8 @@ public class Language {
 			add(type, "GILDE_NOT_ENOUGH_MONEY", "§cThere is not enough money on the guild account.");
 			add(type, "GILDE_CREATE", "§aYou successfully founded §6{INPUT0}§a! The guild-home was set at your current position.");
 			add(type, "GILDE_PLAYER_OFFLINE", "§e{INPUT0}§c is currently offline!");
-			add(type, "GILDE_PREFIX", "§6Guild §8§ §7");
-			add(type, "GILDE_CHAT_PREFIX", "§6Guild-Chat §8§ {INPUT0}:§7 ");
+			add(type, "GILDE_PREFIX", "§6Guild §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7");
+			add(type, "GILDE_CHAT_PREFIX", "§6Guild-Chat §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" {INPUT0}:§7 ");
 			add(type, "GILDE_PLAYER_ENTRE", "§a{INPUT0}§7 joined the guild!");
 			add(type, "GILDE_NAME_LENGTH_MIN", "§cThe guild name has to be longer than §e{INPUT0}§c characters!");
 			add(type, "GILDE_NAME_LENGTH_MAX", "§cThe guild name has to be shorter than §e{INPUT0}§c characters!");
@@ -317,7 +318,7 @@ public class Language {
 			add(type, "GILDE_PLAYER_NICHT_EINGELADEN", "§cYou have not been invited into a guild!");
 			add(type, "GILDE_PLAYER_JOIN", "§a{INPUT0}§7 joined the server!");
 			add(type, "FRIEND_HIT", "§cYou really want to kill your friend?");
-			add(type, "FRIEND_PREFIX", "§6Friend §8§ §7");
+			add(type, "FRIEND_PREFIX", "§6Friend §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7");
 			add(type, "FRIEND_EXIST", "§cYou are allready friends with §a{INPUT0}§c!");
 			add(type, "FRIEND_SEND", "§aYou send §e{INPUT0}§a a friend request!");
 			add(type, "FRIEND_NOT", "§cYou are not friends with §e{INPUT0}§c!");
@@ -519,10 +520,10 @@ public class Language {
 			add(type, "HUB_ITEM_COMPASS", "§aGames");
 			add(type, "HUB_ITEM_CHEST", "§6Shop");
 			add(type, "HUB_ITEM_BUCH", "§bLanguage");
-			add(type, "HUB_ITEM_NAMETAG_NICK_ON", "§5Nick §8§ §aOn");
-			add(type, "HUB_ITEM_NAMETAG_NICK_OFF", "§5Nick §8§ §cOff");
-			add(type, "HUB_ITEM_GREEN.DYE_PLAYERS_ON", "§aPlayer §8§ §aOn");
-			add(type, "HUB_ITEM_GRAY.DYE_PLAYERS_OFF", "§cPlayer §8§ §cOff");
+			add(type, "HUB_ITEM_NAMETAG_NICK_ON", "§5Nick §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aOn");
+			add(type, "HUB_ITEM_NAMETAG_NICK_OFF", "§5Nick §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cOff");
+			add(type, "HUB_ITEM_GREEN.DYE_PLAYERS_ON", "§aPlayer §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aOn");
+			add(type, "HUB_ITEM_GRAY.DYE_PLAYERS_OFF", "§cPlayer §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cOff");
 			add(type, "HUB_ITEM_NETHERSTAR", "§eLobby-Teleporter");
 			add(type,"GAME_START_MIN_PLAYER","§cWaitmode are restartet!");
 			add(type,"GAME_HOLOGRAM_SERVER","Server: {INPUT0}");
@@ -645,7 +646,7 @@ public class Language {
 			add(type, "MASTERBUILDER_PARTICLE_PLACE", "§aPartikel wurde gesetzt.");
 			add(type, "MASTERBUILDER_PARTICLE_MAX", "§cDu kannst nicht mehr als 20 Partikel setzen.");
 			add(type, "MASTERBUILDER_WIN", "{INPUT0}# {INPUT1}");
-			add(type, "EVENT_TNTFIGHT_PREFIX", "§6TNTFight §8§ §7");
+			add(type, "EVENT_TNTFIGHT_PREFIX", "§6TNTFight §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7");
 			add(type, "CAPTCHA_ENTER", "§aBitte gib den Captcha Text §7/captcha [CAPTCHA]");
 	        add(type, "CAPTCHA_CHANGE", "§cDas Captcha wurde geaendert!");
 		    add(type, "CAPTCHA_FALSE", "§cDas Captcha ist falsch!");
@@ -712,8 +713,8 @@ public class Language {
 	        add(type, "VOTE_TEAM_FULL", "§7{INPUT0}§c ist voll!");
 	        add(type, "VOTE_MIN", "§cEs muessen mindestens §e{INPUT0}§c Spieler online sein damit das Spiel starten kann!");
 	        add(type, "KICKED_BY_PREMIUM", "§cDu wurdest vom Server gekickt damit ein Premium User spielen kann! Du moechtest auch? §6shop.EpicPvP.de");
-	        add(type, "PREFIX_GAME", "§6{INPUT0}§8§ §7");
-	        add(type, "PREFIX", "§6EpicPvP §8§ §7");
+	        add(type, "PREFIX_GAME", "§6{INPUT0}§8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7");
+	        add(type, "PREFIX", "§6EpicPvP §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7");
 	        add(type, "TEAM_WIN", "§aDas Team {INPUT0}§a hat das Spiel Gewonnen!");
 	        add(type, "TEAM_OUT", "§7{INPUT0}§c ist gefallen!");
 	        add(type, "RESTART_FROM_ADMIN", "§cDer Server wurde von einem Administrator restartet!");
@@ -775,8 +776,8 @@ public class Language {
 	        add(type, "GILDE_NOT_ENOUGH_MONEY", "§cEs ist nicht genug auf dem Gilden-Konto.");
 	        add(type, "GILDE_CREATE", "§aDu hast erfolgreich die Gilde §6{INPUT0}§a gegruendet! Dein Gilden Home wurde auf deine aktuelle Position gesetzt.");
 	        add(type, "GILDE_PLAYER_OFFLINE", "§cDer Spieler §e{INPUT0}§c ist offline.");
-	        add(type, "GILDE_PREFIX", "§6Gilde §8§ §7");
-			add(type, "GILDE_CHAT_PREFIX", "§6Gilde-Chat §8§ {INPUT0}:§7 ");
+	        add(type, "GILDE_PREFIX", "§6Gilde §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7");
+			add(type, "GILDE_CHAT_PREFIX", "§6Gilde-Chat §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" {INPUT0}:§7 ");
 	        add(type, "GILDE_PLAYER_ENTRE", "§a{INPUT0}§7 ist der Gilde begetreten!");
 	        add(type, "GILDE_NAME_LENGTH_MIN", "§cDer Gildenname muss laenger als §e{INPUT0}§c Zeichen sein!");
 	        add(type, "GILDE_NAME_LENGTH_MAX", "§cDer Gildenname muss kleiner als §e{INPUT0}§c Zeichen sein!");
@@ -800,7 +801,7 @@ public class Language {
 	        add(type,"GILDE_COUNT","§cDas Gilden limit wurde erreicht.");
 	        add(type,"GILDE_IS_NOT_IN_THE_GILD","§cDer Spieler §a{INPUT0}§c ist nicht in deiner Gilde!");
 	        add(type, "FRIEND_HIT", "§cWillst du deinen Kameraden toeten?");
-	        add(type, "FRIEND_PREFIX", "§6Freund §8§ §7");
+	        add(type, "FRIEND_PREFIX", "§6Freund §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7");
 	        add(type, "FRIEND_EXIST", "§cDu bist bereits mit dem Spieler §a{INPUT0}§c befreundet!");
 	        add(type, "FRIEND_SEND", "§aDu hast dem Spieler §e{INPUT0}§a eine Freundschaftsanfrage gesendet!");
 	        add(type, "FRIEND_NOT", "§cDu bist nicht mit §e{INPUT0}§c befreundet!");
@@ -995,10 +996,10 @@ public class Language {
 			add(type, "HUB_ITEM_COMPASS", "§aSpiele");
 			add(type, "HUB_ITEM_CHEST", "§6Shop");
 			add(type, "HUB_ITEM_BUCH", "§bSprache");
-			add(type, "HUB_ITEM_NAMETAG_NICK_ON", "§5Nick §8§ §aAn");
-			add(type, "HUB_ITEM_NAMETAG_NICK_OFF", "§5Nick §8§ §cAus");
-			add(type, "HUB_ITEM_GREEN.DYE_PLAYERS_ON", "§aSpieler §8§ §aAn");
-			add(type, "HUB_ITEM_GRAY.DYE_PLAYERS_OFF", "§cSpieler §8§ §cAus");
+			add(type, "HUB_ITEM_NAMETAG_NICK_ON", "§5Nick §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aAn");
+			add(type, "HUB_ITEM_NAMETAG_NICK_OFF", "§5Nick §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cAus");
+			add(type, "HUB_ITEM_GREEN.DYE_PLAYERS_ON", "§aSpieler §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aAn");
+			add(type, "HUB_ITEM_GRAY.DYE_PLAYERS_OFF", "§cSpieler §8"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cAus");
 			add(type, "HUB_ITEM_NETHERSTAR", "§eLobby-Teleporter");
 			add(type,"GAME_START_MIN_PLAYER","§cEs sind zu wenig Spieler(min. {INPUT0}) online! Wartemodus wird neugestartet!");
 			add(type,"GAME_START_MIN_PLAYER2","§cEs sind zu wenig Spieler online! Wartemodus wird neugestartet!");

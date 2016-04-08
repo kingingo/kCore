@@ -5,20 +5,13 @@ import java.util.UUID;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class PacketPlayerPermissionReload extends Packet{
 
 	public static void register(){
-		registerToClient();
-		registerToServer();
-	}
-	
-	public static void registerToClient(){
 		Packet.registerPacket(0xA3, PacketPlayerPermissionReload.class, PacketDirection.TO_CLIENT);
-	}
-	
-	public static void registerToServer(){
-		Packet.registerPacket(0xA3, PacketPlayerPermissionReload.class, PacketDirection.TO_SERVER);
 	}
 	
 	@Getter

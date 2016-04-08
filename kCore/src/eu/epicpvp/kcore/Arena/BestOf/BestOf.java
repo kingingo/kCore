@@ -71,7 +71,7 @@ public class BestOf extends kListener{
 			}
 		});
 		
-		PacketArenaWinner.registerToClient();
+		PacketArenaWinner.register();
 	}
 	
 	public void addGame(ArenaManager arenaManager){

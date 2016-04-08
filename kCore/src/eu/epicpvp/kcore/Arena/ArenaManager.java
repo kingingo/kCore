@@ -28,6 +28,7 @@ import eu.epicpvp.kcore.Util.UtilBG;
 import eu.epicpvp.kcore.Util.UtilDebug;
 import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -59,14 +60,13 @@ public class ArenaManager extends kListener  {
 	@Getter
 	private HashMap<ArenaType, ArrayList<Player>> wait_list;
 	
-	private ClientWrapper client;
 	private StatsManager statsManager;
 	@Getter
 	private GameType t;
 	
-	public ArenaManager(ClientWrapper client,StatsManager statsManager,GameType t,UpdateAsyncType updateSpeed){
+	public ArenaManager(StatsManager statsManager,GameType t,UpdateAsyncType updateSpeed){
 		super(statsManager.getInstance(),"ArenaManager:"+t.getKuerzel());
-		this.type=type;
+		this.t=t;
 		this.server=new HashMap<>();
 		this.rules=new HashMap<>();
 		this.updateSpeed=updateSpeed;
@@ -78,15 +78,18 @@ public class ArenaManager extends kListener  {
 		for(RulePriority prio : RulePriority.values())this.rules.put(prio.getI(), new ArrayList<Rule>());
 		for(ArenaType type : ArenaType.values())this.wait_list.put(type, new ArrayList<Player>());
 		for(ArenaType type : ArenaType.values())this.rounds.put(type, new HashMap<Integer,GameRound>());
-		
-		client.getHandle().getHandlerBoss().addListener(new PacketListener() {
+
+
+		PacketArenaSettings.register();
+		PacketArenaStatus.register();
+		UtilServer.getClient().getHandle().getHandlerBoss().addListener(new PacketListener() {
 			
 			@Override
 			public void handle(Packet packet) {
 				if(packet instanceof PacketArenaStatus){
 					PacketArenaStatus arena = (PacketArenaStatus) packet;
 					
-					if(arena.getTyp()==getT()){
+					if(arena.getType()==getT()){
 						server.remove(arena.getServer()+arena.getArena());
 						server.put(arena.getServer()+arena.getArena(), arena);
 						arena=null;
@@ -94,9 +97,6 @@ public class ArenaManager extends kListener  {
 				}
 			}
 		});
-		
-		PacketArenaStatus.registerToClient();
-		PacketArenaSettings.registerToServer();
 	}
 	
 	public boolean addPlayer(Player player,ArenaType type){
@@ -188,7 +188,6 @@ public class ArenaManager extends kListener  {
 	
 	@EventHandler
 	public void Update(UpdateAsyncEvent ev){
-		
 		if(ev.getType()==updateSpeed&&!server.isEmpty()&&!this.wait_list.isEmpty()){
 			try{
 				if(this.players==null){
@@ -205,22 +204,34 @@ public class ArenaManager extends kListener  {
 						Log("LISTE IS EMPTY!!!!");
 					}
 				}
-				
+
+				if(UtilDebug.isDebug())Log("RUN... "+server.size());
 				for(int r = 0; r<this.server.size(); r++){
-					if(list.isEmpty())break;
+					if(list.isEmpty()){
+						break;
+					}
 					arena = (PacketArenaStatus)this.server.get( list.get(UtilMath.r(list.size())) );
 					this.list.remove(arena.getServer()+arena.getArena());
-					
+
 					if(arena.getState()==GameState.LobbyPhase){
-						for(Team t : players.keySet())players.get(t).clear();
+						if(UtilDebug.isDebug())Log("SERVER "+arena.getServer()+" "+arena.getArena()+" "+arena.getState().name());
 						
+						for(Team t : players.keySet())players.get(t).clear();
+
+						if(UtilDebug.isDebug())Log("arena: "+arena.getTeams());
 						for(int i = arena.getTeams(); i >= 2 ; i--){
+							if(UtilDebug.isDebug())Log("I: "+i);
 							this.type=(ArenaType)ArenaType.byInt( i );
 							this.team=0;
 							this.owner=null;
 							this.ba=false;
 							this.team_size=-2;
 							this.br=false;
+
+							if(UtilDebug.isDebug()){
+								Log("ROUNDS: "+this.rounds.containsKey(type));
+								Log("EMPTY: "+this.rounds.get(type));
+							}
 
 							if(this.rounds.containsKey(type)&&!this.rounds.get(type).isEmpty()){
 								this.id=(Integer)this.rounds.get(type).keySet().toArray()[0];
@@ -267,7 +278,8 @@ public class ArenaManager extends kListener  {
 											for(Player player : this.players.get(t)){
 												this.settings.setTeam(t);
 												this.settings.setPlayer(player.getName());
-												this.client.sendPacket(arena.getServer(), this.settings);
+												
+												UtilServer.getClient().sendPacket(arena.getServer(), this.settings);
 											}
 										}
 										
@@ -411,7 +423,7 @@ public class ArenaManager extends kListener  {
 									for(Player player : this.players.get(t)){
 										this.settings.setTeam(t);
 										this.settings.setPlayer(player.getName());
-										this.client.sendPacket(arena.getServer(), this.settings);
+										UtilServer.getClient().sendPacket(arena.getServer(), this.settings);
 									}
 								}
 								
