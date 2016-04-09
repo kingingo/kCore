@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -162,20 +163,20 @@ public class TranslationManager extends kListener {
 
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
-	public void a(PlayerPreLoginEvent e) {
+	public void a(AsyncPlayerPreLoginEvent e) {
 		final LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(e.getName());
-		loadedplayer.getSettings(Setting.LANGUAGE).getAsync(new Callback<PacketOutPlayerSettings.SettingValue[]>() {
-			@Override
-			public void call(PacketOutPlayerSettings.SettingValue[] obj) {
-				LanguageType type;
-				if (obj == null || obj.length == 0 || obj[0].getSetting() != Setting.LANGUAGE) {
-					System.out.println("Getlanguage for player " + e.getName() + " is null!");
-					type = LanguageType.ENGLISH;
-				} else
-					type = LanguageType.getLanguageFromName(obj[0].getValue());
-				players.put(loadedplayer.getUUID(), type);
-			}
-		});
+		PacketOutPlayerSettings.SettingValue[] obj = loadedplayer.getSettings(Setting.LANGUAGE).getSync();
+				
+		LanguageType type;
+		if (obj == null || obj.length == 0 || obj[0].getSetting() != Setting.LANGUAGE) {
+			System.out.println("Getlanguage for player " + e.getName() + " is null!");
+			type = LanguageType.ENGLISH;
+		} else
+			type = LanguageType.getLanguageFromName(obj[0].getValue());
+				
+				
+		System.out.println("LA: "+type.getShortName() +" "+loadedplayer.getUUID());
+		players.put(loadedplayer.getUUID(), type);
 	}
 
 	@EventHandler

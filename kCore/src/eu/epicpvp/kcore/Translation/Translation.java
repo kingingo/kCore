@@ -43,7 +43,7 @@ public class Translation {
 				translated++;
 			}
 		}
-		this.percent = UtilMath.trim(2, translated / (UtilNumber.toDouble(this.translation.size())/100D));
+		this.percent = UtilMath.trim(2, (translated / (UtilNumber.toDouble(this.translation.size())/100D)) );
 		
 		return this.percent;
 	}

@@ -7,7 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -35,12 +37,13 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 	
 	@Override
 	public void onPluginMessageReceived(String channel, Player player, byte[] data) {
-		if(!channel.equalsIgnoreCase("permission"))
-			return;
+		if(!channel.equalsIgnoreCase("permission")) return;
 		DataBuffer buffer = new DataBuffer(data);
 		UUID from = buffer.readUUID();
-		for(PermissionChannelListener listener : new ArrayList<>(this.listener))
+		for(PermissionChannelListener listener : new ArrayList<>(this.listener)){
 			listener.handle(from, buffer);
+			this.listener.remove(listener);
+		}
 	}
 	
 	public PluginMessageFutureTask<DataBuffer> sendMessage(Player player,DataBuffer buffer){
@@ -55,8 +58,10 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		addListener(new PermissionChannelListener() {
 			@Override
 			public void handle(UUID fromPacket, DataBuffer buffer) {
-				if(fromPacket.equals(taskId))
+				if(fromPacket.equals(taskId)){
+					System.out.println("RECEIVE "+fromPacket+ " "+(buffer==null));
 					task.done(buffer);
+				}
 			}
 		});
 		sendToBungeecord(player, taskId, buffer);
@@ -74,6 +79,7 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		byte[] bbuffer = new byte[buffer.writerIndex()];
 		System.arraycopy(buffer.array(), 0, bbuffer, 0, buffer.writerIndex());
 		
+		System.out.println("SEND "+player.getName()+" "+uuid+ " "+bbuffer.length);
 		player.sendPluginMessage(manager.getInstance(), "permission", bbuffer);
 	}
 	
@@ -86,6 +92,11 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 			else if(action == 1)
 				manager.updateGroup(e.getBuffer().readString());
 		}
+	}
+	
+	@EventHandler
+	public void quit(PlayerQuitEvent ev){
+		manager.unloadPlayer(ev.getPlayer());
 	}
 	
 	@SuppressWarnings("deprecation")

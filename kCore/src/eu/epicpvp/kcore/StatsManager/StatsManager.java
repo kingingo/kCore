@@ -196,6 +196,11 @@ public class StatsManager extends kListener {
 				@Override
 				public void call(String playername) {
 					getAsync(uuid, null, key, callback);
+					
+					if(playername==null){
+						logMessage("playername == NULL");
+					}
+					
 					loading.get(playername).remove(this);
 				}
 
