@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -79,7 +80,8 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		byte[] bbuffer = new byte[buffer.writerIndex()];
 		System.arraycopy(buffer.array(), 0, bbuffer, 0, buffer.writerIndex());
 		
-		System.out.println("SEND "+player.getName()+" "+uuid+ " "+bbuffer.length);
+		if(!UtilPlayer.getCraftPlayer(player).getListeningPluginChannels().contains("permission"))
+			UtilPlayer.getCraftPlayer(player).addChannel("permission");
 		player.sendPluginMessage(manager.getInstance(), "permission", bbuffer);
 	}
 	
@@ -100,10 +102,9 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 	}
 	
 	@SuppressWarnings("deprecation")
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void load(PlayerLoginEvent ev){
+	@EventHandler
+	public void load(PlayerJoinEvent ev){
 		Bukkit.getScheduler().runTaskAsynchronously(manager.getInstance(), new BukkitRunnable() {
-			
 			@Override
 			public void run() {
 				manager.loadPlayer(ev.getPlayer(), UtilPlayer.getRealUUID(ev.getPlayer()));
