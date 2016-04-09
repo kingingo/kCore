@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -60,7 +57,6 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 			@Override
 			public void handle(UUID fromPacket, DataBuffer buffer) {
 				if(fromPacket.equals(taskId)){
-					System.out.println("RECEIVE "+fromPacket+ " "+(buffer==null));
 					task.done(buffer);
 				}
 			}
