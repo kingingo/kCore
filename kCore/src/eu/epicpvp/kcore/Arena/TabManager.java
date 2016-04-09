@@ -53,7 +53,7 @@ public class TabManager extends kListener{
 				if(e instanceof PlayerServerSwitchEvent){
 					PlayerServerSwitchEvent ev = (PlayerServerSwitchEvent)e;
 					LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(ev.getPlayer());
-					Log("FIRE "+loadedplayer.getName());
+					logMessage("FIRE "+loadedplayer.getName());
 					
 					if(ev.getFrom().startsWith("versushub") && ev.getTo()!= null && ev.getTo().startsWith("a")){
 						UtilSkin.loadSkin(new Callback<Skin>() {
@@ -62,7 +62,7 @@ public class TabManager extends kListener{
 							public void call(Skin data) {
 								players.put(loadedplayer.getUUID(), new kPlayerInfoData(info, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),data), "§7"+loadedplayer.getName()));
 								info.getList().add(players.get(loadedplayer.getUUID()));
-								Log("ADD "+loadedplayer.getName());
+								logMessage("ADD "+loadedplayer.getName());
 							}
 						}, loadedplayer.getUUID());
 					}else if(ev.getFrom().startsWith("a") && players.containsKey(loadedplayer.getUUID())){
@@ -75,7 +75,7 @@ public class TabManager extends kListener{
 						info.getList().remove(players.get(loadedplayer.getUUID()));
 						players.remove(loadedplayer.getUUID());
 						
-						Log("REMOVE "+loadedplayer.getName());
+						logMessage("REMOVE "+loadedplayer.getName());
 					}
 				}
 			}

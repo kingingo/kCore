@@ -143,12 +143,12 @@ public class LagMeter extends kListener
   }
   
   public void sendUpdate(){
-	  	Log("Online-Players: "+ UtilServer.getPlayers().size()+" Avg-Ping:"+getAvgPing());
-	  	Log("Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
-	    Log("Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Max-Mem: "+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
-	    Log("Online-Time: "+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
-	    Log("Time-Now: "+ UtilTime.now());
-	    Log("Worlds:");
+	  	logMessage("Online-Players: "+ UtilServer.getPlayers().size()+" Avg-Ping:"+getAvgPing());
+	  	logMessage("Live: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " Avg: " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
+	    logMessage("Free-Mem: " + Runtime.getRuntime().freeMemory() / 1048576L + "MB Max-Mem: "+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
+	    logMessage("Online-Time: "+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
+	    logMessage("Time-Now: "+ UtilTime.now());
+	    logMessage("Worlds:");
 	    
 	    for(World world : Bukkit.getWorlds()){
 	    	int tileEntities = 0;
@@ -163,7 +163,7 @@ public class LagMeter extends kListener
 	        {
 	      	 ex.printStackTrace(); 
 	        }  
-	        Log("       "+world.getName()+": Chunks:"+world.getLoadedChunks().length+" Entities:"+world.getEntities().size()+" Tile:"+tileEntities);
+	        logMessage("       "+world.getName()+": Chunks:"+world.getLoadedChunks().length+" Entities:"+world.getEntities().size()+" Tile:"+tileEntities);
 	    }
 	  }
   
@@ -240,7 +240,7 @@ public class LagMeter extends kListener
             if(player!=null){
             	player.sendMessage(TranslationManager.getText(player, "PREFIX")+" unloaded Chunks:§e "+a);
             }else{
-                Log(" unloaded Chunks: "+a);
+                logMessage(" unloaded Chunks: "+a);
             }
 		}else{
 			if(Bukkit.getWorld(world)!=null){
@@ -281,13 +281,13 @@ public class LagMeter extends kListener
                 if(player!=null){
                	 	player.sendMessage(TranslationManager.getText(player, "PREFIX")+" unloaded Chunks from "+world+":§e "+a);
                 }else{
-                	Log("unloaded Chunks from "+world+": "+a);
+                	logMessage("unloaded Chunks from "+world+": "+a);
                 }
 			}else{
                 if(player!=null){
 	                player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§cThe world §e"+world+"§c was not found!");
                 }else{
-					Log("The world "+world+" was not found!");
+					logMessage("The world "+world+" was not found!");
                 }
 			}
 		}

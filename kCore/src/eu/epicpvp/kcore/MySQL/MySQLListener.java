@@ -35,18 +35,18 @@ public class MySQLListener extends kListener{
 				break;
 		}
 		
-		Log("Error:");
+		logMessage("Error:");
 		ev.getException().printStackTrace();
 	}
 	
 	@EventHandler
 	public void Connect(MySQLConnectEvent ev){
-		Log("Die MySQL Verbindung wurde hergestellt.");
+		logMessage("Die MySQL Verbindung wurde hergestellt.");
 	}
 	
 	@EventHandler
 	public void Close(MySQLDisconnectEvent ev){
-		Log("Die MySQL Verbindung wurde geschlossen.");
+		logMessage("Die MySQL Verbindung wurde geschlossen.");
 	}
 	
 }

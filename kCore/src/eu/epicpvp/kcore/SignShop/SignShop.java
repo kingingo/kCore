@@ -319,7 +319,7 @@ public class SignShop extends kListener{
 	            					p.updateInventory(); //"§6Du hast " + 32 + " mal " + id+":"+ Integer.valueOf(idnach) + " bekommen dir wurden " + Preis + " §bEpics §6abgezogen ."
 	            					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_GET_",new String[]{"32",String.valueOf(id),idnach,String.valueOf(Preis)}));
 	            					getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)-Preis, StatsKey.MONEY);
-	            					Log("Der Spieler "+p.getName()+" hat 32 mal "+id+":"+idnach+" gekauft und "+Preis+" Epics bezahlt.");
+	            					logMessage("Der Spieler "+p.getName()+" hat 32 mal "+id+":"+idnach+" gekauft und "+Preis+" Epics bezahlt.");
 		            				return;
 	                			}
 	                			//: ID+SNEAK 
@@ -330,7 +330,7 @@ public class SignShop extends kListener{
 	        					p.updateInventory();
 	        					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_GET",new String[]{"32", String.valueOf(id),String.valueOf(Preis)}));
 	        					getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)-Preis, StatsKey.MONEY);
-		                		Log("Der Spieler "+p.getName()+" hat 32 mal "+id+" gekauft und "+Preis+" Epics bezahlt.");
+		                		logMessage("Der Spieler "+p.getName()+" hat 32 mal "+id+" gekauft und "+Preis+" Epics bezahlt.");
 	            				return;
 	                		}
 	                		
@@ -353,7 +353,7 @@ public class SignShop extends kListener{
 	        					p.updateInventory();
 	        					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_GET_",new String[]{String.valueOf(anzahl),String.valueOf(id),idnach,String.valueOf(Preis)}));
 	        					getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)-Preis, StatsKey.MONEY);
-		                		Log("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+id+":"+idnach+" gekauft und "+Preis+" Epics bezahlt.");
+		                		logMessage("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+id+":"+idnach+" gekauft und "+Preis+" Epics bezahlt.");
 	        					return;
 	            			}
 	                		//:
@@ -367,7 +367,7 @@ public class SignShop extends kListener{
 	        				//"§6Du hast " + anzahl + " mal " + id+" bekommen dir wurden " + Preis + " §bEpics §6abgezogen ."
 	    					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_GET",new String[]{String.valueOf(anzahl),String.valueOf(id),String.valueOf(Preis)}));
 	    					getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)-Preis, StatsKey.MONEY);
-	                		Log("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+id+" gekauft und "+Preis+" Epics bezahlt.");
+	                		logMessage("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+id+" gekauft und "+Preis+" Epics bezahlt.");
 	                }
 				}
 				
@@ -420,7 +420,7 @@ public class SignShop extends kListener{
 	            				VerkaufPreis=VerkaufPreis*b;
 	        					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_VERKAUFT_",new String[]{String.valueOf(b),String.valueOf(id),idnach,String.valueOf(VerkaufPreis)}));
 	        					getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)+VerkaufPreis, StatsKey.MONEY);
-		                		Log("Der Spieler "+p.getName()+" hat 32 mal "+id+":"+idnach+" verkauft und "+VerkaufPreis+" Epics erhalten.");
+		                		logMessage("Der Spieler "+p.getName()+" hat 32 mal "+id+":"+idnach+" verkauft und "+VerkaufPreis+" Epics erhalten.");
 	                    		return;
 	                		}
 	                		//: ID
@@ -441,7 +441,7 @@ public class SignShop extends kListener{
 	    					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_VERKAUFT",new String[]{String.valueOf(b),String.valueOf(id),String.valueOf(VerkaufPreis)}));
 	    					
 	    					getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)+VerkaufPreis, StatsKey.MONEY);
-	                		Log("Der Spieler "+p.getName()+" hat 32 mal "+id+" verkauft und "+VerkaufPreis+" Epics erhalten.");
+	                		logMessage("Der Spieler "+p.getName()+" hat 32 mal "+id+" verkauft und "+VerkaufPreis+" Epics erhalten.");
 	    					return;
 	                	}
 	                	
@@ -463,7 +463,7 @@ public class SignShop extends kListener{
 	        				p.updateInventory();	//"§6Du hast " + 32 + " mal " + id+":"+idnach + " Verkauft und hast " + VerkaufPreis+" Epic's erhalten."
 	        				p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_VERKAUFT_",new String[]{String.valueOf(anzahl),String.valueOf(id),idnach,String.valueOf(VerkaufPreis)}));
 	        				getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)+VerkaufPreis, StatsKey.MONEY);
-	                		Log("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+id+":"+idnach+" verkauft und "+VerkaufPreis+" Epics erhalten.");
+	                		logMessage("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+id+":"+idnach+" verkauft und "+VerkaufPreis+" Epics erhalten.");
 	        				return;
 	            		}
 	            		//: ID

@@ -187,11 +187,11 @@ public class BestOf extends kListener{
 			
 			if((System.currentTimeMillis()-this.wait_list.get(round)) > TimeSpan.SECOND*5){
 				if(round.getOwner().toString().equalsIgnoreCase("3e6028c4-c078-4835-bb3a-33c516f69bd8")){
-					Log("1: "+(System.currentTimeMillis()-this.wait_list.get(round)));
+					logMessage("1: "+(System.currentTimeMillis()-this.wait_list.get(round)));
 				}
 				if(round!=null&&round.canNextRound()){
 					if(round.getOwner().toString().equalsIgnoreCase("3e6028c4-c078-4835-bb3a-33c516f69bd8")){
-						Log("2: NEXT ");
+						logMessage("2: NEXT ");
 					}
 					GameType type = round.nextRound();
 					if(type!=GameType.NONE){
@@ -223,7 +223,7 @@ public class BestOf extends kListener{
 					list.add(round);
 				}else if((System.currentTimeMillis()-this.wait_list.get(round)) > TimeSpan.SECOND*15){
 					if(round.getOwner().toString().equalsIgnoreCase("3e6028c4-c078-4835-bb3a-33c516f69bd8")){
-						Log("2: NOT FOUND ");
+						logMessage("2: NOT FOUND ");
 					}
 					removeBestOf(round.getOwner());
 					list.add(round);

@@ -389,7 +389,7 @@ public class DeliveryPet extends kListener{
 							}
 						}
 					}else{
-						Log("UpdaterEvent Spieler "+player.getName()+" nicht gefunden...");
+						logMessage("UpdaterEvent Spieler "+player.getName()+" nicht gefunden...");
 					}
 				}
 			}
@@ -508,9 +508,9 @@ public class DeliveryPet extends kListener{
 				}
 				
 				if(!players_obj.containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
-					Log("players_obj Spieler "+ev.getPlayer()+" nicht gefunden!");
+					logMessage("players_obj Spieler "+ev.getPlayer()+" nicht gefunden!");
 				}else if(players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).isEmpty()){
-					Log("players_obj Spieler "+ev.getPlayer()+" liste ist leer!");
+					logMessage("players_obj Spieler "+ev.getPlayer()+" liste ist leer!");
 				}else{
 					for(String obj : players_obj.get(UtilPlayer.getRealUUID(ev.getPlayer())).keySet()){
 						UtilDebug.debug(new String[]{"O:"+obj,"C:"+objects.containsKey(obj)});

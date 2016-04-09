@@ -35,7 +35,7 @@ public class CommandJump extends kListener implements CommandExecutor {
 			if(config.isSet("Jump."+i+".To")){
 				jump = new TeleportPad(config.getLocation("Jump."+i+".From"), config.getLocation("Jump."+i+".To"));
 				list.put(config.getLocation("Jump."+i+".From"), jump);
-				Log("Load Jump "+i);
+				logMessage("Load Jump "+i);
 			}
 		}
 	}

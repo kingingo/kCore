@@ -78,7 +78,7 @@ public class ListenerCMD extends kListener{
 	        		}
 	                
 	            } catch (Exception e){
-	            	Log("Error: ");
+	            	logMessage("Error: ");
 	            	e.printStackTrace();
 	            }
 		}

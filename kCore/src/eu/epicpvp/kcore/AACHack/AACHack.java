@@ -44,7 +44,7 @@ public class AACHack extends kListener{
 	public AACHack(String server,MySQL mysql,ClientWrapper client) {
 		super(mysql.getInstance(), "AACHack");
 		if(Bukkit.getPluginManager().getPlugin("AAC")==null){
-			Log("Das Plugin AAC fehlt!!!");
+			logMessage("Das Plugin AAC fehlt!!!");
 			return;
 		}
 		this.instance=mysql.getInstance();
@@ -68,7 +68,7 @@ public class AACHack extends kListener{
 		});
 		
 		getMysql().Update("CREATE TABLE IF NOT EXISTS AAC_HACK(name varchar(30),ip varchar(30),uuid varchar(100),server varchar(30),time varchar(30),hackType varchar(30),violations int)");
-		Log("AACHack System aktiviert");
+		logMessage("AACHack System aktiviert");
 	}
 	
 	int anzahl=0;

@@ -58,16 +58,16 @@ public class UserDataConfig extends kListener{
 				config=new kConfig(file);
 				if(config!=null){
 					if(configs!=null){
-						Log("Die Config von "+ev.getName()+"("+uuid+"/"+ev.getUniqueId()+") wurde geladen");
+						logMessage("Die Config von "+ev.getName()+"("+uuid+"/"+ev.getUniqueId()+") wurde geladen");
 						configs.put(uuid, config);
 					}else{
-						Log("AsyncPlayerPreLoginEvent configs HASHMAP == NULL");
+						logMessage("AsyncPlayerPreLoginEvent configs HASHMAP == NULL");
 					}
 				}else{
-					Log("AsyncPlayerPreLoginEvent config == NULL");
+					logMessage("AsyncPlayerPreLoginEvent config == NULL");
 				}
 			}else{
-				Log("AsyncPlayerPreLoginEvent File == NULL");
+				logMessage("AsyncPlayerPreLoginEvent File == NULL");
 			}
 		}
 	}
@@ -94,9 +94,9 @@ public class UserDataConfig extends kListener{
 		try {
 			configs.get(uuid).save( new File(getDataFolder(),uuid+".yml") );
 		} catch (IOException e) {
-			Log("Die Config konnte nicht gespeichert werden Error: "+e.getMessage());
+			logMessage("Die Config konnte nicht gespeichert werden Error: "+e.getMessage());
 		}catch(NullPointerException e){
-			Log("Die Config konnte nicht gespeichert werden NullpointerError: "+e.getMessage());
+			logMessage("Die Config konnte nicht gespeichert werden NullpointerError: "+e.getMessage());
 		}
 	}
 	

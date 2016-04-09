@@ -8,45 +8,44 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.avaje.ebean.enhance.asm.Attribute;
-
+import dev.wolveringer.dataserver.player.LanguageType;
 import eu.epicpvp.kcore.Util.UtilFile;
 import lombok.Getter;
 
 public class Translation {
 
 	@Getter
-	private Language language;
+	private LanguageType language;
 	@Getter
-	private HashMap<String,String> translation;
+	private HashMap<String, String> translation;
 	@Getter
 	private Document document;
 	private File file;
-	
-	public Translation(Language language){
-		this.language=language;
-		this.file=new File( UtilFile.getPluginFolder(TranslationManager.handler.getInstance())+File.separator+"translations"+File.separator+language.getFolder()+File.separator+"EpicPvPMC Text.xml" );
+
+	public Translation(LanguageType language) {
+		this.language = language;
+		this.file = new File(UtilFile.getPluginFolder(TranslationManager.getPluginInstance()) + File.separator + "translations" + File.separator + language.getShortName() + File.separator + "EpicPvPMC Text.xml");
 	}
-	
-	public String getVersion(){
+
+	public String getVersion() {
 		return document.getXmlVersion();
 	}
-	
-	public boolean load(){
-		if(this.file.exists()){
+
+	public boolean load() {
+		if (this.file.exists()) {
 			try {
-				document = TranslationManager.handler.getBuilder().parse( file );
-				translation=new HashMap<>();
-				
+				document = TranslationManager.handler.getBuilder().parse(file); //TODO create a new XML Paradiser here
+				translation = new HashMap<>();
+
 				NodeList list = document.getDocumentElement().getElementsByTagName("string");
-				for(int i = 0; i<list.getLength() ; i++){
+				for (int i = 0; i < list.getLength(); i++) {
 					Node n = list.item(i);
-	                if(n.getNodeType() == Node.ELEMENT_NODE){
-	                	Element e = (Element)n;
-	                	translation.put(e.getAttribute("name"), ((Node)e.getChildNodes().item(0)).getNodeValue().trim());
-	                }
+					if (n.getNodeType() == Node.ELEMENT_NODE) {
+						Element e = (Element) n;
+						translation.put(e.getAttribute("name"), ((Node) e.getChildNodes().item(0)).getNodeValue().trim());
+					}
 				}
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -54,14 +53,15 @@ public class Translation {
 		}
 		return false;
 	}
-	
-	public String get(String name){
-		return get(name,null);
+
+	public String get(String name) {
+		return get(name, null);
 	}
-	
-	public String get(String name,Object... args){
-		if(translation.containsKey(name)){
-			if(args==null)return translation.get(name);
+
+	public String get(String name, Object... args) {
+		if (translation.containsKey(name)) {
+			if (args == null)
+				return translation.get(name);
 			return String.format(translation.get(name), args);
 		}
 		return null;

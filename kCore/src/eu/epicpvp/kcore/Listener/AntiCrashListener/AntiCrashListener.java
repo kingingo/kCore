@@ -73,8 +73,8 @@ public class AntiCrashListener extends kListener {
 					this.kick.add(e.getPlayer().getName());
 					LoadedPlayer loadedplayer = this.client.getPlayerAndLoad( UtilPlayer.getRealUUID(e.getPlayer()) );
 					loadedplayer.kickPlayer("§cStop!");
-					Log("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
-					Log("Spieler "+iname+" wurde wegen Item Change Crash gekickt!");
+					logMessage("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
+					logMessage("Spieler "+iname+" wurde wegen Item Change Crash gekickt!");
 					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler "+name+" wurde wegen Animation Crash gekickt! "+" IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
 				}else{
 					this.switchcount.remove(iname);
@@ -117,8 +117,8 @@ public class AntiCrashListener extends kListener {
 					this.kick.add(e.getPlayer().getName());
 					LoadedPlayer loadedplayer = this.client.getPlayerAndLoad( UtilPlayer.getRealUUID(e.getPlayer()) );
 					loadedplayer.kickPlayer("§cStop!");
-					Log("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
-					Log("Spieler "+name+" wurde wegen Animation Crash gekickt!");
+					logMessage("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
+					logMessage("Spieler "+name+" wurde wegen Animation Crash gekickt!");
 					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler "+name+" wurde wegen Animation Crash gekickt! "+" IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
 				}else{
 					this.hitscount.remove(name);

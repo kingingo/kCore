@@ -45,7 +45,7 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 	
 	public PluginMessageFutureTask<DataBuffer> sendMessage(Player player,DataBuffer buffer){
 		if(player == null){
-			Log("Cant send plugin message (player == null)");
+			logMessage("Cant send plugin message (player == null)");
 			return new PluginMessageFutureTask<>();
 		}
 		final UUID taskId = UUID.randomUUID();

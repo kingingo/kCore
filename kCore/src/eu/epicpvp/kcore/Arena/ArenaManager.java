@@ -200,11 +200,11 @@ public class ArenaManager extends kListener  {
 				
 				if(list.isEmpty()){
 					if(UtilDebug.isDebug()){
-						Log("LISTE IS EMPTY!!!!");
+						logMessage("LISTE IS EMPTY!!!!");
 					}
 				}
 
-				if(UtilDebug.isDebug())Log("RUN... "+server.size());
+				if(UtilDebug.isDebug())logMessage("RUN... "+server.size());
 				for(int r = 0; r<this.server.size(); r++){
 					if(list.isEmpty()){
 						break;
@@ -213,13 +213,13 @@ public class ArenaManager extends kListener  {
 					this.list.remove(arena.getServer()+arena.getArena());
 
 					if(arena.getState()==GameState.LobbyPhase){
-						if(UtilDebug.isDebug())Log("SERVER "+arena.getServer()+" "+arena.getArena()+" "+arena.getState().name());
+						if(UtilDebug.isDebug())logMessage("SERVER "+arena.getServer()+" "+arena.getArena()+" "+arena.getState().name());
 						
 						for(Team t : players.keySet())players.get(t).clear();
 
-						if(UtilDebug.isDebug())Log("arena: "+arena.getTeams());
+						if(UtilDebug.isDebug())logMessage("arena: "+arena.getTeams());
 						for(int i = arena.getTeams(); i >= 2 ; i--){
-							if(UtilDebug.isDebug())Log("I: "+i);
+							if(UtilDebug.isDebug())logMessage("I: "+i);
 							this.type=(ArenaType)ArenaType.byInt( i );
 							this.team=0;
 							this.owner=null;
@@ -228,15 +228,15 @@ public class ArenaManager extends kListener  {
 							this.br=false;
 
 							if(UtilDebug.isDebug()){
-								Log("ROUNDS: "+this.rounds.containsKey(type));
-								Log("EMPTY: "+this.rounds.get(type));
+								logMessage("ROUNDS: "+this.rounds.containsKey(type));
+								logMessage("EMPTY: "+this.rounds.get(type));
 							}
 
 							if(this.rounds.containsKey(type)&&!this.rounds.get(type).isEmpty()){
 								this.id=(Integer)this.rounds.get(type).keySet().toArray()[0];
 								this.round=(GameRound)this.rounds.get(type).get(id);
 								if(UtilDebug.isDebug()&&this.round.getOwner()!=null&&UtilPlayer.isOnline(this.round.getOwner())&&Bukkit.getPlayer(this.round.getOwner()).getName().equalsIgnoreCase("kingingo")){
-									Log("Owner: kingingo");
+									logMessage("Owner: kingingo");
 								}
 								
 								
@@ -244,7 +244,7 @@ public class ArenaManager extends kListener  {
 									this.owner=Bukkit.getPlayer(this.round.getOwner());
 									
 									if(UtilDebug.isDebug()&&this.owner.getName().equalsIgnoreCase("kingingo")){
-										Log("Online");
+										logMessage("Online");
 									}
 									
 									for(UUID player : this.round.getPlayers()){
@@ -292,7 +292,7 @@ public class ArenaManager extends kListener  {
 										}
 
 										if(UtilDebug.isDebug()&&this.owner.getName().equalsIgnoreCase("kingingo")){
-											Log("ALLES GUT!");
+											logMessage("ALLES GUT!");
 										}
 										
 										if(!(this.round instanceof GameRoundBestOf))this.round.remove();
@@ -300,7 +300,7 @@ public class ArenaManager extends kListener  {
 										break;
 									}else{
 										if(UtilDebug.isDebug()&&this.owner.getName().equalsIgnoreCase("kingingo")){
-											Log("MITSPIELER OFFLINE");
+											logMessage("MITSPIELER OFFLINE");
 										}
 									}
 

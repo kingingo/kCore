@@ -34,7 +34,7 @@ public class kPacketListener extends kListener implements IPacketEventHandler {
 		if (injected) {
 			injector.addServerConnectionChannel();
 		} else {
-			Log("Es ist ein Fehler passiert beim Injecten des custum Channel handler");
+			logMessage("Es ist ein Fehler passiert beim Injecten des custum Channel handler");
 		}
 
 		for (Player p : Bukkit.getOnlinePlayers()) {

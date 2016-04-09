@@ -297,7 +297,7 @@ public class UserStores extends kListener{
 										if(ev.getPlayer().getItemInHand() == null || ev.getPlayer().getItemInHand().getType()==Material.AIR){
 											item=UtilInv.getFirstItem(chest.getInventory());
 											if(Integer.valueOf(getAnzahl(sign)) >= (anzahl)){
-												Log("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+item.getTypeId()+" gekauft und "+(preis*anzahl)+" Epics bezahlt. "+UtilLocation.getLocString(sign.getLocation())+" "+sign.getLocation().getWorld());
+												logMessage("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+item.getTypeId()+" gekauft und "+(preis*anzahl)+" Epics bezahlt. "+UtilLocation.getLocString(sign.getLocation())+" "+sign.getLocation().getWorld());
 												getStatsManager().addDouble(p, -(preis*anzahl), StatsKey.MONEY);
 												
 						            			if( getStatsManager().isLoaded(uuid) ){
