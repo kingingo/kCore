@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
 
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.TeleportManager.Events.PlayerTeleportedEvent;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilTime;
 import lombok.Getter;
@@ -114,7 +114,7 @@ public class Teleporter {
 				}
 				
 				if(getTime() > System.currentTimeMillis()){
-					from.sendMessage(Language.getText(from, "PREFIX")+Language.getText(from, "TELEPORT_VERZ§GERUNG",UtilTime.formatMili(getTime()-System.currentTimeMillis())));
+					from.sendMessage(TranslationManager.getText(from, "PREFIX")+TranslationManager.getText(from, "TELEPORT_VERZ§GERUNG",UtilTime.formatMili(getTime()-System.currentTimeMillis())));
 					return false;
 				}
 
@@ -127,7 +127,7 @@ public class Teleporter {
 				from.setVelocity(new Vector(0,0,0));
 				
 				from.teleport(getLoc_to(), TeleportCause.PLUGIN);
-				from.sendMessage(Language.getText(from, "PREFIX")+Language.getText(from, "TELEPORT"));
+				from.sendMessage(TranslationManager.getText(from, "PREFIX")+TranslationManager.getText(from, "TELEPORT"));
 
 				Bukkit.getPluginManager().callEvent(new PlayerTeleportedEvent(this));
 				from=null;
@@ -146,8 +146,8 @@ public class Teleporter {
 						System.out.println("[TeleportManager] FROM == NULL");
 					}
 				}else{
-					from.sendMessage(Language.getText(from, "PREFIX")+
-					Language.getText(from, "PLAYER_IS_OFFLINE",to.getName()));
+					from.sendMessage(TranslationManager.getText(from, "PREFIX")+
+					TranslationManager.getText(from, "PLAYER_IS_OFFLINE",to.getName()));
 				}
 				from=null;
 				loc_from=null;

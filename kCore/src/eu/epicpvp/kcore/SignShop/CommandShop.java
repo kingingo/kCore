@@ -13,10 +13,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.SignShop.Events.SignShopUseEvent;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandShop extends kListener implements CommandExecutor{
 	
@@ -31,9 +31,9 @@ public class CommandShop extends kListener implements CommandExecutor{
 		player = (Player)sender;
 		if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"/sshop sale");
-				player.sendMessage(Language.getText(player, "PREFIX")+"/sshop buy");
-				player.sendMessage(Language.getText(player, "PREFIX")+"/sshop all");
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/sshop sale");
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/sshop buy");
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/sshop all");
 			}else{
 				if(args[0].equalsIgnoreCase("sale")){
 					Block b = player.getTargetBlock((Set<Material>) null, 100);

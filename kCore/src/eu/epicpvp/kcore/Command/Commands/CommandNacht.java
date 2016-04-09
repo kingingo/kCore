@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandNacht implements CommandExecutor{
 	
@@ -17,7 +17,7 @@ public class CommandNacht implements CommandExecutor{
 		if(player.hasPermission(PermissionType.NACHT.getPermissionToString())){
 			if(args.length==0){
 				player.getWorld().setTime(12575);
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NIGHT"));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NIGHT"));
 			}
 		}
 		return false;

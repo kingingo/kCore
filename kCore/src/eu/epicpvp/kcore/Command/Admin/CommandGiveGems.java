@@ -13,9 +13,9 @@ import org.bukkit.scoreboard.Score;
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilInteger;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
@@ -34,7 +34,7 @@ public class CommandGiveGems implements CommandExecutor{
 			Player player = (Player)sender;
 			if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 				if(args.length==0){
-					player.sendMessage(Language.getText(player, "PREFIX")+"§a/GiveGems [Spieler] [+/- Gems]");
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§a/GiveGems [Spieler] [+/- Gems]");
 				}else if(args.length >= 2){
 					String spieler = args[0];
 					int c=UtilInteger.isNumber(args[1]);
@@ -61,7 +61,7 @@ public class CommandGiveGems implements CommandExecutor{
 						});
 					}
 					
-					player.sendMessage(Language.getText(player, "PREFIX")+(c<0?Language.getText(player, "GEMS_DEL_PLAYER",new String[]{player.getName(),String.valueOf(c)}):Language.getText(player, "GEMS_ADD_PLAYER",new String[]{player.getName(),String.valueOf(c)})));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+(c<0?TranslationManager.getText(player, "GEMS_DEL_PLAYER",new String[]{player.getName(),String.valueOf(c)}):TranslationManager.getText(player, "GEMS_ADD_PLAYER",new String[]{player.getName(),String.valueOf(c)})));
 				}
 			}
 		}else if(sender instanceof CommandSender){

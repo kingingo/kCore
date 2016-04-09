@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandTp implements CommandExecutor{
@@ -23,15 +23,15 @@ public class CommandTp implements CommandExecutor{
 		player = (Player)cs;
 		if(player.hasPermission(PermissionType.PLAYER_TELEPORT.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"§6/tp [Player]");
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§6/tp [Player]");
 			}else{
 				if(args.length==1){
 					if(UtilPlayer.isOnline(args[0])){
 						tpTO=Bukkit.getPlayer(args[0]);
 						player.teleport(tpTO,TeleportCause.PLUGIN);
-						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT"));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "TELEPORT"));
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}
 				}else{
 					if(UtilPlayer.isOnline(args[0])){
@@ -39,12 +39,12 @@ public class CommandTp implements CommandExecutor{
 						if(UtilPlayer.isOnline(args[1])){
 							tpFROM=Bukkit.getPlayer(args[1]);
 							tpTO.teleport(tpFROM,TeleportCause.PLUGIN);
-							player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT"));
+							player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "TELEPORT"));
 						}else{
-							player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[1]));
+							player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[1]));
 						}
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}
 				}
 			}

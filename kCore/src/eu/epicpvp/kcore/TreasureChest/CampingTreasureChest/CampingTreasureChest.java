@@ -15,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Inventory.InventoryBase;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilEvent;
@@ -85,7 +85,7 @@ public class CampingTreasureChest extends kListener{
 			if(list.containsKey(ev.getPlayer())&&UtilItem.ItemNameEquals(ev.getPlayer().getItemInHand(), getTreasurechest())){
 				Location loc = ev.getClickedBlock().getLocation();
 				if(!Near(loc)){
-				  ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+Language.getText(ev.getPlayer(), "TREASURE_CHEST_TOO_NEAR"));
+				  ev.getPlayer().sendMessage(TranslationManager.getText(ev.getPlayer(), "PREFIX")+TranslationManager.getText(ev.getPlayer(), "TREASURE_CHEST_TOO_NEAR"));
 				  ev.setCancelled(true);
 				  return;
 				}

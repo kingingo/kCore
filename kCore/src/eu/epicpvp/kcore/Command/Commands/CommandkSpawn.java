@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.AntiLogout.AntiLogoutManager;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilTime;
 
 public class CommandkSpawn implements CommandExecutor{
@@ -30,7 +30,7 @@ public class CommandkSpawn implements CommandExecutor{
 			if(p.hasPermission(PermissionType.KSPAWN.getPermissionToString())){
 				s=UtilTime.getTimeManager().check(cmd.getName(), p);
 				if(s!=null){
-					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "USE_BEFEHL_TIME",s));
+					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "USE_BEFEHL_TIME",s));
 				}else{
 					if(manager!=null)manager.del(p);
 					p.teleport(Bukkit.getWorld("world").getSpawnLocation());

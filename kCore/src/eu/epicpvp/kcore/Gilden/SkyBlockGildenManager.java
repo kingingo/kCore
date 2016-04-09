@@ -13,9 +13,9 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kSkyblock.SkyBlockManager;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Gilden.Events.GildenPlayerTeleportEvent;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 
@@ -36,10 +36,10 @@ public class SkyBlockGildenManager extends GildenManager{
 	@EventHandler
 	public void Teleport(GildenPlayerTeleportEvent ev){
 		if(!isPlayerInGilde(ev.getPlayer())){
-			ev.setReason(Language.getText(ev.getPlayer(), "GILDE_PLAYER_IS_NOT_IN_GILDE"));
+			ev.setReason(TranslationManager.getText(ev.getPlayer(), "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 			ev.setCancelled(true);
 		}else{
-			ev.setReason(Language.getText(ev.getPlayer(), "SKYBLOCK_NO_ISLAND"));
+			ev.setReason(TranslationManager.getText(ev.getPlayer(), "SKYBLOCK_NO_ISLAND"));
 			ev.setCancelled( sky.getGilden_world().getIslandHome(getPlayerGilde(ev.getPlayer()))==null );
 		}
 	}
@@ -114,14 +114,14 @@ public class SkyBlockGildenManager extends GildenManager{
 	
 	public void TeleportToHome(Player p){
 		if(!isPlayerInGilde(p)){
-			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 			return;
 		}
 		String g = getPlayerGilde(p);
 		
 		if(getTyp()==GildenType.SKY){
 			p.teleport(getSky().getGilden_world().getIslandHome(g));
-			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "GILDE_TELEPORTET"));
+			p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "GILDE_TELEPORTET"));
 			UtilPlayer.sendPacket(p, sky.getGilden_world().getIslandBorder(p));;
 		}else{
 			String w = getString(StatsKey.WORLD, g, getTyp());
@@ -132,7 +132,7 @@ public class SkyBlockGildenManager extends GildenManager{
 			if(x==0&&y==0&&z==0&&g.equalsIgnoreCase("0"))return;
 			Location loc = new Location(Bukkit.getWorld(w),x,y,z);
 			p.teleport(loc);
-			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "GILDE_TELEPORTET"));	
+			p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "GILDE_TELEPORTET"));	
 		}
 	}
 

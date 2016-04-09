@@ -17,8 +17,8 @@ import eu.epicpvp.kcore.Command.Admin.CommandGiveKit;
 import eu.epicpvp.kcore.Command.Commands.Events.AddKitEvent;
 import eu.epicpvp.kcore.Command.Commands.Events.DeleteKitEvent;
 import eu.epicpvp.kcore.Command.Commands.Events.ResetKitEvent;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import eu.epicpvp.kcore.Util.UtilTime;
 import eu.epicpvp.kcore.kConfig.kConfig;
@@ -58,7 +58,7 @@ public class CommandKit implements CommandExecutor{
 			if(ev.getPlayer().hasPermission(PermissionType.KIT.getPermissionToString()+"."+ev.getKit())){
 				if(getKits().containsKey(ev.getKit())&&!ev.getPlayer().hasPermission(PermissionType.KIT_BYEPASS_DELAY.getPermissionToString())){
 					getUserData().getConfig(ev.getPlayer()).set("timestamps.kits."+ev.getKit(),getKits_delay().get(ev.getKit())+System.currentTimeMillis());
-					ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+Language.getText(ev.getPlayer(), "KIT_DELAY",UtilTime.formatMili(getUserData().getConfig(ev.getPlayer()).getLong("timestamps.kits."+ev.getKit())-System.currentTimeMillis())));
+					ev.getPlayer().sendMessage(TranslationManager.getText(ev.getPlayer(), "PREFIX")+TranslationManager.getText(ev.getPlayer(), "KIT_DELAY",UtilTime.formatMili(getUserData().getConfig(ev.getPlayer()).getLong("timestamps.kits."+ev.getKit())-System.currentTimeMillis())));
 				}
 			}
 		}else{
@@ -86,10 +86,10 @@ public class CommandKit implements CommandExecutor{
 		
 		if(player.hasPermission(PermissionType.KIT.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"/kit [Name]");
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/kit [Name]");
 				String kits="";
 				for(String kit : this.kits.keySet())if(player.hasPermission(PermissionType.KIT.getPermissionToString()+"."+kit))kits+=kit+",";
-				player.sendMessage(Language.getText(player, "PREFIX")+"Kits: "+(kits.equalsIgnoreCase("") ? Language.getText(player, "KITS_EMPTY") : kits.substring(0, kits.length()-1)));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"Kits: "+(kits.equalsIgnoreCase("") ? TranslationManager.getText(player, "KITS_EMPTY") : kits.substring(0, kits.length()-1)));
 			}else{
 				kit=args[0].toLowerCase();
 				if(kits.containsKey(kit)){
@@ -99,7 +99,7 @@ public class CommandKit implements CommandExecutor{
 						
 						if(kits_delay.containsKey(kit)&&!player.hasPermission(PermissionType.KIT_BYEPASS_DELAY.getPermissionToString())&&this.userconfig.isSet("timestamps.kits."+kit)){
 							if(this.userconfig.getLong("timestamps.kits."+kit) >= System.currentTimeMillis()){
-								player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_DELAY",UtilTime.formatMili(this.userconfig.getLong("timestamps.kits."+kit)-System.currentTimeMillis())));
+								player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "KIT_DELAY",UtilTime.formatMili(this.userconfig.getLong("timestamps.kits."+kit)-System.currentTimeMillis())));
 								return false;
 							}
 						}
@@ -109,14 +109,14 @@ public class CommandKit implements CommandExecutor{
 								player.getInventory().addItem(i.clone());
 							}
 						}
-						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_USE",kit));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "KIT_USE",kit));
 						
 						if(kits_delay.containsKey(kit)&&!player.hasPermission(PermissionType.KIT_BYEPASS_DELAY.getPermissionToString())){
 							this.userconfig.set("timestamps.kits."+kit, kits_delay.get(kit)+System.currentTimeMillis());
 						}
 					}
 				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "KIT_EXIST"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "KIT_EXIST"));
 				}
 			}
 		}	

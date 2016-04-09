@@ -27,11 +27,11 @@ import eu.epicpvp.kcore.Gilden.Events.GildeLoadEvent;
 import eu.epicpvp.kcore.Gilden.Events.GildePlayerJoinEvent;
 import eu.epicpvp.kcore.Gilden.Events.GildePlayerLeaveEvent;
 import eu.epicpvp.kcore.Gilden.Events.GildenChatEvent;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.MySQL.MySQLErr;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilDebug;
@@ -372,12 +372,12 @@ public class GildenManager implements Listener {
 				if(!hasMoved(teleport_loc.get(p), p)){
 					TeleportToHome(p);
 				}else{
-					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_TELEPORT_CANCELLED"));
+					p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_TELEPORT_CANCELLED"));
 				}
 				teleport.remove(p);
 				teleport_loc.remove(p);
 			}else{
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_HOME",UtilTime.formatMili( (teleport.get(p)-System.currentTimeMillis())) ));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_HOME",UtilTime.formatMili( (teleport.get(p)-System.currentTimeMillis())) ));
 			}
 		}
 	}
@@ -393,7 +393,7 @@ public class GildenManager implements Listener {
 			if(x==0&&y==0&&z==0&&g.equalsIgnoreCase("0"))return;
 			Location loc = new Location(Bukkit.getWorld(w),x,y,z);
 			p.teleport(loc);
-			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_TELEPORTET"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_TELEPORTET"));
 		}catch(NullPointerException e){
 			
 		}	
@@ -402,7 +402,7 @@ public class GildenManager implements Listener {
 	public void TeleportToHome(Player p){
 		try{
 			if(!isPlayerInGilde(p)){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 				return;
 			}
 			String g = getPlayerGilde(p);
@@ -414,7 +414,7 @@ public class GildenManager implements Listener {
 			if(x==0&&y==0&&z==0&&g.equalsIgnoreCase("0"))return;
 			Location loc = new Location(Bukkit.getWorld(w),x,y,z);
 			p.teleport(loc);
-			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_TELEPORTET"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_TELEPORTET"));
 		}catch(NullPointerException e){
 			
 		}	
@@ -440,7 +440,7 @@ public class GildenManager implements Listener {
 		for(UUID n : gilden_player.keySet()){
 			if(gilden_player.get(n).equalsIgnoreCase(gilde)){
 				if(UtilPlayer.isOnline(n)){
-					Bukkit.getPlayer(n).sendMessage(Language.getText(Bukkit.getPlayer(n), "GILDE_CHAT_PREFIX",player.getName())+msg);
+					Bukkit.getPlayer(n).sendMessage(TranslationManager.getText(Bukkit.getPlayer(n), "GILDE_CHAT_PREFIX",player.getName())+msg);
 				}
 			}
 		}
@@ -451,7 +451,7 @@ public class GildenManager implements Listener {
 		for(UUID n : gilden_player.keySet()){
 			if(gilden_player.get(n).equalsIgnoreCase(gilde)){
 				if(UtilPlayer.isOnline(n)){
-					Bukkit.getPlayer(n).sendMessage(Language.getText(Bukkit.getPlayer(n), "GILDE_PREFIX")+Language.getText(Bukkit.getPlayer(n), name));
+					Bukkit.getPlayer(n).sendMessage(TranslationManager.getText(Bukkit.getPlayer(n), "GILDE_PREFIX")+TranslationManager.getText(Bukkit.getPlayer(n), name));
 				}
 			}
 		}
@@ -462,7 +462,7 @@ public class GildenManager implements Listener {
 		for(UUID n : gilden_player.keySet()){
 			if(gilden_player.get(n).equalsIgnoreCase(gilde)){
 				if(UtilPlayer.isOnline(n)){
-					Bukkit.getPlayer(n).sendMessage(Language.getText(Bukkit.getPlayer(n), "GILDE_PREFIX")+Language.getText(Bukkit.getPlayer(n), name,input));
+					Bukkit.getPlayer(n).sendMessage(TranslationManager.getText(Bukkit.getPlayer(n), "GILDE_PREFIX")+TranslationManager.getText(Bukkit.getPlayer(n), name,input));
 				}
 			}
 		}

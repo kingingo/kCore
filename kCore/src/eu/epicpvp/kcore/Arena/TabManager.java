@@ -1,7 +1,6 @@
 package eu.epicpvp.kcore.Arena;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
@@ -11,9 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.LoadedPlayer;
-import dev.wolveringer.client.futures.ServerStatusResponseFuture;
 import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.protocoll.packets.PacketOutServerStatus;
 import dev.wolveringer.event.EventListener;
 import dev.wolveringer.events.Event;
 import dev.wolveringer.events.EventConditions;
@@ -25,15 +22,12 @@ import eu.epicpvp.kcore.Listener.SkinCatcherListener.SkinCatcherListener;
 import eu.epicpvp.kcore.PacketAPI.Packets.kGameProfile;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPlayerInfoData;
-import eu.epicpvp.kcore.UpdateAsync.UpdateAsyncType;
-import eu.epicpvp.kcore.UpdateAsync.Event.UpdateAsyncEvent;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilSkin;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 
 public class TabManager extends kListener{
 	

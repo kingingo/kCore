@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Enum.Mob;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilTime;
 
 public class CommandSpawnmob implements CommandExecutor{
@@ -24,24 +24,24 @@ public class CommandSpawnmob implements CommandExecutor{
 		player = (Player)sender;
 		if(player.hasPermission(PermissionType.SPAWNMOB.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"/spawnmob [Mob] [Anzahl]");
-				String s = Language.getText(player, "PREFIX")+"";
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/spawnmob [Mob] [Anzahl]");
+				String s = TranslationManager.getText(player, "PREFIX")+"";
 				for(Mob mob : Mob.values())s+=mob.name()+",";
 				player.sendMessage(s.substring(0, s.length()-1));
 			}else{
 				s=UtilTime.getTimeManager().check(cmd.getName(), player);
 				if(s!=null){
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "USE_BEFEHL_TIME",s));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "USE_BEFEHL_TIME",s));
 				}else{
 					Mob mob = Mob.fromName(args[0]);
 					
 					if(mob==null){
-						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "MOB_TYPE_NOT_FOUND"));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "MOB_TYPE_NOT_FOUND"));
 						return false;
 					}
 					if(!player.hasPermission(PermissionType.SPAWNMOB.getPermissionToString()+"."+mob.name.toLowerCase(Locale.ENGLISH))){
 						if(!player.hasPermission(PermissionType.SPAWNMOB_ALL.getPermissionToString())){
-							player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_PERMISSION"));
+							player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_PERMISSION"));
 							return false;
 						}
 					}
@@ -52,7 +52,7 @@ public class CommandSpawnmob implements CommandExecutor{
 						try{
 							a=Integer.valueOf(args[1]);
 						}catch(NumberFormatException e){
-							player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_INTEGER"));
+							player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_INTEGER"));
 							return false;
 						}
 					}

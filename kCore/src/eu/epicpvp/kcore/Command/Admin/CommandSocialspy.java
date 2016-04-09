@@ -12,9 +12,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Command.Commands.Events.PlayerMsgSendEvent;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandSocialspy extends kListener implements CommandExecutor{
 
@@ -32,10 +32,10 @@ public class CommandSocialspy extends kListener implements CommandExecutor{
 			if(player.hasPermission(PermissionType.SOCIAL_SPY.getPermissionToString())){
 				if(list.contains(player)){
 					list.remove(player);
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SOCIALSPY_OFF"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SOCIALSPY_OFF"));
 				}else{
 					list.add(player);
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SOCIALSPY_ON"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SOCIALSPY_ON"));
 				}
 			}
 		}
@@ -44,7 +44,7 @@ public class CommandSocialspy extends kListener implements CommandExecutor{
 	
 	@EventHandler
 	public void Msg(PlayerMsgSendEvent ev){
-		for(Player player : list)player.sendMessage(Language.getText(player, "PREFIX")+ev.getPlayer().getName()+"->"+ev.getTarget().getName()+":§b "+ev.getMessage());
+		for(Player player : list)player.sendMessage(TranslationManager.getText(player, "PREFIX")+ev.getPlayer().getName()+"->"+ev.getTarget().getName()+":§b "+ev.getMessage());
 	}
 	
 	@EventHandler

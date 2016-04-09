@@ -21,9 +21,9 @@ import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.Arena.ArenaManager;
 import eu.epicpvp.kcore.Command.Admin.CommandLocations;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Packets.PacketArenaWinner;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.TimeSpan;
@@ -90,7 +90,7 @@ public class BestOf extends kListener{
 			if(UtilPlayer.isOnline(round.getPlayers()[0])){
 				Bukkit.getPlayer(round.getPlayers()[0]).teleport(CommandLocations.getLocation("spawn"));
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().clear();
-				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(0, UtilItem.RenameItem(new ItemStack(Material.CHEST), Language.getText(Bukkit.getPlayer(round.getPlayers()[0]), "HUB_ITEM_CHEST")));
+				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(0, UtilItem.RenameItem(new ItemStack(Material.CHEST), TranslationManager.getText(Bukkit.getPlayer(round.getPlayers()[0]), "HUB_ITEM_CHEST")));
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(1,UtilItem.RenameItem(new ItemStack(Material.FISHING_ROD), "§aBestOf"));
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(5,UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1"));
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedWars 1vs1"));
@@ -106,7 +106,7 @@ public class BestOf extends kListener{
 			if(UtilPlayer.isOnline(round.getPlayers()[1])){
 				Bukkit.getPlayer(round.getPlayers()[1]).teleport(CommandLocations.getLocation("spawn"));
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().clear();
-				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(0, UtilItem.RenameItem(new ItemStack(Material.CHEST), Language.getText(Bukkit.getPlayer(round.getPlayers()[1]), "HUB_ITEM_CHEST")));
+				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(0, UtilItem.RenameItem(new ItemStack(Material.CHEST), TranslationManager.getText(Bukkit.getPlayer(round.getPlayers()[1]), "HUB_ITEM_CHEST")));
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(1,UtilItem.RenameItem(new ItemStack(Material.FISHING_ROD), "§aBestOf"));
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(5,UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1"));
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedWars 1vs1"));

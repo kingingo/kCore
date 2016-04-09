@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandTag implements CommandExecutor{
 	
@@ -17,7 +17,7 @@ public class CommandTag implements CommandExecutor{
 		if(player.hasPermission(PermissionType.TAG.getPermissionToString())){
 			if(args.length==0){
 				player.getWorld().setTime(22925);
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "DAY"));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "DAY"));
 			}
 		}
 		return false;

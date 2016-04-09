@@ -5,9 +5,9 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilTime;
 
 public class EnderpearlListener extends kListener{
@@ -24,7 +24,7 @@ public class EnderpearlListener extends kListener{
 		if(ev.getCause()==TeleportCause.ENDER_PEARL && (!ev.getPlayer().isPermissionSet(PermissionType.ENDERPEARL.getPermissionToString()) ) ){
 			s=UtilTime.getTimeManager().check("enderpearl",ev.getPlayer());
 			if(s!=null){
-				ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+Language.getText(ev.getPlayer(), "USE_ENDERPEARL_TIME",s));
+				ev.getPlayer().sendMessage(TranslationManager.getText(ev.getPlayer(), "PREFIX")+TranslationManager.getText(ev.getPlayer(), "USE_ENDERPEARL_TIME",s));
 				ev.setCancelled(true);
 			}else{
 				l=UtilTime.getTimeManager().hasPermission(ev.getPlayer(), "enderpearl");

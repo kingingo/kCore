@@ -13,10 +13,10 @@ import org.bukkit.inventory.PlayerInventory;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryPlayer;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandInvsee extends kListener implements CommandExecutor{
@@ -36,7 +36,7 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 		player = (Player)sender;
 		
 		if(args.length==0){
-			player.sendMessage(Language.getText(player, "PREFIX")+"/invsee [Name]");
+			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/invsee [Name]");
 		}else{
 			if(player.hasPermission(PermissionType.INVSEE.getPermissionToString())){
 				if(UtilPlayer.isOnline(args[0])){
@@ -48,7 +48,7 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 						player.openInventory(target.getInventory());
 					}
 				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					
 					if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 						UUID uuid = UtilPlayer.getUUID(args[0], mysql);
@@ -62,7 +62,7 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 								player.openInventory(target.getInventory());
 							}
 						}else{
-							player.sendMessage(Language.getText(player, "PREFIX")+"§cnicht gefunden!");
+							player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§cnicht gefunden!");
 						}
 						
 					}

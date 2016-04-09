@@ -7,9 +7,9 @@ import org.bukkit.entity.Player;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.StatsManager.Ranking;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import lombok.Getter;
 
 public class CommandStats implements CommandExecutor{
@@ -27,10 +27,10 @@ public class CommandStats implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		Player p = (Player)cs;
 		if(args.length==0){
-			p.sendMessage(Language.getText(p, "STATS_PREFIX"));
-			p.sendMessage(Language.getText(p, "STATS_KILLS")+statsManager.getInt(p, StatsKey.KILLS));
-			p.sendMessage(Language.getText(p, "STATS_DEATHS")+statsManager.getInt(p, StatsKey.DEATHS));
-			p.sendMessage(Language.getText(p, "STATS_KDR")+getStatsManager().getKDR(statsManager.getInt(p, StatsKey.KILLS), statsManager.getInt(p, StatsKey.DEATHS)));
+			p.sendMessage(TranslationManager.getText(p, "STATS_PREFIX"));
+			p.sendMessage(TranslationManager.getText(p, "STATS_KILLS")+statsManager.getInt(p, StatsKey.KILLS));
+			p.sendMessage(TranslationManager.getText(p, "STATS_DEATHS")+statsManager.getInt(p, StatsKey.DEATHS));
+			p.sendMessage(TranslationManager.getText(p, "STATS_KDR")+getStatsManager().getKDR(statsManager.getInt(p, StatsKey.KILLS), statsManager.getInt(p, StatsKey.DEATHS)));
 		}else if(args[0].equalsIgnoreCase("ranking")){
 			if(args.length==1){
 				getStatsManager().SendRankingMessage(p, ranking);

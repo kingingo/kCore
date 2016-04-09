@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Gilden.GildenType;
 import eu.epicpvp.kcore.Gilden.SkyBlockGildenManager;
-import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
@@ -17,23 +17,23 @@ public class Kicken {
 	public static void use(Player p,String[] args,GildenManager manager){
 		if(args.length==2){
 			if(!manager.isPlayerInGilde(p)){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 				return;
 			}
 			String g = manager.getPlayerGilde(p);
 			UUID owner=manager.getOwner(g);
 			if(!owner.equals(UtilPlayer.getRealUUID(p))){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_OWNER_NOT"));
 				return;
 			}
 			String kick_o = args[1];
 			UUID uuid = UtilPlayer.getUUID(kick_o, manager.getMysql());
 			if(!manager.isPlayerInGilde(uuid)){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_IS_NOT_IN_THE_GILD",kick_o));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_IS_NOT_IN_THE_GILD",kick_o));
 				return;
 			}
 			if(!manager.getPlayerGilde(uuid).equalsIgnoreCase(g)){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_IS_NOT_IN_THE_GILD",kick_o));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_IS_NOT_IN_THE_GILD",kick_o));
 				return;
 			}
 			
@@ -59,7 +59,7 @@ public class Kicken {
 			manager.sendGildenChat(g, "GILDE_KICK_PLAYER",kick_o);
 			manager.removePlayerEintrag(uuid,kick_o);
 		}else{
-			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde kicken [Player]");
+			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+" /gilde kicken [Player]");
 		}
 	}
 	

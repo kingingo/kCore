@@ -7,8 +7,8 @@ import org.bukkit.inventory.ItemStack;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.InventorySplit;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilInv;
@@ -29,9 +29,9 @@ public class ButtonShopSell extends ButtonMultiCopy{
 					player.openInventory(shop);
 					
 					if(item.getData().getData()!=0){
-						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SIGN_SHOP_VERKAUFT_",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf(item.getData().getData()),String.valueOf((amount*money))}));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SIGN_SHOP_VERKAUFT_",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf(item.getData().getData()),String.valueOf((amount*money))}));
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SIGN_SHOP_VERKAUFT",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf((amount*money))}));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SIGN_SHOP_VERKAUFT",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf((amount*money))}));
 					}
 				}
 			}

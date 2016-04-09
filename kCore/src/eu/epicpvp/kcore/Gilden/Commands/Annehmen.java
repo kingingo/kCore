@@ -3,7 +3,7 @@ package eu.epicpvp.kcore.Gilden.Commands;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Gilden.GildenManager;
-import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class Annehmen {
 
@@ -11,12 +11,12 @@ public class Annehmen {
 		if(args.length==1){
 			if(manager.getGilden_einladung().containsKey(p)){
 				if(manager.isPlayerInGilde(p)){
-					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_IN_GILDE"));
+					p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_PLAYER_IS_IN_GILDE"));
 					return;
 				}
 				String g = manager.getGilden_einladung().get(p);
 				if(manager.getAnzahl(g) >= 10){
-					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_COUNT"));
+					p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_COUNT"));
 					manager.getGilden_einladung().remove(p);
 					return;
 				}
@@ -24,10 +24,10 @@ public class Annehmen {
 				manager.createPlayerEintrag(p,g);
 				manager.sendGildenChat(g,"GILDE_PLAYER_ENTRE",p.getName());
 			}else{
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_NICHT_EINGELADEN"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_PLAYER_NICHT_EINGELADEN"));
 			}
 		}else{
-			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde annehmen");
+			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+" /gilde annehmen");
 		}
 	}
 	

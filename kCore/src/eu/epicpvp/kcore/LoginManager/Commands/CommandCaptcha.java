@@ -4,8 +4,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.LoginManager.LoginManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.Title;
 import lombok.Getter;
 
@@ -26,18 +26,18 @@ public class CommandCaptcha implements CommandExecutor{
 		
 		if(!getLoginManager().getCaptcha().containsKey(player.getName().toLowerCase()))return false;
 		if(args.length==0){
-			player.sendMessage(Language.getText(player, "PREFIX")+"§c/captcha [CAPTCHA]");
+			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§c/captcha [CAPTCHA]");
 			return true;
 		}else{
 			if(args[0].equalsIgnoreCase(getLoginManager().getCaptcha().get(player.getName().toLowerCase()))){
 				getLoginManager().getCaptcha().remove(player.getName().toLowerCase());
 				getLoginManager().getRegister().add(player.getName().toLowerCase());
-				Title title = new Title("§cRegister",Language.getText(player, "REGISTER_MESSAGE"));
+				Title title = new Title("§cRegister",TranslationManager.getText(player, "REGISTER_MESSAGE"));
 				title.setStayTime(60*60*10);
 				title.send(player);
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "REGISTER_MESSAGE"));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "REGISTER_MESSAGE"));
 			}else{
-				player.kickPlayer(Language.getText(player, "CAPTCHA_FALSE"));
+				player.kickPlayer(TranslationManager.getText(player, "CAPTCHA_FALSE"));
 			}
 			return true;
 		}

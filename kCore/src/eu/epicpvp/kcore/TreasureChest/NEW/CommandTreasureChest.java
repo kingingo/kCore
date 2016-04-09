@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandTreasureChest implements CommandExecutor{
 	
@@ -27,23 +27,23 @@ public class CommandTreasureChest implements CommandExecutor{
 				if(args[0].equalsIgnoreCase("saveTemplate")){
 					if(args.length==2){
 						treasureChest.addBuilding(player, args[1]);
-						player.sendMessage(Language.getText(player, "PREFIX")+"§aDein Template §e"+args[1]+"§a wurde gespeichert!");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§aDein Template §e"+args[1]+"§a wurde gespeichert!");
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/tc saveTemplate [Name]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/tc saveTemplate [Name]");
 					}
 				}else if(args[0].equalsIgnoreCase("createChest")){
 					if(args.length==3){
 						treasureChest.addTreasureChest(player.getItemInHand(), args[1],  args[2]);
-						player.sendMessage(Language.getText(player, "PREFIX")+"§aDie Treasure Chest "+args[2]+" mit dem Template "+args[1]+" wurde erstellt.");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§aDie Treasure Chest "+args[2]+" mit dem Template "+args[1]+" wurde erstellt.");
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/tc createChest [Template] [Chest]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/tc createChest [Template] [Chest]");
 					}
 				}else if(args[0].equalsIgnoreCase("addItem")){
 					if(args.length==3){
 						treasureChest.getChest(args[1]).addItem(player.getItemInHand(), Integer.valueOf(args[2]));
-						player.sendMessage(Language.getText(player, "PREFIX")+"§aDas Item wurde zu der Chest hinzugef§gt!");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§aDas Item wurde zu der Chest hinzugef§gt!");
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/tc addItem [Chest] [Nenner]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/tc addItem [Chest] [Nenner]");
 					}
 				}else if(args[0].equalsIgnoreCase("start")){
 					if(args.length==2){
@@ -56,7 +56,7 @@ public class CommandTreasureChest implements CommandExecutor{
 							player.sendMessage("C == NULL");
 						}
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/tc start [Name]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/tc start [Name]");
 					}
 				}
 			}

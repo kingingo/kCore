@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 
 import dev.wolveringer.client.LoadedPlayer;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.LoginManager.LoginManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.Title;
 import lombok.Getter;
 
@@ -27,13 +27,13 @@ public class CommandRegister implements CommandExecutor{
 		
 		if(!getLoginManager().getRegister().contains(player.getName().toLowerCase()))return false;
 		if(args.length==0){
-			player.sendMessage(Language.getText(player, "PREFIX")+"§c/register [Password]");
+			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§c/register [Password]");
 			return true;
 		}else{
 			String password = args[0];
 			
 			if(!password.matches("[a-zA-Z0-9_]*")){
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "LOGIN_FAIL"));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "LOGIN_FAIL"));
 				return false;
 			}else{
 				getLoginManager().getRegister().remove(player.getName().toLowerCase());
@@ -41,7 +41,7 @@ public class CommandRegister implements CommandExecutor{
 				loadedplayer.setPasswordSync(password);
 				Title title = new Title("","");
 				title.send(player);
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "REGISTER_ACCEPT"));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "REGISTER_ACCEPT"));
 				
 				getLoginManager().addPlayerToBGList(player);
 				return true;

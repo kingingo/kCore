@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.TeleportManager.TeleportManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import lombok.Getter;
 
 public class CommandReTpa implements CommandExecutor{
@@ -25,9 +25,9 @@ public class CommandReTpa implements CommandExecutor{
 		player = (Player)cs;
 		if(getManager().getTeleport_anfrage().containsKey(player)){
 			getManager().getTeleport_anfrage().remove(player);
-			player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "CLEAR"));
+			player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "CLEAR"));
 		}else{
-			player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_ANFRAGE"));
+			player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_ANFRAGE"));
 		}
 		return false;
 	}

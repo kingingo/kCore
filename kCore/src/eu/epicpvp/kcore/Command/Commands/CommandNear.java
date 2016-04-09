@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilTime;
@@ -26,7 +26,7 @@ public class CommandNear implements CommandExecutor{
 		if(player.hasPermission(PermissionType.NEAR.getPermissionToString())){
 			time=UtilTime.getTimeManager().check("CMD:near", player);
 			if(time!=null){
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "USE_BEFEHL_TIME",time));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "USE_BEFEHL_TIME",time));
 				return false;
 			}else{
 				UtilTime.getTimeManager().add("CMD:near", player, TimeSpan.SECOND*30);
@@ -37,12 +37,12 @@ public class CommandNear implements CommandExecutor{
 			
 			if(!list.isEmpty()){
 				for(double dis : list.keySet()){
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NEAR_FIND",new String[]{list.get(dis).getName(),String.valueOf(dis)}));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NEAR_FIND",new String[]{list.get(dis).getName(),String.valueOf(dis)}));
 				}
 				list.clear();
 				list=null;
 			}else{
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NEAR_EMPTY"));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NEAR_EMPTY"));
 			}
 			return true;
 		}

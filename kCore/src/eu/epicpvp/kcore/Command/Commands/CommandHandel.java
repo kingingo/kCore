@@ -15,8 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Inventory.InventoryBase;
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryTrade;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandHandel extends kListener implements CommandExecutor{
@@ -41,7 +41,7 @@ public class CommandHandel extends kListener implements CommandExecutor{
 		Player player = (Player)sender;
 		
 		if(args.length==0){
-			player.sendMessage(Language.getText(player, "PREFIX")+"/handel [Player]");
+			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/handel [Player]");
 		}else{
 			if(UtilPlayer.isOnline(args[0])){
 				Player player1=Bukkit.getPlayer(args[0]);
@@ -55,18 +55,18 @@ public class CommandHandel extends kListener implements CommandExecutor{
 					anfrage.remove(player);
 				}else{
 					if(anfrage.containsKey(player1)&&anfrage.get(player1).getUniqueId()==player.getUniqueId()){
-						player.sendMessage(Language.getText(player1, "PREFIX")+"§cDu hast diesen Spieler bereits eine Anfrage gesendet!");
+						player.sendMessage(TranslationManager.getText(player1, "PREFIX")+"§cDu hast diesen Spieler bereits eine Anfrage gesendet!");
 						return false;
 					}
 					
 					anfrage.remove(player1);
 					anfrage.put(player1, player);
-					player.sendMessage(Language.getText(player1, "PREFIX")+"§aDu hast §7"+player1.getName()+"§a eine anfrage gesendet!");
-					player1.sendMessage(Language.getText(player1, "PREFIX")+"§aDu hast von §7"+player.getName()+"§a eine Handel anfrage erhalten!");
-					player1.sendMessage(Language.getText(player1, "PREFIX")+"§azum Annehmen §7/Handel "+player.getName());
+					player.sendMessage(TranslationManager.getText(player1, "PREFIX")+"§aDu hast §7"+player1.getName()+"§a eine anfrage gesendet!");
+					player1.sendMessage(TranslationManager.getText(player1, "PREFIX")+"§aDu hast von §7"+player.getName()+"§a eine Handel anfrage erhalten!");
+					player1.sendMessage(TranslationManager.getText(player1, "PREFIX")+"§azum Annehmen §7/Handel "+player.getName());
 				}
 			}else{
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 			}
 		}
 		return false;

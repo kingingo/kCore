@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandMemFix implements CommandExecutor{
 	
@@ -18,7 +18,7 @@ public class CommandMemFix implements CommandExecutor{
 			
 			if(p.hasPermission(PermissionType.COMMAND_MEM.getPermissionToString())){
 				System.gc();
-				p.sendMessage(Language.getText(p,"PREFIX")+"§aMemory Fix wurde durchgef§hrt!");
+				p.sendMessage(TranslationManager.getText(p,"PREFIX")+"§aMemory Fix wurde durchgef§hrt!");
 			}
 		}else{
 			System.gc();

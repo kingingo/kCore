@@ -11,10 +11,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandEnderchest extends kListener implements CommandExecutor{
@@ -44,7 +44,7 @@ public class CommandEnderchest extends kListener implements CommandExecutor{
 					target=Bukkit.getPlayer(args[0]);
 					player.openInventory(target.getEnderChest());
 				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					
 					if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 						UUID uuid = UtilPlayer.getUUID(args[0], mysql);
@@ -54,7 +54,7 @@ public class CommandEnderchest extends kListener implements CommandExecutor{
 						if(target!=null){
 							player.openInventory(target.getEnderChest());
 						}else{
-							player.sendMessage(Language.getText(player, "PREFIX")+"§cnicht gefunden!");
+							player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§cnicht gefunden!");
 						}
 						
 					}

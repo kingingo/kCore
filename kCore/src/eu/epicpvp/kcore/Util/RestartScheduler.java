@@ -9,8 +9,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.AntiLogout.AntiLogoutManager;
 import eu.epicpvp.kcore.Gilden.GildenManager;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
@@ -52,7 +52,7 @@ public class RestartScheduler implements Listener{
 	}
 	
 	public void broadcast(String name,Object input){
-		System.out.println(Language.getText(name, input));
+		System.out.println(TranslationManager.getText(name, input));
 		UtilServer.broadcastLanguage(name, input);
 	}
 	

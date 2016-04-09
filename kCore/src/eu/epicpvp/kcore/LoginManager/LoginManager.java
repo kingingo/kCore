@@ -19,11 +19,11 @@ import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.packets.PacketOutPlayerSettings;
 import eu.epicpvp.kcore.Command.CommandHandler;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.LoginManager.Commands.CommandCaptcha;
 import eu.epicpvp.kcore.LoginManager.Commands.CommandLogin;
 import eu.epicpvp.kcore.LoginManager.Commands.CommandRegister;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.TimeSpan;
@@ -131,11 +131,11 @@ public class LoginManager extends kListener{
 		if(ev.getType() == UpdateType.SEC_3){
 			for(Player player : UtilServer.getPlayers()){
 				if(this.login.containsKey(player.getName().toLowerCase())){
-					player.sendMessage(Language.getText(player, "PREFIX")+"§c/login [Password]");
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§c/login [Password]");
 				}else if(this.register.contains(player.getName().toLowerCase())){
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "REGISTER_MESSAGE"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "REGISTER_MESSAGE"));
 				}else if(this.captcha.containsKey(player.getName().toLowerCase())){
-					player.sendMessage(Language.getText(player, "PREFIX")+"§c/captcha [CAPTCHA]");
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§c/captcha [CAPTCHA]");
 				}
 			}
 		}

@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandFill implements CommandExecutor{
 
@@ -28,7 +28,7 @@ public class CommandFill implements CommandExecutor{
 						}
 					}
 				}
-				player.sendMessage(Language.getText(player,"PREFIX")+"§aDie Wasser Flaschen wurden bef§llt!");
+				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"§aDie Wasser Flaschen wurden bef§llt!");
 			}
 		}
 		return false;

@@ -8,10 +8,10 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Command.Commands.Events.PlayerSetHomeEvent;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.Permission;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import eu.epicpvp.kcore.Util.UtilString;
 import eu.epicpvp.kcore.kConfig.kConfig;
@@ -34,7 +34,7 @@ public class CommandSetHome implements CommandExecutor{
 		config = userData.getConfig(player);
 		
 		if(args.length==0){
-			player.sendMessage(Language.getText(player, "PREFIX")+"/sethome [Name]");
+			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/sethome [Name]");
 		}else{
 			if(player.hasPermission(PermissionType.HOME.getPermissionToString())){
 				int a=-1;
@@ -47,25 +47,25 @@ public class CommandSetHome implements CommandExecutor{
 				}
 				
 				if(!UtilString.isNormalCharakter(args[0])){
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_CHARAKTER"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_CHARAKTER"));
 					return false;
 				}
 				
 				if(a!=-1&&config.getPathList("homes").size()>=a){
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player,"HOME_MAX",String.valueOf(a)));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player,"HOME_MAX",String.valueOf(a)));
 					return false;
 				}
 				
 				PlayerSetHomeEvent ev = new PlayerSetHomeEvent(player,player.getLocation(),args[0]);
 				Bukkit.getPluginManager().callEvent(ev);
 				if(ev.isCancelled()){
-					if(ev.getReason()!=null)player.sendMessage(Language.getText(player, "PREFIX")+ev.getReason());
+					if(ev.getReason()!=null)player.sendMessage(TranslationManager.getText(player, "PREFIX")+ev.getReason());
 					return false;
 				}
 				
 				config.setLocation("homes."+args[0], player.getLocation());
 				config.save();
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "HOME_SET",args[0]));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "HOME_SET",args[0]));
 			}
 		}
 		return false;

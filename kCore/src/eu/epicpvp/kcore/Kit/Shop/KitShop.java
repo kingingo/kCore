@@ -19,10 +19,10 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Kit.Kit;
 import eu.epicpvp.kcore.Kit.KitType;
 import eu.epicpvp.kcore.Kit.Shop.Events.KitShopPlayerDeleteEvent;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.UtilEvent;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
@@ -128,46 +128,46 @@ public class KitShop implements Listener {
 		if(kit.getType()==KitType.STARTER){
 				inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 				inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
+				inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), TranslationManager.getText(p, "KIT_SHOP_CHOOSE")));
 			}else if(kit.getType()==KitType.ADMIN){
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, PermissionType.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), TranslationManager.getText(p, "KIT_SHOP_CHOOSE")));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_ADMIN")} ,"§4Spezial-Kit"));
+					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{TranslationManager.getText(p, "KIT_SHOP_ADMIN")} ,"§4Spezial-Kit"));
 				}
 			}else if(kit.getType()==KitType.SPEZIAL_KIT){
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, PermissionType.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), TranslationManager.getText(p, "KIT_SHOP_CHOOSE")));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_SPEZIAL1"),Language.getText(p, "KIT_SHOP_SPEZIAL2")} ,"§4Spezial-Kit"));
+					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{TranslationManager.getText(p, "KIT_SHOP_SPEZIAL1"),TranslationManager.getText(p, "KIT_SHOP_SPEZIAL2")} ,"§4Spezial-Kit"));
 				}
 			}else if(kit.getType()==KitType.MVP||kit.getType()==KitType.MVP_PLUS||kit.getType()==KitType.VIP||kit.getType()==KitType.ULTRA||kit.getType()==KitType.LEGEND){
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, PermissionType.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), TranslationManager.getText(p, "KIT_SHOP_CHOOSE")));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{Language.getText(p, "KIT_SHOP_PREMIUM"),"§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
+					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{TranslationManager.getText(p, "KIT_SHOP_PREMIUM"),"§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
 				}
 			}else{
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, PermissionType.ALL_KITS)){
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), Language.getText(p, "KIT_SHOP_CHOOSE")));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.EMERALD), TranslationManager.getText(p, "KIT_SHOP_CHOOSE")));
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.GLOWSTONE_DUST) ,Language.getText(p,"KIT_SHOP_BUY")));
+					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.GLOWSTONE_DUST) ,TranslationManager.getText(p,"KIT_SHOP_BUY")));
 				}
 			}
 		
@@ -182,7 +182,7 @@ public class KitShop implements Listener {
 				inventory.getItem(i).setItemMeta(im);
 			}
 		}
-		inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), Language.getText(p, "KIT_BACK")));
+		inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), TranslationManager.getText(p, "KIT_BACK")));
 		
 		return inventory;
 	}
@@ -200,7 +200,7 @@ public class KitShop implements Listener {
 	}
 	
 	public Inventory getKaufen(Kit kit,Player p){
-		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName()+" "+Language.getText(p,"KIT_SHOP_BUY"));
+		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName()+" "+TranslationManager.getText(p,"KIT_SHOP_BUY"));
 		switch(kit.getType()){
 			case KAUFEN:
 				inventory.setItem(3, UtilItem.RenameItem(new ItemStack(Material.GOLD_NUGGET), "§e"+kit.getCoins_preis()+" Coins"));
@@ -252,14 +252,14 @@ public class KitShop implements Listener {
 						getInv(p);
 					}else if(ev.getCurrentItem().getType()==Material.EMERALD){
 						kit.addPlayer(p);
-						p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_ADD",kit.getName()));
+						p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "KIT_SHOP_ADD",kit.getName()));
 						p.closeInventory();
 						UtilInv.remove(p, UtilItem.RenameItem(new ItemStack(Material.CHEST), "§bKitShop"), 1);
 					}else if(ev.getCurrentItem().getType()==Material.GLOWSTONE_DUST){
 						p.openInventory(getKaufen(kit,p));
 					}
 					break;
-				}else if(String.valueOf(kit.getName()+" "+Language.getText(p,"KIT_SHOP_BUY")).equalsIgnoreCase(ev.getInventory().getName())){
+				}else if(String.valueOf(kit.getName()+" "+TranslationManager.getText(p,"KIT_SHOP_BUY")).equalsIgnoreCase(ev.getInventory().getName())){
 					ev.setCancelled(true);
 					p.closeInventory();
 					
@@ -268,18 +268,18 @@ public class KitShop implements Listener {
 						if(c>=kit.getCoins_preis()){
 							getStatsManager().add(p, StatsKey.COINS, -kit.getCoins_preis());
 							getPermManager().addPermission(p, kit.getPermission());
-							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
+							p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
 						}else{
-							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_NO_MONEY","Coins"));
+							p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "KIT_SHOP_NO_MONEY","Coins"));
 						}
 					}else if(ev.getCurrentItem().getType()==Material.EMERALD){
 						int c = getStatsManager().getInt(p, StatsKey.GEMS);
 						if(c>=kit.getGems_preis()){
 							getStatsManager().add(p, StatsKey.GEMS, -kit.getGems_preis());
 							getPermManager().addPermission(p, kit.getPermission());
-							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
+							p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "KIT_SHOP_BUYED_KIT",kit.getName()));
 						}else{
-							p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "KIT_SHOP_NO_MONEY","Gems"));
+							p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "KIT_SHOP_NO_MONEY","Gems"));
 						}
 					}
 					break;

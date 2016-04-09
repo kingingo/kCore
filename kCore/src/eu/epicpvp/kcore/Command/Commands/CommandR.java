@@ -13,8 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Command.Commands.Events.PlayerMsgSendEvent;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandR extends kListener implements CommandExecutor{
 
@@ -32,7 +32,7 @@ public class CommandR extends kListener implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player=(Player)sender;
 		if(args.length==0){
-			player.sendMessage(Language.getText(player, "PREFIX")+"/r [Text]");
+			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/r [Text]");
 		}else{
 			if(list.containsKey(player)){
 				if(list.get(player).isOnline()){
@@ -45,13 +45,13 @@ public class CommandR extends kListener implements CommandExecutor{
 					sb.setLength(sb.length() - 1);
 					msg = sb.toString();
 					Bukkit.getPluginManager().callEvent(new PlayerMsgSendEvent(player, target, msg,false));
-					target.sendMessage(Language.getText(player, "PREFIX")+player.getName()+"->"+Language.getText(target, "ME")+":§b "+msg);
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ME")+"->"+target.getName()+":§b "+msg);
+					target.sendMessage(TranslationManager.getText(player, "PREFIX")+player.getName()+"->"+TranslationManager.getText(target, "ME")+":§b "+msg);
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "ME")+"->"+target.getName()+":§b "+msg);
 				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PLAYER_IS_OFFLINE",list.get(player).getName()));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",list.get(player).getName()));
 				}
 			}else{
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NO_ANSWER_PARTNER"));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_ANSWER_PARTNER"));
 			}
 		}
 		return false;

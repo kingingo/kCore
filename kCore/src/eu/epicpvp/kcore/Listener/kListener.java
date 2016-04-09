@@ -20,7 +20,7 @@ public class kListener implements Listener{
 	    Bukkit.getServer().getPluginManager().registerEvents(listener, instance);
 	}
 	
-	protected void Log(String message){
+	public void Log(String message){
 	  System.out.println("["+this.moduleName+"]: "+message);
 	}
 	

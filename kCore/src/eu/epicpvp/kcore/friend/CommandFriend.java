@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandFriend implements CommandExecutor{
@@ -39,32 +39,32 @@ public class CommandFriend implements CommandExecutor{
 				if(args.length!=2)return false;
 				String f = args[1];
 				if(!UtilPlayer.isOnline(f)){
-					p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "PLAYER_IS_OFFLINE",f));
+					p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "PLAYER_IS_OFFLINE",f));
 					return false;
 				}
 				Player friend = Bukkit.getPlayer(f);
 				
 				if(manager.getFriendList().containsKey(UtilPlayer.getRealUUID(p))&&manager.getFriendList().get(UtilPlayer.getRealUUID(p)).contains( UtilPlayer.getRealUUID(friend) )){
-					p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_EXIST",args[1]));
+					p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_EXIST",args[1]));
 					return false;
 				}
 				
 				if(f.equalsIgnoreCase(p.getName())){
-					p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_YOURE_SELF"));
+					p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_YOURE_SELF"));
 					return false;
 				}
 				if(!UtilPlayer.isOnline(f)){
-					p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "PLAYER_IS_OFFLINE",f));
+					p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "PLAYER_IS_OFFLINE",f));
 					return false;
 				}
 				manager.getAnfrage().put(friend, p);
-				friend.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_GET",p.getName()));
-				p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_SEND",friend.getName()));
+				friend.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_GET",p.getName()));
+				p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_SEND",friend.getName()));
 			}else if(args[0].equalsIgnoreCase("del")||args[0].equalsIgnoreCase("remove")||args[0].equalsIgnoreCase("entfernen")){
 				if(args.length!=2)return false;
 				String friend = args[1].toLowerCase();
 				if(friend.equalsIgnoreCase(p.getName())){
-					p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_YOURE_SELF"));
+					p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_YOURE_SELF"));
 					return false;
 				}
 				UUID uuid;
@@ -82,29 +82,29 @@ public class CommandFriend implements CommandExecutor{
 						manager.DelFriend(p, uuid);
 						if(manager.getFriendList().containsKey(uuid))manager.getFriendList().remove(uuid);
 						manager.getFriendList().get( UtilPlayer.getRealUUID(p) ).remove(uuid);
-						p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_DEL",friend));
+						p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_DEL",friend));
 					}
 				}else{
-					p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_NOT",friend));
+					p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_NOT",friend));
 				}
 			}else if(args[0].equalsIgnoreCase("annehmen")||args[0].equalsIgnoreCase("agree")||args[0].equalsIgnoreCase("accept")){
 				if(manager.getAnfrage().containsKey(p)){
 					Player friend = manager.getAnfrage().get(p);
 					manager.getAnfrage().remove(p);
 					if(manager.getFriendList().get( UtilPlayer.getRealUUID(p) ).contains( UtilPlayer.getRealUUID(friend) )){
-						p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_EXIST",friend.getName()));
+						p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_EXIST",friend.getName()));
 						return false;
 					}
 					manager.addFriend(p, friend);
 					
-					if(friend.isOnline())friend.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_NOW",p.getName()));
-					p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_NOW",friend.getName()));
+					if(friend.isOnline())friend.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_NOW",p.getName()));
+					p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_NOW",friend.getName()));
 				}else{
-					p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+Language.getText(p, "FRIEND_ASK_NOT"));
+					p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+TranslationManager.getText(p, "FRIEND_ASK_NOT"));
 				}
 			}else if(args[0].equalsIgnoreCase("list")){
 				if(manager.getFriendList().get(UtilPlayer.getRealUUID(p)).isEmpty()){
-					p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+"Du hast keine Freunde!");
+					p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+"Du hast keine Freunde!");
 				}else{
 					String l = "List: ";
 					for(UUID n : manager.getFriendList().get(UtilPlayer.getRealUUID(p))){
@@ -116,7 +116,7 @@ public class CommandFriend implements CommandExecutor{
 						}
 					}
 					l=l.substring(0, l.length()-1);
-					p.sendMessage(Language.getText(p, "FRIEND_PREFIX")+l);
+					p.sendMessage(TranslationManager.getText(p, "FRIEND_PREFIX")+l);
 				}
 			}
 		}

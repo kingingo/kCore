@@ -14,7 +14,7 @@ import eu.epicpvp.kcore.Inventory.Inventory.InventoryCopy;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonPerkOnOff;
 import eu.epicpvp.kcore.Kit.Perk;
 import eu.epicpvp.kcore.Kit.PerkManager;
-import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.InventorySplit;
 import eu.epicpvp.kcore.Util.UtilInv;
@@ -64,7 +64,7 @@ public class CommandPerk implements CommandExecutor{
 		if(manager.hasPlayer(p)){
 			((InventoryCopy)manager.getPage()).open(p, UtilInv.getBase());
 		}else{
-			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "PERK_NOT_BOUGHT"));
+			p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "PERK_NOT_BOUGHT"));
 		}
 		return false;
 	}

@@ -9,8 +9,8 @@ import org.bukkit.inventory.ItemStack;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryCopy;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonOpenInventoryCopy;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilNumber;
 
@@ -32,37 +32,37 @@ public class CommandGems implements CommandExecutor{
 			if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 				if(args[0].equalsIgnoreCase("addc")){
 					if(args.length>=2){
-						player.sendMessage(Language.getText(player, "PREFIX")+shop.addCategory(UtilNumber.toInt(args[1]), args[2], player.getItemInHand()));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+shop.addCategory(UtilNumber.toInt(args[1]), args[2], player.getItemInHand()));
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/gems addc [SLOT] [PageName]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/gems addc [SLOT] [PageName]");
 					}
 				}else if(args[0].equalsIgnoreCase("delc")){
 					if(args.length>=1){
 						shop.delCategory(UtilNumber.toInt(args[1]));
-						player.sendMessage(Language.getText(player, "PREFIX")+"§cCategory entfernt!");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§cCategory entfernt!");
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/gems delc [SLOT]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/gems delc [SLOT]");
 					}
 				}else if(args[0].equalsIgnoreCase("getc")){
 					for(int i = 9; i < 35; i++){
 						if(shop.getBase().getMain().getItem(i)!=null){
-							player.sendMessage(Language.getText(player, "PREFIX")+"ID: "+i+" ITEM:"+shop.getBase().getMain().getItem(i).getItemMeta().getDisplayName());
+							player.sendMessage(TranslationManager.getText(player, "PREFIX")+"ID: "+i+" ITEM:"+shop.getBase().getMain().getItem(i).getItemMeta().getDisplayName());
 						}
 					}
 				}else if(args[0].equalsIgnoreCase("addp")){
 					if(args.length>=4){
 						ItemStack hand = player.getItemInHand();
-						player.sendMessage(Language.getText(player, "PREFIX")+shop.add(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]), hand, UtilNumber.toInt(args[3]), args[4]));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+shop.add(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]), hand, UtilNumber.toInt(args[3]), args[4]));
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/gems addp [CSLOT] [SLOT] [GEMS] [PERM]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/gems addp [CSLOT] [SLOT] [GEMS] [PERM]");
 					}
 				}else if(args[0].equalsIgnoreCase("addcmd")){
 					if(args.length>=3){
 						ItemStack hand = player.getItemInHand();
 						
-						player.sendMessage(Language.getText(player, "PREFIX")+shop.addcmd(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]), hand, UtilNumber.toInt(args[3]), args[4]));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+shop.addcmd(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]), hand, UtilNumber.toInt(args[3]), args[4]));
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/gems addcmd [CSLOT] [SLOT] [GEMS] [CMD]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/gems addcmd [CSLOT] [SLOT] [GEMS] [CMD]");
 					}
 				}else if(args[0].equalsIgnoreCase("addi")){
 					if(args.length>=3){
@@ -73,23 +73,23 @@ public class CommandGems implements CommandExecutor{
 							if(UtilItem.ItemNameEquals(reward[i], hand))reward[i]=null;
 						}
 						
-						player.sendMessage(Language.getText(player, "PREFIX")+shop.add(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]), hand, UtilNumber.toInt(args[3]), reward));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+shop.add(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]), hand, UtilNumber.toInt(args[3]), reward));
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/gems addi [CSLOT] [SLOT] [GEMS]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/gems addi [CSLOT] [SLOT] [GEMS]");
 					}
 				}else if(args[0].equalsIgnoreCase("del")){
 					if(args.length>=1){
 						shop.del(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]));
-						player.sendMessage(Language.getText(player, "PREFIX")+"§cItem entfernt!");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§cItem entfernt!");
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/gems del [CSLOT] [SLOT]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/gems del [CSLOT] [SLOT]");
 					}
 				}else if(args[0].equalsIgnoreCase("geti")){
 					if(args.length>=2){
 						InventoryCopy page = ((ButtonOpenInventoryCopy)shop.getBase().getMain().getButton(UtilNumber.toInt(args[1]))).getInventorySale();
 						player.setItemInHand(page.getItem(UtilNumber.toInt(args[2])));
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/gems geti [CSLOT] [SLOT]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/gems geti [CSLOT] [SLOT]");
 					}
 				}else if(args[0].equalsIgnoreCase("get")){
 					if(args.length>=1){
@@ -97,12 +97,12 @@ public class CommandGems implements CommandExecutor{
 						
 						for(int i = 9; i < 45; i++){
 							if(page.getItem(i)!=null){
-								player.sendMessage(Language.getText(player, "PREFIX")+"ID: "+i+" ITEM:"+page.getItem(i).getItemMeta().getDisplayName());
+								player.sendMessage(TranslationManager.getText(player, "PREFIX")+"ID: "+i+" ITEM:"+page.getItem(i).getItemMeta().getDisplayName());
 							}
 						}
 						
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+"/gems get [CSLOT]");
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/gems get [CSLOT]");
 					}
 				}else if(args[0].equalsIgnoreCase("reload")){
 					if(shop.getBase().getMain()!=null)shop.getBase().getMain().remove();
@@ -114,12 +114,12 @@ public class CommandGems implements CommandExecutor{
 					shop.getBase().getPages().clear();
 					
 					shop.load();
-					player.sendMessage(Language.getText(player, "PREFIX")+"§aReloaded");
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§aReloaded");
 				}else if(args[0].equalsIgnoreCase("setloc")){
 					if(shop.getListener()!=null&&shop.getListener().getEntity()!=null)shop.getListener().getEntity().remove();
 					
 					shop.setCreature(player.getLocation());
-					player.sendMessage(Language.getText(player, "PREFIX")+"§aLocation saved!");
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§aLocation saved!");
 				}
 			}else{
 				player.openInventory(shop.getBase().getMain());

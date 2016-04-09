@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Gilden.GildenType;
 import eu.epicpvp.kcore.Gilden.SkyBlockGildenManager;
-import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
@@ -70,10 +70,10 @@ public class Verlassen {
 					p.setDisplayName(p.getName());
 				}
 			}else{
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_IN_GILDE"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_PLAYER_IS_IN_GILDE"));
 			}
 		}else{
-			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde verlassen");
+			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+" /gilde verlassen");
 		}
 	}
 	

@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.connection.PacketListener;
 import dev.wolveringer.dataserver.gamestats.GameState;
 import dev.wolveringer.dataserver.gamestats.GameType;
@@ -17,11 +16,11 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.Arena.BestOf.GameRoundBestOf;
 import eu.epicpvp.kcore.Enum.Team;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Packets.PacketArenaSettings;
 import eu.epicpvp.kcore.Packets.PacketArenaStatus;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.UpdateAsync.UpdateAsyncType;
 import eu.epicpvp.kcore.UpdateAsync.Event.UpdateAsyncEvent;
 import eu.epicpvp.kcore.Util.UtilBG;
@@ -123,7 +122,7 @@ public class ArenaManager extends kListener  {
 				if(this.rounds.get(type).containsKey(c)){
 					for(UUID p : this.rounds.get(type).get(c).getPlayers()){
 						if(withMsg&&UtilPlayer.isOnline(p)){
-							Bukkit.getPlayer(p).sendMessage(Language.getText(Bukkit.getPlayer(p), "PREFIX")+Language.getText(Bukkit.getPlayer(p), "HUB_VERSUS_1VS1_CANCEL"));
+							Bukkit.getPlayer(p).sendMessage(TranslationManager.getText(Bukkit.getPlayer(p), "PREFIX")+TranslationManager.getText(Bukkit.getPlayer(p), "HUB_VERSUS_1VS1_CANCEL"));
 						}
 						this.rounds_player.remove(p);
 					}

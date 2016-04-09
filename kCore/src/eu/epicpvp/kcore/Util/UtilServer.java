@@ -45,12 +45,12 @@ import eu.epicpvp.kcore.Hologram.Hologram;
 import eu.epicpvp.kcore.ItemShop.ItemShop;
 import eu.epicpvp.kcore.Kit.PerkManager;
 import eu.epicpvp.kcore.LagMeter.LagMeter;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.ClientListener.ClientListener;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.kPacketListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Update.Updater;
 import eu.epicpvp.kcore.UpdateAsync.UpdaterAsync;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
@@ -389,15 +389,15 @@ public class UtilServer{
   }
 
   public static void broadcastLanguage(String name,Object input){
-	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, Language.getText("PREFIX")+Language.getText(cur, name,input));
+	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, TranslationManager.getText("PREFIX")+TranslationManager.getText(cur, name,input));
   }
   
   public static void broadcastLanguage(String name,Object[] input){
-	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, Language.getText("PREFIX")+Language.getText(cur, name,input));
+	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, TranslationManager.getText("PREFIX")+TranslationManager.getText(cur, name,input));
   }
   
   public static void broadcastLanguage(String name){
-	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, Language.getText("PREFIX")+Language.getText(cur, name));
+	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, TranslationManager.getText("PREFIX")+TranslationManager.getText(cur, name));
   }
   
   public static void broadcast(String message){

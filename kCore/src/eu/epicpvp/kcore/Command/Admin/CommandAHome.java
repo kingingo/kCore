@@ -14,9 +14,9 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Command.Commands.CommandHome;
 import eu.epicpvp.kcore.Command.Commands.Events.PlayerHomeEvent;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.TeleportManager.Teleporter;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kConfig.kConfig;
@@ -40,13 +40,13 @@ public class CommandAHome implements CommandExecutor{
 		
 		if(player.hasPermission(PermissionType.HOME_ADMIN.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"/ahome [Player] [Home]");
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/ahome [Player] [Home]");
 			}else{
 				if(UtilPlayer.isOnline(args[0])){
 					config=cmdHome.getUserData().getConfig( Bukkit.getPlayer(args[0]) );
 					
 				}else{
-					player.sendMessage(Language.getText(player,"PREFIX")+Language.getText(player,"PLAYER_IS_OFFLINE",args[0]));
+					player.sendMessage(TranslationManager.getText(player,"PREFIX")+TranslationManager.getText(player,"PLAYER_IS_OFFLINE",args[0]));
 					UUID uuid = UtilPlayer.getUUID(args[0], UtilServer.getMysql());
 					if(uuid!=null){
 						config=cmdHome.getUserData().loadConfig(uuid);
@@ -58,25 +58,25 @@ public class CommandAHome implements CommandExecutor{
 					String homes = "";
 					list = config.getPathList("homes");
 					for(String s : list.keySet())homes+=s+",";
-					player.sendMessage(Language.getText(player, "PREFIX")+ (homes.equalsIgnoreCase("") ? Language.getText(player,"HOMES_EMPTY") : args[0]+" Homes: "+homes.substring(0,homes.length()-1)) );	
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+ (homes.equalsIgnoreCase("") ? TranslationManager.getText(player,"HOMES_EMPTY") : args[0]+" Homes: "+homes.substring(0,homes.length()-1)) );	
 				}else{
 					if(config.isSet("homes."+args[1])){
 						home = config.getLocation("homes."+args[1]);
 						PlayerHomeEvent ev = new PlayerHomeEvent(player, home, config);
 						Bukkit.getPluginManager().callEvent(ev);
 						if(ev.isCancelled()){
-							if(ev.getReason()!=null)player.sendMessage(Language.getText(player, "PREFIX")+ev.getReason());
+							if(ev.getReason()!=null)player.sendMessage(TranslationManager.getText(player, "PREFIX")+ev.getReason());
 							return false;
 						}
 						
 						if(player.hasPermission(PermissionType.HOME_BYEPASS_DELAY.getPermissionToString())){
 							player.teleport(home,TeleportCause.PLUGIN);
-							player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "TELEPORT"));
+							player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "TELEPORT"));
 						}else{
 							cmdHome.getTeleport().getTeleport().add(new Teleporter(player,home,5));
 						}
 					}else{
-						player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "HOME_EXIST"));
+						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "HOME_EXIST"));
 					}
 				}
 			}

@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilFile;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
@@ -31,10 +31,10 @@ public class CommandLocations implements CommandExecutor{
 		if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 			if(args.length==0){
 				for(String s : getLocations())
-					player.sendMessage(Language.getText(player, "PREFIX")+"/loc "+s);
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/loc "+s);
 			}else{
 				setLocation(player.getLocation(), args[0]);
-				player.sendMessage(Language.getText(player, "PREFIX")+"§aDie Location wurde gespeichert!");
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§aDie Location wurde gespeichert!");
 			}
 		}
 		return false;

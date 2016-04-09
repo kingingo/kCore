@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
@@ -29,12 +29,12 @@ public class CommandSetUserShop implements CommandExecutor{
 				if(player.getWorld().getUID() != Bukkit.getWorld("world").getUID()){
 					config.setLocation("shops."+player.getName().toLowerCase(), player.getLocation());
 					config.save();
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SHOP_SET"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SHOP_SET"));
 				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SHOP_NOT_IN_WORLD"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SHOP_NOT_IN_WORLD"));
 				}
 			}else{
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SHOP_NOT"));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SHOP_NOT"));
 			}
 		}
 		return false;

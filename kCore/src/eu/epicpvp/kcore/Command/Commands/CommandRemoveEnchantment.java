@@ -8,8 +8,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandRemoveEnchantment implements CommandExecutor{
 	
@@ -28,26 +28,26 @@ public class CommandRemoveEnchantment implements CommandExecutor{
 		
 		if(player.hasPermission(PermissionType.REMOVE_ENCHANTMENT.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(Language.getText(player, "PREFIX")+"/removeEnchantment [ENCHANTMENT]");
-				player.sendMessage(Language.getText(player, "PREFIX")+enchantments);
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/removeEnchantment [ENCHANTMENT]");
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+enchantments);
 			}else{
 				Enchantment ench = Enchantment.getByName(args[0]);
 				
 				if(ench==null){
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "enchantmentNotFound"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "enchantmentNotFound"));
 					return false;
 				}
 				
 				if(player.getItemInHand()==null||player.getItemInHand().getType()==Material.AIR){
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "HEAD_ITEM_EQUAL_NULL"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "HEAD_ITEM_EQUAL_NULL"));
 					return false;
 				}
 				
 				if(player.getItemInHand().getEnchantments().containsKey(ench)){
 					player.getItemInHand().removeEnchantment(ench);
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ENCHANTMENT_REMOVED"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "ENCHANTMENT_REMOVED"));
 				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "ENCHANTMENT_NOT_FOUND_ITEM"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "ENCHANTMENT_NOT_FOUND_ITEM"));
 				}
 			}
 		}

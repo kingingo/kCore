@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandSonne implements CommandExecutor{
 	
@@ -17,7 +17,7 @@ public class CommandSonne implements CommandExecutor{
 		if(player.hasPermission(PermissionType.SUN.getPermissionToString())){
 			if(args.length==0){
 				player.getWorld().setStorm(false);
-				player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "SUN"));
+				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SUN"));
 			}
 		}
 		return false;

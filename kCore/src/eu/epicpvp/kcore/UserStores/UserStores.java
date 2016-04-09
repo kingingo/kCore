@@ -37,10 +37,10 @@ import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBase;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonCopy;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Scheduler.kScheduler;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
 import eu.epicpvp.kcore.UserStores.Events.PlayerCreateUserStoreEvent;
@@ -271,14 +271,14 @@ public class UserStores extends kListener{
 						
 						if(Action.RIGHT_CLICK_BLOCK == a && Action.LEFT_CLICK_BLOCK == a){
 							ev.setCancelled(true);
-							p.sendMessage(Language.getText(p, "PREFIX")+"§cNicht so Schnell ...");
+							p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§cNicht so Schnell ...");
 							return;
 						}else if(Action.RIGHT_CLICK_BLOCK == a){
 							if(this.timer.containsKey(p)){
 		                		if(this.timer.get(p) <= System.currentTimeMillis()){
 		                			this.timer.remove(p);
 		                		}else{
-		                			p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SIGN_SHOP_DELAY",3));
+		                			p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_DELAY",3));
 		                			return;
 		                		}
 		                	}
@@ -320,21 +320,21 @@ public class UserStores extends kListener{
 												items.clear();
 												p.updateInventory();
 												ev.setCancelled(true);
-					        					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SIGN_SHOP_GET",new String[]{String.valueOf(anzahl), String.valueOf(item.getTypeId()),String.valueOf((preis*anzahl))}));
+					        					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_GET",new String[]{String.valueOf(anzahl), String.valueOf(item.getTypeId()),String.valueOf((preis*anzahl))}));
 					        				}else{
-												p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SHOP_AMOUNT_NOT_ENOUGH"));
+												p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SHOP_AMOUNT_NOT_ENOUGH"));
 											}
 										}else{
-											p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SHOP_HAND"));
+											p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SHOP_HAND"));
 										}
 									}else{
-										p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SHOP_SELF"));
+										p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SHOP_SELF"));
 									}
 								}else{
-									p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "SHOP_EMPTY"));
+									p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SHOP_EMPTY"));
 								}
 							}else{
-								p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "NOT_ENOUGH_MONEY"));
+								p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "NOT_ENOUGH_MONEY"));
 							}
 						}
 					}else{

@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 import org.bukkit.Material;
 
+import dev.wolveringer.client.LanguageType;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.IButton;
-import eu.epicpvp.kcore.Language.LanguageType;
 import eu.epicpvp.kcore.Util.InventorySize;
 
 public class InventoryLanguage{

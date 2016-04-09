@@ -13,9 +13,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandVanish extends kListener implements CommandExecutor{
@@ -34,10 +34,10 @@ public class CommandVanish extends kListener implements CommandExecutor{
 			if(args.length==0){
 				if(invisible.contains(player)){
 					visible(player);
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "VANISH_AUS"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "VANISH_AUS"));
 				}else{
 					invisible(player);
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "VANISH_AN"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "VANISH_AN"));
 				}
 			}
 		}

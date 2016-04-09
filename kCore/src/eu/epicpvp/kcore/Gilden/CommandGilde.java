@@ -15,8 +15,8 @@ import eu.epicpvp.kcore.Gilden.Commands.Kicken;
 import eu.epicpvp.kcore.Gilden.Commands.Money;
 import eu.epicpvp.kcore.Gilden.Commands.Ranking;
 import eu.epicpvp.kcore.Gilden.Commands.Verlassen;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandGilde implements CommandExecutor{
 	
@@ -32,22 +32,22 @@ public class CommandGilde implements CommandExecutor{
 		p = (Player)cs;
 		if(args.length==0){
 			p.sendMessage("§b§§§§§§§§§§§§§§§§§§§§§§§§§§§§§6§l GILDE §b§§§§§§§§§§§§§§§§§§§§§§§§§§§§");
-			p.sendMessage(Language.getText(p, "GILDE_CMD1"));
-			p.sendMessage(Language.getText(p, "GILDE_CMD2"));
-			p.sendMessage(Language.getText(p, "GILDE_CMD3"));
-			p.sendMessage(Language.getText(p, "GILDE_CMD4"));
-			p.sendMessage(Language.getText(p, "GILDE_CMD5"));
-			p.sendMessage(Language.getText(p, "GILDE_CMD6"));
-			p.sendMessage(Language.getText(p, "GILDE_CMD7"));
-			p.sendMessage(Language.getText(p, "GILDE_CMD14"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_CMD1"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_CMD2"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_CMD3"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_CMD4"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_CMD5"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_CMD6"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_CMD7"));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_CMD14"));
 			if(manager.getTyp()==GildenType.PVP){
-				p.sendMessage(Language.getText(p, "GILDE_CMD8"));
-				p.sendMessage(Language.getText(p, "GILDE_CMD9"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_CMD8"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_CMD9"));
 			}else if(manager.getTyp()==GildenType.SKY){
-				p.sendMessage(Language.getText(p, "GILDE_CMD10"));
-				p.sendMessage(Language.getText(p, "GILDE_CMD11"));
-				p.sendMessage(Language.getText(p, "GILDE_CMD12"));
-				p.sendMessage(Language.getText(p, "GILDE_CMD13"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_CMD10"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_CMD11"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_CMD12"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_CMD13"));
 			}
 			p.sendMessage("§b§ §§§§§§§§§§§§§§§§§§§§§§§§§§§6§l GILDE §b§§§§§§§§§§§§§§§§§§§§§§§§§§§§");
 		}else if(args.length > 0){
@@ -78,7 +78,7 @@ public class CommandGilde implements CommandExecutor{
 			}else if(manager.getTyp()==GildenType.SKY&&p.hasPermission(PermissionType.GILDE_NEWISLAND.getPermissionToString())&&args[0].equalsIgnoreCase("newisland")){
 				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
 				sky.getSky().getGilden_world().newIsland(args[1]);
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+"§aDone.");
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+"§aDone.");
 			}
 		}
 		return false;

@@ -10,9 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryChoose;
 import eu.epicpvp.kcore.Inventory.Item.Click;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Pet.Setting.PetSetting;
 import eu.epicpvp.kcore.Pet.Shop.PlayerPetHandler;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilItem;
@@ -38,7 +38,7 @@ public class CommandPet implements CommandExecutor{
 					handler.getManager().AddPetOwner(player, "§7"+player.getName()+"s Pet", handler.getEntityType(handler.getPerm( ((ItemStack)object).getItemMeta().getDisplayName() )), player.getLocation());
 					if(!handler.getChange_settings().contains(player))handler.getChange_settings().add(player);
 				}else{
-					player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "PET_MUST_BUYED_IN_SHOP"));
+					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PET_MUST_BUYED_IN_SHOP"));
 				}
 				player.closeInventory();
 			}

@@ -14,10 +14,10 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Command.CommandHandler;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Neuling.Events.NeulingEvent;
 import eu.epicpvp.kcore.Neuling.Events.NeulingSchutzEndEvent;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.TimeSpan;
@@ -49,7 +49,7 @@ public class NeulingManager extends kListener{
 		if(getPlayers().containsKey(player)){
 			getPlayers().remove(player);
 			Bukkit.getPluginManager().callEvent(new NeulingSchutzEndEvent(player,this));
-			if(player.isOnline())player.sendMessage(Language.getText(player, "PREFIX")+Language.getText(player, "NEULING_END"));
+			if(player.isOnline())player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NEULING_END"));
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class NeulingManager extends kListener{
 			if(getPlayers().containsKey(v)){
 				ev.setCancelled(true);
 				if(ev.getDamager() instanceof Player){
-					((Player)ev.getDamager()).sendMessage(Language.getText(((Player)ev.getDamager()), "PREFIX")+Language.getText(((Player)ev.getDamager()), "NEULING_SCHUTZ",v.getName()));
+					((Player)ev.getDamager()).sendMessage(TranslationManager.getText(((Player)ev.getDamager()), "PREFIX")+TranslationManager.getText(((Player)ev.getDamager()), "NEULING_SCHUTZ",v.getName()));
 				}
 			}
 			
@@ -84,14 +84,14 @@ public class NeulingManager extends kListener{
 				a=(Player)ev.getDamager();
 				if(getPlayers().containsKey(a)){
 					ev.setCancelled(true);
-					a.sendMessage(Language.getText(a, "PREFIX")+Language.getText(a, "NEULING_SCHUTZ_YOU"));
+					a.sendMessage(TranslationManager.getText(a, "PREFIX")+TranslationManager.getText(a, "NEULING_SCHUTZ_YOU"));
 				}
 			}else if(ev.getDamager() instanceof Projectile){
 				if(((Projectile)ev.getDamager()).getShooter() instanceof Player){
 					a=(Player)((Projectile)ev.getDamager()).getShooter();
 					if(getPlayers().containsKey(a)){
 						ev.setCancelled(true);
-						a.sendMessage(Language.getText(a, "PREFIX")+Language.getText(a, "NEULING_SCHUTZ_YOU"));
+						a.sendMessage(TranslationManager.getText(a, "PREFIX")+TranslationManager.getText(a, "NEULING_SCHUTZ_YOU"));
 					}
 				}
 			}
@@ -101,7 +101,7 @@ public class NeulingManager extends kListener{
 	@EventHandler
 	public void Pickup(PlayerPickupItemEvent ev){
 		if(getPlayers().containsKey(ev.getPlayer())){
-			ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+Language.getText(ev.getPlayer(), "NEULING_SCHUTZ_YOU"));
+			ev.getPlayer().sendMessage(TranslationManager.getText(ev.getPlayer(), "PREFIX")+TranslationManager.getText(ev.getPlayer(), "NEULING_SCHUTZ_YOU"));
 			ev.setCancelled(true);
 		}
 	}
@@ -109,7 +109,7 @@ public class NeulingManager extends kListener{
 	@EventHandler
 	public void Drop(PlayerDropItemEvent ev){
 		if(getPlayers().containsKey(ev.getPlayer())){
-			ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+Language.getText(ev.getPlayer(), "NEULING_SCHUTZ_YOU"));
+			ev.getPlayer().sendMessage(TranslationManager.getText(ev.getPlayer(), "PREFIX")+TranslationManager.getText(ev.getPlayer(), "NEULING_SCHUTZ_YOU"));
 			ev.setCancelled(true);
 		}
 	}

@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Gilden.GildenManager;
-import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
@@ -15,7 +15,7 @@ public class Money {
 	public static void use(Player p,String[] args,GildenManager manager){
 		if(args.length==3){
 			if(!manager.isPlayerInGilde(p)){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 				return;
 			}
 			String g = manager.getPlayerGilde(p);
@@ -23,17 +23,17 @@ public class Money {
 			if(args[1].equalsIgnoreCase("abheben")||args[1].equalsIgnoreCase("take")||args[1].equalsIgnoreCase("withdraws")){
 				UUID owner=manager.getOwner(g);
 				if(!owner.equals(UtilPlayer.getRealUUID(p))){
-					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_OWNER_NOT"));
+					p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_OWNER_NOT"));
 					return;
 				}
 				double money = UtilNumber.toDouble(args[2]);
 				if(money==0){
-					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "NO_INTEGER"));
+					p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "NO_INTEGER"));
 				}else{
 					if(money<0)return;
 					
 					if(manager.getDouble(StatsKey.MONEY, g) < money){
-						p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_NOT_ENOUGH_MONEY"));
+						p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_NOT_ENOUGH_MONEY"));
 					}else{
 						System.err.println("[GildenManager] Gilde:"+g);
 						System.err.println("[GildenManager] Kontostand-Gilde: "+manager.getDouble(StatsKey.MONEY, g));
@@ -49,12 +49,12 @@ public class Money {
 			}else if(args[1].equalsIgnoreCase("einzahlen")||args[1].equalsIgnoreCase("pay")||args[1].equalsIgnoreCase("deposite")){
 				double money = UtilNumber.toDouble(args[2]);
 				if(money==0){
-					p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "NO_INTEGER"));
+					p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "NO_INTEGER"));
 				}else{
 					if(money<0)return;
 					
 					if(manager.getStatsManager().getDouble(p, StatsKey.MONEY) < money){
-						p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_NOT_ENOUGH_MONEY"));
+						p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_NOT_ENOUGH_MONEY"));
 					}else{
 						System.err.println("[GildenManager] Gilde:"+g);
 						System.err.println("[GildenManager] Kontostand-Gilde: "+manager.getDouble(StatsKey.MONEY, g));
@@ -68,12 +68,12 @@ public class Money {
 					}
 				}	
 			}else{
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde money abheben [Money]");
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde money einzahlen [Money]");
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+" /gilde money abheben [Money]");
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+" /gilde money einzahlen [Money]");
 			}
 		}else{
-			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde money abheben [Money]");
-			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde money einzahlen [Money]");
+			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+" /gilde money abheben [Money]");
+			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+" /gilde money einzahlen [Money]");
 		}
 	}
 	

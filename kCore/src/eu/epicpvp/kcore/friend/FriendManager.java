@@ -19,10 +19,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Command.CommandHandler;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.MySQL.MySQLErr;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
@@ -72,8 +72,8 @@ public class FriendManager implements Listener {
 				if(getFriendList().containsKey(UtilPlayer.getRealUUID(a)))getFriendList().remove(UtilPlayer.getRealUUID(a));
 				continue;
 			}
-			if(f.isOnline())f.sendMessage(Language.getText(f, "FRIEND_PREFIX")+Language.getText(f, "FRIEND_DEL_IN",new String[]{String.valueOf(i),a.getName()}));
-			if(a.isOnline())a.sendMessage(Language.getText(a, "FRIEND_PREFIX")+Language.getText(a, "FRIEND_DEL_IN",new String[]{String.valueOf(i),f.getName()}));
+			if(f.isOnline())f.sendMessage(TranslationManager.getText(f, "FRIEND_PREFIX")+TranslationManager.getText(f, "FRIEND_DEL_IN",new String[]{String.valueOf(i),a.getName()}));
+			if(a.isOnline())a.sendMessage(TranslationManager.getText(a, "FRIEND_PREFIX")+TranslationManager.getText(a, "FRIEND_DEL_IN",new String[]{String.valueOf(i),f.getName()}));
 			i--;
 			del_friend_timer.put(f, i);
 		}
@@ -134,7 +134,7 @@ public class FriendManager implements Listener {
 			if(getFriendList().containsKey(UtilPlayer.getRealUUID(attack))&&getFriendList().get(UtilPlayer.getRealUUID(attack)).contains(UtilPlayer.getRealUUID(defend))){
 				if(getFriendList().containsKey(UtilPlayer.getRealUUID(defend))&&getFriendList().get(UtilPlayer.getRealUUID(defend)).contains(UtilPlayer.getRealUUID(attack))){
 					ev.setCancelled(true);
-					attack.sendMessage(Language.getText(attack, "FRIEND_PREFIX")+Language.getText(attack, "FRIEND_HIT"));
+					attack.sendMessage(TranslationManager.getText(attack, "FRIEND_PREFIX")+TranslationManager.getText(attack, "FRIEND_HIT"));
 				}
 			}
 		}else if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Projectile){
@@ -148,7 +148,7 @@ public class FriendManager implements Listener {
 			if(getFriendList().containsKey(UtilPlayer.getRealUUID(((Player)attack_projectile.getShooter())))&&getFriendList().get(UtilPlayer.getRealUUID(((Player)attack_projectile.getShooter()))).contains(UtilPlayer.getRealUUID(defend))){
 				if(getFriendList().containsKey(UtilPlayer.getRealUUID(defend))&&getFriendList().get(UtilPlayer.getRealUUID(defend)).contains(UtilPlayer.getRealUUID(((Player)attack_projectile.getShooter())))){
 					ev.setCancelled(true);
-					((Player)attack_projectile.getShooter()).sendMessage(Language.getText(((Player)attack_projectile.getShooter()), "FRIEND_PREFIX")+Language.getText(((Player)attack_projectile.getShooter()), "FRIEND_HIT"));
+					((Player)attack_projectile.getShooter()).sendMessage(TranslationManager.getText(((Player)attack_projectile.getShooter()), "FRIEND_PREFIX")+TranslationManager.getText(((Player)attack_projectile.getShooter()), "FRIEND_HIT"));
 				}
 			}
 		}

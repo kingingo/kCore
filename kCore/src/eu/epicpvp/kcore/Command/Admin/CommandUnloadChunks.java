@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandUnloadChunks implements CommandExecutor{
@@ -19,7 +19,7 @@ public class CommandUnloadChunks implements CommandExecutor{
 			
 			if(player.hasPermission(PermissionType.MONITOR.getPermissionToString())){
 				if(args.length==0){
-					player.sendMessage(Language.getText(player,"PREFIX")+"/unloadchunks [World/ALL]");
+					player.sendMessage(TranslationManager.getText(player,"PREFIX")+"/unloadchunks [World/ALL]");
 				}else{
 					if(args[0].equalsIgnoreCase("all")){
 						if(UtilServer.getLagMeter()!=null)UtilServer.getLagMeter().unloadChunks(null, player);

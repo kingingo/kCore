@@ -10,9 +10,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 
 public class CommandChatMute extends kListener implements CommandExecutor{
 	
@@ -29,10 +29,10 @@ public class CommandChatMute extends kListener implements CommandExecutor{
 			if(p.hasPermission(PermissionType.COMMAND_MUTE_ALL.getPermissionToString())){
 				if(chat){
 					chat=false;
-					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "CHAT_MUTE"));
+					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "CHAT_MUTE"));
 				}else{
 					chat=true;
-					p.sendMessage(Language.getText(p, "PREFIX")+Language.getText(p, "CHAT_UNMUTE"));
+					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "CHAT_UNMUTE"));
 				}
 			}
 		}else{

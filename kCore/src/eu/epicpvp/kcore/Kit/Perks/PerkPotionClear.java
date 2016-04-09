@@ -10,7 +10,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import eu.epicpvp.kcore.Kit.Perk;
-import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilParticle;
@@ -47,7 +47,7 @@ public class PerkPotionClear extends Perk{
 								if(e.getType()!=PotionEffectType.JUMP)((Player)ev.getRightClicked()).removePotionEffect(e.getType());
 							}
 							}else{
-								ev.getPlayer().sendMessage(Language.getText(ev.getPlayer(), "PREFIX")+"§cDu musst noch §4"+UtilTime.formatMili( (timer.get(ev.getPlayer().getName())-System.currentTimeMillis()) )+"§c warten");
+								ev.getPlayer().sendMessage(TranslationManager.getText(ev.getPlayer(), "PREFIX")+"§cDu musst noch §4"+UtilTime.formatMili( (timer.get(ev.getPlayer().getName())-System.currentTimeMillis()) )+"§c warten");
 							}
 						}
 				}

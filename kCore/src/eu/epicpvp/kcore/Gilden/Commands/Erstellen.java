@@ -6,7 +6,7 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Gilden.GildenType;
 import eu.epicpvp.kcore.Gilden.SkyBlockGildenManager;
-import eu.epicpvp.kcore.Language.Language;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class Erstellen {
@@ -14,28 +14,28 @@ public class Erstellen {
 	public static void use(Player p,String[] args,GildenManager manager){
 		if(args.length==2){
 			if(manager.isPlayerInGilde(p)){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_PLAYER_IS_IN_GILDE"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_PLAYER_IS_IN_GILDE"));
 				return;
 			}
 			String g = args[1];
 			if(g.length()<2){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_NAME_LENGTH_MIN",2));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_NAME_LENGTH_MIN",2));
 				return;
 			}
 			if(g.length()>5){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_NAME_LENGTH_MAX",5));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_NAME_LENGTH_MAX",5));
 				return;
 			}
 			
 			if(g.contains("'"))return;
 			
 			if(manager.ExistGilde(g)){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_EXIST"));
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_EXIST"));
 				return;
 			}
 			
 			if(!g.matches("[a-zA-Z0-9]*")){
-				p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" §c§lDu hast ein Ung§ltiges Zeichen in deinen Clannamen!");
+				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+" §c§lDu hast ein Ung§ltiges Zeichen in deinen Clannamen!");
 				return;
 			}
 			
@@ -44,7 +44,7 @@ public class Erstellen {
 				if(sky.getStats().getDouble(p, StatsKey.MONEY)>=500.0){
 					sky.getStats().add(p, StatsKey.MONEY,-500.0);
 				}else{
-					p.sendMessage(Language.getText(p, "PREFIX")+"Du brauchst 500 Epics um eine Gilde zu erstellen.");
+					p.sendMessage(TranslationManager.getText(p, "PREFIX")+"Du brauchst 500 Epics um eine Gilde zu erstellen.");
 					return;
 				}
 			}
@@ -57,9 +57,9 @@ public class Erstellen {
 				manager.setInt(g, p.getLocation().getBlockZ(), StatsKey.LOC_Z);
 				manager.setString(g, p.getLocation().getWorld().getName(), StatsKey.WORLD);
 			}
-			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+Language.getText(p, "GILDE_CREATE",g));
+			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_CREATE",g));
 		}else{
-			p.sendMessage(Language.getText(p, "GILDE_PREFIX")+" /gilde erstellen [Gilde]");
+			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+" /gilde erstellen [Gilde]");
 		}
 	}
 	

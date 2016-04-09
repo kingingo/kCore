@@ -36,11 +36,11 @@ import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Get;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBase;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.LottoPackage;
-import eu.epicpvp.kcore.Language.Language;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.MySQL.MySQLErr;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;
+import eu.epicpvp.kcore.Translation.TranslationManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.InventorySize;
@@ -263,7 +263,7 @@ public class DeliveryPet extends kListener{
 			players_hm.get(ev.getPlayer()).sendToPlayer(ev.getPlayer());
 		}else{
 			players_hm_reward.put(ev.getPlayer(), getRewards(ev.getPlayer()));
-			players_hm.put(ev.getPlayer(), getHologramm().setCreatureName(ev.getPlayer(), (this.entity!=null?this.entity:this.jockey), new String[]{Language.getText(ev.getPlayer(), (players_hm_reward.get(ev.getPlayer())>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§f§l"+players_hm_reward.get(ev.getPlayer())),name,Language.getText(ev.getPlayer(),"DELIVERY_HM_3")}));
+			players_hm.put(ev.getPlayer(), getHologramm().setCreatureName(ev.getPlayer(), (this.entity!=null?this.entity:this.jockey), new String[]{TranslationManager.getText(ev.getPlayer(), (players_hm_reward.get(ev.getPlayer())>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§f§l"+players_hm_reward.get(ev.getPlayer())),name,TranslationManager.getText(ev.getPlayer(),"DELIVERY_HM_3")}));
 		}
 	}
 	
@@ -347,15 +347,15 @@ public class DeliveryPet extends kListener{
 				if(player.getLocation().getWorld()==getLocation().getWorld()&&player.getLocation().distance(getLocation())<25 && players_hm_reward.containsKey(player)){
 					if(players_hm_reward.get(player)==0){
 						if(!players_hm.get(player).getLines()[0].startsWith("§7")){
-							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§7"+players_hm_reward.get(player)));
+							players_hm.get(player).setLines(0, TranslationManager.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§7"+players_hm_reward.get(player)));
 							players_hm.get(player).clear(player);
 							players_hm.get(player).sendToPlayer(player);
 						}
 					}else{
 						if(players_hm.get(player).getLines()[0].startsWith("§f§l")||players_hm.get(player).getLines()[0].startsWith("§7")){
-							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§c§l"+players_hm_reward.get(player)));
+							players_hm.get(player).setLines(0, TranslationManager.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§c§l"+players_hm_reward.get(player)));
 						}else{
-							players_hm.get(player).setLines(0, Language.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§f§l"+players_hm_reward.get(player)));
+							players_hm.get(player).setLines(0, TranslationManager.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§f§l"+players_hm_reward.get(player)));
 						}
 						players_hm.get(player).clear(player);
 						players_hm.get(player).sendToPlayer(player);
@@ -450,7 +450,7 @@ public class DeliveryPet extends kListener{
 	}
 	
 	public String[] descriptionUSED(Player player,String obj){
-		return new String[]{Language.getText(player, "DELIVERY_USED", UtilTime.formatMili( players_obj.get(UtilPlayer.getRealUUID(player)).get(obj)-System.currentTimeMillis() ))};
+		return new String[]{TranslationManager.getText(player, "DELIVERY_USED", UtilTime.formatMili( players_obj.get(UtilPlayer.getRealUUID(player)).get(obj)-System.currentTimeMillis() ))};
 	}
 	
 	@EventHandler
@@ -500,7 +500,7 @@ public class DeliveryPet extends kListener{
 							if(lotto.getWin()==null){
 								lotto.newRound(player);
 							}else{
-								player.sendMessage(Language.getText(player, "PREFIX")+ Language.getText(player, "DELIVERY_LOTTO_USED"));
+								player.sendMessage(TranslationManager.getText(player, "PREFIX")+ TranslationManager.getText(player, "DELIVERY_LOTTO_USED"));
 							}
 						}
 						

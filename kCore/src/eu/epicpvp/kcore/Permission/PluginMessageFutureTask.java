@@ -10,7 +10,7 @@ public class PluginMessageFutureTask<T> {
 	private T response = null;
 	private RuntimeException exception;
 
-	protected void done(T response) {
+	public void done(T response) {
 		this.response = response;
 	}
 
