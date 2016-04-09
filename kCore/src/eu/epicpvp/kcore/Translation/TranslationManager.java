@@ -3,6 +3,9 @@ package eu.epicpvp.kcore.Translation;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,6 +29,7 @@ public class TranslationManager extends kListener {
 
 	public static void init(JavaPlugin instance) {
 		TranslationManager.instance = new TranslationManager(instance);
+		TranslationManager.instance.loadTranslations();
 	}
 	public static void changeLanguage(Player player,LanguageType language){
 		getInstance().changeLanguage0(player, language);
@@ -60,22 +64,46 @@ public class TranslationManager extends kListener {
 	}
 
 	@Getter
-	public HashMap<LanguageType, Translation> translations;
+	private HashMap<LanguageType, Translation> translations;
 	@Getter
-	public HashMap<UUID, LanguageType> players;
-
+	private HashMap<UUID, LanguageType> players;
 	@Getter
 	private JavaPlugin pluginInstance;
+	@Getter
+	private DocumentBuilderFactory factory;
+	@Getter
+	private DocumentBuilder builder;
 
 	public TranslationManager(JavaPlugin plugin) {
 		super(plugin, "TranslationManager");
+		this.pluginInstance = plugin;
+		this.factory = DocumentBuilderFactory.newInstance();
+		this.translations=new HashMap<>();
+		this.players=new HashMap<>();
+		
+		try{
+			this.builder=this.factory.newDocumentBuilder();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadTranslations(){
 		for (LanguageType language : LanguageType.values()) {
 			Translation trans = new Translation(language);
 			if (trans.load()) {
 				translations.put(language, trans);
 			}
 		}
-		pluginInstance = plugin;
+		
+		Translation source = translations.get(LanguageType.ENGLISH);
+		if(source != null){
+			for(Translation trans : translations.values()){
+				if(trans.getLanguage() != source.getLanguage()){
+					trans.calculateDone(source);
+				}
+			}
+		}
 	}
 
 	public void changeLanguage0(Player player, LanguageType language) {
@@ -118,14 +146,18 @@ public class TranslationManager extends kListener {
 	}
 
 	public String getText0(LanguageType language, String name, Object... input) {
-		String message = translations.get(language).get(name, input);
-		if (message == null) {
-			//new NullPointerException("Message not found? "+name);
-			System.out.println("Message '" + name + "' for language " + language.getShortName() + " not found!");
-			return getText0(language, "MSG_NOT_FOUND", name); //TODO try english translation!
-		}
+		if(translations.containsKey(language)){
+			String message = translations.get(language).get(name, input);
+			if (message == null) {
+				new NullPointerException("Message '" + name + "' for language " + language.getShortName() + " not found!").printStackTrace();
+				return getText0(language, "MSG_NOT_FOUND", name); //TODO try english translation!
+			}
 
-		return message;
+			return message;
+		}else{
+			new NullPointerException("Language "+language.getShortName()+"/"+name+" not found?!").printStackTrace();
+			return "";
+		}
 	}
 
 	@SuppressWarnings("deprecation")
