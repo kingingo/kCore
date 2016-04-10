@@ -4,6 +4,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import eu.epicpvp.kcore.Permission.PermissionManager;
+import eu.epicpvp.kcore.Permission.PermissionPlayer;
 import lombok.Getter;
 
 public class PlayerLoadPermissionEvent extends Event
@@ -13,9 +14,12 @@ public class PlayerLoadPermissionEvent extends Event
   private PermissionManager manager;
   @Getter
   private Player player;
+  @Getter
+  private PermissionPlayer permissionPlayer;
 
-  public PlayerLoadPermissionEvent(PermissionManager manager,Player player){
-	this.player=player;
+  public PlayerLoadPermissionEvent(PermissionManager manager,PermissionPlayer permissionPlayer){
+	this.player=permissionPlayer.getPlayer();
+	this.permissionPlayer=permissionPlayer;
 	this.manager=manager;
   }
 

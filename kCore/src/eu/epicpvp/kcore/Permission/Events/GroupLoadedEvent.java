@@ -3,6 +3,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import eu.epicpvp.kcore.Permission.PermissionManager;
+import eu.epicpvp.kcore.Permission.Group.Group;
 import lombok.Getter;
 
 public class GroupLoadedEvent extends Event
@@ -11,9 +12,9 @@ public class GroupLoadedEvent extends Event
   @Getter
   private PermissionManager manager;
   @Getter
-  private String group;
+  private Group group;
 
-  public GroupLoadedEvent(PermissionManager manager,String group){
+  public GroupLoadedEvent(PermissionManager manager,Group group){
 	this.group=group;
 	this.manager=manager;
   }
