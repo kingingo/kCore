@@ -86,7 +86,7 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		if(e.getChannel().equalsIgnoreCase("permission")){
 			byte action = e.getBuffer().readByte();
 			if(action == 0)
-				manager.updatePlayer(e.getBuffer().readUUID());
+				manager.updatePlayer(e.getBuffer().readInt());
 			else if(action == 1)
 				manager.updateGroup(e.getBuffer().readString());
 		}
@@ -103,7 +103,7 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		Bukkit.getScheduler().runTaskAsynchronously(manager.getInstance(), new BukkitRunnable() {
 			@Override
 			public void run() {
-				manager.loadPlayer(ev.getPlayer(), UtilPlayer.getRealUUID(ev.getPlayer()));
+				manager.loadPlayer(ev.getPlayer(), UtilPlayer.getPlayerId(ev.getPlayer()));
 				
 				Bukkit.getScheduler().runTask(manager.getInstance(), new BukkitRunnable() {
 					@Override
