@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Command.Commands.Events.PlayerMsgSendEvent;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandMsg implements CommandExecutor{
@@ -21,7 +21,7 @@ public class CommandMsg implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player=(Player)sender;
 		if(args.length<=1){
-			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/msg [Player] [Text]");
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/msg [Player] [Text]");
 		}else{
 			
 			if(args[0].equalsIgnoreCase(player.getName()))return false;
@@ -37,10 +37,10 @@ public class CommandMsg implements CommandExecutor{
 				sb.setLength(sb.length() - 1);
 				msg = sb.toString();
 				Bukkit.getPluginManager().callEvent(new PlayerMsgSendEvent(player, target, msg,true));
-				target.sendMessage(TranslationManager.getText(target, "PREFIX")+player.getName()+"->"+TranslationManager.getText(target, "ME")+": §b"+msg);
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "ME")+"->"+target.getName()+": §b"+msg);
+				target.sendMessage(TranslationHandler.getText(target, "PREFIX")+player.getName()+"->"+TranslationHandler.getText(target, "ME")+": §b"+msg);
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ME")+"->"+target.getName()+": §b"+msg);
 			}else{
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 			}
 		}
 		

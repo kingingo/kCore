@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.TeleportManager.TeleportManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import lombok.Getter;
 
 public class CommandTpaccept implements CommandExecutor{
@@ -28,15 +28,15 @@ public class CommandTpaccept implements CommandExecutor{
 			if(getManager().getTeleport_anfrage().containsKey(player)){
 				getManager().getTeleport().add(getManager().getTeleport_anfrage().get(player));
 				if(getManager().getTeleport_anfrage().get(player).getTo()!=null&&!getManager().getTeleport_anfrage().get(player).getTo().getName().equalsIgnoreCase(player.getName())){
-					getManager().getTeleport_anfrage().get(player).getTo().sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "ACCEPT_FROM",player.getName()));
+					getManager().getTeleport_anfrage().get(player).getTo().sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ACCEPT_FROM",player.getName()));
 				}
 				if(getManager().getTeleport_anfrage().get(player).getFrom()!=null&&!getManager().getTeleport_anfrage().get(player).getFrom().getName().equalsIgnoreCase(player.getName())){
-					getManager().getTeleport_anfrage().get(player).getFrom().sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "ACCEPT_FROM",player.getName()));
+					getManager().getTeleport_anfrage().get(player).getFrom().sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ACCEPT_FROM",player.getName()));
 				}
 				getManager().getTeleport_anfrage().remove(player);
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "ACCEPT"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ACCEPT"));
 			}else{
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_ANFRAGE"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NO_ANFRAGE"));
 			}
 		}
 		return false;

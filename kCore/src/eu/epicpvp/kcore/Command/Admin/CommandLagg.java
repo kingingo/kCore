@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandLagg implements CommandExecutor{
@@ -23,7 +23,7 @@ public class CommandLagg implements CommandExecutor{
 				}else{
 					if(args[0].equalsIgnoreCase("gc")){
 						System.gc();
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§aSystem GC ausgef§hrt!");
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aSystem GC ausgef§hrt!");
 					}
 				}	
 			}

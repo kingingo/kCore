@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
@@ -20,7 +21,7 @@ public class ChatListener extends kListener{
 	private PermissionManager manager;
 	@Setter
 	private GildenManager gildenmanager;
-	private String suffix="§8 § §7";
+	private String suffix="§8 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7";
 	@Setter
 	private UserDataConfig userData;
 	

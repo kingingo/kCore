@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayInTabComplete;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilServer;
 import net.minecraft.server.v1_8_R3.PacketPlayInTabComplete;
 
@@ -16,7 +16,7 @@ public class ListenerCMD extends kListener{
 	public ListenerCMD(JavaPlugin instance) {
 		super(instance, "ListenerCMD");
 		UtilServer.createPacketListener(instance);
-		org.spigotmc.SpigotConfig.unknownCommandMessage=TranslationManager.getText("PREFIX")+TranslationManager.getText("UNKNOWN_CMD");
+		org.spigotmc.SpigotConfig.unknownCommandMessage=TranslationHandler.getText("PREFIX")+TranslationHandler.getText("UNKNOWN_CMD");
 	}
 	
 	String cmd;

@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Enum.Mob;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilTime;
 
 public class CommandSpawner implements CommandExecutor{
@@ -28,21 +28,21 @@ public class CommandSpawner implements CommandExecutor{
 		player = (Player)sender;
 		if(player.hasPermission(PermissionType.SPAWNER.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/spawner [Mob]");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/spawner [Mob]");
 			}else{
 				s=UtilTime.getTimeManager().check(cmd.getName(), player);
 				if(s!=null){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "USE_BEFEHL_TIME",s));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME",s));
 				}else{
 				Mob mob = Mob.fromName(args[0]);
 				
 				if(mob==null){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"Mob Type nicht gefunden!");
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"Mob Type nicht gefunden!");
 					return false;
 				}
 				if(!player.hasPermission(PermissionType.SPAWNER.getPermissionToString()+"."+mob.name.toLowerCase(Locale.ENGLISH))){
 					if(!player.hasPermission(PermissionType.SPAWNER_ALL.getPermissionToString())){
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_PERMISSION"));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NO_PERMISSION"));
 						return false;
 					}
 				}
@@ -57,7 +57,7 @@ public class CommandSpawner implements CommandExecutor{
 					spawner.setSpawnedType(mob.getType());
 					spawner.update();
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "LOOK_ON_SPAWNER"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "LOOK_ON_SPAWNER"));
 				}
 				}
 			}

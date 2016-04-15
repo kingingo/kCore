@@ -1,7 +1,5 @@
 package eu.epicpvp.kcore.Command.Commands;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,12 +8,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import dev.wolveringer.client.LoadedPlayer;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandEnderchest extends kListener implements CommandExecutor{
 
@@ -44,17 +44,17 @@ public class CommandEnderchest extends kListener implements CommandExecutor{
 					target=Bukkit.getPlayer(args[0]);
 					player.openInventory(target.getEnderChest());
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					
 					if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
-						UUID uuid = UtilPlayer.getUUID(args[0], mysql);
+						LoadedPlayer loadedplayer = UtilServer.getClient().getPlayer(args[0]);
 						target=null;
-						target = UtilPlayer.loadPlayer(uuid);
+						target = UtilPlayer.loadPlayer(loadedplayer.getUUID());
 						
 						if(target!=null){
 							player.openInventory(target.getEnderChest());
 						}else{
-							player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§cnicht gefunden!");
+							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cnicht gefunden!");
 						}
 						
 					}

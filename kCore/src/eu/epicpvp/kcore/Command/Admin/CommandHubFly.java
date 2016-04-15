@@ -14,7 +14,7 @@ import eu.epicpvp.kcore.Command.Commands.Events.PlayerFlyFinalEvent;
 import eu.epicpvp.kcore.Command.Commands.Events.PlayerFlyFirstEvent;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandHubFly extends kListener implements CommandExecutor{
 	
@@ -34,13 +34,13 @@ public class CommandHubFly extends kListener implements CommandExecutor{
 				Bukkit.getPluginManager().callEvent(e);
 				player.setAllowFlight(e.isAllowFlight());
 				player.setFlying(false);
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "kFLY_OFF"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "kFLY_OFF"));
 			}else{
 				PlayerFlyFinalEvent e = new PlayerFlyFinalEvent(player,true);
 				Bukkit.getPluginManager().callEvent(e);
 				player.setAllowFlight(e.isAllowFlight());
 				player.setFlying(true);
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "kFLY_ON"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "kFLY_ON"));
 			}
 		}
 		return false;

@@ -2,7 +2,6 @@ package eu.epicpvp.kcore.Disguise;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -27,6 +26,7 @@ import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
+import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,7 +41,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 	private DisguiseManager disguiseManager;
 	@Getter
 	private ArrayList<Player> change_settings = new ArrayList<>();
-	private HashMap<UUID,DisguiseType> settings = new HashMap<>();
+	private HashMap<Integer,DisguiseType> settings = new HashMap<>();
 	@Getter
 	@Setter
 	private boolean async=false;
@@ -54,7 +54,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 		this.money=money;
 		this.disguiseManager=disguiseManager;
 		this.mysql=mysql;
-		this.mysql.Update("CREATE TABLE IF NOT EXISTS list_disguise(uuid varchar(100),disguise varchar(100))");
+		this.mysql.Update("CREATE TABLE IF NOT EXISTS `list_disguise`(playerId int,disguise varchar(100))");
 		
 		addButton(10, new SalesPackageBase(new Click(){
 			public void onClick(Player player, ActionType type,Object object) {
@@ -241,18 +241,18 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 	
 	public void Delete(Player player){
 		if(isAsync()){
-			mysql.asyncUpdate("DELETE FROM list_disguise WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+			mysql.asyncUpdate("DELETE FROM `list_disguise` WHERE playerId='"+UtilPlayer.getPlayerId(player)+"'");
 		}else{
-			mysql.Update("DELETE FROM list_disguise WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+			mysql.Update("DELETE FROM `list_disguise` WHERE playerId='"+UtilPlayer.getPlayerId(player)+"'");
 		}
 	}
 	
 	public void Insert(Player player){
 		if(getDisguiseManager().isDisguise(player)){
 			if(isAsync()){
-				mysql.asyncUpdate("INSERT INTO list_disguise (uuid,disguise) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+getDisguiseManager().getDisguise(player).GetEntityTypeId()+"');");
+				mysql.asyncUpdate("INSERT INTO `list_disguise` (playerId,disguise) VALUES ('"+UtilPlayer.getPlayerId(player)+"','"+getDisguiseManager().getDisguise(player).GetEntityTypeId()+"');");
 			}else{
-				mysql.Update("INSERT INTO list_disguise (uuid,disguise) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+getDisguiseManager().getDisguise(player).GetEntityTypeId()+"');");
+				mysql.Update("INSERT INTO `list_disguise` (playerId,disguise) VALUES ('"+UtilPlayer.getPlayerId(player)+"','"+getDisguiseManager().getDisguise(player).GetEntityTypeId()+"');");
 			}
 		}
 	}
@@ -271,47 +271,47 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 	}
 	
 	DisguisePlayerLoadEvent loadevent;
-	UUID player;
+	int playerId;
 	DisguiseType type;
 	@EventHandler
 	public void Place(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC_3)return;
 		for(int i = 0; i < settings.size(); i++){
-			player=((UUID)settings.keySet().toArray()[i]);
-			if(UtilPlayer.isOnline( player )){
+			playerId=UtilNumber.toInt(settings.keySet().toArray()[i]);
+			if(UtilPlayer.isOnline( playerId )){
 				
-				loadevent = new DisguisePlayerLoadEvent(getDisguiseManager(),settings.get(player), Bukkit.getPlayer(player));
+				loadevent = new DisguisePlayerLoadEvent(getDisguiseManager(),settings.get(playerId), UtilPlayer.searchExact(playerId));
 				Bukkit.getPluginManager().callEvent(loadevent);
 				
 				if(loadevent.getType()!=null){
 					try{
 						if(loadevent.getObject()!=null){
-							getDisguiseManager().disguise(Bukkit.getPlayer(player), loadevent.getType(),loadevent.getObject());
+							getDisguiseManager().disguise(loadevent.getPlayer(), loadevent.getType(),loadevent.getObject());
 						}else{
-							getDisguiseManager().disguise(Bukkit.getPlayer(player), loadevent.getType());
+							getDisguiseManager().disguise(loadevent.getPlayer(), loadevent.getType());
 						}
 					}catch(IllegalArgumentException e){
 						e.printStackTrace();
 					}
 				}
 				
-				settings.remove(player);
+				settings.remove(playerId);
 			}
 		}
 	}
 	
-	public void load(UUID uuid){
-		String sql = mysql.getString("SELECT `disguise` FROM `list_disguise` WHERE uuid='"+uuid+"'");
+	public void load(int playerId){
+		String sql = mysql.getString("SELECT `disguise` FROM `list_disguise` WHERE `playerId`='"+playerId+"'");
 		if(!sql.equalsIgnoreCase("null")){
-			settings.put(uuid, DisguiseType.valueOf(sql));
+			settings.put(playerId, DisguiseType.valueOf(sql));
 		}else{
-			settings.put(uuid, null);
+			settings.put(playerId, null);
 		}
 	}
 	
 	@EventHandler(priority=EventPriority.LOW)
 	public void Join(AsyncPlayerPreLoginEvent ev){
-		load(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
+		load(UtilPlayer.getPlayerId(ev.getName()));
 	}
 
 }

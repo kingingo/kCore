@@ -1,7 +1,5 @@
 package eu.epicpvp.kcore.Gilden.Events;
 
-import java.util.UUID;
-
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -15,14 +13,14 @@ public class GildePlayerLeaveEvent extends Event {
 	@Getter
 	private String gilde;
 	@Getter
-	private UUID uuid;
+	private int playerId;
 	@Getter
 	private String player;
 	
-	public GildePlayerLeaveEvent(String gilde,String player,UUID uuid,GildenManager manager){
+	public GildePlayerLeaveEvent(String gilde,String player,int playerId,GildenManager manager){
 		this.manager=manager;
 		this.gilde=gilde;
-		this.uuid=uuid;
+		this.playerId=playerId;
 		this.player=player;
 	}
 	

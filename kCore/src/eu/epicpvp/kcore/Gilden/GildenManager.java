@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -31,7 +30,7 @@ import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.MySQL.MySQLErr;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilDebug;
@@ -49,7 +48,7 @@ public class GildenManager implements Listener {
 	@Getter
 	private HashMap<String,String[]> gilden_players = new HashMap<>();
 	@Getter
-	private HashMap<UUID,String> gilden_player = new HashMap<>();
+	private HashMap<Integer,String> gilden_player = new HashMap<>();
 	@Getter
 	protected HashMap<String,String> gilden_tag = new HashMap<>();
 	@Getter
@@ -85,15 +84,15 @@ public class GildenManager implements Listener {
 		this.typ=typ;
 		this.statsManager=statsManager;
 		this.mysql=mysql;
-		mysql.Update(isAsync(),"CREATE TABLE IF NOT EXISTS list_gilden_"+typ.getKuerzel()+"(gilde varchar(30),gildentag varchar(30),member int,founder_uuid varchar(100),owner_uuid varchar(100))");
-		mysql.Update(isAsync(),"CREATE TABLE IF NOT EXISTS list_gilden_"+typ.getKuerzel()+"_user(player varchar(30),UUID varchar(100),gilde varchar(30))");
+		mysql.Update(isAsync(),"CREATE TABLE IF NOT EXISTS list_gilden_"+typ.getKuerzel()+"(gilde varchar(30),gildentag varchar(30),member int,founder_playerId varchar(100),owner_playerId varchar(100))");
+		mysql.Update(isAsync(),"CREATE TABLE IF NOT EXISTS list_gilden_"+typ.getKuerzel()+"_user(playerId int,gilde varchar(30))");
 		CreateTable();
 		cmd.register(CommandGilde.class, new CommandGilde(this));
 		Bukkit.getPluginManager().registerEvents(this, getInstance());
 		
 		for(Player p : UtilServer.getPlayers()){
-			if(!isPlayerInGilde(UtilPlayer.getRealUUID(p)))continue;
-			if(gilden_player.containsKey( UtilPlayer.getRealUUID(p) ))gilden_player.remove( UtilPlayer.getRealUUID(p) );
+			if(!isPlayerInGilde(UtilPlayer.getPlayerId(p)))continue;
+			if(gilden_player.containsKey( UtilPlayer.getPlayerId(p) ))gilden_player.remove( UtilPlayer.getPlayerId(p) );
 			getPlayerGilde(p);
 		}
 		
@@ -225,12 +224,12 @@ public class GildenManager implements Listener {
 		if(!ev.isCancelled()){
 			if(ev.getEntity() instanceof Player && ev.getDamager() instanceof Player){
 				attack = (Player)ev.getDamager();
-				if(this.gilden_player.containsKey(UtilPlayer.getRealUUID( attack))){
+				if(this.gilden_player.containsKey(UtilPlayer.getPlayerId( attack))){
 					defend = (Player)ev.getEntity();
-					if(this.gilden_player.containsKey(UtilPlayer.getRealUUID( defend ))){
-						if(!this.gilden_player.get(UtilPlayer.getRealUUID( attack)).equalsIgnoreCase("-")){
-							if(!this.gilden_player.get(UtilPlayer.getRealUUID( defend )).equalsIgnoreCase("-")){
-								if(this.gilden_player.get(UtilPlayer.getRealUUID( attack)).equalsIgnoreCase(this.gilden_player.get(UtilPlayer.getRealUUID( defend )))){
+					if(this.gilden_player.containsKey(UtilPlayer.getPlayerId( defend ))){
+						if(!this.gilden_player.get(UtilPlayer.getPlayerId( attack)).equalsIgnoreCase("-")){
+							if(!this.gilden_player.get(UtilPlayer.getPlayerId( defend )).equalsIgnoreCase("-")){
+								if(this.gilden_player.get(UtilPlayer.getPlayerId( attack)).equalsIgnoreCase(this.gilden_player.get(UtilPlayer.getPlayerId( defend )))){
 									ev.setCancelled(true);
 								}
 							}
@@ -238,7 +237,7 @@ public class GildenManager implements Listener {
 					}
 				}
 				
-//				if(isPlayerInGilde(UtilPlayer.getRealUUID(attack))&&isPlayerInGilde(UtilPlayer.getRealUUID(defend))){
+//				if(isPlayerInGilde(UtilPlayer.getPlayerId(attack))&&isPlayerInGilde(UtilPlayer.getPlayerId(defend))){
 //					if(getPlayerGilde(attack).equalsIgnoreCase(getPlayerGilde(defend))){
 //						ev.setCancelled(true);
 //					}
@@ -255,12 +254,12 @@ public class GildenManager implements Listener {
 				projectile = (Projectile)ev.getDamager();
 				if(!(projectile.getShooter() instanceof Player))return;
 				
-				if(this.gilden_player.containsKey(UtilPlayer.getRealUUID( ((Player)projectile.getShooter())))){
+				if(this.gilden_player.containsKey(UtilPlayer.getPlayerId( ((Player)projectile.getShooter())))){
 					defend = (Player)ev.getEntity();
-					if(this.gilden_player.containsKey(UtilPlayer.getRealUUID( defend ))){
-						if(!this.gilden_player.get(UtilPlayer.getRealUUID( ((Player)projectile.getShooter()))).equalsIgnoreCase("-")){
-							if(!this.gilden_player.get(UtilPlayer.getRealUUID( defend )).equalsIgnoreCase("-")){
-								if(this.gilden_player.get(UtilPlayer.getRealUUID( ((Player)projectile.getShooter()))).equalsIgnoreCase(this.gilden_player.get(UtilPlayer.getRealUUID( defend )))){
+					if(this.gilden_player.containsKey(UtilPlayer.getPlayerId( defend ))){
+						if(!this.gilden_player.get(UtilPlayer.getPlayerId( ((Player)projectile.getShooter()))).equalsIgnoreCase("-")){
+							if(!this.gilden_player.get(UtilPlayer.getPlayerId( defend )).equalsIgnoreCase("-")){
+								if(this.gilden_player.get(UtilPlayer.getPlayerId( ((Player)projectile.getShooter()))).equalsIgnoreCase(this.gilden_player.get(UtilPlayer.getPlayerId( defend )))){
 									ev.setCancelled(true);
 								}
 							}
@@ -268,7 +267,7 @@ public class GildenManager implements Listener {
 					}
 					
 				}
-//				if(isPlayerInGilde(UtilPlayer.getRealUUID( ((Player)projectile.getShooter())) )&&isPlayerInGilde(UtilPlayer.getRealUUID( defend ) )){
+//				if(isPlayerInGilde(UtilPlayer.getPlayerId( ((Player)projectile.getShooter())) )&&isPlayerInGilde(UtilPlayer.getPlayerId( defend ) )){
 //					if(getPlayerGilde(((Player)projectile.getShooter())).equalsIgnoreCase(getPlayerGilde(defend))){
 //						ev.setCancelled(true);
 //					}
@@ -307,8 +306,8 @@ public class GildenManager implements Listener {
 					setDouble(ev.getGilde(), getDouble(StatsKey.ELO, ev.getGilde())-ev.getManager().getStatsManager().getDouble(p, StatsKey.ELO), StatsKey.ELO);
 				}
 			}else{
-				if(isPlayerInGilde(UtilPlayer.getRealUUID(ev.getPlayer(), ev.getUuid()))){
-//					setDouble(ev.getGilde(), getDouble(StatsKey.ELO, ev.getGilde())-ev.getManager().getStatsManager().getDoubleWithUUID(StatsKey.ELO, UtilPlayer.getRealUUID(ev.getPlayer(), ev.getUuid())), StatsKey.ELO);
+				if(isPlayerInGilde(UtilPlayer.getPlayerId(ev.getPlayer()))){
+//					setDouble(ev.getGilde(), getDouble(StatsKey.ELO, ev.getGilde())-ev.getManager().getStatsManager().getDoubleWithUUID(StatsKey.ELO, UtilPlayer.getPlayerId(ev.getPlayer())), StatsKey.ELO);
 				}
 			}
 		}
@@ -372,12 +371,12 @@ public class GildenManager implements Listener {
 				if(!hasMoved(teleport_loc.get(p), p)){
 					TeleportToHome(p);
 				}else{
-					p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_TELEPORT_CANCELLED"));
+					p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_TELEPORT_CANCELLED"));
 				}
 				teleport.remove(p);
 				teleport_loc.remove(p);
 			}else{
-				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_HOME",UtilTime.formatMili( (teleport.get(p)-System.currentTimeMillis())) ));
+				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_HOME",UtilTime.formatMili( (teleport.get(p)-System.currentTimeMillis())) ));
 			}
 		}
 	}
@@ -393,7 +392,7 @@ public class GildenManager implements Listener {
 			if(x==0&&y==0&&z==0&&g.equalsIgnoreCase("0"))return;
 			Location loc = new Location(Bukkit.getWorld(w),x,y,z);
 			p.teleport(loc);
-			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_TELEPORTET"));
+			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_TELEPORTET"));
 		}catch(NullPointerException e){
 			
 		}	
@@ -402,7 +401,7 @@ public class GildenManager implements Listener {
 	public void TeleportToHome(Player p){
 		try{
 			if(!isPlayerInGilde(p)){
-				p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
+				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 				return;
 			}
 			String g = getPlayerGilde(p);
@@ -414,7 +413,7 @@ public class GildenManager implements Listener {
 			if(x==0&&y==0&&z==0&&g.equalsIgnoreCase("0"))return;
 			Location loc = new Location(Bukkit.getWorld(w),x,y,z);
 			p.teleport(loc);
-			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_TELEPORTET"));
+			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_TELEPORTET"));
 		}catch(NullPointerException e){
 			
 		}	
@@ -430,17 +429,19 @@ public class GildenManager implements Listener {
 	
 	@EventHandler
 	public void PlayerJoin(PlayerJoinEvent ev){
-		if(gilden_player.containsKey( UtilPlayer.getRealUUID(ev.getPlayer()) ))gilden_player.remove( UtilPlayer.getRealUUID(ev.getPlayer()) );
+		if(gilden_player.containsKey( UtilPlayer.getPlayerId(ev.getPlayer()) ))gilden_player.remove( UtilPlayer.getPlayerId(ev.getPlayer()) );
 		if(!isPlayerInGilde(ev.getPlayer()))return;
 		sendGildenChat(getPlayerGilde(ev.getPlayer()), "GILDE_PLAYER_JOIN",ev.getPlayer().getName());
 	}
 	
 	public void sendGildenChat(String gilde,Player player,String msg){
 		gilde=gilde.toLowerCase();
-		for(UUID n : gilden_player.keySet()){
-			if(gilden_player.get(n).equalsIgnoreCase(gilde)){
-				if(UtilPlayer.isOnline(n)){
-					Bukkit.getPlayer(n).sendMessage(TranslationManager.getText(Bukkit.getPlayer(n), "GILDE_CHAT_PREFIX",player.getName())+msg);
+		Player p;
+		for(int playerId : gilden_player.keySet()){
+			if(gilden_player.get(playerId).equalsIgnoreCase(gilde)){
+				if(UtilPlayer.isOnline(playerId)){
+					p = UtilPlayer.searchExact(playerId);
+					p.sendMessage(TranslationHandler.getText(p, "GILDE_CHAT_PREFIX",player.getName())+msg);
 				}
 			}
 		}
@@ -448,10 +449,12 @@ public class GildenManager implements Listener {
 	
 	public void sendGildenChat(String gilde,String name){
 		gilde=gilde.toLowerCase();
-		for(UUID n : gilden_player.keySet()){
-			if(gilden_player.get(n).equalsIgnoreCase(gilde)){
-				if(UtilPlayer.isOnline(n)){
-					Bukkit.getPlayer(n).sendMessage(TranslationManager.getText(Bukkit.getPlayer(n), "GILDE_PREFIX")+TranslationManager.getText(Bukkit.getPlayer(n), name));
+		Player p;
+		for(int playerId : gilden_player.keySet()){
+			if(gilden_player.get(playerId).equalsIgnoreCase(gilde)){
+				if(UtilPlayer.isOnline(playerId)){
+					p = UtilPlayer.searchExact(playerId);
+					p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, name));
 				}
 			}
 		}
@@ -459,10 +462,11 @@ public class GildenManager implements Listener {
 	
 	public void sendGildenChat(String gilde,String name,Object... input){
 		gilde=gilde.toLowerCase();
-		for(UUID n : gilden_player.keySet()){
-			if(gilden_player.get(n).equalsIgnoreCase(gilde)){
-				if(UtilPlayer.isOnline(n)){
-					Bukkit.getPlayer(n).sendMessage(TranslationManager.getText(Bukkit.getPlayer(n), "GILDE_PREFIX")+TranslationManager.getText(Bukkit.getPlayer(n), name,input));
+		for(int playerId : gilden_player.keySet()){
+			if(gilden_player.get(playerId).equalsIgnoreCase(gilde)){
+				if(UtilPlayer.isOnline(playerId)){
+					p = UtilPlayer.searchExact(playerId);
+					p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, name,input));
 				}
 			}
 		}
@@ -481,19 +485,16 @@ public class GildenManager implements Listener {
 	}
 
 	public void removeGildenEintrag(Player player,String name){
-		ArrayList<UUID> l = new ArrayList<>();
 		getMember(name);
-		for(UUID n : getGilden_player().keySet()){
-			if( getGilden_player().get(n).equalsIgnoreCase(name) ){
-				l.add(n);
+		for(int playerId : new ArrayList<>(gilden_player.keySet())){
+			if( getGilden_player().get(playerId).equalsIgnoreCase(name) ){
+				getGilden_player().remove(playerId);
 			}
 		}
-		for(UUID n : l){
-			getGilden_player().remove(n);
-		}
-		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKuerzel()+" WHERE gilde='" + name.toLowerCase() + "'");
-		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKuerzel()+"_data WHERE gilde='" + name.toLowerCase() + "'");
-		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKuerzel()+"_user WHERE gilde='" + name.toLowerCase() + "'");
+		
+		mysql.Update(isAsync(),"DELETE FROM `list_gilden_"+typ.getKuerzel()+"` WHERE `gilde`='" + name.toLowerCase() + "'");
+		mysql.Update(isAsync(),"DELETE FROM `list_gilden_"+typ.getKuerzel()+"_data` WHERE `gilde`='" + name.toLowerCase() + "'");
+		mysql.Update(isAsync(),"DELETE FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE `gilde`='" + name.toLowerCase() + "'");
 		gilden_data.remove(name);
 		gilden_tag.remove(name);
 		gilden_data_musst_saved.remove(name);
@@ -533,7 +534,7 @@ public class GildenManager implements Listener {
 	
 	public void LoadExistGildeData(final String gilde,GildenType typ){
 		if(gilden_data.containsKey(gilde.toLowerCase()))return;
-		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` WHERE gilde='"+gilde.toLowerCase()+"'", new Callback<ResultSet>() {
+		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` WHERE `gilde`='"+gilde.toLowerCase()+"'", new Callback<ResultSet>() {
 			
 			@Override
 			public void call(ResultSet value) {
@@ -555,9 +556,9 @@ public class GildenManager implements Listener {
 	}
 	
 	public void loadPlayer(Player player){
-		if(this.gilden_player.containsKey(UtilPlayer.getRealUUID(player)))return;
+		if(this.gilden_player.containsKey(UtilPlayer.getPlayerId(player)))return;
 		
-		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'", new Callback<ResultSet>() {
+		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE playerId='"+UtilPlayer.getPlayerId(player)+"'", new Callback<ResultSet>() {
 			
 			@Override
 			public void call(ResultSet value) {
@@ -580,35 +581,34 @@ public class GildenManager implements Listener {
 	}
 	
 	public void removePlayerEintrag(Player player){
-		removePlayerEintrag(UtilPlayer.getRealUUID(player),player.getName());
+		removePlayerEintrag(UtilPlayer.getPlayerId(player),player.getName());
 	}
 	
-	public void removePlayerEintrag(UUID uuid,String name){
-		Bukkit.getPluginManager().callEvent(new GildePlayerLeaveEvent(getPlayerGilde(uuid), name,uuid, this));
-		getGilden_players().remove(getPlayerGilde(uuid));
-		getGilden_count().remove(getPlayerGilde(uuid));
-		getGilden_player().remove(uuid);
-		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKuerzel()+"_user WHERE uuid='" + uuid + "'");
-		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKuerzel()+"_user WHERE player='" + name.toLowerCase() + "'");
+	public void removePlayerEintrag(int playerId,String name){
+		Bukkit.getPluginManager().callEvent(new GildePlayerLeaveEvent(getPlayerGilde(playerId), name,playerId, this));
+		getGilden_players().remove(getPlayerGilde(playerId));
+		getGilden_count().remove(getPlayerGilde(playerId));
+		getGilden_player().remove(playerId);
+		mysql.Update(isAsync(),"DELETE FROM list_gilden_"+typ.getKuerzel()+"_user WHERE playerId='" + playerId + "'");
 	}
 	
 	public void createPlayerEintrag(Player player,String gilde){
 		gilde=gilde.toLowerCase();
 		GildenPlayerPut(player, gilde);
-		mysql.Update(isAsync(),"INSERT INTO list_gilden_"+typ.getKuerzel()+"_user (player,uuid,gilde) VALUES ('"+player.getName().toLowerCase()+"','"+UtilPlayer.getRealUUID(player)+"','"+gilde.toLowerCase()+"');");
+		mysql.Update(isAsync(),"INSERT INTO list_gilden_"+typ.getKuerzel()+"_user (playerId,gilde) VALUES ('"+UtilPlayer.getPlayerId(player)+"','"+gilde.toLowerCase()+"');");
 		Bukkit.getPluginManager().callEvent(new GildePlayerJoinEvent(gilde, player, this));
 	}
 	
 	public String getPlayerGilde(Player player){
-		return getPlayerGilde(UtilPlayer.getRealUUID(player));
+		return getPlayerGilde(UtilPlayer.getPlayerId(player));
 	}
 	
-	public String getPlayerGilde(UUID uuid){
-		if(gilden_player.containsKey(uuid))return gilden_player.get(uuid);
+	public String getPlayerGilde(int playerId){
+		if(gilden_player.containsKey(playerId))return gilden_player.get(playerId);
 		String gilde  = "-";
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE uuid='"+uuid+"'");
+	      ResultSet rs = mysql.Query("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE playerId='"+playerId+"'");
 
 	      while (rs.next()) {
 	    	  gilde=rs.getString(1);
@@ -619,27 +619,27 @@ public class GildenManager implements Listener {
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		gilde=gilde.toLowerCase();
-		GildenPlayerPut(uuid,gilde);
+		GildenPlayerPut(playerId,gilde);
 		
-		if(UtilDebug.isDebug())UtilDebug.debug("getPlayerGilde", new String[]{"Gilde:"+gilde,"UUID: "+uuid});
+		if(UtilDebug.isDebug())UtilDebug.debug("getPlayerGilde", new String[]{"Gilde:"+gilde,"PlayerId: "+playerId});
 		
 		return gilde;
 	}
 	
 	public boolean isPlayerInGilde(Player player){
-		return isPlayerInGilde(UtilPlayer.getRealUUID(player));
+		return isPlayerInGilde(UtilPlayer.getPlayerId(player));
 	}
 	
-	public boolean isPlayerInGilde(UUID uuid){
-		if(gilden_player.containsKey(uuid)){
-			if(gilden_player.get(uuid).equalsIgnoreCase("-"))return false;
+	public boolean isPlayerInGilde(int playerId){
+		if(gilden_player.containsKey(playerId)){
+			if(gilden_player.get(playerId).equalsIgnoreCase("-"))return false;
 			return true;
 		}
-		String g = getPlayerGilde(uuid);
+		String g = getPlayerGilde(playerId);
 		g=g.toLowerCase();
 		if(!ExistGilde(g)){
-			if(UtilPlayer.isOnline(uuid)){
-				removePlayerEintrag(Bukkit.getPlayer(uuid));
+			if(UtilPlayer.isOnline(playerId)){
+				removePlayerEintrag(UtilPlayer.searchExact(playerId));
 			}
 		}
 		
@@ -810,22 +810,22 @@ public class GildenManager implements Listener {
 	}
 	
 	public void GildenPlayerPut(Player player,String Gilde){
-		GildenPlayerPut(UtilPlayer.getRealUUID(player),Gilde);
+		GildenPlayerPut(UtilPlayer.getPlayerId(player),Gilde);
 	}
 	
 	public void GildenPlayerPut(Player player){
-		GildenPlayerPut(UtilPlayer.getRealUUID(player));
+		GildenPlayerPut(UtilPlayer.getPlayerId(player));
 	}
 	
-	public void GildenPlayerPut(UUID uuid){
-		GildenPlayerPut(uuid, getPlayerGilde(uuid));
+	public void GildenPlayerPut(int playerId){
+		GildenPlayerPut(playerId, getPlayerGilde(playerId));
 	}
 	
-	public void GildenPlayerPut(UUID uuid,String gilde){
+	public void GildenPlayerPut(int playerId,String gilde){
 		gilde=gilde.toLowerCase();
-		if(getGilden_player().containsKey(uuid))getGilden_player().remove(uuid);
-		getGilden_player().put(uuid, gilde);
-		Bukkit.getPluginManager().callEvent(new GildeLoadEvent(getGilden_player().get(uuid),this));
+		if(getGilden_player().containsKey(playerId))getGilden_player().remove(playerId);
+		getGilden_player().put(playerId, gilde);
+		Bukkit.getPluginManager().callEvent(new GildeLoadEvent(getGilden_player().get(playerId),this));
 	}
 	
 	public void getMember(String gilde){
@@ -833,11 +833,11 @@ public class GildenManager implements Listener {
 		if(getGilden_count().containsKey(gilde.toLowerCase()))return;
 		try
 	    {
-	      ResultSet rs = mysql.Query("SELECT `uuid` FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE gilde='"+gilde.toLowerCase()+"'");
+	      ResultSet rs = mysql.Query("SELECT `playerId` FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE gilde='"+gilde.toLowerCase()+"'");
 
 	      while (rs.next()) {
 	    	  if(gilden_player.containsKey(rs.getString(1).toLowerCase()))continue;
-	    	  GildenPlayerPut(UUID.fromString(rs.getString(1)), gilde);
+	    	  GildenPlayerPut(rs.getInt(1), gilde);
 	      }
 
 	      rs.close();
@@ -968,15 +968,15 @@ public class GildenManager implements Listener {
 		gilde=gilde.toLowerCase();
 		if(gilden_players.containsKey(gilde))return gilden_players.get(gilde);
 		int anzahl = 0;
-		for(UUID n : getGilden_player().keySet())if(getGilden_player().get(n).equalsIgnoreCase(gilde))anzahl++;
+		for(int n : getGilden_player().keySet())if(getGilden_player().get(n).equalsIgnoreCase(gilde))anzahl++;
 		if(anzahl==0)return null;
 		String[] players = new String[anzahl];
 			
 		try{
 			anzahl=0;
-			ResultSet rs = mysql.Query("SELECT player FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE gilde= '"+gilde.toLowerCase()+"'");
+			ResultSet rs = mysql.Query("SELECT playerId FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE gilde= '"+gilde.toLowerCase()+"'");
 			while(rs.next()){
-				players[anzahl]=rs.getString(1);
+				players[anzahl]=UtilServer.getClient().getPlayerAndLoad(rs.getInt(1)).getName();
 				anzahl++;
 			}
 			rs.close();
@@ -998,16 +998,16 @@ public class GildenManager implements Listener {
 		if(!gilden_data_musst_saved.get(gilde).get(typ).contains(s))gilden_data_musst_saved.get(gilde).get(typ).add(s);
 	}
 	
-	public UUID getOwner(String gilde){
+	public int getOwner(String gilde){
 		gilde=gilde.toLowerCase();
-		if(!ExistGilde(gilde))return null;
+		if(!ExistGilde(gilde))return 0;
 		ExistGildeData(gilde, typ);
 
-		UUID i = null;
+		int i = 0;
 		try{
-			ResultSet rs = mysql.Query("SELECT owner_uuid FROM `list_gilden_"+typ.getKuerzel()+"` WHERE gilde= '"+gilde.toLowerCase()+"'");
+			ResultSet rs = mysql.Query("SELECT owner_playerId FROM `list_gilden_"+typ.getKuerzel()+"` WHERE gilde= '"+gilde.toLowerCase()+"'");
 			while(rs.next()){
-				i=UUID.fromString(rs.getString(1));
+				i=rs.getInt(1);
 			}
 			rs.close();
 		}catch (Exception err){
@@ -1044,8 +1044,8 @@ public class GildenManager implements Listener {
 		return i;
 	}
 	
-	public void createGildenEintrag(String gilde,String gildentag,int member,UUID founder){
-		String t = "INSERT INTO list_gilden_"+typ.getKuerzel()+" (gilde,gildentag,member,founder_uuid,owner_uuid) VALUES ('"+gilde.toLowerCase()+"','"+gildentag+"','"+member+"','"+founder+"','"+founder+"');";
+	public void createGildenEintrag(String gilde,String gildentag,int member,int founder){
+		String t = "INSERT INTO list_gilden_"+typ.getKuerzel()+" (gilde,gildentag,member,founder_playerId,owner_playerId) VALUES ('"+gilde.toLowerCase()+"','"+gildentag+"','"+member+"','"+founder+"','"+founder+"');";
 		mysql.Update(isAsync(),t);
 	}
 	

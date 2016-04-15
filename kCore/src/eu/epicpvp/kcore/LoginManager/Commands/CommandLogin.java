@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.LoginManager.LoginManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.Title;
 import lombok.Getter;
 
@@ -24,19 +24,19 @@ public class CommandLogin implements CommandExecutor{
 		if(!(cs instanceof Player))return false;
 		Player player = (Player)cs;
 		
-		if(!getLoginManager().getLogin().containsKey(player.getName().toLowerCase()))return false;
+		if(!getLoginManager().getLogin().containsKey(player.getName()))return false;
 		if(args.length==0){
-			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§c/login [Password]");
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§c/login [Password]");
 			return true;
 		}else{
-			if(args[0].equalsIgnoreCase(getLoginManager().getLogin().get(player.getName().toLowerCase()))){
-				getLoginManager().getLogin().remove(player.getName().toLowerCase());
-				Title title = new Title("","");
-				title.send(player);
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "LOGIN_ACCEPT"));
+			if(args[0].equalsIgnoreCase(getLoginManager().getLogin().get(player.getName()))){
+				getLoginManager().getLogin().remove(player.getName());
+				Title title = new Title("  "," ");
+				title.resetTitle(player);
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "LOGIN_ACCEPT"));
 				getLoginManager().addPlayerToBGList(player);
 			}else{
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "LOGIN_DENY"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "LOGIN_DENY"));
 			}
 			return true;
 		}

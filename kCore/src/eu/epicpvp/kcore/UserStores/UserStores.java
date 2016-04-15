@@ -2,7 +2,6 @@ package eu.epicpvp.kcore.UserStores;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -40,8 +39,9 @@ import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Scheduler.kScheduler;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
+import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigConvertEvent;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
 import eu.epicpvp.kcore.UserStores.Events.PlayerCreateUserStoreEvent;
 import eu.epicpvp.kcore.Util.AnvilGUI;
@@ -202,6 +202,40 @@ public class UserStores extends kListener{
 		UtilServer.getCommandHandler().register(CommandUserStore.class, new CommandUserStore(this));
 	}
 	
+	@EventHandler
+	public void convert(UserDataConfigConvertEvent ev){
+		if(ev.getConfig().contains("UserStores")){
+			Bukkit.getScheduler().runTask(getStatsManager().getInstance(), new Runnable() {
+				
+				@Override
+				public void run() {
+					Location l;
+					Sign s;
+					for(String loc : ev.getConfig().getPathList("UserStores").keySet()){
+						l=getStringLoc(loc);
+						
+						l.getChunk().load();
+						
+						if(l.getBlock().getState() instanceof Sign){
+							if(l.getBlock().getRelative(BlockFace.DOWN).getState() instanceof Chest){
+								s = (Sign)l.getBlock().getState();
+								s.setLine(0,prefix+"/"+ev.getPlayerId());
+								s.update(true);
+								
+								ev.getConfig().set("UserStores."+loc+".anzahl", getAnzahl(s));
+								continue;
+							}
+						}
+						
+						l.getBlock().setType(Material.AIR);
+						l.getBlock().getRelative(BlockFace.DOWN).setType(Material.AIR);
+						l.getChunk().unload();
+					}
+				}
+			});
+		}
+	}
+	
 	public void openInv(Player player){
 		if(UtilServer.getUserData().getConfig(player).contains("UserStores")){
 			((InventoryCopy)page).open(player, UtilInv.getBase());
@@ -271,14 +305,14 @@ public class UserStores extends kListener{
 						
 						if(Action.RIGHT_CLICK_BLOCK == a && Action.LEFT_CLICK_BLOCK == a){
 							ev.setCancelled(true);
-							p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§cNicht so Schnell ...");
+							p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cNicht so Schnell ...");
 							return;
 						}else if(Action.RIGHT_CLICK_BLOCK == a){
 							if(this.timer.containsKey(p)){
 		                		if(this.timer.get(p) <= System.currentTimeMillis()){
 		                			this.timer.remove(p);
 		                		}else{
-		                			p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_DELAY",3));
+		                			p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SIGN_SHOP_DELAY",3));
 		                			return;
 		                		}
 		                	}
@@ -292,22 +326,26 @@ public class UserStores extends kListener{
 							
 							if( (preis*anzahl) <= getStatsManager().getDouble(StatsKey.MONEY, p)){
 								if(Integer.valueOf(getAnzahl(sign))>0){
-									UUID uuid=getUUID(sign);
-									if(uuid != UtilPlayer.getRealUUID(p)){
+									if(isUUID(sign)){
+										p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"Dieser Shop wurde noch nicht convertiert!");
+										return;
+									}
+									int playerId = getPlayerId(sign);
+									if(playerId != UtilPlayer.getPlayerId(p)){
 										if(ev.getPlayer().getItemInHand() == null || ev.getPlayer().getItemInHand().getType()==Material.AIR){
 											item=UtilInv.getFirstItem(chest.getInventory());
 											if(Integer.valueOf(getAnzahl(sign)) >= (anzahl)){
 												logMessage("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+item.getTypeId()+" gekauft und "+(preis*anzahl)+" Epics bezahlt. "+UtilLocation.getLocString(sign.getLocation())+" "+sign.getLocation().getWorld());
 												getStatsManager().addDouble(p, -(preis*anzahl), StatsKey.MONEY);
 												
-						            			if( getStatsManager().isLoaded(uuid) ){
-													getStatsManager().addDouble(Bukkit.getPlayer(uuid), (preis*anzahl), StatsKey.MONEY);
+						            			if( UtilPlayer.isOnline(playerId) ){
+													getStatsManager().addDouble(UtilPlayer.searchExact(playerId), (preis*anzahl), StatsKey.MONEY);
 												}else{
-													getStatsManager().loadPlayer(uuid, new Callback<UUID>() {
+													getStatsManager().loadPlayer(playerId, new Callback<Integer>() {
 														
 														@Override
-														public void call(UUID obj) {
-															getStatsManager().add(uuid,null, StatsKey.MONEY, (preis*anzahl));
+														public void call(Integer obj) {
+															getStatsManager().add(obj, StatsKey.MONEY, (preis*anzahl));
 														}
 													});
 												}
@@ -320,21 +358,21 @@ public class UserStores extends kListener{
 												items.clear();
 												p.updateInventory();
 												ev.setCancelled(true);
-					        					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SIGN_SHOP_GET",new String[]{String.valueOf(anzahl), String.valueOf(item.getTypeId()),String.valueOf((preis*anzahl))}));
+					        					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SIGN_SHOP_GET",new String[]{String.valueOf(anzahl), String.valueOf(item.getTypeId()),String.valueOf((preis*anzahl))}));
 					        				}else{
-												p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SHOP_AMOUNT_NOT_ENOUGH"));
+												p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SHOP_AMOUNT_NOT_ENOUGH"));
 											}
 										}else{
-											p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SHOP_HAND"));
+											p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SHOP_HAND"));
 										}
 									}else{
-										p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SHOP_SELF"));
+										p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SHOP_SELF"));
 									}
 								}else{
-									p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "SHOP_EMPTY"));
+									p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SHOP_EMPTY"));
 								}
 							}else{
-								p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "NOT_ENOUGH_MONEY"));
+								p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "NOT_ENOUGH_MONEY"));
 							}
 						}
 					}else{
@@ -604,7 +642,7 @@ public class UserStores extends kListener{
 										}else{
 											setIDundData(ev, i.getTypeId(),i.getData().getData());
 										}
-										ev.setLine(0,this.prefix+"/"+UtilPlayer.getRealUUID(ev.getPlayer()));
+										ev.setLine(0,this.prefix+"/"+UtilPlayer.getPlayerId(ev.getPlayer()));
 										setPreis(ev, store_preis);
 										store_config = UtilServer.getUserData().getConfig(ev.getPlayer());
 										store_config.set("Stores", (store_anzahl-1));
@@ -658,8 +696,12 @@ public class UserStores extends kListener{
 		}
 	}
 	
-	public UUID getUUID(Sign sign){
-		return UUID.fromString(sign.getLine(0).split("/")[1]);
+	public boolean isUUID(Sign sign){
+		return sign.getLine(0).split("/")[1].matches("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
+	}
+	
+	public int getPlayerId(Sign sign){
+		return UtilNumber.toInt(sign.getLine(0).split("/")[1]);
 	}
 	
 	public void setIDundData(SignChangeEvent sign,int id,byte data){

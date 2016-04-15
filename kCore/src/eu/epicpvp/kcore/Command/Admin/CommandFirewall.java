@@ -8,14 +8,14 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Listener.BungeeCordFirewall.BungeeCordFirewallListener;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandFirewall extends kListener implements CommandExecutor{
 	
 	private BungeeCordFirewallListener instance;
 	
 	public CommandFirewall(BungeeCordFirewallListener instance){
-		super(instance.getMysql().getInstance(),"kfirewall");
+		super(instance.getInstance(),"kfirewall");
 		this.instance=instance;
 	}
 	
@@ -27,10 +27,10 @@ public class CommandFirewall extends kListener implements CommandExecutor{
 				if(args.length == 0){
 					if(instance.isFirewall()){
 						instance.setFirewall(false);
-						p.sendMessage(TranslationManager.getText(p, "PREFIX")+ "§cfalse");
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+ "§cfalse");
 					}else{
 						instance.setFirewall(true);
-						p.sendMessage(TranslationManager.getText(p, "PREFIX")+ "§atrue");
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+ "§atrue");
 					}
 				}
 			}

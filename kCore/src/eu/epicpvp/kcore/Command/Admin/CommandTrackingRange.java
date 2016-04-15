@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 
@@ -20,13 +20,13 @@ public class CommandTrackingRange implements CommandExecutor{
 			if(p.hasPermission(PermissionType.COMMAND_MEM.getPermissionToString())){
 				EntityPlayer player = ((CraftPlayer)p).getHandle();
 				if(args.length==0){
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+" Player-Tracking-Range: "+player.world.spigotConfig.playerTrackingRange);
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+" /trackingrange [RANGE/Normale Range ist 48]");
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+" Player-Tracking-Range: "+player.world.spigotConfig.playerTrackingRange);
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+" /trackingrange [RANGE/Normale Range ist 48]");
 				}else{
 					int i = UtilNumber.toInt(args[0]);
 					if(i<=0)return false;
 					player.world.spigotConfig.playerTrackingRange=i;
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "TRACKING_RANGE",i));
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "TRACKING_RANGE",i));
 				}
 			}
 		return false;

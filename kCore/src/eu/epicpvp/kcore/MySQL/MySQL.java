@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -80,7 +81,7 @@ public class MySQL {
 
 						} catch (Exception ex) {
 							ex.printStackTrace();
-
+							System.err.println(qry);
 						}
 					}
 				});
@@ -218,23 +219,23 @@ public class MySQL {
 	}
 
 	public void asyncInsert(String table, String content, String values) {
-		asyncUpdate("INSERT INTO " + table + " (" + content + ") VALUES ("
+		asyncUpdate("INSERT INTO `" + table + "` (" + content + ") VALUES ("
 				+ values + ");");
 	}
 
 	public void asyncQuery(String table, String select, String where,
 			Callback<ResultSet> callback) {
-		asyncQuery("SELECT " + select + " FROM `" + table + "`"
+		asyncQuery("SELECT `" + select + "` FROM `" + table + "`"
 				+ (where != null ? " WHERE " + where : ""), callback);
 	}
 
 	public void asyncUpdate(String table, String set, String where) {
-		asyncUpdate("UPDATE " + table + " SET " + set + ""
+		asyncUpdate("UPDATE `" + table + "` SET " + set + ""
 				+ (where != null ? " WHERE " + where : ""));
 	}
 
 	public void asyncCreateTable(String table, String content) {
-		asyncUpdate("CREATE TABLE IF NOT EXISTS " + table + "(" + content
+		asyncUpdate("CREATE TABLE IF NOT EXISTS `" + table + "` (" + content
 				+ ");");
 	}
 
@@ -244,7 +245,7 @@ public class MySQL {
 	}
 
 	public void Insert(String table, String content, String values) {
-		Update("INSERT INTO " + table + " (" + content + ") VALUES (" + values
+		Update("INSERT INTO `" + table + "` (" + content + ") VALUES (" + values
 				+ ");");
 	}
 
@@ -254,7 +255,7 @@ public class MySQL {
 	}
 
 	public void Update(String table, String set, String where) {
-		Update("UPDATE " + table + " SET " + set + ""
+		Update("UPDATE `" + table + "` SET " + set + ""
 				+ (where != null ? " WHERE " + where : ""));
 	}
 
@@ -287,6 +288,26 @@ public class MySQL {
 		return false;
 	}
 
+	public Timestamp getTimestamp(String qry) {
+		if (connection == null)
+			return null;
+		MySQLQueryEvent ev = new MySQLQueryEvent(qry, this);
+		Bukkit.getPluginManager().callEvent(ev);
+		ResultSet rs = null;
+		Timestamp time = null;
+		try {
+			Statement stmt = connection.createStatement();
+			rs = stmt.executeQuery(ev.getQuery());
+			while (rs.next()) {
+				time = rs.getTimestamp(1);
+			}
+		} catch (Exception ex) {
+			Bukkit.getPluginManager().callEvent(
+					new MySQLErrorEvent(MySQLErr.QUERY, ex, this));
+		}
+		return time;
+	}
+	
 	public Double getDouble(String qry) {
 		if (connection == null)
 			return 0.0;

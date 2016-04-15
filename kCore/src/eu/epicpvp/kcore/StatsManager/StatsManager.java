@@ -2,11 +2,12 @@ package eu.epicpvp.kcore.StatsManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,19 +35,21 @@ public class StatsManager extends kListener {
 	@Getter
 	private GameType type;
 	@Getter
-	private HashMap<UUID, HashMap<StatsKey, StatsObject>> players;
+	private HashMap<Integer, HashMap<StatsKey, StatsObject>> players;
 	private ClientWrapper client;
 	private StatsManager statsManager;
 	private ArrayList<Ranking> rankings;
 	@Getter
 	@Setter
 	private boolean onDisable = false;
-	private HashMap<String, ArrayList<Callback<String>>> loading;
+	private HashMap<Integer, ArrayList<Callback<Integer>>> loading;
+	private ArrayList<String> loadplayers;
 
 	public StatsManager(JavaPlugin instance, ClientWrapper client, GameType type) {
 		super(instance, "StatsManager");
 		this.players = new HashMap<>();
 		this.rankings = new ArrayList<>();
+		this.loadplayers = new ArrayList<>();
 		this.loading = new HashMap<>();
 		this.instance = instance;
 		this.type = type;
@@ -55,19 +58,24 @@ public class StatsManager extends kListener {
 	}
 
 	public boolean isLoaded(Player player) {
-		return isLoaded(getUUID(player));
+		return isLoaded(UtilPlayer.getPlayerId(player));
 	}
 
-	public boolean isLoaded(UUID uuid) {
-		return players.containsKey(uuid);
+	public boolean isLoaded(int playerId) {
+		return players.containsKey(playerId);
 	}
 
 	public void addRanking(Ranking ranking) {
 		ranking.load();
 		rankings.add(ranking);
 	}
+	
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void join(PlayerJoinEvent ev) {
+		this.loadplayers.remove(ev.getPlayer().getName());
+	}
 
-	@EventHandler
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void quit(PlayerQuitEvent ev) {
 		save(ev.getPlayer());
 		if (this.loading.containsKey(ev.getPlayer().getName().toLowerCase())) {
@@ -78,9 +86,9 @@ public class StatsManager extends kListener {
 
 	@EventHandler
 	public void loading(PlayerStatsLoadedEvent ev) {
-		if (this.loading.containsKey(ev.getPlayername().toLowerCase())) {
-			for (Callback<String> call : new ArrayList<>(this.loading.get(ev.getPlayername().toLowerCase())))
-				call.call(ev.getPlayername());
+		if (this.loading.containsKey(ev.getPlayerId())) {
+			for (Callback<Integer> call : new ArrayList<>(this.loading.get(ev.getPlayerId())))
+				call.call(ev.getPlayerId());
 		}
 	}
 
@@ -121,20 +129,12 @@ public class StatsManager extends kListener {
 		return (long) get(player, key);
 	}
 
-	public long getLong(UUID uuid, StatsKey key) {
-		return (long) get(uuid, key);
-	}
-
 	public double getDouble(StatsKey key, Player player) {
 		return (double) get(player, key);
 	}
 
 	public double getDouble(Player player, StatsKey key) {
 		return (double) get(player, key);
-	}
-
-	public double getDouble(UUID uuid, StatsKey key) {
-		return (double) get(uuid, key);
 	}
 
 	public String getString(StatsKey key, Player player) {
@@ -145,10 +145,6 @@ public class StatsManager extends kListener {
 		return (String) get(player, key);
 	}
 
-	public String getString(UUID uuid, StatsKey key) {
-		return (String) get(uuid, key);
-	}
-
 	public int getInt(StatsKey key, Player player) {
 		return (int) get(player, key);
 	}
@@ -157,55 +153,49 @@ public class StatsManager extends kListener {
 		return (int) get(player, key);
 	}
 
-	public int getInt(UUID uuid, StatsKey key) {
-		return (int) get(uuid, key);
-	}
-
 	public Object get(StatsKey key, Player player) {
-		return get(getUUID(player), key);
+		return get(UtilPlayer.getPlayerId(player),key);
 	}
 
 	public Object get(Player player, StatsKey key) {
-		return get(getUUID(player), key);
+		return get(UtilPlayer.getPlayerId(player),key);
 	}
 
-	public Object get(UUID uuid, StatsKey key) {
-		if (this.players.containsKey(uuid)) {
-			if (this.players.get(uuid).containsKey(key)) {
-				return this.players.get(uuid).get(key).getValue();
+	public Object get(int playerId, StatsKey key) {
+		if (this.players.containsKey(playerId)) {
+			if (this.players.get(playerId).containsKey(key)) {
+				return this.players.get(playerId).get(key).getValue();
 			}
+		}else{
+			loadPlayer(playerId, null);
 		}
 
-		throw new NullPointerException();
+		
+		new NullPointerException().printStackTrace();
+		return null;
 	}
 
 	public void getAsync(Player player, StatsKey key, Callback<Object> callback) {
-		getAsync(getUUID(player), player.getName(), key, callback);
+		getAsync(UtilPlayer.getPlayerId(player), key, callback);
 	}
 
-	public void getAsync(UUID uuid, String playername, StatsKey key, Callback<Object> callback) {
-		if (this.players.containsKey(uuid)) {
-			if (this.players.get(uuid).containsKey(key)) {
-				callback.call(this.players.get(uuid).get(key).getValue());
+	public void getAsync(int playerId, StatsKey key, Callback<Object> callback) {
+		if (this.players.containsKey(playerId)) {
+			if (this.players.get(playerId).containsKey(key)) {
+				callback.call(this.players.get(playerId).get(key).getValue());
 			}
-		} else if (playername != null) {
-			playername = playername.toLowerCase();
-			if (!this.loading.containsKey(playername))
-				this.loading.put(playername, new ArrayList<>());
-			this.loading.get(playername).add(new Callback<String>() {
-				@Override
-				public void call(String playername) {
-					getAsync(uuid, null, key, callback);
-					
-					if(playername==null){
-						logMessage("playername == NULL");
-					}
-					
-					loading.get(playername).remove(this);
-				}
-
-			});
+			return;
 		}
+			
+		if (!this.loading.containsKey(playerId))
+			this.loading.put(playerId, new ArrayList<>());
+		this.loading.get(playerId).add(new Callback<Integer>() {
+			@Override
+			public void call(Integer playerId) {
+				getAsync(playerId, key, callback);
+				loading.get(playerId).remove(this);
+			}
+		});
 	}
 
 	public double getKDR(int k, int d) {
@@ -217,151 +207,164 @@ public class StatsManager extends kListener {
 	}
 
 	public void setString(Player player, String s, StatsKey key) {
-		setString(getUUID(player), player.getName(), key, s);
+		setString(UtilPlayer.getPlayerId(player), key, s);
 	}
 
 	public void setString(Player player, StatsKey key, String s) {
-		setString(getUUID(player), player.getName(), key, s);
+		setString(UtilPlayer.getPlayerId(player), key, s);
 	}
 
-	public void setString(UUID uuid, String playername, StatsKey key, String s) {
+	public void setString(int playerId, StatsKey key, String s) {
 		if (key.getType() == String.class) {
-			this.players.get(uuid).get(key).add(s);
-			if (playername != null)
-				Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(this, key, playername));
+			this.players.get(playerId).get(key).add(s);
+			
+			Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(this, key, playerId));
 		}
 	}
 
 	public void setLong(Player player, long obj, StatsKey key) {
-		set(getUUID(player), player.getName(), key, obj);
+		set(UtilPlayer.getPlayerId(player), key, obj);
 	}
 
 	public void setInt(Player player, int obj, StatsKey key) {
-		set(getUUID(player), player.getName(), key, obj);
+		set(UtilPlayer.getPlayerId(player), key, obj);
 	}
 
 	public void setDouble(Player player, double obj, StatsKey key) {
-		set(getUUID(player), player.getName(), key, obj);
+		set(UtilPlayer.getPlayerId(player), key, obj);
 	}
 
 	public void set(Player player, StatsKey key, Object obj) {
-		set(getUUID(player), player.getName(), key, obj);
+		set(UtilPlayer.getPlayerId(player), key, obj);
 	}
 
-	public void set(UUID uuid, String playername, StatsKey key, Object obj) {
+	public void set(int playerId, StatsKey key, Object obj) {
 		if (key.getType() != String.class) {
-			if (this.players.containsKey(uuid)) {
-				if (this.players.get(uuid).containsKey(key)) {
+			if (this.players.containsKey(playerId)) {
+				if (this.players.get(playerId).containsKey(key)) {
 					if (key.getType() == int.class) {
-						int i = (int) this.players.get(uuid).get(key).getValue();
+						int i = (int) this.players.get(playerId).get(key).getValue();
 						int change = (int) obj;
 
 						change = change - i;
-						this.players.get(uuid).get(key).add(change);
+						this.players.get(playerId).get(key).add(change);
 					} else if (key.getType() == double.class) {
-						double i = (double) this.players.get(uuid).get(key).getValue();
+						double i = (double) this.players.get(playerId).get(key).getValue();
 						double change = (double) obj;
 
 						change = change - i;
-						this.players.get(uuid).get(key).add(change);
+						this.players.get(playerId).get(key).add(change);
 					} else if (key.getType() == long.class) {
-						long i = (long) this.players.get(uuid).get(key).getValue();
+						long i = (long) this.players.get(playerId).get(key).getValue();
 						long change = (long) obj;
 
 						change = change - i;
-						this.players.get(uuid).get(key).add(change);
+						this.players.get(playerId).get(key).add(change);
 					}
 				} else {
-					this.players.get(uuid).put(key, new StatsObject(0));
-					this.players.get(uuid).get(key).add(obj);
+					this.players.get(playerId).put(key, new StatsObject(0));
+					this.players.get(playerId).get(key).add(obj);
 				}
-				if (playername != null)
-					Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(this, key, playername));
+					
+				Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(this, key, playerId));
 			} else {
-				loadPlayer(uuid, new Callback<UUID>() {
+				logMessage("set LOAD PLAYER "+playerId);
+				loadPlayer(playerId, new Callback<Integer>() {
 					@Override
-					public void call(UUID obj) {
-						set(uuid, playername, key, obj);
+					public void call(Integer pid) {
+						set(playerId, key, obj);
 					}
 				});
 			}
 		} else {
-			setString(uuid, playername, key, ((String) obj));
+			setString(playerId, key, ((String) obj));
 		}
 	}
 
 	public void addLong(Player player, long value, StatsKey key) {
-		add(getUUID(player), player.getName(), key, value);
+		add(UtilPlayer.getPlayerId(player), key, value);
 	}
 
 	public void addInt(Player player, int value, StatsKey key) {
-		add(getUUID(player), player.getName(), key, value);
+		add(UtilPlayer.getPlayerId(player), key, value);
 	}
 
 	public void addDouble(Player player, double value, StatsKey key) {
-		add(getUUID(player), player.getName(), key, value);
+		add(UtilPlayer.getPlayerId(player), key, value);
 	}
 
 	public void add(Player player, StatsKey key, Object value) {
-		add(getUUID(player), player.getName(), key, value);
+		add( UtilPlayer.getPlayerId(player), key, value);
 	}
 
-	public void add(UUID uuid, String playername, StatsKey key, Object value) {
-		if (this.players.containsKey(uuid)) {
-			if (this.players.get(uuid).containsKey(key)) {
-				this.players.get(uuid).get(key).add(value);
-				if (playername != null)
-					Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(statsManager,key, playername));
+	public void add(int playerId, StatsKey key, Object value) {
+		if (this.players.containsKey(playerId)) {
+			if (this.players.get(playerId).containsKey(key)) {
+				this.players.get(playerId).get(key).add(value);
+					
+				Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(statsManager,key, playerId));
 			} else {
-				this.players.get(uuid).put(key, new StatsObject(0));
-				this.players.get(uuid).get(key).add(value);
-				if (playername != null)
-					Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(statsManager,key, playername));
+				this.players.get(playerId).put(key, new StatsObject(0));
+				this.players.get(playerId).get(key).add(value);
+					
+				Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(statsManager,key, playerId));
 			}
 		} else {
-			loadPlayer(uuid, new Callback<UUID>() {
+			logMessage("add LOAD PLAYER "+playerId);
+			loadPlayer(playerId, new Callback<Integer>() {
 
 				@Override
-				public void call(UUID obj) {
-					add(uuid, playername, key, obj);
+				public void call(Integer pid) {
+					add(pid, key, value);
 				}
 			});
 		}
 	}
-
-	public UUID getUUID(Player player) {
-		return UtilPlayer.getRealUUID(player);
-	}
-
-	public void loadPlayer(Player player) {
-		loadPlayer(getUUID(player), null);
-	}
-
-	public void loadPlayer(String playername, Callback<UUID> callback) {
-		loadPlayer(client.getPlayerAndLoad(playername), callback);
-	}
-
-	public void loadPlayer(UUID uuid, Callback<UUID> callback) {
-		loadPlayer(client.getPlayerAndLoad(uuid), callback);
+	
+	public void loadPlayer(String playerName, Callback<Integer> callback) {
+		loadPlayer(client.getPlayerAndLoad(playerName), callback);
 	}
 	
-	public void loadPlayer(LoadedPlayer player, Callback<UUID> callback){
-		player.getStats(getType()).getAsync(new Callback<Statistic[]>() {
+	public void loadPlayer(Player player, Callback<Integer> callback) {
+		loadPlayer(player.getName(),callback);
+	}
+	
+	public void loadPlayer(String playerName) {
+		loadPlayer(client.getPlayerAndLoad(playerName), null);
+	}
+	
+	public void loadPlayer(Player player) {
+		loadPlayer(player.getName());
+	}
+
+	public void loadPlayer(int playerId, Callback<Integer> callback) {
+		loadPlayer(client.getPlayerAndLoad(playerId), callback);
+	}
+	
+	public void loadPlayer(LoadedPlayer loadedplayer, Callback<Integer> callback){
+		if(this.players.containsKey(loadedplayer.getPlayerId())||this.loadplayers.contains(loadedplayer.getName())){
+			logMessage("Player is loaded!? "+loadedplayer.getName());
+			return;
+		}
+		loadplayers.add(loadedplayer.getName());
+		
+		loadedplayer.getStats(getType()).getAsync(new Callback<Statistic[]>() {
 
 			@Override
 			public void call(Statistic[] obj) {
-				if (!players.containsKey(player.getUUID()))
-					players.put(player.getUUID(), new HashMap<>());
+				if (!players.containsKey(loadedplayer.getPlayerId()))
+					players.put(loadedplayer.getPlayerId(), new HashMap<>());
 				
 				for (Statistic s : obj) {
-					players.get(player.getUUID()).put(s.getStatsKey(), new StatsObject(s.getValue()));
+					players.get(loadedplayer.getPlayerId()).put(s.getStatsKey(), new StatsObject(s.getValue()));
 				}
 
 				if (callback != null) {
-					callback.call(player.getUUID());
+					callback.call(loadedplayer.getPlayerId());
 				}
 				
-				Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(statsManager, player.getName()));
+				loadplayers.remove(loadedplayer.getName());
+				Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(statsManager, loadedplayer.getPlayerId()));
 			}
 		});
 	}
@@ -369,17 +372,17 @@ public class StatsManager extends kListener {
 	public void saveAll() {
 		EditStats[] stats;
 		LoadedPlayer loadedplayer;
-		for (UUID uuid : this.players.keySet()) {
-			loadedplayer = client.getPlayerAndLoad(uuid);
-			stats = new EditStats[this.players.get(uuid).size()];
+		for (int playerId : this.players.keySet()) {
+			loadedplayer = client.getPlayerAndLoad(playerId);
+			stats = new EditStats[this.players.get(playerId).size()];
 
-			for (int i = 0; i < this.players.get(uuid).size(); i++) {
-				StatsKey key = (StatsKey) this.players.get(uuid).keySet().toArray()[i];
-				if (this.players.get(uuid).get(key).getChange() != null) {
+			for (int i = 0; i < this.players.get(playerId).size(); i++) {
+				StatsKey key = (StatsKey) this.players.get(playerId).keySet().toArray()[i];
+				if (this.players.get(playerId).get(key).getChange() != null) {
 					if (key.getType() == String.class) {
-						stats[i] = new EditStats(getType(), Action.SET, key, this.players.get(uuid).get(key).getValue());
+						stats[i] = new EditStats(getType(), Action.SET, key, this.players.get(playerId).get(key).getValue());
 					} else {
-						stats[i] = new EditStats(getType(), Action.ADD, key, this.players.get(uuid).get(key).getChange());
+						stats[i] = new EditStats(getType(), Action.ADD, key, this.players.get(playerId).get(key).getChange());
 					}
 				}
 			}
@@ -389,37 +392,37 @@ public class StatsManager extends kListener {
 	}
 
 	public void SaveAllPlayerData(Player player) {
-		save(getUUID(player));
+		save(UtilPlayer.getPlayerId(player));
 	}
 
 	public void save(Player player) {
-		save(getUUID(player));
+		save(UtilPlayer.getPlayerId(player));
 	}
 
-	public void save(UUID uuid) {
+	public void save(int playerId) {
 		if (isOnDisable()) return;
-		if (this.players.containsKey(uuid)) {
-			LoadedPlayer loadedplayer = client.getPlayer(uuid);
-			loadedplayer.load();
-			EditStats[] stats = new EditStats[this.players.get(uuid).size()];
+		if (this.players.containsKey(playerId)) {
+			LoadedPlayer loadedplayer = client.getPlayerAndLoad(playerId);
+			EditStats[] stats = new EditStats[this.players.get(playerId).size()];
 
 			StatsKey key;
-			for (int i = 0; i < this.players.get(uuid).size(); i++) {
-				key = (StatsKey) this.players.get(uuid).keySet().toArray()[i];
+			for (int i = 0; i < this.players.get(playerId).size(); i++) {
+				key = (StatsKey) this.players.get(playerId).keySet().toArray()[i];
 
-				if (this.players.get(uuid).get(key).getChange() != null) {
+				if (this.players.get(playerId).get(key).getChange() != null) {
 					if (key.getType() == String.class) {
 						stats[i] = new EditStats(getType(), Action.SET, key,
-								this.players.get(uuid).get(key).getValue());
+								this.players.get(playerId).get(key).getValue());
 					} else {
 						stats[i] = new EditStats(getType(), Action.ADD, key,
-								this.players.get(uuid).get(key).getChange());
+								this.players.get(playerId).get(key).getChange());
 					}
 				}
 			}
 
 			loadedplayer.setStats(stats);
-			this.players.remove(uuid);
+			this.players.remove(playerId);
+			loadplayers.remove(loadedplayer.getName());
 		}
 	}
 }

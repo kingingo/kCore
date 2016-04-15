@@ -318,7 +318,7 @@ public enum PermissionType {
 	DELIVERY_PET_ULTRA_WEEK("epicpvp.delivery.rank.ultra.week"),
 	DELIVERY_PET_LEGEND_WEEK("epicpvp.delivery.rank.legend.week"),
 	DELIVERY_PET_MVP_WEEK("epicpvp.delivery.rank.mvp.week"),
-	DELIVERY_PET_MVPPLUS_WEEK("epicpvp.delivery.rank.,mvpplus.week"),
+	DELIVERY_PET_MVPPLUS_WEEK("epicpvp.delivery.rank.mvpplus.week"),
 	//DELIVERY
 
 	//PETS

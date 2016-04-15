@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandSetSpawn implements CommandExecutor{
@@ -28,7 +28,7 @@ public class CommandSetSpawn implements CommandExecutor{
 			config.setLocation("spawn", player.getWorld().getSpawnLocation());
 			config.save();
 			spawn.setSpawn(player.getWorld().getSpawnLocation());
-			player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SPAWN_SET"));
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SPAWN_SET"));
 		}
 		return false;
 	}

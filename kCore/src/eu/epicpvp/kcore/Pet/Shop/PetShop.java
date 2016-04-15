@@ -13,9 +13,10 @@ import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
+import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 
 public class PetShop extends InventoryPageBase{
@@ -285,7 +286,7 @@ public class PetShop extends InventoryPageBase{
 					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "BUY_RANK"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "BUY_RANK"));
 					player.closeInventory();
 				}
 			}
@@ -299,7 +300,7 @@ public class PetShop extends InventoryPageBase{
 					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "BUY_RANK"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "BUY_RANK"));
 					player.closeInventory();
 				}
 			}
@@ -313,7 +314,7 @@ public class PetShop extends InventoryPageBase{
 					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "BUY_RANK"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "BUY_RANK"));
 					player.closeInventory();
 				}
 			}
@@ -327,7 +328,7 @@ public class PetShop extends InventoryPageBase{
 					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "BUY_RANK"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "BUY_RANK"));
 					player.closeInventory();
 				}
 			}
@@ -341,7 +342,7 @@ public class PetShop extends InventoryPageBase{
 					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "BUY_RANK"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "BUY_RANK"));
 					player.closeInventory();
 				}
 			}
@@ -355,7 +356,7 @@ public class PetShop extends InventoryPageBase{
 					if(!getHandle().getChange_settings().contains(player))getHandle().getChange_settings().add(player);
 					player.closeInventory();
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PET_SEPZIAL_SHOP"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PET_SEPZIAL_SHOP"));
 					player.closeInventory();
 				}
 			}

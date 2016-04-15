@@ -3,7 +3,6 @@ package eu.epicpvp.kcore.Pet.Shop;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
@@ -49,6 +48,7 @@ import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
+import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,7 +62,7 @@ public class PlayerPetHandler implements Listener{
 	@Getter
 	private ArrayList<Player> change_settings = new ArrayList<>();
 	@Getter
-	private HashMap<UUID,String> settings = new HashMap<>();
+	private HashMap<Integer,String> settings = new HashMap<>();
 	@Getter
 	private InventoryBase base;
 	@Getter
@@ -81,7 +81,7 @@ public class PlayerPetHandler implements Listener{
 		this.mysql=mysql;
 		this.manager.setHandler(this);
 		this.manager.setSetting(true);
-		this.mysql.Update("CREATE TABLE IF NOT EXISTS "+serverType.name()+"_pets(uuid varchar(100),pet varchar(100))");
+		this.mysql.Update("CREATE TABLE IF NOT EXISTS "+serverType.name()+"_pets(playerId int,pet text)");
 		
 		this.manager.getSetting_list().put(EntityType.SNOWMAN, new PetSetting(base,manager,EntityType.SNOWMAN,UtilItem.RenameItem(new ItemStack(Material.CARROT_ITEM), "§aSnowman")));
 //		this.manager.getSetting_list().put(EntityType.MAGMA_CUBE, new PetSetting(base,manager,EntityType.MAGMA_CUBE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 62), "§aMagma Cube")));
@@ -149,9 +149,9 @@ public class PlayerPetHandler implements Listener{
 	
 	public void DeletePetSettings(Player player){
 		if(isAsync()){
-			mysql.asyncUpdate("DELETE FROM "+serverType.name()+"_pets WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+			mysql.asyncUpdate("DELETE FROM "+serverType.name()+"_pets WHERE playerId='"+UtilPlayer.getPlayerId(player)+"'");
 		}else{
-			mysql.Update("DELETE FROM "+serverType.name()+"_pets WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+			mysql.Update("DELETE FROM "+serverType.name()+"_pets WHERE playerId='"+UtilPlayer.getPlayerId(player)+"'");
 		}
 	}
 	
@@ -160,9 +160,9 @@ public class PlayerPetHandler implements Listener{
 			Entity c = manager.getActivePetOwners().get(player.getName().toLowerCase());
 
 			if(isAsync()){
-				mysql.asyncUpdate("INSERT INTO "+serverType.name()+"_pets (uuid,pet) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+toString(c)+"');");
+				mysql.asyncUpdate("INSERT INTO "+serverType.name()+"_pets (playerId,pet) VALUES ('"+UtilPlayer.getPlayerId(player)+"','"+toString(c)+"');");
 			}else{
-				mysql.Update("INSERT INTO "+serverType.name()+"_pets (uuid,pet) VALUES ('"+UtilPlayer.getRealUUID(player)+"','"+toString(c)+"');");
+				mysql.Update("INSERT INTO "+serverType.name()+"_pets (playerId,pet) VALUES ('"+UtilPlayer.getPlayerId(player)+"','"+toString(c)+"');");
 			}
 		}
 	}
@@ -253,9 +253,9 @@ public class PlayerPetHandler implements Listener{
 		}
 	}
 	
-	public void loadPetSettings(UUID uuid){
-		String sql = mysql.getString("SELECT `pet` FROM `"+serverType.name()+"_pets` WHERE uuid='"+uuid+"'");
-		if(!sql.equalsIgnoreCase("null"))settings.put(uuid, sql);
+	public void loadPetSettings(int playerId){
+		String sql = mysql.getString("SELECT `pet` FROM `"+serverType.name()+"_pets` WHERE playerId='"+playerId+"'");
+		if(!sql.equalsIgnoreCase("null"))settings.put(playerId, sql);
 	}
 	
 	public void loadPetSettings(Player player,String sql){
@@ -353,7 +353,7 @@ public class PlayerPetHandler implements Listener{
 	}
 	
 	public void loadPetSettings(Player player){
-		String sql = mysql.getString("SELECT `pet` FROM `"+serverType.name()+"_pets` WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+		String sql = mysql.getString("SELECT `pet` FROM `"+serverType.name()+"_pets` WHERE playerId='"+UtilPlayer.getPlayerId(player)+"'");
 		loadPetSettings(player, sql);
 	}
 	
@@ -369,22 +369,22 @@ public class PlayerPetHandler implements Listener{
 		}
 	}
 	
-	UUID player;
+	int playerId;
 	@EventHandler
 	public void Place(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SEC_3)return;
 		for(int i = 0; i < settings.size(); i++){
-			player=((UUID)settings.keySet().toArray()[i]);
-			if(UtilPlayer.isOnline( player )){
-				loadPetSettings(Bukkit.getPlayer(player), settings.get(player));
-				settings.remove(player);
+			playerId=UtilNumber.toInt(settings.keySet().toArray()[i]);
+			if(UtilPlayer.isOnline( playerId )){
+				loadPetSettings(UtilPlayer.searchExact(playerId), settings.get(playerId));
+				settings.remove(playerId);
 			}
 		}
 	}
 	
 	@EventHandler(priority=EventPriority.LOW)
 	public void Join(AsyncPlayerPreLoginEvent ev){
-		loadPetSettings(UtilPlayer.getRealUUID(ev.getName(), ev.getUniqueId()));
+		loadPetSettings(UtilPlayer.getPlayerId(ev.getName()));
 	}
 	
 	@EventHandler

@@ -32,7 +32,7 @@ import eu.epicpvp.kcore.Inventory.Inventory.InventoryRename;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBase;
 import eu.epicpvp.kcore.Pet.PetManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.AnvilGUI.AnvilClickEvent;
 import eu.epicpvp.kcore.Util.AnvilGUI.AnvilClickEventHandler;
 import eu.epicpvp.kcore.Util.InventorySize;
@@ -405,12 +405,12 @@ public class PetSetting extends InventoryPageBase{
 									try{
 										Material m = Material.getMaterial(Integer.valueOf(event.getName()));
 										if(m==null){
-											player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NOT_ENTITY_ID"));
+											player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NOT_ENTITY_ID"));
 											return;
 										}
 										((Creature)manager.GetPet(player)).getEquipment().setItemInHand( new ItemStack(m) );;
 									}catch(NumberFormatException e){
-										player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NOT_ENTITY_ID"));
+										player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NOT_ENTITY_ID"));
 									}
 								}
 								

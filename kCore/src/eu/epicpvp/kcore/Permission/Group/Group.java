@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import eu.epicpvp.kcore.Permission.Permission;
 import eu.epicpvp.kcore.Permission.PermissionManager;
+import eu.epicpvp.kcore.Permission.Events.GroupLoadedEvent;
+import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 
 public class Group {
@@ -40,10 +42,12 @@ public class Group {
 			perms.add(new Permission(response.readString(), GroupTyp.values()[response.readByte()]));
 		}
 		prefix = response.readString();
+		
+		Bukkit.getPluginManager().callEvent(new GroupLoadedEvent(manager, this));
 	}
 	
 	private Player createPlayer(){
-		return Bukkit.getOnlinePlayers().iterator().hasNext() ? Bukkit.getOnlinePlayers().iterator().next() : null;
+		return UtilServer.getPlayers().isEmpty() ? null : UtilServer.getPlayers().iterator().next();
 	}
 	
 	public boolean hasPermission(String permission){

@@ -21,7 +21,6 @@ import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Util.UtilEnt;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilInv;
-import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
@@ -132,7 +131,7 @@ public class PerkManager extends PerkData{
 	}
 	
 	public void configPlayer(Player player){
-		if(UtilServer.getUserData().getConfigs().containsKey(UtilPlayer.getRealUUID(player))){
+		if(UtilServer.getUserData().contains(player)){
 			configPlayer(player, UtilServer.getUserData().getConfig(player));
 		}
 	}

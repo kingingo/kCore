@@ -3,12 +3,12 @@ package eu.epicpvp.kcore.Arena;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.event.EventListener;
@@ -16,7 +16,6 @@ import dev.wolveringer.events.Event;
 import dev.wolveringer.events.EventConditions;
 import dev.wolveringer.events.EventType;
 import dev.wolveringer.events.player.PlayerServerSwitchEvent;
-import dev.wolveringer.skin.Skin;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Listener.SkinCatcherListener.SkinCatcherListener;
 import eu.epicpvp.kcore.PacketAPI.Packets.kGameProfile;
@@ -28,6 +27,7 @@ import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilSkin;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import net.minecraft.server.v1_8_R3.WorldSettings.EnumGamemode;
 
 public class TabManager extends kListener{
 	
@@ -35,10 +35,13 @@ public class TabManager extends kListener{
 	private GameType[] types;
 	private kPacketPlayOutPlayerInfo info;
 	private HashMap<UUID,kPlayerInfoData> players;
+	private HashMap<UUID,kPacketPlayOutPlayerInfo> last_packet;
 	
 	public TabManager(JavaPlugin instance,GameType[] types) {
 		super(instance, "TabManager");
 		this.types=types;
+		this.players=new HashMap<>();
+		this.last_packet=new HashMap<>();
 		new SkinCatcherListener(instance, TimeSpan.HOUR*4);
 		this.info = new kPacketPlayOutPlayerInfo();
 		this.info.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
@@ -48,39 +51,55 @@ public class TabManager extends kListener{
 		
 		UtilServer.getClient().getHandle().getEventManager().registerListener(new EventListener() {
 			
-			@Override
+			@SuppressWarnings("deprecation")
 			public void fireEvent(Event e) {
 				if(e instanceof PlayerServerSwitchEvent){
 					PlayerServerSwitchEvent ev = (PlayerServerSwitchEvent)e;
-					LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(ev.getPlayer());
-					logMessage("FIRE "+loadedplayer.getName());
-					
-					if(ev.getFrom().startsWith("versushub") && ev.getTo()!= null && ev.getTo().startsWith("a")){
-						UtilSkin.loadSkin(new Callback<Skin>() {
+					System.err.println("FIRE: "+ev.getPlayerId());
+					LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(ev.getPlayerId());
 
+					System.err.println("FIRE: "+loadedplayer.getName());
+					
+					if(ev.getFrom() != null && ev.getFrom().startsWith("versus") && ev.getTo()!= null && ev.getTo().startsWith("a")){
+						Bukkit.getScheduler().scheduleAsyncDelayedTask(instance, new Runnable() {
+							
 							@Override
-							public void call(Skin data) {
-								players.put(loadedplayer.getUUID(), new kPlayerInfoData(info, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),data), "§7"+loadedplayer.getName()));
-								info.getList().add(players.get(loadedplayer.getUUID()));
-								logMessage("ADD "+loadedplayer.getName());
+							public void run() {
+								if(!UtilPlayer.isOnline(loadedplayer.getName())){
+									kPacketPlayOutPlayerInfo add = new kPacketPlayOutPlayerInfo();
+									add.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
+
+									System.err.println("ADD: "+loadedplayer.getName());
+									
+									add.getList().add(new kPlayerInfoData(add,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)), (UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getUUID()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
+									for(Player player : UtilServer.getPlayers()){
+										UtilPlayer.sendPacket(player, add);
+									}
+									last_packet.put(loadedplayer.getUUID(), add);
+								}
 							}
-						}, loadedplayer.getUUID());
-					}else if(ev.getFrom().startsWith("a") && players.containsKey(loadedplayer.getUUID())){
-						kPacketPlayOutPlayerInfo remove = new kPacketPlayOutPlayerInfo();
+						}, 10);
+						
+						players.put(loadedplayer.getUUID(), new kPlayerInfoData(info,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)),(UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getUUID()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
+						info.getList().add(players.get(loadedplayer.getUUID()));
+					}else if(ev.getFrom() != null && ev.getFrom().startsWith("a") && players.containsKey(loadedplayer.getUUID())){
+						kPacketPlayOutPlayerInfo remove = last_packet.get(loadedplayer.getUUID());
 						remove.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
-						
-						remove.getList().add(new kPlayerInfoData(remove, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)), "§7"+loadedplayer.getName()));
 						for(Player player : UtilServer.getPlayers())UtilPlayer.sendPacket(player, remove);
-						
+
+						System.err.println("REMOVE: "+loadedplayer.getName());
 						info.getList().remove(players.get(loadedplayer.getUUID()));
 						players.remove(loadedplayer.getUUID());
-						
-						logMessage("REMOVE "+loadedplayer.getName());
+						last_packet.remove(loadedplayer.getUUID());
 					}
 				}
 			}
 		});
 		UtilServer.setTabManager(this);
+	}
+	
+	public int getSize(){
+		return players.size();
 	}
 	
 	@EventHandler

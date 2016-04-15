@@ -1,5 +1,6 @@
 package eu.epicpvp.kcore.Util;
 
+import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,6 +31,7 @@ import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
+import dev.wolveringer.translation.TranslationManager;
 import eu.epicpvp.kcore.Arena.TabManager;
 import eu.epicpvp.kcore.Arena.BestOf.BestOf;
 import eu.epicpvp.kcore.Command.CommandHandler;
@@ -49,8 +51,9 @@ import eu.epicpvp.kcore.Listener.ClientListener.ClientListener;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.kPacketListener;
+import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.Updater;
 import eu.epicpvp.kcore.UpdateAsync.UpdaterAsync;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
@@ -71,6 +74,9 @@ public class UtilServer{
 	@Getter
 	@Setter
 	private static kPacketListener packetListener;
+	@Getter
+	@Setter
+	private static PermissionManager permissionManager;
 	@Getter
 	@Setter
 	private static DisguiseManager disguiseManager;
@@ -132,9 +138,10 @@ public class UtilServer{
 	
 	public static ClientWrapper createClient(JavaPlugin instance,ClientType type,String host,int port,String name){
 		if(client==null){
+			TranslationManager.setLanguageDirectory(new File("/root/languages/"));
 			createUpdaterAsync(instance);
 			ThreadFactory.setFactory(new ThreadFactory()); //149.202.150.185
-			
+
 			client=new ClientWrapper(Client.createServerClient(type, name, new InetSocketAddress(host, port), new ServerActionListener() {
 				
 				@Override
@@ -155,9 +162,9 @@ public class UtilServer{
 				}
 				
 				@Override
-				public void kickPlayer(UUID player, String message) {
-					if(UtilPlayer.isOnline(player)){
-						Bukkit.getPlayer(player).kickPlayer(message);
+				public void kickPlayer(int playerId, String message) {
+					if(UtilPlayer.isOnline(playerId)){
+						UtilPlayer.searchExact(playerId).kickPlayer(message);
 					}
 				}
 				
@@ -197,13 +204,14 @@ public class UtilServer{
 				}
 			}));
 			try {
-				
+				new ClientListener(instance, client);
 				client.getHandle().connect("HelloWorld".getBytes());
+				
+				TranslationHandler.setInstance(client.getTranslationManager());
+				TranslationHandler.getInstance().updateTranslations();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			new ClientListener(instance, client);
 		}
 		return client;
 	}
@@ -389,15 +397,15 @@ public class UtilServer{
   }
 
   public static void broadcastLanguage(String name,Object input){
-	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, TranslationManager.getText("PREFIX")+TranslationManager.getText(cur, name,input));
+	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, TranslationHandler.getText("PREFIX")+TranslationHandler.getText(cur, name,input));
   }
   
   public static void broadcastLanguage(String name,Object[] input){
-	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, TranslationManager.getText("PREFIX")+TranslationManager.getText(cur, name,input));
+	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, TranslationHandler.getText("PREFIX")+TranslationHandler.getText(cur, name,input));
   }
   
   public static void broadcastLanguage(String name){
-	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, TranslationManager.getText("PREFIX")+TranslationManager.getText(cur, name));
+	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, TranslationHandler.getText("PREFIX")+TranslationHandler.getText(cur, name));
   }
   
   public static void broadcast(String message){

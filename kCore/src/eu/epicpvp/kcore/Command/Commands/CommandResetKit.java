@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Command.Commands.Events.ResetKitEvent;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandResetKit implements CommandExecutor{
 
@@ -21,14 +21,14 @@ public class CommandResetKit implements CommandExecutor{
 		
 		if(player.hasPermission(PermissionType.KIT_RESET.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/resetkit [Name]");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/resetkit [Name]");
 			}else{
 				String kit_player=args[0].toLowerCase();
 				ResetKitEvent reset = new ResetKitEvent(player, kit_player);
 				Bukkit.getPluginManager().callEvent(reset);
 				
 				if(reset.isCancelled()){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "KIT_EXIST"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "KIT_EXIST"));
 				}
 			}
 		}

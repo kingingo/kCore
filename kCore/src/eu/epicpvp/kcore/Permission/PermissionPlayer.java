@@ -1,88 +1,122 @@
 package eu.epicpvp.kcore.Permission;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
 
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
+import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
+import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 
-//WolverinDEV=57091d6f-839f-48b7-a4b1-4474222d4ad1
 public class PermissionPlayer {
 	@Getter
-	private UUID uuid;
+	private int playerId;
 	@Getter
 	private ArrayList<Permission> permissions = new ArrayList<>();
 	@Getter
 	private ArrayList<Group> groups = new ArrayList<>();
-	
+	@Getter
+	private PermissionAttachment permissionAttachment;
 	private PermissionManager manager;
+	@Getter
 	private Player player;
-	
-	public PermissionPlayer(Player player,PermissionManager manager,UUID uuid){
-		this.player=player;
+
+	public PermissionPlayer(Player player, PermissionManager manager, int playerId) {
+		this.player = player;
+		this.permissionAttachment = player.addAttachment(manager.getInstance());
 		this.manager = manager;
-		this.uuid = uuid;
+		this.playerId = playerId;
 		loadPermissions();
 	}
-	
-	private void loadPermissions(){
+
+	private void loadPermissions() {
 		System.out.println("[PermissionManager]: Requesting player Permissions");
-		DataBuffer buffer = manager.handler.sendMessage(player, new DataBuffer().writeByte(0).writeUUID(uuid)).getSync(); //Action: 0 (Get-Perms)
-		if(buffer == null){
+		UtilPlayer.getPermissionList(this.permissionAttachment).clear();
+		DataBuffer buffer = manager.handler.sendMessage(player, new DataBuffer().writeByte(0).writeInt(playerId)).getSync(); // Action: 0 (Get-Perms)
+		if (buffer == null) {
 			System.out.println("[PermissionManager]: Response == null");
 			return;
 		}
 		int length = buffer.readInt();
-		if(length == -1){ //Error
-			System.out.println("[PermissionManager]: Having an error: "+buffer.readString());
+		if (length == -1) { // Error
+			System.out.println("[PermissionManager]: Having an error: " + buffer.readString());
 			return;
 		}
 		ArrayList<String> sgroups = new ArrayList<>();
-		for(int i = 0;i<length;i++){
+		for (int i = 0; i < length; i++) {
 			sgroups.add(buffer.readString());
 		}
-		
+
 		length = buffer.readInt();
-		for(int i = 0;i<length;i++){
-			permissions.add(new Permission(buffer.readString(), GroupTyp.values()[buffer.readByte()]));
+		for (int i = 0; i < length; i++) {
+			Permission perm = new Permission(buffer.readString(), GroupTyp.values()[buffer.readByte()]);
+			permissions.add(perm);
+			player.addAttachment(manager.getInstance(), perm.getRawPermission(), !perm.isNegative());
+			//this.permissionAttachment.setPermission(perm.a, true);
 		}
 		System.out.println("[PermissionManager]: Permissions geladen. Lade gruppen");
-		
-		for(String s : sgroups){
+
+		for (String s : sgroups) {
 			Group g = manager.getGroup(s);
-			if(g == null)
+			if (g == null)
 				g = manager.loadGroup(s);
 			groups.add(g);
 		}
+		
+		for(Group g : getGroups()){
+			for(Permission perm : g.getPermissions()){
+				//this.permissionAttachment.setPermission(perm.getBukkitPermission(), true);
+				player.addAttachment(manager.getInstance(),perm.getRawPermission(),!perm.isNegative());
+			}
+		}
+		
+		if(player.hasPermission("*")||player.hasPermission("epicpvp.op")){
+			player.setOp(true);
+		}else{
+			if(player.isOp()){
+				player.setOp(false);
+			}
+		}
+		
+		player.recalculatePermissions();
 		System.out.println("[PermissionManager]: Player geladen");
+		manager.getUser().put(playerId, this);
 	}
-	
-	public void reloadPermissions(){
+
+	public void reloadPermissions() {
 		loadPermissions();
 	}
-	
-	public void addPermission(String permission){
+
+	public void addPermission(String permission) {
 		addPermission(permission, GroupTyp.ALL);
 	}
-	public void addPermission(String permission,GroupTyp type){
-		if(!permissions.contains(new Permission(permission,type))){
-			permissions.add(new Permission(permission,type));
-			manager.handler.sendMessage(player, new DataBuffer().writeByte(2).writeUUID(uuid).writeByte(type.ordinal()));
+
+	public void addPermission(String permission, GroupTyp type) {
+		Permission perm = new Permission(permission, type);
+		if (!permissions.contains(perm)) {
+			permissions.add(perm);
+			//this.permissionAttachment.setPermission(perm.getBukkitPermission(), true);
+			player.addAttachment(manager.getInstance(),perm.getRawPermission(),true);
+			manager.handler.sendMessage(player, new DataBuffer().writeByte(2).writeInt(playerId).writeByte(type.ordinal()));
+			player.recalculatePermissions();
 		}
 	}
-	public boolean hasPermission(String permission){
+
+	public boolean hasPermission(String permission) {
 		return hasPermission(permission, GroupTyp.ALL);
 	}
-	public boolean hasPermission(String permission,GroupTyp type){
-		for(Permission p : new ArrayList<>(permissions))
-			if((type == GroupTyp.ALL || p.getGroup() == type) && p.acceptPermission(permission))
+
+	public boolean hasPermission(String permission, GroupTyp type) {
+		for (Permission p : new ArrayList<>(permissions))
+			if ((type == GroupTyp.ALL || p.getGroup() == type) && p.acceptPermission(permission))
 				return true;
-		for(Group group : groups)
-			if(group.hasPermission(permission, type))
+		for (Group group : groups)
+			if (group.hasPermission(permission, type))
 				return true;
 		return false;
 	}

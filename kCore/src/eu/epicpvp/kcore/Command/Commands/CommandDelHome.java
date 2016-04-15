@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
@@ -27,15 +27,15 @@ public class CommandDelHome implements CommandExecutor{
 		config = userData.getConfig(player);
 		
 		if(args.length==0){
-			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/delhome [Name]");
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/delhome [Name]");
 		}else if(args.length>=1){
 			if(player.hasPermission(PermissionType.HOME_DEL.getPermissionToString())){
 				if(config.isSet("homes."+args[0])){
 					config.set("homes."+args[0], null);
 					config.save();
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "HOME_DEL",args[0]));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HOME_DEL",args[0]));
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "HOME_EXIST"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HOME_EXIST"));
 				}
 			}
 		}

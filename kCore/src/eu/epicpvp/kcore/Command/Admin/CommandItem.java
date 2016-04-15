@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilItem;
 
 public class CommandItem implements CommandExecutor{
@@ -22,10 +22,10 @@ public class CommandItem implements CommandExecutor{
 			
 			if(player.isOp()){
 				if(args.length==0){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/item glow");
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/item add [Line]");
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/item clear");
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/item del [Line]");
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/item glow");
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/item add [Line]");
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/item clear");
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/item del [Line]");
 				}else{
 					if(args[0].equalsIgnoreCase("glow")){
 						player.setItemInHand( UtilItem.addEnchantmentGlow(player.getItemInHand()) );

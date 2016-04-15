@@ -1,7 +1,5 @@
 package eu.epicpvp.kcore.Command.Admin;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,15 +33,15 @@ public class CommandAdminStats  implements CommandExecutor{
 					
 					if(args.length==1){
 						if(!UtilPlayer.isOnline(spieler)){
-							statsManager.loadPlayer(spieler, new Callback<UUID>() {
+							statsManager.loadPlayer(spieler, new Callback<Integer>() {
 								
 								@Override
-								public void call(UUID uuid) {
-									callAllStats(player,uuid);
+								public void call(Integer playerId) {
+									callAllStats(player,playerId);
 								}
 							});
 						}else{
-							callAllStats(player,UtilPlayer.getRealUUID(Bukkit.getPlayer(spieler)));
+							callAllStats(player,UtilPlayer.getPlayerId(Bukkit.getPlayer(spieler)));
 						}
 					}else{
 						if(args[2].equalsIgnoreCase("set")){
@@ -51,15 +49,15 @@ public class CommandAdminStats  implements CommandExecutor{
 							String value = args[4];
 							
 							if(!UtilPlayer.isOnline(spieler)){
-								statsManager.loadPlayer(spieler, new Callback<UUID>() {
+								statsManager.loadPlayer(spieler, new Callback<Integer>() {
 									
 									@Override
-									public void call(UUID uuid) {
-										set(player, uuid, key, value);
+									public void call(Integer playerId) {
+										set(player, playerId, key, value);
 									}
 								});
 							}else{
-								set(player, UtilPlayer.getRealUUID(Bukkit.getPlayer(spieler)), key, value);
+								set(player, UtilPlayer.getPlayerId(Bukkit.getPlayer(spieler)), key, value);
 							}
 						}
 					}
@@ -69,14 +67,14 @@ public class CommandAdminStats  implements CommandExecutor{
 		return true;
 	}
 	
-	public void set(Player sender,UUID uuid, StatsKey key, Object value){
-		statsManager.set(uuid, null, key, value);
+	public void set(Player sender,int playerId, StatsKey key, Object value){
+		statsManager.set(playerId, key, value);
 		sender.sendMessage("§eSet§6 "+key.name() +"§e to§6 "+value);
 	}
 	
-	public void callAllStats(Player sender, UUID uuid){
+	public void callAllStats(Player sender, int playerId){
 		for(StatsKey key : statsManager.getType().getStats()){
-			sender.sendMessage("§eStats:§6 "+key.name()+" §eValue:§6"+statsManager.get(uuid, key));
+			sender.sendMessage("§eStats:§6 "+key.name()+" §eValue:§6"+statsManager.get(playerId, key));
 		}
 	}
 	

@@ -21,7 +21,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryLotto2.InventoryLotto2Type;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.LottoPackage;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.TreasureChest.StandingTreasureChest.TreasureChestPackage;
 import eu.epicpvp.kcore.TreasureChest.StandingTreasureChest.TreasureChestType;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
@@ -98,7 +98,7 @@ public class UtilItem {
 	        }
 	        else
 	        {
-	          throw new Exception(TranslationManager.getText("onlyPlayerSkulls"));
+	          throw new Exception(TranslationHandler.getText("onlyPlayerSkulls"));
 	        }
 	      }else{
 	    	item=parseEnchantmentStrings(item,true,split);
@@ -138,7 +138,7 @@ public class UtilItem {
 	  {
 	    if (enchantment == null)
 	    {
-	      throw new Exception(TranslationManager.getText("enchantmentNotFound"));
+	      throw new Exception(TranslationHandler.getText("enchantmentNotFound"));
 	    }
 	    try
 	    {
@@ -214,7 +214,7 @@ public class UtilItem {
 	          if (colorMap.containsKey(color.toUpperCase())){
 	            primaryColors.add(((DyeColor)colorMap.get(color.toUpperCase())).getFireworkColor());
 	          }else{
-	            throw new Exception(TranslationManager.getText("invalidFireworkFormat"));
+	            throw new Exception(TranslationHandler.getText("invalidFireworkFormat"));
 	          }
 	        }
 	        builder.withColor(primaryColors);
@@ -227,7 +227,7 @@ public class UtilItem {
 	        {
 	          finalEffect = (FireworkEffect.Type)fireworkShape.get(split[1].toUpperCase());
 	        }else{
-	            throw new Exception(TranslationManager.getText("invalidFireworkFormat"));
+	            throw new Exception(TranslationHandler.getText("invalidFireworkFormat"));
 	        }
 	        if (finalEffect != null)
 	        {
@@ -243,7 +243,7 @@ public class UtilItem {
 	          if (colorMap.containsKey(color.toUpperCase())){
 	            fadeColors.add(((DyeColor)colorMap.get(color.toUpperCase())).getFireworkColor());
 	          }else{
-	        	  throw new Exception(TranslationManager.getText("invalidFireworkFormat"));
+	        	  throw new Exception(TranslationHandler.getText("invalidFireworkFormat"));
 	          }
 	        }
 	        if (!fadeColors.isEmpty())
@@ -264,7 +264,7 @@ public class UtilItem {
 	          {
 	            builder.trail(true);
 	          }else{
-	        	  throw new Exception(TranslationManager.getText("invalidFireworkFormat"));
+	        	  throw new Exception(TranslationHandler.getText("invalidFireworkFormat"));
 	          }
 	        }
 	      }

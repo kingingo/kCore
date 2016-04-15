@@ -23,7 +23,7 @@ import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.LoginManager.Commands.CommandCaptcha;
 import eu.epicpvp.kcore.LoginManager.Commands.CommandLogin;
 import eu.epicpvp.kcore.LoginManager.Commands.CommandRegister;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.TimeSpan;
@@ -48,6 +48,9 @@ public class LoginManager extends kListener{
 	private HashMap<String,String> captcha;
 	@Getter
 	private HashMap<Player,Long> timer;
+	private Title loginTitle = new Title("§c/login [Password]","");
+	private Title captchaTitle = new Title("","§c/captcha [Captcha]");
+	private Title registerTitle = new Title("§cRegister","");
 	
 	public LoginManager(JavaPlugin instance,CommandHandler commandHandler,ClientWrapper client) {
 		super(instance, "LoginManager");
@@ -58,6 +61,9 @@ public class LoginManager extends kListener{
 		this.captcha=new HashMap<>();
 		this.register=new ArrayList<>();
 		this.timer=new HashMap<>();
+		this.loginTitle.setFadeInTime(0);
+		this.captchaTitle.setFadeInTime(0);
+		this.registerTitle.setFadeInTime(0);
 		
 		this.commandHandler.register(CommandCaptcha.class, new CommandCaptcha(this));
 		this.commandHandler.register(CommandLogin.class, new CommandLogin(this));
@@ -78,8 +84,8 @@ public class LoginManager extends kListener{
 	}
 	
 	public void load(String playername){
-		if(this.login.containsKey(playername.toLowerCase()))this.login.remove(playername.toLowerCase());
-		if(this.register.contains(playername.toLowerCase()))this.register.remove(playername.toLowerCase());
+		if(this.login.containsKey(playername))this.login.remove(playername);
+		if(this.register.contains(playername))this.register.remove(playername);
 		
 		LoadedPlayer loadedplayer = this.client.getPlayerAndLoad(playername);
 		loadedplayer.getSettings(Setting.PASSWORD).getAsync( new Callback<PacketOutPlayerSettings.SettingValue[]>() {
@@ -89,16 +95,14 @@ public class LoginManager extends kListener{
 				if (response.length == 1 && response[0].getSetting() == Setting.PASSWORD){
 					if(response[0].getValue()!=null){
 						if(UtilPlayer.isOnline(playername)){
-							Title title = new Title("§c/login [Password]","");
-							title.setStayTime(60*60*100);
-							title.send(Bukkit.getPlayer(playername));
+							loginTitle.setSubtitle(TranslationHandler.getText(Bukkit.getPlayer(playername), "LOGIN_MESSAGE"));
+							loginTitle.send(Bukkit.getPlayer(playername));
 						}
 						
-						login.put(playername.toLowerCase(), response[0].getValue());
+						login.put(playername, response[0].getValue());
 						return;
 					}
 				}
-				captcha.put(playername.toLowerCase(), randomString(4));
 				addCaptcha(playername);
 			}
 		} );
@@ -112,16 +116,15 @@ public class LoginManager extends kListener{
 	}
 	
 	public void addCaptcha(String playername){
-		this.captcha.put(playername, randomString(5));
+		if(!this.captcha.containsKey(playername))this.captcha.put(playername, randomString(5));
 		sendCaptcha(playername);
 	}
 	
 	public void sendCaptcha(String playername){
 		if(UtilPlayer.isOnline(playername)){
-			Title title = new Title("§a"+this.captcha.get(playername.toLowerCase()),"§c/captcha [Captcha]");
 			Bukkit.getPlayer(playername).sendMessage("                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ");
-			title.setStayTime(60*60*100);
-			title.send(Bukkit.getPlayer(playername));
+			captchaTitle.setTitle("§a"+this.captcha.get(playername));
+			captchaTitle.send(Bukkit.getPlayer(playername));
 		}
 	}
 	
@@ -130,12 +133,18 @@ public class LoginManager extends kListener{
 	public void message(UpdateEvent ev){
 		if(ev.getType() == UpdateType.SEC_3){
 			for(Player player : UtilServer.getPlayers()){
-				if(this.login.containsKey(player.getName().toLowerCase())){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§c/login [Password]");
-				}else if(this.register.contains(player.getName().toLowerCase())){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "REGISTER_MESSAGE"));
-				}else if(this.captcha.containsKey(player.getName().toLowerCase())){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§c/captcha [CAPTCHA]");
+				if(this.login.containsKey(player.getName())){
+					loginTitle.setSubtitle(TranslationHandler.getText(player, "LOGIN_MESSAGE"));
+					loginTitle.send(player);
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§c/login [Password]");
+				}else if(this.register.contains(player.getName())){
+					registerTitle.setSubtitle(TranslationHandler.getText(player, "REGISTER_MESSAGE"));
+					registerTitle.send(player);
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "REGISTER_MESSAGE"));
+				}else if(this.captcha.containsKey(player.getName())){
+					captchaTitle.setTitle("§a"+this.captcha.get(player.getName()));
+					captchaTitle.send(player);
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§c/captcha [CAPTCHA]");
 				}
 			}
 		}
@@ -164,14 +173,13 @@ public class LoginManager extends kListener{
 	
 	@EventHandler
 	public void join(PlayerJoinEvent ev){
-		if(this.captcha.containsKey(ev.getPlayer().getName().toLowerCase())){
+		if(this.captcha.containsKey(ev.getPlayer().getName())){
 			sendCaptcha(ev.getPlayer().getName());
 		}
 		
-		if(this.login.containsKey(ev.getPlayer().getName().toLowerCase())){
-			Title title = new Title("§c/login [Password]","");
-			title.setStayTime(60*60*100);
-			title.send(ev.getPlayer());
+		if(this.login.containsKey(ev.getPlayer().getName())){
+			loginTitle.setSubtitle(TranslationHandler.getText(ev.getPlayer(), "LOGIN_MESSAGE"));
+			loginTitle.send(ev.getPlayer());
 		}
 		this.timer.put(ev.getPlayer(), System.currentTimeMillis());
 	}

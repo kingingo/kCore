@@ -8,7 +8,7 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.InventorySplit;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilInv;
@@ -33,12 +33,12 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 					}
 					
 					if(item.getData().getData()==0){
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SIGN_SHOP_GET",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf( (amount*money) )}));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SIGN_SHOP_GET",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf( (amount*money) )}));
 					}else{
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SIGN_SHOP_GET_",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf(item.getData().getData()),String.valueOf( (amount*money) )}));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SIGN_SHOP_GET_",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf(item.getData().getData()),String.valueOf( (amount*money) )}));
 					}
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NOT_ENOUGH_MONEY"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NOT_ENOUGH_MONEY"));
 				}
 				
 				page.clear();

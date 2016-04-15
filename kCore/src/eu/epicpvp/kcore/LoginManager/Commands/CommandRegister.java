@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import dev.wolveringer.client.LoadedPlayer;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.LoginManager.LoginManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.Title;
 import lombok.Getter;
 
@@ -25,23 +25,23 @@ public class CommandRegister implements CommandExecutor{
 		if(!(cs instanceof Player))return false;
 		Player player = (Player)cs;
 		
-		if(!getLoginManager().getRegister().contains(player.getName().toLowerCase()))return false;
+		if(!getLoginManager().getRegister().contains(player.getName()))return false;
 		if(args.length==0){
-			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§c/register [Password]");
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§c/register [Password]");
 			return true;
 		}else{
 			String password = args[0];
 			
 			if(!password.matches("[a-zA-Z0-9_]*")){
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "LOGIN_FAIL"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "LOGIN_FAIL"));
 				return false;
 			}else{
-				getLoginManager().getRegister().remove(player.getName().toLowerCase());
+				getLoginManager().getRegister().remove(player.getName());
 				LoadedPlayer loadedplayer = getLoginManager().getClient().getPlayerAndLoad(player.getName());
 				loadedplayer.setPasswordSync(password);
-				Title title = new Title("","");
-				title.send(player);
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "REGISTER_ACCEPT"));
+				Title title = new Title("  "," ");
+				title.resetTitle(player);
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "REGISTER_ACCEPT"));
 				
 				getLoginManager().addPlayerToBGList(player);
 				return true;

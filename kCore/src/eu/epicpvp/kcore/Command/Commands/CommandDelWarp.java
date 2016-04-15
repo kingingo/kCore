@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandDelWarp implements CommandExecutor{
@@ -24,15 +24,15 @@ public class CommandDelWarp implements CommandExecutor{
 		player = (Player)sender;
 		
 		if(args.length==0){
-			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/delwarp [Name]");
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/delwarp [Name]");
 		}else{
 			if(player.hasPermission(PermissionType.WARP_SET.getPermissionToString())){
 				if(config.isSet("warps."+args[0])){
 					config.set("warps."+args[0], null);
 					config.save();
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "WARP_DEL",args[0]));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "WARP_DEL",args[0]));
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "WARP_EXIST"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "WARP_EXIST"));
 				}
 			}
 		}

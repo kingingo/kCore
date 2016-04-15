@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
@@ -24,23 +24,23 @@ public class CommandGive implements CommandExecutor{
 			if(!player.hasPermission(PermissionType.COMMAND_GIVE.getPermissionToString()))return false;
 			
 			if(args.length<2){
-				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL]");
-				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] player:[NAME]");
-				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] <enchant>:<level>");
+				player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL]");
+				player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] player:[NAME]");
+				player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] <enchant>:<level>");
 				
-				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"Firework give Command: ");
-				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] power:<firework power>");
-				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] color:<color[,color,..]>");
-				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] fade:<color[,color,..]>]");
-				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] shape:<star|ball|large|creeper|burst>");
-				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] effect:<trail|twinkle>[,<trail|twinkle>]");
+				player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"Firework give Command: ");
+				player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] power:<firework power>");
+				player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] color:<color[,color,..]>");
+				player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] fade:<color[,color,..]>]");
+				player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] shape:<star|ball|large|creeper|burst>");
+				player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"/give [Player] [ID / ID:METADATA] [ANZAHL] effect:<trail|twinkle>[,<trail|twinkle>]");
 			}else{
 				Player target;
 				if(args[0].equalsIgnoreCase(player.getName())){
 					target=player;
 				}else{
 					if(!UtilPlayer.isOnline(args[0])){
-						player.sendMessage(TranslationManager.getText(player,"PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+						player.sendMessage(TranslationHandler.getText(player,"PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 						return false;
 					}
 					target=Bukkit.getPlayer(args[0]);
@@ -59,7 +59,7 @@ public class CommandGive implements CommandExecutor{
 				
 				
 				if(id==0|| (args[1].contains(":")?metadata==0:false)){
-					player.sendMessage(TranslationManager.getText(player,"PREFIX")+TranslationManager.getText(player,"MONEY_NO_DOUBLE"));
+					player.sendMessage(TranslationHandler.getText(player,"PREFIX")+TranslationHandler.getText(player,"MONEY_NO_DOUBLE"));
 					return false;
 				}
 				
@@ -72,7 +72,7 @@ public class CommandGive implements CommandExecutor{
 						try {
 							item=UtilItem.parseStringMeta(item, metaStart, args);
 						} catch (Exception e) {
-							player.sendMessage(TranslationManager.getText(player, "PREFIX")+e.getMessage());
+							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+e.getMessage());
 							return false;
 						}
 				    }
@@ -97,7 +97,7 @@ public class CommandGive implements CommandExecutor{
 				Player target;
 				
 				if(!UtilPlayer.isOnline(args[0])){
-					System.out.println(TranslationManager.getText("PLAYER_IS_OFFLINE",args[0]));
+					System.out.println(TranslationHandler.getText("PLAYER_IS_OFFLINE",args[0]));
 					return false;
 				}
 				target=Bukkit.getPlayer(args[0]);
@@ -116,7 +116,7 @@ public class CommandGive implements CommandExecutor{
 				
 				
 				if(id==0|| (args[1].contains(":")?metadata==0:false)){
-					System.out.println(TranslationManager.getText("MONEY_NO_DOUBLE"));
+					System.out.println(TranslationHandler.getText("MONEY_NO_DOUBLE"));
 					return false;
 				}
 				

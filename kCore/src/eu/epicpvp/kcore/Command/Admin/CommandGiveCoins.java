@@ -1,7 +1,5 @@
 package eu.epicpvp.kcore.Command.Admin;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +13,7 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilInteger;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
@@ -34,7 +32,7 @@ public class CommandGiveCoins implements CommandExecutor{
 			Player player = (Player)sender;
 			if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 				if(args.length==0){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§a/givecoins [Spieler] [+/- Gems]");
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§a/givecoins [Spieler] [+/- Gems]");
 				}else if(args.length >= 2){
 					String spieler = args[0];
 					int c=UtilInteger.isNumber(args[1]);
@@ -51,14 +49,15 @@ public class CommandGiveCoins implements CommandExecutor{
 						
 						money.add(Bukkit.getPlayer(spieler), StatsKey.COINS, c);
 					}else{
-						money.loadPlayer(spieler, new Callback<UUID>() {
+						money.loadPlayer(spieler, new Callback<Integer>() {
+							
 							@Override
-							public void call(UUID uuid) {
-								money.add(uuid, null, StatsKey.COINS, c);
+							public void call(Integer playerId) {
+								money.add(playerId, StatsKey.COINS, c);
 							}
 						});
 					}
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+(c<0?TranslationManager.getText(player, "GEMS_DEL_PLAYER",new String[]{player.getName(),String.valueOf(c)}):TranslationManager.getText(player, "GEMS_ADD_PLAYER",new String[]{player.getName(),String.valueOf(c)})));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+(c<0?TranslationHandler.getText(player, "GEMS_DEL_PLAYER",new String[]{player.getName(),String.valueOf(c)}):TranslationHandler.getText(player, "GEMS_ADD_PLAYER",new String[]{player.getName(),String.valueOf(c)})));
 				}
 			}
 		}else if(sender instanceof CommandSender){
@@ -81,11 +80,11 @@ public class CommandGiveCoins implements CommandExecutor{
 					
 					money.add(Bukkit.getPlayer(spieler), StatsKey.COINS, c);
 				}else{
-					money.loadPlayer(spieler, new Callback<UUID>() {
+					money.loadPlayer(spieler, new Callback<Integer>() {
 						
 						@Override
-						public void call(UUID uuid) {
-							money.add(uuid, null, StatsKey.COINS, c);
+						public void call(Integer playerId) {
+							money.add(playerId, StatsKey.COINS, c);
 						}
 					});
 				}

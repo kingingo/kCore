@@ -60,22 +60,22 @@ public static GameCage getByPermission(PermissionType permission){
 
 public static void saveGameCase(Player player,GameCage gcase,MySQL mysql){
 	if(!create){
-		mysql.createTable("users_cage", "player varchar(30),uuid varchar(50),cage varchar(30)");
+		mysql.createTable("users_cage", "playerId int,cage varchar(30)");
 		create=true;
 	}
 	
-	mysql.Delete("users_cage", "uuid='"+UtilPlayer.getRealUUID(player)+"'");
-	mysql.Insert("users_cage", "player,uuid,cage", "'"+player.getName()+"','"+UtilPlayer.getRealUUID(player)+"','"+gcase.name()+"'");
+	mysql.Delete("users_cage", "`playerId`='"+UtilPlayer.getPlayerId(player)+"'");
+	mysql.Insert("users_cage", "playerId`,`cage`", "'"+UtilPlayer.getPlayerId(player)+"','"+gcase.name()+"'");
 }
 
 private static boolean create=false;
 public static GameCage getGameCase(Player player,MySQL mysql){
 	if(!create){
-		mysql.createTable("users_cage", "player varchar(30),uuid varchar(50),cage varchar(30)");
+		mysql.createTable("users_cage", "playerId int,cage varchar(30)");
 		create=true;
 	}
 	
-	String gcase = mysql.getString("SELECT cage FROM users_cage WHERE uuid='"+UtilPlayer.getRealUUID(player)+"'");
+	String gcase = mysql.getString("SELECT `cage` FROM `users_cage` WHERE `playerId`='"+UtilPlayer.getPlayerId(player)+"'");
 	
 	if(!gcase.equalsIgnoreCase("null")){
 		for(GameCage caseg : values()){

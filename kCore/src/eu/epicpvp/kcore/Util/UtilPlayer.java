@@ -1,7 +1,9 @@
 package eu.epicpvp.kcore.Util;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 
@@ -19,6 +21,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -29,15 +32,15 @@ import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 
 import dev.wolveringer.client.Callback;
+import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Enum.Zeichen;
-import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.PacketAPI.kPacket;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutChat;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -63,9 +66,32 @@ public class UtilPlayer
 		getCraftPlayer(player).getHandle().playerConnection.sendPacket(packet);
 	}
 	
+	public static Map<String, Boolean> getPermissionList(PermissionAttachment attachment){
+	    try{
+	        Field pField = PermissionAttachment.class.getDeclaredField("permissions");
+	        pField.setAccessible(true);
+	        
+	        return (Map)pField.get(attachment);
+	    } catch (Exception e) {
+	      throw new RuntimeException(e);
+	    }
+	}
+	
 	public static boolean hasPermission(Player p,String perm){
 		if(p.hasPermission(perm) || p.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString()))return true;
 		return false;
+	}
+
+	public static Player loadPlayer(String playerName){
+		return loadPlayer(UtilServer.getClient().getPlayerAndLoad(playerName));
+	}
+
+	public static Player loadPlayer(int playerId){
+		return loadPlayer(UtilServer.getClient().getPlayerAndLoad(playerId));
+	}
+
+	public static Player loadPlayer(LoadedPlayer loadedplayer){
+		return loadPlayer(loadedplayer.getUUID());
 	}
 	
 	public static Player loadPlayer(UUID uuid){
@@ -127,7 +153,7 @@ public class UtilPlayer
 	public static void setSkyBlockScoreboard(Player player,StatsManager money,StatsManager statsManager, UserDataConfig userData){
 		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
 		player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("§6§lEpicPvP.eu");
-		UtilScoreboard.setScore(player.getScoreboard(),TranslationManager.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 9);
+		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 9);
 		UtilScoreboard.setScore(player.getScoreboard(),"Loading...§a", DisplaySlot.SIDEBAR, 8);
 		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 7);
 		UtilScoreboard.setScore(player.getScoreboard(),"§6§lMoney", DisplaySlot.SIDEBAR, 6);
@@ -166,16 +192,16 @@ public class UtilPlayer
 	public static void setScoreboardGems(Player player,StatsManager money){
 		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
 		player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("§6§lEpicPvP.eu");
-		UtilScoreboard.setScore(player.getScoreboard(),TranslationManager.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 12);
+		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 12);
 		UtilScoreboard.setScore(player.getScoreboard(),"Loading...§c", DisplaySlot.SIDEBAR, 11);
 		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 10);
-		UtilScoreboard.setScore(player.getScoreboard(),TranslationManager.getText(player, "SCOREBOARD_FORUM"), DisplaySlot.SIDEBAR, 9);
+		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_FORUM"), DisplaySlot.SIDEBAR, 9);
 		UtilScoreboard.setScore(player.getScoreboard(),"www.EpicPvP.me", DisplaySlot.SIDEBAR, 8);
 		UtilScoreboard.setScore(player.getScoreboard(),"  ", DisplaySlot.SIDEBAR, 7);
-		UtilScoreboard.setScore(player.getScoreboard(),TranslationManager.getText(player, "SCOREBOARD_ONLINE_STORE"), DisplaySlot.SIDEBAR, 6);
+		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_ONLINE_STORE"), DisplaySlot.SIDEBAR, 6);
 		UtilScoreboard.setScore(player.getScoreboard(),"Shop.EpicPvP.de", DisplaySlot.SIDEBAR, 5);
 		UtilScoreboard.setScore(player.getScoreboard()," ", DisplaySlot.SIDEBAR, 4);
-		UtilScoreboard.setScore(player.getScoreboard(),TranslationManager.getText(player, "SCOREBOARD_TS"), DisplaySlot.SIDEBAR, 3);
+		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_TS"), DisplaySlot.SIDEBAR, 3);
 		UtilScoreboard.setScore(player.getScoreboard(),"Ts.EpicPvP.de", DisplaySlot.SIDEBAR, 2);
 		UtilScoreboard.setScore(player.getScoreboard(),"----------------", DisplaySlot.SIDEBAR, 1);
 		player.setScoreboard(player.getScoreboard());
@@ -196,19 +222,19 @@ public class UtilPlayer
 	public static void setScoreboardGemsAndCoins(Player player,StatsManager money){
 		UtilScoreboard.addBoard(player.getScoreboard(),DisplaySlot.SIDEBAR, "§6§lEpicPvP.eu");
 		player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName("§6§lEpicPvP.eu");
-		UtilScoreboard.setScore(player.getScoreboard(),TranslationManager.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 15);
+		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 15);
 		UtilScoreboard.setScore(player.getScoreboard(),"Loading...§c", DisplaySlot.SIDEBAR, 14);
 		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 13);
-		UtilScoreboard.setScore(player.getScoreboard(),TranslationManager.getText(player, "SCOREBOARD_COINS"), DisplaySlot.SIDEBAR, 12);
+		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_COINS"), DisplaySlot.SIDEBAR, 12);
 		UtilScoreboard.setScore(player.getScoreboard(),"Loading...§a", DisplaySlot.SIDEBAR, 11);
 		UtilScoreboard.setScore(player.getScoreboard(),"    ", DisplaySlot.SIDEBAR, 10);
-		UtilScoreboard.setScore(player.getScoreboard(),TranslationManager.getText(player, "SCOREBOARD_FORUM"), DisplaySlot.SIDEBAR, 9);
+		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_FORUM"), DisplaySlot.SIDEBAR, 9);
 		UtilScoreboard.setScore(player.getScoreboard(),"www.EpicPvP.me", DisplaySlot.SIDEBAR, 8);
 		UtilScoreboard.setScore(player.getScoreboard(),"  ", DisplaySlot.SIDEBAR, 7);
-		UtilScoreboard.setScore(player.getScoreboard(),TranslationManager.getText(player, "SCOREBOARD_ONLINE_STORE"), DisplaySlot.SIDEBAR, 6);
+		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_ONLINE_STORE"), DisplaySlot.SIDEBAR, 6);
 		UtilScoreboard.setScore(player.getScoreboard(),"Shop.EpicPvP.de", DisplaySlot.SIDEBAR, 5);
 		UtilScoreboard.setScore(player.getScoreboard()," ", DisplaySlot.SIDEBAR, 4);
-		UtilScoreboard.setScore(player.getScoreboard(),TranslationManager.getText(player, "SCOREBOARD_TS"), DisplaySlot.SIDEBAR, 3);
+		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_TS"), DisplaySlot.SIDEBAR, 3);
 		UtilScoreboard.setScore(player.getScoreboard(),"Ts.EpicPvP.de", DisplaySlot.SIDEBAR, 2);
 		UtilScoreboard.setScore(player.getScoreboard(),"----------------", DisplaySlot.SIDEBAR, 1);
 		player.setScoreboard(player.getScoreboard());
@@ -252,45 +278,16 @@ public class UtilPlayer
 		sendPacket(player, packet.getPacket());
 	}
 	
-	public static UUID getRealUUID(String player,UUID uuid){
-		if(UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player).toString().getBytes(Charsets.UTF_8)).equals(uuid)){
-			uuid=getOfflineUUID(player.toLowerCase());
-		}
-		return uuid;
+	public static int getPlayerId(Player player){
+		return getPlayerId(player.getName());
 	}
 	
-	public static UUID getRealUUID(Player player){
-		UUID uuid = player.getUniqueId();
-		if(UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player.getName()).toString().getBytes(Charsets.UTF_8)).equals(uuid)){
-			uuid=getOfflineUUID(player.getName().toLowerCase());
-		}
-		return uuid;
+	public static int getPlayerId(String playerName){
+		return UtilServer.getClient().getPlayerAndLoad(playerName).getPlayerId();
 	}
 	
 	public static UUID getOfflineUUID(String player){
 		return UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player.toLowerCase()).toString().getBytes(Charsets.UTF_8));
-	}
-	
-	public static UUID getOnlineUUID(String player){
-		try {
-			return UtilUUID.getUUIDOf(player);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public static UUID getUUID(String player,MySQL mysql){
-		UUID uuid = getOnlineUUID(player);
-		if(uuid!=null){
-			String p = mysql.getString("SELECT premium FROM list_premium WHERE uuid='"+uuid+"'");
-			if(p.equalsIgnoreCase("null")||p.equalsIgnoreCase("false")){
-				uuid=getOfflineUUID(player);
-			}
-		}else{
-			uuid=getOfflineUUID(player);
-		}
-		return uuid;
 	}
 
 	public static void setPlayerFakeEquipment(Player player,Player to,ItemStack item,short slot){
@@ -372,6 +369,16 @@ public class UtilPlayer
     ((Player)client).sendMessage(message);
   }
 
+  public static Player searchExact(int playerId)
+  {
+	  for(LoadedPlayer loadedplayer : UtilServer.getClient().getPlayers()){
+		  if(loadedplayer.getPlayerId()==playerId){
+			  return searchExact(loadedplayer.getName());
+		  }
+	  }
+	  return null;
+  }
+  
   public static Player searchExact(UUID uuid)
   {
     for (Player cur : UtilServer.getPlayers()) {
@@ -575,6 +582,11 @@ public class UtilPlayer
       hunger = 20;
     }
     player.setFoodLevel(hunger);
+  }
+  
+  public static boolean isOnline(int playerId)
+  {
+    return searchExact(playerId) != null;
   }
   
   public static boolean isOnline(UUID uuid)

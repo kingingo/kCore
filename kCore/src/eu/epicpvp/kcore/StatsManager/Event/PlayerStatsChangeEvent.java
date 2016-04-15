@@ -13,14 +13,14 @@ public class PlayerStatsChangeEvent extends Event
   @Getter
   private StatsKey stats;
   @Getter
-  private String playername;
+  private int playerId;
   @Getter
   private StatsManager manager;
 
-  public PlayerStatsChangeEvent(StatsManager manager,StatsKey s,String playername)
+  public PlayerStatsChangeEvent(StatsManager manager,StatsKey s,int playerId)
   {
 	this.manager=manager;
-    this.playername=playername;
+    this.playerId=playerId;
     this.stats=s;
   }
   public HandlerList getHandlers()

@@ -11,7 +11,7 @@ import eu.epicpvp.kcore.AntiLogout.Events.AntiLogoutAddPlayerEvent;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandFly extends kListener implements CommandExecutor{
 	
@@ -26,11 +26,11 @@ public class CommandFly extends kListener implements CommandExecutor{
 			if(player.getAllowFlight()){
 				player.setAllowFlight(false);
 				player.setFlying(false);
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "kFLY_OFF"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "kFLY_OFF"));
 			}else{
 				player.setAllowFlight(true);
 				player.setFlying(true);
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "kFLY_ON"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "kFLY_ON"));
 			}
 		}
 		return false;

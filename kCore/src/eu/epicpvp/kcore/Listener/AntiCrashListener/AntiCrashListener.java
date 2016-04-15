@@ -15,7 +15,6 @@ import dev.wolveringer.client.LoadedPlayer;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Util.UtilException;
-import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class AntiCrashListener extends kListener {
 	private final Map<String, Long> switchavg;
@@ -71,11 +70,11 @@ public class AntiCrashListener extends kListener {
 			if (ii.intValue() > 200) {
 				if ((iavg != null) && (iavg.longValue() / 200L < 50000L)) {
 					this.kick.add(e.getPlayer().getName());
-					LoadedPlayer loadedplayer = this.client.getPlayerAndLoad( UtilPlayer.getRealUUID(e.getPlayer()) );
+					LoadedPlayer loadedplayer = this.client.getPlayerAndLoad( e.getPlayer().getName() );
 					loadedplayer.kickPlayer("§cStop!");
-					logMessage("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
+					logMessage("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" PlayerId:"+loadedplayer.getPlayerId()+" UUID:"+e.getPlayer().getUniqueId());
 					logMessage("Spieler "+iname+" wurde wegen Item Change Crash gekickt!");
-					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler "+name+" wurde wegen Animation Crash gekickt! "+" IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
+					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler "+name+" wurde wegen Animation Crash gekickt! "+" IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" PlayerId:"+loadedplayer.getPlayerId()+" UUID:"+e.getPlayer().getUniqueId());
 				}else{
 					this.switchcount.remove(iname);
 					this.switchavg.remove(iname);
@@ -115,11 +114,11 @@ public class AntiCrashListener extends kListener {
 			if (i.intValue() > 200) {
 				if ((avg != null) && (avg.longValue() / 200L < 50000L)) {
 					this.kick.add(e.getPlayer().getName());
-					LoadedPlayer loadedplayer = this.client.getPlayerAndLoad( UtilPlayer.getRealUUID(e.getPlayer()) );
+					LoadedPlayer loadedplayer = this.client.getPlayerAndLoad( e.getPlayer().getName() );
 					loadedplayer.kickPlayer("§cStop!");
-					logMessage("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
+					logMessage("IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+loadedplayer.getPlayerId()+" UUID:"+e.getPlayer().getUniqueId());
 					logMessage("Spieler "+name+" wurde wegen Animation Crash gekickt!");
-					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler "+name+" wurde wegen Animation Crash gekickt! "+" IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" Real-UUID:"+UtilPlayer.getRealUUID(e.getPlayer())+" UUID:"+e.getPlayer().getUniqueId());
+					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler "+name+" wurde wegen Animation Crash gekickt! "+" IP: "+e.getPlayer().getAddress().getAddress().getHostAddress()+" PlayerId:"+loadedplayer.getPlayerId()+" UUID:"+e.getPlayer().getUniqueId());
 				}else{
 					this.hitscount.remove(name);
 					this.hitsavg.remove(name);
@@ -136,26 +135,6 @@ public class AntiCrashListener extends kListener {
 			}
 		}
 	}
-
-//	@EventHandler
-//	public void packet(PacketListenerReceiveEvent ev){
-//		if(ev.getPacket() instanceof PacketPlayInSetCreativeSlot){
-//			kPacketPlayInSetCreativeSlot c = new kPacketPlayInSetCreativeSlot((PacketPlayInSetCreativeSlot)ev.getPacket());
-//			
-//			if(c.getItem()!=null&&c.getItem().hasTag()&&!c.getItem().getTag().isEmpty()){
-//				Log("NBT: "+c.getItem().getTag().isEmpty());
-//				Log("NBT: "+c.getItem().getEnchantments().size());
-//				Log("NBT: "+c.getItem().getTag().c().size());
-//				
-//				for(String s : c.getItem().getTag().c()){
-//					Log("N: "+s);
-//					
-//				}
-//				
-//				c.getItem().setTag(new NBTTagCompound());
-//			}
-//		}
-//	}
 	
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e) {

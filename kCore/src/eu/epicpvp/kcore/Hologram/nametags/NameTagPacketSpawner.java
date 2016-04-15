@@ -60,7 +60,7 @@ public class NameTagPacketSpawner {
 	}
 	
 	public void setNameTag(int index, Player observer, Location location, double dY, String message) {
-		createArmorStand(index, location, dY, message);
+		createArmorStand(index, location, dY, (message==null ? " " : message));
 		UtilPlayer.sendPacket(observer, this.armorStand);
 		getLocations(observer)[index] = new Vector(location.getX(), location.getY() + dY,location.getZ());
 	}

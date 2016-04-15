@@ -134,7 +134,7 @@ public class UtilList {
 			for(int i = 0; i<list.size(); i++){
 				b=false;
 				for(Player player : UtilServer.getPlayers()){
-					if(UtilPlayer.getRealUUID(player).equals( ((UUID)list.keySet().toArray()[i]) )){
+					if(player.getUniqueId().equals( ((UUID)list.keySet().toArray()[i]) )){
 						b=true;
 						break;
 					}
@@ -184,7 +184,7 @@ public class UtilList {
 			for(int i = 0; i<list.size(); i++){
 				b=false;
 				for(Player player : UtilServer.getPlayers()){
-					if(UtilPlayer.getRealUUID(player).equals( ((UUID)list.get(0)) )){
+					if(player.getUniqueId().equals( ((UUID)list.get(0)) )){
 						b=true;
 						break;
 					}

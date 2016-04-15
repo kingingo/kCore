@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandToggle extends kListener implements CommandExecutor{
 	
@@ -34,7 +34,7 @@ public class CommandToggle extends kListener implements CommandExecutor{
 			Player p = (Player)cs;
 			if(p.hasPermission(PermissionType.COMMAND_TOGGLE.getPermissionToString())){
 				if(args.length == 0){
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§a/toggle [Plugin]");
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§a/toggle [Plugin]");
 					return false;
 				}else if(args[0].equalsIgnoreCase("list")){
 					String list = "";
@@ -48,7 +48,7 @@ public class CommandToggle extends kListener implements CommandExecutor{
 						}
 					}
 					
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§aPlugins §7: " + list);
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§aPlugins §7: " + list);
 					return false;
 				}else if(args[0].equalsIgnoreCase("load")){
 					File pl = new File(args[1]);
@@ -64,7 +64,7 @@ public class CommandToggle extends kListener implements CommandExecutor{
 						System.err.println(e);
 						e.printStackTrace();
 					}
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§cDas Plugin wurde geladen!");
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDas Plugin wurde geladen!");
 				}else if(args.length == 1){
 					
 					boolean on = false;
@@ -77,22 +77,22 @@ public class CommandToggle extends kListener implements CommandExecutor{
 					if(on){
 						Plugin pl = Bukkit.getPluginManager().getPlugin(args[0]);
 					if(pl.getName().equalsIgnoreCase("kHub")||pl.getName().equalsIgnoreCase("kSkyBlock")||pl.getName().equalsIgnoreCase("kCore")||pl.getName().equalsIgnoreCase("kPvP")||pl.getName().equalsIgnoreCase("kArcade")||pl.getName().equalsIgnoreCase("kWarZ")){
-						p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§cDu kannst das Plugin nicht Disablen!");
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDu kannst das Plugin nicht Disablen!");
 						return false;
 					}
 					
 					if(Bukkit.getPluginManager().isPluginEnabled(args[0])){
 						Bukkit.getPluginManager().disablePlugin(pl);
-						p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§cDas Plugin " + pl.getName() + " wurde Disable!");
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDas Plugin " + pl.getName() + " wurde Disable!");
 						
 					}else{
 						
 						Bukkit.getPluginManager().enablePlugin(pl);
-						p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§aDas Plugin " + pl.getName() + " wurde Enable!");
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§aDas Plugin " + pl.getName() + " wurde Enable!");
 						
 					}
 					}else{
-						p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§cDas Plugin wurde nicht gefunden " + args[0]);
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDas Plugin wurde nicht gefunden " + args[0]);
 						return false;
 					}
 				} 

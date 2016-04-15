@@ -2,7 +2,6 @@ package eu.epicpvp.kcore.AACHack;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import org.bukkit.Bukkit;
@@ -67,7 +66,7 @@ public class AACHack extends kListener{
 			}
 		});
 		
-		getMysql().Update("CREATE TABLE IF NOT EXISTS AAC_HACK(name varchar(30),ip varchar(30),uuid varchar(100),server varchar(30),time varchar(30),hackType varchar(30),violations int)");
+		getMysql().Update("CREATE TABLE IF NOT EXISTS AAC_HACK(playerId int,ip varchar(30),server varchar(30),timestamp timestamp,hackType varchar(30),violations int)");
 		logMessage("AACHack System aktiviert");
 	}
 	
@@ -76,8 +75,7 @@ public class AACHack extends kListener{
 	public void onPlayerViolationKick(PlayerViolationCommandEvent ev){
 		if(ev.getCommand().contains("kick")){
 			if(!ev.isCancelled()){
-				Date now = new GregorianCalendar().getTime();
-				getMysql().Update("INSERT INTO AAC_HACK (name,ip,uuid,server,time,hackType,violations) VALUES ('"+ev.getPlayer().getName().toLowerCase()+"','"+ev.getPlayer().getAddress().getAddress().getHostAddress()+"','"+UtilPlayer.getRealUUID(ev.getPlayer())+"','"+server+"','"+df2.format(now)+"','"+ev.getHackType().getName()+"','0');");
+				getMysql().Update("INSERT INTO AAC_HACK (playerId,ip,server,hackType,violations) VALUES ('"+UtilPlayer.getPlayerId(ev.getPlayer())+"','"+ev.getPlayer().getAddress().getAddress().getHostAddress()+"','"+server+"','"+ev.getHackType().getName()+"','0');");
 				
 				if(getAntiLogoutManager()!=null&&ev.getHackType()!=HackType.SPAM)getAntiLogoutManager().del(ev.getPlayer());
 				
@@ -85,7 +83,7 @@ public class AACHack extends kListener{
 					||	ev.getHackType()==HackType.FASTBOW
 					|| ev.getHackType()==HackType.FIGHTSPEED
 					|| ev.getHackType()==HackType.FORCEFIELD){
-					anzahl=getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='"+ev.getHackType().getName()+"' AND name='"+ev.getPlayer().getName().toLowerCase()+"' AND ip='"+ev.getPlayer().getAddress().getAddress().getHostAddress()+"' AND uuid='"+UtilPlayer.getRealUUID(ev.getPlayer())+"'");
+					anzahl=getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='"+ev.getHackType().getName()+"' AND playerId='"+UtilPlayer.getPlayerId(ev.getPlayer())+"'");
 					
 					if(anzahl>=5){
 						String type="";
@@ -126,15 +124,13 @@ public class AACHack extends kListener{
 			time = System.currentTimeMillis() + t;
 		}
 		
-		LoadedPlayer loadedplayer = client.getPlayer( UtilPlayer.getRealUUID(banned) );
-		loadedplayer.load();
+		LoadedPlayer loadedplayer = client.getPlayerAndLoad( banned.getName() );
 		loadedplayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, -1, time, reason);
 		UtilServer.sendTeamMessage("§cDer Spieler §e"+banned.getName()+"§c wurde von §eAntiHack§c f§r "+ ti +" "+typ.toUpperCase()+" Gesperrt Grund: §e"+reason);
 	}
 	
 	private void setBan(int lvl,Player banned,String reason){
-		LoadedPlayer loadedplayer = client.getPlayer( UtilPlayer.getRealUUID(banned) );
-		loadedplayer.load();
+		LoadedPlayer loadedplayer = client.getPlayerAndLoad( banned.getName() );
 		loadedplayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, -1, -1, reason);
 		UtilServer.sendTeamMessage("§cDer Spieler §e"+banned.getName()+"§c wurde von §eAntiHack§c Permanent Gesperrt Grund:§e "+reason);
 	}

@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Command.Commands.Events.DeleteKitEvent;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandDelKit implements CommandExecutor{
@@ -27,7 +27,7 @@ public class CommandDelKit implements CommandExecutor{
 		
 		if(player.hasPermission(PermissionType.KIT_SET.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/delkit [Name]");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/delkit [Name]");
 			}else{
 				DeleteKitEvent delete = new DeleteKitEvent(player, args[0].toLowerCase());
 				Bukkit.getPluginManager().callEvent(delete);
@@ -35,9 +35,9 @@ public class CommandDelKit implements CommandExecutor{
 				if(delete.isExist()){
 					config.set("kits."+args[0].toLowerCase(), null);
 					config.save();
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "KIT_DEL",args[0]));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "KIT_DEL",args[0]));
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "KIT_EXIST"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "KIT_EXIST"));
 				}
 			}
 		}

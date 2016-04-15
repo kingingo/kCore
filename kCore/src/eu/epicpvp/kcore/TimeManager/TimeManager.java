@@ -1,7 +1,6 @@
 package eu.epicpvp.kcore.TimeManager;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
@@ -15,8 +14,8 @@ import lombok.Getter;
 public class TimeManager extends kListener{
 
 	@Getter
-	private HashMap<String,HashMap<UUID,Long>> timer = new HashMap<>();
-	private HashMap<String,HashMap<UUID,Long>> perms = new HashMap<>();
+	private HashMap<String,HashMap<Integer,Long>> timer = new HashMap<>();
+	private HashMap<String,HashMap<Integer,Long>> perms = new HashMap<>();
 	private PermissionManager manager;
 	
 	public TimeManager(PermissionManager manager){
@@ -26,37 +25,37 @@ public class TimeManager extends kListener{
 
 	public Long hasPermission(Player player,String typ){
 		typ=typ.toLowerCase();
-		if(!perms.containsKey(typ))perms.put(typ, new HashMap<UUID,Long>());
-		if(perms.containsKey(typ)&&!perms.get(typ).containsKey(UtilPlayer.getRealUUID(player))){
+		if(!perms.containsKey(typ))perms.put(typ, new HashMap<Integer,Long>());
+		if(perms.containsKey(typ)&&!perms.get(typ).containsKey(UtilPlayer.getPlayerId(player))){
 			if(player.hasPermission("epicpvp.timer."+typ)){
 				for(Permission perm : manager.getPermissionPlayer(player).getPermissions()){
 					if(!perm.getPermission().equalsIgnoreCase("epicpvp.timer."+typ)&&perm.getPermission().contains("epicpvp.timer."+typ+".")){
-						perms.get(typ).put(UtilPlayer.getRealUUID(player), Long.valueOf(perm.getPermission().substring(("epicpvp.timer."+typ+".").length(), perm.getPermission().length() )));
+						perms.get(typ).put(UtilPlayer.getPlayerId(player), Long.valueOf(perm.getPermission().substring(("epicpvp.timer."+typ+".").length(), perm.getPermission().length() )));
 						break;
 					}
 				}
 			}
 			
-			if(!perms.get(typ).containsKey(UtilPlayer.getRealUUID(player))){
-				perms.get(typ).put(UtilPlayer.getRealUUID(player), (long)0);
+			if(!perms.get(typ).containsKey(UtilPlayer.getPlayerId(player))){
+				perms.get(typ).put(UtilPlayer.getPlayerId(player), (long)0);
 			}
 		}
 		
-		return perms.get(typ).get(UtilPlayer.getRealUUID(player));
+		return perms.get(typ).get(UtilPlayer.getPlayerId(player));
 	}
 	
 	public String check(String typ,Player player){
-		return check(typ, UtilPlayer.getRealUUID(player));
+		return check(typ, UtilPlayer.getPlayerId(player));
 	}
 	
-	public String check(String typ,UUID uuid){
+	public String check(String typ,int playerId){
 		typ=typ.toLowerCase();
 		if(timer.containsKey(typ)){
-			if(timer.get(typ).containsKey(uuid)){
-				if(timer.get(typ).get(uuid) >= System.currentTimeMillis()){
-					return UtilTime.formatMili(timer.get(typ).get(uuid)-System.currentTimeMillis());
+			if(timer.get(typ).containsKey(playerId)){
+				if(timer.get(typ).get(playerId) >= System.currentTimeMillis()){
+					return UtilTime.formatMili(timer.get(typ).get(playerId)-System.currentTimeMillis());
 				}else{
-					timer.get(typ).remove(uuid);
+					timer.get(typ).remove(playerId);
 					return null;
 				}
 			}
@@ -66,24 +65,24 @@ public class TimeManager extends kListener{
 	}
 	
 	public void remove(String typ,Player player){
-		remove(typ, UtilPlayer.getRealUUID(player));
+		remove(typ, UtilPlayer.getPlayerId(player));
 	}
 	
-	public void remove(String typ,UUID uuid){
+	public void remove(String typ,int playerId){
 		typ=typ.toLowerCase();
 		if(timer.containsKey(typ)){
-			timer.get(typ).remove(uuid);
+			timer.get(typ).remove(playerId);
 		}
 	}
 	
 	public void add(String typ,Player player,long time){
-		add(typ,UtilPlayer.getRealUUID(player),time);
+		add(typ,UtilPlayer.getPlayerId(player),time);
 	}
 	
-	public void add(String typ,UUID uuid,long time){
+	public void add(String typ,int playerId,long time){
 		typ=typ.toLowerCase();
-		if(!timer.containsKey(typ))timer.put(typ, new HashMap<UUID,Long>());
-		timer.get(typ).put(uuid, System.currentTimeMillis()+time);
+		if(!timer.containsKey(typ))timer.put(typ, new HashMap<Integer,Long>());
+		timer.get(typ).put(playerId, System.currentTimeMillis()+time);
 	}
 	
 }

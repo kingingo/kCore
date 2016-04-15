@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandEntities implements CommandExecutor{
@@ -27,7 +27,7 @@ public class CommandEntities implements CommandExecutor{
 			
 			if(player.hasPermission(PermissionType.MONITOR.getPermissionToString())){
 				if(args.length==0){
-					player.sendMessage(TranslationManager.getText(player,"PREFIX")+"/entities [list/clearall/WORLD/HM]");
+					player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"/entities [list/clearall/WORLD/HM]");
 				}else{
 					if(args[0].equalsIgnoreCase("list")){
 						
@@ -48,10 +48,10 @@ public class CommandEntities implements CommandExecutor{
 		                    for(EntityType type : EntityType.values()){
 		                    	if(type==null||type==EntityType.UNKNOWN)continue;
 		                    	if(world.getEntitiesByClass(type.getEntityClass()).size()<=0)continue;
-		                    	player.sendMessage(TranslationManager.getText(player,"PREFIX")+"§e"+world.getName()+"§7: Entity Type:§e"+type.name()+" §7Counted:§e"+world.getEntitiesByClass(type.getEntityClass()).size());
+		                    	player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"§e"+world.getName()+"§7: Entity Type:§e"+type.name()+" §7Counted:§e"+world.getEntitiesByClass(type.getEntityClass()).size());
 		                    }
 		                    
-		                	player.sendMessage(TranslationManager.getText(player,"PREFIX")+"§e"+world.getName()+"§7: Chunks:§e"+world.getLoadedChunks().length+" §7Entities:§e"+world.getEntities().size()+" §7Tile:§e"+tileEntities);
+		                	player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"§e"+world.getName()+"§7: Chunks:§e"+world.getLoadedChunks().length+" §7Entities:§e"+world.getEntities().size()+" §7Tile:§e"+tileEntities);
 		                }
 					}else if(args[0].equalsIgnoreCase("hm")){
 						int a = 0;
@@ -62,7 +62,7 @@ public class CommandEntities implements CommandExecutor{
 									a++;
 			                	}
 							}
-			                player.sendMessage(TranslationManager.getText(player, "PREFIX")+" All entities "+w.getName()+" removed:§e "+a);
+			                player.sendMessage(TranslationHandler.getText(player, "PREFIX")+" All entities "+w.getName()+" removed:§e "+a);
 			                a=0;
 						}
 					}else if(args[0].equalsIgnoreCase("clearall")){
@@ -98,7 +98,7 @@ public class CommandEntities implements CommandExecutor{
 			                		e.remove();
 			                	}
 							}
-			                player.sendMessage(TranslationManager.getText(player, "PREFIX")+" All entities "+w.getName()+" removed:§e "+a);
+			                player.sendMessage(TranslationHandler.getText(player, "PREFIX")+" All entities "+w.getName()+" removed:§e "+a);
 			                a=0;
 						}
 					}else{
@@ -132,9 +132,9 @@ public class CommandEntities implements CommandExecutor{
 			                	}
 			                }
 			                
-			                player.sendMessage(TranslationManager.getText(player, "PREFIX")+" All entities from "+args[0]+" removed:§e "+a);
+			                player.sendMessage(TranslationHandler.getText(player, "PREFIX")+" All entities from "+args[0]+" removed:§e "+a);
 						}else{
-			                player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§cThe world §e"+args[0]+"§c was not found!");
+			                player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cThe world §e"+args[0]+"§c was not found!");
 						}
 					}
 				}

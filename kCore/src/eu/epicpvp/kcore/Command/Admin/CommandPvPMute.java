@@ -13,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandPvPMute extends kListener implements CommandExecutor{
 	
@@ -30,10 +30,10 @@ public class CommandPvPMute extends kListener implements CommandExecutor{
 			if(p.hasPermission(PermissionType.PVP_MUTE_ALL.getPermissionToString())){
 				if(chat){
 					chat=false;
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "PVP_MUTE"));
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "PVP_MUTE"));
 				}else{
 					chat=true;
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "PVP_UNMUTE"));
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "PVP_UNMUTE"));
 				}
 			}
 		}else{

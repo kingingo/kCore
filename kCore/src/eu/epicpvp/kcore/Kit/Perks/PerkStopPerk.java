@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import eu.epicpvp.kcore.Kit.Perk;
 import eu.epicpvp.kcore.Kit.Perks.Event.PerkHasPlayerEvent;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.TimeSpan;
 
 public class PerkStopPerk extends Perk{
@@ -44,13 +44,13 @@ public class PerkStopPerk extends Perk{
 				if(ev.getEntity() instanceof Player){
 					d=(Player)ev.getEntity();
 					if(!list.containsKey(d)){
-						d.sendMessage(TranslationManager.getText(d, "PREFIX")+"§eDeine Perks wurden f§r §b"+time+" sec§e aufgehoben.");
+						d.sendMessage(TranslationHandler.getText(d, "PREFIX")+"§eDeine Perks wurden f§r §b"+time+" sec§e aufgehoben.");
 						list.put(d, (TimeSpan.SECOND*time)+System.currentTimeMillis());	
 					}
 				}else if(ev.getEntity() instanceof Projectile){
 					d=(Player) ((Projectile)ev.getEntity()).getShooter();
 					if(!list.containsKey(d)){
-						d.sendMessage(TranslationManager.getText(d, "PREFIX")+"§eDeine Perks wurden f§r §b"+time+" sec§e aufgehoben.");
+						d.sendMessage(TranslationHandler.getText(d, "PREFIX")+"§eDeine Perks wurden f§r §b"+time+" sec§e aufgehoben.");
 						list.put(d, (TimeSpan.SECOND*time)+System.currentTimeMillis());	
 					}
 				}

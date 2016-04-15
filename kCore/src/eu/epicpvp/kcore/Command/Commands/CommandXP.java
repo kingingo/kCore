@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilEXP;
 
 public class CommandXP implements CommandExecutor{
@@ -15,16 +15,16 @@ public class CommandXP implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		Player p = (Player)cs;
 		if(args.length==0){
-			p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§c/xp send <Player> <LVL>");
+			p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§c/xp send <Player> <LVL>");
 		}else{
 			if(args[0].equalsIgnoreCase("send")){
 				
 				if(args.length == 1){
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§c/xp send <Player> <LVL>");
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§c/xp send <Player> <LVL>");
 					return false;
 				}
 				if(args.length == 2){
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§c/xp send <Player> <LVL>");
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§c/xp send <Player> <LVL>");
 					return false;
 				}
 				if(args.length == 3){
@@ -36,7 +36,7 @@ public class CommandXP implements CommandExecutor{
 						lvl = Integer.parseInt(args[2]);
 						
 					}catch(NumberFormatException e){					
-						p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "NO_INTEGER"));
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "NO_INTEGER"));
 						return false;
 					}
 					
@@ -48,17 +48,17 @@ public class CommandXP implements CommandExecutor{
 							throw new NullPointerException();
 						}
 					}catch(NullPointerException e){
-						p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "PLAYER_IS_OFFLINE",args[1]));
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "PLAYER_IS_OFFLINE",args[1]));
 						return false;
 					}
 					
 					if(lvl < 1){
-						p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "EXP_MINUS"));
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "EXP_MINUS"));
 						return false;
 					}
 					
 					if(p.getLevel() < lvl){
-						p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "NOT_ENOUGH_EXP"));
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "NOT_ENOUGH_EXP"));
 						return false;
 					}
 					
@@ -70,8 +70,8 @@ public class CommandXP implements CommandExecutor{
 					p.setExp(0);
 					p.giveExp( exp );
 					
-					target.sendMessage(TranslationManager.getText(target, "PREFIX")+ TranslationManager.getText(target, "EXP_HIS_TO_ME",new String[]{p.getName(),String.valueOf(amount_exp-exp)}));
-					p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(target, "EXP_ME_TO_HIS",new String[]{target.getName(),String.valueOf(amount_exp-exp)}));
+					target.sendMessage(TranslationHandler.getText(target, "PREFIX")+ TranslationHandler.getText(target, "EXP_HIS_TO_ME",new String[]{p.getName(),String.valueOf(amount_exp-exp)}));
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(target, "EXP_ME_TO_HIS",new String[]{target.getName(),String.valueOf(amount_exp-exp)}));
 					
 					
 					return false;

@@ -28,7 +28,7 @@ import eu.epicpvp.kcore.AntiLogout.Events.AntiLogoutQuitPlayerEvent;
 import eu.epicpvp.kcore.Command.Commands.Events.PlayerHomeEvent;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.TimeSpan;
@@ -69,7 +69,7 @@ public class AntiLogoutManager extends kListener {
 	public void Home(PlayerHomeEvent ev){
 		if(getPlayers().containsKey(ev.getPlayer())){
 			ev.setCancelled(true);
-			ev.setReason(TranslationManager.getText(ev.getPlayer(),"ANTI_LOGOUT_FIGHT"));
+			ev.setReason(TranslationHandler.getText(ev.getPlayer(),"ANTI_LOGOUT_FIGHT"));
 		}
 	}
 	
@@ -109,13 +109,13 @@ public class AntiLogoutManager extends kListener {
 				player.setAllowFlight(false);
 				player.setFlying(false);
 			}
-			player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "ANTI_LOGOUT_FIGHT"));
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ANTI_LOGOUT_FIGHT"));
 		}
 	}
 	
 	public void del(Player player){
 		if(getPlayers().containsKey(player)){
-			player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "ANTI_LOGOUT_FIGHT_END"));
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ANTI_LOGOUT_FIGHT_END"));
 			getPlayers().remove(player);
 			Bukkit.getPluginManager().callEvent(new AntiLogoutDelPlayerEvent(player,this));
 		}

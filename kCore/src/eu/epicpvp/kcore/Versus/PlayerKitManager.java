@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -25,7 +24,7 @@ public class PlayerKitManager{
 	@Getter
 	private MySQL mysql;
 	@Getter
-	private HashMap<UUID,PlayerKit> kits;
+	private HashMap<Integer,PlayerKit> kits;
 	@Getter
 	private GameType type;
 	@Getter
@@ -37,7 +36,7 @@ public class PlayerKitManager{
 		this.type=type;
 		this.kits=new HashMap<>();
 		
-		this.mysql.createTable("users_"+type.getKuerzel()+"_kits", "player varchar(30),uuid varchar(100),id int,content varchar(1000),armor_content varchar(1000)");
+		this.mysql.createTable("users_"+type.getShortName()+"_kits", "playerId int,id int,content text,armor_content text");
 	}
 	
 	public ItemStack[] check(ItemStack[] c){
@@ -65,64 +64,60 @@ public class PlayerKitManager{
 		return c;
 	}
 	
-	public void addKit(UUID uuid,PlayerInventory inv,int id){
-		addKit("none", uuid, inv, id);
-	}
-	
-	public void addKit(String playerName,UUID uuid,PlayerInventory inv,int id){
+	public void addKit(int playerId,PlayerInventory inv,int id){
 		inv.setContents(check(inv.getContents()));
 		inv.setArmorContents(check(inv.getArmorContents()));
-		delKit(uuid,id);
+		delKit(playerId,id);
 		
-		if(kits.containsKey(uuid)){
-			kits.get(uuid).content=inv.getContents();
-			kits.get(uuid).armor_content=inv.getArmorContents();
+		if(kits.containsKey(playerId)){
+			kits.get(playerId).content=inv.getContents();
+			kits.get(playerId).armor_content=inv.getArmorContents();
 		}
 		
 		if(isAsync()){
-			getMysql().asyncInsert("users_"+type.getKuerzel()+"_kits", "player,uuid,id,content,armor_content", "'"+playerName+"','"+uuid+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
+			getMysql().asyncInsert("users_"+type.getShortName()+"_kits", "playerId,id,content,armor_content", "'"+playerId+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
 		}else{	
-			getMysql().Insert("users_"+type.getKuerzel()+"_kits", "player,uuid,id,content,armor_content", "'"+playerName+"','"+uuid+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
+			getMysql().Insert("users_"+type.getShortName()+"_kits", "playerId,id,content,armor_content", "'"+playerId+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
 		}
 	}
 	
-	public void updateKit(UUID uuid,int id,PlayerInventory inv){
+	public void updateKit(int playerId,int id,PlayerInventory inv){
 		inv.setContents(check(inv.getContents()));
 		inv.setArmorContents(check(inv.getArmorContents()));
-		if(kits.containsKey(uuid)){
-			kits.get(uuid).content=inv.getContents();
-			kits.get(uuid).armor_content=inv.getArmorContents();
+		if(kits.containsKey(playerId)){
+			kits.get(playerId).content=inv.getContents();
+			kits.get(playerId).armor_content=inv.getArmorContents();
 		}
 		
 		if(isAsync()){
-			getMysql().asyncUpdate("users_"+type.getKuerzel()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "UUID='"+uuid+"' AND id='"+id+"'");
+			getMysql().asyncUpdate("users_"+type.getShortName()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "playerId='"+playerId+"' AND id='"+id+"'");
 		}else{	
-			getMysql().Update("users_"+type.getKuerzel()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "UUID='"+uuid+"' AND id='"+id+"'");
+			getMysql().Update("users_"+type.getShortName()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "playerId='"+playerId+"' AND id='"+id+"'");
 		}
 	}
 	
-	public void delKit(UUID uuid,int id){
-		if(kits.containsKey(uuid)){
-			kits.get(uuid).id=0;
-			kits.get(uuid).content=null;
-			kits.get(uuid).armor_content=null;
-			kits.remove(uuid);
+	public void delKit(int playerId,int id){
+		if(kits.containsKey(playerId)){
+			kits.get(playerId).id=0;
+			kits.get(playerId).content=null;
+			kits.get(playerId).armor_content=null;
+			kits.remove(playerId);
 		}
 		
 		if(isAsync()){
-			getMysql().asyncDelete("users_"+type.getKuerzel()+"_kits", "UUID='"+uuid+"' AND id='"+id+"'");
+			getMysql().asyncDelete("users_"+type.getShortName()+"_kits", "playerId='"+playerId+"' AND id='"+id+"'");
 		}else{	
-			getMysql().Delete("users_"+type.getKuerzel()+"_kits", "UUID='"+uuid+"' AND id='"+id+"'");
+			getMysql().Delete("users_"+type.getShortName()+"_kits", "playerId='"+playerId+"' AND id='"+id+"'");
 		}
 	}
 	
-	public void loadAsyncKit(UUID uuid,int id){
-		loadAsyncKit(uuid, id, null);
+	public void loadAsyncKit(int playerId,int id){
+		loadAsyncKit(playerId, id, null);
 	}
 	
-	public void loadAsyncKit(UUID uuid,int id,Callback<PlayerKit> callback){
-		if(!kits.containsKey(uuid)){
-			mysql.asyncQuery("users_"+type.getKuerzel()+"_kits", "`content`,`armor_content`", "UUID='"+uuid+"' AND id='"+id+"'", new Callback<ResultSet>() {
+	public void loadAsyncKit(int playerId,int id,Callback<PlayerKit> callback){
+		if(!kits.containsKey(playerId)){
+			mysql.asyncQuery("users_"+type.getShortName()+"_kits", "`content`,`armor_content`", "playerId='"+playerId+"' AND id='"+id+"'", new Callback<ResultSet>() {
 				
 				@Override
 				public void call(ResultSet value) {
@@ -131,12 +126,12 @@ public class PlayerKitManager{
 						try {
 							ResultSet rs = (ResultSet) value;
 							
-							kits.put(uuid, new PlayerKit());
-							kits.get(uuid).id=id;
-							kits.get(uuid).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
-							kits.get(uuid).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
+							kits.put(playerId, new PlayerKit());
+							kits.get(playerId).id=id;
+							kits.get(playerId).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
+							kits.get(playerId).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
 								 
-							if(callback!=null)callback.call(kits.get(uuid));
+							if(callback!=null)callback.call(kits.get(playerId));
 						} catch (SQLException e) {
 							e.printStackTrace();
 						} catch (IOException e) {
@@ -148,24 +143,24 @@ public class PlayerKitManager{
 		}
 	}
 	
-	public PlayerKit getKit(UUID uuid,int id){
-		if(kits.containsKey(uuid)){
-			if(kits.get(uuid).id==id)return kits.get(uuid);
-			kits.get(uuid).id=0;
-			kits.get(uuid).content=null;
-			kits.get(uuid).armor_content=null;
-			kits.remove(uuid);
+	public PlayerKit getKit(int playerId,int id){
+		if(kits.containsKey(playerId)){
+			if(kits.get(playerId).id==id)return kits.get(playerId);
+			kits.get(playerId).id=0;
+			kits.get(playerId).content=null;
+			kits.get(playerId).armor_content=null;
+			kits.remove(playerId);
 		}
 		
 		try
 	    {
-		  ResultSet rs = mysql.Query("users_"+type.getKuerzel()+"_kits", "`content`,`armor_content`", "UUID='"+uuid+"' AND id='"+id+"'");
+		  ResultSet rs = mysql.Query("users_"+type.getShortName()+"_kits", "`content`,`armor_content`", "playerId='"+playerId+"' AND id='"+id+"'");
 
 	      while (rs.next()) {
-	    	  kits.put(uuid, new PlayerKit());
-	    	  kits.get(uuid).id=id;
-	    	  kits.get(uuid).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
-	    	  kits.get(uuid).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
+	    	  kits.put(playerId, new PlayerKit());
+	    	  kits.get(playerId).id=id;
+	    	  kits.get(playerId).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
+	    	  kits.get(playerId).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
 	      }
 
 	      rs.close();
@@ -173,8 +168,8 @@ public class PlayerKitManager{
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
 		
-		if(kits.containsKey(uuid)){
-			return kits.get(uuid);
+		if(kits.containsKey(playerId)){
+			return kits.get(playerId);
 		}else{
 			return null;
 		}

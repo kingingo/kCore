@@ -1,7 +1,5 @@
 package eu.epicpvp.kcore.Command.Commands;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,7 +14,7 @@ import eu.epicpvp.kcore.Inventory.Inventory.InventoryPlayer;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandInvsee extends kListener implements CommandExecutor{
@@ -36,7 +34,7 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 		player = (Player)sender;
 		
 		if(args.length==0){
-			player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/invsee [Name]");
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/invsee [Name]");
 		}else{
 			if(player.hasPermission(PermissionType.INVSEE.getPermissionToString())){
 				if(UtilPlayer.isOnline(args[0])){
@@ -48,12 +46,10 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 						player.openInventory(target.getInventory());
 					}
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					
 					if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
-						UUID uuid = UtilPlayer.getUUID(args[0], mysql);
-						target=null;
-						target = UtilPlayer.loadPlayer(uuid);
+						target = UtilPlayer.loadPlayer(args[0]);
 						
 						if(target!=null){
 							if(player.hasPermission(PermissionType.INVSEE_BODY.getPermissionToString())){
@@ -62,7 +58,7 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 								player.openInventory(target.getInventory());
 							}
 						}else{
-							player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§cnicht gefunden!");
+							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cnicht gefunden!");
 						}
 						
 					}

@@ -117,7 +117,7 @@ public class VillagerShop extends kListener{
 			this.villager=null;
 		}
 		this.spawn=loc;
-		this.spawn=spawn.add(0.5,0.1,0.5);
+		this.spawn=spawn.add(0.3,0.1,0.3);
 		this.spawn.getWorld().loadChunk(this.spawn.getWorld().getChunkAt(this.spawn));
 		this.villager=this.spawn.getWorld().spawnEntity(getSpawn(), this.type);
 		

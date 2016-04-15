@@ -10,7 +10,7 @@ import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.TeleportManager.TeleportManager;
 import eu.epicpvp.kcore.TeleportManager.Teleporter;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilTime;
 import lombok.Getter;
@@ -33,11 +33,11 @@ public class CommandTpa implements CommandExecutor{
 		player = (Player)cs;
 		if(getManager().getPermManager().hasPermission(player, PermissionType.PLAYER_TELEPORT_A)){
 			if(args.length==0){
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§6/tpa [Player]");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§6/tpa [Player]");
 			}else{
 				s=UtilTime.getTimeManager().check(cmd.getName(), player);
 				if(s!=null){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "USE_BEFEHL_TIME",s));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME",s));
 				}else{
 					if(UtilPlayer.isOnline(args[0])){
 						tp=Bukkit.getPlayer(args[0]);
@@ -49,14 +49,14 @@ public class CommandTpa implements CommandExecutor{
 							//new Teleporter(player, tp,3)
 							getManager().getTeleport_anfrage().put(tp, new Teleporter(player, tp,3));
 						}
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "TELEPORT_ANFRAGE_SENDER",tp.getName()));
-						tp.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "TELEPORT_ANFRAGE_EMPF§NGER",player.getName()));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "TELEPORT_ANFRAGE_SENDER",tp.getName()));
+						tp.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "TELEPORT_ANFRAGE_EMPF§NGER",player.getName()));
 						l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
 						if( l!=0 ){
 							UtilTime.getTimeManager().add(cmd.getName(), player, l);
 						}
 					}else{
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}
 				}
 			}

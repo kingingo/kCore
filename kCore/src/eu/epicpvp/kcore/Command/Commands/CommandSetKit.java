@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Command.Commands.Events.AddKitEvent;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilString;
@@ -30,13 +30,13 @@ public class CommandSetKit implements CommandExecutor{
 		
 		if(player.hasPermission(PermissionType.KIT_SET.getPermissionToString())){
 			if(args.length<=1){
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/setkit [Name] [Delay STD]");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/setkit [Name] [Delay STD]");
 			}else{
 				if(args[0].equalsIgnoreCase("reload")){
 					
 				}else{
 					if(!UtilString.isNormalCharakter(args[0])){
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_CHARAKTER"));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NO_CHARAKTER"));
 						return false;
 					}
 					config.setInventory("kits."+args[0].toLowerCase()+".Inventory", player.getInventory());
@@ -50,7 +50,7 @@ public class CommandSetKit implements CommandExecutor{
 						Bukkit.getPluginManager().callEvent(ev);
 					}
 					config.save();
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "KIT_SET",args[0]));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "KIT_SET",args[0]));
 				}
 			}
 		}

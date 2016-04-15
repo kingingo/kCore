@@ -9,7 +9,7 @@ import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBase;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 
 public class InventoryBuy extends InventoryPageBase{
@@ -35,7 +35,7 @@ public class InventoryBuy extends InventoryPageBase{
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					if(stats.getInt(player, StatsKey.COINS) < c){
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NOT_ENOUGH_COINS"));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NOT_ENOUGH_COINS"));
 					}else{
 						stats.add(player, StatsKey.COINS, -c);
 						buyed.onClick(player, type,null);
@@ -52,7 +52,7 @@ public class InventoryBuy extends InventoryPageBase{
 				@Override
 				public void onClick(Player player, ActionType type,Object object) {
 					if(stats.getInt(player, StatsKey.GEMS) < g){
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NOT_ENOUGH_GEMS"));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NOT_ENOUGH_GEMS"));
 					}else{
 						stats.add(player, StatsKey.GEMS, -g);
 						buyed.onClick(player, type,null);

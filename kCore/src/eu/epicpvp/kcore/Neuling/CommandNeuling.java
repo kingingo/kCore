@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandNeuling implements CommandExecutor, Listener{
 	
@@ -23,7 +23,7 @@ public class CommandNeuling implements CommandExecutor, Listener{
 		if(nManager.getPlayers().containsKey(p)){
 			nManager.del(p);
 		}else{
-			p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "NEULING_CMD"));
+			p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "NEULING_CMD"));
 		}
 		return false;
 	}

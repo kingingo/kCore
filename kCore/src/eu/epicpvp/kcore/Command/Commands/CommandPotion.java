@@ -16,7 +16,7 @@ import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.Permission;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilTime;
 
 public class CommandPotion implements CommandExecutor{
@@ -56,22 +56,22 @@ public class CommandPotion implements CommandExecutor{
 		player = (Player)sender;
 		if(player.hasPermission(PermissionType.POTION.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/potion [potion]");
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+potions);
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/potion [potion]");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+potions);
 			}else{
 				s=UtilTime.getTimeManager().check(cmd.getName(), player);
 				if(s!=null){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "USE_BEFEHL_TIME",s));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME",s));
 				}else{
 					PotionEffectType mob = PotionEffectType.getByName(args[0]);
 					
 					if(mob==null||!types.containsKey(mob)){
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "POTION_TYPE_NOT_FOUND"));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "POTION_TYPE_NOT_FOUND"));
 						return false;
 					}
 					if(!player.hasPermission(PermissionType.POTION.getPermissionToString()+"."+mob.getName().toLowerCase(Locale.ENGLISH))){
 						if(!player.hasPermission(PermissionType.POTION_ALL.getPermissionToString())){
-							player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_PERMISSION"));
+							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NO_PERMISSION"));
 							return false;
 						}
 					}
@@ -90,7 +90,7 @@ public class CommandPotion implements CommandExecutor{
 						UtilTime.getTimeManager().add(cmd.getName(), player, l);
 					}
 					player.getInventory().addItem( this.types.get(mob).toItemStack(a) );
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "POTION_GOT"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "POTION_GOT"));
 				}
 			}
 		}

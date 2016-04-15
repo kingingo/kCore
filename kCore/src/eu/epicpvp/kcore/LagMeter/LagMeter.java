@@ -23,7 +23,7 @@ import eu.epicpvp.kcore.Command.Admin.CommandMonitor;
 import eu.epicpvp.kcore.Command.Admin.CommandUnloadChunks;
 import eu.epicpvp.kcore.Command.Commands.CommandPing;
 import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilDebug;
@@ -238,7 +238,7 @@ public class LagMeter extends kListener
             	}
             }
             if(player!=null){
-            	player.sendMessage(TranslationManager.getText(player, "PREFIX")+" unloaded Chunks:§e "+a);
+            	player.sendMessage(TranslationHandler.getText(player, "PREFIX")+" unloaded Chunks:§e "+a);
             }else{
                 logMessage(" unloaded Chunks: "+a);
             }
@@ -279,13 +279,13 @@ public class LagMeter extends kListener
             	}
                 
                 if(player!=null){
-               	 	player.sendMessage(TranslationManager.getText(player, "PREFIX")+" unloaded Chunks from "+world+":§e "+a);
+               	 	player.sendMessage(TranslationHandler.getText(player, "PREFIX")+" unloaded Chunks from "+world+":§e "+a);
                 }else{
                 	logMessage("unloaded Chunks from "+world+": "+a);
                 }
 			}else{
                 if(player!=null){
-	                player.sendMessage(TranslationManager.getText(player, "PREFIX")+"§cThe world §e"+world+"§c was not found!");
+	                player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cThe world §e"+world+"§c was not found!");
                 }else{
 					logMessage("The world "+world+" was not found!");
                 }
@@ -302,13 +302,13 @@ public class LagMeter extends kListener
     player.sendMessage(" ");
     player.sendMessage(" ");
     player.sendMessage(" ");
-    player.sendMessage(TranslationManager.getText(player,"PREFIX")+"Online-Players: §e"+ UtilServer.getPlayers().size() + " §7Your-Ping: §e"+ UtilPlayer.getPlayerPing(player) +" §7Avg-Ping:§e "+getAvgPing());
-    player.sendMessage(TranslationManager.getText(player,"PREFIX")+"Live: §e" + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " §7Avg:§e " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
-    player.sendMessage(TranslationManager.getText(player,"PREFIX")+"Free-Mem:§e " + Runtime.getRuntime().freeMemory() / 1048576L + "MB §7Max-Mem: §e"+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
-    player.sendMessage(TranslationManager.getText(player,"PREFIX")+"View-Distance: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.viewDistance+ "§7 Tracking-Player-Range: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.playerTrackingRange );
-    player.sendMessage(TranslationManager.getText(player,"PREFIX")+ "Online-Time: §e"+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
-    player.sendMessage(TranslationManager.getText(player, "PREFIX")+"Time-Now: §e"+ UtilTime.now());
-    player.sendMessage(TranslationManager.getText(player,"PREFIX")+ "Worlds:");
+    player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"Online-Players: §e"+ UtilServer.getPlayers().size() + " §7Your-Ping: §e"+ UtilPlayer.getPlayerPing(player) +" §7Avg-Ping:§e "+getAvgPing());
+    player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"Live: §e" + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " §7Avg:§e " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
+    player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"Free-Mem:§e " + Runtime.getRuntime().freeMemory() / 1048576L + "MB §7Max-Mem: §e"+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");
+    player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"View-Distance: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.viewDistance+ "§7 Tracking-Player-Range: §e"+ ((CraftPlayer)player).getHandle().world.spigotConfig.playerTrackingRange );
+    player.sendMessage(TranslationHandler.getText(player,"PREFIX")+ "Online-Time: §e"+ UtilTime.formatMili( (System.currentTimeMillis()-this._startTime) ));
+    player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"Time-Now: §e"+ UtilTime.now());
+    player.sendMessage(TranslationHandler.getText(player,"PREFIX")+ "Worlds:");
     
     for(World world : Bukkit.getWorlds()){
     	int tileEntities = 0;
@@ -323,7 +323,7 @@ public class LagMeter extends kListener
         {
       	 ex.printStackTrace(); 
         }  
-    	player.sendMessage(TranslationManager.getText(player,"PREFIX")+"       §e"+world.getName()+"§7: Chunks:§e"+world.getLoadedChunks().length+" §7Entities:§e"+world.getEntities().size()+" §7Tile:§e"+tileEntities);
+    	player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"       §e"+world.getName()+"§7: Chunks:§e"+world.getLoadedChunks().length+" §7Entities:§e"+world.getEntities().size()+" §7Tile:§e"+tileEntities);
     }
   }
 }

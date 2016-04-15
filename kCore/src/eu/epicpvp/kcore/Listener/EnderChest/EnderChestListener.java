@@ -19,7 +19,6 @@ import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import eu.epicpvp.kcore.Util.UtilEvent;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilItem;
-import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityLiving;
@@ -50,7 +49,7 @@ public class EnderChestListener extends kListener{
 	
 	@EventHandler
 	public void LoadPerm(PlayerLoadPermissionEvent ev){
-		if(ev.getPlayer().hasPermission(PermissionType.ENDERCHEST_ADDON.getPermissionToString())&&userData.getConfigs().containsKey(UtilPlayer.getRealUUID(ev.getPlayer()))){
+		if(ev.getPlayer().hasPermission(PermissionType.ENDERCHEST_ADDON.getPermissionToString())&&userData.contains(ev.getPlayer())){
 			config=userData.getConfig(ev.getPlayer());
 			if(!config.isSet("Enderchest")){
 				ItemStack[] items = new ItemStack[54];

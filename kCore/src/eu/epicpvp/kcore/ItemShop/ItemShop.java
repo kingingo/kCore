@@ -25,7 +25,7 @@ import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.AnvilGUI;
 import eu.epicpvp.kcore.Util.AnvilGUI.AnvilClickEvent;
 import eu.epicpvp.kcore.Util.InventorySize;
@@ -235,9 +235,9 @@ public class ItemShop{
 				}
 				
 				if(amount == 0 && money == 0){
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SIGN_SHOP_NO_ITEMS_ON_INV"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SIGN_SHOP_NO_ITEMS_ON_INV"));
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SIGN_SHOP_VERKAUFT_ALL",new String[]{String.valueOf(amount),String.valueOf(money)}));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SIGN_SHOP_VERKAUFT_ALL",new String[]{String.valueOf(amount),String.valueOf(money)}));
 				}
 				
 				player.closeInventory();

@@ -28,7 +28,7 @@ import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBase;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutBlockAction;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.InventorySize;
@@ -207,7 +207,7 @@ public class StandingTreasureChest extends kListener{
 			}else if(status.equalsIgnoreCase("WAIT")){
 				if(ev.getType() == UpdateType.SEC_3){
 					if(System.currentTimeMillis() > time){
-						this.player.sendMessage(TranslationManager.getText(this.player, "PREFIX")+TranslationManager.getText(this.player, "TREASURE_CHEST_TIME_AWAY"));
+						this.player.sendMessage(TranslationHandler.getText(this.player, "PREFIX")+TranslationHandler.getText(this.player, "TREASURE_CHEST_TIME_AWAY"));
 						reset();
 					}
 				}

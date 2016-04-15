@@ -20,7 +20,7 @@ import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Packets.PacketArenaSettings;
 import eu.epicpvp.kcore.Packets.PacketArenaStatus;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.UpdateAsync.UpdateAsyncType;
 import eu.epicpvp.kcore.UpdateAsync.Event.UpdateAsyncEvent;
 import eu.epicpvp.kcore.Util.UtilBG;
@@ -64,7 +64,7 @@ public class ArenaManager extends kListener  {
 	private GameType t;
 	
 	public ArenaManager(StatsManager statsManager,GameType t,UpdateAsyncType updateSpeed){
-		super(statsManager.getInstance(),"ArenaManager:"+t.getKuerzel());
+		super(statsManager.getInstance(),"ArenaManager:"+t.getShortName());
 		this.t=t;
 		this.server=new HashMap<>();
 		this.rules=new HashMap<>();
@@ -89,6 +89,8 @@ public class ArenaManager extends kListener  {
 					PacketArenaStatus arena = (PacketArenaStatus) packet;
 					
 					if(arena.getType()==getT()){
+						if(!server.containsKey(arena.getServer()+arena.getArena()))logMessage("ADD "+arena.getServer()+" "+arena.getArena());
+						
 						server.remove(arena.getServer()+arena.getArena());
 						server.put(arena.getServer()+arena.getArena(), arena);
 						arena=null;
@@ -122,7 +124,7 @@ public class ArenaManager extends kListener  {
 				if(this.rounds.get(type).containsKey(c)){
 					for(UUID p : this.rounds.get(type).get(c).getPlayers()){
 						if(withMsg&&UtilPlayer.isOnline(p)){
-							Bukkit.getPlayer(p).sendMessage(TranslationManager.getText(Bukkit.getPlayer(p), "PREFIX")+TranslationManager.getText(Bukkit.getPlayer(p), "HUB_VERSUS_1VS1_CANCEL"));
+							Bukkit.getPlayer(p).sendMessage(TranslationHandler.getText(Bukkit.getPlayer(p), "PREFIX")+TranslationHandler.getText(Bukkit.getPlayer(p), "HUB_VERSUS_1VS1_CANCEL"));
 						}
 						this.rounds_player.remove(p);
 					}
@@ -316,7 +318,7 @@ public class ArenaManager extends kListener  {
 							}
 							
 							if(!this.wait_list.containsKey(type)){
-								System.err.println("TYPE: "+t.getKuerzel());
+								System.err.println("TYPE: "+t.getShortName());
 								System.err.println(" TYPE1:"+type);
 								continue;
 							}

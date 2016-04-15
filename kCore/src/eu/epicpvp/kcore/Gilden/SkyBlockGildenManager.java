@@ -15,7 +15,7 @@ import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Gilden.Events.GildenPlayerTeleportEvent;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 
@@ -36,10 +36,10 @@ public class SkyBlockGildenManager extends GildenManager{
 	@EventHandler
 	public void Teleport(GildenPlayerTeleportEvent ev){
 		if(!isPlayerInGilde(ev.getPlayer())){
-			ev.setReason(TranslationManager.getText(ev.getPlayer(), "GILDE_PLAYER_IS_NOT_IN_GILDE"));
+			ev.setReason(TranslationHandler.getText(ev.getPlayer(), "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 			ev.setCancelled(true);
 		}else{
-			ev.setReason(TranslationManager.getText(ev.getPlayer(), "SKYBLOCK_NO_ISLAND"));
+			ev.setReason(TranslationHandler.getText(ev.getPlayer(), "SKYBLOCK_NO_ISLAND"));
 			ev.setCancelled( sky.getGilden_world().getIslandHome(getPlayerGilde(ev.getPlayer()))==null );
 		}
 	}
@@ -47,13 +47,10 @@ public class SkyBlockGildenManager extends GildenManager{
 	public void removeGildenEintrag(Player player,String name){
 		ArrayList<UUID> l = new ArrayList<>();
 		getMember(name);
-		for(UUID n : getGilden_player().keySet()){
+		for(int n : new ArrayList<>(getGilden_player().keySet())){
 			if( getGilden_player().get(n).equalsIgnoreCase(name)){
-				l.add(n);
+				getGilden_player().remove(n);
 			}
-		}
-		for(UUID n : l){
-			getGilden_player().remove(n);
 		}
 		
 		if(getTyp()==GildenType.SKY){
@@ -78,21 +75,21 @@ public class SkyBlockGildenManager extends GildenManager{
 			      
 			      while (rs.next()) {
 			    	  if(zahl==1){
-			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§4§§l " + rs.getString(2));
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
 			  			}else if(zahl==2){
-			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§2§§l " + rs.getString(2));
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
 			  			}else if(zahl==3){
-			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§e§§l " + rs.getString(2));
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
 			  			}else if(zahl>=4 && zahl<=6){
-			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§3 " + rs.getString(2));
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
 			  			}else if(zahl>=7 && zahl<=9){
-			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§d " + rs.getString(2));
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
 			  			}else if(zahl>=10 && zahl<=12){
-			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§a " + rs.getString(2));
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
 			  			}else if(zahl>=13 && zahl<=15){
-			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§b " + rs.getString(2));
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
 			  			}else{
-			  				ranking.put(zahl, "§§b#§§6" + String.valueOf(zahl) + "§§b | §§6" + String.valueOf(rs.getInt(1)) + " §§b|§§6 " + rs.getString(2));
+			  				ranking.put(zahl, "§b#§6" + String.valueOf(zahl) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
 			  			}
 				     extra_prefix.put(rs.getString(2).toLowerCase(), zahl);
 				     zahl++;
@@ -106,22 +103,22 @@ public class SkyBlockGildenManager extends GildenManager{
 	}
 	
 	public void Ranking(Player p){
-		p.sendMessage("§§b§§§§§§§§§§§§§§§§§§§§§§§§ §§6§§lGilden Ranking | Top 15 §§b§§§§§§§§§§§§§§§§§§§§§§§§");
-		p.sendMessage("§§b Place | Money | Gilde");
+		p.sendMessage("§b– – – – – – – –  §6§lGilden Ranking | Top 15 §b– – – – – – – – ");
+		p.sendMessage("§b Place | Money | Gilde");
 		LoadRanking(false);
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));
 	}
 	
 	public void TeleportToHome(Player p){
 		if(!isPlayerInGilde(p)){
-			p.sendMessage(TranslationManager.getText(p, "GILDE_PREFIX")+TranslationManager.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
+			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 			return;
 		}
 		String g = getPlayerGilde(p);
 		
 		if(getTyp()==GildenType.SKY){
 			p.teleport(getSky().getGilden_world().getIslandHome(g));
-			p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "GILDE_TELEPORTET"));
+			p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "GILDE_TELEPORTET"));
 			UtilPlayer.sendPacket(p, sky.getGilden_world().getIslandBorder(p));;
 		}else{
 			String w = getString(StatsKey.WORLD, g, getTyp());
@@ -132,7 +129,7 @@ public class SkyBlockGildenManager extends GildenManager{
 			if(x==0&&y==0&&z==0&&g.equalsIgnoreCase("0"))return;
 			Location loc = new Location(Bukkit.getWorld(w),x,y,z);
 			p.teleport(loc);
-			p.sendMessage(TranslationManager.getText(p, "PREFIX")+TranslationManager.getText(p, "GILDE_TELEPORTET"));	
+			p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "GILDE_TELEPORTET"));	
 		}
 	}
 

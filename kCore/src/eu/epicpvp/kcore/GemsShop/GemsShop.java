@@ -34,8 +34,8 @@ import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilFile;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
+import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
-import eu.epicpvp.kcore.Util.UtilTime;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
 
@@ -62,7 +62,7 @@ public class GemsShop{
 		this.permission=permission;
 		this.config=new kConfig(UtilFile.getYMLFile(permission.getInstance(), "gemsshop"));
 		this.base=base;
-		UtilServer.getMysql().Update("CREATE TABLE IF NOT EXISTS gems_shop(player varchar(30),uuid varchar(60),ip varchar(60),gems int, article varchar(30),date varchar(30),time varchar(60),server varchar(30))");
+		UtilServer.getMysql().Update("CREATE TABLE IF NOT EXISTS `gems_shop`(playerId int,ip varchar(60),gems int,article varchar(30),timestamp timestamp,server varchar(30));");
 		load();
 		
 		if(this.config.contains("Main.Location")){
@@ -79,7 +79,7 @@ public class GemsShop{
 	}
 	
 	public void log(Player player,int gems,String article){
-		UtilServer.getMysql().Update("INSERT INTO gems_shop (player,uuid,ip,gems,article,date,time,server) VALUES ('"+player.getName()+"','"+eu.epicpvp.kcore.Util.UtilPlayer.getRealUUID(player)+"','"+player.getAddress().getAddress().getHostAddress()+"','"+gems+"','"+article+"','"+UtilTime.now()+"','"+System.currentTimeMillis()+"','"+type.name()+"')");
+		UtilServer.getMysql().Update("INSERT INTO `gems_shop` (`playerId`,`ip`,`gems`,`article`,`server`) VALUES ('"+UtilPlayer.getPlayerId(player)+"','"+player.getAddress().getAddress().getHostAddress()+"','"+gems+"','"+article+"','"+type.name()+"')");
 	}
 	
 	public void setCreature(){

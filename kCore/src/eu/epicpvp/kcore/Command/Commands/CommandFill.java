@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandFill implements CommandExecutor{
 
@@ -28,7 +28,7 @@ public class CommandFill implements CommandExecutor{
 						}
 					}
 				}
-				player.sendMessage(TranslationManager.getText(player,"PREFIX")+"§aDie Wasser Flaschen wurden bef§llt!");
+				player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"§aDie Wasser Flaschen wurden bef§llt!");
 			}
 		}
 		return false;

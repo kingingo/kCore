@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandHead implements CommandExecutor{
 
@@ -23,15 +23,15 @@ public class CommandHead implements CommandExecutor{
 					if(player.getInventory().getHelmet()==null){
 						player.getInventory().setHelmet(player.getItemInHand());
 						player.setItemInHand(null);
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "HEAD"));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HEAD"));
 					}else{
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "HEAD_ITEM_NOT_BLOCK"));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HEAD_ITEM_NOT_BLOCK"));
 					}
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "HEAD_ITEM_NOT_BLOCK"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HEAD_ITEM_NOT_BLOCK"));
 				}
 			}else{
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "HEAD_ITEM_EQUAL_NULL"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HEAD_ITEM_EQUAL_NULL"));
 			}
 		}
 		return false;

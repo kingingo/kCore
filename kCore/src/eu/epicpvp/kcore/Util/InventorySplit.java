@@ -59,5 +59,5 @@ public static InventorySplit split(int slot){
 		if(split.getMin()>=slot&&split.getMax()<=slot)return split;
 	return null;
 }
-	
+
 }

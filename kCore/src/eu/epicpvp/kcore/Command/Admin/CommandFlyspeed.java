@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandFlyspeed implements CommandExecutor{
 	
@@ -18,18 +18,18 @@ public class CommandFlyspeed implements CommandExecutor{
 		player = (Player)sender;
 		if(player.hasPermission(PermissionType.FLYSPEED.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/flyspeed [1-10]");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/flyspeed [1-10]");
 			}else if(args.length==1){
 				if(player.getAllowFlight()){
 					try{
 						float speed = getRealMoveSpeed(getMoveSpeed(args[0]),true,false);
 						player.setFlySpeed(speed);
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "kFLY_SPEED",args[0]));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "kFLY_SPEED",args[0]));
 					}catch(NumberFormatException e){
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_INTEGER"));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NO_INTEGER"));
 					}
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "kFLY_NOT_ON"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "kFLY_NOT_ON"));
 				}
 			}
 		}

@@ -1,18 +1,22 @@
 package eu.epicpvp.kcore.Permission;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import lombok.Getter;
 
 @Getter
 public class Permission {
 	private String permission;
+	//private org.bukkit.permissions.Permission bukkitPermission;
 	private GroupTyp group;
 	private int starIndex = -1;
 	
 	
 	public boolean acceptPermission(String perm){
 		if(starIndex != -1){
-			return permission.substring(0,Math.min(starIndex, perm.length())).equalsIgnoreCase(perm.substring(0,starIndex));
+			return perm.substring(0,Math.min(starIndex, perm.length())).equalsIgnoreCase(permission.substring(0,starIndex));
 		}
 		return permission.equalsIgnoreCase(perm);
 	}
@@ -48,9 +52,25 @@ public class Permission {
 		return true;
 	}
 
+	public String getRawPermission(){
+		return permission.startsWith("-") ? permission.substring(1) : permission;
+	}
+	
+	public boolean isNegative(){
+		return permission.startsWith("-");
+	}
+	
 	public Permission(String permission, GroupTyp group) {
 		this.permission = permission;
 		this.group = group;
 		starIndex = permission.indexOf("*");
+		/*
+		if(Bukkit.getPluginManager().getPermission(permission)==null){
+			this.bukkitPermission = new org.bukkit.permissions.Permission(permission);
+			Bukkit.getPluginManager().addPermission(this.bukkitPermission);
+		}else{
+			this.bukkitPermission = Bukkit.getPluginManager().getPermission(permission);
+		}
+		*/
 	}
 }

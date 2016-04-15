@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilItem;
 
 public class CommandRenameItem implements CommandExecutor{
@@ -21,13 +21,13 @@ public class CommandRenameItem implements CommandExecutor{
 		
 		if(player.hasPermission(PermissionType.RENAMEITEM.getPermissionToString())){
 			if(args.length==0){
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+"/renameitem [Name]");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/renameitem [Name]");
 			}else{
 				if(player.getItemInHand()!=null&&player.getItemInHand().getType()!=Material.AIR){
 					UtilItem.RenameItem(player.getItemInHand(), args[0].replaceAll("&", "§"));
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "ITEM_RENAME"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ITEM_RENAME"));
 				}else{
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "NO_ITEM_IN_HAND"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NO_ITEM_IN_HAND"));
 				}
 			}
 		}

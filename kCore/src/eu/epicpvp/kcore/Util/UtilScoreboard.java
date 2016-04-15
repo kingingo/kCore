@@ -26,9 +26,9 @@ public class UtilScoreboard {
 			}
 			
 			tt=board.getTeam(team.getName());
-			for(OfflinePlayer player : team.getPlayers()){
-				if(!tt.hasPlayer(player)){
-					tt.addPlayer(player);
+			for(String player : team.getEntries()){
+				if(!tt.hasEntry(player)){
+					tt.addEntry(player);
 				}
 			}
 		}
@@ -52,21 +52,21 @@ public class UtilScoreboard {
 	}
 	
 	public static void removePlayerFromTeam(Scoreboard board,String Team,Player p){
-		if(board.getTeam(Team)==null)return;
-		if(!board.getTeam(Team).getPlayers().contains(p))return;
+		if(board.getTeam(Team)==null)new NullPointerException("team == NULL");
+		if(!board.getTeam(Team).getEntries().contains(p))return;
 		Team r = board.getTeam(Team);
-		r.removePlayer(p);
+		r.removeEntry(p.getName());
 	}
 	
 	public static void addPlayerToTeam(Scoreboard board,String Team,Player p){
-		if(board.getTeam(Team)==null)return;
-		if(board.getTeam(Team).getPlayers().contains(p))return;
+		if(board.getTeam(Team) == null)new NullPointerException("team == NULL");
+		if(board.getTeam(Team).getEntries().contains(p.getName())) return;
 		Team r = board.getTeam(Team);
-		r.addPlayer(p);
+		r.addEntry(p.getName());
 	}
 	
-	public static Team addTeam(Scoreboard board,String Team,String displayName){
-		return addTeam(board, Team, displayName, null, null);
+	public static Team addTeam(Scoreboard board,String Team,String prefix){
+		return addTeam(board, Team, null, prefix, null);
 	}
 	
 	public static Team addTeam(Scoreboard board,String Team,String displayName, String prefix){

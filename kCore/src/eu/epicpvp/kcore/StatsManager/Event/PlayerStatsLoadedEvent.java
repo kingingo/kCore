@@ -12,11 +12,11 @@ public class PlayerStatsLoadedEvent extends Event
   @Getter
   private StatsManager manager;
   @Getter
-  private String playername;
+  private int playerId;
 
-  public PlayerStatsLoadedEvent(StatsManager manager,String playername)
+  public PlayerStatsLoadedEvent(StatsManager manager,int playerId)
   {
-    this.playername=playername;
+    this.playerId=playerId;
     this.manager=manager;
   }
   public HandlerList getHandlers()

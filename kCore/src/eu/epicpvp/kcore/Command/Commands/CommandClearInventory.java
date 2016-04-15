@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 
@@ -27,7 +27,7 @@ public class CommandClearInventory implements CommandExecutor{
 				player.getInventory().setChestplate(null);
 				player.getInventory().setLeggings(null);
 				player.getInventory().setBoots(null);
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "CLEARINVENTORY"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY"));
 			}else{
 				if(args[0].equalsIgnoreCase("all")&&player.hasPermission(PermissionType.CLEARINVENTORY_ALL.getPermissionToString())){
 					for(Player p : UtilServer.getPlayers()){
@@ -37,9 +37,9 @@ public class CommandClearInventory implements CommandExecutor{
 						p.getInventory().setChestplate(null);
 						p.getInventory().setLeggings(null);
 						p.getInventory().setBoots(null);
-						p.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "CLEARINVENTORY_OTHER",player.getName()));
+						p.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY_OTHER",player.getName()));
 					}
-					player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "CLEARINVENTORY_ALL"));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY_ALL"));
 				}else if(player.hasPermission(PermissionType.CLEARINVENTORY_OTHER.getPermissionToString())){
 					if(UtilPlayer.isOnline(args[0])){
 						Bukkit.getPlayer(args[0]).getInventory().clear();
@@ -47,10 +47,10 @@ public class CommandClearInventory implements CommandExecutor{
 						Bukkit.getPlayer(args[0]).getInventory().setChestplate(null);
 						Bukkit.getPlayer(args[0]).getInventory().setLeggings(null);
 						Bukkit.getPlayer(args[0]).getInventory().setBoots(null);
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "CLEARINVENTORY_FROM_OTHER",args[0]));
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "CLEARINVENTORY_OTHER",player.getName()));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY_FROM_OTHER",args[0]));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY_OTHER",player.getName()));
 					}else{
-						player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}
 				}
 			}

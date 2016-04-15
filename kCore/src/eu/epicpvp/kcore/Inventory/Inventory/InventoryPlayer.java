@@ -1,7 +1,5 @@
 package eu.epicpvp.kcore.Inventory.Inventory;
 
-import java.util.UUID;
-
 //Volatile
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftHumanEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -19,7 +17,7 @@ public class InventoryPlayer extends PlayerInventory{
 	@Getter
 	private CraftPlayer craftPlayer;
 	@Getter
-	private UUID uuid;
+	private int playerId;
 	@Getter
 	private CraftInventoryPlayer inventory;
     private final ItemStack[] extra;
@@ -27,7 +25,7 @@ public class InventoryPlayer extends PlayerInventory{
 	public InventoryPlayer(Player player){
 		super(UtilPlayer.getCraftPlayer(player).getHandle());
 		this.craftPlayer = UtilPlayer.getCraftPlayer(player);
-		this.uuid = UtilPlayer.getRealUUID(player);
+		this.playerId = UtilPlayer.getPlayerId(player);
 		this.extra = new ItemStack[5];
 		this.inventory = new CraftInventoryPlayer(this);
 		this.items = this.player.inventory.items;
@@ -39,7 +37,7 @@ public class InventoryPlayer extends PlayerInventory{
         super.onClose(who);
 		this.craftPlayer.saveData();
 		this.craftPlayer=null;
-		this.uuid=null;
+		this.playerId=0;
 		this.inventory=null;
     }
 	

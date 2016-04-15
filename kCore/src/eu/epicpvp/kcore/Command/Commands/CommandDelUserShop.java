@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandDelUserShop implements CommandExecutor{
@@ -26,9 +26,9 @@ public class CommandDelUserShop implements CommandExecutor{
 			if(config.isSet("shops."+player.getName().toLowerCase())){
 				config.set("shops."+player.getName().toLowerCase(), null);
 				config.save();
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SHOP_DEL"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SHOP_DEL"));
 			}else{
-				player.sendMessage(TranslationManager.getText(player, "PREFIX")+TranslationManager.getText(player, "SHOP_EXIST"));
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SHOP_EXIST"));
 			}
 		}
 		return false;

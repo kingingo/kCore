@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandBroadcast implements CommandExecutor{
@@ -19,7 +19,7 @@ public class CommandBroadcast implements CommandExecutor{
 			Player p = (Player)sender;
 			if(!p.hasPermission(PermissionType.BROADCAST.getPermissionToString()))return false;
 			if(args.length==0){
-				p.sendMessage(TranslationManager.getText(p, "PREFIX")+"§7/broadcast [Message]");
+				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§7/broadcast [Message]");
 			}else{
 				broadcast(args);
 			}

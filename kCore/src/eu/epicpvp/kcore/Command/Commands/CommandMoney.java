@@ -13,7 +13,7 @@ import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.StatsManager.Ranking;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
@@ -30,7 +30,7 @@ public class CommandMoney implements CommandExecutor{
 		this.stats=stats;
 		this.ranking=new Ranking(stats.getType(), StatsKey.MONEY);
 		this.stats.addRanking(ranking);
-		this.prefix=(type==ServerType.SKYBLOCK?TranslationManager.getText("PREFIX_GAME",GameType.SKYBLOCK.getTyp()):TranslationManager.getText("PREFIX"));
+		this.prefix=(type==ServerType.SKYBLOCK?TranslationHandler.getText("PREFIX_GAME",GameType.SKYBLOCK.getTyp()):TranslationHandler.getText("PREFIX"));
 	}
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "money",alias = {"geld","konto","kontostand","stand"}, sender = Sender.EVERYONE)
@@ -38,7 +38,7 @@ public class CommandMoney implements CommandExecutor{
 		if(cs instanceof Player){
 			player = (Player)cs;
 			if(args.length==0){
-				player.sendMessage(prefix+ TranslationManager.getText(player, "MONEY") + stats.getDouble(player, StatsKey.MONEY));
+				player.sendMessage(prefix+ TranslationHandler.getText(player, "MONEY") + stats.getDouble(player, StatsKey.MONEY));
 			}else{
 				if(args.length==1){
 					if(args[0].equalsIgnoreCase("ranking")||args[0].equalsIgnoreCase("top")){
@@ -50,7 +50,7 @@ public class CommandMoney implements CommandExecutor{
 						target=Bukkit.getPlayer(args[0]);
 						player.sendMessage(prefix+target.getName()+" Kontostand betr§§gt:§§3 " + stats.getDouble(target, StatsKey.MONEY));
 					}else{
-						player.sendMessage(prefix+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[0]));
+						player.sendMessage(prefix+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}
 				}else if(args.length==3){
 					if(args[0].equalsIgnoreCase("send")){
@@ -64,16 +64,16 @@ public class CommandMoney implements CommandExecutor{
 								if(stats.getDouble(player, StatsKey.MONEY) >= money){
 									stats.add(player, StatsKey.MONEY, -money);
 									stats.add(target, StatsKey.MONEY, money);
-									target.sendMessage(prefix+TranslationManager.getText(player, "MONEY_RECEIVE_FROM",new String[]{player.getName(),String.valueOf(money)}));
-									player.sendMessage(prefix+TranslationManager.getText(target, "MONEY_SEND_TO",new String[]{target.getName(),String.valueOf(money)}));
+									target.sendMessage(prefix+TranslationHandler.getText(player, "MONEY_RECEIVE_FROM",new String[]{player.getName(),String.valueOf(money)}));
+									player.sendMessage(prefix+TranslationHandler.getText(target, "MONEY_SEND_TO",new String[]{target.getName(),String.valueOf(money)}));
 								}else{
-									player.sendMessage(prefix+TranslationManager.getText(player, "MONEY_ENOUGH_MONEY"));
+									player.sendMessage(prefix+TranslationHandler.getText(player, "MONEY_ENOUGH_MONEY"));
 								}
 							}else{
-								player.sendMessage(prefix+TranslationManager.getText(player, "MONEY_NO_DOUBLE"));
+								player.sendMessage(prefix+TranslationHandler.getText(player, "MONEY_NO_DOUBLE"));
 							}
 						}else{
-							player.sendMessage(prefix+TranslationManager.getText(player, "PLAYER_IS_OFFLINE",args[1]));
+							player.sendMessage(prefix+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[1]));
 						}
 					}
 				}
