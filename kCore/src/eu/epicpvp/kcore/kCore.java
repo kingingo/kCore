@@ -11,6 +11,6 @@ public class kCore extends JavaPlugin {
 		new SkinUpdateListener(this); //Needed everywhere
 	}
 	public void onDisable() {
-		System.out.println("test");
+		System.out.println("");
 	}
 }
