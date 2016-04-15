@@ -1,6 +1,7 @@
 package eu.epicpvp.kcore.Permission;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -14,10 +15,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class PermissionChannelHandler extends kListener implements PluginMessageListener{
-	ArrayList<PermissionChannelListener> listener = new ArrayList<>();
+	HashMap<UUID,PermissionChannelListener> listener = new HashMap<>();
 	PermissionManager manager;
 	
 	public PermissionChannelHandler(PermissionManager manager) {
@@ -25,12 +27,12 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		this.manager = manager;
 	}
 	
-	public void addListener(PermissionChannelListener listener){
-		this.listener.add(listener);
+	public void addListener(UUID taskId,PermissionChannelListener listener){
+		this.listener.put(taskId,listener);
 	}
 	
-	public void removeListener(PermissionChannelListener listener){
-		this.listener.remove(listener);
+	public void removeListener(UUID taskId){
+		this.listener.remove(taskId);
 	}
 	
 	@Override
@@ -38,10 +40,18 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		if(!channel.equalsIgnoreCase("permission")) return;
 		DataBuffer buffer = new DataBuffer(data);
 		UUID from = buffer.readUUID();
-		for(PermissionChannelListener listener : new ArrayList<>(this.listener)){
-			listener.handle(from, buffer);
-			this.listener.remove(listener);
+		
+		if(this.listener.containsKey(from)){
+			this.listener.get(from).handle(from, buffer);
+			removeListener(from);
 		}
+		
+//		for(PermissionChannelListener listener : new ArrayList<>(this.listener)){
+//			if(listener.handle(from, buffer)){
+//				this.listener.remove(listener);
+//				break;
+//			}
+//		}
 	}
 	
 	public PluginMessageFutureTask<DataBuffer> sendMessage(Player player,DataBuffer buffer){
@@ -53,12 +63,14 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 
 		final PluginMessageFutureTask<DataBuffer> task = new PluginMessageFutureTask<>();
 		
-		addListener(new PermissionChannelListener() {
+		addListener(taskId,new PermissionChannelListener() {
 			@Override
-			public void handle(UUID fromPacket, DataBuffer buffer) {
+			public boolean handle(UUID fromPacket, DataBuffer buffer) {
 				if(fromPacket.equals(taskId)){
 					task.done(buffer);
+					return true;
 				}
+				return false;
 			}
 		});
 		sendToBungeecord(player, taskId, buffer);
@@ -76,8 +88,15 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		byte[] bbuffer = new byte[buffer.writerIndex()];
 		System.arraycopy(buffer.array(), 0, bbuffer, 0, buffer.writerIndex());
 		
-		if(!UtilPlayer.getCraftPlayer(player).getListeningPluginChannels().contains("permission"))
+		if(UtilPlayer.getCraftPlayer(player).getHandle().playerConnection == null){
+			logMessage(player.getName()+" is the playerConnection == NULL!");
+		}
+		
+		if(!UtilPlayer.getCraftPlayer(player).getListeningPluginChannels().contains("permission")){
 			UtilPlayer.getCraftPlayer(player).addChannel("permission");
+			logMessage("add "+player.getName()+" 'permission' channel!");
+		}
+		
 		player.sendPluginMessage(manager.getInstance(), "permission", bbuffer);
 	}
 	
@@ -104,10 +123,10 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 			@Override
 			public void run() {
 				manager.loadPlayer(ev.getPlayer(), UtilPlayer.getPlayerId(ev.getPlayer()));
-				
 				Bukkit.getScheduler().runTask(manager.getInstance(), new BukkitRunnable() {
 					@Override
 					public void run() {
+						System.out.println("setting player tablist");
 						manager.setTabList(ev.getPlayer());
 					}
 				});
