@@ -1,13 +1,12 @@
 package eu.epicpvp.kcore.Permission;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
-import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import eu.epicpvp.kcore.Util.UtilPlayer;
@@ -18,7 +17,6 @@ public class PermissionPlayer {
 	private int playerId;
 	@Getter
 	private ArrayList<Permission> permissions = new ArrayList<>();
-	@Getter
 	private ArrayList<Group> groups = new ArrayList<>();
 	@Getter
 	private PermissionAttachment permissionAttachment;
@@ -26,6 +24,12 @@ public class PermissionPlayer {
 	@Getter
 	private Player player;
 
+	public ArrayList<Group> getGroups(){
+		if(groups.size() == 0)
+			return new ArrayList<>(Arrays.asList(manager.getGroup("default")));
+		return groups;
+	}
+	
 	public PermissionPlayer(Player player, PermissionManager manager, int playerId) {
 		this.player = player;
 		this.permissionAttachment = player.addAttachment(manager.getInstance());
