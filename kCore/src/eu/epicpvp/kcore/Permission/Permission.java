@@ -1,8 +1,5 @@
 package eu.epicpvp.kcore.Permission;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import lombok.Getter;
 
