@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
+import org.spigotmc.AsyncCatcher;
 
 import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Permission.Group.Group;
@@ -67,6 +68,17 @@ public class PermissionManager{
 	}
 	
 	public void setTabList(Player player,boolean callEvent){
+		try{
+			AsyncCatcher.catchOp("");
+		}catch(Exception e){
+			Bukkit.getScheduler().runTask(manager.getInstance(), new Runnable() { //Call sync
+				@Override
+				public void run() {
+					setTabList(player, callEvent);
+				}
+			});
+			return;
+		}
 		if(getPermissionPlayer(player)==null){
 			System.err.println("PermissionPlayer from "+player.getName()+" == NULL ["+getClass().getName()+"]");
 			return;
