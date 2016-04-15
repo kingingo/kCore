@@ -71,7 +71,7 @@ public class PermissionManager{
 		try{
 			AsyncCatcher.catchOp("");
 		}catch(Exception e){
-			Bukkit.getScheduler().runTask(manager.getInstance(), new Runnable() { //Call sync
+			Bukkit.getScheduler().runTask(instance, new Runnable() { //Call sync
 				@Override
 				public void run() {
 					setTabList(player, callEvent);
@@ -99,17 +99,24 @@ public class PermissionManager{
 				UtilScoreboard.addTeam(player.getScoreboard(), groupName, null, prefix,suffix);
 				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), groupName, player);
 			}
-			
+			else
+			{
+				UtilScoreboard.setTeamPrefix(player.getScoreboard(), groupName, prefix);
+			}
 			for(Player p : UtilServer.getPlayers()){
 				if(p.getScoreboard().getTeam(groupName) == null)
 					UtilScoreboard.addTeam(p.getScoreboard(), groupName, null, prefix,suffix);
+				else
+					UtilScoreboard.setTeamPrefix(p.getScoreboard(), groupName, prefix);
 				if(getPermissionPlayer(p) == null){
 					System.err.println("Cant find permissionplayer for "+p.getName()+" ["+getClass().getName()+"]");
 					continue;
 				}
 				if(!getPermissionPlayer(p).getGroups().isEmpty() && player.getScoreboard().getTeam(getPermissionPlayer(p).getGroups().get(0).getName()) == null){
-					UtilScoreboard.addTeam(player.getScoreboard(), getPermissionPlayer(p).getGroups().get(0).getName(), null,  getPermissionPlayer(p).getGroups().get(0).getPrefix());
+					UtilScoreboard.addTeam(player.getScoreboard(), getPermissionPlayer(p).getGroups().get(0).getName(), null, getPermissionPlayer(p).getGroups().get(0).getPrefix());
 				}
+				else
+					UtilScoreboard.setTeamPrefix(player.getScoreboard(), getPermissionPlayer(p).getGroups().get(0).getName(), getPermissionPlayer(p).getGroups().get(0).getPrefix());
 				
 				if(UtilServer.getClient().getPlayer(p.getName()) != null)
 					UtilScoreboard.addPlayerToTeam(player.getScoreboard(), getPermissionPlayer(p).getGroups().get(0).getName(), p);
@@ -205,7 +212,8 @@ public class PermissionManager{
 	
 	protected void updateGroup(String group){
 		groups.remove(group);
-		loadGroup(group);
+		if(Bukkit.getOnlinePlayers().size()>0)
+			loadGroup(group);
 		for(PermissionPlayer p : new ArrayList<PermissionPlayer>(this.user.values()))
 			updatePlayer(p.getPlayerId());
 	}

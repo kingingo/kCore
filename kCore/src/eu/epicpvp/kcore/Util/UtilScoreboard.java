@@ -83,6 +83,10 @@ public class UtilScoreboard {
 		return r;
 	}
 	
+	public static void setTeamPrefix(Scoreboard board,String team,String prefix){
+		addTeam(board, team, prefix).setPrefix(prefix);
+	}
+	
 	public static Score searchScore(Scoreboard b, String s){
 		net.minecraft.server.v1_8_R3.Scoreboard board = (net.minecraft.server.v1_8_R3.Scoreboard)UtilReflection.getValue("board", b);
 		for(ScoreboardScore sc: board.getScores())if(sc.getPlayerName().toLowerCase().contains(s.toLowerCase()))return b.getObjective( DisplaySlot.valueOf(sc.getObjective().getName()) ).getScore(sc.getPlayerName());
