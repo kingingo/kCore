@@ -146,7 +146,6 @@ public class UtilServer{
 				
 				@Override
 				public void settingUpdate(UUID player, Setting setting, String value) {
-					
 				}
 				
 				@Override

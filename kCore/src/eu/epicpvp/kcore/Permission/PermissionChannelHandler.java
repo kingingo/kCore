@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import dev.wolveringer.client.threadfactory.ThreadFactory;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Listener.kListener;
@@ -41,10 +42,15 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		DataBuffer buffer = new DataBuffer(data);
 		UUID from = buffer.readUUID();
 		
-		if(this.listener.containsKey(from)){
-			this.listener.get(from).handle(from, buffer);
-			removeListener(from);
-		}
+		ThreadFactory.getFactory().createThread(new Runnable() {
+			@Override
+			public void run() {
+				if(listener.containsKey(from)){
+					listener.get(from).handle(from, buffer);
+					removeListener(from);
+				}
+			}
+		}).start();
 		
 //		for(PermissionChannelListener listener : new ArrayList<>(this.listener)){
 //			if(listener.handle(from, buffer)){
@@ -66,6 +72,7 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		addListener(taskId,new PermissionChannelListener() {
 			@Override
 			public boolean handle(UUID fromPacket, DataBuffer buffer) {
+				System.out.println(fromPacket+":"+taskId);
 				if(fromPacket.equals(taskId)){
 					task.done(buffer);
 					return true;

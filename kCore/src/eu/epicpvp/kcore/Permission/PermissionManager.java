@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.Permission;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -10,6 +11,8 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
 import org.spigotmc.AsyncCatcher;
 
+import dev.wolveringer.client.threadfactory.ThreadFactory;
+import eu.epicpvp.kcore.Enum.Team;
 import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
@@ -91,41 +94,36 @@ public class PermissionManager{
 		
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		
-		String prefix = getPermissionPlayer(player).getGroups().get(0).getPrefix();
+		String prefix = getPrefix(player);
 		String suffix = "";
-		String groupName = getPermissionPlayer(player).getGroups().get(0).getName();
-		if(!getPermissionPlayer(player).getGroups().isEmpty()){
-			if(player.getScoreboard().getTeam(groupName) == null){
-				UtilScoreboard.addTeam(player.getScoreboard(), groupName, null, prefix,suffix);
-				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), groupName, player);
-			}
+		String groupName = player.getName();
+		UtilScoreboard.setTeams(player.getScoreboard(), new HashSet<>(new ArrayList()));
+		UtilScoreboard.addTeam(player.getScoreboard(), groupName, null, prefix,suffix);
+		UtilScoreboard.addPlayerToTeam(player.getScoreboard(), groupName, player);
+		for(Player p : UtilServer.getPlayers()){
+			if(p.equals(player))
+				continue;
+			if(p.getScoreboard().getTeam(player.getName()) == null)
+				UtilScoreboard.addTeam(p.getScoreboard(), player.getName(), null, prefix,suffix);
 			else
-			{
-				UtilScoreboard.setTeamPrefix(player.getScoreboard(), groupName, prefix);
+				UtilScoreboard.setTeamPrefix(p.getScoreboard(), player.getName(), prefix);
+			if(getPermissionPlayer(p) == null){
+				System.err.println("Cant find permissionplayer for "+p.getName()+" ["+getClass().getName()+"]");
+				continue;
 			}
-			for(Player p : UtilServer.getPlayers()){
-				if(p.getScoreboard().getTeam(groupName) == null)
-					UtilScoreboard.addTeam(p.getScoreboard(), groupName, null, prefix,suffix);
-				else
-					UtilScoreboard.setTeamPrefix(p.getScoreboard(), groupName, prefix);
-				if(getPermissionPlayer(p) == null){
-					System.err.println("Cant find permissionplayer for "+p.getName()+" ["+getClass().getName()+"]");
-					continue;
-				}
-				if(!getPermissionPlayer(p).getGroups().isEmpty() && player.getScoreboard().getTeam(getPermissionPlayer(p).getGroups().get(0).getName()) == null){
-					UtilScoreboard.addTeam(player.getScoreboard(), getPermissionPlayer(p).getGroups().get(0).getName(), null, getPermissionPlayer(p).getGroups().get(0).getPrefix());
-				}
-				else
-					UtilScoreboard.setTeamPrefix(player.getScoreboard(), getPermissionPlayer(p).getGroups().get(0).getName(), getPermissionPlayer(p).getGroups().get(0).getPrefix());
-				
-				if(UtilServer.getClient().getPlayer(p.getName()) != null)
-					UtilScoreboard.addPlayerToTeam(player.getScoreboard(), getPermissionPlayer(p).getGroups().get(0).getName(), p);
-				if(UtilServer.getClient().getPlayer(player.getName()) != null)
-					UtilScoreboard.addPlayerToTeam(p.getScoreboard(), groupName, player);
-			}
+			if(player.getScoreboard().getTeam(p.getName()) == null)
+				UtilScoreboard.addTeam(player.getScoreboard(), p.getName(), null, getPrefix(p));
+			else
+				UtilScoreboard.setTeamPrefix(player.getScoreboard(), p.getName(), getPrefix(p));
+			
+			if(UtilServer.getClient().getPlayer(p.getName()) != null)
+				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), p.getName(), p);
+			if(UtilServer.getClient().getPlayer(player.getName()) != null)
+				UtilScoreboard.addPlayerToTeam(p.getScoreboard(), groupName, player);
 		}
+		
+		Bukkit.getPluginManager().callEvent(new PlayerSetScoreboardEvent(player));
 		if(callEvent){
-			Bukkit.getPluginManager().callEvent(new PlayerSetScoreboardEvent(player));
 			Bukkit.getPluginManager().callEvent(new PlayerLoadPermissionEvent(this, getPermissionPlayer(player)));
 		}
 	}
@@ -163,7 +161,15 @@ public class PermissionManager{
 		return hasPermission(player, teamMessage.getPermissionToString(), message);
 	}
 	
+	public String getTabGroup(Player player){
+		if(getPermissionPlayer(player).getGroups().size() == 0)
+			return "nan";
+		return getPermissionPlayer(player).getGroups().get(0).getName();
+	}
+	
 	public String getPrefix(Player player){
+		if(getPermissionPlayer(player).getGroups().size() == 0)
+			return "§6§m";
 		return getPermissionPlayer(player).getGroups().get(0).getPrefix();
 	}
 	
@@ -205,13 +211,19 @@ public class PermissionManager{
 		if(user.containsKey(playerId))
 			user.remove(playerId);
 		if(Bukkit.getOnlinePlayers().size() != 0)
-			if(UtilPlayer.isOnline(playerId))
-				loadPlayer(UtilPlayer.searchExact(playerId),playerId);
-		setTabList(UtilPlayer.searchExact(playerId), false);
+			if(UtilPlayer.isOnline(playerId)){
+				ThreadFactory.getFactory().createThread(new Runnable() {
+					@Override
+					public void run() {
+						loadPlayer(UtilPlayer.searchExact(playerId),playerId);
+						setTabList(UtilPlayer.searchExact(playerId), false);
+					}
+				}).start();
+			}
 	}
 	
 	protected void updateGroup(String group){
-		groups.remove(group);
+		groups.remove(getGroup(group));
 		if(Bukkit.getOnlinePlayers().size()>0)
 			loadGroup(group);
 		for(PermissionPlayer p : new ArrayList<PermissionPlayer>(this.user.values()))

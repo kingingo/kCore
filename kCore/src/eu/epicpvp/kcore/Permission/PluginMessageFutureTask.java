@@ -45,8 +45,7 @@ public class PluginMessageFutureTask<T> {
 				e.printStackTrace();
 			}
 			if (start + timeout < System.currentTimeMillis()) {
-				//throw new RuntimeException("Timeout");
-				return null;
+				throw new RuntimeException("Timeout");
 			}
 		}
 		return response;

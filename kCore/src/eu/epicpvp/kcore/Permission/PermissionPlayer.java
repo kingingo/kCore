@@ -25,8 +25,11 @@ public class PermissionPlayer {
 	private Player player;
 
 	public ArrayList<Group> getGroups(){
-		if(groups.size() == 0)
+		if(groups.size() == 0){
+			if(manager.getGroup("default") == null)
+				manager.loadGroup("default");
 			return new ArrayList<>(Arrays.asList(manager.getGroup("default")));
+		}
 		return groups;
 	}
 	
@@ -41,7 +44,7 @@ public class PermissionPlayer {
 	private void loadPermissions() {
 		System.out.println("[PermissionManager]: Requesting player Permissions");
 		UtilPlayer.getPermissionList(this.permissionAttachment).clear();
-		DataBuffer buffer = manager.handler.sendMessage(player, new DataBuffer().writeByte(0).writeInt(playerId)).getSync(); // Action: 0 (Get-Perms)
+		DataBuffer buffer = manager.handler.sendMessage(player, new DataBuffer().writeByte(0).writeInt(playerId)).getSync(); // Action: 0 (Get-Perms) sync will let sleep the minecraft server?
 		if (buffer == null) {
 			System.out.println("[PermissionManager]: Response == null");
 			return;

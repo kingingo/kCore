@@ -28,22 +28,26 @@ public class Group {
 	}
 
 	private void init(){
-		perms.clear();
-		DataBuffer response =  manager.getHandler().sendMessage(createPlayer(), new DataBuffer().writeByte(1).writeString(name)).getSync(); //Action=1 Getgroup informatin
-		if(response == null){
-			System.out.println("Cant load group "+name+" (Response == null)");
+		try{
+			DataBuffer response =  manager.getHandler().sendMessage(createPlayer(), new DataBuffer().writeByte(1).writeString(name)).getSync(); //Action=1 Getgroup informatin
+			if(response == null){
+				System.out.println("Cant load group "+name+" (Response == null)");
+			}
+			int length = response.readInt();
+			if(length == -1){
+				System.out.println("Group loading error: "+response.readString());
+				return;
+			}
+			perms.clear();
+			for (int i = 0; i < length; i++) {
+				perms.add(new Permission(response.readString(), GroupTyp.values()[response.readByte()]));
+			}
+			prefix = response.readString();
+			
+			Bukkit.getPluginManager().callEvent(new GroupLoadedEvent(manager, this));
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-		int length = response.readInt();
-		if(length == -1){
-			System.out.println("Group loading error: "+response.readString());
-			return;
-		}
-		for (int i = 0; i < length; i++) {
-			perms.add(new Permission(response.readString(), GroupTyp.values()[response.readByte()]));
-		}
-		prefix = response.readString();
-		
-		Bukkit.getPluginManager().callEvent(new GroupLoadedEvent(manager, this));
 	}
 	
 	private Player createPlayer(){
