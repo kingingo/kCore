@@ -3,6 +3,7 @@ package eu.epicpvp.kcore.UserDataConfig;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import dev.wolveringer.client.LoadedPlayer;
@@ -55,17 +57,28 @@ public class UserDataConfig extends kListener{
 		new File(getDataFolderOld()).mkdirs();
 	}
 	
-	public kConfig convertConfig(LoadedPlayer loadedplayer){
+	public static UUID getRealUUID(String player,UUID uuid){
+		if(UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player).toString().getBytes(Charsets.UTF_8)).equals(uuid)){
+			uuid=getOfflineUUID(player.toLowerCase());
+		}
+		return uuid;
+	}
+	
+	public static UUID getOfflineUUID(String player){
+		return UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player.toLowerCase()).toString().getBytes(Charsets.UTF_8));
+	}
+	
+	public kConfig convertConfig(LoadedPlayer loadedplayer, String player, UUID uuid){
 		File nfile = new File(getDataFolder(),loadedplayer.getPlayerId()+".yml");
 		if(!nfile.exists()){
-			File ofile = new File(getDataFolderOld(),loadedplayer.getUUID()+".yml");
+			File ofile = new File(getDataFolderOld(),getRealUUID(player, uuid)+".yml");
 			if(ofile.exists()){
 				ofile.renameTo(new File(getDataFolderOld(),loadedplayer.getPlayerId()+".yml"));
 				try {
 					Files.move(new File(getDataFolderOld(),loadedplayer.getPlayerId()+".yml"), nfile);
 					kConfig c=new kConfig(nfile);
 					Bukkit.getPluginManager().callEvent(new UserDataConfigConvertEvent(c, loadedplayer.getPlayerId()));
-					logMessage("Die Config von "+loadedplayer.getName()+"("+loadedplayer.getPlayerId()+"/"+loadedplayer.getUUID()+") wurde convertiert!");
+					logMessage("Die Config von "+loadedplayer.getName()+"("+loadedplayer.getPlayerId()+"/"+getRealUUID(player, uuid)+") wurde convertiert!");
 					return c;
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -78,7 +91,7 @@ public class UserDataConfig extends kListener{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		int playerId = UtilPlayer.getPlayerId(ev.getName());
-		config=convertConfig(UtilServer.getClient().getPlayerAndLoad(ev.getName()));
+		config=convertConfig(UtilServer.getClient().getPlayerAndLoad(ev.getName()), ev.getName(),ev.getUniqueId());
 		
 		if(config!=null){
 			logMessage("Die Config von "+ev.getName()+"("+playerId+"/"+ev.getUniqueId()+") wurde geladen");

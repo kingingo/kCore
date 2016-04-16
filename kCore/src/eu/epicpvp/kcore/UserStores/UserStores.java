@@ -132,7 +132,7 @@ public class UserStores extends kListener{
 									player.closeInventory();
 								}
 								
-							}, UtilItem.RenameItem(new ItemStack(Material.BARRIER), "§cStore l§schen")));
+							}, UtilItem.RenameItem(new ItemStack(Material.BARRIER), "§cStore löschen")));
 							
 							page.addButton(29, new ButtonBase(new Click(){
 
@@ -166,7 +166,7 @@ public class UserStores extends kListener{
 									}
 								}
 								
-							}, UtilItem.RenameItem(new ItemStack(Material.SIGN), "§aPreis §ndern")));
+							}, UtilItem.RenameItem(new ItemStack(Material.SIGN), "§aPreis ändern")));
 							
 							
 							page.fill(Material.STAINED_GLASS_PANE,15);
@@ -386,7 +386,7 @@ public class UserStores extends kListener{
 	public void changePrice(Player player,double preis,Sign s,String loc){
 		if(change_price.containsKey(player))return;
 		change_price.put(player, s);
-		NameTagMessage msg = new NameTagMessage(NameTagType.PACKET, s.getLocation().add(0.5, 0, 0.5), new String[]{"§cPreis§nderung in","§l 16 sekunden"});
+		NameTagMessage msg = new NameTagMessage(NameTagType.PACKET, s.getLocation().add(0.5, 0, 0.5), new String[]{"§cPreisänderung in","§l 16 sekunden"});
 		new kScheduler(getStatsManager().getInstance(), new kScheduler.kSchedulerHandler() {
 			
 			@Override
@@ -717,11 +717,11 @@ public class UserStores extends kListener{
 	}
 	
 	public void setAnzahl(SignChangeEvent sign,int anzahl){
-		sign.setLine(3, anzahl +" St§ck");
+		sign.setLine(3, anzahl +" Stück");
 	}
 	
 	public void setAnzahl(Sign sign,int anzahl){
-		sign.setLine(3, anzahl +" St§ck");
+		sign.setLine(3, anzahl +" Stück");
 		sign.update();
 	}
 	

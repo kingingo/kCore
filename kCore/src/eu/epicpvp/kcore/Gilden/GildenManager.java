@@ -211,7 +211,7 @@ public class GildenManager implements Listener {
 	}
 	
 	public void Ranking(Player p){
-		p.sendMessage("§b§§§§§§§§§§§§§§§§ §6§lGilden Ranking | Top 15 §b§§§§§§§§§§§§§§§§");
+		p.sendMessage("§b– – – – – – – – §6§lGilden Ranking | Top 15 §b– – – – – – – –");
 		p.sendMessage("§b Place | "+(GildenType.PVP==getTyp()?"FAME":"Kills")+" | Gilde");
 		LoadRanking(false);
 		for(Integer i : ranking.keySet())p.sendMessage(ranking.get(i));

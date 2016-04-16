@@ -24,6 +24,8 @@ import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangeEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
+import eu.epicpvp.kcore.Util.UtilMath;
+import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 import lombok.Setter;
@@ -117,7 +119,7 @@ public class StatsManager extends kListener {
 			player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top "+ranking.getRanking().length+" §b■■■■■■■■");
 			player.sendMessage("§b Platz | " + ranking.getStats().getMySQLName() + " | Player");
 			for (int i = 0; i < ranking.getRanking().length ; i++)
-				player.sendMessage("§b#§6" + (i+1) + "§b | §6" + ranking.getRanking()[i].getTopValue() + " §b|§6 " + ranking.getRanking()[i].getPlayer());
+				player.sendMessage("§b#§6" + (i+1) + "§b | §6" + UtilMath.trim(2, UtilNumber.toDouble(ranking.getRanking()[i].getTopValue())) + " §b|§6 " + ranking.getRanking()[i].getPlayer());
 		}
 	}
 
