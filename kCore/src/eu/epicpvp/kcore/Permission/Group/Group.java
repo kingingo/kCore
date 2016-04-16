@@ -20,6 +20,8 @@ public class Group {
 	private String name = "undefined";
 	private ArrayList<Permission> perms = new ArrayList<>();
 	private PermissionManager manager;
+	@Getter
+	private int importance;
 	
 	public Group(PermissionManager manager,String name) {
 		this.name = name;
@@ -43,7 +45,7 @@ public class Group {
 				perms.add(new Permission(response.readString(), GroupTyp.values()[response.readByte()]));
 			}
 			prefix = response.readString();
-			
+			importance = response.readInt();
 			Bukkit.getPluginManager().callEvent(new GroupLoadedEvent(manager, this));
 		}catch(Exception e){
 			e.printStackTrace();

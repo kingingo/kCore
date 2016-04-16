@@ -96,7 +96,7 @@ public class PermissionManager{
 		
 		String prefix = getPrefix(player);
 		String suffix = "";
-		String groupName = player.getName();
+		String groupName = getTabGroup(player);
 		UtilScoreboard.setTeams(player.getScoreboard(), new HashSet<>(new ArrayList()));
 		UtilScoreboard.addTeam(player.getScoreboard(), groupName, null, prefix,suffix);
 		UtilScoreboard.addPlayerToTeam(player.getScoreboard(), groupName, player);
@@ -104,20 +104,20 @@ public class PermissionManager{
 			if(p.equals(player))
 				continue;
 			if(p.getScoreboard().getTeam(player.getName()) == null)
-				UtilScoreboard.addTeam(p.getScoreboard(), player.getName(), null, prefix,suffix);
+				UtilScoreboard.addTeam(p.getScoreboard(), getTabGroup(player), null, prefix,suffix);
 			else
-				UtilScoreboard.setTeamPrefix(p.getScoreboard(), player.getName(), prefix);
+				UtilScoreboard.setTeamPrefix(p.getScoreboard(), getTabGroup(player), prefix);
 			if(getPermissionPlayer(p) == null){
 				System.err.println("Cant find permissionplayer for "+p.getName()+" ["+getClass().getName()+"]");
 				continue;
 			}
 			if(player.getScoreboard().getTeam(p.getName()) == null)
-				UtilScoreboard.addTeam(player.getScoreboard(), p.getName(), null, getPrefix(p));
+				UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p), null, getPrefix(p));
 			else
-				UtilScoreboard.setTeamPrefix(player.getScoreboard(), p.getName(), getPrefix(p));
+				UtilScoreboard.setTeamPrefix(player.getScoreboard(), getTabGroup(p), getPrefix(p));
 			
 			if(UtilServer.getClient().getPlayer(p.getName()) != null)
-				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), p.getName(), p);
+				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), getTabGroup(p), p);
 			if(UtilServer.getClient().getPlayer(player.getName()) != null)
 				UtilScoreboard.addPlayerToTeam(p.getScoreboard(), groupName, player);
 		}
@@ -162,9 +162,14 @@ public class PermissionManager{
 	}
 	
 	public String getTabGroup(Player player){
+		String name = player.getName();
 		if(getPermissionPlayer(player).getGroups().size() == 0)
-			return "nan";
-		return getPermissionPlayer(player).getGroups().get(0).getName();
+			name = String.format("%03d", getPermissionPlayer(player).getGroups().get(0).getImportance())+name;
+		else
+			name = "000"+name;
+		if(name.length()>16)
+			name = name.substring(0, 15);
+		return name;
 	}
 	
 	public String getPrefix(Player player){
