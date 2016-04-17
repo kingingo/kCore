@@ -78,9 +78,9 @@ public class ArenaManager extends kListener  {
 		for(ArenaType type : ArenaType.values())this.wait_list.put(type, new ArrayList<Player>());
 		for(ArenaType type : ArenaType.values())this.rounds.put(type, new HashMap<Integer,GameRound>());
 
-
 		PacketArenaSettings.register();
 		PacketArenaStatus.register();
+		
 		UtilServer.getClient().getHandle().getHandlerBoss().addListener(new PacketListener() {
 			
 			@Override
@@ -140,7 +140,7 @@ public class ArenaManager extends kListener  {
 	
 	public boolean addRound(GameRound round){
 		for(UUID player : round.getPlayers())if(this.rounds_player.containsKey(player))return false;
-		
+		for(UUID player : round.getPlayers())this.rounds_player.put(player, this.round_counter);
 		this.rounds.get(round.getType()).put(this.round_counter, round);
 		this.round_counter++;
 		return true;
@@ -288,6 +288,7 @@ public class ArenaManager extends kListener  {
 											for(Player player : this.players.get(t)){
 												this.rounds_player.remove(player.getUniqueId());
 												arena.setOnline(arena.getOnline()+1);
+												logMessage("Send "+player.getName()+" to "+arena.getServer()+" "+arena.getArena());
 												UtilBG.sendToServer(player, arena.getServer(), statsManager.getInstance());
 											}
 											this.players.get(t).clear();

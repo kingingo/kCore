@@ -27,16 +27,18 @@ public class Ranking {
 	}
 	
 	public void load(Callback<Object> call){
-		UtilServer.getClient().getTopTen(getType(), getStats()).getAsync(new Callback<PacketOutTopTen>() {
-			
-			@Override
-			public void call(PacketOutTopTen packet) {
-				if(packet != null){
-					ranking=packet.getRanks();
-					if(call!=null)call.call(null);
+		if(UtilServer.getClient().getHandle().isConnected()){
+			UtilServer.getClient().getTopTen(getType(), getStats()).getAsync(new Callback<PacketOutTopTen>() {
+				
+				@Override
+				public void call(PacketOutTopTen packet) {
+					if(packet != null){
+						ranking=packet.getRanks();
+						if(call!=null)call.call(null);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 	
 }

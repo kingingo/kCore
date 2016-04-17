@@ -28,7 +28,7 @@ public class AddonDoubleJump extends kListener{
 	
 	@EventHandler
 	public void firstfly(PlayerFlyFirstEvent ev){
-		if(ev.getPlayer().getLevel()!=3){
+		if(ev.getPlayer().getLevel()!=5){
 			ev.setAllowFlight(false);
 		}
 	}
@@ -36,7 +36,7 @@ public class AddonDoubleJump extends kListener{
 	@EventHandler
 	public void finalfly(PlayerFlyFinalEvent ev){
 		if(ev.isToggle()){
-			ev.getPlayer().setLevel(3);
+			ev.getPlayer().setLevel(5);
 		}else{
 			ev.getPlayer().setLevel(0);
 			ev.setAllowFlight(true);
@@ -48,7 +48,7 @@ public class AddonDoubleJump extends kListener{
 		if(ev.getType()==UpdateType.FAST){
 			for(Player player : UtilServer.getPlayers()){
 				if(player.getGameMode()!=GameMode.CREATIVE&&player.isOnGround()){
-					if(player.getLevel()==1||player.getLevel()==2){
+					if(player.getLevel()!=0 && player.getLevel()<5){
 						player.setAllowFlight(true);
 						player.setLevel(0);
 					}
@@ -60,10 +60,10 @@ public class AddonDoubleJump extends kListener{
 	@EventHandler
 	public void Double(PlayerToggleFlightEvent ev){
 		if(ev.getPlayer().getGameMode()!=GameMode.CREATIVE){
-			if(ev.getPlayer().getLevel()==0||ev.getPlayer().getLevel()==1){
+			if(ev.getPlayer().getLevel() < (5-1)){
 				ev.setCancelled(true);
 				ev.getPlayer().setLevel(ev.getPlayer().getLevel()+1);
-				if(ev.getPlayer().getLevel()==2)ev.getPlayer().setAllowFlight(false);
+				if(ev.getPlayer().getLevel()==(5-1))ev.getPlayer().setAllowFlight(false);
 				ev.getPlayer().setFlying(false);
 			    ev.getPlayer().setVelocity(ev.getPlayer().getLocation().getDirection().multiply(2D).setY(1.2));
 			}

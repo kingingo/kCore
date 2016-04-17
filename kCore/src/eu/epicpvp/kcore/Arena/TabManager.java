@@ -55,10 +55,7 @@ public class TabManager extends kListener{
 			public void fireEvent(Event e) {
 				if(e instanceof PlayerServerSwitchEvent){
 					PlayerServerSwitchEvent ev = (PlayerServerSwitchEvent)e;
-					System.err.println("FIRE: "+ev.getPlayerId());
 					LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(ev.getPlayerId());
-
-					System.err.println("FIRE: "+loadedplayer.getName());
 					
 					if(ev.getFrom() != null && ev.getFrom().startsWith("versus") && ev.getTo()!= null && ev.getTo().startsWith("a")){
 						Bukkit.getScheduler().scheduleAsyncDelayedTask(instance, new Runnable() {
@@ -68,8 +65,6 @@ public class TabManager extends kListener{
 								if(!UtilPlayer.isOnline(loadedplayer.getName())){
 									kPacketPlayOutPlayerInfo add = new kPacketPlayOutPlayerInfo();
 									add.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
-
-									System.err.println("ADD: "+loadedplayer.getName());
 									
 									add.getList().add(new kPlayerInfoData(add,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)), (UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getUUID()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
 									for(Player player : UtilServer.getPlayers()){
@@ -86,8 +81,6 @@ public class TabManager extends kListener{
 						kPacketPlayOutPlayerInfo remove = last_packet.get(loadedplayer.getUUID());
 						remove.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
 						for(Player player : UtilServer.getPlayers())UtilPlayer.sendPacket(player, remove);
-
-						System.err.println("REMOVE: "+loadedplayer.getName());
 						info.getList().remove(players.get(loadedplayer.getUUID()));
 						players.remove(loadedplayer.getUUID());
 						last_packet.remove(loadedplayer.getUUID());

@@ -40,9 +40,6 @@ public class UserDataConfig extends kListener{
 	@Getter
 	private String dataFolderOld;
 	@Getter
-	private kConfig config;
-	private File file;
-	@Getter
 	@Setter
 	private boolean restart=false;
 	
@@ -57,28 +54,22 @@ public class UserDataConfig extends kListener{
 		new File(getDataFolderOld()).mkdirs();
 	}
 	
-	public static UUID getRealUUID(String player,UUID uuid){
-		if(UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player).toString().getBytes(Charsets.UTF_8)).equals(uuid)){
-			uuid=getOfflineUUID(player.toLowerCase());
-		}
-		return uuid;
-	}
-	
 	public static UUID getOfflineUUID(String player){
 		return UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player.toLowerCase()).toString().getBytes(Charsets.UTF_8));
 	}
 	
-	public kConfig convertConfig(LoadedPlayer loadedplayer, String player, UUID uuid){
+	public kConfig convertConfig(LoadedPlayer loadedplayer, String player){
 		File nfile = new File(getDataFolder(),loadedplayer.getPlayerId()+".yml");
 		if(!nfile.exists()){
-			File ofile = new File(getDataFolderOld(),getRealUUID(player, uuid)+".yml");
+			UUID uuid = (loadedplayer.isPremiumSync() ? loadedplayer.getUUID() : getOfflineUUID(player));
+			File ofile = new File(getDataFolderOld(),uuid+".yml");
 			if(ofile.exists()){
 				ofile.renameTo(new File(getDataFolderOld(),loadedplayer.getPlayerId()+".yml"));
 				try {
 					Files.move(new File(getDataFolderOld(),loadedplayer.getPlayerId()+".yml"), nfile);
 					kConfig c=new kConfig(nfile);
 					Bukkit.getPluginManager().callEvent(new UserDataConfigConvertEvent(c, loadedplayer.getPlayerId()));
-					logMessage("Die Config von "+loadedplayer.getName()+"("+loadedplayer.getPlayerId()+"/"+getRealUUID(player, uuid)+") wurde convertiert!");
+					logMessage("Die Config von "+loadedplayer.getName()+"("+loadedplayer.getPlayerId()+"/"+uuid+") wurde convertiert!");
 					return c;
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -91,13 +82,13 @@ public class UserDataConfig extends kListener{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		int playerId = UtilPlayer.getPlayerId(ev.getName());
-		config=convertConfig(UtilServer.getClient().getPlayerAndLoad(ev.getName()), ev.getName(),ev.getUniqueId());
+		kConfig config=convertConfig(UtilServer.getClient().getPlayerAndLoad(ev.getName()), ev.getName());
 		
 		if(config!=null){
 			logMessage("Die Config von "+ev.getName()+"("+playerId+"/"+ev.getUniqueId()+") wurde geladen");
 			configs.put(playerId, config);
 		}else{
-			file = new File(getDataFolder(),playerId+".yml");
+			File file = new File(getDataFolder(),playerId+".yml");
 			if(file!=null){
 				config=new kConfig(file);
 				if(config!=null){
@@ -114,8 +105,6 @@ public class UserDataConfig extends kListener{
 				logMessage("AsyncPlayerPreLoginEvent File == NULL");
 			}
 		}
-		
-		
 	}
 	
 	@EventHandler
@@ -127,9 +116,7 @@ public class UserDataConfig extends kListener{
 	}
 	
 	public kConfig loadConfig(int playerId){
-		file = new File(getDataFolder(),playerId+".yml");
-		config=new kConfig(file);
-		return config;
+		return new kConfig(new File(getDataFolder(),playerId+".yml"));
 	}
 	
 	public void saveConfig(Player player){
@@ -166,7 +153,6 @@ public class UserDataConfig extends kListener{
 	}
 	
 	public void saveAllConfigs(){
-		if(config==null)return;
 		for(Integer playerId : configs.keySet()){
 			saveConfig(playerId);
 		}
@@ -176,11 +162,9 @@ public class UserDataConfig extends kListener{
 	public void Disable(PluginDisableEvent ev){
 		if(ev.getPlugin().getName().equalsIgnoreCase("kCore")){
 			saveAllConfigs();
-			if(config!=null)configs.clear();
 			instance=null;
 			dataFolder=null;
-			file=null;
-			config=null;
+			configs.clear();
 			configs=null;
 		}
 	}

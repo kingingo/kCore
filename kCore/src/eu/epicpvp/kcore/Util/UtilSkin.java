@@ -31,8 +31,12 @@ public class UtilSkin {
 			}
 		}
 		
-		ProgressFuture<Skin> response = UtilServer.getClient().getSkin(playerName);
-		response.getAsync(callback);
+		if(UtilServer.getClient().getHandle().isConnected()){
+			ProgressFuture<Skin> response = UtilServer.getClient().getSkin(playerName);
+			response.getAsync(callback);
+		}else{
+			callback.call(new SteveSkin());
+		}
 	}
 	
 	public static void loadSkin(kGameProfile profile, String playerName){
@@ -56,9 +60,12 @@ public class UtilSkin {
 	}
 	
 	public static void loadSkin(Callback<Skin> callback, UUID uuid){
-		ProgressFuture<Skin> response = UtilServer.getClient().getSkin(uuid);
-		
-		response.getAsync(callback);
+		if(UtilServer.getClient().getHandle().isConnected()){
+			ProgressFuture<Skin> response = UtilServer.getClient().getSkin(uuid);
+			response.getAsync(callback);
+		}else{
+			callback.call(new SteveSkin());
+		}
 	}
 	
 	public static void loadSkin(kGameProfile profile, UUID uuid){

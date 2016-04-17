@@ -36,7 +36,7 @@ public class PlayerKitManager{
 		this.type=type;
 		this.kits=new HashMap<>();
 		
-		this.mysql.createTable("users_"+type.getShortName()+"_kits", "playerId int,id int,content text,armor_content text");
+		this.mysql.createTable("statistics_"+type.getShortName()+"_kits", "playerId int,id int,content text,armor_content text");
 	}
 	
 	public ItemStack[] check(ItemStack[] c){
@@ -75,9 +75,9 @@ public class PlayerKitManager{
 		}
 		
 		if(isAsync()){
-			getMysql().asyncInsert("users_"+type.getShortName()+"_kits", "playerId,id,content,armor_content", "'"+playerId+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
+			getMysql().asyncInsert("statistics_"+type.getShortName()+"_kits", "playerId,id,content,armor_content", "'"+playerId+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
 		}else{	
-			getMysql().Insert("users_"+type.getShortName()+"_kits", "playerId,id,content,armor_content", "'"+playerId+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
+			getMysql().Insert("statistics_"+type.getShortName()+"_kits", "playerId,id,content,armor_content", "'"+playerId+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
 		}
 	}
 	
@@ -90,9 +90,9 @@ public class PlayerKitManager{
 		}
 		
 		if(isAsync()){
-			getMysql().asyncUpdate("users_"+type.getShortName()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "playerId='"+playerId+"' AND id='"+id+"'");
+			getMysql().asyncUpdate("statistics_"+type.getShortName()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "playerId='"+playerId+"' AND id='"+id+"'");
 		}else{	
-			getMysql().Update("users_"+type.getShortName()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "playerId='"+playerId+"' AND id='"+id+"'");
+			getMysql().Update("statistics_"+type.getShortName()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "playerId='"+playerId+"' AND id='"+id+"'");
 		}
 	}
 	
@@ -105,9 +105,9 @@ public class PlayerKitManager{
 		}
 		
 		if(isAsync()){
-			getMysql().asyncDelete("users_"+type.getShortName()+"_kits", "playerId='"+playerId+"' AND id='"+id+"'");
+			getMysql().asyncDelete("statistics_"+type.getShortName()+"_kits", "playerId='"+playerId+"' AND id='"+id+"'");
 		}else{	
-			getMysql().Delete("users_"+type.getShortName()+"_kits", "playerId='"+playerId+"' AND id='"+id+"'");
+			getMysql().Delete("statistics_"+type.getShortName()+"_kits", "playerId='"+playerId+"' AND id='"+id+"'");
 		}
 	}
 	
@@ -117,7 +117,7 @@ public class PlayerKitManager{
 	
 	public void loadAsyncKit(int playerId,int id,Callback<PlayerKit> callback){
 		if(!kits.containsKey(playerId)){
-			mysql.asyncQuery("users_"+type.getShortName()+"_kits", "`content`,`armor_content`", "playerId='"+playerId+"' AND id='"+id+"'", new Callback<ResultSet>() {
+			mysql.asyncQuery("statistics_"+type.getShortName()+"_kits", "`content`,`armor_content`", "playerId='"+playerId+"' AND id='"+id+"'", new Callback<ResultSet>() {
 				
 				@Override
 				public void call(ResultSet value) {
@@ -154,7 +154,7 @@ public class PlayerKitManager{
 		
 		try
 	    {
-		  ResultSet rs = mysql.Query("users_"+type.getShortName()+"_kits", "`content`,`armor_content`", "playerId='"+playerId+"' AND id='"+id+"'");
+		  ResultSet rs = mysql.Query("statistics_"+type.getShortName()+"_kits", "`content`,`armor_content`", "playerId='"+playerId+"' AND id='"+id+"'");
 
 	      while (rs.next()) {
 	    	  kits.put(playerId, new PlayerKit());

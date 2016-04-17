@@ -33,11 +33,21 @@ public class TranslationHandler{
 	}
 	
 	public static String getText(String name,Object... input){
-		return getInstance().translate(name, input);
+		try{
+			return getInstance().translate(name, input);
+		}catch(NullPointerException e){
+			e.printStackTrace();
+			return "";
+		}
 	}
 	
 	public static String getText(String name){
-		return getInstance().translate(name);
+		try{
+			return getInstance().translate(name);
+		}catch(NullPointerException e){
+			e.printStackTrace();
+			return "";
+		}
 	}
 	
 	public static String getText(Player player,String name,Object...input){

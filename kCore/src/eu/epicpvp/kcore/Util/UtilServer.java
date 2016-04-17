@@ -193,6 +193,17 @@ public class UtilServer{
 				public void setGamemode(GameType game,String subtype) {
 					Bukkit.getPluginManager().callEvent(new ServerChangeGameTypeEvent(game,subtype));
 				}
+
+				@Override
+				public void restart(String kickMessage) {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
+				}
+
+				@Override
+				public void stop(String kickMessage) {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
+					
+				}
 			},new ServerInformations() {
 				
 				@Override
@@ -204,9 +215,9 @@ public class UtilServer{
 			}));
 			try {
 				new ClientListener(instance, client);
+				TranslationHandler.setInstance(client.getTranslationManager());
 				client.getHandle().connect("HelloWorld".getBytes());
 				
-				TranslationHandler.setInstance(client.getTranslationManager());
 				TranslationHandler.getInstance().updateTranslations();
 			} catch (Exception e) {
 				e.printStackTrace();

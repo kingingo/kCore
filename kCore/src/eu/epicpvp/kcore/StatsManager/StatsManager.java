@@ -72,13 +72,14 @@ public class StatsManager extends kListener {
 		rankings.add(ranking);
 	}
 	
-	@EventHandler(priority=EventPriority.HIGHEST)
-	public void join(PlayerJoinEvent ev) {
-		this.loadplayers.remove(ev.getPlayer().getName());
-	}
+//	@EventHandler(priority=EventPriority.LOWEST)
+//	public void join(PlayerJoinEvent ev) {
+//		this.loadplayers.remove(ev.getPlayer().getName());
+//	}
 
-	@EventHandler(priority=EventPriority.LOWEST)
+	@EventHandler(priority=EventPriority.HIGHEST)
 	public void quit(PlayerQuitEvent ev) {
+		this.loadplayers.remove(ev.getPlayer().getName());
 		save(ev.getPlayer());
 		if (this.loading.containsKey(ev.getPlayer().getName().toLowerCase())) {
 			this.loading.get(ev.getPlayer().getName().toLowerCase()).clear();
@@ -172,7 +173,6 @@ public class StatsManager extends kListener {
 			loadPlayer(playerId, null);
 		}
 
-		
 		new NullPointerException().printStackTrace();
 		return null;
 	}

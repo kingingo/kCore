@@ -82,7 +82,7 @@ public class PermissionPlayer {
 			}
 		}
 		
-		if(player.hasPermission("*")||player.hasPermission("epicpvp.op")){
+		if(player.hasPermission("*")||player.hasPermission("epicpvp.op")||player.hasPermission("epicpvp.*")){
 			player.setOp(true);
 		}else{
 			if(player.isOp()){

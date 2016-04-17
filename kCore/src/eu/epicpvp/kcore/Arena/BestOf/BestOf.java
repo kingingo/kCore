@@ -56,7 +56,11 @@ public class BestOf extends kListener{
 		this.players_name=new HashMap<>();
 		this.spawn=CommandLocations.getLocation("BestOf");
 		this.item=UtilItem.RenameItem(new ItemStack(Material.STAINED_CLAY, 1,(byte)14), "§cBestOf Runde beenden");
-		
+
+		System.out.println("test: "+(UtilServer.getClient().getHandle()==null));
+		System.out.println("test: "+(UtilServer.getClient().getHandle().getHandlerBoss()==null));
+
+		PacketArenaWinner.register();
 		UtilServer.getClient().getHandle().getHandlerBoss().addListener(new PacketListener() {
 			
 			@Override
@@ -70,8 +74,6 @@ public class BestOf extends kListener{
 				}
 			}
 		});
-		
-		PacketArenaWinner.register();
 	}
 	
 	public void addGame(ArenaManager arenaManager){
