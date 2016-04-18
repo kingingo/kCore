@@ -28,7 +28,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-public class InventoryPageBase extends CraftInventoryCustom{
+public class InventoryPageBase extends CraftInventoryCustom {
  
 	@Getter
 	@Setter

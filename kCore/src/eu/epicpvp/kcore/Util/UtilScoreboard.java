@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -63,10 +62,14 @@ public class UtilScoreboard {
 	}
 	
 	public static void addPlayerToTeam(Scoreboard board,String Team,Player p){
-		if(board.getTeam(Team) == null)new NullPointerException("team == NULL");
-		if(board.getTeam(Team).getEntries().contains(p.getName())) return;
-		Team r = board.getTeam(Team);
-		r.addEntry(p.getName());
+		Team t = board.getTeam(Team);
+		if(t == null)new NullPointerException("team == NULL");
+		if(t.getEntries().contains(p.getName())) return;
+		t.addEntry(p.getName());
+	}
+	public static void addPlayerToTeam(Scoreboard board,Team t,Player p){
+		if(t.getEntries().contains(p.getName())) return;
+		t.addEntry(p.getName());
 	}
 	
 	public static Team addTeam(Scoreboard board,String Team,String prefix){
@@ -78,17 +81,21 @@ public class UtilScoreboard {
 	}
 	
 	public static Team addTeam(Scoreboard board,String Team,String displayName, String prefix,String suffix){
-		if(board.getTeam(Team)!=null)return board.getTeam(Team);
+		Team t = board.getTeam(Team);
+		if(t != null)return t;
 		Team r = board.registerNewTeam(UtilString.cut(Team));
 		
-		if(displayName!=null)r.setDisplayName(UtilString.cut(displayName,32));
-		if(prefix!=null)r.setPrefix(UtilString.cut(prefix));
-		if(suffix!=null)r.setSuffix(UtilString.cut(suffix));
+		if(displayName!=null) r.setDisplayName(UtilString.cut(displayName,32));
+		if(prefix!=null) r.setPrefix(UtilString.cut(prefix));
+		if(suffix!=null) r.setSuffix(UtilString.cut(suffix));
 		return r;
 	}
 	
-	public static void setTeamPrefix(Scoreboard board,String team,String prefix){
-		addTeam(board, team, prefix).setPrefix(prefix);
+	public static Team setTeamPrefix(Scoreboard board,String team,String prefix){
+		Team t = addTeam(board, team, prefix);
+		if(!t.getPrefix().equals(prefix))
+			t.setPrefix(prefix);
+		return t;
 	}
 	
 	public static Score searchScore(Scoreboard b, String s){

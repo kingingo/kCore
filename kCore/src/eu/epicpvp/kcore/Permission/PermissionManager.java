@@ -2,17 +2,16 @@ package eu.epicpvp.kcore.Permission;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import org.spigotmc.AsyncCatcher;
 
 import dev.wolveringer.client.threadfactory.ThreadFactory;
-import eu.epicpvp.kcore.Enum.Team;
 import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
@@ -91,37 +90,30 @@ public class PermissionManager{
 			System.err.println(player.getName()+" has not any groups ["+getClass().getName()+"]");
 			return;
 		}
-		
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-		
 		String prefix = getPrefix(player);
 		String suffix = "";
 		String groupName = getTabGroup(player);
-		UtilScoreboard.setTeams(player.getScoreboard(), new HashSet<>(new ArrayList()));
+		
 		UtilScoreboard.addTeam(player.getScoreboard(), groupName, null, prefix,suffix);
 		UtilScoreboard.addPlayerToTeam(player.getScoreboard(), groupName, player);
+		
 		for(Player p : UtilServer.getPlayers()){
 			if(p.equals(player))
 				continue;
-			if(p.getScoreboard().getTeam(player.getName()) == null)
-				UtilScoreboard.addTeam(p.getScoreboard(), getTabGroup(player), null, prefix,suffix);
-			else
-				UtilScoreboard.setTeamPrefix(p.getScoreboard(), getTabGroup(player), prefix);
 			if(getPermissionPlayer(p) == null){
 				System.err.println("Cant find permissionplayer for "+p.getName()+" ["+getClass().getName()+"]");
 				continue;
 			}
-			if(player.getScoreboard().getTeam(p.getName()) == null)
-				UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p), null, getPrefix(p));
-			else
-				UtilScoreboard.setTeamPrefix(player.getScoreboard(), getTabGroup(p), getPrefix(p));
-			
+			String tabGroup = getTabGroup(p);
+			String pp = getPrefix(p);
+			Team t1 = UtilScoreboard.setTeamPrefix(player.getScoreboard(), tabGroup, pp); //Atomaticly create if not exist
+			Team t2 = UtilScoreboard.setTeamPrefix(p.getScoreboard(), getTabGroup(player), prefix);//Atomaticly create if not exist
 			if(UtilServer.getClient().getPlayer(p.getName()) != null)
-				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), getTabGroup(p), p);
+				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), t1, p);
 			if(UtilServer.getClient().getPlayer(player.getName()) != null)
-				UtilScoreboard.addPlayerToTeam(p.getScoreboard(), groupName, player);
+				UtilScoreboard.addPlayerToTeam(p.getScoreboard(), t2, player);
 		}
-		
 		Bukkit.getPluginManager().callEvent(new PlayerSetScoreboardEvent(player));
 		if(callEvent){
 			Bukkit.getPluginManager().callEvent(new PlayerLoadPermissionEvent(this, getPermissionPlayer(player)));
@@ -138,7 +130,9 @@ public class PermissionManager{
 	}
 
 	public PermissionPlayer getPermissionPlayer(Player player){
-		return getPermissionPlayer(UtilPlayer.getPlayerId(player));
+		int playerId = UtilPlayer.getPlayerId(player);
+		PermissionPlayer pplayer = getPermissionPlayer(playerId);
+		return pplayer;
 	}
 	
 	public PermissionPlayer getPermissionPlayer(int playerId) {
@@ -163,8 +157,9 @@ public class PermissionManager{
 	
 	public String getTabGroup(Player player){
 		String name = player.getName();
-		if(getPermissionPlayer(player).getGroups().size() == 0)
-			name = String.format("%03d", getPermissionPlayer(player).getGroups().get(0).getImportance())+name;
+		PermissionPlayer pplayer = getPermissionPlayer(player);
+		if(pplayer.getGroups().size() != 0)
+			name = String.format("%03d", 999-pplayer.getGroups().get(0).getImportance()) + name;
 		else
 			name = "000"+name;
 		if(name.length()>16)
@@ -173,9 +168,13 @@ public class PermissionManager{
 	}
 	
 	public String getPrefix(Player player){
-		if(getPermissionPlayer(player).getGroups().size() == 0)
+		PermissionPlayer pplayer = getPermissionPlayer(player);
+		if(pplayer.getGroups().size() == 0)
 			return "§6§m";
-		return getPermissionPlayer(player).getGroups().get(0).getPrefix();
+		String prefix = pplayer.getGroups().get(0).getPrefix();
+		if(prefix.length()>16)
+			prefix = prefix.substring(0,16);
+		return prefix;
 	}
 	
 	public boolean hasPermission(Player player, String permission, boolean message) {
@@ -234,4 +233,5 @@ public class PermissionManager{
 		for(PermissionPlayer p : new ArrayList<PermissionPlayer>(this.user.values()))
 			updatePlayer(p.getPlayerId());
 	}
+	
 }

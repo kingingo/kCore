@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.Listener.ClientListener;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,6 +13,7 @@ import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.UpdateAsync.UpdateAsyncType;
 import eu.epicpvp.kcore.UpdateAsync.Event.UpdateAsyncEvent;
+import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 
 public class ClientListener extends kListener{
@@ -53,5 +55,11 @@ public class ClientListener extends kListener{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void quit(PlayerQuitEvent ev){
 		getClient().clearCacheForPlayer(getClient().getPlayer(ev.getPlayer().getName()));
+	}
+	
+	@EventHandler
+	public void a(AsyncPlayerPreLoginEvent e){
+		UtilServer.getClient().getPlayerAndLoad(e.getName());
+		System.out.println("§aPlayer "+e.getName()+" loaded!");
 	}
 }

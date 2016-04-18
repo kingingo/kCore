@@ -238,7 +238,6 @@ public class UtilPlayer
 		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_TS"), DisplaySlot.SIDEBAR, 3);
 		UtilScoreboard.setScore(player.getScoreboard(),"§7Ts.ClashMC.eu", DisplaySlot.SIDEBAR, 2);
 		UtilScoreboard.setScore(player.getScoreboard(),"§8----------------", DisplaySlot.SIDEBAR, 1);
-		player.setScoreboard(player.getScoreboard());
 
 		money.getAsync(player, StatsKey.COINS, new Callback<Object>() {
 			@Override
@@ -284,7 +283,12 @@ public class UtilPlayer
 	}
 	
 	public static int getPlayerId(String playerName){
-		return UtilServer.getClient().getPlayerAndLoad(playerName).getPlayerId();
+		long s = System.currentTimeMillis();
+		LoadedPlayer player = UtilServer.getClient().getPlayer(playerName);
+		if(!player.isLoaded()){
+			player.loadPlayer();
+		}
+		return player.getPlayerId();
 	}
 	
 	public static UUID getOfflineUUID(String player){
