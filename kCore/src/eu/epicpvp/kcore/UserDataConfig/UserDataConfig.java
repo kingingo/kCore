@@ -58,10 +58,9 @@ public class UserDataConfig extends kListener{
 		return UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player.toLowerCase()).toString().getBytes(Charsets.UTF_8));
 	}
 	
-	public kConfig convertConfig(LoadedPlayer loadedplayer, String player){
+	public kConfig convertConfig(LoadedPlayer loadedplayer, String playerName, UUID uuid){
 		File nfile = new File(getDataFolder(),loadedplayer.getPlayerId()+".yml");
 		if(!nfile.exists()){
-			UUID uuid = (loadedplayer.isPremiumSync() ? loadedplayer.getUUID() : getOfflineUUID(player));
 			File ofile = new File(getDataFolderOld(),uuid+".yml");
 			if(ofile.exists()){
 				ofile.renameTo(new File(getDataFolderOld(),loadedplayer.getPlayerId()+".yml"));
@@ -82,7 +81,7 @@ public class UserDataConfig extends kListener{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		int playerId = UtilPlayer.getPlayerId(ev.getName());
-		kConfig config=convertConfig(UtilServer.getClient().getPlayerAndLoad(ev.getName()), ev.getName());
+		kConfig config=convertConfig(UtilServer.getClient().getPlayerAndLoad(ev.getName()), ev.getName(), ev.getUniqueId());
 		
 		if(config!=null){
 			logMessage("Die Config von "+ev.getName()+"("+playerId+"/"+ev.getUniqueId()+") wurde geladen");

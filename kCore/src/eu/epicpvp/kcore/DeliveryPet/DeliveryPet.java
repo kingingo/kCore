@@ -14,6 +14,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -452,7 +453,7 @@ public class DeliveryPet extends kListener{
 		return new String[]{TranslationHandler.getText(player, "DELIVERY_USED", UtilTime.formatMili( players_obj.get(UtilPlayer.getPlayerId(player)).get(obj)-System.currentTimeMillis() ))};
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		if(!players_obj.containsKey(UtilPlayer.getPlayerId(ev.getName())))players_obj.put(UtilPlayer.getPlayerId(ev.getName()), new HashMap<String,Long>());
 		

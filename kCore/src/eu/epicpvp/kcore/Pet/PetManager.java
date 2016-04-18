@@ -13,7 +13,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -24,6 +23,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Pet.Events.PetCreateEvent;
 import eu.epicpvp.kcore.Pet.Events.PetWithOutOwnerLocationEvent;
 import eu.epicpvp.kcore.Pet.Setting.PetSetting;
@@ -38,7 +38,7 @@ import net.minecraft.server.v1_8_R3.EntityInsentient;
 import net.minecraft.server.v1_8_R3.Navigation;
 import net.minecraft.server.v1_8_R3.NavigationAbstract;
 
-public class PetManager implements Listener{
+public class PetManager extends kListener{
 
 	@Getter
 	private JavaPlugin instance;
@@ -68,7 +68,7 @@ public class PetManager implements Listener{
 	private PetShop petShop; 
 	
 	public PetManager(JavaPlugin instance){
-		Bukkit.getPluginManager().registerEvents(this, instance);
+		super(instance,"PetManager");
 		this.instance=instance;
 		this.failedAttempts = new HashMap<>();
 		this.failedAttemptsToLocation = new HashMap<>();
@@ -190,6 +190,10 @@ public class PetManager implements Listener{
 
 	    for(String playerName : activePetOwners.keySet()){
 	    	owner=Bukkit.getPlayer(playerName);
+	    	if(owner==null){
+	    		logMessage("Owner ist null?!");
+	    		continue;
+	    	}
 	    	pet=(LivingEntity)activePetOwners.get(playerName);
 	    	
 	    	petSpot=pet.getLocation();

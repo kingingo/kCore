@@ -42,7 +42,12 @@ public class Group {
 			}
 			perms.clear();
 			for (int i = 0; i < length; i++) {
-				perms.add(new Permission(response.readString(), GroupTyp.values()[response.readByte()]));
+				String perm = response.readString();
+				GroupTyp typ = GroupTyp.values()[response.readByte()];
+				
+				if(typ==GroupTyp.ALL || typ == manager.getType()){
+					perms.add(new Permission(perm, typ));
+				}
 			}
 			prefix = response.readString();
 			importance = response.readInt();

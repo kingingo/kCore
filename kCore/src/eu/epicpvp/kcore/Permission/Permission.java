@@ -30,6 +30,7 @@ public class Permission {
 		result = prime * result + ((permission == null) ? 0 : permission.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

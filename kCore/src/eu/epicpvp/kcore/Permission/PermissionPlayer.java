@@ -62,10 +62,14 @@ public class PermissionPlayer {
 
 		length = buffer.readInt();
 		for (int i = 0; i < length; i++) {
-			Permission perm = new Permission(buffer.readString(), GroupTyp.values()[buffer.readByte()]);
-			permissions.add(perm);
-			player.addAttachment(manager.getInstance(), perm.getRawPermission(), !perm.isNegative());
-			//this.permissionAttachment.setPermission(perm.a, true);
+			String permission = buffer.readString();
+			GroupTyp typ = GroupTyp.values()[buffer.readByte()];
+			
+			if(typ==GroupTyp.ALL || typ==manager.getType()){
+				Permission perm = new Permission(permission, typ);
+				permissions.add(perm);
+				player.addAttachment(manager.getInstance(), perm.getRawPermission(), !perm.isNegative());
+			}
 		}
 		System.out.println("[PermissionManager]: Permissions geladen. Lade gruppen");
 

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.Permission;
 import eu.epicpvp.kcore.Permission.PermissionManager;
+import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilTime;
 import lombok.Getter;
@@ -27,14 +28,24 @@ public class TimeManager extends kListener{
 		typ=typ.toLowerCase();
 		if(!perms.containsKey(typ))perms.put(typ, new HashMap<Integer,Long>());
 		if(perms.containsKey(typ)&&!perms.get(typ).containsKey(UtilPlayer.getPlayerId(player))){
-			if(player.hasPermission("epicpvp.timer."+typ)){
-				for(Permission perm : manager.getPermissionPlayer(player).getPermissions()){
-					if(!perm.getPermission().equalsIgnoreCase("epicpvp.timer."+typ)&&perm.getPermission().contains("epicpvp.timer."+typ+".")){
-						perms.get(typ).put(UtilPlayer.getPlayerId(player), Long.valueOf(perm.getPermission().substring(("epicpvp.timer."+typ+".").length(), perm.getPermission().length() )));
-						break;
+			
+				for(Group g : manager.getPermissionPlayer(player).getGroups()){
+					for(Permission perm : g.getPermissions()){
+						if(!perm.getPermission().equalsIgnoreCase("epicpvp.timer."+typ)&&perm.getPermission().contains("epicpvp.timer."+typ+".")){
+							perms.get(typ).put(UtilPlayer.getPlayerId(player), Long.valueOf(perm.getPermission().substring(("epicpvp.timer."+typ+".").length(), perm.getPermission().length() )));
+							break;
+						}
 					}
 				}
-			}
+
+				if(perms.containsKey(typ)&&!perms.get(typ).containsKey(UtilPlayer.getPlayerId(player))){
+					for(Permission perm : manager.getPermissionPlayer(player).getPermissions()){
+						if(!perm.getPermission().equalsIgnoreCase("epicpvp.timer."+typ)&&perm.getPermission().contains("epicpvp.timer."+typ+".")){
+							perms.get(typ).put(UtilPlayer.getPlayerId(player), Long.valueOf(perm.getPermission().substring(("epicpvp.timer."+typ+".").length(), perm.getPermission().length() )));
+							break;
+						}
+					}
+				}
 			
 			if(!perms.get(typ).containsKey(UtilPlayer.getPlayerId(player))){
 				perms.get(typ).put(UtilPlayer.getPlayerId(player), (long)0);

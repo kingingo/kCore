@@ -16,7 +16,9 @@ import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.Permission;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilTime;
 
 public class CommandPotion implements CommandExecutor{
@@ -78,10 +80,21 @@ public class CommandPotion implements CommandExecutor{
 					
 					int a = 1;
 					
-					for(Permission perm : manager.getPermissionPlayer(player).getPermissions()){
-						if(perm.getPermission().contains(PermissionType.POTION_AMOUNT.getPermissionToString()+".")){
-							a = Integer.valueOf(perm.getPermission().substring((PermissionType.POTION_AMOUNT.getPermissionToString()+".").length(), perm.getPermission().length() ));
-							break;
+					for(Group g : manager.getPermissionPlayer(player).getGroups()){
+						for(Permission perm : g.getPermissions()){
+							if(perm.getPermission().contains(PermissionType.POTION_AMOUNT.getPermissionToString()+".")){
+								a = Integer.valueOf(perm.getPermission().substring((PermissionType.POTION_AMOUNT.getPermissionToString()+".").length(), perm.getPermission().length() ));
+								break;
+							}
+						}
+					}
+					
+					if(a==1){
+						for(Permission perm : manager.getPermissionPlayer(player).getPermissions()){
+							if(perm.getPermission().contains(PermissionType.POTION_AMOUNT.getPermissionToString()+".")){
+								a = Integer.valueOf(perm.getPermission().substring((PermissionType.POTION_AMOUNT.getPermissionToString()+".").length(), perm.getPermission().length() ));
+								break;
+							}
 						}
 					}
 

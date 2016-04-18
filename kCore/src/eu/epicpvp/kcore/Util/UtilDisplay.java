@@ -139,27 +139,27 @@ public class UtilDisplay {
 //                dragon.getTeleportPacket(player,dragon.EntityID,player.getLocation().add(0, -100, 0));   
 //            }
     	}else{
-//    		BossBar bar = null;
-//    		
-//    		 if(dragonplayers_1_9.containsKey(player.getName())){
-//    			 bar = dragonplayers_1_9.get(player.getName());
-//             }else{
-//            	 bar = UtilPlayer.getViaVersion().createBossBar(text, BossColor.YELLOW, BossStyle.SOLID);
-//            	 bar.setHealth(0);
-//            	 dragonplayers_1_9.put(player.getName(), bar);
-//                 bar.addPlayer(player);
-//                 bar.show();
-//             }
-//    		 
-//    		 
-//    		 bar.setTitle(text);
-//    		 
-//    		 if(bar.getHealth()>=1 || (bar.getHealth()+((float)0.02)) >= 1){
-//    			 bar.setHealth(0);
-//    		 }else{
-//    			 bar.setHealth(bar.getHealth()+((float)0.02));
-//    		 }
-//    		 bar.show();
+    		BossBar bar = null;
+    		
+    		 if(dragonplayers_1_9.containsKey(player.getName())){
+    			 bar = dragonplayers_1_9.get(player.getName());
+             }else{
+            	 bar = UtilPlayer.getViaVersion().createBossBar(text, BossColor.YELLOW, BossStyle.SOLID);
+            	 bar.setHealth(0);
+            	 dragonplayers_1_9.put(player.getName(), bar);
+                 bar.addPlayer(player);
+                 bar.show();
+             }
+    		 
+    		 
+    		 bar.setTitle(text);
+    		 
+    		 if(bar.getHealth()>=1 || (bar.getHealth()+((float)0.02)) >= 1){
+    			 bar.setHealth(0);
+    		 }else{
+    			 bar.setHealth(bar.getHealth()+((float)0.02));
+    		 }
+    		 bar.show();
     	}
     }
  
