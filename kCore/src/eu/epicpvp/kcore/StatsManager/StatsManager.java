@@ -20,6 +20,7 @@ import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.Action;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.EditStats;
 import dev.wolveringer.gamestats.Statistic;
 import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.Listener.MoneyListener.MoneyListener;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangeEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
 import eu.epicpvp.kcore.Update.UpdateType;
@@ -57,6 +58,7 @@ public class StatsManager extends kListener {
 		this.type = type;
 		this.client = client;
 		this.statsManager = this;
+		if(type==GameType.Money)new MoneyListener(this);
 	}
 
 	public boolean isLoaded(Player player) {
@@ -71,11 +73,6 @@ public class StatsManager extends kListener {
 		ranking.load();
 		rankings.add(ranking);
 	}
-	
-//	@EventHandler(priority=EventPriority.LOWEST)
-//	public void join(PlayerJoinEvent ev) {
-//		this.loadplayers.remove(ev.getPlayer().getName());
-//	}
 
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void quit(PlayerQuitEvent ev) {

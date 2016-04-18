@@ -49,6 +49,7 @@ import eu.epicpvp.kcore.Kit.PerkManager;
 import eu.epicpvp.kcore.LagMeter.LagMeter;
 import eu.epicpvp.kcore.Listener.ClientListener.ClientListener;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
+import eu.epicpvp.kcore.Listener.MoneyListener.MoneyListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.kPacketListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
@@ -68,7 +69,10 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 import net.minecraft.server.v1_8_R3.WorldServer;
 
 public class UtilServer{
-	
+
+	@Getter
+	@Setter
+	private static MoneyListener moneyListener;
 	@Getter
 	private static boolean loghandleradded = false;
 	@Getter
@@ -134,6 +138,7 @@ public class UtilServer{
 		if(updaterAsync!=null)updaterAsync.stop();
 		if(packetListener!=null)packetListener.Disable();
 		if(mysql!=null)mysql.close();
+		if(client!=null)client.getHandle().disconnect();
 	}
 	
 	public static ClientWrapper createClient(JavaPlugin instance,ClientType type,String host,int port,String name){

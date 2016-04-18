@@ -163,7 +163,7 @@ public class UtilPlayer
 		UtilScoreboard.setScore(player.getScoreboard(),"§7Loading...§c", DisplaySlot.SIDEBAR, 5);
 		UtilScoreboard.setScore(player.getScoreboard()," ", DisplaySlot.SIDEBAR, 4);
 		UtilScoreboard.setScore(player.getScoreboard(),"§eUserstore-Slots", DisplaySlot.SIDEBAR, 3);
-		UtilScoreboard.setScore(player.getScoreboard(),""+(player.isOp()?"§7UNLIMITED":userData.getConfig(player).getInt("Stores")), DisplaySlot.SIDEBAR, 2);
+		UtilScoreboard.setScore(player.getScoreboard(),"§7"+(player.isOp()?"UNLIMITED":userData.getConfig(player).getInt("Stores")), DisplaySlot.SIDEBAR, 2);
 		UtilScoreboard.setScore(player.getScoreboard(),"§8----------------", DisplaySlot.SIDEBAR, 1);
 		player.setScoreboard(player.getScoreboard());
 		
