@@ -55,6 +55,7 @@ public class CommandGiveGems implements CommandExecutor{
 							@Override
 							public void call(Integer playerId) {
 								money.add(playerId, StatsKey.GEMS, c);
+								money.save(playerId);
 							}
 						});
 					}
@@ -88,6 +89,7 @@ public class CommandGiveGems implements CommandExecutor{
 						@Override
 						public void call(Integer playerId) {
 							money.add(playerId, StatsKey.GEMS, c);
+							money.save(playerId);
 						}
 					});
 				}

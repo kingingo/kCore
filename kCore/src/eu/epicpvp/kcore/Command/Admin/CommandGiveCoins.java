@@ -54,6 +54,7 @@ public class CommandGiveCoins implements CommandExecutor{
 							@Override
 							public void call(Integer playerId) {
 								money.add(playerId, StatsKey.COINS, c);
+								money.save(playerId);
 							}
 						});
 					}
@@ -85,6 +86,7 @@ public class CommandGiveCoins implements CommandExecutor{
 						@Override
 						public void call(Integer playerId) {
 							money.add(playerId, StatsKey.COINS, c);
+							money.save(playerId);
 						}
 					});
 				}

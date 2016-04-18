@@ -118,7 +118,7 @@ public class GemsShop{
 	
 	public void fixInventory(InventoryPageBase page){
 		page.setItem(4, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§a§lGem-Shop"));
-		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"","§7Shop.EpicPvP.de"}, "§aOnline-Shop: "));
+		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"","§7Shop.ClashMC.eu"}, "§aOnline-Shop: "));
 		if(getBase().getMain()!=page)page.addButton(0, new ButtonBack(getBase().getMain(), UtilItem.RenameItem(new ItemStack(Material.ARROW), "§cBack")));
 	}
 	
@@ -132,7 +132,7 @@ public class GemsShop{
 			getConfig().setItemStack("Main."+slot+".Item", item);
 			getConfig().set("Main."+slot+".PageName", pageName);
 			getConfig().save();
-			return "Category hinzugef§gt";
+			return "Category hinzugefügt";
 		}else{
 			return "Der Slot ist besetzt!";
 		}
@@ -152,7 +152,7 @@ public class GemsShop{
 				getConfig().set("Main."+cSlot+"."+slot+".Reward", "/"+cmd);
 				getConfig().set("Main."+cSlot+"."+slot+".Gems",gems);
 				getConfig().save();
-				return "Item hinzugef§gt";
+				return "Item hinzugefügt";
 			}else{
 				return "Der Slot ist besetzt!";
 			}

@@ -118,7 +118,7 @@ public class ItemShop{
 	
 	public void fixInventory(InventoryPageBase page){
 		page.setItem(4, UtilItem.RenameItem(new ItemStack(Material.CHEST), "§a§lItem-Shop"));
-		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"   §7Shop.EpicPvP.de   "}, "     §aOnline-Shop     "));
+		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"   §7Shop.ClashMC.eu   "}, "     §aOnline-Shop     "));
 	}
 	
 	public void delCategory(int slot){

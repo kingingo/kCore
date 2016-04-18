@@ -179,6 +179,7 @@ public class UtilServer{
 				
 				@Override
 				public void brotcast(String permission, String message) {
+					message=message.replaceAll("&", "§");
 					if(permission == null){
 						broadcast(message);
 					}else{

@@ -157,7 +157,7 @@ public class KitShop implements Listener {
 				}else{
 					inventory.setItem(0, UtilItem.RenameItem(kit.getItem().clone(), getName()));
 					inventory.setItem(1, UtilItem.Item(new ItemStack(340), kit.getDescription(), getName()));
-					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{TranslationHandler.getText(p, "KIT_SHOP_PREMIUM"),"§eShop.EpicPvP.de"} ,"§cPremium-Kit"));
+					inventory.setItem(7, UtilItem.Item(new ItemStack(Material.REDSTONE),new String[]{TranslationHandler.getText(p, "KIT_SHOP_PREMIUM"),"§eShop.ClashMC.eu"} ,"§cPremium-Kit"));
 				}
 			}else{
 				if(getPermManager().hasPermission(p, kit.getPermission())||getPermManager().hasPermission(p, PermissionType.ALL_KITS)){

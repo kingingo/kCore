@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.Permission;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
@@ -109,7 +110,7 @@ public class PermissionPlayer {
 			permissions.add(perm);
 			//this.permissionAttachment.setPermission(perm.getBukkitPermission(), true);
 			player.addAttachment(manager.getInstance(),perm.getRawPermission(),true);
-			manager.handler.sendMessage(player, new DataBuffer().writeByte(2).writeInt(playerId).writeByte(type.ordinal()));
+//			manager.handler.sendMessage(player, new DataBuffer().writeByte(2).writeInt(playerId).writeByte(type.ordinal()));
 			player.recalculatePermissions();
 		}
 	}

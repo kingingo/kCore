@@ -461,7 +461,7 @@ public class DeliveryPet extends kListener{
 	      ResultSet rs = getMysql().Query("SELECT `obj`, `timestamp` FROM `delivery_"+serverType.name()+"` WHERE playerId='"+UtilPlayer.getPlayerId(ev.getName())+"';");
 
 	      while (rs.next()) {
-	    	  players_obj.get(UtilPlayer.getPlayerId(ev.getName())).put(rs.getString(1), UtilNumber.toLong(rs.getString(2)));
+	    	  players_obj.get(UtilPlayer.getPlayerId(ev.getName())).put(rs.getString(1), rs.getTimestamp(2).getTime());
 	      }
 	      rs.close();
 	    } catch (Exception err) {

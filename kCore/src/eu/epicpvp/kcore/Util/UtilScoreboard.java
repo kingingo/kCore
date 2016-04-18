@@ -17,6 +17,10 @@ import net.minecraft.server.v1_8_R3.ScoreboardScore;
 
 public class UtilScoreboard {
 	
+	public static String getScoreboardDisplayname(){
+		return "§c§lClashMC.eu";
+	}
+	
 	public static void setTeams(Scoreboard board,Set<Team> teams){
 		Team tt;
 		for(Team team : teams){

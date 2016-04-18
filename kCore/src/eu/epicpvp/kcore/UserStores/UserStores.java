@@ -223,6 +223,7 @@ public class UserStores extends kListener{
 								s.update(true);
 								
 								ev.getConfig().set("UserStores."+loc+".anzahl", getAnzahl(s));
+								logMessage("Shop from "+ev.getPlayerId()+" changed. "+UtilLocation.getLocString(s.getLocation()));
 								continue;
 							}
 						}
