@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.spigotmc.AsyncCatcher;
 
 import dev.wolveringer.client.threadfactory.ThreadFactory;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
@@ -83,6 +84,12 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 	}
 	
 	private void sendToBungeecord(Player player,UUID uuid, DataBuffer data) {
+		try{
+			AsyncCatcher.catchOp("");
+		}catch(Exception e){
+			sendToBungeecord(player, uuid, data);
+			return;
+		}
 		DataBuffer buffer = new DataBuffer();
 		buffer.writeUUID(uuid);
 

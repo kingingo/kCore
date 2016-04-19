@@ -209,16 +209,22 @@ public class PermissionManager{
 	}
 	
 	public Group loadGroup(String name){
-		if(getGroup(name) == null){
-			groups.add(new Group(this, name));
+		Group g = getGroup(name);
+		if(g == null){
+			groups.add(g = new Group(this, name));
 		}
-		return getGroup(name);
+		if(!g.isLoaded())
+			g.reload();
+		return g;
 	}
 
+	public void unloadGroup(Group g){
+		groups.remove(g);
+	}
+	
 	protected void updatePlayer(int playerId) {
 		if(user.containsKey(playerId))
 			user.remove(playerId);
-		if(Bukkit.getOnlinePlayers().size() != 0)
 			if(UtilPlayer.isOnline(playerId)){
 				ThreadFactory.getFactory().createThread(new Runnable() {
 					@Override
@@ -231,11 +237,15 @@ public class PermissionManager{
 	}
 	
 	protected void updateGroup(String group){
-		groups.remove(getGroup(group));
-		if(Bukkit.getOnlinePlayers().size()>0)
-			loadGroup(group);
-		for(PermissionPlayer p : new ArrayList<PermissionPlayer>(this.user.values()))
-			updatePlayer(p.getPlayerId());
+		Bukkit.getScheduler().runTask(manager.getInstance(), new Runnable() {
+			@Override
+			public void run() {
+				groups.remove(getGroup(group));
+				if(Bukkit.getOnlinePlayers().size() > 0)
+					loadGroup(group);
+				for(PermissionPlayer p : new ArrayList<PermissionPlayer>(user.values()))
+					updatePlayer(p.getPlayerId());
+			}
+		});
 	}
-	
 }

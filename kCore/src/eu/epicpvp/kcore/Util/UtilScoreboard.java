@@ -108,7 +108,7 @@ public class UtilScoreboard {
 		ArrayList<Score> scores = new ArrayList<>();
 		net.minecraft.server.v1_8_R3.Scoreboard board = (net.minecraft.server.v1_8_R3.Scoreboard)UtilReflection.getValue("board", b);
 		for(ScoreboardScore sc: board.getScores()){
-			scores.add(b.getObjective( DisplaySlot.valueOf(sc.getObjective().getName()) ).getScore(sc.getPlayerName()));
+			scores.add(b.getObjective(DisplaySlot.valueOf(sc.getObjective().getName())).getScore(sc.getPlayerName()));
 		}
 		return scores;
 	}

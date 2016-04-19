@@ -22,6 +22,8 @@ public class Group {
 	private PermissionManager manager;
 	@Getter
 	private int importance;
+	@Getter
+	private boolean loaded = false;
 	
 	public Group(PermissionManager manager,String name) {
 		this.name = name;
@@ -53,8 +55,13 @@ public class Group {
 			importance = response.readInt();
 			Bukkit.getPluginManager().callEvent(new GroupLoadedEvent(manager, this));
 		}catch(Exception e){
+			if(e.getMessage().toLowerCase().contains("time")){
+				System.out.println("Timeout while loading group "+name+".");
+				return;
+			}
 			e.printStackTrace();
 		}
+		loaded = true;
 	}
 	
 	private Player createPlayer(){

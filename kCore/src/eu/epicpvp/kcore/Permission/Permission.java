@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 public class Permission {
 	private String permission;
-	//private org.bukkit.permissions.Permission bukkitPermission;
 	private GroupTyp group;
 	private int starIndex = -1;
 	
@@ -62,13 +61,5 @@ public class Permission {
 		this.permission = permission;
 		this.group = group;
 		starIndex = permission.indexOf("*");
-		/*
-		if(Bukkit.getPluginManager().getPermission(permission)==null){
-			this.bukkitPermission = new org.bukkit.permissions.Permission(permission);
-			Bukkit.getPluginManager().addPermission(this.bukkitPermission);
-		}else{
-			this.bukkitPermission = Bukkit.getPluginManager().getPermission(permission);
-		}
-		*/
 	}
 }
