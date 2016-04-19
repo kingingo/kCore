@@ -87,7 +87,12 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		try{
 			AsyncCatcher.catchOp("");
 		}catch(Exception e){
-			sendToBungeecord(player, uuid, data);
+			Bukkit.getScheduler().runTask(manager.getInstance(), new Runnable() {
+				@Override
+				public void run() {
+					sendToBungeecord(player, uuid, data);
+				}
+			});
 			return;
 		}
 		DataBuffer buffer = new DataBuffer();
