@@ -227,7 +227,7 @@ public class ItemShop{
 						if(sales.containsKey(item.getTypeId()+":"+item.getData().getData())){
 							amount+=item.getAmount();
 							money+=UtilNumber.toDouble((item.getAmount() * sales.get(item.getTypeId()+":"+item.getData().getData())));
-							player.getInventory().remove(item);
+							player.getInventory().setItem(i, null);
 						}
 					}
 				}
