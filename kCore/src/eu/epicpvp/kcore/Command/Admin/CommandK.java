@@ -3,7 +3,6 @@ package eu.epicpvp.kcore.Command.Admin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.client.connection.ClientType;

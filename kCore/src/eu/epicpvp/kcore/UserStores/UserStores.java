@@ -595,8 +595,11 @@ public class UserStores extends kListener{
 					if(open_sign.getLine(0).startsWith(prefix)){
 						open_config=UtilServer.getUserData().getConfig(ev.getPlayer());
 						
-						if(!open_config.contains("UserStores."+getLocString(open_sign.getLocation()))){
-							return;
+						if(!ev.getPlayer().isOp()){
+							if(!open_config.contains("UserStores."+getLocString(open_sign.getLocation()))){
+								ev.setCancelled(true);
+								return;
+							}
 						}
 						
 						open_chest.put(ev.getPlayer(), open_sign);

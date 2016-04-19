@@ -12,7 +12,6 @@ import org.bukkit.scoreboard.Team;
 import org.spigotmc.AsyncCatcher;
 
 import dev.wolveringer.client.threadfactory.ThreadFactory;
-import dev.wolveringer.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
@@ -21,7 +20,6 @@ import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
-import lombok.Setter;
 
 public class PermissionManager{
 	private static PermissionManager manager;

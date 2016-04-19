@@ -1,7 +1,5 @@
 package eu.epicpvp.kcore.Translation;
 
-import java.io.File;
-
 import org.bukkit.entity.Player;
 
 import dev.wolveringer.client.LoadedPlayer;

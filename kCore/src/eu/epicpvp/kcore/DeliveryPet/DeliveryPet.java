@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.DeliveryPet;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -50,7 +51,6 @@ import eu.epicpvp.kcore.Util.UtilEnt;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilList;
 import eu.epicpvp.kcore.Util.UtilMath;
-import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilParticle;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
@@ -344,23 +344,25 @@ public class DeliveryPet extends kListener{
 	public void HologrammUpdater(UpdateEvent ev){
 		if(ev.getType()==UpdateType.SEC){
 			for(Player player : players_hm.keySet()){
-				if(player.getLocation().getWorld()==getLocation().getWorld()&&player.getLocation().distance(getLocation())<25 && players_hm_reward.containsKey(player)){
-					if(players_hm_reward.get(player)==0){
-						if(!players_hm.get(player).getLines()[0].startsWith("§7")){
-							players_hm.get(player).setLines(0, TranslationHandler.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§7"+players_hm_reward.get(player)));
+				try{
+					if(player.getLocation().getWorld()==getLocation().getWorld()&&player.getLocation().distance(getLocation())<25 && players_hm_reward.containsKey(player)){
+						if(players_hm_reward.get(player)==0){
+							if(!players_hm.get(player).getLines()[0].startsWith("§7")){
+								players_hm.get(player).setLines(0, TranslationHandler.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§7"+players_hm_reward.get(player)));
+								players_hm.get(player).clear(player);
+								players_hm.get(player).sendToPlayer(player);
+							}
+						}else{
+							if(players_hm.get(player).getLines()[0].startsWith("§f§l")||players_hm.get(player).getLines()[0].startsWith("§7")){
+								players_hm.get(player).setLines(0, TranslationHandler.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§c§l"+players_hm_reward.get(player)));
+							}else{
+								players_hm.get(player).setLines(0, TranslationHandler.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§f§l"+players_hm_reward.get(player)));
+							}
 							players_hm.get(player).clear(player);
 							players_hm.get(player).sendToPlayer(player);
 						}
-					}else{
-						if(players_hm.get(player).getLines()[0].startsWith("§f§l")||players_hm.get(player).getLines()[0].startsWith("§7")){
-							players_hm.get(player).setLines(0, TranslationHandler.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§c§l"+players_hm_reward.get(player)));
-						}else{
-							players_hm.get(player).setLines(0, TranslationHandler.getText(player, (players_hm_reward.get(player)>1?"DELIVERY_HM_1_MORE":"DELIVERY_HM_1"),"§f§l"+players_hm_reward.get(player)));
-						}
-						players_hm.get(player).clear(player);
-						players_hm.get(player).sendToPlayer(player);
 					}
-				}
+				}catch(ConcurrentModificationException e){}
 			}
 		}
 	}
@@ -372,6 +374,7 @@ public class DeliveryPet extends kListener{
 				if(player.isOnline()&&!players.get(player).getViewers().isEmpty()){
 					if(players_obj.containsKey( UtilPlayer.getPlayerId(player) )){
 						for(String obj : players_obj.get(UtilPlayer.getPlayerId(player)).keySet()){
+							if(!objects.containsKey(obj))continue;
 							if(players_obj.get(UtilPlayer.getPlayerId(player)).get(obj) > System.currentTimeMillis()){
 								players.get(player).getButtonOneSlot(objects.get(obj).slot).setDescription(descriptionUSED(player, obj));
 								if(players.get(player).getButtonOneSlot(objects.get(obj).slot).getItemStack().getType()!=objects.get(obj).delay_material){
@@ -514,6 +517,7 @@ public class DeliveryPet extends kListener{
 				}else{
 					for(String obj : players_obj.get(UtilPlayer.getPlayerId(ev.getPlayer())).keySet()){
 						UtilDebug.debug(new String[]{"O:"+obj,"C:"+objects.containsKey(obj)});
+			    		if(!objects.containsKey(obj)) continue;
 						if(players_obj.get(UtilPlayer.getPlayerId(ev.getPlayer())).get(obj)>System.currentTimeMillis()){
 				    		  players.get(ev.getPlayer()).addButton(objects.get(obj).slot, new ButtonBase(objects.get(obj).click, objects.get(obj).delay_material,objects.get(obj).delay_data, objects.get(obj).displayname, descriptionUSED(ev.getPlayer(),obj)));
 				    	  }else{

@@ -1,6 +1,5 @@
 package eu.epicpvp.kcore.Permission;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -16,7 +15,6 @@ import dev.wolveringer.client.threadfactory.ThreadFactory;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class PermissionChannelHandler extends kListener implements PluginMessageListener{

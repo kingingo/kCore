@@ -8,11 +8,11 @@ PVP("pvp"),
 SKY("sky"),
 WARZ("warz");
 
-public static GroupTyp get(String perm){
+public static GroupTyp get(String typ){
 	GroupTyp per=null;
-	for(GroupTyp permission : GroupTyp.values()){
-		if(permission.getName().equalsIgnoreCase(perm)){
-			per=permission;
+	for(GroupTyp type : GroupTyp.values()){
+		if(type.getName().equalsIgnoreCase(typ)){
+			per=type;
 			break;
 		}
 	}

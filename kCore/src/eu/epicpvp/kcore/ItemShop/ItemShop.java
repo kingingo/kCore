@@ -220,15 +220,13 @@ public class ItemShop{
 			public void onClick(Player player, ActionType type, Object object) {
 				ItemStack item;
 				int amount=0;
-				int money=0;
+				double money=0;
 				for(int i = 0; i < player.getInventory().getContents().length ; i++){
 					item=player.getInventory().getContents()[i];
-					
 					if(item != null){
 						if(sales.containsKey(item.getTypeId()+":"+item.getData().getData())){
 							amount+=item.getAmount();
-							money+=(item.getAmount() * sales.get(item.getTypeId()+":"+item.getData().getData()));
-							getStatsManager().addDouble(player, UtilNumber.toDouble( (item.getAmount() * sales.get(item.getTypeId()+":"+item.getData().getData())) ), StatsKey.MONEY);
+							money+=UtilNumber.toDouble((item.getAmount() * sales.get(item.getTypeId()+":"+item.getData().getData())));
 							player.getInventory().remove(item);
 						}
 					}
@@ -237,6 +235,7 @@ public class ItemShop{
 				if(amount == 0 && money == 0){
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SIGN_SHOP_NO_ITEMS_ON_INV"));
 				}else{
+					getStatsManager().addDouble(player, UtilNumber.toDouble( money ), StatsKey.MONEY);
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SIGN_SHOP_VERKAUFT_ALL",new String[]{String.valueOf(amount),String.valueOf(money)}));
 				}
 				
