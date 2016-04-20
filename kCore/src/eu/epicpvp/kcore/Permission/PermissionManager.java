@@ -48,6 +48,7 @@ public class PermissionManager {
 
 	public PermissionManager(JavaPlugin instance, GroupTyp type) {
 		this.instance = instance;
+		PermissionManager.manager=this;
 		this.type = type;
 		this.handler = new PermissionChannelHandler(this);
 		Bukkit.getMessenger().registerIncomingPluginChannel(instance, "permission", handler);
