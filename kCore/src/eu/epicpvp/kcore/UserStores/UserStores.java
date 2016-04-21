@@ -240,6 +240,8 @@ public class UserStores extends kListener{
 	public void openInv(Player player){
 		if(UtilServer.getUserData().getConfig(player).contains("UserStores")){
 			((InventoryCopy)page).open(player, UtilInv.getBase());
+		}else{
+			logMessage("I cannot find any UserStores!");
 		}
 	}
 	
