@@ -9,8 +9,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.GameType;
+import dev.wolveringer.dataserver.protocoll.packets.PacketOutServerStatus;
+import dev.wolveringer.dataserver.protocoll.packets.PacketOutServerStatus.Action;
 import dev.wolveringer.event.EventListener;
 import dev.wolveringer.events.Event;
 import dev.wolveringer.events.EventConditions;
@@ -49,6 +52,28 @@ public class TabManager extends kListener{
 		UtilServer.getClient().getHandle().getEventManager().getEventManager(EventType.SERVER_SWITCH).setConditionEnables(EventConditions.GAME_TYPE_ARRAY, true);
 		for(GameType type : types)UtilServer.getClient().getHandle().getEventManager().getEventManager(EventType.SERVER_SWITCH).getCondition(EventConditions.GAME_TYPE_ARRAY).addValue(type);
 		
+//		UtilServer.getClient().getGameTypeServerStatus(types, true).getAsync(new Callback<PacketOutServerStatus>() {
+//
+//			@Override
+//			public void call(PacketOutServerStatus response) {
+//				for(String player : response.getPlayers()){
+//					if(!UtilPlayer.isOnline(player)){
+//						LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player);
+//						kPacketPlayOutPlayerInfo add = new kPacketPlayOutPlayerInfo();
+//						add.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
+//						
+//						add.getList().add(new kPlayerInfoData(add,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)), (UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getUUID()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
+//						for(Player p : UtilServer.getPlayers()){
+//							UtilPlayer.sendPacket(p, add);
+//						}
+//						last_packet.put(loadedplayer.getUUID(), add);
+//						players.put(loadedplayer.getUUID(), new kPlayerInfoData(info,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)),(UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getUUID()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
+//						info.getList().add(players.get(loadedplayer.getUUID()));
+//					}
+//				}
+//			}
+//		});
+		
 		UtilServer.getClient().getHandle().getEventManager().registerListener(new EventListener() {
 			
 			@SuppressWarnings("deprecation")
@@ -78,9 +103,11 @@ public class TabManager extends kListener{
 						players.put(loadedplayer.getUUID(), new kPlayerInfoData(info,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)),(UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getUUID()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
 						info.getList().add(players.get(loadedplayer.getUUID()));
 					}else if(ev.getFrom() != null && ev.getFrom().startsWith("a") && players.containsKey(loadedplayer.getUUID())){
-						kPacketPlayOutPlayerInfo remove = last_packet.get(loadedplayer.getUUID());
-						remove.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
-						for(Player player : UtilServer.getPlayers())UtilPlayer.sendPacket(player, remove);
+						if(last_packet.containsKey(loadedplayer.getUUID())){
+							kPacketPlayOutPlayerInfo remove = last_packet.get(loadedplayer.getUUID());
+							remove.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
+							for(Player player : UtilServer.getPlayers())UtilPlayer.sendPacket(player, remove);
+						}
 						info.getList().remove(players.get(loadedplayer.getUUID()));
 						players.remove(loadedplayer.getUUID());
 						last_packet.remove(loadedplayer.getUUID());
