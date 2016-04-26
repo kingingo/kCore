@@ -58,6 +58,8 @@ public class VillagerShop extends kListener{
 	@Getter
 	private Location spawn;
 	@Getter
+	private Location real_spawn;
+	@Getter
 	private Entity villager;
 	@Getter
 	private InventoryPageBase inventoryMerchant;
@@ -77,6 +79,7 @@ public class VillagerShop extends kListener{
 		super(instance,"VillagerShop:"+name);
 		this.name=name;
 		this.type=type;
+		this.real_spawn=spawn;
 		this.inventoryMerchant=new InventoryPageBase(InventorySize._27, getName()+" | Villager");
 		this.inventory=new InventoryPageBase(InventorySize._27, getName()+" | Inventory");
 		this.inventoryMerchant.addButton(0, new ButtonBase(new Click(){
@@ -108,7 +111,7 @@ public class VillagerShop extends kListener{
 	}
 	
 	public void spawn(){
-		spawn(this.spawn);
+		spawn(this.real_spawn);
 	}
 	
 	public void spawn(Location loc){
@@ -116,7 +119,7 @@ public class VillagerShop extends kListener{
 			this.villager.remove();
 			this.villager=null;
 		}
-		this.spawn=loc;
+		this.spawn=loc.clone();
 		this.spawn=spawn.add(0.3,0.1,0.3);
 		this.spawn.getWorld().loadChunk(this.spawn.getWorld().getChunkAt(this.spawn));
 		this.villager=this.spawn.getWorld().spawnEntity(getSpawn(), this.type);
