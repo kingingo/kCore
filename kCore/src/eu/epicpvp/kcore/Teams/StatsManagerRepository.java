@@ -3,10 +3,11 @@ package eu.epicpvp.kcore.Teams;
 import java.util.EnumMap;
 import java.util.Map;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 import dev.wolveringer.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Util.UtilServer;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public final class StatsManagerRepository {
 	

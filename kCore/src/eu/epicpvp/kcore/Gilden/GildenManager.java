@@ -31,7 +31,7 @@ import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.MySQL.MySQLErr;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangeEvent;
+import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangedEvent;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
@@ -102,7 +102,7 @@ public class GildenManager implements Listener {
 	}
 	
 	@EventHandler
-	public void s(PlayerStatsChangeEvent ev){
+	public void s(PlayerStatsChangedEvent ev){
 		if(ev.getManager().getType()!=GameType.Money){
 			
 		}

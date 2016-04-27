@@ -13,7 +13,7 @@ import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangeEvent;
+import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangedEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
 import eu.epicpvp.kcore.Util.UtilServer;
@@ -61,7 +61,7 @@ public class MoneyListener extends kListener{
 	}
 	
 	@EventHandler
-	public void statsChange(PlayerStatsChangeEvent ev){
+	public void statsChange(PlayerStatsChangedEvent ev){
 		if(ev.getStats() == StatsKey.GEMS || ev.getStats() == StatsKey.COINS){
 			if(UtilPlayer.isOnline(ev.getPlayerId())){
 				Player player = UtilPlayer.searchExact(ev.getPlayerId());

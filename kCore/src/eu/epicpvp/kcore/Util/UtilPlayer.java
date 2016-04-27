@@ -138,18 +138,6 @@ public class UtilPlayer
 		player.setVelocity(unitVector);
 	}
 	
-	public static String getPlayerLiveString(Player player){
-		String s="§c";
-		for(int i = 0; i<getHealth(player); i++){
-			s+=Zeichen.BIG_HERZ.getIcon();
-		}
-		s+="§f";
-		for(int i = 0; i<(getMaxHealth(player)-getHealth(player)); i++){
-			s+=Zeichen.BIG_HERZ.getIcon();
-		}
-		return s;
-	}
-	
 	public static void setTab(Player player,String server){
 		TabTitle.setHeaderAndFooter(player, "§c§lClashMC.eu §8| §e"+server, "§eTeamSpeak: §7ts.ClashMC.eu §8| §eWebsite: §7www.ClashMC.eu");
 	}
@@ -307,16 +295,20 @@ public class UtilPlayer
 		return getCraftPlayer(player).getMaxHealth();
 	}
 	
+	public static String getPlayerLiveString(Player player){
+		return getHealthBar(player);
+	}
+	
 	public static String getHealthBar(Player player){
 		String bar="";
 		double health = getHealth(player);
 		for(int i=0;i<20;i++){
 			if(i<=health && i%2==0){
-				bar+=ChatColor.RED+"<3";
+				bar+=ChatColor.RED+Zeichen.BIG_HERZ.getIcon();
 			}else if(health==i && i%2!=0){
-				bar+=ChatColor.RED+"<3";
+				bar+=ChatColor.RED+Zeichen.BIG_HERZ.getIcon();
 			}else if(i%2==0){
-				bar+=ChatColor.GRAY+"<3";
+				bar+=ChatColor.GRAY+Zeichen.BIG_HERZ.getIcon();
 			}
 		}
 		

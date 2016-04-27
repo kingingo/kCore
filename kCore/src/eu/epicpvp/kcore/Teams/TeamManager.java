@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dev.wolveringer.dataserver.gamestats.GameType;
-import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.kCore;
+import eu.epicpvp.kcore.MySQL.MySQL;
 import lombok.Getter;
 
 public class TeamManager {

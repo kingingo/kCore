@@ -20,8 +20,9 @@ import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.EditStats;
 import dev.wolveringer.gamestats.Statistic;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Listener.MoneyListener.MoneyListener;
-import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangeEvent;
+import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangedEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
+import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsSetEvent;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilMath;
@@ -216,7 +217,7 @@ public class StatsManager extends kListener {
 		if (key.getType() == String.class) {
 			this.players.get(playerId).get(key).add(s);
 			
-			Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(this, key, playerId));
+			Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this, key, playerId));
 		}
 	}
 
@@ -236,10 +237,14 @@ public class StatsManager extends kListener {
 		set(UtilPlayer.getPlayerId(player), key, obj);
 	}
 
-	public void set(int playerId, StatsKey key, Object obj) {
+	public void set(int playerId, StatsKey key,Object obj) {
 		if (key.getType() != String.class) {
 			if (this.players.containsKey(playerId)) {
 				if (this.players.get(playerId).containsKey(key)) {
+					PlayerStatsSetEvent ev = new PlayerStatsSetEvent(statsManager, key, obj, playerId);
+					Bukkit.getPluginManager().callEvent(ev);
+					obj=ev.getValue();
+					
 					if (key.getType() == int.class) {
 						int i = (int) this.players.get(playerId).get(key).getValue();
 						int change = (int) obj;
@@ -264,13 +269,14 @@ public class StatsManager extends kListener {
 					this.players.get(playerId).get(key).add(obj);
 				}
 					
-				Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(this, key, playerId));
+				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this, key, playerId));
 			} else {
 				logMessage("set LOAD PLAYER "+playerId);
+				Object cobj = obj;
 				loadPlayer(playerId, new Callback<Integer>() {
 					@Override
 					public void call(Integer pid) {
-						set(playerId, key, obj);
+						set(playerId, key, cobj);
 					}
 				});
 			}
@@ -300,12 +306,12 @@ public class StatsManager extends kListener {
 			if (this.players.get(playerId).containsKey(key)) {
 				this.players.get(playerId).get(key).add(value);
 					
-				Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(statsManager,key, playerId));
+				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(statsManager,key, playerId));
 			} else {
 				this.players.get(playerId).put(key, new StatsObject(0));
 				this.players.get(playerId).get(key).add(value);
 					
-				Bukkit.getPluginManager().callEvent(new PlayerStatsChangeEvent(statsManager,key, playerId));
+				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(statsManager,key, playerId));
 			}
 		} else {
 			logMessage("add LOAD PLAYER "+playerId);
