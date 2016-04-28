@@ -3,13 +3,6 @@ package eu.epicpvp.kcore.StatsManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.LoadedPlayer;
@@ -18,18 +11,24 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.Action;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.EditStats;
 import dev.wolveringer.gamestats.Statistic;
-import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Listener.MoneyListener.MoneyListener;
+import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangedEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsSetEvent;
-import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
+import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class StatsManager extends kListener {
 
@@ -59,6 +58,7 @@ public class StatsManager extends kListener {
 		this.client = client;
 		this.statsManager = this;
 		if(type==GameType.Money)new MoneyListener(this);
+		StatsManagerRepository.addStatsManager(this);
 	}
 
 	public boolean isLoaded(Player player) {
@@ -119,6 +119,14 @@ public class StatsManager extends kListener {
 			for (int i = 0; i < ranking.getRanking().length ; i++)
 				player.sendMessage("§b#§6" + (i+1) + "§b | §6" + UtilMath.trim(2, UtilNumber.toDouble(ranking.getRanking()[i].getTopValue())) + " §b|§6 " + ranking.getRanking()[i].getPlayer());
 		}
+	}
+
+	public boolean containsKey(Player player, StatsKey key){
+		return containsKey(UtilPlayer.getPlayerId(player),key);
+	}
+	
+	public boolean containsKey(int playerId, StatsKey key){
+		return (players.containsKey(playerId) && players.get(playerId).containsKey(key));
 	}
 
 	public long getLong(StatsKey key, Player player) {

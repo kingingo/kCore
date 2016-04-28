@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.Teams;
+package eu.epicpvp.kcore.StatsManager;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -17,13 +17,20 @@ public final class StatsManagerRepository {
 	
 	private static final Map<GameType, StatsManager> statsManagers = new EnumMap<>(GameType.class);
 	
-	public static StatsManager getStatsManager(JavaPlugin plugin, GameType gameType) {
+	public static boolean addStatsManager(StatsManager statsManager){
+		if(!statsManagers.containsKey(statsManager.getType())){
+			statsManagers.put(statsManager.getType(),statsManager);
+			return true;
+		}
+		return false;
+	}
+	
+	public static StatsManager getStatsManager(GameType gameType) {
 		StatsManager manager = statsManagers.get(gameType);
 		if (manager != null) {
 			return manager;
 		} else {
-			StatsManager statsManager = new StatsManager(plugin, UtilServer.getClient(), gameType);
-			statsManagers.put(gameType, statsManager);
+			StatsManager statsManager = new StatsManager(UtilServer.getPermissionManager().getInstance(), UtilServer.getClient(), gameType);
 			return statsManager;
 		}
 	}

@@ -5,33 +5,60 @@ import java.util.List;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
-import dev.wolveringer.dataserver.gamestats.GameType;
-import eu.epicpvp.kcore.StatsManager.StatsManager;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.bukkit.entity.Player;
 
 @Getter
 public class Team {
-
-	private final TeamManager manager;
-	private final int id;
-	private final GameType gameType;
+	private final TeamManager teamManager;
+	private final int teamId;
 	private final String name;
 	private final String prefix;
+	private final int ownerId;
 	@Getter(AccessLevel.NONE)
 	protected final List<Integer> players = new ArrayList<>();
 	@Getter(AccessLevel.NONE)
 	protected final Multimap<Integer, String> playerPermissions = HashMultimap.create();
-	private final StatsManager statsManager;
 
-	public Team(TeamManager manager, int id, GameType gameType, String name, String prefix) {
-		this.manager = manager;
-		this.id = id;
-		this.gameType = gameType;
+	public Team(TeamManager teamManager, int teamId, String name, String prefix, int ownerId) {
+		this.teamManager = teamManager;
+		this.teamId = teamId;
 		this.name = name;
 		this.prefix = prefix;
-		statsManager = StatsManagerRepository.getStatsManager(manager.getInstance(), gameType);
+		this.ownerId = ownerId;
+		loadStatistics();
+	}
+
+	public void loadStatistics() {
+
+	}
+
+	public void add(StatsKey key, Object value) {
+//		StatsManagerRepository.getStatsManager(teamManager.getTeamType()).add(teamId, key, value);
+	}
+
+	public void set(StatsKey key, Object value) {
+//		StatsManagerRepository.getStatsManager(teamManager.getTeamType()).set(teamId, key, value);
+	}
+
+	public Object get(StatsKey key) {
+//		StatsManagerRepository.getStatsManager(teamManager.getTeamType()).set(teamId, key, value);
+		return null;
+	}
+
+	public void broadcast(String translationKey, Object... values) {
+		Player player;
+		for (int playerId : players) {
+			player = UtilPlayer.searchExact(playerId);
+
+			if (player != null) {
+				player.sendMessage(TranslationHandler.getText(player, "GILDEN_PREFIX") + TranslationHandler.getText(player, translationKey, values));
+			}
+		}
 	}
 
 	public void add(int playerId) {

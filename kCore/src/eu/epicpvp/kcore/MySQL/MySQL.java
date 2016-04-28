@@ -248,6 +248,11 @@ public class MySQL {
 		Update("INSERT INTO `" + table + "` (" + content + ") VALUES (" + values
 				+ ");");
 	}
+	
+	public int InsertGetId(String qry) throws SQLException {
+		Statement stmt = connection.createStatement();
+		return stmt.executeUpdate(qry, Statement.RETURN_GENERATED_KEYS);
+	}
 
 	public ResultSet Query(String table, String select, String where) {
 		return Query("SELECT " + select + " FROM `" + table + "`"
@@ -272,20 +277,25 @@ public class MySQL {
 	}
 
 	public boolean Update(String qry) {
-		if (connection == null)
-			return false;
-		try {
-			MySQLUpdateEvent ev = new MySQLUpdateEvent(qry, this);
-			Bukkit.getPluginManager().callEvent(ev);
-			Statement stmt = connection.createStatement();
-			stmt.executeUpdate(ev.getUpdater());
-			stmt.close();
-			return true;
+		try{
+			return UpdateWithException(qry);
 		} catch (Exception ex) {
 			Bukkit.getPluginManager().callEvent(
 					new MySQLErrorEvent(MySQLErr.UPDATE, ex, this));
 		}
 		return false;
+	}
+	
+	public boolean UpdateWithException(String qry) throws SQLException {
+		if (connection == null)
+			return false;
+
+		MySQLUpdateEvent ev = new MySQLUpdateEvent(qry, this);
+		Bukkit.getPluginManager().callEvent(ev);
+		Statement stmt = connection.createStatement();
+		stmt.executeUpdate(ev.getUpdater());
+		stmt.close();
+		return true;
 	}
 
 	public Timestamp getTimestamp(String qry) {
