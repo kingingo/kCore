@@ -1,6 +1,7 @@
 package eu.epicpvp.kcore.Listener.ConvertListener;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
@@ -29,6 +30,7 @@ import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilReflection;
 import eu.epicpvp.kcore.Util.UtilServer;
+import lombok.Getter;
 
 public class ConvertListener extends kListener{
 
@@ -41,7 +43,7 @@ public class ConvertListener extends kListener{
 			this.typ=typ;
 		}
 	}
-	
+	@Getter
 	private MySQL mysql;
 	private StatsManager money;
 	
@@ -54,7 +56,7 @@ public class ConvertListener extends kListener{
 	@EventHandler
 	public void perm(PlayerLoadPermissionEvent ev){
 		String pgroup = "default";
-//		ArrayList<OldPermission> perms = null;
+		ArrayList<OldPermission> perms = null;
 		
 		try {
 			ResultSet rs = mysql.Query("SELECT pgroup FROM game_perm WHERE prefix='none' AND permission='none' AND pgroup!='none' AND uuid='"+getRealUUID(ev.getPlayer())+"' AND grouptyp='"+GroupTyp.ALL.name()+"'");
@@ -68,18 +70,18 @@ public class ConvertListener extends kListener{
 			err.printStackTrace();
 		}
 		
-//		try {
-//			ResultSet rs = mysql.Query("SELECT permission, grouptyp FROM game_perm WHERE permission!='none' AND uuid='"+getRealUUID(ev.getPlayer())+"' AND prefix='none' AND pgroup='none';");
-//		     
-//			while (rs.next()) {
-//				if(perms == null)perms=new ArrayList<>();
-//				perms.add(new OldPermission(rs.getString(1), GroupTyp.get(rs.getString(2))));
-//			}
-//
-//			rs.close();
-//		} catch (Exception err) {
-//			err.printStackTrace();
-//		}
+		try {
+			ResultSet rs = mysql.Query("SELECT permission, grouptyp FROM game_perm WHERE permission!='none' AND uuid='"+getRealUUID(ev.getPlayer())+"' AND prefix='none' AND pgroup='none';");
+		     
+			while (rs.next()) {
+				if(perms == null)perms=new ArrayList<>();
+				perms.add(new OldPermission(rs.getString(1), GroupTyp.get(rs.getString(2))));
+			}
+
+			rs.close();
+		} catch (Exception err) {
+			err.printStackTrace();
+		}
 		
 		if(!pgroup.equalsIgnoreCase("default")){
 			for(Group group : UtilServer.getPermissionManager().getPermissionPlayer(ev.getPlayer()).getGroups()){
@@ -95,10 +97,13 @@ public class ConvertListener extends kListener{
 			mysql.Delete("game_perm", "uuid='"+getRealUUID(ev.getPlayer())+"' AND pgroup!='none';");
 		}
 		
-//		if(perms!=null){
-//			//TODO
-//			mysql.Delete("game_perm", "uuid='"+getRealUUID(ev.getPlayer())+"'");
-//		}
+		if(perms!=null){
+			for(OldPermission perm : perms){
+				UtilServer.getPermissionManager().getPermissionPlayer(ev.getPlayer()).addPermission(perm.perm, perm.typ);
+			}
+			
+			mysql.Delete("game_perm", "uuid='"+getRealUUID(ev.getPlayer())+"'");
+		}
 	}
 	
 	@EventHandler

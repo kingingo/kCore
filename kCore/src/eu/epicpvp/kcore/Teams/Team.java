@@ -31,7 +31,7 @@ public class Team {
 		this.gameType = gameType;
 		this.name = name;
 		this.prefix = prefix;
-		statsManager = StatsManagerRepository.getStatsManager(manager.getPlugin(), gameType);
+		statsManager = StatsManagerRepository.getStatsManager(manager.getInstance(), gameType);
 	}
 
 	public void add(int playerId) {

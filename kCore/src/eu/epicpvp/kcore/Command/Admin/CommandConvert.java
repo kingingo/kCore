@@ -58,12 +58,12 @@ public class CommandConvert implements CommandExecutor{
 	private HashMap<Player,OldData> list;
 	private MySQL m;
 	
-	public CommandConvert(StatsManager money,MySQL m){
+	public CommandConvert(StatsManager money,MySQL m, MySQL m1){
 		this.instance=money.getInstance();
 		this.list=new HashMap<>();
 		this.money=money;
 		this.m=m;
-		this.mysql=new MySQL("root", "55P_YHmK8MXlPiqEpGKuH_5WVlhsXT", "mysql.connect-handler.net", "convert", instance);
+		this.mysql=m1;
 	}
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "old",alias={"old"}, sender = Sender.PLAYER)
@@ -110,12 +110,12 @@ public class CommandConvert implements CommandExecutor{
 					
 					if(list.containsKey(convert)){
 						OldData old = list.get(convert);
-						money.set(old.playerId, StatsKey.GEMS, old.gems);
-						money.set(old.playerId, StatsKey.COINS, old.coins);
+						if(old.gems!=0)money.set(old.playerId, StatsKey.GEMS, old.gems);
+						if(old.coins!=0)money.set(old.playerId, StatsKey.COINS, old.coins);
 						LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(old.playerId);
-						loadedplayer.setStats(new EditStats[]{new EditStats(GameType.PVP, Action.SET, StatsKey.MONEY, old.pvp_money),new EditStats(GameType.SKYBLOCK, Action.SET, StatsKey.MONEY, old.sky_money)});
+						if(old.pvp_money!=0&&old.sky_money!=0)loadedplayer.setStats(new EditStats[]{new EditStats(GameType.PVP, Action.SET, StatsKey.MONEY, old.pvp_money),new EditStats(GameType.SKYBLOCK, Action.SET, StatsKey.MONEY, old.sky_money)});
 						
-						setGroup(loadedplayer, old.pgroup);
+						if(!old.pgroup.equalsIgnoreCase("default"))setGroup(loadedplayer, old.pgroup);
 						
 						for(OldPermission p : old.perms){
 							m.Update("INSERT INTO game_perm (prefix,permission,pgroup,grouptyp,playerId) values ('none','"+p.perm+"','none','"+p.typ.name().toLowerCase()+"','"+old.playerId+"');");
@@ -153,6 +153,7 @@ public class CommandConvert implements CommandExecutor{
 	
 	public OldData loadOldData(Player player){
 		OldData old = new OldData();
+		
 		old.gems=mysql.getInt("SELECT gems FROM gems_list WHERE uuid='" + getRealUUID(player) + "'");
 		old.coins=mysql.getInt("SELECT coins FROM coins_list WHERE uuid='" + getRealUUID(player) + "'");
 		old.pvp_money=mysql.getDouble("SELECT money FROM users_PvP WHERE uuid='" + getRealUUID(player) + "'");

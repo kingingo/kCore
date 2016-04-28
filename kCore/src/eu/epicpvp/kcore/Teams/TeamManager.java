@@ -13,13 +13,13 @@ import lombok.Getter;
 public class TeamManager {
 
 	@Getter
-	private final kCore plugin;
+	private final kCore instance;
 	private final MySQL mysql;
 	private final Map<Integer, Team> teams = new HashMap<>();
 	private final Map<String, Team> teamsByName = new HashMap<>();
 
-	public TeamManager(kCore plugin, MySQL mysql) {
-		this.plugin = plugin;
+	public TeamManager(kCore instance, MySQL mysql) {
+		this.instance = instance;
 		this.mysql = mysql;
 
 		mysql.Update("CREATE TABLE IF NOT EXISTS `teams` (\n" +
@@ -35,6 +35,8 @@ public class TeamManager {
 				"  ADD UNIQUE KEY `name` (`name`);");
 		mysql.Update("CREATE TABLE IF NOT EXISTS teams_member (playerId int, gameType varchar(16), teamId int) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci");
 		mysql.Update("CREATE TABLE IF NOT EXISTS teams_permissions (playerId int, gameType varchar(16), permission varchar(30)) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci");
+		
+		new TeamListener(this);
 	}
 
 	public Team getTeam(int teamId) {

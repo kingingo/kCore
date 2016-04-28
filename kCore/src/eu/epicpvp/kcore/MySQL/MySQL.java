@@ -334,7 +334,7 @@ public class MySQL {
 		MySQLQueryEvent ev = new MySQLQueryEvent(qry, this);
 		Bukkit.getPluginManager().callEvent(ev);
 		ResultSet rs = null;
-		Integer o = null;
+		Integer o = 0;
 		try {
 			Statement stmt = connection.createStatement();
 			rs = stmt.executeQuery(ev.getQuery());

@@ -27,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
@@ -99,7 +100,7 @@ public class UserStores extends kListener{
 							InventoryPageBase page = new InventoryPageBase(InventorySize._54, "Shop");
 							page.setItem(4, ((ItemStack)o));
 							
-							page.addButton(0, new ButtonOpenInventory(((InventoryPageBase)object), UtilItem.RenameItem(new ItemStack(Material.BARRIER), "§cZur§ck")));
+							page.addButton(0, new ButtonOpenInventory(((InventoryPageBase)object), UtilItem.RenameItem(new ItemStack(Material.BARRIER), "§cZurück")));
 							
 							page.addButton(33, new ButtonBase(new Click(){
 
@@ -174,13 +175,13 @@ public class UserStores extends kListener{
 							player.openInventory(page);
 						}
 						
-					}, Material.getMaterial(c.getInt("UserStores."+loc+".id")), Byte.valueOf(c.getString("UserStores."+loc+".data")), "§aStore", new String[]{"§aPreis §7§§e "+c.getString("UserStores."+loc+".preis"),"§aAnzahl §7§§e "+c.getString("UserStores."+loc+".anzahl")}));
+					}, Material.getMaterial(c.getInt("UserStores."+loc+".id")), Byte.valueOf(c.getString("UserStores."+loc+".data")), "§aStore", new String[]{"§aPreis §7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+"§e "+c.getString("UserStores."+loc+".preis"),"§aAnzahl §7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+"§e "+c.getString("UserStores."+loc+".anzahl")}));
 					slot++;
 					if(slot==52){
 						for(int i = slot; i<=51; i++)cp.setItem(i, free);
 						InventoryPageBase newpage =new InventoryNextPage(player,InventorySize._54, "Stores");
-						cp.addButton(53, new ButtonOpenInventory(newpage, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a1 §")));
-						newpage.addButton(52, new ButtonOpenInventory(cp, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c§ 1")));
+						cp.addButton(53, new ButtonOpenInventory(newpage, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a1 "+Zeichen.DOUBLE_ARROWS_R.getIcon())));
+						newpage.addButton(52, new ButtonOpenInventory(cp, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c"+Zeichen.DOUBLE_ARROWS_l.getIcon()+" 1")));
 						UtilInv.getBase().addAnother(newpage);
 						newpage.fill(Material.STAINED_GLASS_PANE,15);
 						cp=newpage;
@@ -687,7 +688,7 @@ public class UserStores extends kListener{
 					}else{
 						ev.setLine(0, "§4ERROR: ");
 						ev.setLine(1, "§4Der Preis muss");
-						ev.setLine(2, "§4§ber 0.0 sein!");
+						ev.setLine(2, "§4über 0.0 sein!");
 					}
 				}catch(NumberFormatException e){
 					ev.setLine(0, "§4ERROR: ");
