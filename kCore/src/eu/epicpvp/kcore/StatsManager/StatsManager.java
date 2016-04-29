@@ -39,13 +39,13 @@ public class StatsManager extends kListener {
 	@Getter
 	private GameType type;
 	@Getter
-	private HashMap<Integer, Map<StatsKey, StatsObject>> players = new HashMap<>();
+	private Map<Integer, Map<StatsKey, StatsObject>> players = new HashMap<>();
 	private ClientWrapper client;
 	private ArrayList<Ranking> rankings = new ArrayList<>();
 	@Getter
 	@Setter
 	private boolean onDisable = false;
-	private HashMap<Integer, ArrayList<Callback<Integer>>> loading = new HashMap<>();
+	private Map<Integer, ArrayList<Callback<Integer>>> loading = new HashMap<>();
 	private ArrayList<String> loadplayers = new ArrayList<>();
 
 	public StatsManager(JavaPlugin instance, ClientWrapper client, GameType type) {
@@ -70,7 +70,7 @@ public class StatsManager extends kListener {
 		rankings.add(ranking);
 	}
 
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler(priority=EventPriority.MONITOR)
 	public void quit(PlayerQuitEvent ev) {
 		this.loadplayers.remove(ev.getPlayer().getName());
 		save(ev.getPlayer());
@@ -81,7 +81,7 @@ public class StatsManager extends kListener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void loading(PlayerStatsLoadedEvent ev) {
 		ArrayList<Callback<Integer>> callbacks = this.loading.get(ev.getPlayerId());
 		if (callbacks != null) {
@@ -105,7 +105,7 @@ public class StatsManager extends kListener {
 
 	public void SendRankingMessage(Player player, Ranking ranking) {
 		if(ranking.getRanking() ==null){
-			ranking.load(new Callback() {
+			ranking.load(new Callback<Object>() {
 				@Override
 				public void call(Object obj) {
 					StatsManager.this.SendRankingMessage(player, ranking);
@@ -217,7 +217,7 @@ public class StatsManager extends kListener {
 	}
 
 	public double getKDR(int k, int d) {
-		if (d == 0) { //prevent ArithmeticException - alternative: use deaths to clalculate lives (= add 1) and then calculate KLR instead?
+		if (d == 0) { //prevent ArithmeticException - alternative: use deaths to calculate lives (= add 1) and then calculate KLR instead?
 			d = 1;
 		}
 		double kdr = (double) k / (double) d;
@@ -259,16 +259,14 @@ public class StatsManager extends kListener {
 		set(UtilPlayer.getPlayerId(player), key, obj);
 	}
 
-	public void set(int playerId, StatsKey key,Object obj) {
+	public void set(int playerId, StatsKey key, Object obj) {
 		if (key.getType() != String.class) {
 			Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
 			if (statsMap != null) {
 				StatsObject statsObject = statsMap.get(key);
 				if (statsObject != null) {
-					PlayerStatsSetEvent ev = new PlayerStatsSetEvent(this, key, obj, playerId);
-					Bukkit.getPluginManager().callEvent(ev);
-					obj=ev.getValue();
-					
+					Bukkit.getPluginManager().callEvent(new PlayerStatsSetEvent(this, key, obj, playerId));
+
 					if (key.getType() == int.class) {
 						int i = (int) statsObject.getValue();
 						int change = (int) obj;
@@ -293,15 +291,14 @@ public class StatsManager extends kListener {
 					statsMap.put(key, statsObject);
 					statsObject.add(obj);
 				}
-					
+
 				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this, key, playerId));
 			} else {
-				logMessage("set LOAD PLAYER "+playerId);
-				Object cobj = obj;
+				logMessage("set LOAD PLAYER " + playerId);
 				loadPlayer(playerId, new Callback<Integer>() {
 					@Override
 					public void call(Integer pid) {
-						set(playerId, key, cobj);
+						set(playerId, key, obj);
 					}
 				});
 			}
@@ -329,17 +326,8 @@ public class StatsManager extends kListener {
 	public void add(int playerId, StatsKey key, Object value) {
 		Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
 		if (statsMap != null) {
-			StatsObject statsObject = statsMap.get(key);
-			if (statsObject != null) {
-				statsObject.add(value);
-					
-				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this,key, playerId));
-			} else {
-				statsMap.put(key, new StatsObject(0));
-				statsObject.add(value);
-					
-				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this,key, playerId));
-			}
+			statsMap.computeIfAbsent(key, k -> new StatsObject(0)).add(value);
+			Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this,key, playerId));
 		} else {
 			logMessage("add LOAD PLAYER "+playerId);
 			loadPlayer(playerId, new Callback<Integer>() {
@@ -382,13 +370,11 @@ public class StatsManager extends kListener {
 		loadedplayer.getStats(getType()).getAsync(new Callback<Statistic[]>() {
 
 			@Override
-			public void call(Statistic[] obj) {
+			public void call(Statistic[] statistics) {
 
-				Map<StatsKey, StatsObject> statsMap = players.get(loadedplayer.getPlayerId());
-				if (statsMap == null)
-					players.put(loadedplayer.getPlayerId(), statsMap = new EnumMap<>(StatsKey.class));
-				
-				for (Statistic s : obj) {
+				Map<StatsKey, StatsObject> statsMap = players.computeIfAbsent(loadedplayer.getPlayerId(), key -> new EnumMap<>(StatsKey.class));
+
+				for (Statistic s : statistics) {
 					statsMap.put(s.getStatsKey(), new StatsObject(s.getValue()));
 				}
 
@@ -404,12 +390,10 @@ public class StatsManager extends kListener {
 	
 	public void saveAll() {
 		EditStats[] stats;
-		LoadedPlayer loadedplayer;
 		for (Map.Entry<Integer, Map<StatsKey, StatsObject>> entry : this.players.entrySet()) {
-			loadedplayer = client.getPlayerAndLoad(entry.getKey());
+			LoadedPlayer loadedplayer = client.getPlayerAndLoad(entry.getKey());
 			Map<StatsKey, StatsObject> statsMap = entry.getValue();
 			stats = createEditStatsArray(statsMap);
-
 			loadedplayer.setStats(stats);
 		}
 	}
@@ -419,9 +403,9 @@ public class StatsManager extends kListener {
 		stats = new EditStats[statsMap.size()];
 
 		int i = 0;
-		for (Map.Entry<StatsKey, StatsObject> entry2 : statsMap.entrySet()) {
-			StatsKey key = entry2.getKey();
-			StatsObject statsObject = entry2.getValue();
+		for (Map.Entry<StatsKey, StatsObject> entry : statsMap.entrySet()) {
+			StatsKey key = entry.getKey();
+			StatsObject statsObject = entry.getValue();
 			if (statsObject.getChange() != null) {
 				if (key.getType() == String.class) {
 					stats[i] = new EditStats(getType(), Action.SET, key, statsObject.getValue());
