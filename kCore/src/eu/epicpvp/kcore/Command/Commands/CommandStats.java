@@ -24,20 +24,17 @@ public class CommandStats implements CommandExecutor{
 	}
 
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "stats", alias = {"kdr","money"}, sender = Sender.PLAYER)
-	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
+	public boolean onCommand(CommandSender cs, Command cmd, String alias, String[] args) {
 		Player p = (Player)cs;
 		if(args.length==0){
+			int kills = statsManager.getInt(p, StatsKey.KILLS);
+			int deaths = statsManager.getInt(p, StatsKey.DEATHS);
 			p.sendMessage(TranslationHandler.getText(p, "STATS_PREFIX"));
-			p.sendMessage(TranslationHandler.getText(p, "STATS_KILLS")+statsManager.getInt(p, StatsKey.KILLS));
-			p.sendMessage(TranslationHandler.getText(p, "STATS_DEATHS")+statsManager.getInt(p, StatsKey.DEATHS));
-			p.sendMessage(TranslationHandler.getText(p, "STATS_KDR")+getStatsManager().getKDR(statsManager.getInt(p, StatsKey.KILLS), statsManager.getInt(p, StatsKey.DEATHS)));
+			p.sendMessage(TranslationHandler.getText(p, "STATS_KILLS")+ kills);
+			p.sendMessage(TranslationHandler.getText(p, "STATS_DEATHS")+ deaths);
+			p.sendMessage(TranslationHandler.getText(p, "STATS_KDR")+getStatsManager().getKDR(kills, deaths));
 		}else if(args[0].equalsIgnoreCase("ranking")){
-			if(args.length==1){
-				getStatsManager().SendRankingMessage(p, ranking);
-			}else{
-				getStatsManager().SendRankingMessage(p, ranking);
-			}
-			
+			getStatsManager().SendRankingMessage(p, ranking);
 		}
 		return false;
 	}

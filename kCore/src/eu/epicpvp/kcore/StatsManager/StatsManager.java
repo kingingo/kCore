@@ -1,7 +1,9 @@
 package eu.epicpvp.kcore.StatsManager;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map;
 
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.ClientWrapper;
@@ -37,26 +39,20 @@ public class StatsManager extends kListener {
 	@Getter
 	private GameType type;
 	@Getter
-	private HashMap<Integer, HashMap<StatsKey, StatsObject>> players;
+	private HashMap<Integer, Map<StatsKey, StatsObject>> players = new HashMap<>();
 	private ClientWrapper client;
-	private StatsManager statsManager;
-	private ArrayList<Ranking> rankings;
+	private ArrayList<Ranking> rankings = new ArrayList<>();
 	@Getter
 	@Setter
 	private boolean onDisable = false;
-	private HashMap<Integer, ArrayList<Callback<Integer>>> loading;
-	private ArrayList<String> loadplayers;
+	private HashMap<Integer, ArrayList<Callback<Integer>>> loading = new HashMap<>();
+	private ArrayList<String> loadplayers = new ArrayList<>();
 
 	public StatsManager(JavaPlugin instance, ClientWrapper client, GameType type) {
 		super(instance, "StatsManager");
-		this.players = new HashMap<>();
-		this.rankings = new ArrayList<>();
-		this.loadplayers = new ArrayList<>();
-		this.loading = new HashMap<>();
 		this.instance = instance;
 		this.type = type;
 		this.client = client;
-		this.statsManager = this;
 		if(type==GameType.Money)new MoneyListener(this);
 		StatsManagerRepository.addStatsManager(this);
 	}
@@ -78,16 +74,18 @@ public class StatsManager extends kListener {
 	public void quit(PlayerQuitEvent ev) {
 		this.loadplayers.remove(ev.getPlayer().getName());
 		save(ev.getPlayer());
-		if (this.loading.containsKey(ev.getPlayer().getName().toLowerCase())) {
-			this.loading.get(ev.getPlayer().getName().toLowerCase()).clear();
-			this.loading.remove(ev.getPlayer().getName().toLowerCase());
+		int playerId = UtilPlayer.getPlayerId(ev.getPlayer());
+		ArrayList<Callback<Integer>> callbacks = this.loading.remove(playerId);
+		if (callbacks != null) {
+			callbacks.clear();
 		}
 	}
 
 	@EventHandler
 	public void loading(PlayerStatsLoadedEvent ev) {
-		if (this.loading.containsKey(ev.getPlayerId())) {
-			for (Callback<Integer> call : new ArrayList<>(this.loading.get(ev.getPlayerId())))
+		ArrayList<Callback<Integer>> callbacks = this.loading.get(ev.getPlayerId());
+		if (callbacks != null) {
+			for (Callback<Integer> call : new ArrayList<>(callbacks))
 				call.call(ev.getPlayerId());
 		}
 	}
@@ -102,7 +100,7 @@ public class StatsManager extends kListener {
 				for (Ranking ranking : rankings)
 					ranking.load();
 			}
-		});
+		});//TODO thread which is not started?!?
 	}
 
 	public void SendRankingMessage(Player player, Ranking ranking) {
@@ -110,7 +108,7 @@ public class StatsManager extends kListener {
 			ranking.load(new Callback() {
 				@Override
 				public void call(Object obj) {
-					statsManager.SendRankingMessage(player, ranking);
+					StatsManager.this.SendRankingMessage(player, ranking);
 				}
 			});
 		}else{
@@ -126,7 +124,8 @@ public class StatsManager extends kListener {
 	}
 	
 	public boolean containsKey(int playerId, StatsKey key){
-		return (players.containsKey(playerId) && players.get(playerId).containsKey(key));
+		Map<StatsKey, StatsObject> statsMap = players.get(playerId);
+		return (statsMap != null && statsMap.containsKey(key));
 	}
 
 	public long getLong(StatsKey key, Player player) {
@@ -161,6 +160,10 @@ public class StatsManager extends kListener {
 		return (int) get(player, key);
 	}
 
+	public int getInt(int playerId, StatsKey key) {
+		return (int) get(playerId, key);
+	}
+
 	public Object get(StatsKey key, Player player) {
 		return get(UtilPlayer.getPlayerId(player),key);
 	}
@@ -170,15 +173,17 @@ public class StatsManager extends kListener {
 	}
 
 	public Object get(int playerId, StatsKey key) {
-		if (this.players.containsKey(playerId)) {
-			if (this.players.get(playerId).containsKey(key)) {
-				return this.players.get(playerId).get(key).getValue();
+		Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
+		if (statsMap != null) {
+			StatsObject statsObject = statsMap.get(key);
+			if (statsObject != null) {
+				return statsObject.getValue();
 			}
 		}else{
 			loadPlayer(playerId, null);
 		}
 
-		new NullPointerException().printStackTrace();
+		new Exception("need to load player at StatsManager get(playerId, StatsKey)").printStackTrace();
 		return null;
 	}
 
@@ -187,29 +192,38 @@ public class StatsManager extends kListener {
 	}
 
 	public void getAsync(int playerId, StatsKey key, Callback<Object> callback) {
-		if (this.players.containsKey(playerId)) {
-			if (this.players.get(playerId).containsKey(key)) {
-				callback.call(this.players.get(playerId).get(key).getValue());
+		Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
+		if (statsMap != null) {
+			StatsObject statsObject = statsMap.get(key);
+			if (statsObject != null) {
+				callback.call(statsObject.getValue());
 			}
 			return;
 		}
-			
-		if (!this.loading.containsKey(playerId))
-			this.loading.put(playerId, new ArrayList<>());
-		this.loading.get(playerId).add(new Callback<Integer>() {
+
+		ArrayList<Callback<Integer>> callbacks = this.loading.get(playerId);
+		if (callbacks == null) {
+			callbacks = new ArrayList<>();
+			this.loading.put(playerId, callbacks);
+		}
+		ArrayList<Callback<Integer>> callbacksFinalVar = callbacks;
+		callbacks.add(new Callback<Integer>() {
 			@Override
 			public void call(Integer playerId) {
 				getAsync(playerId, key, callback);
-				loading.get(playerId).remove(this);
+				callbacksFinalVar.remove(this);
 			}
 		});
 	}
 
 	public double getKDR(int k, int d) {
+		if (d == 0) { //prevent ArithmeticException - alternative: use deaths to clalculate lives (= add 1) and then calculate KLR instead?
+			d = 1;
+		}
 		double kdr = (double) k / (double) d;
 		kdr = kdr * 100;
 		kdr = Math.round(kdr);
-		kdr = kdr / 100;
+		kdr = kdr / 100D;
 		return kdr;
 	}
 
@@ -247,34 +261,37 @@ public class StatsManager extends kListener {
 
 	public void set(int playerId, StatsKey key,Object obj) {
 		if (key.getType() != String.class) {
-			if (this.players.containsKey(playerId)) {
-				if (this.players.get(playerId).containsKey(key)) {
-					PlayerStatsSetEvent ev = new PlayerStatsSetEvent(statsManager, key, obj, playerId);
+			Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
+			if (statsMap != null) {
+				StatsObject statsObject = statsMap.get(key);
+				if (statsObject != null) {
+					PlayerStatsSetEvent ev = new PlayerStatsSetEvent(this, key, obj, playerId);
 					Bukkit.getPluginManager().callEvent(ev);
 					obj=ev.getValue();
 					
 					if (key.getType() == int.class) {
-						int i = (int) this.players.get(playerId).get(key).getValue();
+						int i = (int) statsObject.getValue();
 						int change = (int) obj;
 
 						change = change - i;
-						this.players.get(playerId).get(key).add(change);
+						statsObject.add(change);
 					} else if (key.getType() == double.class) {
-						double i = (double) this.players.get(playerId).get(key).getValue();
+						double i = (double) statsObject.getValue();
 						double change = (double) obj;
 
 						change = change - i;
-						this.players.get(playerId).get(key).add(change);
+						statsObject.add(change);
 					} else if (key.getType() == long.class) {
-						long i = (long) this.players.get(playerId).get(key).getValue();
+						long i = (long) statsObject.getValue();
 						long change = (long) obj;
 
 						change = change - i;
-						this.players.get(playerId).get(key).add(change);
+						statsObject.add(change);
 					}
 				} else {
-					this.players.get(playerId).put(key, new StatsObject(0));
-					this.players.get(playerId).get(key).add(obj);
+					statsObject = new StatsObject(0);
+					statsMap.put(key, statsObject);
+					statsObject.add(obj);
 				}
 					
 				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this, key, playerId));
@@ -310,16 +327,18 @@ public class StatsManager extends kListener {
 	}
 
 	public void add(int playerId, StatsKey key, Object value) {
-		if (this.players.containsKey(playerId)) {
-			if (this.players.get(playerId).containsKey(key)) {
-				this.players.get(playerId).get(key).add(value);
+		Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
+		if (statsMap != null) {
+			StatsObject statsObject = statsMap.get(key);
+			if (statsObject != null) {
+				statsObject.add(value);
 					
-				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(statsManager,key, playerId));
+				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this,key, playerId));
 			} else {
-				this.players.get(playerId).put(key, new StatsObject(0));
-				this.players.get(playerId).get(key).add(value);
+				statsMap.put(key, new StatsObject(0));
+				statsObject.add(value);
 					
-				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(statsManager,key, playerId));
+				Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this,key, playerId));
 			}
 		} else {
 			logMessage("add LOAD PLAYER "+playerId);
@@ -364,11 +383,13 @@ public class StatsManager extends kListener {
 
 			@Override
 			public void call(Statistic[] obj) {
-				if (!players.containsKey(loadedplayer.getPlayerId()))
-					players.put(loadedplayer.getPlayerId(), new HashMap<>());
+
+				Map<StatsKey, StatsObject> statsMap = players.get(loadedplayer.getPlayerId());
+				if (statsMap == null)
+					players.put(loadedplayer.getPlayerId(), statsMap = new EnumMap<>(StatsKey.class));
 				
 				for (Statistic s : obj) {
-					players.get(loadedplayer.getPlayerId()).put(s.getStatsKey(), new StatsObject(s.getValue()));
+					statsMap.put(s.getStatsKey(), new StatsObject(s.getValue()));
 				}
 
 				if (callback != null) {
@@ -376,7 +397,7 @@ public class StatsManager extends kListener {
 				}
 				
 				loadplayers.remove(loadedplayer.getName());
-				Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(statsManager, loadedplayer.getPlayerId()));
+				Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(StatsManager.this, loadedplayer.getPlayerId()));
 			}
 		});
 	}
@@ -384,23 +405,33 @@ public class StatsManager extends kListener {
 	public void saveAll() {
 		EditStats[] stats;
 		LoadedPlayer loadedplayer;
-		for (int playerId : this.players.keySet()) {
-			loadedplayer = client.getPlayerAndLoad(playerId);
-			stats = new EditStats[this.players.get(playerId).size()];
-
-			for (int i = 0; i < this.players.get(playerId).size(); i++) {
-				StatsKey key = (StatsKey) this.players.get(playerId).keySet().toArray()[i];
-				if (this.players.get(playerId).get(key).getChange() != null) {
-					if (key.getType() == String.class) {
-						stats[i] = new EditStats(getType(), Action.SET, key, this.players.get(playerId).get(key).getValue());
-					} else {
-						stats[i] = new EditStats(getType(), Action.ADD, key, this.players.get(playerId).get(key).getChange());
-					}
-				}
-			}
+		for (Map.Entry<Integer, Map<StatsKey, StatsObject>> entry : this.players.entrySet()) {
+			loadedplayer = client.getPlayerAndLoad(entry.getKey());
+			Map<StatsKey, StatsObject> statsMap = entry.getValue();
+			stats = createEditStatsArray(statsMap);
 
 			loadedplayer.setStats(stats);
 		}
+	}
+
+	private EditStats[] createEditStatsArray(Map<StatsKey, StatsObject> statsMap) {
+		EditStats[] stats;
+		stats = new EditStats[statsMap.size()];
+
+		int i = 0;
+		for (Map.Entry<StatsKey, StatsObject> entry2 : statsMap.entrySet()) {
+			StatsKey key = entry2.getKey();
+			StatsObject statsObject = entry2.getValue();
+			if (statsObject.getChange() != null) {
+				if (key.getType() == String.class) {
+					stats[i] = new EditStats(getType(), Action.SET, key, statsObject.getValue());
+				} else {
+					stats[i] = new EditStats(getType(), Action.ADD, key, statsObject.getChange());
+				}
+			}
+			i++;
+		}
+		return stats;
 	}
 
 	public void SaveAllPlayerData(Player player) {
@@ -415,22 +446,8 @@ public class StatsManager extends kListener {
 		if (isOnDisable()) return;
 		if (this.players.containsKey(playerId)) {
 			LoadedPlayer loadedplayer = client.getPlayerAndLoad(playerId);
-			EditStats[] stats = new EditStats[this.players.get(playerId).size()];
-
-			StatsKey key;
-			for (int i = 0; i < this.players.get(playerId).size(); i++) {
-				key = (StatsKey) this.players.get(playerId).keySet().toArray()[i];
-
-				if (this.players.get(playerId).get(key).getChange() != null) {
-					if (key.getType() == String.class) {
-						stats[i] = new EditStats(getType(), Action.SET, key,
-								this.players.get(playerId).get(key).getValue());
-					} else {
-						stats[i] = new EditStats(getType(), Action.ADD, key,
-								this.players.get(playerId).get(key).getChange());
-					}
-				}
-			}
+			Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
+			EditStats[] stats = createEditStatsArray(statsMap);
 
 			loadedplayer.setStats(stats);
 			this.players.remove(playerId);

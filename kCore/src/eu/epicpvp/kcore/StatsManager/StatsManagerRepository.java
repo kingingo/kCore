@@ -3,11 +3,9 @@ package eu.epicpvp.kcore.StatsManager;
 import java.util.EnumMap;
 import java.util.Map;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import dev.wolveringer.dataserver.gamestats.GameType;
-import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Util.UtilServer;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public final class StatsManagerRepository {
 	
@@ -17,7 +15,7 @@ public final class StatsManagerRepository {
 	
 	private static final Map<GameType, StatsManager> statsManagers = new EnumMap<>(GameType.class);
 	
-	public static boolean addStatsManager(StatsManager statsManager){
+	static boolean addStatsManager(StatsManager statsManager){
 		if(!statsManagers.containsKey(statsManager.getType())){
 			statsManagers.put(statsManager.getType(),statsManager);
 			return true;
@@ -25,13 +23,12 @@ public final class StatsManagerRepository {
 		return false;
 	}
 	
-	public static StatsManager getStatsManager(GameType gameType) {
+	public static StatsManager getStatsManager(JavaPlugin plugin, GameType gameType) {
 		StatsManager manager = statsManagers.get(gameType);
 		if (manager != null) {
 			return manager;
 		} else {
-			StatsManager statsManager = new StatsManager(UtilServer.getPermissionManager().getInstance(), UtilServer.getClient(), gameType);
-			return statsManager;
+			return new StatsManager(plugin, UtilServer.getClient(), gameType);
 		}
 	}
 }

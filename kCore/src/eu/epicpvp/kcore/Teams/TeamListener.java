@@ -3,10 +3,10 @@ package eu.epicpvp.kcore.Teams;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
+import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Teams.Events.TeamPlayerJoinEvent;
 import eu.epicpvp.kcore.Teams.Events.TeamPlayerQuitEvent;
-import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,15 +15,17 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class TeamListener extends kListener {
 	private TeamManager teamManager;
+	private StatsManager statsManager;
 
 	public TeamListener(TeamManager teamManager) {
 		super(teamManager.getInstance(), "TeamListener");
 		this.teamManager = teamManager;
+		statsManager = StatsManagerRepository.getStatsManager(teamManager.getInstance(), teamManager.getServerType());
 	}
 
 	@EventHandler
 	public void quit(PlayerQuitEvent ev) {
-		int teamId = UtilNumber.toInt(StatsManagerRepository.getStatsManager(teamManager.getServerType()).get(ev.getPlayer(), StatsKey.TEAM_ID));
+		int teamId = statsManager.getInt(ev.getPlayer(), StatsKey.TEAM_ID);
 
 		if (teamId > 0) {
 			Team team = teamManager.getTeam(teamId);
@@ -39,7 +41,7 @@ public class TeamListener extends kListener {
 	public void join(PlayerStatsLoadedEvent ev) {
 		if (ev.getManager().getType() == teamManager.getServerType()) {
 			if (ev.getManager().containsKey(ev.getPlayerId(), StatsKey.TEAM_ID)) {
-				int teamId = UtilNumber.toInt(ev.getManager().get(ev.getPlayerId(), StatsKey.TEAM_ID));
+				int teamId = ev.getManager().getInt(ev.getPlayerId(), StatsKey.TEAM_ID);
 
 				if (teamId > 0) {
 					Team team = teamManager.getTeam(teamId);
