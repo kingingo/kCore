@@ -23,12 +23,12 @@ public final class StatsManagerRepository {
 		return false;
 	}
 	
-	public static StatsManager getStatsManager(JavaPlugin plugin, GameType gameType) {
+	public static StatsManager getStatsManager(GameType gameType) {
 		StatsManager manager = statsManagers.get(gameType);
 		if (manager != null) {
 			return manager;
 		} else {
-			return new StatsManager(plugin, UtilServer.getClient(), gameType);
+			return new StatsManager(UtilServer.getPermissionManager().getInstance(), UtilServer.getClient(), gameType);
 		}
 	}
 }

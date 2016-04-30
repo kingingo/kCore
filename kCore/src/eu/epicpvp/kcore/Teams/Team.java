@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.AccessLevel;
@@ -38,16 +40,15 @@ public class Team {
 	}
 
 	public void add(StatsKey key, Object value) {
-//		StatsManagerRepository.getStatsManager(teamManager.getTeamType()).add(teamId, key, value);
+		StatsManagerRepository.getStatsManager(teamManager.getTeamType()).add(teamId, key, value);
 	}
 
 	public void set(StatsKey key, Object value) {
-//		StatsManagerRepository.getStatsManager(teamManager.getTeamType()).set(teamId, key, value);
+		StatsManagerRepository.getStatsManager(teamManager.getTeamType()).set(teamId, key, value);
 	}
 
 	public Object get(StatsKey key) {
-//		StatsManagerRepository.getStatsManager(teamManager.getTeamType()).set(teamId, key, value);
-		return null;
+		return StatsManagerRepository.getStatsManager(teamManager.getTeamType()).get(teamId, key);
 	}
 
 	public void broadcast(String translationKey, Object... values) {
@@ -63,9 +64,13 @@ public class Team {
 
 	public void add(int playerId) {
 		players.add(playerId);
+		StatsManagerRepository.getStatsManager(teamManager.getServerType()).set(playerId, StatsKey.TEAM_ID, teamId);
+		StatsManagerRepository.getStatsManager(teamManager.getServerType()).save(playerId);
 	}
 
 	public void remove(int playerId) {
 		players.remove(playerId);
+		StatsManagerRepository.getStatsManager(teamManager.getServerType()).set(playerId, StatsKey.TEAM_ID, "-1");
+		StatsManagerRepository.getStatsManager(teamManager.getServerType()).save(playerId);
 	}
 }

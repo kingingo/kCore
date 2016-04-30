@@ -92,7 +92,7 @@ public class MoneyListener extends kListener{
 			
 			if(stats.isLoaded(playerId)){
 				stats.add(playerId, key, value);
-				logMessage("Add "+playerId+" "+value+""+key.getMySQLName()+" to his/her Account!");
+				logMessage("Add "+playerId+" "+value+" "+key.getMySQLName()+" to his/her Account!");
 			}else{
 				stats.loadPlayer(playerId, new Callback<Integer>(){
 
@@ -100,7 +100,7 @@ public class MoneyListener extends kListener{
 					public void call(Integer playerId) {
 						stats.add(playerId, key, value);
 						stats.save(playerId);
-						logMessage("Add "+playerId+" "+value+""+key.getMySQLName()+" to his/her Account!");
+						logMessage("Add "+playerId+" "+value+" "+key.getMySQLName()+" to his/her Account!");
 					}
 					
 				});

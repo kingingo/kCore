@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.Teams;
+package eu.epicpvp.kcore.Teams.Exceptions;
 
 public class TeamNameAlreadyExistsException extends Exception {
 }

@@ -20,7 +20,7 @@ public class TeamListener extends kListener {
 	public TeamListener(TeamManager teamManager) {
 		super(teamManager.getInstance(), "TeamListener");
 		this.teamManager = teamManager;
-		statsManager = StatsManagerRepository.getStatsManager(teamManager.getInstance(), teamManager.getServerType());
+		statsManager = StatsManagerRepository.getStatsManager(teamManager.getServerType());
 	}
 
 	@EventHandler

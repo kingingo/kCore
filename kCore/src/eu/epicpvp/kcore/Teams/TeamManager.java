@@ -11,6 +11,7 @@ import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Teams.Events.TeamLoadedEvent;
+import eu.epicpvp.kcore.Teams.Exceptions.TeamNameAlreadyExistsException;
 import eu.epicpvp.kcore.kCore;
 import lombok.Getter;
 import org.apache.commons.lang.Validate;
@@ -37,7 +38,7 @@ public class TeamManager {
 		this.teamType = serverType.getTeamType();
 
 		if (teamType != null) {
-			this.teamStatsManager = StatsManagerRepository.getStatsManager(instance, teamType);
+			this.teamStatsManager = StatsManagerRepository.getStatsManager(teamType);
 
 			mysql.Update("CREATE TABLE IF NOT EXISTS `teams` (\n" +
 					"  `teamId` int(11) NOT NULL,\n" +
@@ -108,7 +109,7 @@ public class TeamManager {
 		}
 		return null;
 	}
-
+	
 	private Team loadTeam(int teamId) {
 		try (ResultSet rs = mysql.Query("SELECT * FROM teams WHERE teamId='" + teamId + "'")) {
 			if (rs.next()) {
