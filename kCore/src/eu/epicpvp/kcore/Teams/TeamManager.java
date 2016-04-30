@@ -25,8 +25,6 @@ public class TeamManager {
 	private final StatsManager teamStatsManager;
 	@Getter
 	private final GameType serverType;
-	@Getter
-	private final GameType teamType;
 	private final MySQL mysql;
 	private final Map<Integer, Team> teams = new HashMap<>();
 	private final Map<String, Team> teamsByName = new HashMap<>();
@@ -35,29 +33,23 @@ public class TeamManager {
 		this.instance = instance;
 		this.mysql = mysql;
 		this.serverType = serverType;
-		this.teamType = serverType.getTeamType();
 
-		if (teamType != null) {
-			this.teamStatsManager = StatsManagerRepository.getStatsManager(teamType);
+		this.teamStatsManager = StatsManagerRepository.getStatsManager(serverType);
+		mysql.Update("CREATE TABLE IF NOT EXISTS `teams` (\n" +
+				"  `teamId` int(11) NOT NULL,\n" +
+				"  `gameType` varchar(32) COLLATE utf8_unicode_ci NOT NULL,\n" +
+				"  `name` varchar(16) COLLATE utf8_unicode_ci NOT NULL,\n" +
+				"  `prefix` varchar(16) COLLATE utf8_unicode_ci NOT NULL,\n" +
+				"  `owner` int(11) NOT NULL,\n" +
+				"  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
+				") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+		mysql.Update("ALTER TABLE `teams`\n" +
+				"  ADD PRIMARY KEY (`teamId`),\n" +
+				"  ADD UNIQUE KEY `name` (`name`);");
+		mysql.Update("CREATE TABLE IF NOT EXISTS teams_permissions (playerId int, gameType varchar(32), permission varchar(32)) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci");
 
-			mysql.Update("CREATE TABLE IF NOT EXISTS `teams` (\n" +
-					"  `teamId` int(11) NOT NULL,\n" +
-					"  `gameType` varchar(32) COLLATE utf8_unicode_ci NOT NULL,\n" +
-					"  `name` varchar(16) COLLATE utf8_unicode_ci NOT NULL,\n" +
-					"  `prefix` varchar(16) COLLATE utf8_unicode_ci NOT NULL,\n" +
-					"  `owner` int(11) NOT NULL,\n" +
-					"  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
-					") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
-			mysql.Update("ALTER TABLE `teams`\n" +
-					"  ADD PRIMARY KEY (`teamId`),\n" +
-					"  ADD UNIQUE KEY `name` (`name`);");
-			mysql.Update("CREATE TABLE IF NOT EXISTS teams_permissions (playerId int, gameType varchar(32), permission varchar(32)) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci");
-
-			new TeamListener(this);
-		} else {
-			teamStatsManager = null;
-			new NullPointerException("teamType konnte nicht gefunden werden (" + serverType.getShortName() + ")").printStackTrace();
-		}
+		new TeamListener(this);
+		
 	}
 
 	public Team getPlayerTeam(Player player) {

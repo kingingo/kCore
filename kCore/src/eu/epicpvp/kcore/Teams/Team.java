@@ -40,15 +40,15 @@ public class Team {
 	}
 
 	public void add(StatsKey key, Object value) {
-		StatsManagerRepository.getStatsManager(teamManager.getTeamType()).add(teamId, key, value);
+		StatsManagerRepository.getStatsManager(teamManager.getServerType()).add(teamId, key, value);
 	}
 
 	public void set(StatsKey key, Object value) {
-		StatsManagerRepository.getStatsManager(teamManager.getTeamType()).set(teamId, key, value);
+		StatsManagerRepository.getStatsManager(teamManager.getServerType()).set(teamId, key, value);
 	}
 
 	public Object get(StatsKey key) {
-		return StatsManagerRepository.getStatsManager(teamManager.getTeamType()).get(teamId, key);
+		return StatsManagerRepository.getStatsManager(teamManager.getServerType()).get(teamId, key);
 	}
 
 	public void broadcast(String translationKey, Object... values) {
