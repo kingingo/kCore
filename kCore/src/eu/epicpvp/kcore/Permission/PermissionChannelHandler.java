@@ -136,11 +136,11 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void load(PlayerJoinEvent ev){
-		Bukkit.getScheduler().runTaskAsynchronously(manager.getInstance(), new BukkitRunnable() {
+		Bukkit.getScheduler().runTaskAsynchronously(manager.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				manager.loadPlayer(ev.getPlayer(), UtilPlayer.getPlayerId(ev.getPlayer()));
-				Bukkit.getScheduler().runTask(manager.getInstance(), new BukkitRunnable() {
+				Bukkit.getScheduler().runTask(manager.getInstance(), new Runnable() {
 					@Override
 					public void run() {
 						System.out.println("setting player tablist");

@@ -165,7 +165,7 @@ public class PermissionManager {
 	public String getTabGroup(Player player) {
 		String name = player.getName();
 		PermissionPlayer pplayer = getPermissionPlayer(player);
-		if (pplayer.getGroups().size() != 0)
+		if (!pplayer.getGroups().isEmpty())
 			name = String.format("%03d", 999 - pplayer.getGroups().get(0).getImportance()) + name;
 		else
 			name = "000" + name;
@@ -176,7 +176,7 @@ public class PermissionManager {
 
 	public String getPrefix(Player player) {
 		PermissionPlayer pplayer = getPermissionPlayer(player);
-		if (pplayer.getGroups().size() == 0)
+		if (pplayer.getGroups().isEmpty())
 			return "§6§m";
 		String prefix = pplayer.getGroups().get(0).getPrefix();
 		if (prefix.length() > 16)
@@ -197,9 +197,10 @@ public class PermissionManager {
 	}
 
 	public boolean hasPermission(int playerId, String permission) {
-		if (!user.containsKey(playerId))
+		PermissionPlayer permissionPlayer = user.get(playerId);
+		if (permissionPlayer == null)
 			return false;
-		return user.get(playerId).hasPermission(permission) || user.get(playerId).hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString());
+		return permissionPlayer.hasPermission(permission) || permissionPlayer.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString());
 	}
 
 	public void addPermission(Player player, PermissionType type) {
@@ -246,7 +247,7 @@ public class PermissionManager {
 			@Override
 			public void run() {
 				groups.remove(getGroup(group));
-				if (Bukkit.getOnlinePlayers().size() > 0)
+				if (!Bukkit.getOnlinePlayers().isEmpty())
 					loadGroup(group);
 				for (PermissionPlayer p : new ArrayList<PermissionPlayer>(user.values()))
 					updatePlayer(p.getPlayerId());

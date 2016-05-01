@@ -271,16 +271,13 @@ public class UtilPlayer
 	}
 	
 	public static int getPlayerId(String playerName){
-		long s = System.currentTimeMillis();
-		LoadedPlayer player = UtilServer.getClient().getPlayer(playerName);
-		if(!player.isLoaded()){
-			player.loadPlayer();
-		}
+		//long s = System.currentTimeMillis();
+		LoadedPlayer player = UtilServer.getClient().getPlayerAndLoad(playerName);
 		return player.getPlayerId();
 	}
 	
 	public static UUID getOfflineUUID(String player){
-		return UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player.toLowerCase()).toString().getBytes(Charsets.UTF_8));
+		return UUID.nameUUIDFromBytes(("OfflinePlayer:" + player.toLowerCase()).getBytes(Charsets.UTF_8));
 	}
 
 	public static void setPlayerFakeEquipment(Player player,Player to,ItemStack item,short slot){
@@ -347,12 +344,7 @@ public class UtilPlayer
   }
   
   public static void RespawnNow(final Player p,JavaPlugin plugin){
-      Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-    	   public void run() {
-    		   p.spigot().respawn();
-    	   }
-    	   
-    	  }, 10L);
+      Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> p.spigot().respawn(), 10L);
 }
 
   public static void sendMessage(org.bukkit.entity.Entity client, String message)
@@ -378,103 +370,92 @@ public class UtilPlayer
   
   public static Player searchExact(UUID uuid)
   {
-    for (Player cur : UtilServer.getPlayers()) {
+	return Bukkit.getPlayer(uuid);
+	/*
+	for (Player cur : UtilServer.getPlayers()) {
       if (cur.getUniqueId().equals(uuid))
-        return cur;
+      	return cur;
     }
     return null;
+    */
   }
   
+  @SuppressWarnings("deprecation")
   public static Player searchExact(String name)
   {
+	return Bukkit.getPlayerExact(name);
+    /*
     for (Player cur : UtilServer.getPlayers()) {
       if (cur.getName().equalsIgnoreCase(name))
         return cur;
     }
     return null;
+    */
   }
   
   public static TreeMap<Double, Player> getNearby(Location loc, double maxDist){
 	  return getNearby(loc, maxDist, null);
   }
 
-  public static TreeMap<Double, Player> getNearby(Location loc, double maxDist,PermissionType ignore){
-	  TreeMap nearbyMap = new TreeMap();
+	public static TreeMap<Double, Player> getNearby(Location loc, double maxDist, PermissionType ignore) {
+		TreeMap<Double, Player> nearbyMap = new TreeMap<>();
 
-    for (Player cur : loc.getWorld().getPlayers()) {
-      if(ignore!=null&&!cur.hasPermission(ignore.getPermissionToString())){
-          if (cur.getGameMode() != GameMode.CREATIVE && cur.getGameMode() != GameMode.SPECTATOR) {
-              if (!cur.isDead()) {
-                double dist = loc.toVector().subtract(cur.getLocation().toVector()).length();
+		Vector vector = loc.toVector();
+		double maxDistSquared = maxDist * maxDist;
+		for (Player cur : loc.getWorld().getPlayers()) {
+			if (ignore != null && cur.hasPermission(ignore.getPermissionToString())) {
+				continue;
+			}
+			if (!cur.isDead() && cur.getGameMode() != GameMode.CREATIVE && cur.getGameMode() != GameMode.SPECTATOR) {
+				double distSquared = vector.distanceSquared(cur.getLocation().toVector());
 
-                if (dist <= maxDist) {
-                  for (int i = 0; i < nearbyMap.size(); i++) {
-                    if (dist < loc.toVector().subtract(((Player)nearbyMap.get(i)).getLocation().toVector()).length()) {
-                      nearbyMap.put(dist, cur);
-                      break;
-                    }
-                  }
+				if (distSquared <= maxDistSquared) {
+					nearbyMap.put(Math.sqrt(distSquared), cur);
+				}
+			}
+		}
+		return nearbyMap;
+	}
 
-                }
-              }
-            }
-      }
-    }
-    return nearbyMap;
-  }
+	public static Player getClosest(Location loc, Collection<Player> ignore) {
+		Player best = null;
+		double bestDistSquared = Double.MAX_VALUE;
+		Vector vector = loc.toVector();
 
-  public static Player getClosest(Location loc, Collection<Player> ignore)
-  {
-    Player best = null;
-    double bestDist = 0.0D;
+		for (Player cur : loc.getWorld().getPlayers()) {
+			if (!cur.isDead() && cur.getGameMode() != GameMode.CREATIVE || cur.getGameMode() != GameMode.SPECTATOR) {
+				if ((ignore == null) || (!ignore.contains(cur))) {
+					double distSquared = vector.distanceSquared(cur.getLocation().toVector());
 
-    for (Player cur : loc.getWorld().getPlayers())
-    {
-      if (cur.getGameMode() != GameMode.CREATIVE || cur.getGameMode() != GameMode.SPECTATOR)
-      {
-        if (!cur.isDead())
-        {
-          if ((ignore == null) || (!ignore.contains(cur)))
-          {
-            double dist = UtilMath.offset(cur.getLocation(), loc);
-
-            if ((best == null) || (dist < bestDist))
-            {
-              best = cur;
-              bestDist = dist;
-            }
-          }
-        }
-      }
-    }
-    return best;
-  }
+					if (distSquared < bestDistSquared) {
+						best = cur;
+						bestDistSquared = distSquared;
+					}
+				}
+			}
+		}
+		return best;
+	}
   
   public static Player getClosest(Location loc, org.bukkit.entity.Entity ignore)
   {
-    Player best = null;
-    double bestDist = 0.0D;
+	  Player best = null;
+	  double bestDistSquared = Double.MAX_VALUE;
+	  Vector vector = loc.toVector();
 
-    for (Player cur : loc.getWorld().getPlayers())
-    {
-      if (cur.getGameMode() != GameMode.CREATIVE || cur.getGameMode() != GameMode.SPECTATOR)
-      {
-        if (!cur.isDead())
-        {
-          if ((ignore == null) || (!ignore.equals(cur)))
-          {
-            double dist = UtilMath.offset(cur.getLocation(), loc);
+	  for (Player cur : loc.getWorld().getPlayers()) {
+		  if (!cur.isDead() && cur.getGameMode() != GameMode.CREATIVE || cur.getGameMode() != GameMode.SPECTATOR) {
+			  if (!cur.equals(ignore)) {
+				  double distSquared = vector.distanceSquared(cur.getLocation().toVector());
 
-            if ((best == null) || (dist < bestDist))
-            {
-              best = cur;
-              bestDist = dist;
-            }
-          }
-        }
-      }
-    }
-    return best;
+				  if (distSquared < bestDistSquared) {
+					  best = cur;
+					  bestDistSquared = distSquared;
+				  }
+			  }
+		  }
+	  }
+	  return best;
   }
 
   public static void kick(Player player, String module, String message)
@@ -496,70 +477,54 @@ public class UtilPlayer
       System.out.println("Kicked Client [" + player.getName() + "] for [" + module + " - " + message + "]");
   }
 
-  public static HashMap<Player, Double> getInRadius(Location loc, double dR)
-  {
-    HashMap players = new HashMap();
-    double offset;
-    
-    for (Player cur : loc.getWorld().getPlayers()){
-      if (cur.getGameMode() != GameMode.CREATIVE || cur.getGameMode() != GameMode.SPECTATOR){
-        offset = UtilMath.offset(loc, cur.getLocation());
+	public static HashMap<Player, Double> getInRadius(Location loc, double maxRadius) {
+		HashMap<Player, Double> players = new HashMap<>();
 
-        if (offset < dR)
-          players.put(cur, Double.valueOf(1.0D - offset / dR));
-      }
-    }
-    return players;
-  }
+		Vector vector = loc.toVector();
+		for (Player cur : loc.getWorld().getPlayers()) {
+			if (cur.getGameMode() != GameMode.CREATIVE || cur.getGameMode() != GameMode.SPECTATOR) {
+				double distanceSquared = vector.distanceSquared(cur.getLocation().toVector());
+
+				if (distanceSquared < maxRadius) {
+					players.put(cur, 1.0D - Math.sqrt(distanceSquared) / maxRadius);
+				}
+			}
+		}
+		return players;
+	}
   
   public static void damage(LivingEntity player, double prozent){
-	  health(player, -((prozent/100)*((CraftLivingEntity)player).getHealth()));
+	  health(player, -((prozent/100)* player.getHealth()));
   }
   
   public static void damage(Player player, double prozent){
-	  health(player, -((prozent/100)*getCraftPlayer(player).getHealth()));
+	  health(player, -((prozent/100)*player.getHealth()));
   }
   
-  public static void health(LivingEntity player, double mod)
+  public static void health(LivingEntity livingEntity, double mod)
   {
-    if (player.isDead()) {
+    if (livingEntity.isDead()) {
       return;
     }
     
     if(mod<0){
-    	player.damage(0);
+    	livingEntity.damage(0);
     }
     
-    double health = getCraftPlayer(player).getHealth() + mod;
+    double health = livingEntity.getHealth() + mod;
 
     if (health < 0.0D) {
       health = 0.0D;
     }
-    if (health > getCraftPlayer(player).getMaxHealth()) {
-      health = getCraftPlayer(player).getMaxHealth();
+    if (health > livingEntity.getMaxHealth()) {
+      health = livingEntity.getMaxHealth();
     }
-    player.setHealth(health);
+    livingEntity.setHealth(health);
   }
   
   public static void health(Player player, double mod)
   {
-    if (player.isDead()) {
-      return;
-    }
-    
-    if(mod<0){
-    	player.damage(0);
-    }
-    
-    double health = getCraftPlayer(player).getHealth() + mod;
-
-    if (health < 0.0D) {
-      health = 0.0D;
-    }
-    if (health > getCraftPlayer(player).getMaxHealth()) {
-      health = getCraftPlayer(player).getMaxHealth();
-    }
-    player.setHealth(health);
+    health((LivingEntity) player, mod);
   }
   
   public static void addPotionEffect(Player p,PotionEffectType typ, int time,int staerke){

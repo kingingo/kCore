@@ -18,7 +18,7 @@ public class UtilMath
       format = format + "#";
     }
     DecimalFormat twoDForm = new DecimalFormat(format);
-    return Double.valueOf(twoDForm.format(d)).doubleValue();
+    return Double.parseDouble(twoDForm.format(d));
   }
   
   public static Vector getRandomCircleVector() {
@@ -31,7 +31,7 @@ public class UtilMath
 	}
   
   public static Integer RandomInt(int high, int low) {
-	return (int) (Math.random() * (high - low) + low);
+    return random.nextInt(high-low+1) + low;
   }
 
   public static int r(int i){
@@ -74,7 +74,7 @@ public class UtilMath
   {
     a.setY(0);
     b.setY(0);
-    return a.subtract(b).length();
+    return a.distance(b);
   }
 
   public static double offset(Entity a, Entity b)
@@ -89,6 +89,6 @@ public class UtilMath
 
   public static double offset(Vector a, Vector b)
   {
-    return a.subtract(b).length();
+    return a.distance(b);
   }
 }

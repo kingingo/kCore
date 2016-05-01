@@ -1,4 +1,5 @@
 package eu.epicpvp.kcore.Util;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -7,10 +8,13 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.Nonnull;
 
+import com.google.common.base.Joiner;
 import org.apache.commons.lang.RandomStringUtils;
 
 public class UtilString
@@ -19,12 +23,22 @@ public class UtilString
   static Pattern ipPattern = Pattern.compile("((?<![0-9])(?:(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[ ]?[.,_ ][ ]?(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[ ]?[.,_ ][ ]?(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[ ]?[.,_ ][ ]?(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2}))(?![0-9]))");
   static Pattern webPattern = Pattern.compile("(http://)|(https://)?(www)?\\S{2,}((\\.com)|(\\.ru)|(\\.net)|(\\.org)|(\\.minecraft\\.to)|(\\.co\\.uk)|(\\.me)|(\\.tk)|(\\.info)|(\\.es)|(\\.de)|(\\.arpa)|(\\.edu)|(\\.firm)|(\\.int)|(\\.mil)|(\\.mobi)|(\\.nato)|(\\.to)|(\\.fr)|(\\.ms)|(\\.vu)|(\\.eu)|(\\.nl)|(\\.us)|(\\.dk))");
   static Pattern mcPattern = Pattern.compile("(eu)|(me)|(de)|(to)|(ru)|(net)|(tv)|(info)|(com)");
-  
+
+  static  {
+    //if(additions==null)additions=new String[]{"scheiss","scheiiss","scheiis","scheis","spa$t","sp4$t","sp4st","spast","ez","e2","3z","eezz","eeezzz","eeeezzzz","eeeeezzzzz","eez","eeez","eeeez","ezz","ezzz","ezzzz","ezzzzz","ezzzzzz","n4p","noob","nob","nooob","n00b","n0b","nuub","nub","get","g3t","rekt","r3kt","wrecked","wr3cked","wr3ckd","wreckd","reckt","r3ckt","wr3ekt","wr3kt","schlecht","schlechter","schei§e","e§","3§","pussy","pusy","pu$$y","pu$y","opfer","cheap","learntoplay","l3arntoplay","learntopl4y","l3arntopl4y","learntoply","lerntoplay","l3rntoplay","lerntopl4y","faggot","faggit","fagot","fagit","fagitt","faggitt","f4ggot","f4git","f4gg0t","fgt","0pfer","verfickt","fickt","schisser","schi§er","schiesser","schie§er","kack","juden","amk","remoV","Wavefrt","erection","wvvvvv","aasgeier","abspritzer","sdfds","ackerfresse","affenarsch","affenhirn","affenkotze","afterlecker","aktivex.info","almosenarsch","am-sperma-riecher","anal*","g4y","lernspielen","lernespielen","analadmiral","analbesamer","analbohrer","analdrill","analentjungferer","analerotiker","analfetischist","analf§rster","anal-frosch","analnegerdildo","analratte","analritter","aok-chopper","armleuchter","arsch","arschaufrei§er","arschbackensch§nder","arschbesamer","§rsche","arschentjungferer","arschficker","arschgeburt","arschgeficktegummifotze","arschgeige","arschgesicht","arschhaarfetischist","arschhaarrasierer","arschh§hlenforscher","arschkrampe","arschkratzer","arschlecker","arschloch","arschl§cher","arschmade","arschratte","arschzapfen","arsebandit","arsehole","arsejockey","arselicker","arsenuts","arsewipe","assel","assfuck","assfucking","assgrabber","asshol","asshole","asshole","assi","assrammer","assreamer","asswipe","astlochficker","auspufflutscher","badmotherfucker","badass","badenutte","bananenstecker","bastard","bastard","b4stard","bast4rd","bauernschlampe","beatingthemeat","beefcurtains","beefflaps","behindis","bekloppter","muttergeficktes","beklopter","bettn§sser","******er","******er","bettpisser","bettspaltenficker","biatch","bimbo","bitch","bitches","bitchnutte","bitsch","bizzach","blechfotze","bl§dmann","blogspoint","blowjob","bohnenfresser","boob","boobes","boobie","boobies","boobs","booby","boylove","breasts","brechfurz","b§ckfleisch","b§ckst§ck","b§ckvieh","buggery","bullensohn","bullshit","bummsen","bumsen","bumsklumpen","buschnutte","busty","buttpirate","buttfuc","buttfuck","buttfucker","buttfucking","carpetmuncher","carpetmunchers","carpetlicker","carpetlickers","chausohn","clitsuck","clitsucker","clitsucking","cock","cocksucker","cockpouch","cracka","crap","craper","crapers","crapping","craps","cunt","cunt","cunts","dachlattengesicht","dackelficker","dickhead","dicklicker","diplomarschloch","doofi","douglette","drecksack","drecksau","dreckschlitz","drecksch§ppengesicht","drecksfotze","drecksm§sendagmar","drecksnigger","drecksnutte","dreckspack","dreckstaerke","dreckvotze","dumbo","dummschw§tzer","dumpfbacke","d§nnpfifftrinker","eichellecker","eierkopf","eierlutscher","eisw§rfelpisser","ejaculate","entenfisterer","epilepi","epilepis","epileppis","fagette","fagitt","f§kalerotiker","faltenficker","fatass","ferkelficker","ferkel-ficker","fettarsch","fettsack","fettsau","feuchtwichser","fick","fick*","fickarsch","fickdreck","ficken","ficker","fickfehler","fickfetzen","fickfresse","fickfrosch","fickfucker","fickgelegenheit","fickgesicht","fickmatratze","ficknudel","ficksau","fickschlitz","fickschnitte","fickschnitzel","fingerfuck","fingerfucking","fisch-stinkenderhodenfresser","fistfuck","fistfucking","flachtitte","flussfotze","fotze","fotzenforscher","fotzenfresse","fotzenknecht","fotzenkruste","fotzenkuchen","fotzenlecker","fotzenl§ckchen","fotzenpisser","fotzenschmuser","fotzhobel","fris§senficker","fris§senfotze","fritzfink","froschfotze","froschfotzenficker","froschfotzenleder","****","fucked","fucker","fucker","fucking","fuckup","fudgepacker","futtgesicht","gaylord","geilriemen","gesichtsfotze","g§ring","gro§maul","gummifotzenficker","gummipuppenbumser","gummisklave","hackfresse","hafensau","hartgeldhure","heilhitler","hihoper","hinterlader","hirni","hitler","hodenbei§er","hodensohn","homo","hosenpisser","hosenschei§er","h§hnerficker","huhrensohn","hundeficker","hundesohn","hurenlecker","hurenpeter","hurensohn","hurentocher","idiot","idioten","itakker","ittaker","jackoff","jackass","jackshit","jerkoff","jizz","judensau","kackarsch","kacke","kacken","kackfass","kackfresse","kacknoob","kaktusficker","kanacke","kanake","kanaken","kanaldeckelbefruchter","kartoffelficker","kinderficken","kinderficker","kinderporno","kitzlerfresser","klapposkop","klolecker","kl§tenlutscher","knoblauchfresser","konzentrationslager","kotgeburt","kotnascher","k§mmelt§rke","k§mmelt§rken","lackaffe","lebensunwert","lesbian","lurchi","lustbolzen","lutscher","magerschwanz","manwhore","masturbate","meatpuppet","missgeburt","mi§geburt","mistsau","mistst§ck","mitternachtsficker","mohrenkopf","mokkast§bchenveredler","mongo","m§se","m§senficker","m§senlecker","m§senputzer","m§ter","motherfucker","motherfucking","motherfucker","muschilecker","muschischlitz","mutterficker","nazi","nazis","neger","nigga","nigger","niggerlover","niggers","niggerschlampe","nignog","nippelsauger","nutte","nuttensohn","nuttenstecher","nuttentochter","ochsenpimmel","§lauge","oralsex","penislicker","penislicking","penissucker","penissucking","penis","peniskopf","penislecker","penislutscher","penissalat","penner","pferdearsch","phentermine","pimmel","pimmelkopf","pimmellutscher","pimmelpirat","pimmelprinz","pimmelschimmel","pimmelvinni","pindick","pissoff","piss","pissbirne","pissbotte","pisse","pisser","pissetrinker","pissfisch","pissflitsche","pissnelke","polacke","polacken","poop","popellfresser","popostecker","popunterlage","porn","porno","pornografie","pornoprengel","pottsau","pr§rieficker","prick","quiff","randsteinwichser","rasiertevotzen","rimjob","rindsriemen","ritzenfummler","rollbrooden","rosetenputzer","rosetenschlemmer","rosettenhengst","rosettenk§nig","rosettenlecker","rosettentester","sackfalter","sackgesicht","sacklutscher","sackratte","saftarsch","sakfalter","schamhaarlecker","schamhaarsch§del","schandmaul","scheisse","scheisser","scheissgesicht","scheisshaufen","schei§haufen","schlammfotze","schlampe","schleimm§se","schlitzpisser","schmalspurficker","schmeue","schmuckbert","schnuddelfresser","schnurbeltatz","schrumpelfotze","schwanzlurch","schwanzlutscher","schweinepriester","schweineschwanzlutscher","schwuchtel","schwutte","sex","shiter","shiting","shitlist","shitomatic","shits","shitty","shlong","shutthefuckup","siegheil","sitzpisser","skullfuck","skullfucker","skullfucking","slut","smegmafresser","spack","spacko","spaghettifresser","spastard","spasti","spastis","spermafresse","spermarutsche","spritzer","stinkschlitz","stricher","suckmycock","suckmydick","threesome","tittenficker","tittenspritzer","titties","titty","tunte","untermensch","vagina","vergasen","viagra","volldepp","volldeppen","vollhorst","vollidiot","vollpfosten","vollspack","vollspacken","vollspasti","vorhaut","votze","votzenkopf","wanker","wankers","weichei","whoar","whore","wichsbart","wichsbirne","wichser","wichsfrosch","wichsgriffel","wichsvorlage","wickspickel","wixa","wixen","wixer","wixxer","wixxxer","wixxxxer","wurstsemmelfresser","yankee","zappler","zyclonb","zyklonb","xxx","hitler","bastart"};
+    badWords.add("Gay"); badWords.add("schwul"); badWords.add("pussy");
+    badWords.add("Arschloch"); badWords.add("Wixxer"); badWords.add("fick");
+    badWords.add("Arschgesicht"); badWords.add("scheisse"); badWords.add("schei§e");
+    badWords.add("wixer"); badWords.add("Homo"); badWords.add("Spasst"); badWords.add("Spassti");
+    badWords.add("Mongo"); badWords.add("fuck"); badWords.add("Hurensohn"); badWords.add("hundesohn");
+    badWords.add("nutte"); badWords.add("behindert"); badWords.add("h§sslig"); badWords.add("schlampe");
+    badWords.add("h§sslich"); badWords.add("Hure"); badWords.add("hure");
+    badWords.add(".eu");badWords.add(".de");badWords.add("me");badWords.add(".to");badWords.add(".minecraft.to");
+    badWords.add(".tv");badWords.add(".com");badWords.add(".tk");badWords.add(".net");
+  }
+
   public static boolean isNormalCharakter(String msg){
-	  if(msg.matches("[a-zA-Z0-9_]*")){
-		  return true;
-	  }
-	  return false;
+    return msg.matches("[a-zA-Z0-9_]*");
   }
   
   public static String center(String length, String s){
@@ -83,23 +97,15 @@ public class UtilString
   
   public static List<String> stringArrayToList(String[] arg1) {
     List<String> toreturn = new ArrayList<>();
-    String[] arrayOfString = arg1; int j = arg1.length; for (int i = 0; i < j; i++) { String s = arrayOfString[i];
-      toreturn.add(s);
-    }
+    Collections.addAll(toreturn, arg1);
     return toreturn;
   }
 
   public static String listToString(List<String> list, String seperator) {
-    String toreturn = "";
-    for (String s : list) {
-      if (toreturn.equalsIgnoreCase("")) toreturn = s; else
-        toreturn = toreturn + seperator + s;
-    }
-    return toreturn;
+    return Joiner.on(seperator).join(list);
   }
 
   public static boolean isBadWord(String s) {
-    if (badWords == null) setupBadWords(new String[0]);
     for (String words : badWords) {
       if (containsIgnoreCase(words, s)) {
         return true;
@@ -108,27 +114,19 @@ public class UtilString
     return false;
   }
 
-  public static void setupBadWords(String[] additions) {
-	//if(additions==null)additions=new String[]{"scheiss","scheiiss","scheiis","scheis","spa$t","sp4$t","sp4st","spast","ez","e2","3z","eezz","eeezzz","eeeezzzz","eeeeezzzzz","eez","eeez","eeeez","ezz","ezzz","ezzzz","ezzzzz","ezzzzzz","n4p","noob","nob","nooob","n00b","n0b","nuub","nub","get","g3t","rekt","r3kt","wrecked","wr3cked","wr3ckd","wreckd","reckt","r3ckt","wr3ekt","wr3kt","schlecht","schlechter","schei§e","e§","3§","pussy","pusy","pu$$y","pu$y","opfer","cheap","learntoplay","l3arntoplay","learntopl4y","l3arntopl4y","learntoply","lerntoplay","l3rntoplay","lerntopl4y","faggot","faggit","fagot","fagit","fagitt","faggitt","f4ggot","f4git","f4gg0t","fgt","0pfer","verfickt","fickt","schisser","schi§er","schiesser","schie§er","kack","juden","amk","remoV","Wavefrt","erection","wvvvvv","aasgeier","abspritzer","sdfds","ackerfresse","affenarsch","affenhirn","affenkotze","afterlecker","aktivex.info","almosenarsch","am-sperma-riecher","anal*","g4y","lernspielen","lernespielen","analadmiral","analbesamer","analbohrer","analdrill","analentjungferer","analerotiker","analfetischist","analf§rster","anal-frosch","analnegerdildo","analratte","analritter","aok-chopper","armleuchter","arsch","arschaufrei§er","arschbackensch§nder","arschbesamer","§rsche","arschentjungferer","arschficker","arschgeburt","arschgeficktegummifotze","arschgeige","arschgesicht","arschhaarfetischist","arschhaarrasierer","arschh§hlenforscher","arschkrampe","arschkratzer","arschlecker","arschloch","arschl§cher","arschmade","arschratte","arschzapfen","arsebandit","arsehole","arsejockey","arselicker","arsenuts","arsewipe","assel","assfuck","assfucking","assgrabber","asshol","asshole","asshole","assi","assrammer","assreamer","asswipe","astlochficker","auspufflutscher","badmotherfucker","badass","badenutte","bananenstecker","bastard","bastard","b4stard","bast4rd","bauernschlampe","beatingthemeat","beefcurtains","beefflaps","behindis","bekloppter","muttergeficktes","beklopter","bettn§sser","******er","******er","bettpisser","bettspaltenficker","biatch","bimbo","bitch","bitches","bitchnutte","bitsch","bizzach","blechfotze","bl§dmann","blogspoint","blowjob","bohnenfresser","boob","boobes","boobie","boobies","boobs","booby","boylove","breasts","brechfurz","b§ckfleisch","b§ckst§ck","b§ckvieh","buggery","bullensohn","bullshit","bummsen","bumsen","bumsklumpen","buschnutte","busty","buttpirate","buttfuc","buttfuck","buttfucker","buttfucking","carpetmuncher","carpetmunchers","carpetlicker","carpetlickers","chausohn","clitsuck","clitsucker","clitsucking","cock","cocksucker","cockpouch","cracka","crap","craper","crapers","crapping","craps","cunt","cunt","cunts","dachlattengesicht","dackelficker","dickhead","dicklicker","diplomarschloch","doofi","douglette","drecksack","drecksau","dreckschlitz","drecksch§ppengesicht","drecksfotze","drecksm§sendagmar","drecksnigger","drecksnutte","dreckspack","dreckstaerke","dreckvotze","dumbo","dummschw§tzer","dumpfbacke","d§nnpfifftrinker","eichellecker","eierkopf","eierlutscher","eisw§rfelpisser","ejaculate","entenfisterer","epilepi","epilepis","epileppis","fagette","fagitt","f§kalerotiker","faltenficker","fatass","ferkelficker","ferkel-ficker","fettarsch","fettsack","fettsau","feuchtwichser","fick","fick*","fickarsch","fickdreck","ficken","ficker","fickfehler","fickfetzen","fickfresse","fickfrosch","fickfucker","fickgelegenheit","fickgesicht","fickmatratze","ficknudel","ficksau","fickschlitz","fickschnitte","fickschnitzel","fingerfuck","fingerfucking","fisch-stinkenderhodenfresser","fistfuck","fistfucking","flachtitte","flussfotze","fotze","fotzenforscher","fotzenfresse","fotzenknecht","fotzenkruste","fotzenkuchen","fotzenlecker","fotzenl§ckchen","fotzenpisser","fotzenschmuser","fotzhobel","fris§senficker","fris§senfotze","fritzfink","froschfotze","froschfotzenficker","froschfotzenleder","****","fucked","fucker","fucker","fucking","fuckup","fudgepacker","futtgesicht","gaylord","geilriemen","gesichtsfotze","g§ring","gro§maul","gummifotzenficker","gummipuppenbumser","gummisklave","hackfresse","hafensau","hartgeldhure","heilhitler","hihoper","hinterlader","hirni","hitler","hodenbei§er","hodensohn","homo","hosenpisser","hosenschei§er","h§hnerficker","huhrensohn","hundeficker","hundesohn","hurenlecker","hurenpeter","hurensohn","hurentocher","idiot","idioten","itakker","ittaker","jackoff","jackass","jackshit","jerkoff","jizz","judensau","kackarsch","kacke","kacken","kackfass","kackfresse","kacknoob","kaktusficker","kanacke","kanake","kanaken","kanaldeckelbefruchter","kartoffelficker","kinderficken","kinderficker","kinderporno","kitzlerfresser","klapposkop","klolecker","kl§tenlutscher","knoblauchfresser","konzentrationslager","kotgeburt","kotnascher","k§mmelt§rke","k§mmelt§rken","lackaffe","lebensunwert","lesbian","lurchi","lustbolzen","lutscher","magerschwanz","manwhore","masturbate","meatpuppet","missgeburt","mi§geburt","mistsau","mistst§ck","mitternachtsficker","mohrenkopf","mokkast§bchenveredler","mongo","m§se","m§senficker","m§senlecker","m§senputzer","m§ter","motherfucker","motherfucking","motherfucker","muschilecker","muschischlitz","mutterficker","nazi","nazis","neger","nigga","nigger","niggerlover","niggers","niggerschlampe","nignog","nippelsauger","nutte","nuttensohn","nuttenstecher","nuttentochter","ochsenpimmel","§lauge","oralsex","penislicker","penislicking","penissucker","penissucking","penis","peniskopf","penislecker","penislutscher","penissalat","penner","pferdearsch","phentermine","pimmel","pimmelkopf","pimmellutscher","pimmelpirat","pimmelprinz","pimmelschimmel","pimmelvinni","pindick","pissoff","piss","pissbirne","pissbotte","pisse","pisser","pissetrinker","pissfisch","pissflitsche","pissnelke","polacke","polacken","poop","popellfresser","popostecker","popunterlage","porn","porno","pornografie","pornoprengel","pottsau","pr§rieficker","prick","quiff","randsteinwichser","rasiertevotzen","rimjob","rindsriemen","ritzenfummler","rollbrooden","rosetenputzer","rosetenschlemmer","rosettenhengst","rosettenk§nig","rosettenlecker","rosettentester","sackfalter","sackgesicht","sacklutscher","sackratte","saftarsch","sakfalter","schamhaarlecker","schamhaarsch§del","schandmaul","scheisse","scheisser","scheissgesicht","scheisshaufen","schei§haufen","schlammfotze","schlampe","schleimm§se","schlitzpisser","schmalspurficker","schmeue","schmuckbert","schnuddelfresser","schnurbeltatz","schrumpelfotze","schwanzlurch","schwanzlutscher","schweinepriester","schweineschwanzlutscher","schwuchtel","schwutte","sex","shiter","shiting","shitlist","shitomatic","shits","shitty","shlong","shutthefuckup","siegheil","sitzpisser","skullfuck","skullfucker","skullfucking","slut","smegmafresser","spack","spacko","spaghettifresser","spastard","spasti","spastis","spermafresse","spermarutsche","spritzer","stinkschlitz","stricher","suckmycock","suckmydick","threesome","tittenficker","tittenspritzer","titties","titty","tunte","untermensch","vagina","vergasen","viagra","volldepp","volldeppen","vollhorst","vollidiot","vollpfosten","vollspack","vollspacken","vollspasti","vorhaut","votze","votzenkopf","wanker","wankers","weichei","whoar","whore","wichsbart","wichsbirne","wichser","wichsfrosch","wichsgriffel","wichsvorlage","wickspickel","wixa","wixen","wixer","wixxer","wixxxer","wixxxxer","wurstsemmelfresser","yankee","zappler","zyclonb","zyklonb","xxx","hitler","bastart"};
-    if(additions!=null)for (int i = 0; i < additions.length; i++) { badWords.add(additions[i]); }
-    badWords.add("Gay"); badWords.add("schwul"); badWords.add("pussy");
-    badWords.add("Arschloch"); badWords.add("Wixxer"); badWords.add("fick");
-    badWords.add("Arschgesicht"); badWords.add("scheisse"); badWords.add("schei§e");
-    badWords.add("wixer"); badWords.add("Homo"); badWords.add("Spasst"); badWords.add("Spassti");
-    badWords.add("Mongo"); badWords.add("fuck"); badWords.add("Hurensohn"); badWords.add("hundesohn");
-    badWords.add("nutte"); badWords.add("behindert"); badWords.add("h§sslig"); badWords.add("schlampe");
-    badWords.add("h§sslich"); badWords.add("Hure"); badWords.add("hure");
-    badWords.add(".eu");badWords.add(".de");badWords.add("me");badWords.add(".to");badWords.add(".minecraft.to");
-    badWords.add(".tv");badWords.add(".com");badWords.add(".tk");badWords.add(".net");
-  }
-
   public static boolean containsIgnoreCase(String string, String in) {
     return in.toLowerCase().contains(string.toLowerCase());
   }
 
   public static boolean arrayContainsString(String[] array, String string, boolean ignoreCase) {
-    String[] arrayOfString = array; int j = array.length; for (int i = 0; i < j; i++) { String s = arrayOfString[i];
-      if (((s.equalsIgnoreCase(string)) && (ignoreCase)) || ((s.equals(string)) && (!ignoreCase))) return true;
+    for (String s : array) {
+      if (!ignoreCase) {
+        if (s.equals(string)) {
+		  return true;
+		}
+      } else if(s.equalsIgnoreCase(string)) {
+        return true;
+      }
     }
     return false;
   }
@@ -180,9 +178,17 @@ public class UtilString
   public static String generateCaptchaString(int length) {
 	 return RandomStringUtils.random(length, true, true);
   }
-  
-  public static String toUpperCase(String g){
-	  return g.substring(0, 1).toUpperCase()+g.substring(1,g.length());
+
+  /**
+   * First character upper case, rest lowercase
+   */
+    public static String toUpperCase(String g){
+      if (g.isEmpty()) {
+        return g;
+      }
+      char[] chars = g.toCharArray();
+      chars[0] = Character.toUpperCase(chars[0]);
+      return String.valueOf(chars);
   }
 
   public static boolean checkForIP(String text) {
@@ -199,12 +205,9 @@ public class UtilString
   {
     int count = 0;
     for (char c : s.toCharArray()) {
-    	try{
-    		Integer i = Integer.valueOf(c);
-    		count++;
-    	}catch(NumberFormatException e){
-    		
-    	}
+      if (c >= '0' && c <= '9') {
+        count++;
+      }
     }
     return count;
   }

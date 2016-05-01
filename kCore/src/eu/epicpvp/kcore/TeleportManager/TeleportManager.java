@@ -3,6 +3,7 @@ package eu.epicpvp.kcore.TeleportManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import eu.epicpvp.kcore.Util.UtilServer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
@@ -42,6 +43,7 @@ public class TeleportManager extends kListener{
 		cmd.register(CommandTpaccept.class, new CommandTpaccept(this));
 		cmd.register(CommandReTpa.class, new CommandReTpa(this));
 		cmd.register(CommandTpdeny.class, new CommandTpdeny(this));
+		UtilServer.setTeleportManager(this);
 	}
 	
 	Teleporter tp;

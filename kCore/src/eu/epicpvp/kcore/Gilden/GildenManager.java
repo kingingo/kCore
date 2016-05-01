@@ -158,21 +158,21 @@ public class GildenManager implements Listener {
 						ResultSet rs = (ResultSet)value;
 						
 						if((ranking.size()+1)==1){
-							ranking.put(1, "§b#§6" + String.valueOf(1) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
+							ranking.put(1, "§b#§6" + 1 + "§b | §6" + rs.getInt(1) + " §b|§4§l " + rs.getString(2));
 						}else if((ranking.size()+1)==2){
-					  		ranking.put(2, "§b#§6" + String.valueOf(2) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
+					  		ranking.put(2, "§b#§6" + 2 + "§b | §6" + rs.getInt(1) + " §b|§2§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)==3){
-					  		ranking.put(3, "§b#§6" + String.valueOf(3) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
+					  		ranking.put(3, "§b#§6" + 3 + "§b | §6" + rs.getInt(1) + " §b|§e§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=4 && (ranking.size()+1)<=6){
-					  		ranking.put(4, "§b#§6" + String.valueOf(4) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
+					  		ranking.put(4, "§b#§6" + 4 + "§b | §6" + rs.getInt(1) + " §b|§3 " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=7 && (ranking.size()+1)<=9){
-					  		ranking.put(5, "§b#§6" + String.valueOf(5) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
+					  		ranking.put(5, "§b#§6" + 5 + "§b | §6" + rs.getInt(1) + " §b|§d " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=10 && (ranking.size()+1)<=12){
-					  		ranking.put(6, "§b#§6" + String.valueOf(6) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+					  		ranking.put(6, "§b#§6" + 6 + "§b | §6" + rs.getInt(1) + " §b|§a " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=13 && (ranking.size()+1)<=15){
-					  		ranking.put(7, "§b#§6" + String.valueOf(7) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
+					  		ranking.put(7, "§b#§6" + 7 + "§b | §6" + rs.getInt(1) + " §b|§b " + rs.getString(2));
 					  	}else{
-					  		ranking.put(8, "§b#§6" + String.valueOf(8) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+					  		ranking.put(8, "§b#§6" + 8 + "§b | §6" + rs.getInt(1) + " §b|§6 " + rs.getString(2));
 					  	}
 						extra_prefix.put(rs.getString(2).toLowerCase(), ranking.size()+1);
 					 } catch (Exception err) {
@@ -194,21 +194,21 @@ public class GildenManager implements Listener {
 						ResultSet rs = (ResultSet)value;
 						
 						if((ranking.size()+1)==1){
-							ranking.put(1, "§b#§6" + String.valueOf(1) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§4§l " + rs.getString(2));
+							ranking.put(1, "§b#§6" + 1 + "§b | §6" + rs.getInt(1) + " §b|§4§l " + rs.getString(2));
 						}else if((ranking.size()+1)==2){
-					  		ranking.put(2, "§b#§6" + String.valueOf(2) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§2§l " + rs.getString(2));
+					  		ranking.put(2, "§b#§6" + 2 + "§b | §6" + rs.getInt(1) + " §b|§2§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)==3){
-					  		ranking.put(3, "§b#§6" + String.valueOf(3) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§e§l " + rs.getString(2));
+					  		ranking.put(3, "§b#§6" + 3 + "§b | §6" + rs.getInt(1) + " §b|§e§l " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=4 && (ranking.size()+1)<=6){
-					  		ranking.put(4, "§b#§6" + String.valueOf(4) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§3 " + rs.getString(2));
+					  		ranking.put(4, "§b#§6" + 4 + "§b | §6" + rs.getInt(1) + " §b|§3 " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=7 && (ranking.size()+1)<=9){
-					  		ranking.put(5, "§b#§6" + String.valueOf(5) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§d " + rs.getString(2));
+					  		ranking.put(5, "§b#§6" + 5 + "§b | §6" + rs.getInt(1) + " §b|§d " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=10 && (ranking.size()+1)<=12){
-					  		ranking.put(6, "§b#§6" + String.valueOf(6) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§a " + rs.getString(2));
+					  		ranking.put(6, "§b#§6" + 6 + "§b | §6" + rs.getInt(1) + " §b|§a " + rs.getString(2));
 					  	}else if((ranking.size()+1)>=13 && (ranking.size()+1)<=15){
-					  		ranking.put(7, "§b#§6" + String.valueOf(7) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§b " + rs.getString(2));
+					  		ranking.put(7, "§b#§6" + 7 + "§b | §6" + rs.getInt(1) + " §b|§b " + rs.getString(2));
 					  	}else{
-					  		ranking.put(8, "§b#§6" + String.valueOf(8) + "§b | §6" + String.valueOf(rs.getInt(1)) + " §b|§6 " + rs.getString(2));
+					  		ranking.put(8, "§b#§6" + 8 + "§b | §6" + rs.getInt(1) + " §b|§6 " + rs.getString(2));
 					  	}
 						extra_prefix.put(rs.getString(2).toLowerCase(), ranking.size()+1);
 					 } catch (Exception err) {
