@@ -20,7 +20,7 @@ public class TeamListener extends kListener {
 	public TeamListener(TeamManager teamManager) {
 		super(teamManager.getInstance(), "TeamListener");
 		this.teamManager = teamManager;
-		statsManager = StatsManagerRepository.getStatsManager(teamManager.getServerType());
+		statsManager = StatsManagerRepository.getStatsManager(teamManager.getTeamType());
 	}
 
 	@EventHandler
@@ -28,29 +28,30 @@ public class TeamListener extends kListener {
 		int teamId = statsManager.getInt(ev.getPlayer(), StatsKey.TEAM_ID);
 
 		if (teamId > 0) {
-			Team team = teamManager.getTeam(teamId);
-
-			if (team != null) {
-				team.broadcast("GILDE_PLAYER_LEAVE", ev.getPlayer().getName());
-				Bukkit.getPluginManager().callEvent(new TeamPlayerQuitEvent(team, ev.getPlayer()));
-			}
+			teamManager.getTeam(teamId, team -> {
+				if (team != null) {
+					team.broadcast("GILDE_PLAYER_LEAVE", ev.getPlayer().getName());
+					Bukkit.getPluginManager().callEvent(new TeamPlayerQuitEvent(team, ev.getPlayer()));
+				}
+			});
 		}
 	}
 
 	@EventHandler
 	public void join(PlayerStatsLoadedEvent ev) {
-		if (ev.getManager().getType() == teamManager.getServerType()) {
+		if (ev.getManager().getType() == teamManager.getTeamType()) {
 			if (ev.getManager().containsKey(ev.getPlayerId(), StatsKey.TEAM_ID)) {
 				int teamId = ev.getManager().getInt(ev.getPlayerId(), StatsKey.TEAM_ID);
 
 				if (teamId > 0) {
-					Team team = teamManager.getTeam(teamId);
-					Player player = UtilPlayer.searchExact(ev.getPlayerId());
+					teamManager.getTeam(teamId, team -> {
+						Player player = UtilPlayer.searchExact(ev.getPlayerId());
 
-					if (team != null && player != null) {
-						team.broadcast("GILDE_PLAYER_JOIN", player.getName());
-						Bukkit.getPluginManager().callEvent(new TeamPlayerJoinEvent(team, player));
-					}
+						if (team != null && player != null) {
+							team.broadcast("GILDE_PLAYER_JOIN", player.getName());
+							Bukkit.getPluginManager().callEvent(new TeamPlayerJoinEvent(team, player));
+						}
+					});
 				}
 			}
 		}

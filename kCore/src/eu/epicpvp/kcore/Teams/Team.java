@@ -20,35 +20,50 @@ public class Team {
 	private final int teamId;
 	private final String name;
 	private final String prefix;
-	private final int ownerId;
-	@Getter(AccessLevel.NONE)
 	protected final List<Integer> players = new ArrayList<>();
+	protected final List<Integer> invited = new ArrayList<>();
 	@Getter(AccessLevel.NONE)
 	protected final Multimap<Integer, String> playerPermissions = HashMultimap.create();
 
-	public Team(TeamManager teamManager, int teamId, String name, String prefix, int ownerId) {
+	public Team(TeamManager teamManager, int teamId, String name, String prefix) {
 		this.teamManager = teamManager;
 		this.teamId = teamId;
 		this.name = name;
 		this.prefix = prefix;
-		this.ownerId = ownerId;
-		loadStatistics();
+	}
+	
+	public TeamRank getRank(Player player){
+		return getRank(UtilPlayer.getPlayerId(player));
 	}
 
-	public void loadStatistics() {
-
+	public TeamRank getRank(int playerId){
+		return TeamRank.values()[teamManager.getServerStatsManager().getInt(playerId, StatsKey.TEAM_RANK)];
 	}
 
-	public void add(StatsKey key, Object value) {
-		StatsManagerRepository.getStatsManager(teamManager.getServerType()).add(teamId, key, value);
+	public void setRank(int playerId,TeamRank rank){
+		teamManager.getServerStatsManager().set(playerId,StatsKey.TEAM_RANK,rank.ordinal());
+	}
+	
+	public void addStatistic(StatsKey key, Object value) {
+		teamManager.getTeamStatsManager().add(teamId, key, value);
 	}
 
-	public void set(StatsKey key, Object value) {
-		StatsManagerRepository.getStatsManager(teamManager.getServerType()).set(teamId, key, value);
+	public void setStatistic(StatsKey key, Object value) {
+		teamManager.getTeamStatsManager().set(teamId, key, value);
 	}
 
-	public Object get(StatsKey key) {
-		return StatsManagerRepository.getStatsManager(teamManager.getServerType()).get(teamId, key);
+	public Object getStatistic(StatsKey key) {
+		return teamManager.getTeamStatsManager().get(teamId, key);
+	}
+
+	public int getStatisticInt(StatsKey key) {
+		Object stat = teamManager.getTeamStatsManager().get(teamId, key);
+		return stat == null ? 0 : (Integer) stat;
+	}
+
+	public double getStatisticDouble(StatsKey key) {
+		Object stat = teamManager.getTeamStatsManager().get(teamId, key);
+		return stat == null ? 0 : (Double) stat;
 	}
 
 	public void broadcast(String translationKey, Object... values) {
@@ -62,15 +77,16 @@ public class Team {
 		}
 	}
 
-	public void add(int playerId) {
+	public void addPlayer(int playerId, TeamRank rank) {
 		players.add(playerId);
-		StatsManagerRepository.getStatsManager(teamManager.getServerType()).set(playerId, StatsKey.TEAM_ID, teamId);
-		StatsManagerRepository.getStatsManager(teamManager.getServerType()).save(playerId);
+		teamManager.getServerStatsManager().set(playerId, StatsKey.TEAM_ID, teamId);
+		teamManager.getServerStatsManager().set(playerId, StatsKey.TEAM_RANK, rank.ordinal());
 	}
 
-	public void remove(int playerId) {
+	public void removePlayer(int playerId) {
 		players.remove(playerId);
-		StatsManagerRepository.getStatsManager(teamManager.getServerType()).set(playerId, StatsKey.TEAM_ID, "-1");
-		StatsManagerRepository.getStatsManager(teamManager.getServerType()).save(playerId);
+		teamManager.getServerStatsManager().set(playerId, StatsKey.TEAM_ID, -1);
+		teamManager.getServerStatsManager().set(playerId, StatsKey.TEAM_RANK, -1);
+		teamManager.getServerStatsManager().save(playerId);
 	}
 }

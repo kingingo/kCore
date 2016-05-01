@@ -100,7 +100,7 @@ public class StatsManager extends kListener {
 				for (Ranking ranking : rankings)
 					ranking.load();
 			}
-		});//TODO thread which is not started?!?
+		}).start();
 	}
 
 	public void SendRankingMessage(Player player, Ranking ranking) {
@@ -152,6 +152,10 @@ public class StatsManager extends kListener {
 		return (String) get(player, key);
 	}
 
+	public String getString(int playerId, StatsKey key) {
+		return (String) get(playerId, key);
+	}
+
 	public int getInt(StatsKey key, Player player) {
 		return (int) get(player, key);
 	}
@@ -178,6 +182,8 @@ public class StatsManager extends kListener {
 			StatsObject statsObject = statsMap.get(key);
 			if (statsObject != null) {
 				return statsObject.getValue();
+			} else {
+				return null;
 			}
 		}else{
 			loadPlayer(playerId, null);

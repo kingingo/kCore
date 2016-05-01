@@ -1,149 +1,176 @@
 package eu.epicpvp.kcore.Teams;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import dev.wolveringer.client.Callback;
+import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
-import eu.epicpvp.kcore.MySQL.MySQL;
+import eu.epicpvp.kcore.StatsManager.Ranking;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Teams.Events.TeamLoadedEvent;
-import eu.epicpvp.kcore.Teams.Exceptions.TeamNameAlreadyExistsException;
+import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kCore;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import lombok.Getter;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class TeamManager {
+	private static final String TEAM_FAKEPLAYER_PREFIX = "_team_team_team_";
 	@Getter
 	private final kCore instance;
 	@Getter
 	private final StatsManager teamStatsManager;
 	@Getter
+	private final StatsManager serverStatsManager;
+	@Getter
 	private final GameType serverType;
-	private final MySQL mysql;
-	private final Map<Integer, Team> teams = new HashMap<>();
+	@Getter
+	private final GameType teamType;
+	private final TIntObjectMap<Team> teams = new TIntObjectHashMap<>();
 	private final Map<String, Team> teamsByName = new HashMap<>();
+	@Getter
+	private Ranking ranking;
 
-	public TeamManager(kCore instance, MySQL mysql, GameType serverType) {
+	public TeamManager(kCore instance, GameType serverType, StatsKey ranking) {
 		this.instance = instance;
-		this.mysql = mysql;
 		this.serverType = serverType;
-
-		this.teamStatsManager = StatsManagerRepository.getStatsManager(serverType);
-		mysql.Update("CREATE TABLE IF NOT EXISTS `teams` (\n" +
-				"  `teamId` int(11) NOT NULL,\n" +
-				"  `gameType` varchar(32) COLLATE utf8_unicode_ci NOT NULL,\n" +
-				"  `name` varchar(16) COLLATE utf8_unicode_ci NOT NULL,\n" +
-				"  `prefix` varchar(16) COLLATE utf8_unicode_ci NOT NULL,\n" +
-				"  `owner` int(11) NOT NULL,\n" +
-				"  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP\n" +
-				") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
-		mysql.Update("ALTER TABLE `teams`\n" +
-				"  ADD PRIMARY KEY (`teamId`),\n" +
-				"  ADD UNIQUE KEY `name` (`name`);");
-		mysql.Update("CREATE TABLE IF NOT EXISTS teams_permissions (playerId int, gameType varchar(32), permission varchar(32)) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci");
-
+		this.teamType = serverType.getTeamType();
+		this.teamStatsManager = StatsManagerRepository.getStatsManager(teamType);
+		this.serverStatsManager = StatsManagerRepository.getStatsManager(serverType);
+		this.ranking = new Ranking(teamType, ranking);
+		this.teamStatsManager.addRanking(this.ranking);
 		new TeamListener(this);
-		
 	}
 
-	public Team getPlayerTeam(Player player) {
+	public void getTeam(Player player, Callback<Team> callback) {
 		int teamId = teamStatsManager.getInt(player, StatsKey.TEAM_ID);
-		if (teamId < 0) {
-			return null;
+		if (teamId <= 0) {
+			if (callback != null) {
+				callback.call(null);
+			}
 		}
-		return getTeam(teamId);
+		getTeam(teamId, callback);
 	}
 
-	public Team getTeam(int teamId) {
+	@Nullable
+	public Team getTeamIfLoaded(int teamId) {
+		return teams.get(teamId);
+	}
+
+	@Nullable
+	public Team getTeamIfLoaded(String teamName) {
+		return teamsByName.get(teamName.toLowerCase());
+	}
+
+	@Nullable
+	public Team getTeamIfLoaded(@Nonnull Player player) {
+		int teamId = teamStatsManager.getInt(player, StatsKey.TEAM_ID);
+		return getTeamIfLoaded(teamId);
+	}
+
+	public void getTeam(int teamId, @Nullable Callback<Team> callback) {
+		if (teamId <= 0) {
+			if (callback != null) {
+				callback.call(null);
+			}
+			return;
+		} 
 		Team team = teams.get(teamId);
-		if (team == null) {
-			team = loadTeam(teamId);
-			if (team != null) {
-				teams.put(teamId, team);
-				teamsByName.put(team.getName(), team);
-				Bukkit.getPluginManager().callEvent(new TeamLoadedEvent(team));
+		if (team != null) {
+			if (callback != null) {
+				callback.call(team);
 			}
+			return;
 		}
-		return team;
+		loadTeam(teamId, loadedTeam -> {
+			if (loadedTeam != null) {
+				teams.put(teamId, loadedTeam);
+				teamsByName.put(loadedTeam.getName().toLowerCase(), loadedTeam);
+				if (callback != null) {
+					callback.call(loadedTeam);
+				}
+				Bukkit.getPluginManager().callEvent(new TeamLoadedEvent(loadedTeam));
+			}
+		});
 	}
 
-	public Team getTeam(String name) {
-		String lowercaseName = name.toLowerCase();
-		Team team = teamsByName.get(lowercaseName);
-		if (team == null) {
-			team = loadTeam(name);
-			if (team != null) {
-				teams.put(team.getTeamId(), team);
-				teamsByName.put(team.getName(), team);
-				Bukkit.getPluginManager().callEvent(new TeamLoadedEvent(team));
+	public void getTeam(String name, Callback<Team> callback) {
+		Team team = teamsByName.get(name.toLowerCase());
+		if (team != null) {
+			if (callback != null) {
+				callback.call(team);
 			}
+			return;
 		}
-		return team;
+		int teamId = UtilServer.getClient().getPlayerAndLoad(name).getPlayerId();
+		loadTeam(teamId, loadedTeam -> {
+			if (loadedTeam != null) {
+				teams.put(loadedTeam.getTeamId(), loadedTeam);
+				teamsByName.put(loadedTeam.getName(), loadedTeam);
+				if (callback != null) {
+					callback.call(loadedTeam);
+				}
+				Bukkit.getPluginManager().callEvent(new TeamLoadedEvent(loadedTeam));
+			}
+		});
 	}
 
-	public Team createTeam(int playerId, String name, String prefix) throws TeamNameAlreadyExistsException {
-		try {
-			int teamId = mysql.InsertGetId("INSERT INTO teams (gameType, name, prefix, owner) VALUES (" + serverType + ", " + name + ", " + prefix + ", " + playerId + ")");
-			Team team = new Team(this, teamId, name, prefix, playerId);
-			this.teams.put(teamId, team);
-			return team;
-		} catch (SQLException e) {
-			if (e.getErrorCode() == 1062) {
-				throw new TeamNameAlreadyExistsException();
+	public void createTeam(int ownerId, String name, String prefix, @Nullable Callback<Team> successCallback, @Nullable Callback<Void> alreadyExistsCallback) {
+		LoadedPlayer teamPlayer = UtilServer.getClient().getPlayerAndLoad(getTeamStatsName(name));
+		teamStatsManager.loadPlayer(teamPlayer, teamId -> {
+			if (teamStatsManager.get(teamId, StatsKey.TEAM_PREFIX) != null) {
+				if (alreadyExistsCallback != null) {
+					alreadyExistsCallback.call(null);
+				}
+				return;
 			}
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	private Team loadTeam(int teamId) {
-		try (ResultSet rs = mysql.Query("SELECT * FROM teams WHERE teamId='" + teamId + "'")) {
-			if (rs.next()) {
-				//GameType gameType = GameType.get(rs.getString("name"));
-				String name = rs.getString("name");
-				String prefix = rs.getString("prefix");
-				int ownerId = rs.getInt("owner");
-				return new Team(this, teamId, name, prefix, ownerId);
+			teamStatsManager.set(teamId, StatsKey.TEAM_PREFIX, prefix);
+			Team team = new Team(TeamManager.this, teamId, name, prefix);
+			team.addPlayer(ownerId, TeamRank.OWNER);
+			if(successCallback!=null){
+				successCallback.call(team);
 			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return null;
+		});
 	}
 
-	private Team loadTeam(String name) {
-		try (ResultSet rs = mysql.Query("SELECT * FROM teams WHERE name='" + name + "'")) {
-			if (rs.next()) {
-				int teamId = rs.getInt("teamId");
-				//GameType gameType = GameType.get(rs.getString("name"));
-				name = rs.getString("name");
-				String prefix = rs.getString("prefix");
-				int ownerId = rs.getInt("owner");
-				return new Team(this, teamId, name, prefix,ownerId);
+	public void delete(Team playerTeam) {
+		new ArrayList<>(playerTeam.getPlayers())
+				.forEach(playerTeam::removePlayer);
+	}
+
+	private void loadTeam(int teamId, @Nullable Callback<Team> callback) {
+		teamStatsManager.loadPlayer(teamId, loadedTeamId -> {
+			Team team = null;
+			String prefix = teamStatsManager.getString(teamId, StatsKey.TEAM_PREFIX);
+			if (prefix != null) {
+				LoadedPlayer teamPlayer = UtilServer.getClient().getPlayerAndLoad(teamId);
+				String name = getRealTeamName(teamPlayer.getName());
+				team = new Team(TeamManager.this, teamId, name, prefix);
+				loadPlayersInTeam(team);
 			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return null;
+			if (callback != null) {
+				callback.call(team);
+			}
+		});
 	}
 
-	public static int getTeamStatsId(int teamId) {
-		Validate.isTrue(teamId >= 0, "invalide teamId versucht zu teamStatsId zu konverten");
-		int teamStatsId = -teamId;
-		teamStatsId -= 1000;
-		return teamStatsId;
+	private void loadPlayersInTeam(Team team) {
+		//TODO wait on markus, then use getPlayersWithStats(gameType, statsKey, Object value)
 	}
 
-	public static int getTeamId(int teamStatsId) {
-		Validate.isTrue(teamStatsId >= 0, "invalide teamStatsId versucht zu teamId zu konverten");
-		int teamId = teamStatsId + 1000;
-		teamId = -teamId;
-		return teamId;
+	public static String getTeamStatsName(String teamName) {
+		return TEAM_FAKEPLAYER_PREFIX + teamName;
+	}
+
+	public static String getRealTeamName(String teamStatsName) {
+		return teamStatsName.substring(TEAM_FAKEPLAYER_PREFIX.length());
 	}
 }

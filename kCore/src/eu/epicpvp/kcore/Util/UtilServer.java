@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import eu.epicpvp.kcore.TeleportManager.TeleportManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -126,6 +127,9 @@ public class UtilServer{
 	@Getter
 	@Setter
 	private static BestOf bestOf;
+	@Getter
+	@Setter
+	private static TeleportManager teleportManager;
 	
 	public static void disable(){
 		for(Entity e : EntityClickListener.getEntities())e.remove();

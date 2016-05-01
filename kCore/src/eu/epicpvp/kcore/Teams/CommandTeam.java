@@ -16,7 +16,8 @@ public class CommandTeam implements CommandExecutor{
 		this.teamManager=teamManager;
 	}
 	
-	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "team", alias = {"g","c","guild","clan","gild","gilden","gilde","teams"}, sender = Sender.PLAYER)
+	@Override
+	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "team", alias = {"g", "c", "guild", "clan", "gild", "gilden", "gilde", "teams"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		Player p = (Player)cs;
 		if(args.length==0){
@@ -29,10 +30,10 @@ public class CommandTeam implements CommandExecutor{
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD6"));
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD7"));
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD14"));
-			if(teamManager.getServerType()== GameType.PVP){
+			if(teamManager.getTeamType()== GameType.PLAYER_TEAMS_PVP){
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD8"));
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD9"));
-			}else if(teamManager.getServerType()== GameType.SKYBLOCK){
+			}else if(teamManager.getTeamType()== GameType.PLAYER_TEAMS_SKYBLOCK){
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD10"));
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD11"));
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD12"));
