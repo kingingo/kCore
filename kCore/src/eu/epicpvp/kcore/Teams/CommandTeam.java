@@ -30,10 +30,10 @@ public class CommandTeam implements CommandExecutor{
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD6"));
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD7"));
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD14"));
-			if(teamManager.getTeamType()== GameType.PLAYER_TEAMS_PVP){
+			if(teamManager.getTeamType()== GameType.TEAMS_PVP){
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD8"));
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD9"));
-			}else if(teamManager.getTeamType()== GameType.PLAYER_TEAMS_SKYBLOCK){
+			}else if(teamManager.getTeamType()== GameType.TEAMS_SKYBLOCK){
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD10"));
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD11"));
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD12"));

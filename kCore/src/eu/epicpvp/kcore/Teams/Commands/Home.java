@@ -37,7 +37,7 @@ public class Home {
 			return true;
 		}
 		
-		if(teamManager.getTeamType() == GameType.PLAYER_TEAMS_SKYBLOCK){
+		if(teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK){
 //			if(teamManager instanceof SkyBlockGildenManager){
 //				SkyBlockGildenManager skymanager = (SkyBlockGildenManager)teamManager;
 //				
@@ -62,7 +62,7 @@ public class Home {
 		team.setStatistic(StatsKey.LOC_Y, loc.getBlockY());
 		team.setStatistic(StatsKey.LOC_Z, loc.getBlockZ());
 		team.setStatistic(StatsKey.WORLD, loc.getWorld().getName());
-		if(teamManager.getTeamType() == GameType.PLAYER_TEAMS_PVP){
+		if(teamManager.getTeamType() == GameType.TEAMS_PVP){
 			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "GILDE_SETHOME"));
 		}
 		return true;
@@ -94,7 +94,7 @@ public class Home {
 				player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+" /gilde "+args[0]);
 				return true;
 			}
-			if(teamManager.getTeamType() == GameType.PLAYER_TEAMS_SKYBLOCK){
+			if(teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK){
 //				SkyBlockGildenManager sky = (SkyBlockGildenManager)teamManager;
 //				
 //				if(sky.getSky().getGilden_world().getIslands().containsKey(args[1].toLowerCase())){

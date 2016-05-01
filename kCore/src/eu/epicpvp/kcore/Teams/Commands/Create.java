@@ -2,7 +2,6 @@ package eu.epicpvp.kcore.Teams.Commands;
 
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
-import eu.epicpvp.kcore.Gilden.SkyBlockGildenManager;
 import eu.epicpvp.kcore.Teams.TeamManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
@@ -36,12 +35,12 @@ public class Create {
 
 			teamManager.createTeam(UtilPlayer.getPlayerId(player), teamName, "§7" + teamName + "§b*§f", team -> {
 				//success
-				if (teamManager.getTeamType() == GameType.PLAYER_TEAMS_PVP) {
+				if (teamManager.getTeamType() == GameType.TEAMS_PVP) {
 					team.setStatistic(StatsKey.LOC_X, player.getLocation().getBlockX());
 					team.setStatistic(StatsKey.LOC_Y, player.getLocation().getBlockY());
 					team.setStatistic(StatsKey.LOC_Z, player.getLocation().getBlockZ());
 					team.setStatistic(StatsKey.WORLD, player.getLocation().getWorld().getName());
-				} else if (teamManager.getTeamType() == GameType.PLAYER_TEAMS_SKYBLOCK) {
+				} else if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
 //					SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
 //					if(sky.getStats().getDouble(player, StatsKey.MONEY)>=500.0){
 //						sky.getStats().add(player, StatsKey.MONEY,-500.0);

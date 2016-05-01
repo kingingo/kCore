@@ -30,7 +30,7 @@ public class Kick {
 			return true;
 		}
 
-		if (teamManager.getTeamType() == GameType.PLAYER_TEAMS_SKYBLOCK) {
+		if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
 //			SkyBlockGildenManager sky = (SkyBlockGildenManager)teamManager;
 //			kConfig config;
 //			
