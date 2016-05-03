@@ -52,14 +52,11 @@ public class CommandGilde implements CommandExecutor{
 			p.sendMessage("§b§ ---------------------6§l GILDE §b---------------------");
 		}else if(args.length > 0){
 			if(args[0].equalsIgnoreCase("erstellen")||args[0].equalsIgnoreCase("create")){
-//				Erstellen.use(p, args, manager);
-				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDiese funktion ist vorübergehend deaktiviert!");
+				Erstellen.use(p, args, manager);
 			}else if(args[0].equalsIgnoreCase("einladen")||args[0].equalsIgnoreCase("invite")){
 				Einladen.use(p, args, manager);
-				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDiese funktion ist vorübergehend deaktiviert!");
 			}else if(args[0].equalsIgnoreCase("annehmen")||args[0].equalsIgnoreCase("accept")){
-//				Annehmen.use(p, args, manager);
-				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDiese funktion ist vorübergehend deaktiviert!");
+				Annehmen.use(p, args, manager);
 			}else if(args[0].equalsIgnoreCase("verlassen")||args[0].equalsIgnoreCase("leave")){
 				Verlassen.use(p, args, manager);
 			}else if(args[0].equalsIgnoreCase("ranking")){
@@ -71,20 +68,17 @@ public class CommandGilde implements CommandExecutor{
 			}else if(manager.getTyp()==GildenType.PVP&&args[0].equalsIgnoreCase("home")){
 				Home.use(p, args, manager);
 			}else if(args[0].equalsIgnoreCase("info")){
-//				Info.use(p, args, manager);
-				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDiese funktion ist vorübergehend deaktiviert!");
+				Info.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("island")){
 				Home.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("money")){
 				Money.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("createisland")){
 				Home.useSet(p, args, manager);
-				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDiese funktion ist vorübergehend deaktiviert!");
 			}else if(manager.getTyp()==GildenType.SKY&&p.hasPermission(PermissionType.GILDE_NEWISLAND.getPermissionToString())&&args[0].equalsIgnoreCase("newisland")){
-//				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
-//				sky.getSky().getGilden_world().newIsland(args[1]);
-//				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+"§aDone.");
-				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDiese funktion ist vorübergehend deaktiviert!");
+				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
+				sky.getSky().getGilden_world().newIsland(args[1]);
+				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+"§aDone.");
 			}
 		}
 		return false;

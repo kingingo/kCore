@@ -17,39 +17,40 @@ public class Verlassen {
 			if(manager.isPlayerInGilde(p)){
 				String g = manager.getPlayerGilde(p);
 				int owner = manager.getOwner(manager.getPlayerGilde(p));
-//				if(owner!=UtilPlayer.getPlayerId(p)){
-//					System.err.println("[GildenManager] Command Verlassen: Owner == NULL");
-//					System.err.println("[GildenManager] Gilde: "+g);
-//					System.err.println("[GildenManager] Spieler-UUID: "+UtilPlayer.getRealUUID(p));
-//					System.err.println("[GildenManager] Spieler: "+p.getName());
-//					return;
-//				}
+				
 				if(owner!=UtilPlayer.getPlayerId(p)){
+					System.err.println("[GildenManager] Command Verlassen: Owner == NULL");
+					System.err.println("[GildenManager] Gilde: "+g);
+					System.err.println("[GildenManager] Owner-ID: "+owner);
+					System.err.println("[GildenManager] Player-ID: "+UtilPlayer.getPlayerId(p));
+					return;
+				}
+				
+				if(owner==UtilPlayer.getPlayerId(p)){
 					
-//					if(manager.getTyp()==GildenType.SKY&&manager instanceof SkyBlockGildenManager){
-//						SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
-//						manager.getMember(g);
-//						kConfig config;
-//						for(int n : manager.getGilden_player().keySet()){
-//							if(sky.getSky().getInstance().getUserData().getConfigs().containsKey(n)&&UtilPlayer.isOnline(n)){
-//								config=sky.getSky().getInstance().getUserData().getConfig(n);
-//								if(UtilPlayer.searchExact(n).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName()))UtilPlayer.searchExact(n).teleport(Bukkit.getWorld("world").getSpawnLocation());
-//							}else{
-//								config=sky.getSky().getInstance().getUserData().loadConfig(n);
-//							}
-//							
-//							for(String path : config.getPathList("homes").keySet()){
-//								if(config.getLocation("homes."+path).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName())){
-//									config.set("homes."+path, null);
-//								}
-//							}
-//							config.save();
-//						}
-//					}
-//					
-//					manager.sendGildenChat(g, "GILDE_CLOSED");
-//					manager.removeGildenEintrag(p,g);
-					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDiese funktion ist vorübergehend deaktiviert!");
+					if(manager.getTyp()==GildenType.SKY&&manager instanceof SkyBlockGildenManager){
+						SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
+						manager.getMember(g);
+						kConfig config;
+						for(int n : manager.getGilden_player().keySet()){
+							if(sky.getSky().getInstance().getUserData().getConfigs().containsKey(n)&&UtilPlayer.isOnline(n)){
+								config=sky.getSky().getInstance().getUserData().getConfig(n);
+								if(UtilPlayer.searchExact(n).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName()))UtilPlayer.searchExact(n).teleport(Bukkit.getWorld("world").getSpawnLocation());
+							}else{
+								config=sky.getSky().getInstance().getUserData().loadConfig(n);
+							}
+							
+							for(String path : config.getPathList("homes").keySet()){
+								if(config.getLocation("homes."+path).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName())){
+									config.set("homes."+path, null);
+								}
+							}
+							config.save();
+						}
+					}
+					
+					manager.sendGildenChat(g, "GILDE_CLOSED");
+					manager.removeGildenEintrag(p,g);
 				}else{
 					
 					if(manager.getTyp()==GildenType.SKY&&manager instanceof SkyBlockGildenManager){

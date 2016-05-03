@@ -13,6 +13,10 @@ public class StatsObject {
 	public StatsObject(Object value) {
 		this.value = value;
 	}
+	
+	public void reset(){
+		this.change=null;
+	}
 
 	public void add(Object obj) {
 		if (value instanceof Integer) {

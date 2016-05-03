@@ -186,7 +186,7 @@ public class UtilPlayer
 		UtilScoreboard.setScore(player.getScoreboard(),"§7Loading...§c", DisplaySlot.SIDEBAR, 11);
 		UtilScoreboard.setScore(player.getScoreboard(),"     ", DisplaySlot.SIDEBAR, 10);
 		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_FORUM"), DisplaySlot.SIDEBAR, 9);
-		UtilScoreboard.setScore(player.getScoreboard(),"§7www.EpicPvP.me", DisplaySlot.SIDEBAR, 8);
+		UtilScoreboard.setScore(player.getScoreboard(),"§7www.ClashMC.eu", DisplaySlot.SIDEBAR, 8);
 		UtilScoreboard.setScore(player.getScoreboard(),"  ", DisplaySlot.SIDEBAR, 7);
 		UtilScoreboard.setScore(player.getScoreboard(),TranslationHandler.getText(player, "SCOREBOARD_ONLINE_STORE"), DisplaySlot.SIDEBAR, 6);
 		UtilScoreboard.setScore(player.getScoreboard(),"§7Shop.ClashMC.eu", DisplaySlot.SIDEBAR, 5);

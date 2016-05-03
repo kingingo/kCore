@@ -47,6 +47,9 @@ public class StatsManager extends kListener {
 	private boolean onDisable = false;
 	private Map<Integer, ArrayList<Callback<Integer>>> loading = new HashMap<>();
 	private ArrayList<String> loadplayers = new ArrayList<>();
+	@Getter
+	@Setter
+	private boolean forceSave = false;
 
 	public StatsManager(JavaPlugin instance, ClientWrapper client, GameType type) {
 		super(instance, "StatsManager");
@@ -78,6 +81,14 @@ public class StatsManager extends kListener {
 		ArrayList<Callback<Integer>> callbacks = this.loading.remove(playerId);
 		if (callbacks != null) {
 			callbacks.clear();
+		}
+		this.players.remove(playerId);
+	}
+	
+	@EventHandler
+	public void forceSave(PlayerStatsChangedEvent ev){
+		if(isForceSave()){
+			save(ev.getPlayerId());
 		}
 	}
 
@@ -369,6 +380,11 @@ public class StatsManager extends kListener {
 	public void loadPlayer(LoadedPlayer loadedplayer, Callback<Integer> callback){
 		if(this.players.containsKey(loadedplayer.getPlayerId())||this.loadplayers.contains(loadedplayer.getName())){
 			logMessage("Player is loaded!? "+loadedplayer.getName());
+			
+			if (callback != null) {
+				callback.call(loadedplayer.getPlayerId());
+			}
+			loadplayers.remove(loadedplayer.getName());
 			return;
 		}
 		loadplayers.add(loadedplayer.getName());
@@ -418,6 +434,7 @@ public class StatsManager extends kListener {
 				} else {
 					stats[i] = new EditStats(getType(), Action.ADD, key, statsObject.getChange());
 				}
+				statsObject.reset();
 			}
 			i++;
 		}
@@ -440,8 +457,7 @@ public class StatsManager extends kListener {
 			EditStats[] stats = createEditStatsArray(statsMap);
 
 			loadedplayer.setStats(stats);
-			this.players.remove(playerId);
-			loadplayers.remove(loadedplayer.getName());
+			this.loadplayers.remove(loadedplayer.getName());
 		}
 	}
 }

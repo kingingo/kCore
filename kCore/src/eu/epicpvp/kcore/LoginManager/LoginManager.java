@@ -100,18 +100,24 @@ public class LoginManager extends kListener{
 
 			@Override
 			public void call(PacketOutPlayerSettings .SettingValue[] response) {
+				logMessage("STEP 1 "+loadedplayer.getName());
 				if (response.length == 1 && response[0].getSetting() == Setting.PASSWORD){
+					logMessage("STEP 2 "+loadedplayer.getName());
 					if(response[0].getValue()!=null){
+						logMessage("STEP 3 "+loadedplayer.getName());
 						if(UtilPlayer.isOnline(playername)){
+							logMessage("STEP IS ONLINE "+loadedplayer.getName());
 							loginTitle.setSubtitle(TranslationHandler.getText(Bukkit.getPlayer(playername), "LOGIN_MESSAGE"));
 							loginTitle.send(Bukkit.getPlayer(playername));
 						}
+						logMessage("STEP ADD TO LOGIN "+loadedplayer.getName());
 						
 						login.put(playername, response[0].getValue());
 						return;
 					}
 				}
 				jumpAndRun.add(playername);
+				logMessage("STEP ADD TO JUMP AND RUN "+loadedplayer.getName());
 			}
 		} );
 	}
@@ -178,6 +184,10 @@ public class LoginManager extends kListener{
 		if(!ev.getPlayer().isOnGround()){
 			if(ev.getPlayer().getLocation().getY()<(spawn.getY()-20)){
 				if(this.login.containsKey(ev.getPlayer().getName())){
+					ev.getPlayer().teleport(spawn);
+				}
+				
+				if(this.register.contains(ev.getPlayer().getName())){
 					ev.getPlayer().teleport(spawn);
 				}
 				

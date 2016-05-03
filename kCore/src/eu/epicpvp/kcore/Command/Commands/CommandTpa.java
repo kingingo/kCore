@@ -50,7 +50,7 @@ public class CommandTpa implements CommandExecutor{
 							getManager().getTeleport_anfrage().put(tp, new Teleporter(player, tp,3));
 						}
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "TELEPORT_ANFRAGE_SENDER",tp.getName()));
-						tp.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "TELEPORT_ANFRAGE_EMPF§NGER",player.getName()));
+						tp.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "TELEPORT_ANFRAGE_EMPFÄNGER",player.getName()));
 						l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
 						if( l!=0 ){
 							UtilTime.getTimeManager().add(cmd.getName(), player, l);

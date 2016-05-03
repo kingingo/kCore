@@ -265,6 +265,8 @@ public class KitShop implements Listener {
 					
 					if(ev.getCurrentItem().getType()==Material.GOLD_NUGGET){
 						int c = getStatsManager().getInt(p, StatsKey.COINS);
+						System.out.println("COINS. "+c +" >= "+kit.getCoins_preis());
+						
 						if(c>=kit.getCoins_preis()){
 							getStatsManager().add(p, StatsKey.COINS, -kit.getCoins_preis());
 							getPermManager().addPermission(p, kit.getPermission());

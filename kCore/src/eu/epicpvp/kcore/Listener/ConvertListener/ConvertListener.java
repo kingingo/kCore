@@ -186,10 +186,10 @@ public class ConvertListener extends kListener{
 		System.out.println("[OLD]: Set "+loadedplayer.getName()+"("+loadedplayer.getPlayerId()+") to "+toGroup);
 	}
 	
-	public void check(Player player){
-		
-		
-	}
+//	public void check(Player player){
+//		
+//		
+//	}
 	
 	public static UUID getRealUUID(Player player){
 		UUID uuid = player.getUniqueId();
