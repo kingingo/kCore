@@ -31,7 +31,7 @@ public class UtilMath
 	}
   
   public static Integer RandomInt(int high, int low) {
-    return random.nextInt(high-low+1) + low;
+    return random.nextInt(high-low) + low;
   }
 
   public static int r(int i){
