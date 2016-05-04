@@ -82,22 +82,34 @@ public class AntiCrashListener extends kListener {
 			return;
 		if ((e.getPacket() instanceof PacketPlayInFlying)) {
 			PacketPlayInFlying packet = (PacketPlayInFlying) e.getPacket();
-		
-			int max = (int) (15 * (e.getPlayer().isFlying() ? e.getPlayer().getFlySpeed() : e.getPlayer().getWalkSpeed()));
+
+			double max = (double) (15 * (e.getPlayer().isFlying() ? e.getPlayer().getFlySpeed() : e.getPlayer().getWalkSpeed()));
+
 			Location target = new Location(e.getPlayer().getWorld(), packet.a(), packet.b(), packet.c());
-			if ((e.getPlayer() != null) && (e.getPlayer().getLocation() != null) && (target.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) > 10.0D) && (packet.g()) && ((Math.abs(packet.a() - e.getPlayer().getLocation().getX()) > max) || (Math.abs(packet.b() - e.getPlayer().getLocation().getY()) > max) || (Math.abs(packet.c() - e.getPlayer().getLocation().getZ()) > max))) {
+			if ((e.getPlayer() != null) && (e.getPlayer().getLocation() != null)
+					&& (target.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) > 10.0D)
+					&& (packet.g())
+					&& ((Math.abs(packet.a() - e.getPlayer().getLocation().getX()) > max)
+							|| (Math.abs(packet.b() - e.getPlayer().getLocation().getY()) > max)
+							|| (Math.abs(packet.c() - e.getPlayer().getLocation().getZ()) > max))) {
 				if (this.whitelist.contains(e.getPlayer()))
 					return;
+
+				logMessage("MAX: " + max + " " + e.getPlayer().isFlying() + " ? " + e.getPlayer().getFlySpeed() + ":"
+						+ e.getPlayer().getWalkSpeed());
 				int mc = 0;
 				if (!this.movementHits.containsKey(e.getPlayer())) {
 					this.movementHits.put(e.getPlayer(), Integer.valueOf(1));
 				} else
-					this.movementHits.put(e.getPlayer(), Integer.valueOf(mc = ((Integer) this.movementHits.get(e.getPlayer())).intValue() + 1));
-//				if (mc > 6)
-//					if(!e.getPlayer().isDead() && e.getPlayer().getLocation() != null 
-//					&& e.getPlayer().getLocation().distanceSquared(new Location(e.getPlayer().getWorld(), 0, 0, 0))>10)
-//						e.getPlayer().teleport(e.getPlayer().getLocation());
-				
+					this.movementHits.put(e.getPlayer(),
+							Integer.valueOf(mc = ((Integer) this.movementHits.get(e.getPlayer())).intValue() + 1));
+				// if (mc > 6)
+				// if(!e.getPlayer().isDead() && e.getPlayer().getLocation() !=
+				// null
+				// && e.getPlayer().getLocation().distanceSquared(new
+				// Location(e.getPlayer().getWorld(), 0, 0, 0))>10)
+				// e.getPlayer().teleport(e.getPlayer().getLocation());
+
 				if ((mc > 12) && (!this.kicked.contains(e.getPlayer()))) {
 					this.kicked.add(e.getPlayer());
 					logMessage("Kicking player: " + e.getPlayer() + " for wrong move!");
@@ -107,9 +119,10 @@ public class AntiCrashListener extends kListener {
 						}
 					});
 				}
-				logMessage("The player " + e.getPlayer().getName() + " try to move wrongly! from " + e.getPlayer().getLocation() + " to " + packet.a() + "," + packet.b() + "," + packet.c() + " (Time: " + mc + ")");
+				logMessage("The player " + e.getPlayer().getName() + " try to move wrongly! from "
+						+ e.getPlayer().getLocation() + " to " + packet.a() + "," + packet.b() + "," + packet.c()
+						+ " (Time: " + mc + ")");
 				e.setCancelled(true);
-				
 			}
 		}
 	}
@@ -139,9 +152,13 @@ public class AntiCrashListener extends kListener {
 					this.kick.add(e.getPlayer().getName());
 					LoadedPlayer loadedplayer = this.client.getPlayerAndLoad(e.getPlayer().getName());
 					loadedplayer.kickPlayer("§cStop!");
-					logMessage("IP: " + e.getPlayer().getAddress().getAddress().getHostAddress() + " PlayerId:" + loadedplayer.getPlayerId() + " UUID:" + e.getPlayer().getUniqueId());
+					logMessage("IP: " + e.getPlayer().getAddress().getAddress().getHostAddress() + " PlayerId:"
+							+ loadedplayer.getPlayerId() + " UUID:" + e.getPlayer().getUniqueId());
 					logMessage("Spieler " + iname + " wurde wegen Item Change Crash gekickt!");
-					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler " + name + " wurde wegen Animation Crash gekickt! " + " IP: " + e.getPlayer().getAddress().getAddress().getHostAddress() + " PlayerId:" + loadedplayer.getPlayerId() + " UUID:" + e.getPlayer().getUniqueId());
+					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql,
+							"Spieler " + name + " wurde wegen Animation Crash gekickt! " + " IP: "
+									+ e.getPlayer().getAddress().getAddress().getHostAddress() + " PlayerId:"
+									+ loadedplayer.getPlayerId() + " UUID:" + e.getPlayer().getUniqueId());
 				} else {
 					this.switchcount.remove(iname);
 					this.switchavg.remove(iname);
@@ -181,9 +198,13 @@ public class AntiCrashListener extends kListener {
 					this.kick.add(e.getPlayer().getName());
 					LoadedPlayer loadedplayer = this.client.getPlayerAndLoad(e.getPlayer().getName());
 					loadedplayer.kickPlayer("§cStop!");
-					logMessage("IP: " + e.getPlayer().getAddress().getAddress().getHostAddress() + " Real-UUID:" + loadedplayer.getPlayerId() + " UUID:" + e.getPlayer().getUniqueId());
+					logMessage("IP: " + e.getPlayer().getAddress().getAddress().getHostAddress() + " Real-UUID:"
+							+ loadedplayer.getPlayerId() + " UUID:" + e.getPlayer().getUniqueId());
 					logMessage("Spieler " + name + " wurde wegen Animation Crash gekickt!");
-					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql, "Spieler " + name + " wurde wegen Animation Crash gekickt! " + " IP: " + e.getPlayer().getAddress().getAddress().getHostAddress() + " PlayerId:" + loadedplayer.getPlayerId() + " UUID:" + e.getPlayer().getUniqueId());
+					UtilException.catchException(client.getHandle().getName(), Bukkit.getServer().getIp(), this.mysql,
+							"Spieler " + name + " wurde wegen Animation Crash gekickt! " + " IP: "
+									+ e.getPlayer().getAddress().getAddress().getHostAddress() + " PlayerId:"
+									+ loadedplayer.getPlayerId() + " UUID:" + e.getPlayer().getUniqueId());
 				} else {
 					this.hitscount.remove(name);
 					this.hitsavg.remove(name);
