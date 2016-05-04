@@ -85,7 +85,7 @@ public class AntiCrashListener extends kListener {
 		
 			int max = (int) (11 * (e.getPlayer().isFlying() ? e.getPlayer().getFlySpeed() : e.getPlayer().getWalkSpeed()));
 			Location target = new Location(e.getPlayer().getWorld(), packet.a(), packet.b(), packet.c());
-			if ((e.getPlayer() != null) && (e.getPlayer().getLocation() != null) && (target.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) > 10.0D) && (packet.g()) && ((Math.abs(packet.a() - e.getPlayer().getLocation().getX()) > max) || (Math.abs(packet.b() - e.getPlayer().getLocation().getY()) > max) || (Math.abs(packet.c() - e.getPlayer().getLocation().getZ()) > max))) {
+			if ((e.getPlayer() != null) && (e.getPlayer().getLocation() != null) && (target.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) > 15.0D) && (packet.g()) && ((Math.abs(packet.a() - e.getPlayer().getLocation().getX()) > max) || (Math.abs(packet.b() - e.getPlayer().getLocation().getY()) > max) || (Math.abs(packet.c() - e.getPlayer().getLocation().getZ()) > max))) {
 				if (this.whitelist.contains(e.getPlayer()))
 					return;
 				int mc = 0;
@@ -93,7 +93,10 @@ public class AntiCrashListener extends kListener {
 					this.movementHits.put(e.getPlayer(), Integer.valueOf(1));
 				} else
 					this.movementHits.put(e.getPlayer(), Integer.valueOf(mc = ((Integer) this.movementHits.get(e.getPlayer())).intValue() + 1));
-				if ((mc > 8) && (!this.kicked.contains(e.getPlayer()))) {
+//				if (mc > 6)
+//					e.getPlayer().teleport(e.getPlayer().getLocation());
+				
+				if ((mc > 12) && (!this.kicked.contains(e.getPlayer()))) {
 					this.kicked.add(e.getPlayer());
 					logMessage("§cKicking player: " + e.getPlayer() + " for wrong move!");
 					Bukkit.getScheduler().runTask(this.mysql.getInstance(), new Runnable() {
@@ -104,8 +107,7 @@ public class AntiCrashListener extends kListener {
 				}
 				logMessage("The player " + e.getPlayer().getName() + " try to move wrongly! from " + e.getPlayer().getLocation() + " to " + packet.a() + "," + packet.b() + "," + packet.c() + " (Time: " + mc + ")");
 				e.setCancelled(true);
-				if (mc > 12)
-					e.getPlayer().teleport(e.getPlayer().getLocation());
+				
 			}
 		}
 	}
