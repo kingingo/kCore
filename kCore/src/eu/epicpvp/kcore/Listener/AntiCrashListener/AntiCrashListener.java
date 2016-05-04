@@ -83,9 +83,9 @@ public class AntiCrashListener extends kListener {
 		if ((e.getPacket() instanceof PacketPlayInFlying)) {
 			PacketPlayInFlying packet = (PacketPlayInFlying) e.getPacket();
 		
-			int max = (int) (11 * (e.getPlayer().isFlying() ? e.getPlayer().getFlySpeed() : e.getPlayer().getWalkSpeed()));
+			int max = (int) (15 * (e.getPlayer().isFlying() ? e.getPlayer().getFlySpeed() : e.getPlayer().getWalkSpeed()));
 			Location target = new Location(e.getPlayer().getWorld(), packet.a(), packet.b(), packet.c());
-			if ((e.getPlayer() != null) && (e.getPlayer().getLocation() != null) && (target.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) > 15.0D) && (packet.g()) && ((Math.abs(packet.a() - e.getPlayer().getLocation().getX()) > max) || (Math.abs(packet.b() - e.getPlayer().getLocation().getY()) > max) || (Math.abs(packet.c() - e.getPlayer().getLocation().getZ()) > max))) {
+			if ((e.getPlayer() != null) && (e.getPlayer().getLocation() != null) && (target.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) > 10.0D) && (packet.g()) && ((Math.abs(packet.a() - e.getPlayer().getLocation().getX()) > max) || (Math.abs(packet.b() - e.getPlayer().getLocation().getY()) > max) || (Math.abs(packet.c() - e.getPlayer().getLocation().getZ()) > max))) {
 				if (this.whitelist.contains(e.getPlayer()))
 					return;
 				int mc = 0;
@@ -94,11 +94,13 @@ public class AntiCrashListener extends kListener {
 				} else
 					this.movementHits.put(e.getPlayer(), Integer.valueOf(mc = ((Integer) this.movementHits.get(e.getPlayer())).intValue() + 1));
 //				if (mc > 6)
-//					e.getPlayer().teleport(e.getPlayer().getLocation());
+//					if(!e.getPlayer().isDead() && e.getPlayer().getLocation() != null 
+//					&& e.getPlayer().getLocation().distanceSquared(new Location(e.getPlayer().getWorld(), 0, 0, 0))>10)
+//						e.getPlayer().teleport(e.getPlayer().getLocation());
 				
 				if ((mc > 12) && (!this.kicked.contains(e.getPlayer()))) {
 					this.kicked.add(e.getPlayer());
-					logMessage("§cKicking player: " + e.getPlayer() + " for wrong move!");
+					logMessage("Kicking player: " + e.getPlayer() + " for wrong move!");
 					Bukkit.getScheduler().runTask(this.mysql.getInstance(), new Runnable() {
 						public void run() {
 							e.getPlayer().kickPlayer("§cWrong move!");

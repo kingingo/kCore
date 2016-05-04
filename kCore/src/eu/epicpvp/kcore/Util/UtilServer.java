@@ -132,6 +132,8 @@ public class UtilServer{
 	private static TeleportManager teleportManager;
 	
 	public static void disable(){
+		for(Player player : UtilServer.getPlayers())player.closeInventory();
+		if(userData!=null)userData.saveAllConfigs();
 		for(Entity e : EntityClickListener.getEntities())e.remove();
 		if(hologram!=null)hologram.RemoveText();
 		if(deliveryPet!=null)deliveryPet.onDisable();
