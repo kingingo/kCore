@@ -40,6 +40,10 @@ public class AntiCrashListener extends kListener {
 	private ClientWrapper client;
 	private MySQL mysql;
 
+	private CachedArrayList<Player> whitelist = new CachedArrayList(500, TimeUnit.MILLISECONDS);
+	private CachedHashMap<Player, Integer> movementHits = new CachedHashMap(2000, TimeUnit.MILLISECONDS);
+	private CachedArrayList<Player> kicked = new CachedArrayList(2000, TimeUnit.MILLISECONDS);
+
 	public AntiCrashListener(ClientWrapper client, MySQL mysql) {
 		super(mysql.getInstance(), "AntiCrashListener");
 		this.hitsavg = new HashMap<>();
@@ -56,11 +60,6 @@ public class AntiCrashListener extends kListener {
 		this.mysql = mysql;
 		this.client = client;
 	}
-
-	private CachedArrayList<Player> whitelist = new CachedArrayList(500, TimeUnit.MILLISECONDS);
-
-	private CachedHashMap<Player, Integer> movementHits = new CachedHashMap(2000, TimeUnit.MILLISECONDS);
-	private CachedArrayList<Player> kicked = new CachedArrayList(2000, TimeUnit.MILLISECONDS);
 
 	@EventHandler
 	public void a(PlayerJoinEvent e) {
@@ -96,14 +95,14 @@ public class AntiCrashListener extends kListener {
 					this.movementHits.put(e.getPlayer(), Integer.valueOf(mc = ((Integer) this.movementHits.get(e.getPlayer())).intValue() + 1));
 				if ((mc > 8) && (!this.kicked.contains(e.getPlayer()))) {
 					this.kicked.add(e.getPlayer());
-					System.out.println("§cKicking player: " + e.getPlayer() + " for wrong move!");
+					logMessage("§cKicking player: " + e.getPlayer() + " for wrong move!");
 					Bukkit.getScheduler().runTask(this.mysql.getInstance(), new Runnable() {
 						public void run() {
 							e.getPlayer().kickPlayer("§cWrong move!");
 						}
 					});
 				}
-				System.err.println("The player " + e.getPlayer().getName() + " try to move wrongly! from " + e.getPlayer().getLocation() + " to " + packet.a() + "," + packet.b() + "," + packet.c() + " (Time: " + mc + ")");
+				logMessage("The player " + e.getPlayer().getName() + " try to move wrongly! from " + e.getPlayer().getLocation() + " to " + packet.a() + "," + packet.b() + "," + packet.c() + " (Time: " + mc + ")");
 				e.setCancelled(true);
 				if (mc > 12)
 					e.getPlayer().teleport(e.getPlayer().getLocation());
