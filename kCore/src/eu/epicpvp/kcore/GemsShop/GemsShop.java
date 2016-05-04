@@ -23,10 +23,12 @@ import eu.epicpvp.kcore.Inventory.Inventory.InventoryCopy;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBack;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonOpenInventoryCopy;
+import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesGroupPackageBase;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.UtilEnt;
@@ -38,6 +40,7 @@ import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
+import lombok.Setter;
 
 public class GemsShop{
 
@@ -47,6 +50,9 @@ public class GemsShop{
 	private kConfig config;
 	@Getter
 	private InventoryBase base;
+	@Getter
+	@Setter
+	private InventoryPageBase main;
 	@Getter
 	private PermissionManager permission;
 	private Hologram hm;
@@ -105,7 +111,7 @@ public class GemsShop{
 	
 				@Override
 				public void onClick(Player player, ActionType type, Object object) {
-					player.openInventory(base.getMain());
+					player.openInventory(main);
 				}
 				
 			}, v);
@@ -119,7 +125,7 @@ public class GemsShop{
 	public void fixInventory(InventoryPageBase page){
 		page.setItem(4, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§a§lGem-Shop"));
 		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"","§7Shop.ClashMC.eu"}, "§aOnline-Shop: "));
-		if(getBase().getMain()!=page)page.addButton(0, new ButtonBack(getBase().getMain(), UtilItem.RenameItem(new ItemStack(Material.ARROW), "§cBack")));
+		if(this.main!=page)page.addButton(0, new ButtonBack(this.main, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§cBack")));
 	}
 	
 	public void delCategory(int slot){
@@ -128,7 +134,7 @@ public class GemsShop{
 	}
 	
 	public String addCategory(int slot,String pageName,ItemStack item){
-		if(getBase().getMain().getItem(slot)==null||getBase().getMain().getItem(slot).getType()==Material.AIR){
+		if(this.main.getItem(slot)==null||this.main.getItem(slot).getType()==Material.AIR){
 			getConfig().setItemStack("Main."+slot+".Item", item);
 			getConfig().set("Main."+slot+".PageName", pageName);
 			getConfig().save();
@@ -198,8 +204,9 @@ public class GemsShop{
 	}
 	
 	public void load(){
-		this.base.setMain(new InventoryPageBase(InventorySize._54, "Gems-Shop"));
-		fixInventory(this.base.getMain());
+		this.main=new InventoryPageBase(InventorySize._54, "Gems-Shop");
+		base.addPage(this.main);
+		fixInventory(this.main);
 		
 		InventoryCopy page;
 		for(int i = 9; i <= 45; i++){
@@ -217,54 +224,110 @@ public class GemsShop{
 							page.setCreate_new_inv(true);
 						}
 						
-						page.addButton(a,new SalesPackageBase(new Click(){
+						if(s.equalsIgnoreCase("/-")){
+							page.setItem(a, it);
+						}else{
+							if(UtilServer.getPermissionManager().isBuyableRank(s)){
+				  				page.setCreate_new_inv(true);
+								page.addButton(a,new SalesGroupPackageBase(new Click(){
 
-							@Override
-							public void onClick(Player player, ActionType type,Object object) {
-								
-								if(PermissionType.isPerm(s)!=PermissionType.NONE){
-									if(player.hasPermission(PermissionType.isPerm(s).getPermissionToString())){
-										return;
-									}
-								}
-								
-								InventoryBuy buy = new InventoryBuy(new Click(){
 									@Override
 									public void onClick(Player player, ActionType type,Object object) {
-										log(player, price, it.getItemMeta().getDisplayName());
+										
+										if( UtilServer.getPermissionManager().checkHigherRank(player, s) ){
+											return;
+										}
+										
+										InventoryBuy buy = new InventoryBuy(new Click(){
+											@Override
+											public void onClick(Player player, ActionType type,Object object) {
+												log(player, price, it.getItemMeta().getDisplayName());
 
-										if(s.startsWith("/")){
-											if(s.contains(",")){
-												for(String cmd : s.split(",")){
-													System.out.println("[GemsShop]: use "+cmd.replaceAll("/", "").replaceAll("_", " ").replaceAll("%p%", player.getName()));
-									  				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replaceAll("/", "").replaceAll("_", " ").replaceAll("%p%", player.getName()));
-												}
-											}else{
-												System.out.println("[GemsShop]: use "+s.replaceAll("/", "").replaceAll("_", " ").replaceAll("%p%", player.getName()));
-								  				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s.replaceAll("/", "").replaceAll("_", " ").replaceAll("%p%", player.getName()));
+												UtilServer.getPermissionManager().setGroup(player, s);
+												
+												Bukkit.getPluginManager().callEvent(new PlayerGemsBuyEvent(player, it, price));
 											}
-										}else if(PermissionType.isPerm(s)!=PermissionType.NONE){
-											getPermission().addPermission(player, PermissionType.isPerm(s));
-										}else{
-											try {
-												for(ItemStack it : UtilInv.itemStackArrayFromBase64(s))if(it!=null&&it.getType()!=Material.AIR)player.getInventory().addItem(it);
-											} catch (IllegalArgumentException e) {
-												e.printStackTrace();
-											} catch (IOException e) {
-												e.printStackTrace();
+											
+										},"Kaufen",getGems(), UtilServer.getPermissionManager().getUpdgradeGroupPrice(player, s),0);
+										
+										player.openInventory(buy);
+										getBase().addAnother(buy);
+									}
+									
+								},s, it));
+							}else if(UtilServer.getPermissionManager().isBuyableTimeRank(s)){
+								page.addButton(a,new SalesGroupPackageBase(new Click(){
+
+									@Override
+									public void onClick(Player player, ActionType type,Object object) {
+										InventoryBuy buy = new InventoryBuy(new Click(){
+											@Override
+											public void onClick(Player player, ActionType type,Object object) {
+												log(player, price, it.getItemMeta().getDisplayName());
+
+												UtilServer.getPermissionManager().setGroup(player, s);
+												
+												Bukkit.getPluginManager().callEvent(new PlayerGemsBuyEvent(player, it, price));
+											}
+											
+										},"Kaufen",getGems(), price,0);
+										
+										player.openInventory(buy);
+										getBase().addAnother(buy);
+									}
+									
+								},s, it));
+							}else{
+								page.addButton(a,new SalesPackageBase(new Click(){
+
+									@Override
+									public void onClick(Player player, ActionType type,Object object) {
+										
+										if(PermissionType.isPerm(s)!=PermissionType.NONE){
+											if(player.hasPermission(PermissionType.isPerm(s).getPermissionToString())){
+												return;
 											}
 										}
 										
-										Bukkit.getPluginManager().callEvent(new PlayerGemsBuyEvent(player, it, price));
+										InventoryBuy buy = new InventoryBuy(new Click(){
+											@Override
+											public void onClick(Player player, ActionType type,Object object) {
+												log(player, price, it.getItemMeta().getDisplayName());
+
+												if(s.startsWith("/")){
+													if(s.contains(",")){
+														for(String cmd : s.split(",")){
+															System.out.println("[GemsShop]: use "+cmd.replaceAll("/", "").replaceAll("_", " ").replaceAll("%p%", player.getName()));
+											  				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replaceAll("/", "").replaceAll("_", " ").replaceAll("%p%", player.getName()));
+														}
+													}else{
+														System.out.println("[GemsShop]: use "+s.replaceAll("/", "").replaceAll("_", " ").replaceAll("%p%", player.getName()));
+										  				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s.replaceAll("/", "").replaceAll("_", " ").replaceAll("%p%", player.getName()));
+													}
+												}else if(PermissionType.isPerm(s)!=PermissionType.NONE){
+													getPermission().addPermission(player, PermissionType.isPerm(s));
+												}else{
+													try {
+														for(ItemStack it : UtilInv.itemStackArrayFromBase64(s))if(it!=null&&it.getType()!=Material.AIR)player.getInventory().addItem(it);
+													} catch (IllegalArgumentException e) {
+														e.printStackTrace();
+													} catch (IOException e) {
+														e.printStackTrace();
+													}
+												}
+												
+												Bukkit.getPluginManager().callEvent(new PlayerGemsBuyEvent(player, it, price));
+											}
+											
+										},"Kaufen",getGems(),price,0);
+										
+										player.openInventory(buy);
+										getBase().addAnother(buy);
 									}
 									
-								},"Kaufen",getGems(),price,0);
-								
-								player.openInventory(buy);
-								getBase().addAnother(buy);
+								},(PermissionType.isPerm(s)!=PermissionType.NONE?PermissionType.isPerm(s):null), it));
 							}
-							
-						},(PermissionType.isPerm(s)!=PermissionType.NONE?PermissionType.isPerm(s):null), it));
+						}
 					}
 				}
 				
@@ -272,7 +335,7 @@ public class GemsShop{
 				
 				if(item==null)item = UtilItem.RenameItem(new ItemStack(Material.BEDROCK), "§cERROR");
 				
-				this.base.getMain().addButton(i,new ButtonOpenInventoryCopy(page,getBase(), item));
+				this.main.addButton(i,new ButtonOpenInventoryCopy(page,getBase(), item));
 				this.base.addPage(page);
 			}
 		}

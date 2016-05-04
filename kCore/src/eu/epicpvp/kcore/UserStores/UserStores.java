@@ -199,7 +199,7 @@ public class UserStores extends kListener{
 		page.fill(Material.STAINED_GLASS_PANE,15);
 		page.setCreate_new_inv(true);
 		page.setFor_with_copy_page(false);
-		UtilInv.getBase(statsManager.getInstance()).addPage(page);
+		UtilInv.getBase().addPage(page);
 		UtilServer.getCommandHandler().register(CommandUserStore.class, new CommandUserStore(this));
 	}
 	

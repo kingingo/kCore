@@ -27,7 +27,7 @@ public class CommandGems implements CommandExecutor{
 		Player player=(Player)sender;
 		
 		if(args.length==0){
-			player.openInventory(shop.getBase().getMain());
+			player.openInventory(shop.getMain());
 		}else{
 			if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 				if(args[0].equalsIgnoreCase("addc")){
@@ -45,8 +45,8 @@ public class CommandGems implements CommandExecutor{
 					}
 				}else if(args[0].equalsIgnoreCase("getc")){
 					for(int i = 9; i < 35; i++){
-						if(shop.getBase().getMain().getItem(i)!=null){
-							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"ID: "+i+" ITEM:"+shop.getBase().getMain().getItem(i).getItemMeta().getDisplayName());
+						if(shop.getMain().getItem(i)!=null){
+							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"ID: "+i+" ITEM:"+shop.getMain().getItem(i).getItemMeta().getDisplayName());
 						}
 					}
 				}else if(args[0].equalsIgnoreCase("addp")){
@@ -86,14 +86,14 @@ public class CommandGems implements CommandExecutor{
 					}
 				}else if(args[0].equalsIgnoreCase("geti")){
 					if(args.length>=2){
-						InventoryCopy page = ((ButtonOpenInventoryCopy)shop.getBase().getMain().getButton(UtilNumber.toInt(args[1]))).getInventorySale();
+						InventoryCopy page = ((ButtonOpenInventoryCopy)shop.getMain().getButton(UtilNumber.toInt(args[1]))).getInventorySale();
 						player.setItemInHand(page.getItem(UtilNumber.toInt(args[2])));
 					}else{
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/gems geti [CSLOT] [SLOT]");
 					}
 				}else if(args[0].equalsIgnoreCase("get")){
 					if(args.length>=1){
-						InventoryCopy page = ((ButtonOpenInventoryCopy)shop.getBase().getMain().getButton(UtilNumber.toInt(args[1]))).getInventorySale();
+						InventoryCopy page = ((ButtonOpenInventoryCopy)shop.getMain().getButton(UtilNumber.toInt(args[1]))).getInventorySale();
 						
 						for(int i = 9; i < 45; i++){
 							if(page.getItem(i)!=null){
@@ -105,13 +105,8 @@ public class CommandGems implements CommandExecutor{
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/gems get [CSLOT]");
 					}
 				}else if(args[0].equalsIgnoreCase("reload")){
-					if(shop.getBase().getMain()!=null)shop.getBase().getMain().remove();
-					shop.getBase().setMain(null);
-					
-					for(int i = 0; i<shop.getBase().getPages().size(); i++){
-						shop.getBase().getPages().get(i).remove();
-					}
-					shop.getBase().getPages().clear();
+					shop.getMain().remove();
+					shop.setMain(null);
 					
 					shop.load();
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aReloaded");
@@ -122,7 +117,7 @@ public class CommandGems implements CommandExecutor{
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aLocation saved!");
 				}
 			}else{
-				player.openInventory(shop.getBase().getMain());
+				player.openInventory(shop.getMain());
 			}
 		}
 		return false;

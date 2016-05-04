@@ -10,7 +10,7 @@ import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 
 public class TreasureChestPackage extends SalesPackageBase{
 
-	//§berpr§ft ob der User dies schon besitzt!
+	//Überprüft ob der User dies schon besitzt!
 	private BooleanClick booleanClick;
 	
 	public TreasureChestPackage(Click click,BooleanClick booleanClick,ItemStack itemStack) {

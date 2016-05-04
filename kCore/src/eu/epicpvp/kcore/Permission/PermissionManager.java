@@ -11,12 +11,17 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.spigotmc.AsyncCatcher;
 
+import dev.wolveringer.client.LoadedPlayer;
+import dev.wolveringer.client.connection.ClientType;
 import dev.wolveringer.client.threadfactory.ThreadFactory;
+import dev.wolveringer.dataserver.protocoll.DataBuffer;
+import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
 import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import eu.epicpvp.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilReflection;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
@@ -54,6 +59,75 @@ public class PermissionManager {
 		Bukkit.getMessenger().registerIncomingPluginChannel(instance, "permission", handler);
 		Bukkit.getMessenger().registerOutgoingPluginChannel(instance, "permission");
 		UtilServer.setPermissionManager(this);
+	}
+	
+	public boolean isBuyableTimeRank(String group){
+		group=group.toLowerCase();
+		
+		return group.equalsIgnoreCase("vip1")
+				||group.equalsIgnoreCase("vip3")
+				||group.equalsIgnoreCase("vip6")
+				||group.equalsIgnoreCase("ultra1")
+				||group.equalsIgnoreCase("ultra3")
+				||group.equalsIgnoreCase("ultra6")
+				||group.equalsIgnoreCase("legend1")
+				||group.equalsIgnoreCase("legend3")
+				||group.equalsIgnoreCase("legend6")
+				||group.equalsIgnoreCase("mvp1")
+				||group.equalsIgnoreCase("mvp3")
+				||group.equalsIgnoreCase("mvp6")
+				||group.equalsIgnoreCase("mvp+1")
+				||group.equalsIgnoreCase("mvp+3")
+				||group.equalsIgnoreCase("mvp+6");
+	}
+	
+	public boolean isBuyableRank(String group){
+		group=group.toLowerCase();
+		
+		return group.equalsIgnoreCase("vip")
+				||group.equalsIgnoreCase("ultra")
+				||group.equalsIgnoreCase("legend")
+				||group.equalsIgnoreCase("mvp")
+				||group.equalsIgnoreCase("mvp+");
+	}
+	
+	public int getUpdgradeGroupPrice(Player player, String toGroup){
+		PermissionPlayer permissionPlayer = getPermissionPlayer(player);
+		Group group = permissionPlayer.getGroups().get(0);
+		
+		if(isBuyableRank(group.getName())){
+			return getUpdgradeGroupPrice(group.getName(), toGroup);
+		}
+		
+		return getGroupPrice(toGroup);
+	}
+	
+	public int getUpdgradeGroupPrice(String playerGroup, String toGroup){
+		int player_group = getGroupPrice(playerGroup);
+		int new_group = getGroupPrice(toGroup);
+		return new_group - player_group;
+	}
+	
+	public boolean checkHigherRank(Player player,String group){
+		PermissionPlayer permissionPlayer = getPermissionPlayer(player);
+		Group pgroup = permissionPlayer.getGroups().get(0);
+		
+		if(isBuyableRank(pgroup.getName())){
+			return (getGroupPrice(pgroup.getName()) > getGroupPrice(group));
+		}
+		
+		return false;
+	}
+	
+	public int getGroupPrice(String groupName){
+		switch(groupName.toLowerCase()){
+			case "vip": return 5600;
+			case "ultra": return 12000;
+			case "legend": return 17600;
+			case "mvp": return 25000;
+			case "mvp+": return 32000;
+			default: return 99999999;
+		}
 	}
 
 	public Scoreboard getScoreboard() {
@@ -226,6 +300,21 @@ public class PermissionManager {
 
 	public void unloadGroup(Group g) {
 		groups.remove(g);
+	}
+	
+	public void setGroup(Player player, String toGroup){
+		LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player.getName());
+		DataBuffer buffer = new DataBuffer();
+		buffer.writeByte(2);
+		buffer.writeInt(loadedplayer.getPlayerId());
+		buffer.writeString(null);
+		buffer.writeString(toGroup);
+		PacketServerMessage packet = new PacketServerMessage("permission", ClientType.BUNGEECORD, buffer);
+
+		UtilReflection.setValue("targets", packet, new PacketServerMessage.Target[]{new PacketServerMessage.Target(ClientType.BUNGEECORD,"targetlimit;1")});
+
+		UtilServer.getClient().writePacket(packet);
+		System.out.println("Set "+player+"("+loadedplayer.getPlayerId()+") to "+toGroup);
 	}
 
 	protected void updatePlayer(int playerId) {

@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
 
 public class CommandItem implements CommandExecutor{
@@ -23,12 +24,16 @@ public class CommandItem implements CommandExecutor{
 			if(player.isOp()){
 				if(args.length==0){
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/item glow");
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/item string");
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/item add [Line]");
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/item clear");
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/item del [Line]");
 				}else{
 					if(args[0].equalsIgnoreCase("glow")){
 						player.setItemInHand( UtilItem.addEnchantmentGlow(player.getItemInHand()) );
+					}else if(args[0].equalsIgnoreCase("string")){
+						System.out.println(""+UtilInv.itemStackToBase64(player.getItemInHand()));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aCONSOLE");
 					}else if(args[0].equalsIgnoreCase("clear")){
 						player.setItemInHand( UtilItem.SetDescriptions(player.getItemInHand(), new String[]{}) );
 					}else if(args[0].equalsIgnoreCase("del")){

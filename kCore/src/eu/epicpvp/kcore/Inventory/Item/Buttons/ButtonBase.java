@@ -1,5 +1,6 @@
 package eu.epicpvp.kcore.Inventory.Item.Buttons;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -7,6 +8,7 @@ import org.bukkit.material.MaterialData;
 
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
+import eu.epicpvp.kcore.Inventory.Item.IButton;
 import eu.epicpvp.kcore.Inventory.Item.IButtonOneSlot;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilItem;
@@ -108,5 +110,15 @@ public class ButtonBase implements IButtonOneSlot{
 	
 	public void Clicked(Player player, ActionType type,Object object) {
 		if(click!=null)click.onClick(player, type,object);
+	}
+	
+	@Override
+	public IButton clone() {
+		try{
+			return (IButton) super.clone();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

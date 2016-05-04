@@ -23,14 +23,15 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import eu.epicpvp.kcore.Inventory.InventoryBase;
 import lombok.Getter;
+import lombok.Setter;
 
 public class UtilInv
 {
-  @Getter
+  @Setter
   private static InventoryBase base;
   
-  public static InventoryBase getBase(JavaPlugin instance){
-	  if(base==null)base=new InventoryBase(instance);
+  public static InventoryBase getBase(){
+	  if(base==null)new InventoryBase(UtilServer.getPermissionManager().getInstance());
 	  return base;
   }
   

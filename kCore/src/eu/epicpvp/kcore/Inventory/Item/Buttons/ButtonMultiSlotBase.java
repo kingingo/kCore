@@ -3,6 +3,7 @@ package eu.epicpvp.kcore.Inventory.Item.Buttons;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
+import eu.epicpvp.kcore.Inventory.Item.IButton;
 import eu.epicpvp.kcore.Inventory.Item.IButtonMultiSlot;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import lombok.Getter;
@@ -49,5 +50,14 @@ public class ButtonMultiSlotBase implements IButtonMultiSlot{
 	public boolean isSlot(int slot) {
 		for(ButtonBase b : buttons)if(b.getSlot()==slot)return true;
 		return false;
+	}
+	@Override
+	public IButton clone() {
+		try{
+			return (IButton) super.clone();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

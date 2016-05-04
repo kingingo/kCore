@@ -18,6 +18,7 @@ import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.UtilDebug;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
+import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilMath;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +43,8 @@ public class InventoryBase extends kListener{
 		this.pages= new ArrayList<>();
 		this.another= new ArrayList<>();
 		if(main_size!=0)this.main=new InventoryPageBase(main_size,name);
+		
+		UtilInv.setBase(this);
 	}
 	
 	public InventoryBase(JavaPlugin instance,InventorySize size,String name){

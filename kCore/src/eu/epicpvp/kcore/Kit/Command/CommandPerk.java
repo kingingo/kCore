@@ -29,7 +29,7 @@ public class CommandPerk implements CommandExecutor{
 	public CommandPerk(final PerkManager manager){
 		this.manager=manager;
 		this.perklist=new HashMap<>();
-		UtilInv.getBase(manager.getInstance());
+		UtilInv.getBase();
 		manager.setPage(new InventoryCopy(InventorySize._45.getSize(), "Perk:"));
 		
 		int slot = 0;

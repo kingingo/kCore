@@ -214,14 +214,9 @@ public class InventoryPageBase extends CraftInventoryCustom {
 	public InventoryPageBase clone(){
 		InventoryPageBase page = new InventoryPageBase(getInventoryType(),getSize(), getTitle());
 		for(IButton b : getButtons()){
+			
 			if(b instanceof IButtonOneSlot){
-				if(b instanceof SalesPackageBase){
-					page.addButton(((IButtonOneSlot)b).getSlot(), new SalesPackageBase(((SalesPackageBase)b).getClick(), ((SalesPackageBase)b).getPermission(), ((IButtonOneSlot)b).getItemStack() ));
-				}else if(b instanceof ButtonCopy){
-					page.addButton(((IButtonOneSlot)b).getSlot(), new ButtonCopy(((ButtonCopy)b).getSet(),((ButtonCopy)b).getClick(), ((IButtonOneSlot)b).getItemStack() ));
-				}else if(b instanceof ButtonBase){
-					page.addButton(((IButtonOneSlot)b).getSlot(), new ButtonBase(((IButtonOneSlot)b).getClick(), ((IButtonOneSlot)b).getItemStack() ));
-				} 
+				page.addButton(((IButtonOneSlot)b).getSlot() ,b.clone());
 			}else if(b instanceof IButtonMultiSlot){
 				if(b instanceof ButtonMultiCopy){
 					page.addButton(new ButtonMultiCopy( ((ButtonForMultiButtonsCopy[])((ButtonMultiCopy)b).getButtons().clone()) ));
@@ -229,6 +224,7 @@ public class InventoryPageBase extends CraftInventoryCustom {
 					page.addButton(new ButtonMultiSlotBase(((ButtonMultiCopy)b).getButtons().clone()));
 				}	
 			}
+			
 		}
 		
 		page.setContents(getContents());

@@ -100,8 +100,8 @@ public class VillagerShop extends kListener{
 			}
 			
 		}, UtilItem.Item(new ItemStack(Material.GLOWSTONE_DUST), new String[]{}, "§aInventory Shop")));
-		UtilInv.getBase(instance).addPage(inventoryMerchant);
-		UtilInv.getBase(instance).addPage(inventory);
+		UtilInv.getBase().addPage(inventoryMerchant);
+		UtilInv.getBase().addPage(inventory);
 		spawn(spawn);
 	}
 	

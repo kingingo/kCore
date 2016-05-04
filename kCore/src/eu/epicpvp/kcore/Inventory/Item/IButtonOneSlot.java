@@ -6,18 +6,18 @@ import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 
-public abstract interface IButtonOneSlot extends IButton{
-	  public abstract String getName();
-	  public abstract void setName(String name);
-	  public abstract void setDescription(String[] desc);
-	  public abstract String[] getDescription();
-	  public abstract void refreshItemStack();
-	  public abstract void setMaterial(Material material);
-	  public abstract void setMaterial(Material material,byte data);
-	  public abstract int getSlot();
-	  public abstract Click getClick();
-	  public abstract void Clicked(Player player,ActionType type,Object object);
-	  public abstract void setSlot(int slot);
-	  public abstract ItemStack getItemStack();
-	  public abstract void setItemStack(ItemStack item);
+public interface IButtonOneSlot extends IButton{
+	  public String getName();
+	  public void setName(String name);
+	  public void setDescription(String[] desc);
+	  public String[] getDescription();
+	  public void refreshItemStack();
+	  public void setMaterial(Material material);
+	  public void setMaterial(Material material,byte data);
+	  public int getSlot();
+	  public Click getClick();
+	  public void Clicked(Player player,ActionType type,Object object);
+	  public void setSlot(int slot);
+	  public ItemStack getItemStack();
+	  public void setItemStack(ItemStack item);
 	}

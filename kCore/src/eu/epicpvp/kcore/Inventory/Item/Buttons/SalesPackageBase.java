@@ -7,6 +7,7 @@ import org.bukkit.material.MaterialData;
 
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
+import eu.epicpvp.kcore.Inventory.Item.IButton;
 import eu.epicpvp.kcore.Inventory.Item.IButtonOneSlot;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
@@ -97,6 +98,16 @@ public class SalesPackageBase implements IButtonOneSlot{
 		this.itemStack=null;
 		this.slot=0;
 		this.inventoryPageBase=null;
+	}
+	
+	@Override
+	public IButton clone() {
+		try{
+			return (IButton) super.clone();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

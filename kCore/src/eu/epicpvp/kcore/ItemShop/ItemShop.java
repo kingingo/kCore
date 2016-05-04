@@ -66,7 +66,7 @@ public class ItemShop{
 	
 	public ItemShop(StatsManager statsManager,CommandHandler cmd){
 		this.config=new kConfig(UtilFile.getYMLFile(cmd.getPlugin(), "itemshop"));
-		UtilInv.getBase(cmd.getPlugin());
+		UtilInv.getBase();
 		this.statsManager=statsManager;
 		this.cmd=cmd;
 		this.sales=new HashMap<>();
