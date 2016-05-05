@@ -21,7 +21,7 @@ public class Info {
 				return true;
 			}
 			player.sendMessage(TranslationHandler.getText(player, "GILDE_STATS_PREFIX"));
-			
+
 			String msg = buildTeamInfo(team);
 			player.sendMessage(msg);
 		} else if (args.length == 2) {
@@ -34,7 +34,7 @@ public class Info {
 			teamName = team.getName();
 
 			player.sendMessage(TranslationHandler.getText(player, "GILDE_STATS_PREFIXBY", teamName));
-			
+
 			String msg = buildTeamInfo(team);
 			player.sendMessage(msg);
 		} else {

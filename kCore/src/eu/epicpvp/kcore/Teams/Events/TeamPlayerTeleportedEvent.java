@@ -24,6 +24,7 @@ public class TeamPlayerTeleportedEvent extends Event implements Cancellable {
 	@Setter
 	@Nullable
 	private String cancelReason;
+
 	//static things for bukkit events
 	@Getter
 	private static final HandlerList handlerList = new HandlerList();

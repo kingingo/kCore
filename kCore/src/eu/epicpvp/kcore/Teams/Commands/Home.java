@@ -17,27 +17,26 @@ import org.bukkit.entity.Player;
 import static net.minecraft.server.v1_8_R3.PotionBrewer.g;
 
 public class Home {
-
 	public static boolean onSet(Player player, String[] args, TeamManager teamManager) {
 		return onSet(player, player.getLocation(), args, teamManager);
 	}
 
 	public static boolean onSet(Player player, Location loc, String[] args, TeamManager teamManager) {
 		if (args.length != 1) {
-			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+" /gilde sethome");
+			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + " /gilde sethome");
 			return true;
 		}
 		Team team = teamManager.getTeamIfLoaded(player);
-		if(team == null){
-			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
+		if (team == null) {
+			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + TranslationHandler.getText(player, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 			return true;
 		}
-		if(team.getRank(player) != TeamRank.OWNER){
-			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "GILDE_OWNER_NOT"));
+		if (team.getRank(player) != TeamRank.OWNER) {
+			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + TranslationHandler.getText(player, "GILDE_OWNER_NOT"));
 			return true;
 		}
-		
-		if(teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK){
+
+		if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
 //			if(teamManager instanceof SkyBlockGildenManager){
 //				SkyBlockGildenManager skymanager = (SkyBlockGildenManager)teamManager;
 //				
@@ -56,45 +55,47 @@ public class Home {
 //			}
 		}
 
-		if(UtilDebug.isDebug())UtilDebug.debug("CMD:Home", new String[]{"Gilde:"+g, "PLAYER: "+player.getName()});
-		
+		if (UtilDebug.isDebug()) {
+			UtilDebug.debug("CMD:Home", new String[]{"Gilde:" + g, "PLAYER: " + player.getName()});
+		}
+
 		team.setStatistic(StatsKey.LOC_X, loc.getBlockX());
 		team.setStatistic(StatsKey.LOC_Y, loc.getBlockY());
 		team.setStatistic(StatsKey.LOC_Z, loc.getBlockZ());
 		team.setStatistic(StatsKey.WORLD, loc.getWorld().getName());
-		if(teamManager.getTeamType() == GameType.TEAMS_PVP){
-			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "GILDE_SETHOME"));
+		if (teamManager.getTeamType() == GameType.TEAMS_PVP) {
+			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + TranslationHandler.getText(player, "GILDE_SETHOME"));
 		}
 		return true;
 	}
 
 	public static boolean on(Player player, String[] args, TeamManager teamManager) {
-		if(args.length==1){
+		if (args.length == 1) {
 			Team team = teamManager.getTeamIfLoaded(player);
-			if(team == null){
-				player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
+			if (team == null) {
+				player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + TranslationHandler.getText(player, "GILDE_PLAYER_IS_NOT_IN_GILDE"));
 				return true;
 			}
-			TeamPlayerTeleportedEvent ev = new TeamPlayerTeleportedEvent(player,team);
+			TeamPlayerTeleportedEvent ev = new TeamPlayerTeleportedEvent(player, team);
 			Bukkit.getPluginManager().callEvent(ev);
-			if(ev.isCancelled()){
-				if(ev.getCancelReason()!=null){
-					player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+ev.getCancelReason());
+			if (ev.isCancelled()) {
+				if (ev.getCancelReason() != null) {
+					player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + ev.getCancelReason());
 				}
 				return true;
 			}
 
 			Location loc_to = getHome(team);
-			
+
 			Teleporter teleporter = new Teleporter(player, loc_to, 5);
 			UtilServer.getTeleportManager().getTeleport().add(teleporter);
-			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "GILDE_HOME","5 sec"));
-		}else if(args.length == 2) {
+			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + TranslationHandler.getText(player, "GILDE_HOME", "5 sec"));
+		} else if (args.length == 2) {
 			if (!player.isOp()) {
-				player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+" /gilde "+args[0]);
+				player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + " /gilde " + args[0]);
 				return true;
 			}
-			if(teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK){
+			if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
 //				SkyBlockGildenManager sky = (SkyBlockGildenManager)teamManager;
 //				
 //				if(sky.getSky().getGilden_world().getIslands().containsKey(args[1].toLowerCase())){
@@ -106,15 +107,15 @@ public class Home {
 			} else {
 				teamManager.getTeam(args[1], team -> {
 					if (team == null) {
-						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cGilde nicht gefunden");
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "§cGilde nicht gefunden");
 						return;
 					}
 					player.teleport(getHome(team));
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aDu wurdest Teleporiert.");
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "§aDu wurdest Teleporiert.");
 				});
 			}
 		} else {
-			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+" /gilde "+args[0]);
+			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + " /gilde " + args[0]);
 		}
 		return true;
 	}

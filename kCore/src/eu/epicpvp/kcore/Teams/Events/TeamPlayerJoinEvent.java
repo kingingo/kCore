@@ -8,7 +8,6 @@ import org.bukkit.event.HandlerList;
 
 public class TeamPlayerJoinEvent extends Event{
 
-	private static final HandlerList handlers = new HandlerList();
 	@Getter
 	private Team team;
 	@Getter
@@ -18,14 +17,13 @@ public class TeamPlayerJoinEvent extends Event{
 		this.team=team;
 		this.player=player;
 	}
-	
-	public HandlerList getHandlers()
-	{
-		return handlers;
-	}
 
-	public static HandlerList getHandlerList()
-	{
-		return handlers;
+	//static things for bukkit events
+	@Getter
+	private static final HandlerList handlerList = new HandlerList();
+
+	@Override
+	public HandlerList getHandlers() {
+		return handlerList;
 	}
 }

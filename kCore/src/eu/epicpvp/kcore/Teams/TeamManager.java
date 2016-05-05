@@ -3,6 +3,7 @@ package eu.epicpvp.kcore.Teams;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -27,30 +28,30 @@ public class TeamManager {
 	@Getter
 	private final kCore instance;
 	@Getter
-	private final StatsManager teamStatsManager;
-	@Getter
-	private final StatsManager serverStatsManager;
-	@Getter
 	private final GameType serverType;
 	@Getter
 	private final GameType teamType;
+	@Getter
+	private final StatsManager serverStatsManager;
+	@Getter
+	private final StatsManager teamStatsManager;
 	private final TIntObjectMap<Team> teams = new TIntObjectHashMap<>();
 	private final Map<String, Team> teamsByName = new HashMap<>();
 	@Getter
 	private Ranking ranking;
 
-	public TeamManager(kCore instance, GameType serverType, StatsKey ranking) {
+	public TeamManager(@Nonnull kCore instance, @Nonnull GameType serverType, @Nonnull StatsKey rankingKey) {
 		this.instance = instance;
 		this.serverType = serverType;
 		this.teamType = serverType.getTeamType();
-		this.teamStatsManager = StatsManagerRepository.getStatsManager(teamType);
 		this.serverStatsManager = StatsManagerRepository.getStatsManager(serverType);
-		this.ranking = new Ranking(teamType, ranking);
+		this.teamStatsManager = StatsManagerRepository.getStatsManager(teamType);
+		this.ranking = new Ranking(teamType, rankingKey);
 		this.teamStatsManager.addRanking(this.ranking);
 		new TeamListener(this);
 	}
 
-	public void getTeam(Player player, Callback<Team> callback) {
+	public void getTeam(@Nonnull Player player, @Nullable Callback<Team> callback) {
 		int teamId = teamStatsManager.getInt(player, StatsKey.TEAM_ID);
 		if (teamId <= 0) {
 			if (callback != null) {
@@ -61,12 +62,12 @@ public class TeamManager {
 	}
 
 	@Nullable
-	public Team getTeamIfLoaded(int teamId) {
+	public Team getTeamIfLoaded(@Nonnegative int teamId) {
 		return teams.get(teamId);
 	}
 
 	@Nullable
-	public Team getTeamIfLoaded(String teamName) {
+	public Team getTeamIfLoaded(@Nonnull String teamName) {
 		return teamsByName.get(teamName.toLowerCase());
 	}
 
@@ -144,6 +145,7 @@ public class TeamManager {
 	public void delete(Team playerTeam) {
 		new ArrayList<>(playerTeam.getPlayers())
 				.forEach(playerTeam::removePlayer);
+		//TODO delete team data
 	}
 
 	private void loadTeam(int teamId, @Nullable Callback<Team> callback) {
