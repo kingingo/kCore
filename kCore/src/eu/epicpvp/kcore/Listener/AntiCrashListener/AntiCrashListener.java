@@ -88,12 +88,14 @@ public class AntiCrashListener extends kListener {
 	public void a(final PacketListenerReceiveEvent e) {
 		if(!isMovement())return;
 		
-		if ((e.getPlayer() == null) || (e.getPlayer().isDead())) {
+		if ((e.getPacket() == null) || (e.getPlayer() == null) || (e.getPlayer().isDead())) {
 			return;
 		}
+		
 		if (this.whitelist.contains(e.getPlayer())) {
 			return;
 		}
+		
 		if ((e.getPacket() instanceof PacketPlayInFlying)) {
 			PacketPlayInFlying packet = (PacketPlayInFlying) e.getPacket();
 
@@ -106,7 +108,7 @@ public class AntiCrashListener extends kListener {
 			boolean packetHasPos = packet.g();
 			if (e.getPlayer() != null && e.getPlayer().getLocation() != null && packetHasPos) {
 				if (target.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) < 10.0D) {
-					logMessage("SPECIAL POSITION");
+					logMessage("Special Position");
 					hasHit(e, max, packetX, packetY, packetZ);
 				} else if (Math.abs(packetX - e.getPlayer().getLocation().getX()) > max) {
 					logMessage("X: Math.abs(" + packetX + " - " + e.getPlayer().getLocation().getX() + ") = " + Math.abs(packetX - e.getPlayer().getLocation().getX()) + " > " + max);
@@ -138,7 +140,7 @@ public class AntiCrashListener extends kListener {
 	}
 
 	private void hasHit(final PacketListenerReceiveEvent e, double max, double packetX, double packetY, double packetZ) {
-		logMessage("MAX: " + max + " " + e.getPlayer().isFlying() + " ? " + e.getPlayer().getFlySpeed() + ":"
+		logMessage("Max: " + max + " " + e.getPlayer().isFlying() + " ? " + e.getPlayer().getFlySpeed() + ":"
 				+ e.getPlayer().getWalkSpeed());
 		int mc = 0;
 		if (!this.movementHits.containsKey(e.getPlayer())) {
@@ -146,27 +148,18 @@ public class AntiCrashListener extends kListener {
 		} else {
 			this.movementHits.put(e.getPlayer(), mc = this.movementHits.get(e.getPlayer()) + 1);
 		}
-		// if (mc > 6)
-		// if(!e.getPlayer().isDead() && e.getPlayer().getLocation() !=
-		// null
-		// && e.getPlayer().getLocation().distanceSquared(new
-		// Location(e.getPlayer().getWorld(), 0, 0, 0))>10)
-		// e.getPlayer().teleport(e.getPlayer().getLocation());
 
 		if ((mc > 12) && (!this.kicked.contains(e.getPlayer()))) {
 			this.kicked.add(e.getPlayer());
-			logMessage("Kicking player: " + e.getPlayer() + " for wrong move!");
+			logMessage("Kicking player: " + e.getPlayer().getName() + " for wrong move!");
 			Bukkit.getScheduler().runTask(this.mysql.getInstance(), new Runnable() {
 				public void run() {
 					e.getPlayer().kickPlayer("§cWrong move!");
 				}
 			});
 		}
-		logMessage("The player " + e.getPlayer().getName() + " try to move wrongly! from "
-				+ UtilLocation.getLocString(e.getPlayer().getLocation()) + " to " + packetX + "," + packetY + "," + packetZ
-				+ " (Time: " + mc + ")");
-//					e.getPlayer().teleport(e.getPlayer().getLocation());
-//					e.setCancelled(true);
+		logMessage(" (Level: " + mc + ") The player " + e.getPlayer().getName() + " try to move wrongly! from "
+				+ UtilLocation.getLocString(e.getPlayer().getLocation()) + " to " + packetX + "," + packetY + "," + packetZ);
 	}
 
 	String iname;
