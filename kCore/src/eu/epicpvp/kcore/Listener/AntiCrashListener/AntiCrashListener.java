@@ -160,7 +160,7 @@ public class AntiCrashListener extends kListener {
 			this.movementHits.put(e.getPlayer(), mc = (this.movementHits.get(e.getPlayer()) + 1) );
 		}
 
-		if ((mc > KICK_LIMIT) && (!this.kicked.contains(e.getPlayer()))) {
+		if ((mc > KICK_LIMIT) && (!this.kicked.contains(e.getPlayer())) || instandKick) {
 			this.kicked.add(e.getPlayer());
 			logMessage("Kicking player: " + e.getPlayer().getName() + " for wrong move!");
 			Bukkit.getScheduler().runTask(this.mysql.getInstance(), new Runnable() {
