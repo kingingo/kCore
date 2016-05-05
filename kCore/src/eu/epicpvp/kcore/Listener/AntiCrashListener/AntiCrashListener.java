@@ -109,7 +109,6 @@ public class AntiCrashListener extends kListener {
 			if (e.getPlayer() != null && e.getPlayer().getLocation() != null && packetHasPos) {
 				if (target.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) < 10.0D) {
 					logMessage("Special Position");
-					hasHit(e, max, packetX, packetY, packetZ);
 				} else if (Math.abs(packetX - e.getPlayer().getLocation().getX()) > max) {
 					logMessage("X: Math.abs(" + packetX + " - " + e.getPlayer().getLocation().getX() + ") = " + Math.abs(packetX - e.getPlayer().getLocation().getX()) + " > " + max);
 					hasHit(e, max, packetX, packetY, packetZ);
@@ -140,13 +139,11 @@ public class AntiCrashListener extends kListener {
 	}
 
 	private void hasHit(final PacketListenerReceiveEvent e, double max, double packetX, double packetY, double packetZ) {
-		logMessage("Max: " + max + " " + e.getPlayer().isFlying() + " ? " + e.getPlayer().getFlySpeed() + ":"
-				+ e.getPlayer().getWalkSpeed());
 		int mc = 0;
 		if (!this.movementHits.containsKey(e.getPlayer())) {
 			this.movementHits.put(e.getPlayer(), mc = 1);
 		} else {
-			this.movementHits.put(e.getPlayer(), mc = this.movementHits.get(e.getPlayer()) + 1);
+			this.movementHits.put(e.getPlayer(), mc = (this.movementHits.get(e.getPlayer()) + 1) );
 		}
 
 		if ((mc > 12) && (!this.kicked.contains(e.getPlayer()))) {
@@ -158,7 +155,7 @@ public class AntiCrashListener extends kListener {
 				}
 			});
 		}
-		logMessage(" (Level: " + mc + ") The player " + e.getPlayer().getName() + " try to move wrongly! from "
+		logMessage(" (Level: " + mc + " / Max: "+max+" / Kicked: "+this.kicked.contains(e.getPlayer())+") The player " + e.getPlayer().getName() + " try to move wrongly! from "
 				+ UtilLocation.getLocString(e.getPlayer().getLocation()) + " to " + packetX + "," + packetY + "," + packetZ);
 	}
 
