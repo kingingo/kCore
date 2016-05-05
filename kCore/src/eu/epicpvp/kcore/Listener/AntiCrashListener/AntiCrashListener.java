@@ -131,6 +131,9 @@ public class AntiCrashListener extends kListener {
 					logMessage("Wrong Z movement ("+diff+">"+max+")");
 					hit = true;
 				} 
+				if(packetY == 2.147483647E9){
+					logMessage("Duck ");
+				}
 				if (Double.isInfinite(packetX) || Double.isInfinite(packetY) || Double.isInfinite(packetZ)) {
 					logMessage("Infinite var in pos! (" + packetX + ","+packetY+","+packetZ+")");
 					hit = true;
@@ -141,8 +144,10 @@ public class AntiCrashListener extends kListener {
 					hit = true;
 					instandKick = true;
 				}
-				if(hit)
+				if(hit){
 					hitWrongMove(e, max, packetX, packetY, packetZ,instandKick);
+					e.setCancelled(true);
+				}
 			}
 		}
 	}
