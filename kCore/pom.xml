@@ -27,13 +27,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
+		<finalName>kCore</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
-				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
+				<directory>./</directory>
+				<includes>
+					<include>*.yml</include>
+				</includes>
 			</resource>
 		</resources>
 		<plugins>
@@ -68,6 +69,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+			<groupId>dev.wolveringer</groupId>
+			<artifactId>DatenClient</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>eu.epicpvp</groupId>
 			<artifactId>core-karcarde</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -87,10 +93,6 @@
 			<artifactId>core-kskyblock</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<exclusions>
-				<exclusion>
-					<artifactId>DatenClient</artifactId>
-					<groupId>DatenClient</groupId>
-				</exclusion>
 				<exclusion>
 					<artifactId>kCore</artifactId>
 					<groupId>kCore</groupId>
@@ -145,11 +147,6 @@
 			<artifactId>lombok</artifactId>
 			<version>1.16.8</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>dev.wolveringer</groupId>
-			<artifactId>DatenClient</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vexsoftware</groupId>
