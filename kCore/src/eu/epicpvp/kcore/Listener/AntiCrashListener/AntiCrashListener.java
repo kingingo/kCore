@@ -6,19 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import dev.wolveringer.arrays.CachedArrayList;
-import dev.wolveringer.client.ClientWrapper;
-import dev.wolveringer.client.LoadedPlayer;
-import dev.wolveringer.hashmaps.CachedHashMap;
-import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.MySQL.MySQL;
-import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
-import eu.epicpvp.kcore.Util.UtilException;
-import eu.epicpvp.kcore.Util.UtilLocation;
-import eu.epicpvp.kcore.Util.UtilPlayer;
-import lombok.Getter;
-import lombok.Setter;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -33,6 +20,19 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import dev.wolveringer.arrays.CachedArrayList;
+import dev.wolveringer.client.ClientWrapper;
+import dev.wolveringer.client.LoadedPlayer;
+import dev.wolveringer.hashmaps.CachedHashMap;
+import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.MySQL.MySQL;
+import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
+import eu.epicpvp.kcore.Util.UtilException;
+import eu.epicpvp.kcore.Util.UtilLocation;
+import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilServer;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.v1_8_R3.PacketPlayInFlying;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPosition;
 
@@ -101,7 +101,11 @@ public class AntiCrashListener extends kListener {
 		}
 
 		Player player = e.getPlayer();
-		if ((e.getPacket() == null) || (player == null) || (player.isDead())) {
+		if ((e.getPacket() == null) || (player == null) || (player.isDead()) || player.isFlying()) {
+			return;
+		}
+		
+		if(UtilServer.getPermissionManager().getPermissionPlayer(player)!= null && !UtilServer.getPermissionManager().getPermissionPlayer(player).getGroups().isEmpty() && !UtilServer.getPermissionManager().getPermissionPlayer(player).getGroups().get(0).getName().equalsIgnoreCase("default")){
 			return;
 		}
 

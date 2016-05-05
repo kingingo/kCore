@@ -67,11 +67,12 @@ public class MysteryChestSession {
 		Item it = block.getWorld().dropItem(loc, UtilItem.RenameItem(drop.clone(), "item"+UtilMath.r(100)));
 		it.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
         it.setPickupDelay(1000);
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), drop.getCmd().replaceAll("{player}", player.getName()));
         NameTagMessage msg = new NameTagMessage(NameTagType.PACKET, loc.clone().add(0,0.4,0), drop.getItemMeta().getDisplayName());
         msg.sendToPlayer(player);
         this.drops.put(it,msg);
         item++;
+        
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), drop.getCmd().replaceAll("[p]", player.getName()));
 	}
 	
 	public void remove(){
