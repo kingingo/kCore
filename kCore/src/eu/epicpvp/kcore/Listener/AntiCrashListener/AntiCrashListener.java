@@ -99,10 +99,6 @@ public class AntiCrashListener extends kListener {
 			return;
 		}
 		
-		if (this.whitelist.contains(e.getPlayer())) {
-			return;
-		}
-		
 		if ((e.getPacket() instanceof PacketPlayInFlying)) {
 			PacketPlayInFlying packet = (PacketPlayInFlying) e.getPacket();
 
@@ -118,21 +114,26 @@ public class AntiCrashListener extends kListener {
 				double diff = 0;
 				boolean hit = false;
 				boolean instandKick = false;
+
+
+				if (!this.whitelist.contains(e.getPlayer())) {
+					if (packetLocation.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) < 10.0D) {
+						logMessage("Special Position");
+					} else if ((diff = Math.abs(e.getPlayer().getLocation().getX() - packetX)) > max) {
+						logMessage("Wrong X movement ("+diff+">"+max+")");
+						hit = true;
+					} else if ((diff =Math.abs(e.getPlayer().getLocation().getY() - packetY)) > 15) {
+						logMessage("Wrong Y movement ("+diff+">"+max+")");
+						hit = true;
+					} else if ((diff =Math.abs(e.getPlayer().getLocation().getZ() - packetZ)) > max) {
+						logMessage("Wrong Z movement ("+diff+">"+max+")");
+						hit = true;
+					}
+				}
+
 				
-				if (packetLocation.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) < 10.0D) {
-					logMessage("Special Position");
-				} else if ((diff = Math.abs(e.getPlayer().getLocation().getX() - packetX)) > max) {
-					logMessage("Wrong X movement ("+diff+">"+max+")");
-					hit = true;
-				} else if ((diff =Math.abs(e.getPlayer().getLocation().getY() - packetY)) > max) {
-					logMessage("Wrong Y movement ("+diff+">"+max+")");
-					hit = true;
-				} else if ((diff =Math.abs(e.getPlayer().getLocation().getZ() - packetZ)) > max) {
-					logMessage("Wrong Z movement ("+diff+">"+max+")");
-					hit = true;
-				} 
-				if(packetY == 2.147483647E9){
-					logMessage("Duck ");
+				if(packetY >= 2E9){
+					logMessage("Duck");
 				}
 				if (Double.isInfinite(packetX) || Double.isInfinite(packetY) || Double.isInfinite(packetZ)) {
 					logMessage("Infinite var in pos! (" + packetX + ","+packetY+","+packetZ+")");
