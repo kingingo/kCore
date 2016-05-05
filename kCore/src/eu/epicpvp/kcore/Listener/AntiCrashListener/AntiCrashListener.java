@@ -120,7 +120,7 @@ public class AntiCrashListener extends kListener {
 
 				if (!this.whitelist.contains(player) || player.getGameMode() == GameMode.CREATIVE) { //ignore these for gm 1 as they are way faster
 					if (packetLocation.distanceSquared(new Location(playerWorld, 8.5D, 65.0D, 8.5D)) < 10.0D) {
-						logMessage("Special Position");
+						logMessage("Special Position player: " + player.getName() + " loc: " + packetLocation);
 					}
 					if ((diff = Math.abs(location.getX() - packetX)) > max) {
 						logMessage("Wrong X movement (" + diff + ">" + max + ")");
@@ -156,7 +156,7 @@ public class AntiCrashListener extends kListener {
 	}
 
 	private double getMaxDiff(Player player) {
-		double factor = player.isFlying() ? player.getFlySpeed() : player.getWalkSpeed();
+		double factor = player.isFlying() ? player.getFlySpeed() * 3 : player.getWalkSpeed();
 		return MAX_POS_DIFF_MULTIPLIER * factor;
 	}
 
@@ -181,7 +181,7 @@ public class AntiCrashListener extends kListener {
 			UtilPlayer.getCraftPlayer(e.getPlayer()).getHandle().playerConnection.sendPacket(
 					new PacketPlayOutPosition(e.getPlayer().getLocation().getX(), e.getPlayer().getLocation().getY(), e.getPlayer().getLocation().getZ(), e.getPlayer().getLocation().getYaw(), e.getPlayer().getLocation().getPitch(), new HashSet<>()));
 		}
-		logMessage(" (Level: " + mc + " / Max: " + max + " / Kicked: " + this.kicked.contains(e.getPlayer()) + ") The player " + e.getPlayer().getName() + " try to move wrongly! from "
+		logMessage(" (Level: " + mc + " / Kicked: " + this.kicked.contains(e.getPlayer()) + " / flying: " + e.getPlayer().isFlying() + ") The player " + e.getPlayer().getName() + " try to move wrongly! from "
 				+ UtilLocation.getLocString(e.getPlayer().getLocation()) + " to " + packetX + "," + packetY + "," + packetZ);
 	}
 
