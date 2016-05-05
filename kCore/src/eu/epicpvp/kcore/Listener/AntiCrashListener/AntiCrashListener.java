@@ -162,7 +162,11 @@ public class AntiCrashListener extends kListener {
 		if (!this.movementHits.containsKey(e.getPlayer())) {
 			this.movementHits.put(e.getPlayer(), mc = 1);
 		} else {
-			this.movementHits.put(e.getPlayer(), mc = (this.movementHits.get(e.getPlayer()) + 1) );
+			try{
+				this.movementHits.put(e.getPlayer(), mc = (this.movementHits.get(e.getPlayer()) + 1) );
+			}catch(NullPointerException ev){
+				return;
+			}
 		}
 
 		if ((mc > KICK_LIMIT) && (!this.kicked.contains(e.getPlayer())) || instandKick) {
