@@ -67,7 +67,7 @@ public class MysteryChest extends kListener{
 	}
 	
 	public void start(Player player){
-		this.sessions.put(player, new MysteryChestSession(player, building, randomItems()));
+		this.sessions.put(player, new MysteryChestSession(player, building, randomItems(player)));
 	}
 	
 	public void loadTemplate(String template){
@@ -87,14 +87,26 @@ public class MysteryChest extends kListener{
 		loadItems();
 	}
 	
-	public MysteryItem[] randomItems(){
+	public MysteryItem[] randomItems(Player player){
 		ArrayList<MysteryItem> list = new ArrayList<>();
+		ArrayList<MysteryItem> player_items = new ArrayList<>();
+		
+		double total=0;
+		for(MysteryItem item : items){
+			if(item.getPermission().equalsIgnoreCase("-")){
+				player_items.add(item);
+				total+=item.getChance();
+			}else if(!player.hasPermission(item.getPermission())){
+				player_items.add(item);
+				total+=item.getChance();
+			}
+		}
 		
 		for(int i = 0; i<canOpen ; i++){
 			double last_chance=0;
-			double chance = UtilMath.RandomDouble(0, 100);
+			double chance = UtilMath.RandomDouble(0, total);
 			
-			for(MysteryItem item : items){
+			for(MysteryItem item : player_items){
 				if(item.getChance()<= chance && (last_chance+item.getChance())>=chance){
 					list.add(item);
 					break;
@@ -115,7 +127,7 @@ public class MysteryChest extends kListener{
 				}
 				
 				chance+=this.config.getDouble("MysteryChest.items."+s+".chance");
-				items.add(new MysteryItem(this.config.getItemStack("MysteryChest.items."+s+".item"), this.config.getDouble("MysteryChest.items."+s+".chance"),this.config.getString("MysteryChest.items."+s+".Command")));
+				items.add(new MysteryItem(this.config.getItemStack("MysteryChest.items."+s+".item"), this.config.getDouble("MysteryChest.items."+s+".chance"),this.config.getString("MysteryChest.items."+s+".Command"),this.config.getString("MysteryChest.items."+s+".Permission")));
 			}
 			
 			logMessage("Total Chance: "+chance);
@@ -127,12 +139,13 @@ public class MysteryChest extends kListener{
 		return true;
 	}
 	
-	public int addItem(ItemStack item, double chance,String CMD){
-		this.items.add(new MysteryItem(item, chance,CMD));
+	public int addItem(ItemStack item, double chance,String permission,String CMD){
+		this.items.add(new MysteryItem(item, chance,CMD,permission));
 		this.counter++;
 		this.config.setItemStack("MysteryChest.items."+counter+".item",item);
 		this.config.set("MysteryChest.items."+counter+".chance",chance);
 		this.config.set("MysteryChest.items."+counter+".Command",CMD);
+		this.config.set("MysteryChest.items."+counter+".Permission",permission);
 		return counter;
 	}
 	

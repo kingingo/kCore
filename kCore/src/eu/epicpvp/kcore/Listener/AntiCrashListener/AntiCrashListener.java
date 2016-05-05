@@ -16,6 +16,9 @@ import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEven
 import eu.epicpvp.kcore.Util.UtilException;
 import eu.epicpvp.kcore.Util.UtilLocation;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -46,7 +49,9 @@ public class AntiCrashListener extends kListener {
 	private CachedArrayList<Player> whitelist = new CachedArrayList<>(500, TimeUnit.MILLISECONDS);
 	private CachedHashMap<Player, Integer> movementHits = new CachedHashMap<>(2000, TimeUnit.MILLISECONDS);
 	private CachedArrayList<Player> kicked = new CachedArrayList<>(2000, TimeUnit.MILLISECONDS);
-	private static final boolean movement = true;
+	@Getter
+	@Setter
+	private static boolean movement = false;
 
 	public AntiCrashListener(ClientWrapper client, MySQL mysql) {
 		super(mysql.getInstance(), "AntiCrashListener");
