@@ -13,6 +13,10 @@ import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
 import eu.epicpvp.kcore.Util.UtilException;
+import eu.epicpvp.kcore.Util.UtilLocation;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -40,7 +44,10 @@ public class AntiCrashListener extends kListener {
 	private CachedArrayList<Player> whitelist = new CachedArrayList(500, TimeUnit.MILLISECONDS);
 	private CachedHashMap<Player, Integer> movementHits = new CachedHashMap(2000, TimeUnit.MILLISECONDS);
 	private CachedArrayList<Player> kicked = new CachedArrayList(2000, TimeUnit.MILLISECONDS);
-
+	@Getter
+	@Setter
+	private boolean movement=false;
+	
 	public AntiCrashListener(ClientWrapper client, MySQL mysql) {
 		super(mysql.getInstance(), "AntiCrashListener");
 		this.hitsavg = new HashMap<>();
@@ -80,6 +87,8 @@ public class AntiCrashListener extends kListener {
 
 	@EventHandler
 	public void a(final PacketListenerReceiveEvent e) {
+		if(!isMovement())return;
+		
 		if ((e.getPlayer() == null) || (e.getPlayer().isDead())) {
 			return;
 		}
@@ -112,7 +121,7 @@ public class AntiCrashListener extends kListener {
 							+ e.getPlayer().getWalkSpeed());
 					int mc = 0;
 					if (!this.movementHits.containsKey(e.getPlayer())) {
-						this.movementHits.put(e.getPlayer(), 1);
+						this.movementHits.put(e.getPlayer(), mc = 1);
 					} else {
 						this.movementHits.put(e.getPlayer(), mc = this.movementHits.get(e.getPlayer()) + 1);
 					}
@@ -133,10 +142,10 @@ public class AntiCrashListener extends kListener {
 						});
 					}
 					logMessage("The player " + e.getPlayer().getName() + " try to move wrongly! from "
-							+ e.getPlayer().getLocation() + " to " + packetX + "," + packetY + "," + packetZ
+							+ UtilLocation.getLocString(e.getPlayer().getLocation()) + " to " + packetX + "," + packetY + "," + packetZ
 							+ " (Time: " + mc + ")");
-					e.getPlayer().teleport(e.getPlayer().getLocation());
-					e.setCancelled(true);
+//					e.getPlayer().teleport(e.getPlayer().getLocation());
+//					e.setCancelled(true);
 				}
 			}
 		}
