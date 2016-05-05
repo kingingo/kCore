@@ -1,7 +1,9 @@
 package eu.epicpvp.kcore.Listener.AntiCrashListener;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -18,6 +20,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -29,6 +32,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import net.minecraft.server.v1_8_R3.PacketPlayInFlying;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPosition;
 
 public class AntiCrashListener extends kListener {
 	private final Map<String, Long> switchavg;
@@ -64,6 +68,9 @@ public class AntiCrashListener extends kListener {
 		this.client = client;
 	}
 
+	private static final int KICK_LIMIT = 30;
+	private static final int POS_RESEND = 12;
+	private static final double MAX_POS_DIFF = 15;
 	@EventHandler
 	public void a(PlayerJoinEvent e) {
 		this.whitelist.add(e.getPlayer());
@@ -99,46 +106,53 @@ public class AntiCrashListener extends kListener {
 		if ((e.getPacket() instanceof PacketPlayInFlying)) {
 			PacketPlayInFlying packet = (PacketPlayInFlying) e.getPacket();
 
-			double max = (double) (15 * (e.getPlayer().isFlying() ? e.getPlayer().getFlySpeed() : e.getPlayer().getWalkSpeed()));
+			double max = getMaxDiff(e.getPlayer());
 
 			double packetX = packet.a();
 			double packetY = packet.b();
 			double packetZ = packet.c();
-			Location target = new Location(e.getPlayer().getWorld(), packetX, packetY, packetZ);
+			Location packetLocation = new Location(e.getPlayer().getWorld(), packetX, packetY, packetZ);
+			
 			boolean packetHasPos = packet.g();
 			if (e.getPlayer() != null && e.getPlayer().getLocation() != null && packetHasPos) {
-				if (target.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) < 10.0D) {
+				double diff = 0;
+				boolean hit = false;
+				boolean instandKick = false;
+				
+				if (packetLocation.distanceSquared(new Location(e.getPlayer().getWorld(), 8.5D, 65.0D, 8.5D)) < 10.0D) {
 					logMessage("Special Position");
-				} else if (Math.abs(packetX - e.getPlayer().getLocation().getX()) > max) {
-					logMessage("X: Math.abs(" + packetX + " - " + e.getPlayer().getLocation().getX() + ") = " + Math.abs(packetX - e.getPlayer().getLocation().getX()) + " > " + max);
-					hasHit(e, max, packetX, packetY, packetZ);
-				} else if (e.getPlayer().getLocation().getY() - packetY > 20) {
-					logMessage("Y down: " + e.getPlayer().getLocation().getY() + " - " + packetY + " = " + Math.abs(packetY - e.getPlayer().getLocation().getY()) + " > 20");
-					hasHit(e, max, packetX, packetY, packetZ);
-				} else if (packetY - e.getPlayer().getLocation().getY() > max) {
-					logMessage("Y up: " + packetY + " - " + e.getPlayer().getLocation().getY() + " = " + (packetY - e.getPlayer().getLocation().getY()) + " > " + max);
-					hasHit(e, max, packetX, packetY, packetZ);
-				} else if (Math.abs(packetZ - e.getPlayer().getLocation().getZ()) > max) {
-					logMessage("Z: Math.abs(" + packetZ + " - " + e.getPlayer().getLocation().getZ() + ") = " + Math.abs(packetZ - e.getPlayer().getLocation().getZ()) + " > " + max);
-					hasHit(e, max, packetX, packetY, packetZ);
-				} else if (Double.isInfinite(packetX)) {
-					logMessage("X: infinite (" + packetX + ")");
-					hasHit(e, max, packetX, packetY, packetZ);
-				} else if (Double.isInfinite(packetY)) {
-					logMessage("Y: infinite (" + packetY + ")");
-					hasHit(e, max, packetX, packetY, packetZ);
-				} else if (Double.isInfinite(packetZ)) {
-					logMessage("Z: infinite (" + packetZ + ")");
-					hasHit(e, max, packetX, packetY, packetZ);
-				} else if (Math.abs(packetY) > 10000) {
-					logMessage("Y: Math.abs(" + packetY + ")");
-					hasHit(e, max, packetX, packetY, packetZ);
+				} else if ((diff = Math.abs(e.getPlayer().getLocation().getX() - packetX)) > max) {
+					logMessage("Wrong X movement ("+diff+">"+max+")");
+					hit = true;
+				} else if ((diff =Math.abs(e.getPlayer().getLocation().getY() - packetY)) > max) {
+					logMessage("Wrong Y movement ("+diff+">"+max+")");
+					hit = true;
+				} else if ((diff =Math.abs(e.getPlayer().getLocation().getZ() - packetZ)) > max) {
+					logMessage("Wrong Z movement ("+diff+">"+max+")");
+					hit = true;
+				} 
+				if (Double.isInfinite(packetX) || Double.isInfinite(packetY) || Double.isInfinite(packetZ)) {
+					logMessage("Infinite var in pos! (" + packetX + ","+packetY+","+packetZ+")");
+					hit = true;
+					instandKick = true;
 				}
+				if (packetY > Short.MAX_VALUE) {
+					logMessage("Invalid Y coordinate");
+					hit = true;
+					instandKick = true;
+				}
+				if(hit)
+					hitWrongMove(e, max, packetX, packetY, packetZ,instandKick);
 			}
 		}
 	}
+	
+	private double getMaxDiff(Player player){
+		double factor = player.isFlying() ? player.getFlySpeed() : player.getWalkSpeed();
+		return MAX_POS_DIFF * factor;
+	}
 
-	private void hasHit(final PacketListenerReceiveEvent e, double max, double packetX, double packetY, double packetZ) {
+	private void hitWrongMove(final PacketListenerReceiveEvent e, double max, double packetX, double packetY, double packetZ,boolean instandKick) {
 		int mc = 0;
 		if (!this.movementHits.containsKey(e.getPlayer())) {
 			this.movementHits.put(e.getPlayer(), mc = 1);
@@ -146,7 +160,7 @@ public class AntiCrashListener extends kListener {
 			this.movementHits.put(e.getPlayer(), mc = (this.movementHits.get(e.getPlayer()) + 1) );
 		}
 
-		if ((mc > 12) && (!this.kicked.contains(e.getPlayer()))) {
+		if ((mc > KICK_LIMIT) && (!this.kicked.contains(e.getPlayer()))) {
 			this.kicked.add(e.getPlayer());
 			logMessage("Kicking player: " + e.getPlayer().getName() + " for wrong move!");
 			Bukkit.getScheduler().runTask(this.mysql.getInstance(), new Runnable() {
@@ -154,6 +168,9 @@ public class AntiCrashListener extends kListener {
 					e.getPlayer().kickPlayer("§cWrong move!");
 				}
 			});
+		}
+		if(mc > POS_RESEND){
+			new PacketPlayOutPosition(e.getPlayer().getLocation().getX(), e.getPlayer().getLocation().getY(), e.getPlayer().getLocation().getZ(), e.getPlayer().getLocation().getYaw(), e.getPlayer().getLocation().getPitch(), new HashSet<>());
 		}
 		logMessage(" (Level: " + mc + " / Max: "+max+" / Kicked: "+this.kicked.contains(e.getPlayer())+") The player " + e.getPlayer().getName() + " try to move wrongly! from "
 				+ UtilLocation.getLocString(e.getPlayer().getLocation()) + " to " + packetX + "," + packetY + "," + packetZ);
