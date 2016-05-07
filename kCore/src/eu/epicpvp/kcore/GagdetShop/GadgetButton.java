@@ -29,11 +29,12 @@ public class GadgetButton extends ButtonCopy{
 			public void onClick(Player player, ActionType type, Object object) {
 				if(gadget.getActive_player().containsKey(player)){
 					gadget.removePlayer(player);
-				}else{
-					gadget.addPlayer(player, 100);
+					player.closeInventory();
+				}else if(gadget.getAmount(player) > 0 || player.isOp()){
+					gadget.addPlayer(player, (player.isOp() ? 999 : gadget.getAmount(player)));
+					player.closeInventory();
 				}
 				
-				player.closeInventory();
 			}
 			
 		}, gadget.getItem());

@@ -60,7 +60,7 @@
                 </executions>
  
                 <configuration>
-                    <minimizeJar>true</minimizeJar>
+                    <minimizeJar>false</minimizeJar>
                     <artifactSet>
                         <includes>
                             <include>dev.wolveringer.lib</include>
@@ -104,6 +104,11 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>dev.wolveringer.datenserver</groupId>
+			<artifactId>definitions</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>eu.epicpvp</groupId>
 			<artifactId>core-karcarde</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -121,7 +126,7 @@
 		<dependency>
 			<groupId>dev.wolveringer.lib</groupId>
 			<artifactId>NBTTag</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.epicpvp</groupId>
