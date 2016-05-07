@@ -9,6 +9,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+
 public enum UtilParticle
 {
   HUGE_EXPLOSION(
@@ -255,12 +258,9 @@ public enum UtilParticle
           }
           extra = new int[] { id, id | data << 12 };
         }
-        Object packet = nmsPacketPlayOutParticle.getConstructor(new Class[] { nmsEnumParticle, Boolean.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Integer.TYPE, int[].class })
-          .newInstance(new Object[] { 
-          getEnum(nmsEnumParticle.getName() + "." + (this.enumValue != null ? this.enumValue : name().toUpperCase())), Boolean.valueOf(true), Float.valueOf((float)location.getX()), Float.valueOf((float)location.getY()), Float.valueOf((float)location.getZ()), Float.valueOf(offsetX), Float.valueOf(offsetY), Float.valueOf(offsetZ), Float.valueOf(speed), Integer.valueOf(count), extra });
-        Object handle = ReflectionUtilities.getHandle(player);
-        Object connection = ReflectionUtilities.getField(handle.getClass(), "playerConnection").get(handle);
-        ReflectionUtilities.getMethod(connection.getClass(), "sendPacket", new Class[0]).invoke(connection, new Object[] { packet });
+        EnumParticle enumParticle = (EnumParticle) getEnum(nmsEnumParticle.getName() + "." + (this.enumValue != null ? this.enumValue : name().toUpperCase()));
+        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(enumParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(), offsetX, offsetY, offsetZ, speed, count, extra);
+        UtilPlayer.getCraftPlayer(player).getHandle().playerConnection.sendPacket(packet);
       }
       catch (Exception e) {
         throw e;
