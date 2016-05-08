@@ -4,12 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.google.common.collect.Maps;
-import eu.epicpvp.kcore.Util.UtilVector;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+
+import com.google.common.collect.Maps;
+
+import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Util.UtilVector;
+import lombok.Getter;
 
 public class WingShape extends ParticleShape<WingShape.WingPart, WingShape.WingState> {
 
@@ -34,27 +39,33 @@ public class WingShape extends ParticleShape<WingShape.WingPart, WingShape.WingS
 	private final Color outerColor;
 	private final Color innerColor;
 	private final Color middleColor;
+	@Getter
+	private ItemStack item;
+	@Getter
+	private PermissionType permission;
 
-	public WingShape(boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
+	public WingShape(ItemStack item,PermissionType permission,boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
+		this.item=item;
+		this.permission=permission;
 		this.moveWings = moveWings;
 		this.outerColor = outerColor;
 		this.innerColor = innerColor;
 		this.middleColor = middleColor;
 
 		//upper line to middle top
-		createSymmetricLines(TOP_CORNER_X, TOP_CORNER_Y, 0, MIDDLE_UPPER_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT);
+		getPositions().putAll(createSymmetricLines(TOP_CORNER_X, TOP_CORNER_Y, 0, MIDDLE_UPPER_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		//top corner to wing middle
-		createSymmetricLines(TOP_CORNER_X + .08, TOP_CORNER_Y - .15, WING_MIDDLE_X, WING_MIDDLE_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT);
+		getPositions().putAll(createSymmetricLines(TOP_CORNER_X + .08, TOP_CORNER_Y - .15, WING_MIDDLE_X, WING_MIDDLE_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		// wing middle to bottom
-		createSymmetricLines(WING_MIDDLE_X, WING_MIDDLE_Y, BOTTOM_X, BOTTOM_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT);
+		getPositions().putAll(createSymmetricLines(WING_MIDDLE_X, WING_MIDDLE_Y, BOTTOM_X, BOTTOM_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		// bottom to middle
-		createSymmetricLines(BOTTOM_X - .15, BOTTOM_Y, 0, BOTTOM_MIDDLE_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT);
+		getPositions().putAll(createSymmetricLines(BOTTOM_X - .15, BOTTOM_Y, 0, BOTTOM_MIDDLE_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		//upper line - inner
-		createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST * .8, TOP_CORNER_Y - THINKNESS_CONST, 0, MIDDLE_UPPER_Y - THINKNESS_CONST, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT);
+		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST * .8, TOP_CORNER_Y - THINKNESS_CONST, 0, MIDDLE_UPPER_Y - THINKNESS_CONST, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		//upper line - inner second line
-		createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST * 2, TOP_CORNER_Y - THINKNESS_CONST * 2, THINKNESS_CONST, MIDDLE_UPPER_Y - THINKNESS_CONST * 2, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT);
+		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST * 2, TOP_CORNER_Y - THINKNESS_CONST * 2, THINKNESS_CONST, MIDDLE_UPPER_Y - THINKNESS_CONST * 2, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		//upper line - inner third line
-		createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST, TOP_CORNER_Y - THINKNESS_CONST, THINKNESS_CONST * 1.5, MIDDLE_UPPER_Y - THINKNESS_CONST * 2.5, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT);
+		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST, TOP_CORNER_Y - THINKNESS_CONST, THINKNESS_CONST * 1.5, MIDDLE_UPPER_Y - THINKNESS_CONST * 2.5, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		//lower inner points
 //		wingLeft.put(new Vector(-.4, .55, 0), WingPart.INNER);
 //		wingRight.put(new Vector(.4, .55, 0), WingPart.INNER);
@@ -90,7 +101,6 @@ public class WingShape extends ParticleShape<WingShape.WingPart, WingShape.WingS
 	@Override
 	public boolean transformPerTick(Player player, Location playerLoc, Vector locVector, ValueHolder<WingState> valueHolder, Location previous) {
 		long now = System.currentTimeMillis();
-		UUID uuid = player.getUniqueId();
 
 		boolean isMovementNow = previous != null;
 		if (isMovementNow) {

@@ -242,6 +242,7 @@ public enum UtilParticle
     throws Exception
   {
     if (!isPlayerInRange(player, location)) return;
+
     if (ReflectionUtilities.getVersion().contains("v1_8"))
       try {
         if (nmsEnumParticle == null) {
@@ -500,8 +501,8 @@ public enum UtilParticle
 
   private static boolean isPlayerInRange(Player p, Location center) {
     double distance = 0.0D;
-    if (!p.getLocation().getWorld().equals(center.getWorld())) return false;
-    if ((distance = center.distanceSquared(p.getLocation())) > 1.7976931348623157E+308D) return false;
+    if (p.getLocation().getWorld().getUID()!=center.getWorld().getUID())return false;
+    if ((distance = center.distanceSquared(p.getLocation())) > 1.7976931348623157E+308D)return false;
     return distance < particleRange * particleRange;
   }
 
