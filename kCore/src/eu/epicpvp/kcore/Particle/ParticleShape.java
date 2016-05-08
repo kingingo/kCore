@@ -3,17 +3,17 @@ package eu.epicpvp.kcore.Particle;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.Maps;
-
-import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Util.UtilNumber;
-import lombok.Getter;
-
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+
+import com.google.common.collect.Maps;
+
+import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Util.UtilNumber;
+import lombok.Getter;
 
 public abstract class ParticleShape<E extends Enum<E>, V> {
 
@@ -34,8 +34,12 @@ public abstract class ParticleShape<E extends Enum<E>, V> {
 	public abstract void initShape();
 
 	protected Map<Vector, E> createSymmetricLines(double x1, double y1, double x2, double y2, E part) {
-		Map<Vector, E> line1 = createLine(-x1, y1, -x2, y2, part);
-		Map<Vector, E> line2 = createLine(x1, y1, x2, y2, part);
+		return createSymmetricLines(x1, y1, 0, x2, y2, 0, part);
+	}
+	
+	protected Map<Vector, E> createSymmetricLines(double x1, double y1, double z1, double x2, double y2, double z2, E part) {
+		Map<Vector, E> line1 = createLine(-x1, y1, z1, -x2, y2, z2, part);
+		Map<Vector, E> line2 = createLine(x1, y1, x2, z1, y2, z2, part);
 		HashMap<Vector, E> result = Maps.newHashMapWithExpectedSize(line1.size() + line2.size());
 		result.putAll(line1);
 		result.putAll(line2);
@@ -84,9 +88,9 @@ public abstract class ParticleShape<E extends Enum<E>, V> {
 		return result;
 	}
 
-	protected Map<Vector, E> createLine(double x1, double y1, double x2, double y2, E part) {
-		Vector v1 = new Vector(x1, y1, 0);
-		Vector v2 = new Vector(x2, y2, 0);
+	protected Map<Vector, E> createLine(double x1, double y1,double z1, double x2, double y2, double z2, E part) {
+		Vector v1 = new Vector(x1, y1, z1);
+		Vector v2 = new Vector(x2, y2, z2);
 		Vector diff = v1.clone().subtract(v2);
 		double len = diff.length();
 		int amount = (int) (Math.round(PARTICLES_PER_BLOCK * len));
@@ -98,6 +102,10 @@ public abstract class ParticleShape<E extends Enum<E>, V> {
 			result.put(toPut, part);
 		}
 		return result;
+	}
+	
+	protected Map<Vector, E> createLine(double x1, double y1, double x2, double y2, E part) {
+		return createLine(x1, y1, 0, x2, y2, 0, part);
 	}
 
 	public Map<Vector, E> getPositions() {

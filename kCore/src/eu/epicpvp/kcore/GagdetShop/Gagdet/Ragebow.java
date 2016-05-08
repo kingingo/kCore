@@ -1,10 +1,6 @@
 package eu.epicpvp.kcore.GagdetShop.Gagdet;
 
-import java.lang.reflect.Field;
-
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -22,7 +18,6 @@ import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilParticle;
 import eu.epicpvp.kcore.Util.UtilPlayer;
-import net.minecraft.server.v1_8_R3.EntityArrow;
 
 public class Ragebow extends Gadget{
 

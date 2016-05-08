@@ -2,6 +2,8 @@ package eu.epicpvp.kcore.Teams.Commands;
 
 import java.util.List;
 
+import org.bukkit.entity.Player;
+
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Teams.Team;
@@ -9,7 +11,6 @@ import eu.epicpvp.kcore.Teams.TeamManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
-import org.bukkit.entity.Player;
 
 public class Info {
 	public static boolean on(Player player, String[] args, TeamManager teamManager) {

@@ -3,25 +3,27 @@ package eu.epicpvp.kcore.Teams;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.kcore.kCore;
 import eu.epicpvp.kcore.StatsManager.Ranking;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Teams.Events.TeamLoadedEvent;
 import eu.epicpvp.kcore.Util.UtilServer;
-import eu.epicpvp.kcore.kCore;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 public class TeamManager {
 	private static final String TEAM_FAKEPLAYER_PREFIX = "_team_team_team_";
