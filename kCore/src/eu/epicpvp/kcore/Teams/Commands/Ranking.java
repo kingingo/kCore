@@ -1,8 +1,9 @@
 package eu.epicpvp.kcore.Teams.Commands;
 
+import org.bukkit.entity.Player;
+
 import dev.wolveringer.dataserver.protocoll.packets.PacketOutTopTen;
 import eu.epicpvp.kcore.Teams.TeamManager;
-import org.bukkit.entity.Player;
 
 public class Ranking {
 	public static boolean on(Player player, String[] args, TeamManager teamManager) {

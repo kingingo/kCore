@@ -3,7 +3,6 @@ package eu.epicpvp.kcore.Particle.Wings;
 import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
 
-import eu.epicpvp.kcore.Particle.Wings.WingShape.WingPart;
 import eu.epicpvp.kcore.Permission.PermissionType;
 
 public class BatWings extends WingShape{
@@ -12,7 +11,7 @@ public class BatWings extends WingShape{
 			Color innerColor, Color middleColor) {
 		super(item, permission, moveWings, outerColor, innerColor, middleColor);
 	}
-
+	
 	@Override
 	public void initShape() {
 		//Mid -> first peak
@@ -48,6 +47,8 @@ public class BatWings extends WingShape{
 		getPositions().putAll(createSymmetricLines( 1, 1, 1.1, .8, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		//Peak 3
 		getPositions().putAll(createSymmetricLines( 1.3, 1.6, 1.5, 1.4, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+
+		getPositions().putAll(createSymmetricLines( .2, 1.9, .7, .3, 2.08, .6, WingPart.MIDDLE, WingPart.MIDDLE));
 	}
 
 }

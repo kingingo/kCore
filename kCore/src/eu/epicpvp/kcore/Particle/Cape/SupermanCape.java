@@ -3,14 +3,13 @@ package eu.epicpvp.kcore.Particle.Cape;
 import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
 
-import eu.epicpvp.kcore.Particle.Wings.WingShape.WingPart;
 import eu.epicpvp.kcore.Permission.PermissionType;
 
 public class SupermanCape extends CapeShape{
 
-	public SupermanCape(ItemStack item, PermissionType permission, boolean moveCape, Color outColor, Color inColor,
+	public SupermanCape(ItemStack item, PermissionType permission, Color outColor, Color inColor,
 			Color middleColor) {
-		super(item, permission, moveCape, outColor, inColor, middleColor);
+		super(item, permission, outColor, inColor, middleColor);
 	}
 
 	@Override

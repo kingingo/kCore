@@ -1,10 +1,11 @@
 package eu.epicpvp.kcore.Teams.Events;
 
-import eu.epicpvp.kcore.Teams.Team;
-import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import eu.epicpvp.kcore.Teams.Team;
+import lombok.Getter;
 
 public class TeamPlayerJoinEvent extends Event{
 

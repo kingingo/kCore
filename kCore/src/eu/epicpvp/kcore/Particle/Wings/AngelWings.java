@@ -45,7 +45,7 @@ public class AngelWings extends WingShape {
 		getPositions().putAll(createLine(0, BOTTOM_MIDDLE_Y - .1, 0, MIDDLE_UPPER_Y + .1, WingPart.INNER_LEFT));
 		getPositions().putAll(createLine(0, BOTTOM_MIDDLE_Y - .11, 0, MIDDLE_UPPER_Y + .1, WingPart.INNER_LEFT));
 
-		getPositions().putAll(createCircle(0, 2.1, .6, 0.3, WingPart.MIDDLE));
+		getPositions().putAll(createCircle(0, 2.1, .65, 0.3, WingPart.MIDDLE));
 		// wingLeft = ImmutableMap.copyOf(wingLeft);
 		// wingRight = ImmutableMap.copyOf(wingRight);
 	}

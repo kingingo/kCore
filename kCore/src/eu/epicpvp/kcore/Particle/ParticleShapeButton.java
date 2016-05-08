@@ -1,7 +1,6 @@
 package eu.epicpvp.kcore.Particle;
 
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.nbt.NBTTagCompound;

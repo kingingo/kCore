@@ -5,7 +5,6 @@ import org.bukkit.Color;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Slime;
@@ -18,10 +17,9 @@ import eu.epicpvp.kcore.Scheduler.kScheduler;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilEvent;
-import eu.epicpvp.kcore.Util.UtilFirework;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
+import eu.epicpvp.kcore.Util.UtilFirework;
 import eu.epicpvp.kcore.Util.UtilItem;
-import eu.epicpvp.kcore.Util.UtilParticle;
 
 public class SlimeHead extends Gadget{
 
@@ -40,7 +38,7 @@ public class SlimeHead extends Gadget{
 			 long time = System.currentTimeMillis();
 			 Entity[] slimes = new Entity[10];
 			 
-			 for(int i = 0; i<=10; i++){
+			 for(int i = 0; i<10; i++){
 				 if(i==0){
 					 ArmorStand e = (ArmorStand) ev.getPlayer().getWorld().spawnEntity(ev.getPlayer().getLocation(), EntityType.ARMOR_STAND);
 					 e.setVisible(true);

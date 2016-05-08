@@ -3,7 +3,6 @@ package eu.epicpvp.kcore.Particle.Wings;
 import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
 
-import eu.epicpvp.kcore.Particle.Wings.WingShape.WingPart;
 import eu.epicpvp.kcore.Permission.PermissionType;
 
 public class InsectWings extends WingShape{

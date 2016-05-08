@@ -7,9 +7,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import eu.epicpvp.kcore.Particle.ParticleShape;
-import eu.epicpvp.kcore.Particle.ParticleShape.ValueHolder;
-import eu.epicpvp.kcore.Particle.Wings.WingShape.WingPart;
-import eu.epicpvp.kcore.Particle.Wings.WingShape.WingState;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Util.UtilVector;
 
@@ -17,14 +14,12 @@ public abstract class CapeShape extends ParticleShape<CapeShape.CapePart, CapeSh
 
 	private static final double CAPE_MIN_ROT = 0.1;
 	
-	private final boolean moveCape;
 	private final Color outColor;
 	private final Color inColor;
 	private final Color middleColor;
 	
-	public CapeShape(ItemStack item, PermissionType permission,boolean moveCape,Color outColor, Color inColor, Color middleColor) {
+	public CapeShape(ItemStack item, PermissionType permission,Color outColor, Color inColor, Color middleColor) {
 		super(item, permission);
-		this.moveCape=moveCape;
 		this.outColor=outColor;
 		this.inColor=inColor;
 		this.middleColor=middleColor;

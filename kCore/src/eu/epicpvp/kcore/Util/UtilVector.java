@@ -2,8 +2,9 @@ package eu.epicpvp.kcore.Util;
 
 import java.util.ArrayList;
 
-import eu.epicpvp.kcore.MysteryChest.Templates.BlockVector;
 import org.bukkit.util.Vector;
+
+import eu.epicpvp.kcore.MysteryChest.Templates.BlockVector;
 
 public class UtilVector {
 

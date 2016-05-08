@@ -1,15 +1,16 @@
 package eu.epicpvp.kcore.Teams;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import dev.wolveringer.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Teams.Commands.Accept;
 import eu.epicpvp.kcore.Teams.Commands.Create;
 import eu.epicpvp.kcore.Teams.Commands.Home;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class CommandTeam implements CommandExecutor {
 	private TeamManager teamManager;

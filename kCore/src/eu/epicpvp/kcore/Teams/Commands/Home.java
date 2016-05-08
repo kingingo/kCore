@@ -1,20 +1,21 @@
 package eu.epicpvp.kcore.Teams.Commands;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
-import eu.epicpvp.kcore.Teams.Events.TeamPlayerTeleportedEvent;
-import eu.epicpvp.kcore.Teams.Team;
-import eu.epicpvp.kcore.Teams.TeamManager;
-import eu.epicpvp.kcore.Teams.TeamRank;
-import eu.epicpvp.kcore.TeleportManager.Teleporter;
-import eu.epicpvp.kcore.Translation.TranslationHandler;
-import eu.epicpvp.kcore.Util.UtilDebug;
-import eu.epicpvp.kcore.Util.UtilServer;
+import static net.minecraft.server.v1_8_R3.PotionBrewer.g;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import static net.minecraft.server.v1_8_R3.PotionBrewer.g;
+import dev.wolveringer.dataserver.gamestats.GameType;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.kcore.Teams.Team;
+import eu.epicpvp.kcore.Teams.TeamManager;
+import eu.epicpvp.kcore.Teams.TeamRank;
+import eu.epicpvp.kcore.Teams.Events.TeamPlayerTeleportedEvent;
+import eu.epicpvp.kcore.TeleportManager.Teleporter;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.Util.UtilDebug;
+import eu.epicpvp.kcore.Util.UtilServer;
 
 public class Home {
 	public static boolean onSet(Player player, String[] args, TeamManager teamManager) {
