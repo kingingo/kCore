@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.Particle;
+package eu.epicpvp.kcore.Particle.Wings;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,67 +12,30 @@ import org.bukkit.util.Vector;
 
 import com.google.common.collect.Maps;
 
+import eu.epicpvp.kcore.Particle.ParticleShape;
+import eu.epicpvp.kcore.Particle.ParticleShape.ValueHolder;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Util.UtilVector;
 import lombok.Getter;
 
-public class WingShape extends ParticleShape<WingShape.WingPart, WingShape.WingState> {
+public abstract class WingShape extends ParticleShape<WingShape.WingPart, WingShape.WingState> {
 
 	private static final double PI = 3.1415927; //not as precise as Math.PI, but enough
-	private static final long MOVEMENT_MILLIS = 300;
 	private static final double ROT_SPEED = 1.0 / 32.0;
 	private static final double WING_MIN_ROT = 0.1;
 	private static final double WING_MAX_ROT = 1.3;
-
-	private static final double TOP_CORNER_X = 1.0;
-	private static final double TOP_CORNER_Y = 1.7;
-	private static final double MIDDLE_UPPER_Y = 1.3;
-	private static final double BOTTOM_MIDDLE_Y = .9;
-	private static final double WING_MIDDLE_X = .6;
-	private static final double WING_MIDDLE_Y = .6;
-	private static final double BOTTOM_X = .65;
-	private static final double BOTTOM_Y = 0.3;
-
-	private static final double THINKNESS_CONST = .28;
 
 	private final boolean moveWings;
 	private final Color outerColor;
 	private final Color innerColor;
 	private final Color middleColor;
-	@Getter
-	private ItemStack item;
-	@Getter
-	private PermissionType permission;
 
 	public WingShape(ItemStack item,PermissionType permission,boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
-		this.item=item;
-		this.permission=permission;
+		super(item,permission);
 		this.moveWings = moveWings;
 		this.outerColor = outerColor;
 		this.innerColor = innerColor;
 		this.middleColor = middleColor;
-
-		//upper line to middle top
-		getPositions().putAll(createSymmetricLines(TOP_CORNER_X, TOP_CORNER_Y, 0, MIDDLE_UPPER_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-		//top corner to wing middle
-		getPositions().putAll(createSymmetricLines(TOP_CORNER_X + .08, TOP_CORNER_Y - .15, WING_MIDDLE_X, WING_MIDDLE_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-		// wing middle to bottom
-		getPositions().putAll(createSymmetricLines(WING_MIDDLE_X, WING_MIDDLE_Y, BOTTOM_X, BOTTOM_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-		// bottom to middle
-		getPositions().putAll(createSymmetricLines(BOTTOM_X - .15, BOTTOM_Y, 0, BOTTOM_MIDDLE_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-		//upper line - inner
-		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST * .8, TOP_CORNER_Y - THINKNESS_CONST, 0, MIDDLE_UPPER_Y - THINKNESS_CONST, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-		//upper line - inner second line
-		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST * 2, TOP_CORNER_Y - THINKNESS_CONST * 2, THINKNESS_CONST, MIDDLE_UPPER_Y - THINKNESS_CONST * 2, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-		//upper line - inner third line
-		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST, TOP_CORNER_Y - THINKNESS_CONST, THINKNESS_CONST * 1.5, MIDDLE_UPPER_Y - THINKNESS_CONST * 2.5, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-		//lower inner points
-//		wingLeft.put(new Vector(-.4, .55, 0), WingPart.INNER);
-//		wingRight.put(new Vector(.4, .55, 0), WingPart.INNER);
-		getPositions().putAll(createLine(0, BOTTOM_MIDDLE_Y -.1, 0, MIDDLE_UPPER_Y + .1, WingPart.MIDDLE));
-		getPositions().putAll(createLine(0, BOTTOM_MIDDLE_Y -.11, 0, MIDDLE_UPPER_Y + .1, WingPart.MIDDLE));
-//		wingLeft = ImmutableMap.copyOf(wingLeft);
-//		wingRight = ImmutableMap.copyOf(wingRight);
 	}
 
 	public static class WingState {
@@ -145,17 +108,29 @@ public class WingShape extends ParticleShape<WingShape.WingPart, WingShape.WingS
 
 	@Override
 	public Color transformPerParticle(Player player, Location playerLoc, Vector vector, WingPart wingPart, ValueHolder<WingState> valueHolder) {
+		Vector toChange = vector;
 		boolean sneaked = player.isSneaking();
 		vector = UtilVector.rotateAroundAxisX(vector, sneaked ? -.3 : -.2); //schräg zum körper
-		vector = UtilVector.rotateVector(vector, playerLoc.getYaw() + 90, 0); //richtig gedreht zur kopfrichtung
-		if (wingPart != WingPart.MIDDLE) {
+		vector = UtilVector.rotateVector(vector, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
+		
+		switch (wingPart) {
+		case INNER_LEFT:
+		case OUTER_LEFT:
+			vector = UtilVector.rotateAroundAxisY(vector, -valueHolder.val.rotTransformed); //flügeldrehung / flügelschlag
+			break;
+		case INNER_RIGHT:
+		case OUTER_RIGHT:
 			vector = UtilVector.rotateAroundAxisY(vector, valueHolder.val.rotTransformed); //flügeldrehung / flügelschlag
+			break;
 		}
+		
 		Vector locVectorHere = playerLoc.toVector();
 		if (wingPart == WingPart.MIDDLE) {
 			locVectorHere = locVectorHere.add(playerLoc.getDirection().setY(0).normalize().multiply(-.1));
 		}
 		vector.add(locVectorHere);
+		toChange.multiply(0).add(vector);
+
 		switch (wingPart) {
 			case INNER_LEFT:
 			case INNER_RIGHT:

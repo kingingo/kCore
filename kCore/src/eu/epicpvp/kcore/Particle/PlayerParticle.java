@@ -60,17 +60,16 @@ public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable 
 
 	private void display(Player player, Location from, Location to) {
 		boolean show = shape.transformPerTick(player, to, to.toVector(), valueHolder, from);
-		
+
 		if (!show) {
 			return;
 		}
+
 		shape.getPositions().entrySet().parallelStream().forEach(entry -> {
 			E value = entry.getValue();
 			Vector vector = entry.getKey().clone();
 			Color color = shape.transformPerParticle(player, to, vector, value, valueHolder);
-			System.out.println("vector " + vector);
 			Location location = vector.toLocation(player.getWorld());
-			System.out.println("vector#2 " + vector);
 			sendToAll(color, location);
 		});
 	}
