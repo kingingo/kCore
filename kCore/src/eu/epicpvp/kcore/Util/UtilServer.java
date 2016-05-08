@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import eu.epicpvp.kcore.TeleportManager.TeleportManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -48,6 +47,7 @@ import eu.epicpvp.kcore.Hologram.Hologram;
 import eu.epicpvp.kcore.ItemShop.ItemShop;
 import eu.epicpvp.kcore.Kit.PerkManager;
 import eu.epicpvp.kcore.LagMeter.LagMeter;
+import eu.epicpvp.kcore.LaunchItem.LaunchItemManager;
 import eu.epicpvp.kcore.Listener.ClientListener.ClientListener;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.Listener.MoneyListener.MoneyListener;
@@ -55,6 +55,7 @@ import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.kPacketListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.TeleportManager.TeleportManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.Updater;
 import eu.epicpvp.kcore.UpdateAsync.UpdaterAsync;
@@ -106,6 +107,9 @@ public class UtilServer{
 	@Getter
 	@Setter
 	private static UpdaterAsync updaterAsync;
+	@Getter
+	@Setter
+	private static LaunchItemManager launchItemManager;
 	@Getter
 	@Setter
 	private static CommandHandler commandHandler;
@@ -165,13 +169,6 @@ public class UtilServer{
 				}
 				
 				@Override
-				public void sendMessage(UUID player, String message) {
-					if(UtilPlayer.isOnline(player)){
-						Bukkit.getPlayer(player).sendMessage(message);
-					}
-				}
-				
-				@Override
 				public void kickPlayer(int playerId, String message) {
 					if(UtilPlayer.isOnline(playerId)){
 						UtilPlayer.searchExact(playerId).kickPlayer(message);
@@ -215,6 +212,13 @@ public class UtilServer{
 				public void stop(String kickMessage) {
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
 					
+				}
+
+				@Override
+				public void sendMessage(int playerId, String message) {
+					if(UtilPlayer.isOnline(playerId)){
+						UtilPlayer.searchExact(playerId).sendMessage(message);
+					}
 				}
 			},new ServerInformations() {
 				

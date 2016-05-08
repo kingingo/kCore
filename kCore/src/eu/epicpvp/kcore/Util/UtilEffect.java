@@ -20,7 +20,7 @@ public class UtilEffect {
 		float maxTornadoRadius = 5f;
 		boolean showTornado = true;
 		int step = 0;
-		boolean showCloud = true;
+		boolean showCloud = (cloud!=null);
 		Location l = location.add(0, yOffset, 0);
 		for(int i = 0; i < (100 * cloudSize); i++){
 			Vector v = UtilMath.getRandomCircleVector().multiply(UtilMath.random.nextDouble() * cloudSize);
@@ -59,10 +59,13 @@ public class UtilEffect {
 		}
 		return vecs;
 	}
-	
+
 	public static void playHelix(Location location,UtilParticle particle){
+		playHelix(location, false ,10, particle);
+	}
+	
+	public static void playHelix(Location location,boolean onGround,int radius,UtilParticle particle){
 		int strands = 8;
-		int radius = 10;
 		int particles = 80;
 		double rotation = Math.PI / 4;
 		int curve = 10;
@@ -73,7 +76,7 @@ public class UtilEffect {
                 double x = Math.cos(angle) * ratio * radius;
                 double z = Math.sin(angle) * ratio * radius;
                 location.add(x, 0, z);
-                particle.display(0, 1, location, 20);
+                particle.display(0, 1, (onGround ? new Location(location.getWorld(),location.getX(),UtilLocation.getLowestY(location), location.getZ()) : location), 20);
                 location.subtract(x, 0, z);
             }
         }

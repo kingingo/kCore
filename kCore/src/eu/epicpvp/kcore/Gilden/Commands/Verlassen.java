@@ -18,15 +18,14 @@ public class Verlassen {
 				String g = manager.getPlayerGilde(p);
 				int owner = manager.getOwner(manager.getPlayerGilde(p));
 				
-				if(owner!=UtilPlayer.getPlayerId(p)){
-					System.err.println("[GildenManager] Command Verlassen: Owner == NULL");
-					System.err.println("[GildenManager] Gilde: "+g);
-					System.err.println("[GildenManager] Owner-ID: "+owner);
-					System.err.println("[GildenManager] Player-ID: "+UtilPlayer.getPlayerId(p));
-					return;
-				}
-				
 				if(owner==UtilPlayer.getPlayerId(p)){
+					if(owner!=UtilPlayer.getPlayerId(p)){
+						System.err.println("[GildenManager] Command Verlassen: Owner == NULL");
+						System.err.println("[GildenManager] Gilde: "+g);
+						System.err.println("[GildenManager] Owner-ID: "+owner);
+						System.err.println("[GildenManager] Player-ID: "+UtilPlayer.getPlayerId(p));
+						return;
+					}
 					
 					if(manager.getTyp()==GildenType.SKY&&manager instanceof SkyBlockGildenManager){
 						SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;

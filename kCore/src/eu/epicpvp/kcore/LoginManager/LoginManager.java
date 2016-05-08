@@ -16,6 +16,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.wolveringer.client.Callback;
@@ -94,6 +95,7 @@ public class LoginManager extends kListener{
 	public void load(String playername){
 		if(this.login.containsKey(playername))this.login.remove(playername);
 		if(this.register.contains(playername))this.register.remove(playername);
+		if(this.jumpAndRun.contains(playername))this.jumpAndRun.remove(playername);
 		
 		LoadedPlayer loadedplayer = this.client.getPlayerAndLoad(playername);
 		loadedplayer.getSettings(Setting.PASSWORD).getAsync( new Callback<PacketOutPlayerSettings.SettingValue[]>() {
@@ -116,6 +118,13 @@ public class LoginManager extends kListener{
 						return;
 					}
 				}
+				if(UtilPlayer.isOnline(playername)){
+					logMessage("STEP JUMP IS ONLINE "+loadedplayer.getName());
+					Bukkit.getPlayer(playername).teleport(CommandLocations.getLocation("JAR"));
+					hm1.sendToPlayer(Bukkit.getPlayer(playername));
+					hm2.sendToPlayer(Bukkit.getPlayer(playername));
+				}
+				
 				jumpAndRun.add(playername);
 				logMessage("STEP ADD TO JUMP AND RUN "+loadedplayer.getName());
 			}
@@ -178,6 +187,14 @@ public class LoginManager extends kListener{
 			}
 		}
 	}
+
+	@EventHandler
+	public void quit(PlayerQuitEvent ev){
+		this.login.remove(ev.getPlayer().getName());
+		this.register.remove(ev.getPlayer().getName());
+		this.jumpAndRun.remove(ev.getPlayer().getName());
+		this.timer.remove(ev.getPlayer());
+	}
 	
 	@EventHandler
 	public void move(PlayerMoveEvent ev){
@@ -204,12 +221,14 @@ public class LoginManager extends kListener{
 			loginTitle.setSubtitle(TranslationHandler.getText(ev.getPlayer(), "LOGIN_MESSAGE"));
 			loginTitle.send(ev.getPlayer());
 			ev.getPlayer().teleport(spawn);
+			logMessage("Join "+ev.getPlayer().getName()+" to login!");
 		}
 		
 		if(this.jumpAndRun.contains(ev.getPlayer().getName())){
 			ev.getPlayer().teleport(CommandLocations.getLocation("JAR"));
 			hm1.sendToPlayer(ev.getPlayer());
 			hm2.sendToPlayer(ev.getPlayer());
+			logMessage("Join "+ev.getPlayer().getName()+" to Jump And Run!");
 		}
 		
 		this.timer.put(ev.getPlayer(), System.currentTimeMillis());

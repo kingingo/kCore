@@ -1,9 +1,10 @@
 package eu.epicpvp.kcore.TeleportManager.Events;
 
-import eu.epicpvp.kcore.TeleportManager.Teleporter;
-import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import eu.epicpvp.kcore.TeleportManager.Teleporter;
+import lombok.Getter;
 
 public class PlayerTeleportedEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();

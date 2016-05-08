@@ -1,11 +1,12 @@
 package eu.epicpvp.kcore.Teams.Commands;
 
+import org.bukkit.entity.Player;
+
 import eu.epicpvp.kcore.Teams.Team;
 import eu.epicpvp.kcore.Teams.TeamManager;
 import eu.epicpvp.kcore.Teams.TeamRank;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
-import org.bukkit.entity.Player;
 
 public class Accept {
 	public static boolean on(Player player, String[] args, TeamManager teamManager) {

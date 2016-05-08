@@ -72,11 +72,11 @@ public class PlayerPetHandler implements Listener{
 	private boolean async=false;
 	private MySQL mysql;
 
-	public PlayerPetHandler(ServerType serverType,MySQL mysql,final PetManager manager,InventoryBase base,final PermissionManager permManager){
+	public PlayerPetHandler(ServerType serverType,MySQL mysql,final PetManager manager,final PermissionManager permManager){
 		Bukkit.getPluginManager().registerEvents(this, permManager.getInstance());
 		this.manager=manager;
 		this.permManager=permManager;
-		this.base=base;
+		this.base=UtilInv.getBase();
 		this.serverType=serverType;
 		this.mysql=mysql;
 		this.manager.setHandler(this);

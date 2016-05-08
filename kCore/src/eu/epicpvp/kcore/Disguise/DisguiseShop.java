@@ -14,7 +14,6 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import eu.epicpvp.kcore.Disguise.Events.DisguisePlayerLoadEvent;
-import eu.epicpvp.kcore.Inventory.InventoryBase;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryBuy;
 import eu.epicpvp.kcore.Inventory.Item.Click;
@@ -26,6 +25,7 @@ import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
+import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
@@ -47,7 +47,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 	private boolean async=false;
 	private MySQL mysql;
 	
-	public DisguiseShop(MySQL mysql,final InventoryBase base,final PermissionManager permissionManager,StatsManager money,DisguiseManager disguiseManager) {
+	public DisguiseShop(MySQL mysql,final PermissionManager permissionManager,StatsManager money,DisguiseManager disguiseManager) {
 		super(36, "Disguise Shop");
 		Bukkit.getPluginManager().registerEvents(this, permissionManager.getInstance());
 		this.permissionManager=permissionManager;
@@ -82,7 +82,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 					
 				},"Kaufen",money,3000,7000);
 				player.openInventory(buy);
-				base.addAnother(buy);
+				UtilInv.getBase().addAnother(buy);
 				}
 			}
 			
@@ -103,7 +103,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 					
 				},"Kaufen",money,3000,7000);
 				player.openInventory(buy);
-				base.addAnother(buy);
+				UtilInv.getBase().addAnother(buy);
 				}
 			}
 			
@@ -124,7 +124,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 					
 				},"Kaufen",money,3000,7000);
 				player.openInventory(buy);
-				base.addAnother(buy);
+				UtilInv.getBase().addAnother(buy);
 				}
 			}
 			
@@ -145,7 +145,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 					
 				},"Kaufen",money,2500,6000);
 				player.openInventory(buy);
-				base.addAnother(buy);
+				UtilInv.getBase().addAnother(buy);
 				}
 			}
 			
@@ -166,7 +166,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 					
 				},"Kaufen",money,2000,5000);
 				player.openInventory(buy);
-				base.addAnother(buy);
+				UtilInv.getBase().addAnother(buy);
 				}
 			}
 			
@@ -187,7 +187,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 					
 				},"Kaufen",money,2000,5000);
 				player.openInventory(buy);
-				base.addAnother(buy);
+				UtilInv.getBase().addAnother(buy);
 				}
 			}
 			
@@ -208,7 +208,7 @@ public class DisguiseShop extends InventoryPageBase implements Listener{
 					
 				},"Kaufen",money,3000,7000);
 				player.openInventory(buy);
-				base.addAnother(buy);
+				UtilInv.getBase().addAnother(buy);
 				}
 			}
 			

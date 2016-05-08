@@ -62,8 +62,6 @@ public class PermissionManager {
 	}
 	
 	public boolean isBuyableTimeRank(String group){
-		group=group.toLowerCase();
-		
 		return group.equalsIgnoreCase("vip1")
 				||group.equalsIgnoreCase("vip3")
 				||group.equalsIgnoreCase("vip6")
@@ -82,8 +80,6 @@ public class PermissionManager {
 	}
 	
 	public boolean isBuyableRank(String group){
-		group=group.toLowerCase();
-		
 		return group.equalsIgnoreCase("vip")
 				||group.equalsIgnoreCase("ultra")
 				||group.equalsIgnoreCase("legend")
@@ -121,11 +117,11 @@ public class PermissionManager {
 	
 	public int getGroupPrice(String groupName){
 		switch(groupName.toLowerCase()){
-			case "vip": return 5600;
+			case "vip": return 5400;
 			case "ultra": return 12000;
-			case "legend": return 17600;
-			case "mvp": return 25000;
-			case "mvp+": return 32000;
+			case "legend": return 17400;
+			case "mvp": return 24000;
+			case "mvp+": return 35000;
 			default: return 99999999;
 		}
 	}
@@ -134,8 +130,7 @@ public class PermissionManager {
 		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
 
 		for (Player p : UtilServer.getPlayers()) {
-
-			if (board.getTeam(getPermissionPlayer(p).getGroups().get(0).getName()) == null) {
+			if (getPermissionPlayer(p) != null && !getPermissionPlayer(p).getGroups().isEmpty() && board.getTeam(getPermissionPlayer(p).getGroups().get(0).getName()) == null) {
 				UtilScoreboard.addTeam(board, getPermissionPlayer(p).getGroups().get(0).getName(), null, getPermissionPlayer(p).getGroups().get(0).getPrefix());
 			}
 			UtilScoreboard.addPlayerToTeam(board, getPermissionPlayer(p).getGroups().get(0).getName(), p);

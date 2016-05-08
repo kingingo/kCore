@@ -36,6 +36,40 @@ public class UtilLocation {
 		return lo;
 	}
 	
+	public static double getHighestY(Location loc) {
+		loc.getChunk().load();
+		Location toreturn = loc.clone();
+		Block b;
+		for(int y = 255; y > 0; y--){
+			b = toreturn.getBlock();
+			
+			if(b.getType()==Material.AIR||b.getTypeId()==87||b.getTypeId()==78||b.getTypeId()==31||b.getTypeId()==37||b.getTypeId()==38||b.getTypeId()==39||b.getTypeId()==40|| b.getType().toString().contains("WATER")){
+				toreturn.add(0, 1, 0);
+			}else{
+				toreturn.add(0, -1, 0);
+				break;
+			}
+		}
+		return toreturn.getY();
+	}
+	
+	public static double getLowestY(Location loc) {
+		loc.getChunk().load();
+		Location toreturn = loc.clone();
+		Block b;
+		for(int y = 255; y > 0; y--){
+			b = toreturn.getBlock();
+			
+			if(b.getType()==Material.AIR||b.getTypeId()==87||b.getTypeId()==78||b.getTypeId()==31||b.getTypeId()==37||b.getTypeId()==38||b.getTypeId()==39||b.getTypeId()==40|| b.getType().toString().contains("WATER")){
+				toreturn.add(0, -1, 0);
+			}else{
+				toreturn.add(0, 1, 0);
+				break;
+			}
+		}
+		return toreturn.getY();
+	}
+	
 	public static Location getLowestBlock(Location loc) {
 		loc.getChunk().load();
 		Location toreturn = loc.clone();
@@ -52,15 +86,22 @@ public class UtilLocation {
 		return toreturn;
 	}
 	
-	public static String getLocString(Location l)
+	public static String getLocString(Location l){
+		return getLocString(l, false);
+	}
+	
+	public static String getLocString(Location l, boolean look)
 	  {
 	    if (l == null) return "null";
 	    StringBuilder sb = new StringBuilder();
-	    sb.append(isInt(l.getX()) ? l.getBlockX() : l.getX()).append(",");
-	    sb.append(isInt(l.getY()) ? l.getBlockY() : l.getY()).append(",");
-	    sb.append(isInt(l.getZ()) ? l.getBlockZ() : l.getZ());
-	    if (l.getYaw() != 0.0F) sb.append(",").append(l.getYaw());
-	    if (l.getPitch() != 0.0F) sb.append(",").append(l.getPitch());
+	    sb.append(isInt(l.getX()) ? l.getBlockX() : UtilMath.trim(3, l.getX())).append(",");
+	    sb.append(isInt(l.getY()) ? l.getBlockY() : UtilMath.trim(3, l.getY())).append(",");
+	    sb.append(isInt(l.getZ()) ? l.getBlockZ() : UtilMath.trim(3, l.getZ()));
+	    
+	    if(look){
+		    if (l.getYaw() != 0.0F) sb.append(",").append(l.getYaw());
+		    if (l.getPitch() != 0.0F) sb.append(",").append(l.getPitch());
+	    }
 	    return sb.toString();
 	  }
 	

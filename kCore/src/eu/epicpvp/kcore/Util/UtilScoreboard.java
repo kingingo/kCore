@@ -129,6 +129,8 @@ public class UtilScoreboard {
 	}
 	
 	public static void setScore(Scoreboard board,String scorename,DisplaySlot typ,int i){
+		if(board==null)return;
+		if(board.getObjective(typ)==null)return;
 		board.getObjective(typ).getScore(scorename).setScore(i);
 	}
 	

@@ -3,16 +3,16 @@ package eu.epicpvp.kcore.Teams;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.entity.Player;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+
 import dev.wolveringer.dataserver.gamestats.StatsKey;
-import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.bukkit.entity.Player;
 
 @Getter
 public class Team {

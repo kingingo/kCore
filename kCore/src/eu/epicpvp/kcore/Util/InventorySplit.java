@@ -8,7 +8,7 @@ _18(9,17),
 _27(18,26),
 _36(27,35),
 _45(36,44),
-_54(45,54);
+_54(45,53);
 	
 @Getter
 private int min;
@@ -56,7 +56,7 @@ public static int getSlotRelfect(int slot){
 
 public static InventorySplit split(int slot){
 	for(InventorySplit split : values())
-		if(split.getMin()>=slot&&split.getMax()<=slot)return split;
+		if(split.getMin()<=slot&&split.getMax()>=slot)return split;
 	return null;
 }
 

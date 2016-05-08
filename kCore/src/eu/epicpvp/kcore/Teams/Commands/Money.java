@@ -1,14 +1,15 @@
 package eu.epicpvp.kcore.Teams.Commands;
 
+import static net.minecraft.server.v1_8_R3.PotionBrewer.g;
+
+import org.bukkit.entity.Player;
+
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Teams.Team;
 import eu.epicpvp.kcore.Teams.TeamManager;
 import eu.epicpvp.kcore.Teams.TeamRank;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilNumber;
-import org.bukkit.entity.Player;
-
-import static net.minecraft.server.v1_8_R3.PotionBrewer.g;
 
 public class Money {
 	public static boolean on(Player player, String[] args, TeamManager teamManager) {

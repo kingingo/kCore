@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
+import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 
 public class LaunchItemManager extends kListener{
@@ -23,6 +24,7 @@ public class LaunchItemManager extends kListener{
 	public LaunchItemManager(JavaPlugin instance){
 		super(instance,"[LaunchItemManager]");
 		this.instance=instance;
+		UtilServer.setLaunchItemManager(this);
 	}
 	
 	@EventHandler

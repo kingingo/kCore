@@ -1,6 +1,5 @@
 package eu.epicpvp.kcore.Inventory.Inventory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.Player;
@@ -46,7 +45,6 @@ public class InventoryCopy extends InventoryPageBase{
 			SalesPackageBase sale;
 			ButtonCopy c;
 			ButtonMultiCopy cc;
-			System.out.println("[open] "+player.getName());
 			for(IButton b : (for_with_copy_page ? page.getButtons() : getButtons())){
 				if(b instanceof IButtonOneSlot){
 					if(b instanceof SalesPackageBase){

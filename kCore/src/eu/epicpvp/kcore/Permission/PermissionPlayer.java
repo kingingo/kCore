@@ -64,7 +64,7 @@ public class PermissionPlayer {
 			String permission = buffer.readString();
 			GroupTyp typ = GroupTyp.values()[buffer.readByte()];
 			
-			if(typ==GroupTyp.ALL || typ==manager.getType()){
+			if(typ==GroupTyp.ALL || (manager.getType() == null) || typ==manager.getType()){
 				Permission perm = new Permission(permission, typ);
 				permissions.add(perm);
 				player.addAttachment(manager.getInstance(), perm.getRawPermission(), !perm.isNegative());

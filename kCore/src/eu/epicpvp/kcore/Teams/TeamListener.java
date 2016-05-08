@@ -1,17 +1,18 @@
 package eu.epicpvp.kcore.Teams;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
-import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
-import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
-import eu.epicpvp.kcore.Teams.Events.TeamPlayerJoinEvent;
-import eu.epicpvp.kcore.Teams.Events.TeamPlayerQuitEvent;
-import eu.epicpvp.kcore.Util.UtilPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
+import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
+import eu.epicpvp.kcore.Teams.Events.TeamPlayerJoinEvent;
+import eu.epicpvp.kcore.Teams.Events.TeamPlayerQuitEvent;
+import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class TeamListener extends kListener {
 	private TeamManager teamManager;

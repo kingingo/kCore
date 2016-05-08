@@ -28,7 +28,6 @@ import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.UtilEnt;
@@ -229,6 +228,13 @@ public class GemsShop{
 						}else{
 							if(UtilServer.getPermissionManager().isBuyableRank(s)){
 				  				page.setCreate_new_inv(true);
+				  				
+//				  				List<String> lore = it.getItemMeta().getLore();
+//				  				lore.remove(lore.size()-1);
+//				  				lore.add("§bPreis: §a"+price+" Gems");
+//				  				UtilItem.SetDescriptions(it, lore);
+//				  				getConfig().setItemStack("Main."+i+"."+a+".Item",it);
+				  				
 								page.addButton(a,new SalesGroupPackageBase(new Click(){
 
 									@Override
@@ -337,6 +343,7 @@ public class GemsShop{
 				
 				this.main.addButton(i,new ButtonOpenInventoryCopy(page,getBase(), item));
 				this.base.addPage(page);
+				getConfig().save();
 			}
 		}
 	}

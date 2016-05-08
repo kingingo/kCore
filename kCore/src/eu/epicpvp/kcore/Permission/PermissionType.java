@@ -380,6 +380,10 @@ public enum PermissionType {
 	DISGUISE_GUARDIAN("kdisguise.guardian"),
 	DISGUISE_OCELOT("kdisguise.ocelot"),
 	//DISGUISE
+	
+	//WINGS
+	WINGS_WHITE("epicpvp.particle.wings.white"),
+	//
 
 	NONE("FAIL");
 

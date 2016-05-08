@@ -5,6 +5,14 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.LoadedPlayer;
@@ -13,24 +21,20 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.Action;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.EditStats;
 import dev.wolveringer.gamestats.Statistic;
-import eu.epicpvp.kcore.Listener.MoneyListener.MoneyListener;
+import dev.wolveringer.nbt.NBTCompressedStreamTools;
+import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.Listener.MoneyListener.MoneyListener;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangedEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsSetEvent;
-import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Update.UpdateType;
+import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class StatsManager extends kListener {
 
@@ -50,13 +54,19 @@ public class StatsManager extends kListener {
 	@Getter
 	@Setter
 	private boolean forceSave = false;
+	@Getter
+	@Setter
+	private boolean autoLoad = false;
 
 	public StatsManager(JavaPlugin instance, ClientWrapper client, GameType type) {
 		super(instance, "StatsManager");
 		this.instance = instance;
 		this.type = type;
 		this.client = client;
-		if(type==GameType.Money)new MoneyListener(this);
+		if(type==GameType.Money){
+			setForceSave(true);
+			new MoneyListener(this);
+		}
 		StatsManagerRepository.addStatsManager(this);
 	}
 
@@ -73,6 +83,12 @@ public class StatsManager extends kListener {
 		rankings.add(ranking);
 	}
 
+
+	@EventHandler(priority=EventPriority.MONITOR)
+	public void join(PlayerJoinEvent ev) {
+		if(isAutoLoad())loadPlayer(ev.getPlayer());
+	}
+	
 	@EventHandler(priority=EventPriority.MONITOR)
 	public void quit(PlayerQuitEvent ev) {
 		this.loadplayers.remove(ev.getPlayer().getName());
@@ -139,6 +155,10 @@ public class StatsManager extends kListener {
 		return (statsMap != null && statsMap.containsKey(key));
 	}
 
+	public NBTTagCompound getNBTTagCompound(Player player,StatsKey key){
+		return (NBTTagCompound)get(player,key);
+	}
+	
 	public long getLong(StatsKey key, Player player) {
 		return (long) get(player, key);
 	}
@@ -243,7 +263,18 @@ public class StatsManager extends kListener {
 		kdr = kdr / 100D;
 		return kdr;
 	}
+	
+	public void setNBTTagCompound(Player player, NBTTagCompound nbt, StatsKey key) throws Exception{
+		setNBTTagCompound(UtilPlayer.getPlayerId(player), nbt, key);
+	}
 
+	public void setNBTTagCompound(int playerId, NBTTagCompound nbt, StatsKey key) throws Exception{
+		if (key == StatsKey.PROPERTIES) {
+			this.players.get(playerId).get(key).add(nbt);
+			Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this, key, playerId));
+		}
+	}
+	
 	public void setString(Player player, String s, StatsKey key) {
 		setString(UtilPlayer.getPlayerId(player), key, s);
 	}
@@ -255,7 +286,6 @@ public class StatsManager extends kListener {
 	public void setString(int playerId, StatsKey key, String s) {
 		if (key.getType() == String.class) {
 			this.players.get(playerId).get(key).add(s);
-			
 			Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this, key, playerId));
 		}
 	}
@@ -277,7 +307,19 @@ public class StatsManager extends kListener {
 	}
 
 	public void set(int playerId, StatsKey key, Object obj) {
-		if (key.getType() != String.class) {
+		if(key == StatsKey.PROPERTIES){
+			if(obj instanceof NBTTagCompound){
+				try {
+					setNBTTagCompound(playerId, ((NBTTagCompound)obj), key);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}else{
+				logMessage("Das Object ist kein NBT TAG " +playerId);
+			}
+		}else if(key.getType() == String.class){
+			setString(playerId, key, ((String) obj));
+		}else{
 			Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
 			if (statsMap != null) {
 				StatsObject statsObject = statsMap.get(key);
@@ -319,8 +361,6 @@ public class StatsManager extends kListener {
 					}
 				});
 			}
-		} else {
-			setString(playerId, key, ((String) obj));
 		}
 	}
 
@@ -397,7 +437,19 @@ public class StatsManager extends kListener {
 				Map<StatsKey, StatsObject> statsMap = players.computeIfAbsent(loadedplayer.getPlayerId(), key -> new EnumMap<>(StatsKey.class));
 
 				for (Statistic s : statistics) {
-					statsMap.put(s.getStatsKey(), new StatsObject(s.getValue()));
+					if(s.getStatsKey() == StatsKey.PROPERTIES){
+						if(((String)s.getValue()).isEmpty()){
+							statsMap.put(s.getStatsKey(), new StatsObject(new NBTTagCompound()));
+						}else{
+							try {
+								statsMap.put(s.getStatsKey(), new StatsObject(NBTCompressedStreamTools.read( ((String)s.getValue()) )));
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}else{
+						statsMap.put(s.getStatsKey(), new StatsObject(s.getValue()));
+					}
 				}
 
 				if (callback != null) {
@@ -429,7 +481,13 @@ public class StatsManager extends kListener {
 			StatsKey key = entry.getKey();
 			StatsObject statsObject = entry.getValue();
 			if (statsObject.getChange() != null) {
-				if (key.getType() == String.class) {
+				if(key == StatsKey.PROPERTIES){
+					try {
+						stats[i] = new EditStats(getType(), Action.SET, key, NBTCompressedStreamTools.toString(((NBTTagCompound)statsObject.getValue())));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}else if (key.getType() == String.class) {
 					stats[i] = new EditStats(getType(), Action.SET, key, statsObject.getValue());
 				} else {
 					stats[i] = new EditStats(getType(), Action.ADD, key, statsObject.getChange());

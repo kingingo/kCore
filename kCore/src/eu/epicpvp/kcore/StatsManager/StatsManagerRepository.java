@@ -5,7 +5,6 @@ import java.util.Map;
 
 import dev.wolveringer.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.Util.UtilServer;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public final class StatsManagerRepository {
 	

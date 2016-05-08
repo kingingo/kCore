@@ -1,5 +1,6 @@
 package eu.epicpvp.kcore.StatsManager;
 
+import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import lombok.Getter;
 
@@ -34,6 +35,9 @@ public class StatsObject {
 			change = UtilNumber.toLong(change) + UtilNumber.toLong(obj);
 			value = UtilNumber.toLong(value) + UtilNumber.toLong(obj);
 		} else if (value instanceof String) {
+			change = obj;
+			value = obj;
+		}else if (value instanceof NBTTagCompound) {
 			change = obj;
 			value = obj;
 		}

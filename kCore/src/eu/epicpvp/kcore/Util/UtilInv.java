@@ -16,13 +16,11 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import eu.epicpvp.kcore.Inventory.InventoryBase;
-import lombok.Getter;
 import lombok.Setter;
 
 public class UtilInv
@@ -34,6 +32,24 @@ public class UtilInv
 	  if(base==null)new InventoryBase(UtilServer.getPermissionManager().getInstance());
 	  return base;
   }
+
+	public static Integer[] getSlotsBorder(InventorySize size,InventorySplit startLine){
+		ArrayList<Integer> list = new ArrayList<>();
+		for(int slot = (startLine.getMin()+1); slot < size.getSize(); slot++){
+			InventorySplit split = InventorySplit.split(slot);
+
+			if(split.getMin()<=slot&&split.getMax()>=slot){
+				if(slot==split.getMax()){
+					slot+=2;
+				}
+
+				if((size.getSize()-1)==InventorySplit.split(slot).getMax())break;
+				list.add(slot);
+			}
+		}
+		
+		return list.toArray(new Integer[list.size()]);
+	}
   
   public static ArrayList<ItemStack> getItems(Inventory inventory,int amount){
 	ArrayList<ItemStack> items = new ArrayList<>();

@@ -12,10 +12,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.RandomStringUtils;
 
 import com.google.common.base.Joiner;
-import org.apache.commons.lang.RandomStringUtils;
 
 public class UtilString
 {

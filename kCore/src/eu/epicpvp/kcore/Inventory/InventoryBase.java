@@ -21,7 +21,6 @@ import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilMath;
 import lombok.Getter;
-import lombok.Setter;
 
 public class InventoryBase extends kListener{
 	
@@ -31,9 +30,9 @@ public class InventoryBase extends kListener{
 	ArrayList<InventoryPageBase> pages;
 	@Getter
 	ArrayList<InventoryPageBase> another;
-	@Getter
-	@Setter
-	private InventoryPageBase main;
+//	@Getter
+//	@Setter
+//	private InventoryPageBase main;
 	@Getter
 	private JavaPlugin instance;
 	
@@ -42,7 +41,7 @@ public class InventoryBase extends kListener{
 		this.name=getModuleName();
 		this.pages= new ArrayList<>();
 		this.another= new ArrayList<>();
-		if(main_size!=0)this.main=new InventoryPageBase(main_size,name);
+//		if(main_size!=0)this.main=new InventoryPageBase(main_size,name);
 		
 		UtilInv.setBase(this);
 	}
@@ -67,9 +66,9 @@ public class InventoryBase extends kListener{
 		this(instance,0,null);
 	}
 	
-	public void openShop(Player player){
-		player.openInventory(main);
-	}
+//	public void openShop(Player player){
+//		player.openInventory(main);
+//	}
 	
 	public InventoryPageBase addAnother(InventoryPageBase page){
 		another.add(page);
@@ -97,8 +96,8 @@ public class InventoryBase extends kListener{
 				return page;
 			}
 		}
-		if(main!=null&&main.getName()!=null&&inv.getName()!=null
-				&&main.getName().equalsIgnoreCase(inv.getName())&&main.getSize()==inv.getSize()&&isSameInventory(main,inv))return main;
+//		if(main!=null&&main.getName()!=null&&inv.getName()!=null
+//				&&main.getName().equalsIgnoreCase(inv.getName())&&main.getSize()==inv.getSize()&&isSameInventory(main,inv))return main;
 		return null;
 	}
 	
