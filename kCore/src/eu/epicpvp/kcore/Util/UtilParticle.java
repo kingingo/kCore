@@ -261,7 +261,7 @@ public enum UtilParticle
         }
         EnumParticle enumParticle = (EnumParticle) getEnum(nmsEnumParticle.getName() + "." + (this.enumValue != null ? this.enumValue : name().toUpperCase()));
         PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(enumParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(), offsetX, offsetY, offsetZ, speed, count, extra);
-        UtilPlayer.getCraftPlayer(player).getHandle().playerConnection.sendPacket(packet);
+        UtilPlayer.getCraftPlayer(player).getHandle().playerConnection.networkManager.channel.write(packet); //skips some checks and is faster because we don't flush 
       }
       catch (Exception e) {
         throw e;

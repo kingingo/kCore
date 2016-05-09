@@ -1,88 +1,59 @@
 package eu.epicpvp.kcore.Particle.Cape;
 
+import eu.epicpvp.kcore.Particle.NoMoveShape;
+import eu.epicpvp.kcore.Particle.NoMoveShape.SimpleLastMoveHolder;
+import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Util.UtilVector;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import eu.epicpvp.kcore.Particle.ParticleShape;
-import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Util.UtilVector;
+public abstract class CapeShape extends NoMoveShape<CapeShape.CapePart, SimpleLastMoveHolder> {
 
-public abstract class CapeShape extends ParticleShape<CapeShape.CapePart, CapeShape.CapeState> {
-
-	private static final double CAPE_MIN_ROT = 0.1;
-	
-	private final Color outColor;
-	private final Color inColor;
+	private final Color outerColor;
+	private final Color innerColor;
 	private final Color middleColor;
-	
-	public CapeShape(ItemStack item, PermissionType permission,Color outColor, Color inColor, Color middleColor) {
+
+	public CapeShape(ItemStack item, PermissionType permission, Color outerColor, Color innerColor, Color middleColor) {
 		super(item, permission);
-		this.outColor=outColor;
-		this.inColor=inColor;
-		this.middleColor=middleColor;
-	}
-	
-	public static class CapeState {
-		private double rotBase;
-		private double rotTransformed;
-		private long lastMove;
+		this.outerColor = outerColor;
+		this.innerColor = innerColor;
+		this.middleColor = middleColor;
 	}
 
 	public enum CapePart {
-		OUT,
-		IN,
+		OUTER,
+		INNER,
 		MIDDLE
 	}
 
 	@Override
-	public boolean transformPerTick(Player player, Location playerLoc, Vector locVector, ValueHolder<CapeState> valueHolder, Location previous) {
-		long now = System.currentTimeMillis();
-
-		boolean isMovementNow = previous != null;
-		if (isMovementNow) {
-			if (!previous.toVector().equals(playerLoc.toVector())) {
-				valueHolder.val.lastMove = now;
-				return false;
-			}
-		} else if (now - valueHolder.val.lastMove < MOVEMENT_MILLIS) { //while moving do not display particles from timer
-			return false;
-		}
-		
-		valueHolder.val.rotTransformed = CAPE_MIN_ROT;
-	
-		boolean sneaked = player.isSneaking();
-		if (sneaked) {
-			locVector.add(playerLoc.getDirection().setY(0).normalize().multiply(-0.8));
-			locVector.setY(locVector.getY() - .25);
-		} else {
-			locVector.add(playerLoc.getDirection().setY(0).normalize().multiply(-0.5));
-		}
+	public boolean transformPerTick0(Player player, Location playerLoc, Vector locVector, ValueHolder<SimpleLastMoveHolder> valueHolder, Location previous) {
+		transformPerTickBehindPlayer(player, playerLoc, locVector, true);
 		return true;
 	}
 
 	@Override
-	public Color transformPerParticle(Player player, Location playerLoc, Vector vector, CapePart capePart, ValueHolder<CapeState> valueHolder) {
+	public Color transformPerParticle(Player player, Location playerLoc, Vector vector, CapePart capePart, ValueHolder<SimpleLastMoveHolder> valueHolder) {
 		Vector toChange = vector;
-		boolean sneaked = player.isSneaking();
-		vector.add(new Vector(0,0,-0.85));
-		vector = UtilVector.rotateAroundAxisX(vector, sneaked ? .6 : .5); //schräg zum körper
+		vector.subtract(new Vector(0, 0, .85));
+		vector = UtilVector.rotateAroundAxisX(vector, player.isSneaking() ? .6 : .5); //schräg zum körper
 		vector = UtilVector.rotateVector(vector, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
-		
+
 		Vector locVectorHere = playerLoc.toVector();
 		if (capePart == CapePart.MIDDLE) {
 			locVectorHere = locVectorHere.add(playerLoc.getDirection().setY(0).normalize().multiply(-.1));
 		}
 		vector.add(locVectorHere);
-		toChange.multiply(0).add(vector);
+		toChange.zero().add(vector); //reset and add to origin vector (vector is copied above)
 
 		switch (capePart) {
-			case IN:
-				return inColor;
-			case OUT:
-				return outColor;
+			case INNER:
+				return innerColor;
+			case OUTER:
+				return outerColor;
 			case MIDDLE:
 				return middleColor;
 			default:
@@ -91,7 +62,7 @@ public abstract class CapeShape extends ParticleShape<CapeShape.CapePart, CapeSh
 	}
 
 	@Override
-	public ValueHolder<CapeState> createValueHolder() {
-		return new ValueHolder<>(new CapeState());
+	public ValueHolder<SimpleLastMoveHolder> createValueHolder() {
+		return new ValueHolder<>(new SimpleLastMoveHolder());
 	}
 }

@@ -17,14 +17,13 @@ import lombok.Getter;
 
 public abstract class ParticleShape<E extends Enum<E>, V> {
 
-	protected static final long MOVEMENT_MILLIS = 300;
 	private static final double PARTICLES_PER_BLOCK = 6;
 	private Map<Vector, E> positions = new HashMap<>();
 	@Getter
 	private ItemStack item;
 	@Getter
 	private PermissionType permission;
-	
+
 	public ParticleShape(ItemStack item,PermissionType permission){
 		this.item=item;
 		this.permission=permission;
@@ -36,7 +35,7 @@ public abstract class ParticleShape<E extends Enum<E>, V> {
 	protected Map<Vector, E> createSymmetricLines(double x1, double y1, double x2, double y2, E part) {
 		return createSymmetricLines(x1, y1, 0, x2, y2, 0, part);
 	}
-	
+
 	protected Map<Vector, E> createSymmetricLines(double x1, double y1, double z1, double x2, double y2, double z2, E part) {
 		Map<Vector, E> line1 = createLine(-x1, y1, z1, -x2, y2, z2, part);
 		Map<Vector, E> line2 = createLine(x1, y1, x2, z1, y2, z2, part);
@@ -45,19 +44,19 @@ public abstract class ParticleShape<E extends Enum<E>, V> {
 		result.putAll(line2);
 		return result;
 	}
-	
+
 	protected Map<Vector, E> fill(E searchPart, E part){
 		Map<Vector, E> result = Maps.newHashMapWithExpectedSize(0);
-		
+
 		for(Vector v1 : getPositions().keySet()){
 			if(getPositions().get(v1) != searchPart)continue;
 			for(Vector v2 : getPositions().keySet()){
 				if(getPositions().get(v2) != searchPart)continue;
-				
+
 				if( (v2.getX()+0.075)>=v1.getX() && (v2.getX()-0.075)<=v1.getX() && v1.getY() != v2.getY()){
 					double y1=0;
 					double y2=0;
-					
+
 					if(v1.getY() > v2.getY()){
 						y1=v1.getY()-0.15;
 						y2=v2.getY()+0.15;
@@ -65,15 +64,15 @@ public abstract class ParticleShape<E extends Enum<E>, V> {
 						y2=v2.getY()-0.15;
 						y1=v1.getY()+0.15;
 					}
-					
+
 					result.putAll(createLine(v1.getX(),y1, v2.getX(), y2, part));
 				}
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	protected Map<Vector, E> createCircle(double x1, double y1, double z1, double radius, E part) {
 		double amount = radius * 64;
 		double inc = (2*Math.PI)/amount;
@@ -103,7 +102,7 @@ public abstract class ParticleShape<E extends Enum<E>, V> {
 		}
 		return result;
 	}
-	
+
 	protected Map<Vector, E> createLine(double x1, double y1, double x2, double y2, E part) {
 		return createLine(x1, y1, 0, x2, y2, 0, part);
 	}
@@ -117,6 +116,15 @@ public abstract class ParticleShape<E extends Enum<E>, V> {
 
 		public ValueHolder(V val) {
 			this.val = val;
+		}
+	}
+
+	public void transformPerTickBehindPlayer(Player player, Location playerLoc, Vector locVector, boolean accountForSneaking) {
+		if (accountForSneaking && player.isSneaking()) {
+			locVector.add(playerLoc.getDirection().setY(0).normalize().multiply(-0.8));
+			locVector.setY(locVector.getY() - .25);
+		} else {
+			locVector.add(playerLoc.getDirection().setY(0).normalize().multiply(-0.5));
 		}
 	}
 

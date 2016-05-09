@@ -14,10 +14,10 @@ public class SupermanCape extends CapeShape{
 
 	@Override
 	public void initShape() {
-		getPositions().putAll(createSymmetricLines( 0, 1.15, .3, 1.15, CapePart.OUT));
-		getPositions().putAll(createSymmetricLines( .3, 1.15, .6, .2, CapePart.OUT));
-		getPositions().putAll(createSymmetricLines( .6, .25, 0, .2, CapePart.OUT));
-		getPositions().putAll(fill(CapePart.OUT, CapePart.IN));
+		getPositions().putAll(createSymmetricLines( 0, 1.15, .3, 1.15, CapePart.OUTER));
+		getPositions().putAll(createSymmetricLines( .3, 1.15, .6, .2, CapePart.OUTER));
+		getPositions().putAll(createSymmetricLines( .6, .25, 0, .2, CapePart.OUTER));
+		getPositions().putAll(fill(CapePart.OUTER, CapePart.INNER));
 	}
 
 }

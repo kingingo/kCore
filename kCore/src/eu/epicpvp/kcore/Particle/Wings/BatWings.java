@@ -47,7 +47,7 @@ public class BatWings extends WingShape{
 		getPositions().putAll(createSymmetricLines( 1, 1, 1.1, .8, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		//Peak 3
 		getPositions().putAll(createSymmetricLines( 1.3, 1.6, 1.5, 1.4, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-
+		//devil horns
 		getPositions().putAll(createSymmetricLines( .2, 1.9, .7, .3, 2.08, .6, WingPart.MIDDLE, WingPart.MIDDLE));
 	}
 

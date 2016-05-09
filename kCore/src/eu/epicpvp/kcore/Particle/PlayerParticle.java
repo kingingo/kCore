@@ -1,7 +1,11 @@
 package eu.epicpvp.kcore.Particle;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
+import eu.epicpvp.kcore.Util.UtilParticle;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -15,9 +19,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
-
-import eu.epicpvp.kcore.Util.UtilParticle;
-import lombok.Getter;
 
 public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable {
 
@@ -35,14 +36,15 @@ public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable 
 	}
 
 	public void start(JavaPlugin plugin) {
-		this.plugin=plugin;
-		taskId = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this, 1, 1).getTaskId();
+		this.plugin = plugin;
+		taskId = plugin.getServer().getScheduler().runTaskAsynchronously(plugin, this).getTaskId();
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	public void stop() {
 		HandlerList.unregisterAll(this);
 		if (taskId > -1) {
+			taskId = -1;
 			plugin.getServer().getScheduler().cancelTask(taskId);
 		}
 	}
@@ -58,7 +60,7 @@ public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable 
 		display(player, from, to);
 	}
 
-	private void display(Player player, Location from, Location to) {
+	private synchronized void display(Player player, Location from, Location to) {
 		boolean show = shape.transformPerTick(player, to, to.toVector(), valueHolder, from);
 
 		if (!show) {
@@ -76,20 +78,35 @@ public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable 
 
 	@Override
 	public void run() {
-		Player player = Bukkit.getPlayer(uuid);
-		if (player != null) {
-			display(player, null, player.getLocation());
+		long start;
+		Player player;
+		while (taskId > -1) {
+			start = System.nanoTime();
+			player = Bukkit.getPlayer(uuid);
+			if (player != null) {
+				display(player, null, player.getLocation());
+			}
+			try {
+				long dur = System.nanoTime() - start;
+				Thread.sleep(50 - TimeUnit.NANOSECONDS.toMillis(dur));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onQuit(PlayerQuitEvent event) {
-		if(event.getPlayer().getUniqueId().equals(uuid))stop();
+		if (event.getPlayer().getUniqueId().equals(uuid)) {
+			stop();
+		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onKick(PlayerKickEvent event) {
-		if(event.getPlayer().getUniqueId().equals(uuid))stop();
+		if (event.getPlayer().getUniqueId().equals(uuid)) {
+			stop();
+		}
 	}
 
 	private static void sendToAll(Color color, Location location) {
