@@ -2,40 +2,36 @@ package eu.epicpvp.kcore.Particle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import eu.epicpvp.kcore.Util.Tuple;
 import org.bukkit.util.Vector;
 
 public class Line<P extends Enum<P>> {
 
-	private final Map<Vector, P> positions;
-	
 	private double particlesPerBlock = 6;
-	
-	private List<Tuple<Tuple<Vector, Vector>, P>> lineData = new ArrayList<>();
+
+	private final List<Tuple<Tuple<Vector, Vector>, P>> lineData = new ArrayList<>();
 	private Vector prev;
 	private double defaultZ;
 	private P defaultPart;
 
-	public Line(ParticleShape<P, ?> shape, double x, double y) {
-		this(shape, x, y, null);
+	public Line(double x, double y) {
+		this(x, y, null);
 	}
 
-	public Line(ParticleShape<P, ?> shape, double x, double y, P defaultPart) {
-		this(shape, x, y, 0, defaultPart);
+	public Line(double x, double y, P defaultPart) {
+		this(x, y, 0, defaultPart);
 	}
 
-	public Line(ParticleShape<P, ?> shape, double startX, double startY, double startZ) {
-		this(shape, startX, startY, startZ, null);
+	public Line(double startX, double startY, double startZ) {
+		this(startX, startY, startZ, null);
 	}
 
-	public Line(ParticleShape<P, ?> shape, double startX, double startY, double startZ, P defaultPart) {
-		this.positions = shape.getPositions();
+	public Line(double startX, double startY, double startZ, P defaultPart) {
 		this.defaultPart = defaultPart;
 		prev = new Vector(startX, startY, startZ);
 	}
-	
+
 	public Line<P> lineTo(Vector v, P part) {
 		lineData.add(new Tuple<>(new Tuple<>(prev.clone(), v), part));
 		return this;
@@ -81,8 +77,7 @@ public class Line<P extends Enum<P>> {
 	}
 
 	/**
-	 * never call it with the same originPart or
-	 * a part which was already a newPart
+	 * never call it with the same originPart or a part which was already a newPart (would create double particles)
 	 * (same origin and new part is okay, but also only once per part)
 	 */
 	public Line<P> makeAllSymmetric(P originPart, P newPart) {
@@ -101,8 +96,8 @@ public class Line<P extends Enum<P>> {
 		prev = prevClone;
 		return this;
 	}
-	
-	public void create() {
+
+	public void addTo(ParticleShape<P, ?> shape) {
 		for (Tuple<Tuple<Vector, Vector>, P> lineData : this.lineData) {
 			Vector from = lineData.a.a;
 			Vector to = lineData.a.b;
@@ -114,9 +109,10 @@ public class Line<P extends Enum<P>> {
 			amount++; //have the end point included
 			for (int i = 0; i < amount; i++) {
 				Vector toPut = from.clone().add(diff.clone().multiply(-i));
-				positions.put(toPut, part);
+				shape.getPositions().put(toPut, part);
 			}
 		}
+		this.lineData.clear();
 	}
 
 	public Line<P> setFrom(double x, double y) {
@@ -146,11 +142,17 @@ public class Line<P extends Enum<P>> {
 		return this;
 	}
 
+	/**
+	 * The particlesPerBlock setting will be evaluated when calling {@link #addTo(ParticleShape)}
+	 */
 	public Line<P> setParticlesPerBlock(double particlesPerBlock) {
 		this.particlesPerBlock = particlesPerBlock;
 		return this;
 	}
 
+	/**
+	 * The particlesPerBlock setting will be evaluated when calling {@link #addTo(ParticleShape)}
+	 */
 	public double getParticlesPerBlock() {
 		return particlesPerBlock;
 	}
