@@ -3,12 +3,14 @@ package eu.epicpvp.kcore.GagdetShop.Gagdet;
 import java.util.HashMap;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.GagdetShop.GadgetHandler;
 import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.MysteryChest.Events.PlayerUseMysteryChestEvent;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilInv;
@@ -109,6 +111,13 @@ public class Gadget extends kListener{
 		
 		if(timer!=null)player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME",timer));
 		return false;
+	}
+	
+	@EventHandler
+	public void MysteryUse(PlayerUseMysteryChestEvent ev){
+		if(this.active_player.containsKey(ev.getPlayer())){
+			removePlayer(ev.getPlayer());
+		}
 	}
 	
 }

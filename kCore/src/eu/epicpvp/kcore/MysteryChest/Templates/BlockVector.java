@@ -23,8 +23,12 @@ public class BlockVector extends Vector{
 		this.data=data;
 	}
 	
+	public Location getLocation(Location loc){
+		return loc.getWorld().getBlockAt(loc.getBlockX()+getBlockX(), loc.getBlockY()+getBlockY(), loc.getBlockZ()+getBlockZ()).getLocation();
+	}
+	
 	public BlockState placeBlock(Location loc){
-		Block block = loc.getWorld().getBlockAt(loc.getBlockX()+getBlockX(), loc.getBlockY()+getBlockY(), loc.getBlockZ()+getBlockZ());
+		Block block = getLocation(loc).getBlock();
 		BlockState state = block.getState();
 		block.setTypeId(getId());
 		block.setData(getData());

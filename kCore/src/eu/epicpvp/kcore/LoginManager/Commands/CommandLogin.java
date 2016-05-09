@@ -24,13 +24,13 @@ public class CommandLogin implements CommandExecutor{
 		if(!(cs instanceof Player))return false;
 		Player player = (Player)cs;
 		
-		if(!getLoginManager().getLogin().containsKey(player.getName()))return false;
+		if(!getLoginManager().getLogin().containsKey(player.getName().toLowerCase()))return false;
 		if(args.length==0){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§c/login [Password]");
 			return true;
 		}else{
-			if(args[0].equalsIgnoreCase(getLoginManager().getLogin().get(player.getName()))){
-				getLoginManager().getLogin().remove(player.getName());
+			if(args[0].equalsIgnoreCase(getLoginManager().getLogin().get(player.getName().toLowerCase()))){
+				getLoginManager().getLogin().remove(player.getName().toLowerCase());
 				Title title = new Title("  "," ");
 				title.resetTitle(player);
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "LOGIN_ACCEPT"));

@@ -55,11 +55,11 @@ public class UtilBlock
   }
   
   public static Location getBlockCenterUP(Location loc) {
-	    if (loc != null) {
-	      return new Location(loc.getWorld(), loc.getX() + 0.5D, loc.getY() + 1.0D, loc.getZ() + 0.5D);
-	    }
-	    return loc;
+	  if (loc != null) {
+	      return new Location(loc.getWorld(), loc.getBlockX() + 0.5, loc.getY() + 0.1, loc.getZ() + 0.5);
 	  }
+	  return loc;
+  }
   
   public static void setChestFace(Block block,BlockFace face){
 	  if(face==null||block==null)return;

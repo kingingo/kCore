@@ -155,6 +155,10 @@ public class StatsManager extends kListener {
 		return (statsMap != null && statsMap.containsKey(key));
 	}
 
+	public NBTTagCompound getNBTTagCompound(int playerId,StatsKey key){
+		return (NBTTagCompound)get(playerId,key);
+	}
+
 	public NBTTagCompound getNBTTagCompound(Player player,StatsKey key){
 		return (NBTTagCompound)get(player,key);
 	}

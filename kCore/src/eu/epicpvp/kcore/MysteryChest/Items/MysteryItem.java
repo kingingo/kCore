@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.MysteryChest.TreasureItems;
+package eu.epicpvp.kcore.MysteryChest.Items;
 
 import org.bukkit.inventory.ItemStack;
 

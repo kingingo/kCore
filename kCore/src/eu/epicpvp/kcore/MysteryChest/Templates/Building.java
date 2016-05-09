@@ -27,6 +27,7 @@ import com.sk89q.worldedit.regions.Region;
 import eu.epicpvp.kcore.MysteryChest.MysteryChestManager;
 import eu.epicpvp.kcore.Util.UtilFile;
 import eu.epicpvp.kcore.Util.UtilNumber;
+import eu.epicpvp.kcore.Util.UtilParticle;
 import eu.epicpvp.kcore.Util.UtilWorldEdit;
 import eu.epicpvp.kcore.kListen.BlockVectorComparable;
 
@@ -50,6 +51,7 @@ public class Building {
 	
 	public void nextChest(Location location,ArrayList<BlockState> blocks){
 		for(BlockVector v : chests){
+			UtilParticle.SMOKE_NORMAL.display(0.25F, 0.25F, 0.25F, 0, 20, v.getLocation(location), 25);
 			blocks.add(v.placeBlock(location));
 		}
 	}

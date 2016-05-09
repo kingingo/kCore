@@ -674,6 +674,11 @@ public class UtilItem {
 		  return false;
 	  }
 
+	  public static org.bukkit.inventory.ItemStack Item(org.bukkit.inventory.ItemStack i, String msg1, List<String> msg){
+		  return Item(i,msg,msg1);
+	  }
+
+	  
 	  public static org.bukkit.inventory.ItemStack Item(org.bukkit.inventory.ItemStack i, List<String> msg, String msg1)
 	  {
 	    i = RenameItem(i, msg1);

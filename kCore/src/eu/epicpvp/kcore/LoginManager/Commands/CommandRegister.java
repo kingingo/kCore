@@ -25,18 +25,26 @@ public class CommandRegister implements CommandExecutor{
 		if(!(cs instanceof Player))return false;
 		Player player = (Player)cs;
 		
-		if(!getLoginManager().getRegister().contains(player.getName()))return false;
+		if(!getLoginManager().getRegister().contains(player.getName().toLowerCase())){
+			loginManager.logMessage("Register "+player.getName()+" is not on the list!");
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cDu musst erst das Jump And Run schaffen und dich auf die Gold platten stellen!");
+			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aDies ist nur ein Bot schutzt.");
+			return false;
+		}
+		
 		if(args.length==0){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§c/register [Password]");
 			return true;
 		}else{
 			String password = args[0];
+			if(password.isEmpty())return false;
 			
 			if(!password.matches("[a-zA-Z0-9_]*")){
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "LOGIN_FAIL"));
 				return false;
 			}else{
-				getLoginManager().getRegister().remove(player.getName());
+				loginManager.logMessage("Der Spieler "+player.getName()+" hat sich Regestriert!");
+				getLoginManager().getRegister().remove(player.getName().toLowerCase());
 				LoadedPlayer loadedplayer = getLoginManager().getClient().getPlayerAndLoad(player.getName());
 				loadedplayer.setPasswordSync(password);
 				Title title = new Title("  "," ");

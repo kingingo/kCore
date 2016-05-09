@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import dev.wolveringer.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Kit.Kit;
 import eu.epicpvp.kcore.Kit.KitType;
@@ -46,12 +47,15 @@ import eu.epicpvp.kcore.Kit.Perks.PerkSneakDamage;
 import eu.epicpvp.kcore.Kit.Perks.PerkSpawnByDeath;
 import eu.epicpvp.kcore.Kit.Perks.PerkStopPerk;
 import eu.epicpvp.kcore.Kit.Perks.PerkStrength;
-import eu.epicpvp.kcore.MysteryChest.TreasureItems.MysteryItem;
+import eu.epicpvp.kcore.MysteryChest.Items.MysteryItem;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
+import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
+import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilNumber;
+import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandMysteryChest implements CommandExecutor {
 
@@ -83,6 +87,14 @@ public class CommandMysteryChest implements CommandExecutor {
 					} else {
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "/MysteryChest saveTemplate [Name]");
+					}
+				}else if (args[0].equalsIgnoreCase("give")) {
+					if (args.length == 3) {
+						chestManager.addAmount(player, UtilNumber.toInt(args[2]), args[1]);
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "§aDu hast "+args[1]+" Chests erhalten!");
+					} else {
+						player.sendMessage(
+								TranslationHandler.getText(player, "PREFIX") + "/MysteryChest give [Chest] [Amount]");
 					}
 				} else if (args[0].equalsIgnoreCase("createChest")) {
 					if (args.length == 3) {

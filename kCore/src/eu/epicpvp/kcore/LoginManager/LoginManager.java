@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -114,7 +115,7 @@ public class LoginManager extends kListener{
 						}
 						logMessage("STEP ADD TO LOGIN "+loadedplayer.getName());
 						
-						login.put(playername, response[0].getValue());
+						login.put(playername.toLowerCase(), response[0].getValue());
 						return;
 					}
 				}
@@ -125,7 +126,7 @@ public class LoginManager extends kListener{
 					hm2.sendToPlayer(Bukkit.getPlayer(playername));
 				}
 				
-				jumpAndRun.add(playername);
+				jumpAndRun.add(playername.toLowerCase());
 				logMessage("STEP ADD TO JUMP AND RUN "+loadedplayer.getName());
 			}
 		} );
@@ -155,15 +156,21 @@ public class LoginManager extends kListener{
 		if(ev.getType() == UpdateType.SEC_2){
 			if(list==null)this.list=new ArrayList<>();
 			this.list.clear();
-			for(Player player : this.timer.keySet()){
-				if(player.isOnline()){
-					if( (System.currentTimeMillis()-this.timer.get(player)) > TimeSpan.MINUTE * 3){
-						player.kickPlayer("§cDie Zeit ist abgelaufen!");
-					}else{
-						continue;
+			try{
+
+				for(Player player : this.timer.keySet()){
+					if(player.isOnline()){
+						if( (System.currentTimeMillis()-this.timer.get(player)) > TimeSpan.MINUTE * 3){
+							player.kickPlayer("§cDie Zeit ist abgelaufen!");
+						}else{
+							continue;
+						}
 					}
+					list.add(player);
 				}
-				list.add(player);
+				
+			}catch(ConcurrentModificationException e){
+				
 			}
 			
 			for(Player player : list)this.timer.remove(player);
@@ -174,14 +181,14 @@ public class LoginManager extends kListener{
 	public void jumpAndRunDone(PlayerInteractEvent ev){
 		if(ev.getAction() == Action.PHYSICAL){
 			if(ev.getClickedBlock().getType()==Material.GOLD_PLATE){
-				if(this.jumpAndRun.contains(ev.getPlayer().getName())){
-					this.jumpAndRun.remove(ev.getPlayer().getName());
-					this.register.add(ev.getPlayer().getName());
+				if(this.jumpAndRun.contains(ev.getPlayer().getName().toLowerCase())){
+					this.jumpAndRun.remove(ev.getPlayer().getName().toLowerCase());
+					this.register.add(ev.getPlayer().getName().toLowerCase());
 					this.timer.put(ev.getPlayer(), System.currentTimeMillis());
 					
 					this.hm1.clear(ev.getPlayer());
 					this.hm2.clear(ev.getPlayer());
-					
+					logMessage("Jump and Run beendet und Register wird eingeleitet "+ev.getPlayer().getName());
 					ev.getPlayer().sendMessage(TranslationHandler.getText(ev.getPlayer(), "PREFIX")+TranslationHandler.getText(ev.getPlayer(), "REGISTER_MESSAGE"));
 				}
 			}
@@ -190,9 +197,9 @@ public class LoginManager extends kListener{
 
 	@EventHandler
 	public void quit(PlayerQuitEvent ev){
-		this.login.remove(ev.getPlayer().getName());
-		this.register.remove(ev.getPlayer().getName());
-		this.jumpAndRun.remove(ev.getPlayer().getName());
+		this.login.remove(ev.getPlayer().getName().toLowerCase());
+		this.register.remove(ev.getPlayer().getName().toLowerCase());
+		this.jumpAndRun.remove(ev.getPlayer().getName().toLowerCase());
 		this.timer.remove(ev.getPlayer());
 	}
 	
@@ -200,15 +207,15 @@ public class LoginManager extends kListener{
 	public void move(PlayerMoveEvent ev){
 		if(!ev.getPlayer().isOnGround()){
 			if(ev.getPlayer().getLocation().getY()<(spawn.getY()-20)){
-				if(this.login.containsKey(ev.getPlayer().getName())){
+				if(this.login.containsKey(ev.getPlayer().getName().toLowerCase())){
 					ev.getPlayer().teleport(spawn);
 				}
 				
-				if(this.register.contains(ev.getPlayer().getName())){
+				if(this.register.contains(ev.getPlayer().getName().toLowerCase())){
 					ev.getPlayer().teleport(spawn);
 				}
 				
-				if(this.jumpAndRun.contains(ev.getPlayer().getName())){
+				if(this.jumpAndRun.contains(ev.getPlayer().getName().toLowerCase())){
 					ev.getPlayer().teleport(CommandLocations.getLocation("JAR"));
 				}
 			}
@@ -217,14 +224,14 @@ public class LoginManager extends kListener{
 	
 	@EventHandler
 	public void join(PlayerJoinEvent ev){	
-		if(this.login.containsKey(ev.getPlayer().getName())){
+		if(this.login.containsKey(ev.getPlayer().getName().toLowerCase())){
 			loginTitle.setSubtitle(TranslationHandler.getText(ev.getPlayer(), "LOGIN_MESSAGE"));
 			loginTitle.send(ev.getPlayer());
 			ev.getPlayer().teleport(spawn);
 			logMessage("Join "+ev.getPlayer().getName()+" to login!");
 		}
 		
-		if(this.jumpAndRun.contains(ev.getPlayer().getName())){
+		if(this.jumpAndRun.contains(ev.getPlayer().getName().toLowerCase())){
 			ev.getPlayer().teleport(CommandLocations.getLocation("JAR"));
 			hm1.sendToPlayer(ev.getPlayer());
 			hm2.sendToPlayer(ev.getPlayer());

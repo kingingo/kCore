@@ -60,6 +60,31 @@ public class UtilPlayer
 		sendPacket(player, new kPacketPlayOutChat(text.replaceAll("&", "§"),kPacketPlayOutChat.ChatMode.HOVBAR));
 	}
 	
+	public static boolean canMove(Player player){
+		if(UtilNumber.toInt(player.getWalkSpeed()) <= 0 && player.getFoodLevel()==6){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	public static void setMove(Player player,boolean move){
+		if(move){
+			if(player.getWalkSpeed()==0.2F
+					&& player.getFoodLevel()==20)return;
+			player.setWalkSpeed(0.2F);
+			player.removePotionEffect(PotionEffectType.JUMP);
+			player.setFoodLevel(20);
+		}else{
+			
+			if(UtilNumber.toInt(player.getWalkSpeed()) <= 0
+					&& player.getFoodLevel()==6)return;
+			player.setWalkSpeed(0F);
+			UtilPlayer.addPotionEffect(player, PotionEffectType.JUMP, 60*60, 200);
+			player.setFoodLevel(6);
+		}
+	}
+	
 	public static void sendPacket(Player player,Packet packet){
 		if(packet==null)return;
 		getCraftPlayer(player).getHandle().playerConnection.sendPacket(packet);
