@@ -1,15 +1,13 @@
 package eu.epicpvp.kcore.Particle.Wings;
 
 import eu.epicpvp.kcore.Particle.Line;
+import eu.epicpvp.kcore.Permission.PermissionType;
 import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
 
-import eu.epicpvp.kcore.Permission.PermissionType;
+public class ButterflyWings extends WingShape {
 
-public class ButterflyWings extends WingShape{
-
-	public ButterflyWings(ItemStack item, PermissionType permission, boolean moveWings, Color outerColor,
-			Color innerColor, Color middleColor) {
+	public ButterflyWings(ItemStack item, PermissionType permission, boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
 		super(item, permission, moveWings, outerColor, innerColor, middleColor);
 	}
 
@@ -26,8 +24,7 @@ public class ButterflyWings extends WingShape{
 				.makeAllSymmetric(WingPart.OUTER_LEFT)
 				.addTo(this);
 
-		getPositions().putAll(createSymmetricLines( .5, 1.8, .3, 1.2, WingPart.INNER_LEFT, WingPart.INNER_RIGHT));
-		getPositions().putAll(createSymmetricLines( .3, 0.8, .5, 0.4 ,WingPart.INNER_LEFT, WingPart.INNER_RIGHT));
+		getPositions().putAll(createSymmetricLines(.5, 1.8, .3, 1.2, WingPart.INNER_LEFT, WingPart.INNER_RIGHT));
+		getPositions().putAll(createSymmetricLines(.3, 0.8, .5, 0.4, WingPart.INNER_LEFT, WingPart.INNER_RIGHT));
 	}
-
 }

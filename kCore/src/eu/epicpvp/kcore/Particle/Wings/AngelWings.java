@@ -18,8 +18,7 @@ public class AngelWings extends WingShape {
 
 	private static final double THINKNESS_CONST = .28;
 
-	public AngelWings(ItemStack item, PermissionType permission, boolean moveWings, Color outerColor, Color innerColor,
-			Color middleColor) {
+	public AngelWings(ItemStack item, PermissionType permission, boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
 		super(item, permission, moveWings, outerColor, innerColor, middleColor);
 	}
 

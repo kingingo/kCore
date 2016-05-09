@@ -1,15 +1,13 @@
 package eu.epicpvp.kcore.Particle.Wings;
 
 import eu.epicpvp.kcore.Particle.Line;
+import eu.epicpvp.kcore.Permission.PermissionType;
 import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
 
-import eu.epicpvp.kcore.Permission.PermissionType;
+public class InsectWings extends WingShape {
 
-public class InsectWings extends WingShape{
-
-	public InsectWings(ItemStack item, PermissionType permission, boolean moveWings, Color outerColor, Color innerColor,
-			Color middleColor) {
+	public InsectWings(ItemStack item, PermissionType permission, boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
 		super(item, permission, moveWings, outerColor, innerColor, middleColor);
 	}
 
@@ -28,5 +26,4 @@ public class InsectWings extends WingShape{
 		getPositions().putAll(fill(WingPart.OUTER_RIGHT, WingPart.INNER_RIGHT));
 		getPositions().putAll(fill(WingPart.OUTER_LEFT, WingPart.INNER_LEFT));
 	}
-
 }
