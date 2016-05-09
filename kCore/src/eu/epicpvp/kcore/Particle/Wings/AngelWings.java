@@ -24,15 +24,14 @@ public class AngelWings extends WingShape {
 
 	@Override
 	public void initShape() {
-		new Line<>(TOP_CORNER_X, TOP_CORNER_Y, WingPart.OUTER_RIGHT)
-				.lineTo(0, MIDDLE_UPPER_Y) //upper line to middle top
-				.setFrom(TOP_CORNER_X + .08, TOP_CORNER_Y - .15) //no peak at top corner
-				.lineTo(WING_MIDDLE_X, WING_MIDDLE_Y) //top corner to wing middle
-				.lineTo(BOTTOM_X, BOTTOM_Y) //wing middle to bottom
-				.modifyFrom(-.15, 0) //no peak at bottom
-				.lineTo(0, BOTTOM_MIDDLE_Y)
-				.makeAllSymmetric(WingPart.OUTER_LEFT)
-				.addTo(this);
+		// upper line to middle top
+		getPositions().putAll(createSymmetricLines(TOP_CORNER_X, TOP_CORNER_Y, 0, MIDDLE_UPPER_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		// top corner to wing middle
+		getPositions().putAll(createSymmetricLines(TOP_CORNER_X + .08, TOP_CORNER_Y - .15, WING_MIDDLE_X, WING_MIDDLE_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		// wing middle to bottom
+		getPositions().putAll(createSymmetricLines(WING_MIDDLE_X, WING_MIDDLE_Y, BOTTOM_X, BOTTOM_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		// bottom to middle
+		getPositions().putAll(createSymmetricLines(BOTTOM_X - .15, BOTTOM_Y, 0, BOTTOM_MIDDLE_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 
 		// upper line - inner
 		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST * .8, TOP_CORNER_Y - THINKNESS_CONST, 0, MIDDLE_UPPER_Y - THINKNESS_CONST, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));

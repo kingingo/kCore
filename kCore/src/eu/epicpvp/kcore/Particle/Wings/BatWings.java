@@ -13,20 +13,28 @@ public class BatWings extends WingShape {
 	
 	@Override
 	public void initShape() {
-		new Line<>(0, 1, WingPart.OUTER_RIGHT) //mid
-				.lineTo(.6, .7) //first peak
-				.lineTo(.7, 1) //between 1. and 2. peak
-				.lineTo(1, 1) //2. peak
-				.lineTo(1.1, 1.4) //between 2.-3. peak
-				.lineTo(1.3, 1.6) //3. peak
-				.lineTo(1.2, 1.9) //between 3.-4. peak
-				.lineTo(1.3, 2.1) //4. peak
-				.lineTo(1.1, 1.9) //top inner
-				.lineTo(.6, 1.7) //rounding top
-				.lineTo(.4, 1.3) //rounding top #2
-				.lineTo(.2, 1.2) //back to mid (nearly)
-				.makeAllSymmetric(WingPart.OUTER_LEFT)
-				.addTo(this);
+		//Mid -> first peak
+		getPositions().putAll(createSymmetricLines( 0, 1, .6, .7, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		//-> between 1. and 2. peak
+		getPositions().putAll(createSymmetricLines( .6, .7, .7, 1, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		//-> 2. peak
+		getPositions().putAll(createSymmetricLines( .7, 1, 1, 1, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		//-> between 2.-3. peak
+		getPositions().putAll(createSymmetricLines( 1, 1, 1.1, 1.4, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		//-> 3. peak
+		getPositions().putAll(createSymmetricLines( 1.1, 1.4, 1.3, 1.6, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		//Mid-mid -> bottom
+		getPositions().putAll(createSymmetricLines( 1.3, 1.6, 1.2, 1.9, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		//-> between 3.-4. peak
+		getPositions().putAll(createSymmetricLines( 1.2, 1.9, 1.3, 2.1, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		//-> top inner
+		getPositions().putAll(createSymmetricLines( 1.3, 2.1, 1.1, 1.9, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		//-> rounding top
+		getPositions().putAll(createSymmetricLines( 1.1, 1.9, .6, 1.7, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		//-> rounding top #2
+		getPositions().putAll(createSymmetricLines( .6, 1.7, .4, 1.3, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
+		//-> mid
+		getPositions().putAll(createSymmetricLines( .4, 1.3, 0.2, 1.2, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 
 		getPositions().putAll(fill(WingPart.OUTER_RIGHT, WingPart.INNER_RIGHT));
 		getPositions().putAll(fill(WingPart.OUTER_LEFT, WingPart.INNER_LEFT));
