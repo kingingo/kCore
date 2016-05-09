@@ -35,18 +35,24 @@ public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable 
 		valueHolder = shape.createValueHolder();
 	}
 
-	public void start(JavaPlugin plugin) {
+	public boolean start(JavaPlugin plugin) {
+		if (taskId > -1) {
+			return false;
+		}
 		this.plugin = plugin;
 		taskId = plugin.getServer().getScheduler().runTaskAsynchronously(plugin, this).getTaskId();
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		return true;
 	}
 
-	public void stop() {
+	public boolean stop() {
 		HandlerList.unregisterAll(this);
 		if (taskId > -1) {
 			taskId = -1;
 			plugin.getServer().getScheduler().cancelTask(taskId);
+			return true;
 		}
+		return false;
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -71,26 +77,30 @@ public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable 
 			E value = entry.getValue();
 			Vector vector = entry.getKey().clone();
 			Color color = shape.transformPerParticle(player, to, vector, value, valueHolder);
-			Location location = vector.toLocation(player.getWorld());
-			sendToAll(color, location);
+			if (color != null) {
+				Location location = vector.toLocation(player.getWorld());
+				sendToAll(color, location);
+			}
 		});
 	}
 
 	@Override
 	public void run() {
-		long start;
-		Player player;
 		while (taskId > -1) {
-			start = System.nanoTime();
-			player = Bukkit.getPlayer(uuid);
+			long start = System.currentTimeMillis();
+			Player player = Bukkit.getPlayer(uuid);
 			if (player != null) {
 				display(player, null, player.getLocation());
 			}
-			try {
-				long dur = System.nanoTime() - start;
-				Thread.sleep(50 - TimeUnit.NANOSECONDS.toMillis(dur));
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			long milliDur = System.currentTimeMillis() - start;
+			if (milliDur >=50) {
+				System.out.println(shape.getClass().getSimpleName() + " particles for " + player + " took too long: " + milliDur + "ms");
+			} else {
+				try {
+					Thread.sleep(50 - milliDur);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
