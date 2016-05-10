@@ -33,7 +33,6 @@ public class MySQL {
 		this.pass = pass;
 		this.instance = plugin;
 		this.host = host;
-		this.host="148.251.143.2";
 		this.db = db;
 		connect();
 		new MySQLListener(this);

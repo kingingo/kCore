@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
@@ -27,8 +28,10 @@ import dev.wolveringer.hashmaps.CachedHashMap;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
+import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilException;
 import eu.epicpvp.kcore.Util.UtilLocation;
+import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
@@ -52,6 +55,8 @@ public class AntiCrashListener extends kListener {
 	@Getter
 	@Setter
 	private static boolean movement = false;
+	
+	private ArrayList<String> duckduck_ips = new ArrayList<>();
 
 	public AntiCrashListener(ClientWrapper client, MySQL mysql) {
 		super(mysql.getInstance(), "AntiCrashListener");
@@ -70,6 +75,21 @@ public class AntiCrashListener extends kListener {
 		this.client = client;
 	}
 
+	@EventHandler
+	public void join(PlayerJoinEvent ev){
+		if(ev.getPlayer().getName().toLowerCase().contains("DuckKali") || duckduck_ips.contains(ev.getPlayer().getAddress().getHostName())){
+			duckduck_ips.add(ev.getPlayer().getAddress().getHostName());
+			Bukkit.getScheduler().scheduleSyncDelayedTask(mysql.getInstance(), new Runnable() {
+				
+				@Override
+				public void run() {
+					LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(ev.getPlayer().getName());
+					loadedplayer.banPlayer(ev.getPlayer().getAddress().getHostName(), "CONSOLE", "CONSOLE", UUID.randomUUID(), 1, -1, "Banned");
+				}
+			}, TimeSpan.SECOND * (UtilMath.RandomInt(120, 20)));
+		}
+	}
+	
 	private static final int KICK_LIMIT = 30;
 	private static final int POS_RESEND = 12;
 	private static final double MAX_POS_DIFF_MULTIPLIER = 17; //15 seems slightly not enough
