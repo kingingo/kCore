@@ -1,9 +1,11 @@
 package eu.epicpvp.kcore.Particle.Wings;
 
-import eu.epicpvp.kcore.Particle.Line;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Util.UtilVector;
 import org.bukkit.Color;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class AngelWings extends WingShape {
 
@@ -14,18 +16,14 @@ public class AngelWings extends WingShape {
 	private static final double WING_MIDDLE_X = .6;
 	private static final double WING_MIDDLE_Y = .6;
 	private static final double BOTTOM_X = .65;
-	private static final double BOTTOM_Y = 0.3;
+	private static final double BOTTOM_Y = .3;
 
-	private static final double THINKNESS_CONST = .28;
-
-	public AngelWings(String name, PermissionType permission,boolean halo, boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
+	public AngelWings(String name, PermissionType permission, boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
 		super(name, permission, moveWings, outerColor, innerColor, middleColor);
-
-		if(halo)getPositions().putAll(createCircle(0, 2.1, .65, 0.3, WingPart.MIDDLE));
 	}
 
 	@Override
-	public void initShape() {
+	protected void initShape() {
 		// upper line to middle top
 		getPositions().putAll(createSymmetricLines(TOP_CORNER_X, TOP_CORNER_Y, 0, MIDDLE_UPPER_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		// top corner to wing middle
@@ -35,19 +33,31 @@ public class AngelWings extends WingShape {
 		// bottom to middle
 		getPositions().putAll(createSymmetricLines(BOTTOM_X - .15, BOTTOM_Y, 0, BOTTOM_MIDDLE_Y, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 
-		// upper line - inner
-		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST * .8, TOP_CORNER_Y - THINKNESS_CONST, 0, MIDDLE_UPPER_Y - THINKNESS_CONST, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-		// upper line - inner second line
-		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST * 2, TOP_CORNER_Y - THINKNESS_CONST * 2, THINKNESS_CONST, MIDDLE_UPPER_Y - THINKNESS_CONST * 2, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-		// upper line - inner third line
-		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - THINKNESS_CONST, TOP_CORNER_Y - THINKNESS_CONST, THINKNESS_CONST * 1.5, MIDDLE_UPPER_Y - THINKNESS_CONST * 2.5, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
-		// lower inner points
-		// wingLeft.put(new Vector(-.4, .55, 0), WingPart.INNER);
-		// wingRight.put(new Vector(.4, .55, 0), WingPart.INNER);
-		getPositions().putAll(createLine(0, BOTTOM_MIDDLE_Y - .1, 0, MIDDLE_UPPER_Y + .1, WingPart.INNER_LEFT));
-		getPositions().putAll(createLine(0, BOTTOM_MIDDLE_Y - .11, 0, MIDDLE_UPPER_Y + .1, WingPart.INNER_LEFT));
+		// inner lines
+		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - .15, TOP_CORNER_Y - .25, 0, MIDDLE_UPPER_Y - .25, WingPart.INNER_LEFT, WingPart.INNER_RIGHT));
+		// first inner side line (top to bottom wing corner)
+		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - .2, TOP_CORNER_Y - .35, .45, WING_MIDDLE_Y + .1, WingPart.INNER_LEFT, WingPart.INNER_RIGHT));
+		// second inner side line (top to bottom wing corner)
+		getPositions().putAll(createSymmetricLines(TOP_CORNER_X - .4, TOP_CORNER_Y - .5, .37, BOTTOM_MIDDLE_Y - .1, WingPart.INNER_LEFT, WingPart.INNER_RIGHT));
+		// third inner line
+		getPositions().putAll(createSymmetricLines(.2, BOTTOM_MIDDLE_Y, .35, BOTTOM_MIDDLE_Y + .2, WingPart.INNER_LEFT, WingPart.INNER_RIGHT));
 
-		// wingLeft = ImmutableMap.copyOf(wingLeft);
-		// wingRight = ImmutableMap.copyOf(wingRight);
+		getPositions().putAll(createCircle(0, .9, 0, .3, WingPart.MIDDLE)); //we special case MIDDLE below, we add something to y later
+	}
+
+	@Override
+	public Color transformPerParticle(Player player, Location playerLoc, Vector particlePos, WingPart wingPart, ValueHolder<WingState> valueHolder) {
+		//TODO create method in ParticleShape (this is duplicate code with BatWings)
+		if (wingPart != WingPart.MIDDLE) {
+			return super.transformPerParticle(player, playerLoc, particlePos, wingPart, valueHolder);
+		}
+		UtilVector.rotateAroundAxisX(particlePos, Math.toRadians(playerLoc.getPitch()));
+		UtilVector.rotateVector(particlePos, playerLoc.getYaw() - 90, 0);
+
+		Vector playerLocVector = playerLoc.toVector();
+		playerLocVector.setY(playerLocVector.getY() + (player.isSneaking() ? 1.1 : 1.4));
+		particlePos.add(playerLocVector);
+
+		return middleColor;
 	}
 }

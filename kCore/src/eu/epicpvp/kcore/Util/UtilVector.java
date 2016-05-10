@@ -53,7 +53,7 @@ public class UtilVector {
 	}
 
 	public static Vector add(Vector a, Vector b) {
-		return new Vector(a.getBlockX() + b.getBlockX(), a.getBlockY() + b.getBlockY(), a.getBlockZ() + b.getBlockZ());
+		return a.clone().add(b);
 	}
 
 	public static int subtractY(Vector a, Vector b) {
@@ -69,7 +69,7 @@ public class UtilVector {
 	}
 
 	public static Vector subtract(Vector a, Vector b) {
-		return new Vector(b.getBlockX() - a.getBlockX(), b.getBlockY() - a.getBlockY(), b.getBlockZ() - a.getBlockZ());
+		return a.clone().subtract(b);
 	}
 
 	public static BlockVector subtract(BlockVector a, BlockVector b) {
@@ -140,6 +140,6 @@ public class UtilVector {
 		z = initialZ * cosYaw - initialX * sinYaw;
 		x = initialZ * sinYaw + initialX * cosYaw;
 
-		return new Vector(x, y, z);
+		return v.setX(x).setY(y).setZ(z);
 	}
 }

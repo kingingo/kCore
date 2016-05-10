@@ -1,8 +1,6 @@
 package eu.epicpvp.kcore.Particle;
 
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 import eu.epicpvp.kcore.Util.UtilParticle;
 import lombok.Getter;
@@ -20,16 +18,16 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
-public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable {
+public class PlayerParticleDisplayer<P extends Enum<P>, V> implements Listener, Runnable {
 
 	private final UUID uuid;
 	@Getter
-	private ParticleShape<E, V> shape;
-	private ParticleShape.ValueHolder<V> valueHolder;
+	private final ParticleShape<P, V> shape;
+	private final ParticleShape.ValueHolder<V> valueHolder;
 	private int taskId = -1;
 	private JavaPlugin plugin;
 
-	public PlayerParticle(Player player, ParticleShape<E, V> shape) {
+	public PlayerParticleDisplayer(Player player, ParticleShape<P, V> shape) {
 		this.uuid = player.getUniqueId();
 		this.shape = shape;
 		valueHolder = shape.createValueHolder();
@@ -50,6 +48,7 @@ public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable 
 		if (taskId > -1) {
 			taskId = -1;
 			plugin.getServer().getScheduler().cancelTask(taskId);
+			plugin = null;
 			return true;
 		}
 		return false;
@@ -67,19 +66,31 @@ public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable 
 	}
 
 	private synchronized void display(Player player, Location from, Location to) {
-		boolean show = shape.transformPerTick(player, to, to.toVector(), valueHolder, from);
+		boolean show = shape.transformPerTick(player, to, valueHolder, from);
 
 		if (!show) {
 			return;
 		}
 
 		shape.getPositions().entrySet().parallelStream().forEach(entry -> {
-			E value = entry.getValue();
-			Vector vector = entry.getKey().clone();
-			Color color = shape.transformPerParticle(player, to, vector, value, valueHolder);
+			P shapePart = entry.getValue();
+			Vector particlePos = entry.getKey().clone();
+			Color color = shape.transformPerParticle(player, to, particlePos, shapePart, valueHolder);
 			if (color != null) {
-				Location location = vector.toLocation(player.getWorld());
-				sendToAll(color, location);
+				if (shape.isPlayerSpecificTransform()) {
+					Bukkit.getOnlinePlayers().parallelStream().forEach(plr -> {
+						Vector finalParticlePos = particlePos.clone();
+						Color finalColor = shape.transformPerParticleAndPlayer(player, plr, to, finalParticlePos, shapePart, valueHolder, color);
+						
+						if (finalColor != null) {
+							Location particleLoc = finalParticlePos.toLocation(player.getWorld());
+							trySendParticle(plr, particleLoc, finalColor);
+						}
+					});
+				} else {
+					Location particleLoc = particlePos.toLocation(player.getWorld());
+					sendToAll(color, particleLoc);
+				}
 			}
 		});
 	}
@@ -89,12 +100,14 @@ public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable 
 		while (taskId > -1) {
 			long start = System.currentTimeMillis();
 			Player player = Bukkit.getPlayer(uuid);
-			if (player != null) {
-				display(player, null, player.getLocation());
+			if (player == null) {
+				stop();
+				return;
 			}
+			display(player, null, player.getLocation());
 			long milliDur = System.currentTimeMillis() - start;
-			if (milliDur >=50) {
-				System.out.println(shape.getClass().getSimpleName() + " particles for " + player + " took too long: " + milliDur + "ms");
+			if (milliDur >= 50) {
+				System.out.println(shape.getName() + " particles for " + player.getName() + " took too long: " + milliDur + "ms");
 			} else {
 				try {
 					Thread.sleep(50 - milliDur);
@@ -120,9 +133,7 @@ public class PlayerParticle<E extends Enum<E>, V> implements Listener, Runnable 
 	}
 
 	private static void sendToAll(Color color, Location location) {
-		Bukkit.getOnlinePlayers().parallelStream().forEach(plr -> {
-			trySendParticle(plr, location, color);
-		});
+		Bukkit.getOnlinePlayers().parallelStream().forEach(plr -> trySendParticle(plr, location, color));
 	}
 
 	private static void trySendParticle(Player plr, Location location, Color color) {

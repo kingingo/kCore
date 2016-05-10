@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.Particle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -36,28 +37,27 @@ import lombok.Getter;
 public class WingShop extends InventoryCopy implements Listener{
 
 	@Getter
-	private HashMap<Player,PlayerParticle> players;
+	private final HashMap<UUID, PlayerParticleDisplayer> particleDisplayers = new HashMap<>();
 	@Getter
-	private JavaPlugin instance;
+	private final JavaPlugin instance;
 	@Getter
-	private StatsManager statsManager;
+	private final StatsManager statsManager;
 	@Getter
-	private ArrayList<ParticleShape> wings;
+	private final ArrayList<ParticleShape> wings;
 	
 	public WingShop(JavaPlugin instance) {
 		super(InventorySize._54.getSize(), "Wings Shop");
 		Bukkit.getPluginManager().registerEvents(this, instance);
-		this.players=new HashMap<>();
 		this.wings=new ArrayList<>();
 		this.statsManager=StatsManagerRepository.getStatsManager(GameType.PROPERTIES);
 		this.instance=instance;
-		this.wings.add(new AngelWings("Angel Wings (Weiß)",PermissionType.WINGS_ANGEL_WHITE,true,true, Color.WHITE, Color.WHITE, Color.YELLOW));
-		this.wings.add(new AngelWings("Angel Wings (Schwarz)",PermissionType.WINGS_ANGEL_BLACK,false,true, Color.BLACK, Color.BLACK, Color.BLACK));
-		this.wings.add(new AngelWings("Angel Wings (Grau)",PermissionType.WINGS_ANGEL_GRAY,false,true, Color.GRAY, Color.GRAY, Color.GRAY));
-		this.wings.add(new AngelWings("Angel Wings (Blau)",PermissionType.WINGS_ANGEL_BLUE,false,true, Color.BLUE, Color.BLUE, Color.BLUE));
-		this.wings.add(new AngelWings("Angel Wings (Grün)",PermissionType.WINGS_ANGEL_GREEN,false,true, Color.GREEN, Color.GREEN, Color.GREEN));
-		this.wings.add(new AngelWings("Angel Wings (Orange)",PermissionType.WINGS_ANGEL_ORANGE,false,true, Color.ORANGE, Color.ORANGE, Color.ORANGE));
-		this.wings.add(new AngelWings("Angel Wings (Gelb)",PermissionType.WINGS_ANGEL_YELLOW,false,true, Color.YELLOW, Color.YELLOW, Color.YELLOW));
+		this.wings.add(new AngelWings("Angel Wings (Weiß)",PermissionType.WINGS_ANGEL_WHITE, true, Color.WHITE, Color.WHITE, Color.YELLOW));
+		this.wings.add(new AngelWings("Angel Wings (Schwarz)",PermissionType.WINGS_ANGEL_BLACK, true, Color.BLACK, Color.BLACK, null));
+		this.wings.add(new AngelWings("Angel Wings (Grau)",PermissionType.WINGS_ANGEL_GRAY, true, Color.GRAY, Color.GRAY, null));
+		this.wings.add(new AngelWings("Angel Wings (Blau)",PermissionType.WINGS_ANGEL_BLUE, true, Color.BLUE, Color.BLUE, null));
+		this.wings.add(new AngelWings("Angel Wings (Grün)",PermissionType.WINGS_ANGEL_GREEN, true, Color.GREEN, Color.GREEN, null));
+		this.wings.add(new AngelWings("Angel Wings (Orange)",PermissionType.WINGS_ANGEL_ORANGE, true, Color.ORANGE, Color.ORANGE, null));
+		this.wings.add(new AngelWings("Angel Wings (Gelb)",PermissionType.WINGS_ANGEL_YELLOW, true, Color.YELLOW, Color.YELLOW, null));
 		
 		this.wings.add(new ButterflyWings("Butterfly Wings (Gelb / Rot)",PermissionType.WINGS_BUTTERFLY_YELLOW_RED,true, Color.YELLOW, Color.RED, Color.YELLOW));
 		this.wings.add(new ButterflyWings("Butterfly Wings (Rot / Blau)",PermissionType.WINGS_BUTTERFLY_RED_BLUE,true, Color.RED, Color.BLUE, Color.YELLOW));
@@ -110,13 +110,17 @@ public class WingShop extends InventoryCopy implements Listener{
 	public void load(PlayerStatsLoadedEvent ev){
 		if(ev.getManager().getType() == GameType.PROPERTIES && UtilPlayer.isOnline(ev.getPlayerId())){
 			Player player = UtilPlayer.searchExact(ev.getPlayerId());
+			if (player == null) {
+				return;
+			}
 			NBTTagCompound nbt = ev.getManager().getNBTTagCompound(player, StatsKey.PROPERTIES);
 			
 			if(nbt.hasKey("wings")){
-				for(ParticleShape pa : wings){
-					if(pa.getName().equalsIgnoreCase(nbt.getString("wings"))){
-						getPlayers().put(player, new PlayerParticle<>(player, pa));
-						getPlayers().get(player).start(getInstance());
+				for(ParticleShape<?, ?> particleShape : wings){
+					if(particleShape.getName().equalsIgnoreCase(nbt.getString("wings"))){
+						PlayerParticleDisplayer<?, ?> particleDisplayer = new PlayerParticleDisplayer<>(player, particleShape);
+						particleDisplayer.start(instance);
+						particleDisplayers.put(player.getUniqueId(), particleDisplayer);
 						break;
 					}
 				}
@@ -126,6 +130,6 @@ public class WingShop extends InventoryCopy implements Listener{
 
 	@EventHandler
 	public void quit(PlayerQuitEvent ev){
-		players.remove(ev.getPlayer());
+		particleDisplayers.remove(ev.getPlayer().getUniqueId());
 	}
 }

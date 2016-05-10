@@ -318,13 +318,13 @@ public class CommandMysteryBox implements CommandExecutor {
 
 	public static ArrayList<ParticleShape> getWings(){
 		ArrayList<ParticleShape> wings = new ArrayList<>();
-		wings.add(new AngelWings("Angel Wings (Weiß)",PermissionType.WINGS_ANGEL_WHITE,true,true, Color.WHITE, Color.WHITE, Color.YELLOW));
-		wings.add(new AngelWings("Angel Wings (Schwarz)",PermissionType.WINGS_ANGEL_BLACK,true,true, Color.BLACK, Color.BLACK, Color.BLACK));
-		wings.add(new AngelWings("Angel Wings (Grau)",PermissionType.WINGS_ANGEL_GRAY,true,true, Color.GRAY, Color.GRAY, Color.GRAY));
-		wings.add(new AngelWings("Angel Wings (Blau)",PermissionType.WINGS_ANGEL_BLUE,true,true, Color.BLUE, Color.BLUE, Color.BLUE));
-		wings.add(new AngelWings("Angel Wings (Grün)",PermissionType.WINGS_ANGEL_GREEN,true,true, Color.GREEN, Color.GREEN, Color.GREEN));
-		wings.add(new AngelWings("Angel Wings (Orange)",PermissionType.WINGS_ANGEL_ORANGE,true,true, Color.ORANGE, Color.ORANGE, Color.ORANGE));
-		wings.add(new AngelWings("Angel Wings (Gelb)",PermissionType.WINGS_ANGEL_YELLOW,true,true, Color.YELLOW, Color.YELLOW, Color.YELLOW));
+		wings.add(new AngelWings("Angel Wings (Weiß)",PermissionType.WINGS_ANGEL_WHITE, true, Color.WHITE, Color.WHITE, Color.YELLOW));
+		wings.add(new AngelWings("Angel Wings (Schwarz)",PermissionType.WINGS_ANGEL_BLACK, true, Color.BLACK, Color.BLACK, null));
+		wings.add(new AngelWings("Angel Wings (Grau)",PermissionType.WINGS_ANGEL_GRAY, true, Color.GRAY, Color.GRAY, null));
+		wings.add(new AngelWings("Angel Wings (Blau)",PermissionType.WINGS_ANGEL_BLUE, true, Color.BLUE, Color.BLUE, null));
+		wings.add(new AngelWings("Angel Wings (Grün)",PermissionType.WINGS_ANGEL_GREEN, true, Color.GREEN, Color.GREEN, null));
+		wings.add(new AngelWings("Angel Wings (Orange)",PermissionType.WINGS_ANGEL_ORANGE, true, Color.ORANGE, Color.ORANGE, null));
+		wings.add(new AngelWings("Angel Wings (Gelb)",PermissionType.WINGS_ANGEL_YELLOW, true, Color.YELLOW, Color.YELLOW, null));
 		
 		wings.add(new ButterflyWings("Butterfly Wings (Gelb / Rot)",PermissionType.WINGS_BUTTERFLY_YELLOW_RED,true, Color.YELLOW, Color.RED, Color.YELLOW));
 		wings.add(new ButterflyWings("Butterfly Wings (Rot / Blau)",PermissionType.WINGS_BUTTERFLY_RED_BLUE,true, Color.RED, Color.BLUE, Color.YELLOW));

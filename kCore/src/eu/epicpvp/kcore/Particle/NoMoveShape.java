@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public abstract class NoMoveShape<E extends Enum<E>, V extends NoMoveShape.LastMoveHolder> extends ParticleShape<E, V> {
@@ -13,14 +12,22 @@ public abstract class NoMoveShape<E extends Enum<E>, V extends NoMoveShape.LastM
 	private final long movementMillis;
 
 	public NoMoveShape(String name, PermissionType permission, long movementMillis) {
-		super(name, permission);
-		this.movementMillis = movementMillis;
+		this(name, permission, false, movementMillis);
 	}
 
 	public NoMoveShape(String name, PermissionType permission) {
-		this(name, permission, 300);
+		this(name, permission, false);
 	}
-	
+
+	public NoMoveShape(String name, PermissionType permission, boolean playerSpecificTransform) {
+		this(name, permission, playerSpecificTransform, 300);
+	}
+
+	public NoMoveShape(String name, PermissionType permission, boolean playerSpecificTransform, long movementMillis) {
+		super(name, permission, playerSpecificTransform);
+		this.movementMillis = movementMillis;
+	}
+
 	public interface LastMoveHolder {
 		public void setLastMove(long millis);
 		public long getLastMove();
@@ -33,7 +40,7 @@ public abstract class NoMoveShape<E extends Enum<E>, V extends NoMoveShape.LastM
 	}
 
 	@Override
-	public final boolean transformPerTick(Player player, Location playerLoc, Vector locVector, ValueHolder<V> valueHolder, Location previous) {
+	public final boolean transformPerTick(Player player, Location playerLoc, ValueHolder<V> valueHolder, Location previous) {
 		long now = System.currentTimeMillis();
 
 		boolean isMovementNow = previous != null;
@@ -45,8 +52,8 @@ public abstract class NoMoveShape<E extends Enum<E>, V extends NoMoveShape.LastM
 		} else if (now - valueHolder.val.getLastMove() < movementMillis) { //while moving do not display particles from timer
 			return false;
 		}
-		return transformPerTick0(player, playerLoc, locVector, valueHolder, previous);
+		return transformPerTick0(player, playerLoc, valueHolder, previous);
 	}
 
-	public abstract boolean transformPerTick0(Player player, Location playerLoc, Vector locVector, ValueHolder<V> valueHolder, Location previous);
+	protected abstract boolean transformPerTick0(Player player, Location playerLoc, ValueHolder<V> valueHolder, Location previous);
 }

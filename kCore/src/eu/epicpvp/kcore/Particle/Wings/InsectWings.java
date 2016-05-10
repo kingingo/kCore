@@ -12,7 +12,7 @@ public class InsectWings extends WingShape {
 	}
 
 	@Override
-	public void initShape() {
+	protected void initShape() {
 		//Mid-mid -> bottom
 		getPositions().putAll(createSymmetricLines( 0, 1.5, .5, 1.1, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		getPositions().putAll(createSymmetricLines( .5, 1.1, 1, .7, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));

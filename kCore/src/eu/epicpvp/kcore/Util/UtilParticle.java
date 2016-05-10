@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import net.minecraft.server.v1_8_R3.EnumParticle;
@@ -261,7 +262,7 @@ public enum UtilParticle
         }
         EnumParticle enumParticle = (EnumParticle) getEnum(nmsEnumParticle.getName() + "." + (this.enumValue != null ? this.enumValue : name().toUpperCase()));
         PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(enumParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(), offsetX, offsetY, offsetZ, speed, count, extra);
-        UtilPlayer.getCraftPlayer(player).getHandle().playerConnection.networkManager.channel.write(packet); //skips some checks and is faster because we don't flush 
+        ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel.write(packet); //skips some checks and is faster because we don't flush 
       }
       catch (Exception e) {
         throw e;

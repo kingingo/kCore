@@ -12,7 +12,7 @@ public class ButterflyWings extends WingShape {
 	}
 
 	@Override
-	public void initShape() {
+	protected void initShape() {
 		//Mid-mid -> bottom
 		getPositions().putAll(createSymmetricLines( 0, 1, .6, .2, WingPart.OUTER_LEFT, WingPart.OUTER_RIGHT));
 		//->mid-side

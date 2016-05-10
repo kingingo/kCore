@@ -6,6 +6,9 @@ import java.util.List;
 import eu.epicpvp.kcore.Util.Tuple;
 import org.bukkit.util.Vector;
 
+/**
+ * seems to contain bugs
+ */
 public class Line<P extends Enum<P>> {
 
 	private double particlesPerBlock = 6;

@@ -7,7 +7,6 @@ import eu.epicpvp.kcore.Util.UtilVector;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public abstract class CapeShape extends NoMoveShape<CapeShape.CapePart, SimpleLastMoveHolder> {
@@ -30,24 +29,20 @@ public abstract class CapeShape extends NoMoveShape<CapeShape.CapePart, SimpleLa
 	}
 
 	@Override
-	public boolean transformPerTick0(Player player, Location playerLoc, Vector locVector, ValueHolder<SimpleLastMoveHolder> valueHolder, Location previous) {
-		transformPerTickBehindPlayer(player, playerLoc, locVector, true);
+	public boolean transformPerTick0(Player player, Location playerLoc, ValueHolder<SimpleLastMoveHolder> valueHolder, Location previous) {
 		return true;
 	}
 
 	@Override
-	public Color transformPerParticle(Player player, Location playerLoc, Vector vector, CapePart capePart, ValueHolder<SimpleLastMoveHolder> valueHolder) {
-		Vector toChange = vector;
-		vector.subtract(new Vector(0, 0, .85));
-		vector = UtilVector.rotateAroundAxisX(vector, player.isSneaking() ? .6 : .5); //schräg zum körper
-		vector = UtilVector.rotateVector(vector, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
+	public Color transformPerParticle(Player player, Location playerLoc, Vector particlePos, CapePart capePart, ValueHolder<SimpleLastMoveHolder> valueHolder) {
+		//		particlePos.subtract(new Vector(0, 0, .85));
+		UtilVector.rotateAroundAxisX(particlePos, player.isSneaking() ? .6 : .5); //schräg zum körper
+		UtilVector.rotateVector(particlePos, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
+		transformBehindPlayer(player, playerLoc, particlePos, true);
 
 		Vector locVectorHere = playerLoc.toVector();
-		if (capePart == CapePart.MIDDLE) {
-			locVectorHere = locVectorHere.add(playerLoc.getDirection().setY(0).normalize().multiply(-.1));
-		}
-		vector.add(locVectorHere);
-		toChange.zero().add(vector); //reset and add to origin vector (vector is copied above)
+
+		particlePos.add(locVectorHere);
 
 		switch (capePart) {
 			case INNER:
