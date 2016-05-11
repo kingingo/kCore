@@ -25,6 +25,7 @@ import dev.wolveringer.nbt.NBTCompressedStreamTools;
 import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Listener.MoneyListener.MoneyListener;
+import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsAddEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangedEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsSetEvent;
@@ -387,7 +388,9 @@ public class StatsManager extends kListener {
 	public void add(int playerId, StatsKey key, Object value) {
 		Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
 		if (statsMap != null) {
-			statsMap.computeIfAbsent(key, k -> new StatsObject(0)).add(value);
+			PlayerStatsAddEvent add = new PlayerStatsAddEvent(this,key,value,playerId);
+			Bukkit.getPluginManager().callEvent(add);
+			statsMap.computeIfAbsent(key, k -> new StatsObject(0)).add(add.getValue());
 			Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this,key, playerId));
 		} else {
 			logMessage("add LOAD PLAYER "+playerId);

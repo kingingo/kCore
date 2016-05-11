@@ -56,7 +56,6 @@ public class AntiCrashListener extends kListener {
 	@Setter
 	private static boolean movement = false;
 	
-	private ArrayList<String> duckduck_ips = new ArrayList<>();
 
 	public AntiCrashListener(ClientWrapper client, MySQL mysql) {
 		super(mysql.getInstance(), "AntiCrashListener");
@@ -75,21 +74,6 @@ public class AntiCrashListener extends kListener {
 		this.client = client;
 	}
 
-	@EventHandler
-	public void join(PlayerJoinEvent ev){
-		if(ev.getPlayer().getName().toLowerCase().contains("DuckKali") || duckduck_ips.contains(ev.getPlayer().getAddress().getHostName())){
-			duckduck_ips.add(ev.getPlayer().getAddress().getHostName());
-			Bukkit.getScheduler().scheduleSyncDelayedTask(mysql.getInstance(), new Runnable() {
-				
-				@Override
-				public void run() {
-					LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(ev.getPlayer().getName());
-					loadedplayer.banPlayer(ev.getPlayer().getAddress().getHostName(), "CONSOLE", "CONSOLE", UUID.randomUUID(), 1, -1, "Banned");
-				}
-			}, TimeSpan.SECOND * (UtilMath.RandomInt(120, 20)));
-		}
-	}
-	
 	private static final int KICK_LIMIT = 30;
 	private static final int POS_RESEND = 12;
 	private static final double MAX_POS_DIFF_MULTIPLIER = 17; //15 seems slightly not enough

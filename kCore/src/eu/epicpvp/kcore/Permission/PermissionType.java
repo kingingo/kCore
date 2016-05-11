@@ -137,7 +137,9 @@ public enum PermissionType {
 	SPAWNER_ALL("epicpvp.spawner.*"),
 	SPAWN_IGNORE_DELAY("epicpvp.spawn.ignore_delay"),
 	SPAWN_SET("epicpvp.spawn.set"),
-
+	COMMAND_TOGGLERANK("epicpvp.cmd.togglerank"),
+	COMMAND_FIREWORK("epicpvp.cmd.firework"),
+	
 	PERK_NO_POTION("epicpvp.perk.nopotion"),
 	PERK_UNLIMITED_STRENGTH("epicpvp.perk.unlimitedstrength"),
 	PERK_NO_HUNGER("epicpvp.perk.nohunger"),
@@ -160,6 +162,7 @@ public enum PermissionType {
 	PERK_ARROW_POTIONEFFECT("epicpvp.perk.arrowpotioneffect"),
 	PERK_ALL("epicpvp.perk.*"),
 
+	PLAYER_TELEPORT_TOGGLE("epicpvp.player.tptoggle"),
 	PLAYER_TELEPORT_A("epicpvp.player.tpa"),
 	PLAYER_TELEPORT_AHERE("epicpvp.player.tpahere"),
 	PLAYER_TELEPORT_A_BYPASS("epicpvp.player.tpa.bypass"),
@@ -223,6 +226,9 @@ public enum PermissionType {
 	DEATHGAMES_KIT_SWITCHER("epicpvp.kit.dg.switcher"),
 	//DEATHGAMES Kits
 
+	MAP_DOUBLE_VOTE("epicpvp.mapvote.double"),
+	MAP_TRIBLE_VOTE("epicpvp.mapvote.trible"),
+	
 	//SHEEPWARS Kits
 	SHEEPWARS_KIT_OLD_RUSH("epicpvp.kit.old_rush"),
 	SHEEPWARS_KIT_STARTER("epicpvp.kit.starter"),

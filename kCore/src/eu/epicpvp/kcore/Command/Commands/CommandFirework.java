@@ -9,16 +9,15 @@ import org.bukkit.event.inventory.InventoryType;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Util.UtilFirework;
 
-public class CommandAmboss implements CommandExecutor{
-
-	private Player player;
+public class CommandFirework implements CommandExecutor{
 	
-	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "amboss",alias={"anvil"}, sender = Sender.PLAYER)
+	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "firework",alias={"fw"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
-		if(player.hasPermission(PermissionType.AMBOSS.getPermissionToString())){
-			player.openInventory(Bukkit.createInventory(null, InventoryType.ANVIL, "§cAnvil"));
+		Player player=(Player)sender;
+		if(player.hasPermission(PermissionType.COMMAND_FIREWORK.getPermissionToString())){
+			UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), UtilFirework.RandomType());
 			return true;
 		}
 		return false;

@@ -13,8 +13,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.GagdetShop.Gagdet.Gadget;
+import eu.epicpvp.kcore.GagdetShop.Gagdet.MobGun;
+import eu.epicpvp.kcore.GagdetShop.Gagdet.Pearl;
+import eu.epicpvp.kcore.GagdetShop.Gagdet.PowerAxe;
+import eu.epicpvp.kcore.GagdetShop.Gagdet.Ragebow;
+import eu.epicpvp.kcore.GagdetShop.Gagdet.SlimeHead;
 import eu.epicpvp.kcore.Kit.Kit;
 import eu.epicpvp.kcore.Kit.KitType;
 import eu.epicpvp.kcore.Kit.Perk;
@@ -50,12 +55,9 @@ import eu.epicpvp.kcore.Kit.Perks.PerkStrength;
 import eu.epicpvp.kcore.MysteryChest.Items.MysteryItem;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
-import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
-import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilNumber;
-import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandMysteryChest implements CommandExecutor {
 
@@ -105,7 +107,23 @@ public class CommandMysteryChest implements CommandExecutor {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
 								+ "/MysteryChest createChest [Chest] [Template]");
 					}
-				} else if (args[0].equalsIgnoreCase("loadDisguise")) {
+				} else if (args[0].equalsIgnoreCase("loadGadgets")) {
+					if (args.length == 3) {
+						Gadget[] gadgets = getGadgets();
+
+						for (Gadget kit : gadgets) {
+							chestManager.getChest(args[1]).addItem(
+									UtilItem.RenameItem(kit.getItem(), kit.getItem().getItemMeta().getDisplayName()+ "§7 (§eGame§7)"),
+									UtilNumber.toDouble(args[2]), "-",GroupTyp.GAME,
+									"givegadget [p] "+kit.getName()+" R,50,250");
+						}
+						player.sendMessage(
+								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
+					} else {
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
+								+ "/MysteryChest loadGadgets [Chest] [Chance]");
+					}
+				}else if (args[0].equalsIgnoreCase("loadDisguise")) {
 					if (args.length == 3) {
 						MysteryItem[] kits = getDisguise();
 
@@ -294,6 +312,16 @@ public class CommandMysteryChest implements CommandExecutor {
 		};
 	}
 
+	public static Gadget[] getGadgets(){
+		return new Gadget[]{
+			new MobGun(null),
+			new Pearl(null),
+			new PowerAxe(null),
+			new Ragebow(null),
+			new SlimeHead(null),
+		};
+	}
+	
 	public static Perk[] getPerks() {
 		return new Perk[] { new PerkStrength(), new PerkNoPotion(PotionEffectType.POISON), new PerkNoWaterdamage(),
 				new PerkArrowPotionEffect(), new PerkHat(), new PerkGoldenApple(), new PerkNoHunger(),
@@ -342,7 +370,7 @@ public class CommandMysteryChest implements CommandExecutor {
 										UtilItem.LSetColor(new ItemStack(Material.LEATHER_LEGGINGS), DyeColor.GRAY),
 										UtilItem.LSetColor(new ItemStack(Material.LEATHER_BOOTS), DyeColor.GRAY) }), }),
 				new Kit("§e[§c§l+§e] §aKit§7: Vodo§7 (§eSkyWars§7)",
-						new String[] { "§8x1§7 Holzschwert mit Schärfe II", "§8x1§7 Lederbrustpanzer mit Sch§rfe III",
+						new String[] { "§8x1§7 Holzschwert mit Schärfe II", "§8x1§7 Lederbrustpanzer mit rfe III",
 								"§8x2§7 Wurftr§nke der Langsamkeit" },
 						new ItemStack(Material.POTION), PermissionType.SKYWARS_KIT_WUDU, KitType.KAUFEN, 2000, 500,
 						new Perk[] { new PerkEquipment(new ItemStack[] {

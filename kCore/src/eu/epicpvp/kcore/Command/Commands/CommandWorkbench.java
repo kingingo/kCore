@@ -12,7 +12,7 @@ public class CommandWorkbench implements CommandExecutor{
 
 	private Player player;
 	
-	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "workbench",alias={"wb"}, sender = Sender.PLAYER)
+	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "workbench",alias={"wb","craft","craftingtable"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		player=(Player)sender;
 		if(player.hasPermission(PermissionType.WORKBENCH.getPermissionToString())){

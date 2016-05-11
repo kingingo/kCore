@@ -6,8 +6,9 @@ import org.bukkit.event.HandlerList;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import lombok.Getter;
+import lombok.Setter;
 
-public class PlayerStatsChangedEvent extends Event
+public class PlayerStatsAddEvent extends Event
 {
   private static final HandlerList handlers = new HandlerList();
   @Getter
@@ -15,15 +16,18 @@ public class PlayerStatsChangedEvent extends Event
   @Getter
   private int playerId;
   @Getter
+  @Setter
+  private Object value;
+  @Getter
   private StatsManager manager;
-  
 
-  public PlayerStatsChangedEvent(StatsManager manager,StatsKey s,int playerId)
-  {
+  public PlayerStatsAddEvent(StatsManager manager,StatsKey stats,Object value,int playerId){
 	this.manager=manager;
     this.playerId=playerId;
-    this.stats=s;
+    this.stats=stats;
+    this.value=value;
   }
+  
   public HandlerList getHandlers()
   {
     return handlers;

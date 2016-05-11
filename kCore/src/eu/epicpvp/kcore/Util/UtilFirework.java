@@ -38,13 +38,17 @@ public class UtilFirework {
 	}
 	
 	public static void start(Location location, Color color, Type type) {
+		start(1,location,color,type);
+	}
+	
+	public static void start(int lifeSpan, Location location, Color color, Type type) {
 		if(type==null)type=RandomType();
 		if(color==null)color=RandomColor();
 		 Firework fw = location.getWorld().spawn(location,Firework.class);
          FireworkMeta meta = fw.getFireworkMeta();
          meta.addEffect(FireworkEffect.builder().flicker(false).with(type).trail(false).withColor(color).build());
          fw.setFireworkMeta(meta);
-         ((CraftFirework)fw).getHandle().expectedLifespan = 1;
+         if(lifeSpan!=-1)((CraftFirework)fw).getHandle().expectedLifespan = lifeSpan;
 	}
  
 }

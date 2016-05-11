@@ -245,7 +245,7 @@ public class PermissionManager {
 
 	public String getPrefix(Player player) {
 		PermissionPlayer pplayer = getPermissionPlayer(player);
-		if (pplayer.getGroups().isEmpty())
+		if (pplayer.getGroups().isEmpty() || !pplayer.isPrefix())
 			return "§6§m";
 		String prefix = pplayer.getGroups().get(0).getPrefix();
 		if (prefix.length() > 16)

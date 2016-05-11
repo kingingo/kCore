@@ -32,6 +32,14 @@ public class GadgetHandler extends kListener{
 		this.statsManager.setAutoLoad(true);
 		this.statsManager.setForceSave(true);
 		if(UtilTime.getTimeManager()==null)UtilTime.setTimeManager(UtilServer.getPermissionManager());
+		UtilServer.getCommandHandler().register(CommandGiveGadget.class, new CommandGiveGadget(this));
+	}
+	
+	public Gadget getGadget(String gadget){
+		for(Gadget g : gadgets){
+			if(g.getName().equalsIgnoreCase(gadget))return g;
+		}
+		return null;
 	}
 	
 	public boolean removeGadget(Gadget gadget){

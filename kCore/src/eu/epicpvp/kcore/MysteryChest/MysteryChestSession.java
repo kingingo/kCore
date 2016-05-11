@@ -26,6 +26,7 @@ import eu.epicpvp.kcore.Util.UtilFirework;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilLocation;
 import eu.epicpvp.kcore.Util.UtilMath;
+import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
@@ -89,12 +90,31 @@ public class MysteryChestSession {
         this.drops.put(it,msg);
         item++;
         
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), drop.getCmd().replaceAll("[p]", player.getName()));
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rdm(drop.getCmd().replaceAll("[p]", player.getName())));
 		
 		if(item>=items.length){
 			time=System.currentTimeMillis()-TimeSpan.SECOND*25;
 			UtilPlayer.setMove(player, true);
 		}
+	}
+	
+	public String rdm(String cmd){
+		if(cmd.contains("R,")){
+			String[] split = cmd.split(" ");
+			
+			for(String s : split){
+				if(s.startsWith("R,")){
+					String[] ssplit = s.split(",");
+				
+					int min = UtilNumber.toInt(ssplit[1]);
+					int max = UtilNumber.toInt(ssplit[2]);
+					
+					cmd.replaceAll("R,"+min+","+max, ""+UtilMath.RandomInt(max, min));
+					break;
+				}
+			}
+		}
+		return cmd;
 	}
 	
 	public void remove(){
