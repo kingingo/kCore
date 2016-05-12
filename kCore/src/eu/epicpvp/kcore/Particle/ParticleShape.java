@@ -20,12 +20,12 @@ public abstract class ParticleShape<P extends Enum<P>, V> {
 	private static final double PARTICLES_PER_BLOCK = 6;
 	private Map<Vector, P> positions = new HashMap<>();
 	@Getter
-	private ItemStack item;
+	private String name;
 	@Getter
 	private PermissionType permission;
 
-	public ParticleShape(ItemStack item,PermissionType permission){
-		this.item=item;
+	public ParticleShape(String name,PermissionType permission){
+		this.name=name;
 		this.permission=permission;
 		initShape();
 		System.out.println(getClass().getSimpleName() + " has " + positions.size() + " particles");

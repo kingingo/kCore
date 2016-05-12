@@ -12,13 +12,13 @@ public abstract class NoMoveShape<E extends Enum<E>, V extends NoMoveShape.LastM
 
 	private final long movementMillis;
 
-	public NoMoveShape(ItemStack item, PermissionType permission, long movementMillis) {
-		super(item, permission);
+	public NoMoveShape(String name, PermissionType permission, long movementMillis) {
+		super(name, permission);
 		this.movementMillis = movementMillis;
 	}
 
-	public NoMoveShape(ItemStack item, PermissionType permission) {
-		this(item, permission, 300);
+	public NoMoveShape(String name, PermissionType permission) {
+		this(name, permission, 300);
 	}
 	
 	public interface LastMoveHolder {

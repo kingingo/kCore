@@ -45,17 +45,52 @@ public class WingShop extends InventoryCopy implements Listener{
 	private ArrayList<ParticleShape> wings;
 	
 	public WingShop(JavaPlugin instance) {
-		super(InventorySize._54.getSize(), "WingShop");
+		super(InventorySize._54.getSize(), "Wings Shop");
 		Bukkit.getPluginManager().registerEvents(this, instance);
 		this.players=new HashMap<>();
 		this.wings=new ArrayList<>();
 		this.statsManager=StatsManagerRepository.getStatsManager(GameType.PROPERTIES);
 		this.instance=instance;
-		this.wings.add(new AngelWings(UtilItem.RenameItem(new ItemStack(Material.SUGAR), "§7White Angel Wings"),PermissionType.WINGS_WHITE,true, Color.WHITE, Color.WHITE, Color.YELLOW));
-		this.wings.add(new ButterflyWings(UtilItem.RenameItem(new ItemStack(Material.FEATHER), "§7Butterfly Wings"),PermissionType.WINGS_WHITE,true, Color.YELLOW, Color.RED, Color.YELLOW));
-		this.wings.add(new BatWings(UtilItem.RenameItem(new ItemStack(Material.GOLD_BARDING), "§7Bat Wings"),PermissionType.WINGS_WHITE,true, Color.BLACK, Color.RED, Color.RED));
-		this.wings.add(new SupermanCape(UtilItem.RenameItem(new ItemStack(Material.GOLD_INGOT), "§7Cape"), PermissionType.WINGS_WHITE, Color.WHITE, Color.RED, Color.YELLOW));
-		this.wings.add(new InsectWings(UtilItem.RenameItem(new ItemStack(Material.IRON_INGOT), "§7Insect Wings"), PermissionType.WINGS_WHITE, true, Color.WHITE, Color.WHITE, Color.YELLOW));
+		this.wings.add(new AngelWings("Angel Wings (Weiß)",PermissionType.WINGS_ANGEL_WHITE,true,true, Color.WHITE, Color.WHITE, Color.YELLOW));
+		this.wings.add(new AngelWings("Angel Wings (Schwarz)",PermissionType.WINGS_ANGEL_BLACK,true,true, Color.BLACK, Color.BLACK, Color.BLACK));
+		this.wings.add(new AngelWings("Angel Wings (Grau)",PermissionType.WINGS_ANGEL_GRAY,true,true, Color.GRAY, Color.GRAY, Color.GRAY));
+		this.wings.add(new AngelWings("Angel Wings (Blau)",PermissionType.WINGS_ANGEL_BLUE,true,true, Color.BLUE, Color.BLUE, Color.BLUE));
+		this.wings.add(new AngelWings("Angel Wings (Grün)",PermissionType.WINGS_ANGEL_GREEN,true,true, Color.GREEN, Color.GREEN, Color.GREEN));
+		this.wings.add(new AngelWings("Angel Wings (Orange)",PermissionType.WINGS_ANGEL_ORANGE,true,true, Color.ORANGE, Color.ORANGE, Color.ORANGE));
+		this.wings.add(new AngelWings("Angel Wings (Gelb)",PermissionType.WINGS_ANGEL_YELLOW,true,true, Color.YELLOW, Color.YELLOW, Color.YELLOW));
+		
+		this.wings.add(new ButterflyWings("Butterfly Wings (Gelb / Rot)",PermissionType.WINGS_BUTTERFLY_YELLOW_RED,true, Color.YELLOW, Color.RED, Color.YELLOW));
+		this.wings.add(new ButterflyWings("Butterfly Wings (Rot / Blau)",PermissionType.WINGS_BUTTERFLY_RED_BLUE,true, Color.RED, Color.BLUE, Color.YELLOW));
+		this.wings.add(new ButterflyWings("Butterfly Wings (Grün / Schwarz)",PermissionType.WINGS_BUTTERFLY_GREEN_BLACK,true, Color.GREEN, Color.BLACK, Color.YELLOW));
+		this.wings.add(new ButterflyWings("Butterfly Wings (Schwarz / Orange)",PermissionType.WINGS_BUTTERFLY_BLACK_ORANGE,true, Color.BLACK, Color.ORANGE, Color.YELLOW));
+		this.wings.add(new ButterflyWings("Butterfly Wings (Aqua / Blau)",PermissionType.WINGS_BUTTERFLY_AQUA_BLUE,true, Color.AQUA, Color.BLUE, Color.YELLOW));
+		this.wings.add(new ButterflyWings("Butterfly Wings (Lila / Gelb)",PermissionType.WINGS_BUTTERFLY_PURPLE_YELLOW,true, Color.PURPLE, Color.YELLOW, Color.YELLOW));
+		this.wings.add(new ButterflyWings("Butterfly Wings (Aqua / Weiß)",PermissionType.WINGS_BUTTERFLY_AQUA_WHITE,true, Color.AQUA, Color.WHITE, Color.YELLOW));
+		this.wings.add(new ButterflyWings("Butterfly Wings (Aqua / Gelb)",PermissionType.WINGS_BUTTERFLY_BLACK_AQUA,true, Color.BLACK, Color.AQUA, Color.YELLOW));
+		
+		this.wings.add(new BatWings("Bat Wings (Schwarz / Rot)",PermissionType.WINGS_BAT_BLACK_RED,true, Color.BLACK, Color.RED, Color.RED));
+		this.wings.add(new BatWings("Bat Wings (Blau / Rot)",PermissionType.WINGS_BAT_BLUE_RED,true, Color.BLUE, Color.RED, Color.RED));
+		this.wings.add(new BatWings("Bat Wings (Orange / Gelb)",PermissionType.WINGS_BAT_ORANGE_YELLOW,true, Color.ORANGE, Color.YELLOW, Color.RED));
+		this.wings.add(new BatWings("Bat Wings (Blau / Hell Blau)",PermissionType.WINGS_BAT_BLUE_AQUA,true, Color.BLUE, Color.AQUA, Color.RED));
+		this.wings.add(new BatWings("Bat Wings (Grün / Hell Grün)",PermissionType.WINGS_BAT_GREEN_LIME,true, Color.GREEN, Color.LIME, Color.RED));
+		this.wings.add(new BatWings("Bat Wings (Schwarz / Weiß)",PermissionType.WINGS_BAT_BLACK_WHITE,true, Color.BLACK, Color.WHITE, Color.RED));
+		this.wings.add(new BatWings("Bat Wings (Weiß / Gelb)",PermissionType.WINGS_BAT_WHITE_YELLOW,true, Color.WHITE, Color.YELLOW, Color.RED));
+		
+		this.wings.add(new InsectWings("Insect Wings (Weiß)", PermissionType.WINGS_INSECT_WHITE, true, Color.WHITE, Color.WHITE, Color.YELLOW));
+		this.wings.add(new InsectWings("Insect Wings (Schwarz)", PermissionType.WINGS_INSECT_BLACK, true, Color.BLACK, Color.BLACK, Color.YELLOW));
+		this.wings.add(new InsectWings("Insect Wings (Orange)", PermissionType.WINGS_INSECT_ORANGE, true, Color.ORANGE, Color.ORANGE, Color.YELLOW));
+		this.wings.add(new InsectWings("Insect Wings (Aqua)", PermissionType.WINGS_INSECT_AQUA, true, Color.AQUA, Color.AQUA, Color.YELLOW));
+		this.wings.add(new InsectWings("Insect Wings (Lila)", PermissionType.WINGS_INSECT_PURPLE, true, Color.PURPLE, Color.PURPLE, Color.YELLOW));
+		this.wings.add(new InsectWings("Insect Wings (Rot)", PermissionType.WINGS_INSECT_RED, true, Color.RED, Color.RED, Color.YELLOW));
+		this.wings.add(new InsectWings("Insect Wings (Gelb)", PermissionType.WINGS_INSECT_YELLOW, true, Color.YELLOW, Color.YELLOW, Color.YELLOW));
+		
+		this.wings.add(new SupermanCape("Cape (Rot)", PermissionType.CAPE_RED, Color.RED, Color.RED, Color.YELLOW));
+		this.wings.add(new SupermanCape("Cape (Blau)", PermissionType.CAPE_BLUE, Color.BLUE, Color.BLUE, Color.YELLOW));
+		this.wings.add(new SupermanCape("Cape (Gelb)", PermissionType.CAPE_YELLOW, Color.YELLOW, Color.YELLOW, Color.YELLOW));
+		this.wings.add(new SupermanCape("Cape (Weiß)", PermissionType.CAPE_WHITE, Color.WHITE, Color.WHITE, Color.YELLOW));
+		this.wings.add(new SupermanCape("Cape (Grün)", PermissionType.CAPE_GREEN, Color.GREEN, Color.GREEN, Color.YELLOW));
+		this.wings.add(new SupermanCape("Cape (Orange)", PermissionType.CAPE_ORANGE, Color.ORANGE, Color.ORANGE, Color.YELLOW));
+		this.wings.add(new SupermanCape("Cape (Lila)", PermissionType.CAPE_PURPLE, Color.PURPLE, Color.PURPLE, Color.YELLOW));
 		
 		int next = 0;
 		for(int slot : UtilInv.getSlotsBorder(InventorySize.invSize(getSize()), InventorySplit._18)){
@@ -79,7 +114,7 @@ public class WingShop extends InventoryCopy implements Listener{
 			
 			if(nbt.hasKey("wings")){
 				for(ParticleShape pa : wings){
-					if(pa.getItem().getTypeId() == nbt.getInt("wings")){
+					if(pa.getName().equalsIgnoreCase(nbt.getString("wings"))){
 						getPlayers().put(player, new PlayerParticle<>(player, pa));
 						getPlayers().get(player).start(getInstance());
 						break;

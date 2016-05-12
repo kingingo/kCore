@@ -6,8 +6,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class SupermanCape extends CapeShape {
 
-	public SupermanCape(ItemStack item, PermissionType permission, Color outColor, Color inColor, Color middleColor) {
-		super(item, permission, outColor, inColor, middleColor);
+	public SupermanCape(String name, PermissionType permission, Color outColor, Color inColor, Color middleColor) {
+		super(name, permission, outColor, inColor, middleColor);
 	}
 
 	@Override

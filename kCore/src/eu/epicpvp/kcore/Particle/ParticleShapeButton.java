@@ -1,6 +1,7 @@
 package eu.epicpvp.kcore.Particle;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.nbt.NBTTagCompound;
@@ -19,9 +20,11 @@ public class ParticleShapeButton extends ButtonCopy{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(player.isOp() || UtilServer.getPermissionManager().hasPermission(player, particle.getPermission())){
-					((InventoryPageBase)object).setItem(slot, UtilItem.addEnchantmentGlow(particle.getItem()));
-				}else{
-					((InventoryPageBase)object).setItem(slot, particle.getItem());
+					if(shop.getPlayers().containsKey(player)){
+						((InventoryPageBase)object).setItem(slot, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(351,1,(byte)10), "§7"+particle.getName())));
+					}else{
+						((InventoryPageBase)object).setItem(slot, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(351,1,(byte)8), "§7"+particle.getName())));
+					}
 				}
 			}
 			
@@ -49,7 +52,7 @@ public class ParticleShapeButton extends ButtonCopy{
 					shop.getPlayers().get(player).start(shop.getInstance());
 					
 					NBTTagCompound nbt = shop.getStatsManager().getNBTTagCompound(player, StatsKey.PROPERTIES);
-					nbt.setInt("wings", particle.getItem().getTypeId());
+					nbt.setString("wings", particle.getName());
 					try {
 						shop.getStatsManager().setNBTTagCompound(player, nbt, StatsKey.PROPERTIES);
 					} catch (Exception e) {
@@ -58,7 +61,7 @@ public class ParticleShapeButton extends ButtonCopy{
 				}
 			}
 			
-		}, particle.getItem());
+		}, UtilItem.RenameItem(new ItemStack(351,1,(byte)8), "§7"+particle.getName()));
 	}
 
 }

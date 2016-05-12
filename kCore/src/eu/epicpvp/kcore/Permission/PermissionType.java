@@ -388,7 +388,46 @@ public enum PermissionType {
 	//DISGUISE
 	
 	//WINGS
-	WINGS_WHITE("epicpvp.particle.wings.white"),
+	WINGS_ANGEL_WHITE("epicpvp.particle.wings.angel.white"),
+	WINGS_ANGEL_BLACK("epicpvp.particle.wings.angel.black"),
+	WINGS_ANGEL_GRAY("epicpvp.particle.wings.angel.gray"),
+	WINGS_ANGEL_BLUE("epicpvp.particle.wings.angel.blue"),
+	WINGS_ANGEL_GREEN("epicpvp.particle.wings.angel.green"),
+	WINGS_ANGEL_ORANGE("epicpvp.particle.wings.angel.orange"),
+	WINGS_ANGEL_YELLOW("epicpvp.particle.wings.angel.yellow"),
+	
+	WINGS_BUTTERFLY_YELLOW_RED("epicpvp.particle.wings.butterfly.yellow.red"),
+	WINGS_BUTTERFLY_RED_BLUE("epicpvp.particle.wings.butterfly.red.blue"),
+	WINGS_BUTTERFLY_GREEN_BLACK("epicpvp.particle.wings.butterfly.green.black"),
+	WINGS_BUTTERFLY_BLACK_ORANGE("epicpvp.particle.wings.butterfly.black.orange"),
+	WINGS_BUTTERFLY_AQUA_BLUE("epicpvp.particle.wings.butterfly.aqua.blue"),
+	WINGS_BUTTERFLY_PURPLE_YELLOW("epicpvp.particle.wings.butterfly.purple.yellow"),
+	WINGS_BUTTERFLY_AQUA_WHITE("epicpvp.particle.wings.butterfly.aqua.white"),
+	WINGS_BUTTERFLY_BLACK_AQUA("epicpvp.particle.wings.butterfly.black.aqua"),
+
+	WINGS_BAT_BLACK_RED("epicpvp.particle.wings.bat.black.red"),
+	WINGS_BAT_BLUE_RED("epicpvp.particle.wings.bat.blue.red"),
+	WINGS_BAT_ORANGE_YELLOW("epicpvp.particle.wings.bat.orange.yellow"),
+	WINGS_BAT_BLUE_AQUA("epicpvp.particle.wings.bat.blue.aqua"),
+	WINGS_BAT_GREEN_LIME("epicpvp.particle.wings.bat.green.lime"),
+	WINGS_BAT_BLACK_WHITE("epicpvp.particle.wings.bat.black.white"),
+	WINGS_BAT_WHITE_YELLOW("epicpvp.particle.wings.bat.white.yellow"),
+	
+	WINGS_INSECT_WHITE("epicpvp.particle.wings.insect.white"),
+	WINGS_INSECT_BLACK("epicpvp.particle.wings.insect.black"),
+	WINGS_INSECT_ORANGE("epicpvp.particle.wings.insect.orange"),
+	WINGS_INSECT_AQUA("epicpvp.particle.wings.insect.aqua"),
+	WINGS_INSECT_PURPLE("epicpvp.particle.wings.insect.purple"),
+	WINGS_INSECT_RED("epicpvp.particle.wings.insect.red"),
+	WINGS_INSECT_YELLOW("epicpvp.particle.wings.insect.yellow"),
+	
+	CAPE_RED("epicpvp.particle.cape.red"),
+	CAPE_BLUE("epicpvp.particle.cape.blue"),
+	CAPE_WHITE("epicpvp.particle.cape.white"),
+	CAPE_YELLOW("epicpvp.particle.cape.yellow"),
+	CAPE_GREEN("epicpvp.particle.cape.green"),
+	CAPE_ORANGE("epicpvp.particle.cape.orange"),
+	CAPE_PURPLE("epicpvp.particle.cape.purple"),
 	//
 
 	NONE("FAIL");

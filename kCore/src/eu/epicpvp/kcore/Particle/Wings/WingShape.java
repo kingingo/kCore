@@ -25,8 +25,8 @@ public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingStat
 	protected final Color innerColor;
 	protected final Color middleColor;
 
-	public WingShape(ItemStack item, PermissionType permission, boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
-		super(item, permission);
+	public WingShape(String name, PermissionType permission, boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
+		super(name, permission);
 		this.moveWings = moveWings;
 		this.outerColor = outerColor;
 		this.innerColor = innerColor;

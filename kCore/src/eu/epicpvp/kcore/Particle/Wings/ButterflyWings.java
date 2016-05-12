@@ -7,8 +7,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class ButterflyWings extends WingShape {
 
-	public ButterflyWings(ItemStack item, PermissionType permission, boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
-		super(item, permission, moveWings, outerColor, innerColor, middleColor);
+	public ButterflyWings(String name, PermissionType permission, boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
+		super(name, permission, moveWings, outerColor, innerColor, middleColor);
 	}
 
 	@Override

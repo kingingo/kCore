@@ -16,8 +16,8 @@ public abstract class CapeShape extends NoMoveShape<CapeShape.CapePart, SimpleLa
 	private final Color innerColor;
 	private final Color middleColor;
 
-	public CapeShape(ItemStack item, PermissionType permission, Color outerColor, Color innerColor, Color middleColor) {
-		super(item, permission);
+	public CapeShape(String name, PermissionType permission, Color outerColor, Color innerColor, Color middleColor) {
+		super(name, permission);
 		this.outerColor = outerColor;
 		this.innerColor = innerColor;
 		this.middleColor = middleColor;
