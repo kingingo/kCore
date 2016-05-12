@@ -1,5 +1,8 @@
 package eu.epicpvp.kcore.MysteryBox;
 
+import java.util.ArrayList;
+
+import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -53,6 +56,12 @@ import eu.epicpvp.kcore.Kit.Perks.PerkSpawnByDeath;
 import eu.epicpvp.kcore.Kit.Perks.PerkStopPerk;
 import eu.epicpvp.kcore.Kit.Perks.PerkStrength;
 import eu.epicpvp.kcore.MysteryBox.Items.MysteryItem;
+import eu.epicpvp.kcore.Particle.ParticleShape;
+import eu.epicpvp.kcore.Particle.Cape.SupermanCape;
+import eu.epicpvp.kcore.Particle.Wings.AngelWings;
+import eu.epicpvp.kcore.Particle.Wings.BatWings;
+import eu.epicpvp.kcore.Particle.Wings.ButterflyWings;
+import eu.epicpvp.kcore.Particle.Wings.InsectWings;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
@@ -232,6 +241,23 @@ public class CommandMysteryBox implements CommandExecutor {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
 								+ "/MysteryBox loadSheepWars [Chest] [Chance]");
 					}
+				} else if (args[0].equalsIgnoreCase("loadWings")) {
+					if (args.length == 3) {
+						ArrayList<ParticleShape> w = getWings();
+
+						for (ParticleShape s : w) {
+							chestManager.getChest(args[1]).addItem(UtilItem.RenameItem(new ItemStack(Material.NETHER_STAR), "§e[§c§l+§e] §aPartikel§7: " + s.getName())
+									,300
+									, UtilNumber.toDouble(args[2]),
+									s.getPermission().getPermissionToString(),GroupTyp.GAME,
+									"k addperm [p] " + s.getPermission() + " game");
+						}
+						player.sendMessage(
+								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
+					} else {
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
+								+ "/MysteryBox loadSheepWars [Chest] [Chance]");
+					}
 				} else if (args[0].equalsIgnoreCase("loadSheepWars")) {
 					if (args.length == 3) {
 						Kit[] kits = getSheepKits();
@@ -287,6 +313,52 @@ public class CommandMysteryBox implements CommandExecutor {
 			}
 		}
 		return false;
+	}
+	
+
+	public static ArrayList<ParticleShape> getWings(){
+		ArrayList<ParticleShape> wings = new ArrayList<>();
+		wings.add(new AngelWings("Angel Wings (Weiß)",PermissionType.WINGS_ANGEL_WHITE,true,true, Color.WHITE, Color.WHITE, Color.YELLOW));
+		wings.add(new AngelWings("Angel Wings (Schwarz)",PermissionType.WINGS_ANGEL_BLACK,true,true, Color.BLACK, Color.BLACK, Color.BLACK));
+		wings.add(new AngelWings("Angel Wings (Grau)",PermissionType.WINGS_ANGEL_GRAY,true,true, Color.GRAY, Color.GRAY, Color.GRAY));
+		wings.add(new AngelWings("Angel Wings (Blau)",PermissionType.WINGS_ANGEL_BLUE,true,true, Color.BLUE, Color.BLUE, Color.BLUE));
+		wings.add(new AngelWings("Angel Wings (Grün)",PermissionType.WINGS_ANGEL_GREEN,true,true, Color.GREEN, Color.GREEN, Color.GREEN));
+		wings.add(new AngelWings("Angel Wings (Orange)",PermissionType.WINGS_ANGEL_ORANGE,true,true, Color.ORANGE, Color.ORANGE, Color.ORANGE));
+		wings.add(new AngelWings("Angel Wings (Gelb)",PermissionType.WINGS_ANGEL_YELLOW,true,true, Color.YELLOW, Color.YELLOW, Color.YELLOW));
+		
+		wings.add(new ButterflyWings("Butterfly Wings (Gelb / Rot)",PermissionType.WINGS_BUTTERFLY_YELLOW_RED,true, Color.YELLOW, Color.RED, Color.YELLOW));
+		wings.add(new ButterflyWings("Butterfly Wings (Rot / Blau)",PermissionType.WINGS_BUTTERFLY_RED_BLUE,true, Color.RED, Color.BLUE, Color.YELLOW));
+		wings.add(new ButterflyWings("Butterfly Wings (Grün / Schwarz)",PermissionType.WINGS_BUTTERFLY_GREEN_BLACK,true, Color.GREEN, Color.BLACK, Color.YELLOW));
+		wings.add(new ButterflyWings("Butterfly Wings (Schwarz / Orange)",PermissionType.WINGS_BUTTERFLY_BLACK_ORANGE,true, Color.BLACK, Color.ORANGE, Color.YELLOW));
+		wings.add(new ButterflyWings("Butterfly Wings (Aqua / Blau)",PermissionType.WINGS_BUTTERFLY_AQUA_BLUE,true, Color.AQUA, Color.BLUE, Color.YELLOW));
+		wings.add(new ButterflyWings("Butterfly Wings (Lila / Gelb)",PermissionType.WINGS_BUTTERFLY_PURPLE_YELLOW,true, Color.PURPLE, Color.YELLOW, Color.YELLOW));
+		wings.add(new ButterflyWings("Butterfly Wings (Aqua / Weiß)",PermissionType.WINGS_BUTTERFLY_AQUA_WHITE,true, Color.AQUA, Color.WHITE, Color.YELLOW));
+		wings.add(new ButterflyWings("Butterfly Wings (Aqua / Gelb)",PermissionType.WINGS_BUTTERFLY_BLACK_AQUA,true, Color.BLACK, Color.AQUA, Color.YELLOW));
+		
+		wings.add(new BatWings("Bat Wings (Schwarz / Rot)",PermissionType.WINGS_BAT_BLACK_RED,true, Color.BLACK, Color.RED, Color.RED));
+		wings.add(new BatWings("Bat Wings (Blau / Rot)",PermissionType.WINGS_BAT_BLUE_RED,true, Color.BLUE, Color.RED, Color.RED));
+		wings.add(new BatWings("Bat Wings (Orange / Gelb)",PermissionType.WINGS_BAT_ORANGE_YELLOW,true, Color.ORANGE, Color.YELLOW, Color.RED));
+		wings.add(new BatWings("Bat Wings (Blau / Hell Blau)",PermissionType.WINGS_BAT_BLUE_AQUA,true, Color.BLUE, Color.AQUA, Color.RED));
+		wings.add(new BatWings("Bat Wings (Grün / Hell Grün)",PermissionType.WINGS_BAT_GREEN_LIME,true, Color.GREEN, Color.LIME, Color.RED));
+		wings.add(new BatWings("Bat Wings (Schwarz / Weiß)",PermissionType.WINGS_BAT_BLACK_WHITE,true, Color.BLACK, Color.WHITE, Color.RED));
+		wings.add(new BatWings("Bat Wings (Weiß / Gelb)",PermissionType.WINGS_BAT_WHITE_YELLOW,true, Color.WHITE, Color.YELLOW, Color.RED));
+		
+		wings.add(new InsectWings("Insect Wings (Weiß)", PermissionType.WINGS_INSECT_WHITE, true, Color.WHITE, Color.WHITE, Color.YELLOW));
+		wings.add(new InsectWings("Insect Wings (Schwarz)", PermissionType.WINGS_INSECT_BLACK, true, Color.BLACK, Color.BLACK, Color.YELLOW));
+		wings.add(new InsectWings("Insect Wings (Orange)", PermissionType.WINGS_INSECT_ORANGE, true, Color.ORANGE, Color.ORANGE, Color.YELLOW));
+		wings.add(new InsectWings("Insect Wings (Aqua)", PermissionType.WINGS_INSECT_AQUA, true, Color.AQUA, Color.AQUA, Color.YELLOW));
+		wings.add(new InsectWings("Insect Wings (Lila)", PermissionType.WINGS_INSECT_PURPLE, true, Color.PURPLE, Color.PURPLE, Color.YELLOW));
+		wings.add(new InsectWings("Insect Wings (Rot)", PermissionType.WINGS_INSECT_RED, true, Color.RED, Color.RED, Color.YELLOW));
+		wings.add(new InsectWings("Insect Wings (Gelb)", PermissionType.WINGS_INSECT_YELLOW, true, Color.YELLOW, Color.YELLOW, Color.YELLOW));
+		
+		wings.add(new SupermanCape("Cape (Rot)", PermissionType.CAPE_RED, Color.RED, Color.RED, Color.YELLOW));
+		wings.add(new SupermanCape("Cape (Blau)", PermissionType.CAPE_BLUE, Color.BLUE, Color.BLUE, Color.YELLOW));
+		wings.add(new SupermanCape("Cape (Gelb)", PermissionType.CAPE_YELLOW, Color.YELLOW, Color.YELLOW, Color.YELLOW));
+		wings.add(new SupermanCape("Cape (Weiß)", PermissionType.CAPE_WHITE, Color.WHITE, Color.WHITE, Color.YELLOW));
+		wings.add(new SupermanCape("Cape (Grün)", PermissionType.CAPE_GREEN, Color.GREEN, Color.GREEN, Color.YELLOW));
+		wings.add(new SupermanCape("Cape (Orange)", PermissionType.CAPE_ORANGE, Color.ORANGE, Color.ORANGE, Color.YELLOW));
+		wings.add(new SupermanCape("Cape (Lila)", PermissionType.CAPE_PURPLE, Color.PURPLE, Color.PURPLE, Color.YELLOW));
+		return wings;
 	}
 	
 	public static MysteryItem[] getDisguise(){
