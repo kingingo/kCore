@@ -113,7 +113,6 @@ public class InventoryBase extends kListener{
 			if(another.get(i).getViewers().isEmpty()){
 				if(another.get(i) instanceof InventoryNextPage){
 					n=(InventoryNextPage)another.get(i);
-					System.out.println("PLAYER: "+n.getPlayer().getName()+" "+(n.getPlayer().getOpenInventory()==null));
 					if(n.getPlayer().getOpenInventory()!=null)continue;
 				}
 				another.get(i).remove();

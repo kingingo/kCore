@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.MysteryChest.Templates;
+package eu.epicpvp.kcore.MysteryBox.Templates;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,7 +24,7 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.Region;
 
-import eu.epicpvp.kcore.MysteryChest.MysteryChestManager;
+import eu.epicpvp.kcore.MysteryBox.MysteryBoxManager;
 import eu.epicpvp.kcore.Util.UtilFile;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilParticle;
@@ -121,10 +121,10 @@ public class Building {
 		LocalSession localSession = UtilWorldEdit.getWorldEditPlugin().getSession(player);
 		if(localSession!=null){
 			try {
-				UtilFile.deleteFile(MysteryChestManager.templatePath,name+".dat");
+				UtilFile.deleteFile(MysteryBoxManager.templatePath,name+".dat");
 				Region region = localSession.getSelection(BukkitUtil.getLocalWorld(player.getWorld()));
 			    Vector vplayer = new Vector(player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ());
-			    FileWriter fstream= new FileWriter(new File(MysteryChestManager.templatePath,name+".dat"));
+			    FileWriter fstream= new FileWriter(new File(MysteryBoxManager.templatePath,name+".dat"));
 				BufferedWriter out = new BufferedWriter(fstream); 
 			    
 				for(Vector v : region){

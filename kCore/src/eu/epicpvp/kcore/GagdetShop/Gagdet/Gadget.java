@@ -10,7 +10,7 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.GagdetShop.GadgetHandler;
 import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.MysteryChest.Events.PlayerUseMysteryChestEvent;
+import eu.epicpvp.kcore.MysteryBox.Events.PlayerUseMysteryBoxEvent;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilInv;
@@ -114,7 +114,7 @@ public class Gadget extends kListener{
 	}
 	
 	@EventHandler
-	public void MysteryUse(PlayerUseMysteryChestEvent ev){
+	public void MysteryUse(PlayerUseMysteryBoxEvent ev){
 		if(this.active_player.containsKey(ev.getPlayer())){
 			removePlayer(ev.getPlayer());
 		}

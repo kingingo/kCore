@@ -52,7 +52,7 @@ import eu.epicpvp.kcore.Listener.ClientListener.ClientListener;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.Listener.MoneyListener.MoneyListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
-import eu.epicpvp.kcore.MysteryChest.MysteryChestManager;
+import eu.epicpvp.kcore.MysteryBox.MysteryBoxManager;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.kPacketListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
@@ -78,7 +78,7 @@ public class UtilServer{
 	private static MoneyListener moneyListener;
 	@Getter
 	@Setter
-	private static MysteryChestManager mysteryChestManager;
+	private static MysteryBoxManager mysteryBoxManager;
 	@Getter
 	private static boolean loghandleradded = false;
 	@Getter

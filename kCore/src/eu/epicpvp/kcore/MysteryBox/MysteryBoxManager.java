@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.MysteryChest;
+package eu.epicpvp.kcore.MysteryBox;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.MysteryChest.Templates.Building;
+import eu.epicpvp.kcore.MysteryBox.Templates.Building;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangedEvent;
@@ -25,7 +25,7 @@ import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 
-public class MysteryChestManager extends kListener{
+public class MysteryBoxManager extends kListener{
 
 	public static File chestPath;
 	public static File templatePath;
@@ -33,16 +33,16 @@ public class MysteryChestManager extends kListener{
 	@Getter
 	private JavaPlugin instance;
 	@Getter
-	private HashMap<String, MysteryChest> chests;
+	private HashMap<String, MysteryBox> chests;
 	private StatsManager statsManager;
 	@Getter
 	private ArrayList<Location> blocked;
 	
-	public MysteryChestManager(JavaPlugin instance){
-		super(instance,"MysteryChestManager");
+	public MysteryBoxManager(JavaPlugin instance){
+		super(instance,"MysteryBoxManager");
 		this.instance=instance;
-		this.chestPath=new File(UtilFile.getPluginFolder(instance)+File.separator+"MysteryChest"+File.separator+"Chests");
-		this.templatePath=new File(UtilFile.getPluginFolder(instance)+File.separator+"MysteryChest"+File.separator+"Templates");
+		this.chestPath=new File(UtilFile.getPluginFolder(instance)+File.separator+"MysteryBox"+File.separator+"Chests");
+		this.templatePath=new File(UtilFile.getPluginFolder(instance)+File.separator+"MysteryBox"+File.separator+"Templates");
 		this.chestPath.mkdirs();
 		this.templatePath.mkdirs();
 		this.statsManager=StatsManagerRepository.getStatsManager(GameType.PROPERTIES);
@@ -51,9 +51,9 @@ public class MysteryChestManager extends kListener{
 		
 		this.chests=new HashMap<>();
 		this.blocked=new ArrayList<>();
-		UtilServer.getCommandHandler().register(CommandMysteryChest.class, new CommandMysteryChest(this));
+		UtilServer.getCommandHandler().register(CommandMysteryBox.class, new CommandMysteryBox(this));
 		loadChests();
-		UtilServer.setMysteryChestManager(this);
+		UtilServer.setMysteryBoxManager(this);
 	}
 	
 	public boolean isBlocked(Location location){
@@ -72,7 +72,7 @@ public class MysteryChestManager extends kListener{
 			for(String chest : getChests().keySet()){
 				int amount = getAmount(ev.getPlayerId(), chest);
 				if(amount>0){
-					MysteryChest c = getChests().get(chest);
+					MysteryBox c = getChests().get(chest);
 					player.getInventory().setItem(2, UtilItem.RenameItem(c.getItem(), "§c"+c.getName()+" §e(§7"+amount+"§e)"));
 				}
 			}
@@ -89,7 +89,7 @@ public class MysteryChestManager extends kListener{
 	
 	public void setAmount(int playerId, int amount, String chest){
 		NBTTagCompound nbt = this.statsManager.getNBTTagCompound(playerId, StatsKey.PROPERTIES);
-		nbt.setInt("MysteryChest"+chest, amount);
+		nbt.setInt("MysteryBox"+chest, amount);
 		try {
 			this.statsManager.setNBTTagCompound(playerId, nbt, StatsKey.PROPERTIES);
 		} catch (Exception e) {
@@ -105,13 +105,13 @@ public class MysteryChestManager extends kListener{
 	public int getAmount(int playerId, String chest){
 		NBTTagCompound nbt = this.statsManager.getNBTTagCompound(playerId, StatsKey.PROPERTIES);
 		
-		if(nbt.hasKey("MysteryChest"+chest)){
-			return nbt.getInt("MysteryChest"+chest);
+		if(nbt.hasKey("MysteryBox"+chest)){
+			return nbt.getInt("MysteryBox"+chest);
 		}
 		return 0;
 	}
 	
-	public MysteryChest getChest(String treasureName){
+	public MysteryBox getChest(String treasureName){
 		if(this.chests.containsKey(treasureName)){
 			return this.chests.get(treasureName);
 		}
@@ -121,9 +121,9 @@ public class MysteryChestManager extends kListener{
 	public void loadChests(){
 		ArrayList<File> files = UtilFile.loadFiles(chestPath,".yml");
 		
-		MysteryChest chest;
+		MysteryBox chest;
 		for(File file : files){
-			chest=new MysteryChest(this, file.getName().replaceAll(".yml", ""));
+			chest=new MysteryBox(this, file.getName().replaceAll(".yml", ""));
 			this.chests.put(chest.getName(), chest);
 		}
 	}
@@ -143,7 +143,7 @@ public class MysteryChestManager extends kListener{
 	
 	public boolean addChest(ItemStack item,String template, String treasureName){
 		if(!chests.containsKey(treasureName)){
-			MysteryChest chest = MysteryChest.createChest(this, template, item, treasureName);
+			MysteryBox chest = MysteryBox.createChest(this, template, item, treasureName);
 			this.chests.put(treasureName, chest);
 			return true;
 		}

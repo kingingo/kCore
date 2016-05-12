@@ -1,20 +1,20 @@
-package eu.epicpvp.kcore.MysteryChest.Events;
+package eu.epicpvp.kcore.MysteryBox.Events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import eu.epicpvp.kcore.MysteryChest.MysteryChest;
+import eu.epicpvp.kcore.MysteryBox.MysteryBox;
 import lombok.Getter;
 
-public class PlayerUseMysteryChestEvent extends Event{
+public class PlayerUseMysteryBoxEvent extends Event{
 	  private static final HandlerList handlers = new HandlerList();
 	  @Getter
 	  private Player player;
 	  @Getter
-	  private MysteryChest chest;
+	  private MysteryBox chest;
 	  
-	  public PlayerUseMysteryChestEvent(Player player,MysteryChest chest){
+	  public PlayerUseMysteryBoxEvent(Player player,MysteryBox chest){
 		  this.player=player;
 		  this.chest=chest;
 	  }

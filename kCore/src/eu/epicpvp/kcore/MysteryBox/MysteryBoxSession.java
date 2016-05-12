@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.MysteryChest;
+package eu.epicpvp.kcore.MysteryBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +17,8 @@ import org.bukkit.util.Vector;
 
 import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
-import eu.epicpvp.kcore.MysteryChest.Items.MysteryItem;
-import eu.epicpvp.kcore.MysteryChest.Templates.Building;
+import eu.epicpvp.kcore.MysteryBox.Items.MysteryItem;
+import eu.epicpvp.kcore.MysteryBox.Templates.Building;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutBlockAction;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilBlock;
@@ -32,7 +32,7 @@ import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.Blocks;
 
-public class MysteryChestSession {
+public class MysteryBoxSession {
 
 	@Getter
 	private Player player;
@@ -41,7 +41,7 @@ public class MysteryChestSession {
 	private Location location;
 	private MysteryItem[] items;
 	private int item=0;
-	private MysteryChestState state;
+	private MysteryBoxState state;
 	
 	//CHOOSE
 	private long time;
@@ -57,11 +57,11 @@ public class MysteryChestSession {
 	//OPENED CHESTS
 	private ArrayList<Block> chests;
 	
-	public MysteryChestSession(Player player,Building building,MysteryItem[] items){
+	public MysteryBoxSession(Player player,Building building,MysteryItem[] items){
 		this.player=player;
 		this.items=items;
 		this.location=player.getLocation();
-		this.state=MysteryChestState.BUILDING;
+		this.state=MysteryBoxState.BUILDING;
 		this.building_int=0;
 		this.building=building;
 		this.playeritems=player.getInventory().getContents().clone();
@@ -160,14 +160,14 @@ public class MysteryChestSession {
 			}else{
 				building.nextChest(location,blocks);
 				time=System.currentTimeMillis();
-				state=MysteryChestState.CHOOSE;
+				state=MysteryBoxState.CHOOSE;
 			}
 			return true;
 		case CHOOSE:
 			
 			if((System.currentTimeMillis() - time) > TimeSpan.SECOND*30){
 				UtilPlayer.setMove(player, true);
-				state=MysteryChestState.DELETE;
+				state=MysteryBoxState.DELETE;
 			}
 			
 			return true;

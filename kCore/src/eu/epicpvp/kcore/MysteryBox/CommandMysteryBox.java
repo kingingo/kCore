@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.MysteryChest;
+package eu.epicpvp.kcore.MysteryBox;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -52,34 +52,34 @@ import eu.epicpvp.kcore.Kit.Perks.PerkSneakDamage;
 import eu.epicpvp.kcore.Kit.Perks.PerkSpawnByDeath;
 import eu.epicpvp.kcore.Kit.Perks.PerkStopPerk;
 import eu.epicpvp.kcore.Kit.Perks.PerkStrength;
-import eu.epicpvp.kcore.MysteryChest.Items.MysteryItem;
+import eu.epicpvp.kcore.MysteryBox.Items.MysteryItem;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilNumber;
 
-public class CommandMysteryChest implements CommandExecutor {
+public class CommandMysteryBox implements CommandExecutor {
 
-	private MysteryChestManager chestManager;
+	private MysteryBoxManager chestManager;
 
-	public CommandMysteryChest(MysteryChestManager chestManager) {
+	public CommandMysteryBox(MysteryBoxManager chestManager) {
 		this.chestManager = chestManager;
 	}
 
-	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "MysteryChest", alias = { "mc",
+	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "MysteryBox", alias = { "mb",
 			"mchest" }, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
 		Player player = (Player) sender;
 
 		if (player.isOp()) {
 			if (args.length == 0) {
-				player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "/MysteryChest saveTemplate [Chest]");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "/MysteryBox saveTemplate [Chest]");
 				player.sendMessage(
-						TranslationHandler.getText(player, "PREFIX") + "/MysteryChest createChest [Chest] [Template]");
+						TranslationHandler.getText(player, "PREFIX") + "/MysteryBox createChest [Chest] [Template]");
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-						+ "/MysteryChest addi [Chest] [Chance] [Perm] [GroupTyp] [CMD]");
-				player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "/MysteryChest start [Chest]");
+						+ "/MysteryBox addi [Chest] [Chance] [Perm] [GroupTyp] [CMD]");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "/MysteryBox start [Chest]");
 			} else {
 				if (args[0].equalsIgnoreCase("saveTemplate")) {
 					if (args.length == 2) {
@@ -88,7 +88,7 @@ public class CommandMysteryChest implements CommandExecutor {
 								+ "§a wurde gespeichert!");
 					} else {
 						player.sendMessage(
-								TranslationHandler.getText(player, "PREFIX") + "/MysteryChest saveTemplate [Name]");
+								TranslationHandler.getText(player, "PREFIX") + "/MysteryBox saveTemplate [Name]");
 					}
 				}else if (args[0].equalsIgnoreCase("give")) {
 					if (args.length == 3) {
@@ -96,7 +96,7 @@ public class CommandMysteryChest implements CommandExecutor {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "§aDu hast "+args[1]+" Chests erhalten!");
 					} else {
 						player.sendMessage(
-								TranslationHandler.getText(player, "PREFIX") + "/MysteryChest give [Chest] [Amount]");
+								TranslationHandler.getText(player, "PREFIX") + "/MysteryBox give [Chest] [Amount]");
 					}
 				} else if (args[0].equalsIgnoreCase("createChest")) {
 					if (args.length == 3) {
@@ -105,7 +105,7 @@ public class CommandMysteryChest implements CommandExecutor {
 								+ args[1] + " mit dem Template " + args[2] + " wurde erstellt.");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest createChest [Chest] [Template]");
+								+ "/MysteryBox createChest [Chest] [Template]");
 					}
 				} else if (args[0].equalsIgnoreCase("loadGadgets")) {
 					if (args.length == 3) {
@@ -114,6 +114,7 @@ public class CommandMysteryChest implements CommandExecutor {
 						for (Gadget kit : gadgets) {
 							chestManager.getChest(args[1]).addItem(
 									UtilItem.RenameItem(kit.getItem(), kit.getItem().getItemMeta().getDisplayName()+ "§7 (§eGame§7)"),
+									100,
 									UtilNumber.toDouble(args[2]), "-",GroupTyp.GAME,
 									"givegadget [p] "+kit.getName()+" R,50,250");
 						}
@@ -121,7 +122,7 @@ public class CommandMysteryChest implements CommandExecutor {
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest loadGadgets [Chest] [Chance]");
+								+ "/MysteryBox loadGadgets [Chest] [Chance]");
 					}
 				}else if (args[0].equalsIgnoreCase("loadDisguise")) {
 					if (args.length == 3) {
@@ -129,8 +130,8 @@ public class CommandMysteryChest implements CommandExecutor {
 
 						for (MysteryItem kit : kits) {
 							chestManager.getChest(args[1]).addItem(
-									UtilItem.RenameItem(kit,
-											kit.getItemMeta().getDisplayName()+ "§7 (§eGame§7)"),
+									UtilItem.RenameItem(kit, kit.getItemMeta().getDisplayName()+ "§7 (§eGame§7)"),
+									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission(),GroupTyp.GAME,
 									"k addperm [p] " + kit.getPermission() + " game");
 						}
@@ -138,7 +139,7 @@ public class CommandMysteryChest implements CommandExecutor {
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest loadSheepWars [Chest] [Chance]");
+								+ "/MysteryBox loadSheepWars [Chest] [Chance]");
 					}
 				} else if (args[0].equalsIgnoreCase("loadPetsGame")) {
 					if (args.length == 3) {
@@ -146,8 +147,8 @@ public class CommandMysteryChest implements CommandExecutor {
 
 						for (MysteryItem kit : kits) {
 							chestManager.getChest(args[1]).addItem(
-									UtilItem.RenameItem(kit,
-											kit.getItemMeta().getDisplayName()+ "§7 (§eGame§7)"),
+									UtilItem.RenameItem(kit, kit.getItemMeta().getDisplayName()+ "§7 (§eGame§7)"),
+									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission(),GroupTyp.GAME,
 									"k addperm [p] " + kit.getPermission() + " game");
 						}
@@ -155,7 +156,7 @@ public class CommandMysteryChest implements CommandExecutor {
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest loadSheepWars [Chest] [Chance]");
+								+ "/MysteryBox loadSheepWars [Chest] [Chance]");
 					}
 				} else if (args[0].equalsIgnoreCase("loadPetsSky")) {
 					if (args.length == 3) {
@@ -165,6 +166,7 @@ public class CommandMysteryChest implements CommandExecutor {
 							chestManager.getChest(args[1]).addItem(
 									UtilItem.RenameItem(kit,
 											kit.getItemMeta().getDisplayName()+ "§7 (§eSkyBlock§7)"),
+									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission(),GroupTyp.SKY,
 									"k addperm [p] " + kit.getPermission() + " sky");
 						}
@@ -172,7 +174,7 @@ public class CommandMysteryChest implements CommandExecutor {
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest loadSheepWars [Chest] [Chance]");
+								+ "/MysteryBox loadSheepWars [Chest] [Chance]");
 					}
 				} else if (args[0].equalsIgnoreCase("loadPetsPvP")) {
 					if (args.length == 3) {
@@ -182,6 +184,7 @@ public class CommandMysteryChest implements CommandExecutor {
 							chestManager.getChest(args[1]).addItem(
 									UtilItem.RenameItem(kit,
 											kit.getItemMeta().getDisplayName()+ "§7 (§ePvP§7)"),
+									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission(),GroupTyp.PVP,
 									"k addperm [p] " + kit.getPermission() + " pvp");
 						}
@@ -189,7 +192,7 @@ public class CommandMysteryChest implements CommandExecutor {
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest loadSheepWars [Chest] [Chance]");
+								+ "/MysteryBox loadSheepWars [Chest] [Chance]");
 					}
 				}  else if (args[0].equalsIgnoreCase("loadPerksSky")) {
 					if (args.length == 3) {
@@ -200,6 +203,7 @@ public class CommandMysteryChest implements CommandExecutor {
 									UtilItem.RenameItem(kit.getItem(),
 											"§e[§c§l+§e] §aPerk§7: " + kit.getItem().getItemMeta().getDisplayName()
 													+ "§7 (§eSkyBlock§7)"),
+									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission().getPermissionToString(),GroupTyp.SKY,
 									"k addperm [p] " + kit.getPermission().getPermissionToString() + " sky");
 						}
@@ -207,7 +211,7 @@ public class CommandMysteryChest implements CommandExecutor {
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest loadSheepWars [Chest] [Chance]");
+								+ "/MysteryBox loadSheepWars [Chest] [Chance]");
 					}
 				} else if (args[0].equalsIgnoreCase("loadPerksPvP")) {
 					if (args.length == 3) {
@@ -218,6 +222,7 @@ public class CommandMysteryChest implements CommandExecutor {
 									UtilItem.RenameItem(kit.getItem(),
 											"§e[§c§l+§e] §aPerk§7: " + kit.getItem().getItemMeta().getDisplayName()
 													+ "§7 (§ePvP§7)"),
+									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission().getPermissionToString(),GroupTyp.PVP,
 									"k addperm [p] " + kit.getPermission().getPermissionToString() + " sky");
 						}
@@ -225,14 +230,14 @@ public class CommandMysteryChest implements CommandExecutor {
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest loadSheepWars [Chest] [Chance]");
+								+ "/MysteryBox loadSheepWars [Chest] [Chance]");
 					}
 				} else if (args[0].equalsIgnoreCase("loadSheepWars")) {
 					if (args.length == 3) {
 						Kit[] kits = getSheepKits();
 
 						for (Kit kit : kits) {
-							chestManager.getChest(args[1]).addItem(kit.getItem(), UtilNumber.toDouble(args[2]),
+							chestManager.getChest(args[1]).addItem(kit.getItem(),100, UtilNumber.toDouble(args[2]),
 									kit.getPermission().getPermissionToString(),GroupTyp.GAME,
 									"k addperm [p] " + kit.getPermission().getPermissionToString() + " game");
 						}
@@ -240,14 +245,14 @@ public class CommandMysteryChest implements CommandExecutor {
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest loadSheepWars [Chest] [Chance]");
+								+ "/MysteryBox loadSheepWars [Chest] [Chance]");
 					}
 				} else if (args[0].equalsIgnoreCase("loadSkyWars")) {
 					if (args.length == 3) {
 						Kit[] kits = getSkyWarsKits();
 
 						for (Kit kit : kits) {
-							chestManager.getChest(args[1]).addItem(kit.getItem(), UtilNumber.toDouble(args[2]),
+							chestManager.getChest(args[1]).addItem(kit.getItem(),100, UtilNumber.toDouble(args[2]),
 									kit.getPermission().getPermissionToString(),GroupTyp.GAME,
 									"k addperm [p] " + kit.getPermission().getPermissionToString() + " game");
 						}
@@ -255,27 +260,28 @@ public class CommandMysteryChest implements CommandExecutor {
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest loadSkyWars [Chest] [Chance]");
+								+ "/MysteryBox loadSkyWars [Chest] [Chance]");
 					}
 				} else if (args[0].equalsIgnoreCase("addi")) {
 					if (args.length == 6) {
-						chestManager.getChest(args[1]).addItem(player.getItemInHand(), UtilNumber.toDouble(args[2]),
+						chestManager.getChest(args[1]).addItem(player.getItemInHand(),100, UtilNumber.toDouble(args[2]),
+								
 								args[3],GroupTyp.get(args[4]), args[5]);
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
 								+ "§aDas Item wurde zu der Chest hinzugefügt!");
 					} else {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")
-								+ "/MysteryChest addi [Chest] [Chance] [Perm] [GroupTyp] [CMD]");
+								+ "/MysteryBox addi [Chest] [Chance] [Perm] [GroupTyp] [CMD]");
 					}
 				} else if (args[0].equalsIgnoreCase("start")) {
 					if (args.length == 2) {
-						MysteryChest c = chestManager.getChest(args[1]);
+						MysteryBox c = chestManager.getChest(args[1]);
 
 						if (c != null) {
 							c.start(player);
 						}
 					} else {
-						player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "/MysteryChest start [Name]");
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "/MysteryBox start [Name]");
 					}
 				}
 			}
@@ -285,30 +291,30 @@ public class CommandMysteryChest implements CommandExecutor {
 	
 	public static MysteryItem[] getDisguise(){
 		return new MysteryItem[]{
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)54), "§e§l[§c+§e§l]§a Zombie Disguise"), 20, PermissionType.DISGUISE_ZOMBIE.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)58), "§e§l[§c+§e§l]§a Enderman Disguise"), 20, PermissionType.DISGUISE_ENDERMAN.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)61), "§e§l[§c+§e§l]§a Blaze Disguise"), 20, PermissionType.DISGUISE_BLAZE.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)91), "§e§l[§c+§e§l]§a Wolf Disguise"), 20, PermissionType.DISGUISE_WOLF.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)92), "§e§l[§c+§e§l]§a Pig Disguise"), 20, PermissionType.DISGUISE_PIG.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)91), "§e§l[§c+§e§l]§a Schaf Disguise"), 20, PermissionType.DISGUISE_SHEEP.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "§e§l[§c+§e§l]§a Creeper Disguise"), 20, PermissionType.DISGUISE_CREEPER.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)54), "§e§l[§c+§e§l]§a Zombie Disguise"),20, 20, PermissionType.DISGUISE_ZOMBIE.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)58), "§e§l[§c+§e§l]§a Enderman Disguise"),20, 20, PermissionType.DISGUISE_ENDERMAN.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)61), "§e§l[§c+§e§l]§a Blaze Disguise"),20, 20, PermissionType.DISGUISE_BLAZE.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)91), "§e§l[§c+§e§l]§a Wolf Disguise"),20, 20, PermissionType.DISGUISE_WOLF.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)92), "§e§l[§c+§e§l]§a Pig Disguise"),20, 20, PermissionType.DISGUISE_PIG.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)91), "§e§l[§c+§e§l]§a Schaf Disguise"),20, 20, PermissionType.DISGUISE_SHEEP.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "§e§l[§c+§e§l]§a Creeper Disguise"),20, 20, PermissionType.DISGUISE_CREEPER.getPermissionToString(), GroupTyp.GAME, ""),
 		};
 	}
 	
 	public static MysteryItem[] getPets(){
 		return new MysteryItem[]{
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)66), "§e§l[§c+§e§l]§a Witch Pet"), 20, PermissionType.PET_WITCH.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)54), "§e§l[§c+§e§l]§a Zombie Pet"), 20, PermissionType.PET_ZOMBIE.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)95), "§e§l[§c+§e§l]§a Wolf Pet"), 20, PermissionType.PET_WOLF.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)90), "§e§l[§c+§e§l]§a Pig Pet"), 20, PermissionType.PET_PIG.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)91), "§e§l[§c+§e§l]§a Schaf Pet"), 20, PermissionType.PET_SHEEP.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.IRON_BLOCK), "§e§l[§c+§e§l]§a IronGolem Pet"), 20, PermissionType.PET_IRON_GOLEM.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)92), "§e§l[§c+§e§l]§a Kuh Pet"), 20, PermissionType.PET_COW.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)52), "§e§l[§c+§e§l]§a Spider Pet"), 20, PermissionType.PET_SPIDER.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "§e§l[§c+§e§l]§a Pferd Pet"), 20, PermissionType.PET_HORSE.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "§e§l[§c+§e§l]§a Hase Pet"), 20, PermissionType.PET_RABBIT.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)94), "§e§l[§c+§e§l]§a Squid Pet"), 20, PermissionType.PET_SQUID.getPermissionToString(), GroupTyp.GAME, ""),
-			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)98), "§e§l[§c+§e§l]§a Ocelot Pet"), 20, PermissionType.PET_OCELOT.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)66), "§e§l[§c+§e§l]§a Witch Pet"),20, 20, PermissionType.PET_WITCH.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)54), "§e§l[§c+§e§l]§a Zombie Pet"),20, 20, PermissionType.PET_ZOMBIE.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)95), "§e§l[§c+§e§l]§a Wolf Pet"),20, 20, PermissionType.PET_WOLF.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)90), "§e§l[§c+§e§l]§a Pig Pet"),20, 20, PermissionType.PET_PIG.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)91), "§e§l[§c+§e§l]§a Schaf Pet"),20, 20, PermissionType.PET_SHEEP.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.IRON_BLOCK), "§e§l[§c+§e§l]§a IronGolem Pet"),20, 20, PermissionType.PET_IRON_GOLEM.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)92), "§e§l[§c+§e§l]§a Kuh Pet"),20, 20, PermissionType.PET_COW.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)52), "§e§l[§c+§e§l]§a Spider Pet"),20, 20, PermissionType.PET_SPIDER.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)100), "§e§l[§c+§e§l]§a Pferd Pet"),20, 20, PermissionType.PET_HORSE.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)101), "§e§l[§c+§e§l]§a Hase Pet"),20, 20, PermissionType.PET_RABBIT.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)94), "§e§l[§c+§e§l]§a Squid Pet"),20, 20, PermissionType.PET_SQUID.getPermissionToString(), GroupTyp.GAME, ""),
+			new MysteryItem(UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte)98), "§e§l[§c+§e§l]§a Ocelot Pet"),20, 20, PermissionType.PET_OCELOT.getPermissionToString(), GroupTyp.GAME, ""),
 		};
 	}
 

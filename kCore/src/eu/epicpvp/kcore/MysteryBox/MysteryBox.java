@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.MysteryChest;
+package eu.epicpvp.kcore.MysteryBox;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,9 +15,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.MysteryChest.Events.PlayerUseMysteryChestEvent;
-import eu.epicpvp.kcore.MysteryChest.Items.MysteryItem;
-import eu.epicpvp.kcore.MysteryChest.Templates.Building;
+import eu.epicpvp.kcore.MysteryBox.Events.PlayerUseMysteryBoxEvent;
+import eu.epicpvp.kcore.MysteryBox.Items.MysteryItem;
+import eu.epicpvp.kcore.MysteryBox.Templates.Building;
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
@@ -32,11 +32,11 @@ import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
 
-public class MysteryChest extends kListener {
+public class MysteryBox extends kListener {
 
-	public static MysteryChest createChest(MysteryChestManager chestManager, String template, ItemStack item,
+	public static MysteryBox createChest(MysteryBoxManager chestManager, String template, ItemStack item,
 			String name) {
-		MysteryChest chest = new MysteryChest(chestManager);
+		MysteryBox chest = new MysteryBox(chestManager);
 		chest.setData(item, name, template);
 		return chest;
 	}
@@ -46,63 +46,62 @@ public class MysteryChest extends kListener {
 	@Getter
 	private String name;
 	@Getter
+	private int sharps;
+	@Getter
 	private kConfig config;
 	private ArrayList<MysteryItem> items = new ArrayList<>();
-	private HashMap<Player, MysteryChestSession> sessions = new HashMap<>();
+	private HashMap<Player, MysteryBoxSession> sessions = new HashMap<>();
 	private Building building;
 	private int counter = 0;
 	private int canOpen = 2;
-	@Getter
-	private int gems = 0;
 	private double total;
 	@Getter
-	private MysteryChestManager chestManager;
+	private MysteryBoxManager manager;
 
-	public MysteryChest(MysteryChestManager chestManager) {
-		super(chestManager.getInstance(), "MysteryChest");
+	public MysteryBox(MysteryBoxManager chestManager) {
+		super(chestManager.getInstance(), "MysteryBox");
 	}
 
-	public MysteryChest(MysteryChestManager chestManager, String configName) {
-		this(chestManager, new File(MysteryChestManager.chestPath, configName + ".yml"), configName);
+	public MysteryBox(MysteryBoxManager manager, String configName) {
+		this(manager, new File(MysteryBoxManager.chestPath, configName + ".yml"), configName);
 	}
 
-	public MysteryChest(MysteryChestManager chestManager, File configFile, String configName) {
-		this(chestManager, new kConfig(configFile), configName);
+	public MysteryBox(MysteryBoxManager manager, File configFile, String configName) {
+		this(manager, new kConfig(configFile), configName);
 	}
 
-	public MysteryChest(MysteryChestManager chestManager, kConfig config, String configName) {
-		super(chestManager.getInstance(), "MysteryChest|" + configName);
-		this.chestManager=chestManager;
+	public MysteryBox(MysteryBoxManager manager, kConfig config, String configName) {
+		super(manager.getInstance(), "MysteryBox|" + configName);
+		this.manager=manager;
 		this.config = config;
 		this.name = configName;
-		this.item = config.getItemStack("MysteryChest.item");
-		this.gems = config.getInt("MysteryChest.Gems");
-		this.canOpen = config.getInt("MysteryChest.canOpen");
-		loadTemplate(config.getString("MysteryChest.template"));
+		this.item = config.getItemStack("MysteryBox.item");
+		this.canOpen = config.getInt("MysteryBox.canOpen");
+		loadTemplate(config.getString("MysteryBox.template"));
 		loadItems();
 		logMessage("load Chest " + getName());
 	}
 
 	public void start(Player player) {
-		Bukkit.getPluginManager().callEvent(new PlayerUseMysteryChestEvent(player, this));
+		Bukkit.getPluginManager().callEvent(new PlayerUseMysteryBoxEvent(player, this));
 		UtilPlayer.setMove(player, false);
-		this.sessions.put(player, new MysteryChestSession(player, building, randomItems(player)));
+		this.sessions.put(player, new MysteryBoxSession(player, building, randomItems(player)));
 	}
 
 	public void loadTemplate(String template) {
-		building = new Building(new File(MysteryChestManager.templatePath, template + ".dat"));
+		building = new Building(new File(MysteryBoxManager.templatePath, template + ".dat"));
 	}
 
 	public void setData(ItemStack item, String name, String template) {
-		this.config = new kConfig(new File(MysteryChestManager.chestPath, name + ".yml"));
-		this.config.setItemStack("MysteryChest.item", item);
-		this.config.set("MysteryChest.template", template);
-		this.config.set("MysteryChest.canOpen", 2);
-		this.config.set("MysteryChest.Gems", 2000);
+		this.config = new kConfig(new File(MysteryBoxManager.chestPath, name + ".yml"));
+		this.config.setItemStack("MysteryBox.item", item);
+		this.config.set("MysteryBox.template", template);
+		this.config.set("MysteryBox.canOpen", 2);
+		this.config.set("MysteryBox.Sharps", 2000);
 		this.config.save();
 		this.name = name;
 		this.item = item;
-		this.gems=2000;
+		this.sharps=2000;
 
 		loadTemplate(template);
 		loadItems();
@@ -126,19 +125,20 @@ public class MysteryChest extends kListener {
 	}
 
 	public void loadItems() {
-		if (this.config.contains("MysteryChest.items")) {
+		if (this.config.contains("MysteryBox.items")) {
 			this.counter = 0;
-			for (String s : this.config.getPathList("MysteryChest.items").keySet()) {
+			for (String s : this.config.getPathList("MysteryBox.items").keySet()) {
 				if (UtilNumber.toInt(s) > counter) {
 					counter = UtilNumber.toInt(s);
 				}
 
-				total += this.config.getDouble("MysteryChest.items." + s + ".chance");
-				items.add(new MysteryItem(this.config.getItemStack("MysteryChest.items." + s + ".item"),
-						this.config.getDouble("MysteryChest.items." + s + ".chance"),
-						this.config.getString("MysteryChest.items." + s + ".Permission"),
-						GroupTyp.values()[this.config.getInt("MysteryChest.items." + s + ".GroupTyp")],
-						this.config.getString("MysteryChest.items." + s + ".Command")));
+				total += this.config.getDouble("MysteryBox.items." + s + ".chance");
+				items.add(new MysteryItem(this.config.getItemStack("MysteryBox.items." + s + ".item"),
+						this.config.getInt("MysteryBox.items." + s + ".sharps"),
+						this.config.getDouble("MysteryBox.items." + s + ".chance"),
+						this.config.getString("MysteryBox.items." + s + ".Permission"),
+						GroupTyp.values()[this.config.getInt("MysteryBox.items." + s + ".GroupTyp")],
+						this.config.getString("MysteryBox.items." + s + ".Command")));
 			}
 
 			logMessage("Total Chance: " + total);
@@ -146,19 +146,20 @@ public class MysteryChest extends kListener {
 	}
 
 	public boolean removeItem(int id) {
-		this.config.set("MysteryChest.items." + id, null);
+		this.config.set("MysteryBox.items." + id, null);
 		return true;
 	}
 
-	public int addItem(ItemStack item, double chance, String permission, GroupTyp typ, String CMD) {
-		this.items.add(new MysteryItem(item, chance, CMD, typ, permission));
+	public int addItem(ItemStack item,int sharps, double chance, String permission, GroupTyp typ, String CMD) {
+		this.items.add(new MysteryItem(item,sharps, chance, CMD, typ, permission));
 		this.counter++;
 		this.total+=chance;
-		this.config.setItemStack("MysteryChest.items." + counter + ".item", item);
-		this.config.set("MysteryChest.items." + counter + ".chance", chance);
-		this.config.set("MysteryChest.items." + counter + ".Command", CMD);
-		this.config.set("MysteryChest.items." + counter + ".Permission", permission);
-		this.config.set("MysteryChest.items." + counter + ".GroupTyp", typ.ordinal());
+		this.config.setItemStack("MysteryBox.items." + counter + ".item", item);
+		this.config.set("MysteryBox.items." + counter + ".sharps", sharps);
+		this.config.set("MysteryBox.items." + counter + ".chance", chance);
+		this.config.set("MysteryBox.items." + counter + ".Command", CMD);
+		this.config.set("MysteryBox.items." + counter + ".Permission", permission);
+		this.config.set("MysteryBox.items." + counter + ".GroupTyp", typ.ordinal());
 		this.config.save();
 		return counter;
 	}
@@ -203,34 +204,23 @@ public class MysteryChest extends kListener {
 					sessions.get(ev.getPlayer()).drop(ev.getClickedBlock());
 				}
 			}
-		}else if (ev.getPlayer() != null && ev.getPlayer().getItemInHand() != null) {
-			if (ev.getPlayer().getItemInHand().hasItemMeta() 
-					&& ev.getPlayer().getItemInHand().getItemMeta().hasDisplayName() 
-					&& ev.getPlayer().getItemInHand().getItemMeta().getDisplayName().startsWith("§c"+getName())
-					&& !chestManager.isBlocked(ev.getPlayer().getLocation())) {
-				int amount = chestManager.getAmount(ev.getPlayer(), getName());
-				amount--;
-				chestManager.setAmount(ev.getPlayer(), amount, getName());
-				ev.getPlayer().setItemInHand(UtilItem.RenameItem(getItem(), "§c"+getName()+" §e(§7"+amount+"§e)"));
-				start(ev.getPlayer());
-			}
 		}
 	}
 
-	ArrayList<MysteryChestSession> remove;
+	ArrayList<MysteryBoxSession> remove;
 	@EventHandler
 	public void updater(UpdateEvent ev) {
 		if (ev.getType() == UpdateType.TICK && !sessions.isEmpty()) {
 			if (remove == null)
 				remove = new ArrayList<>();
-			for (MysteryChestSession session : sessions.values()) {
+			for (MysteryBoxSession session : sessions.values()) {
 				if (!session.next()) {
 					remove.add(session);
 				}
 			}
 
 			if (!remove.isEmpty()) {
-				for (MysteryChestSession session : remove) {
+				for (MysteryBoxSession session : remove) {
 					sessions.remove(session.getPlayer());
 					session.remove();
 				}

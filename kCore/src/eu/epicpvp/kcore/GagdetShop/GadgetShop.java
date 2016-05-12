@@ -12,7 +12,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 public class GadgetShop extends InventoryCopy{
 	
 	public GadgetShop(GadgetHandler handler){
-		super(InventorySize._54.getSize(),"Gadget Shop");
+		super(InventorySize._36.getSize(),"Gadget Shop");
 		setCreate_new_inv(true);
 		
 		int next = 0;

@@ -133,7 +133,8 @@ public class PermissionManager {
 			if (getPermissionPlayer(p) != null && !getPermissionPlayer(p).getGroups().isEmpty() && board.getTeam(getPermissionPlayer(p).getGroups().get(0).getName()) == null) {
 				UtilScoreboard.addTeam(board, getPermissionPlayer(p).getGroups().get(0).getName(), null, getPermissionPlayer(p).getGroups().get(0).getPrefix());
 			}
-			UtilScoreboard.addPlayerToTeam(board, getPermissionPlayer(p).getGroups().get(0).getName(), p);
+			if(getPermissionPlayer(p)!=null && !getPermissionPlayer(p).getGroups().isEmpty())
+				UtilScoreboard.addPlayerToTeam(board, getPermissionPlayer(p).getGroups().get(0).getName(), p);
 		}
 
 		return board;

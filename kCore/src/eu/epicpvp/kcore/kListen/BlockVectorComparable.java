@@ -2,7 +2,7 @@ package eu.epicpvp.kcore.kListen;
 
 import java.util.Comparator;
 
-import eu.epicpvp.kcore.MysteryChest.Templates.BlockVector;
+import eu.epicpvp.kcore.MysteryBox.Templates.BlockVector;
 import lombok.Getter;
 import lombok.Setter;
 

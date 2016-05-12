@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.MysteryChest.Templates;
+package eu.epicpvp.kcore.MysteryBox.Templates;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;

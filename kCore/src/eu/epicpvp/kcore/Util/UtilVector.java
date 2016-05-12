@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.util.Vector;
 
-import eu.epicpvp.kcore.MysteryChest.Templates.BlockVector;
+import eu.epicpvp.kcore.MysteryBox.Templates.BlockVector;
 
 public class UtilVector {
 
