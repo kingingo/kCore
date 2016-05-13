@@ -15,11 +15,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import dev.wolveringer.dataserver.gamestats.GameType;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
 import eu.epicpvp.kcore.MysteryBox.Items.MysteryItem;
 import eu.epicpvp.kcore.MysteryBox.Templates.Building;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutBlockAction;
+import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilBlock;
 import eu.epicpvp.kcore.Util.UtilFirework;
@@ -77,6 +80,7 @@ public class MysteryBoxSession {
 		if(chests.contains(block))return;
 		chests.add(block);
 		MysteryItem drop=items[item];
+        item++;
 		UtilFirework.start(block.getLocation(), Color.RED, Type.BURST);
 		kPacketPlayOutBlockAction packet = new kPacketPlayOutBlockAction( (block.getType()==Material.CHEST ? Blocks.CHEST : Blocks.ENDER_CHEST) , block.getLocation(), 1);
 		for(Player p : UtilServer.getPlayers())UtilPlayer.sendPacket(p, packet);
@@ -85,12 +89,18 @@ public class MysteryBoxSession {
 		Item it = block.getWorld().dropItem(loc, UtilItem.RenameItem(drop.clone(), "item"+UtilMath.r(100)));
 		it.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
         it.setPickupDelay(1000*20);
-        NameTagMessage msg = new NameTagMessage(NameTagType.PACKET, loc.clone().add(0,0.4,0), drop.getItemMeta().getDisplayName());
+        NameTagMessage msg;
+      
+        if(!drop.getPermission().equalsIgnoreCase("-") && UtilServer.getPermissionManager().getPermissionPlayer(player).hasPermission(drop.getPermission(), drop.getGroupTyp())){
+        	msg = new NameTagMessage(NameTagType.PACKET, loc.clone().add(0,0.4,0), new String[]{"[Doppelt] §cDu hast "+drop.getSharps()+" Mystery Sharps erhalten.",drop.getItemMeta().getDisplayName()});
+        	StatsManagerRepository.getStatsManager(GameType.Money).add(player, StatsKey.MYSTERY_SHARPS, drop.getSharps());
+        }else{
+        	msg = new NameTagMessage(NameTagType.PACKET, loc.clone().add(0,0.4,0), drop.getItemMeta().getDisplayName());
+    		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rdm(drop.getCmd().replaceAll("[p]", player.getName())));
+        }
         msg.send();
         this.drops.put(it,msg);
-        item++;
         
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rdm(drop.getCmd().replaceAll("[p]", player.getName())));
 		
 		if(item>=items.length){
 			time=System.currentTimeMillis()-TimeSpan.SECOND*25;

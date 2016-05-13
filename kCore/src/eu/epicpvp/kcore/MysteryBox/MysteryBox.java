@@ -76,6 +76,7 @@ public class MysteryBox extends kListener {
 		this.config = config;
 		this.name = configName;
 		this.item = config.getItemStack("MysteryBox.item");
+		this.sharps = config.getInt("MysteryBox.Sharps");
 		this.canOpen = config.getInt("MysteryBox.canOpen");
 		loadTemplate(config.getString("MysteryBox.template"));
 		loadItems();

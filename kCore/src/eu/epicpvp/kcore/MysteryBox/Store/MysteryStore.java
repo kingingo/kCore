@@ -80,12 +80,15 @@ public class MysteryStore extends InventoryCopy{
 					amount--;
 					box.getManager().setAmount(player, amount, getName());
 					box.start(player);
+					player.closeInventory();
 				}
 			}
 			
 		},new ItemStack(Material.ENDER_CHEST)));
 		
 		fill(Material.STAINED_GLASS_PANE,(byte)7);
+		craft.fill(Material.STAINED_GLASS_PANE,(byte)7);
+		setCreate_new_inv(true);
 		UtilInv.getBase().addPage(this);
 		UtilInv.getBase().addPage(craft);
 	}

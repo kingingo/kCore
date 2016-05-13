@@ -65,20 +65,6 @@ public class MysteryBoxManager extends kListener{
 		return false;
 	}
 	
-	@EventHandler
-	public void loadPlayerChests(PlayerStatsLoadedEvent ev){
-		if(ev.getManager().getType() == GameType.PROPERTIES && UtilPlayer.isOnline(ev.getPlayerId())){
-			Player player = UtilPlayer.searchExact(ev.getPlayerId());
-			for(String chest : getChests().keySet()){
-				int amount = getAmount(ev.getPlayerId(), chest);
-				if(amount>0){
-					MysteryBox c = getChests().get(chest);
-					player.getInventory().setItem(2, UtilItem.RenameItem(c.getItem(), "§c"+c.getName()+" §e(§7"+amount+"§e)"));
-				}
-			}
-		}
-	}
-	
 	public void addAmount(Player player, int amount, String chest){
 		setAmount(UtilPlayer.getPlayerId(player), amount+getAmount(UtilPlayer.getPlayerId(player), chest), chest);
 	}
@@ -95,7 +81,6 @@ public class MysteryBoxManager extends kListener{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		loadPlayerChests(new PlayerStatsLoadedEvent(statsManager, playerId));
 	}
 
 	public int getAmount(Player player, String chest){

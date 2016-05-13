@@ -20,7 +20,7 @@ private int middle;
 private InventorySplit(int min,int max){
 	this.min=min;
 	this.max=max;
-	this.middle=this.max-Math.round(this.min/2);
+	this.middle=this.min+4;
 }
 
 public static int getSlotBorder(int slot){

@@ -17,11 +17,11 @@ public class AngelWings extends WingShape {
 	private static final double BOTTOM_Y = 0.3;
 
 	private static final double THINKNESS_CONST = .28;
-	private boolean halo=false;
 
 	public AngelWings(String name, PermissionType permission,boolean halo, boolean moveWings, Color outerColor, Color innerColor, Color middleColor) {
 		super(name, permission, moveWings, outerColor, innerColor, middleColor);
-		this.halo=halo;
+
+		if(halo)getPositions().putAll(createCircle(0, 2.1, .65, 0.3, WingPart.MIDDLE));
 	}
 
 	@Override
@@ -47,7 +47,6 @@ public class AngelWings extends WingShape {
 		getPositions().putAll(createLine(0, BOTTOM_MIDDLE_Y - .1, 0, MIDDLE_UPPER_Y + .1, WingPart.INNER_LEFT));
 		getPositions().putAll(createLine(0, BOTTOM_MIDDLE_Y - .11, 0, MIDDLE_UPPER_Y + .1, WingPart.INNER_LEFT));
 
-		if(halo)getPositions().putAll(createCircle(0, 2.1, .65, 0.3, WingPart.MIDDLE));
 		// wingLeft = ImmutableMap.copyOf(wingLeft);
 		// wingRight = ImmutableMap.copyOf(wingRight);
 	}

@@ -20,7 +20,7 @@ public class ParticleShapeButton extends ButtonCopy{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(player.isOp() || UtilServer.getPermissionManager().hasPermission(player, particle.getPermission())){
-					if(shop.getPlayers().containsKey(player)){
+					if(shop.getPlayers().containsKey(player) && shop.getPlayers().get(player).getShape().equals(particle)){
 						((InventoryPageBase)object).setItem(slot, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(351,1,(byte)10), "§7"+particle.getName())));
 					}else{
 						((InventoryPageBase)object).setItem(slot, UtilItem.addEnchantmentGlow(UtilItem.RenameItem(new ItemStack(351,1,(byte)8), "§7"+particle.getName())));

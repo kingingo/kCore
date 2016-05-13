@@ -20,7 +20,7 @@ public class CommandGiveBooster implements CommandExecutor{
 			Player player = (Player)sender;
 			if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 				if(args.length==0){
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§a/givecoins [Spieler] [Zeit in Sekunden]");
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§a/givebooster [Spieler] [Zeit in Sekunden]");
 				}else if(args.length >= 2){
 					if(add(args));
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"Der Spieler "+args[0]+" hat die "+args[1]+" Booster Zeit bekommen!");

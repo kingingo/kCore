@@ -128,6 +128,17 @@ public class UtilScoreboard {
 		
 	}
 	
+	public static void clearScores(Scoreboard b,DisplaySlot typ){
+		if(b==null)return;
+		if(b.getObjective(typ)==null)return;
+		net.minecraft.server.v1_8_R3.Scoreboard board = (net.minecraft.server.v1_8_R3.Scoreboard) UtilReflection.getValue("board", b);
+
+		for(ScoreboardScore sc: board.getScores()){
+			if(!sc.getObjective().getName().equalsIgnoreCase(typ.name())) continue;
+			resetScore(b, b.getObjective( DisplaySlot.valueOf(sc.getObjective().getName()) ).getScore(sc.getPlayerName()).getEntry(), typ);
+		}
+	}
+	
 	public static void setScore(Scoreboard board,String scorename,DisplaySlot typ,int i){
 		if(board==null)return;
 		if(board.getObjective(typ)==null)return;
