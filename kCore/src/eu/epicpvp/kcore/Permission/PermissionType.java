@@ -398,7 +398,6 @@ public enum PermissionType {
 	
 	WINGS_BUTTERFLY_YELLOW_RED("epicpvp.particle.wings.butterfly.yellow.red"),
 	WINGS_BUTTERFLY_RED_BLUE("epicpvp.particle.wings.butterfly.red.blue"),
-	WINGS_BUTTERFLY_GREEN_BLACK("epicpvp.particle.wings.butterfly.green.black"),
 	WINGS_BUTTERFLY_BLACK_ORANGE("epicpvp.particle.wings.butterfly.black.orange"),
 	WINGS_BUTTERFLY_AQUA_BLUE("epicpvp.particle.wings.butterfly.aqua.blue"),
 	WINGS_BUTTERFLY_PURPLE_YELLOW("epicpvp.particle.wings.butterfly.purple.yellow"),
