@@ -29,7 +29,7 @@ public class MysteryStore extends InventoryCopy{
 
 	public MysteryStore(MysteryBox box) {
 		super(InventorySize._45.getSize(), "MysteryBox Store");
-		addButton(4,new MysterySharpsButton(4));
+		addButton(4,new MysteryShardButton(4));
 		
 		InventoryPageBase craft = new InventoryPageBase(InventorySize._27, "Mystery Box Craft");
 		craft.setItem(InventorySplit._9.getMiddle(), box.getItem());
@@ -38,8 +38,8 @@ public class MysteryStore extends InventoryCopy{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				StatsManager stats = StatsManagerRepository.getStatsManager(GameType.Money);
-				if(stats.getInt(player, StatsKey.MYSTERY_SHARPS) >= box.getSharps()){
-					stats.add(player, StatsKey.MYSTERY_SHARPS, -box.getSharps());
+				if(stats.getInt(player, StatsKey.MYSTERY_SHARPS) >= box.getShards()){
+					stats.add(player, StatsKey.MYSTERY_SHARPS, -box.getShards());
 					box.getManager().addAmount(player, 1, box.getName());
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "MYSTERYBOX_BUY"));
 				}else{
@@ -48,7 +48,7 @@ public class MysteryStore extends InventoryCopy{
 				player.closeInventory();
 			}
 			
-		}, UtilItem.RenameItem(new ItemStack(Material.PRISMARINE_SHARD), "§b§l"+box.getSharps()+" Mystery Sharps")));
+		}, UtilItem.RenameItem(new ItemStack(Material.PRISMARINE_SHARD), "§b§l"+box.getShards()+" Mystery Shards")));
 		craft.addButton(15, new ButtonBase(new Click(){
 
 			@Override
@@ -75,13 +75,15 @@ public class MysteryStore extends InventoryCopy{
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
-				if(((ItemStack)object).getType() == Material.ENDER_CHEST){
-					int amount = box.getManager().getAmount(player, getName());
+				if(((ItemStack)object).getType() == Material.ENDER_CHEST 
+						&& !box.getManager().isBlocked(player.getLocation())
+						&& !box.getSessions().containsKey(player)){
+					int amount = box.getManager().getAmount(player, box.getName());
 					amount--;
-					box.getManager().setAmount(player, amount, getName());
+					box.getManager().setAmount(player, amount, box.getName());
 					box.start(player);
-					player.closeInventory();
 				}
+				player.closeInventory();
 			}
 			
 		},new ItemStack(Material.ENDER_CHEST)));

@@ -10,11 +10,18 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockDispenseEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -30,6 +37,7 @@ import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilException;
+import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilLocation;
 import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilPlayer;
@@ -196,6 +204,37 @@ public class AntiCrashListener extends kListener {
 		}
 		logMessage(" (Level: " + mc + " / Kicked: " + this.kicked.contains(e.getPlayer()) + " / flying: " + e.getPlayer().isFlying() + ") The player " + e.getPlayer().getName() + " try to move wrongly! from "
 				+ UtilLocation.getLocString(e.getPlayer().getLocation()) + " to " + packetX + "," + packetY + "," + packetZ);
+	}
+	
+	@EventHandler
+	public void tnt(EntityExplodeEvent ev){
+		if(ev.getEntityType() == EntityType.MINECART_TNT){
+			ev.setCancelled(true);
+			ev.getEntity().remove();
+		}
+	}
+	
+	@EventHandler
+	public void placeTNT(PlayerInteractEvent ev){
+		if(ev.getAction() == Action.RIGHT_CLICK_BLOCK && ev.getPlayer().getItemInHand() != null && ev.getPlayer().getItemInHand().getType() == Material.EXPLOSIVE_MINECART){
+			UtilInv.removeAll(ev.getPlayer(), Material.EXPLOSIVE_MINECART,(byte)0);
+			ev.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void itemSpawn(ItemSpawnEvent ev){
+		if(ev.getEntityType() == EntityType.MINECART_TNT){
+			ev.getEntity().remove();
+		}
+	}
+	
+	@EventHandler
+	public void BlockDispense(BlockDispenseEvent ev){
+		if(ev.getItem().getType() == Material.EXPLOSIVE_MINECART){
+			ev.setCancelled(true);
+			ev.getBlock().setType(Material.AIR);
+		}
 	}
 
 	@EventHandler

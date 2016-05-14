@@ -42,6 +42,7 @@ import eu.epicpvp.kcore.Events.ClientDisconnectedEvent;
 import eu.epicpvp.kcore.Events.ServerChangeGameTypeEvent;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Events.ServerStatusUpdateEvent;
+import eu.epicpvp.kcore.GagdetShop.GadgetHandler;
 import eu.epicpvp.kcore.GemsShop.GemsShop;
 import eu.epicpvp.kcore.Hologram.Hologram;
 import eu.epicpvp.kcore.ItemShop.ItemShop;
@@ -99,6 +100,9 @@ public class UtilServer{
 	@Getter
 	@Setter
 	private static GemsShop gemsShop;
+	@Getter
+	@Setter
+	private static GadgetHandler gadgetHandler;
 	@Getter
 	@Setter
 	private static Updater updater;

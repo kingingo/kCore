@@ -23,7 +23,7 @@ public class CommandGiveGadget implements CommandExecutor {
 		this.gadgetHandler = gadgetHandler;
 	}
 
-	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "givegadget", sender = Sender.PLAYER)
+	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "givegadget", sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
 		if(sender instanceof Player){
 			Player player = (Player)sender;

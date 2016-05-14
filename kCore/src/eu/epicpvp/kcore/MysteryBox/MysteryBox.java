@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.MysteryBox;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -46,10 +47,11 @@ public class MysteryBox extends kListener {
 	@Getter
 	private String name;
 	@Getter
-	private int sharps;
+	private int Shards;
 	@Getter
 	private kConfig config;
 	private ArrayList<MysteryItem> items = new ArrayList<>();
+	@Getter
 	private HashMap<Player, MysteryBoxSession> sessions = new HashMap<>();
 	private Building building;
 	private int counter = 0;
@@ -76,7 +78,7 @@ public class MysteryBox extends kListener {
 		this.config = config;
 		this.name = configName;
 		this.item = config.getItemStack("MysteryBox.item");
-		this.sharps = config.getInt("MysteryBox.Sharps");
+		this.Shards = config.getInt("MysteryBox.shards");
 		this.canOpen = config.getInt("MysteryBox.canOpen");
 		loadTemplate(config.getString("MysteryBox.template"));
 		loadItems();
@@ -86,7 +88,7 @@ public class MysteryBox extends kListener {
 	public void start(Player player) {
 		Bukkit.getPluginManager().callEvent(new PlayerUseMysteryBoxEvent(player, this));
 		UtilPlayer.setMove(player, false);
-		this.sessions.put(player, new MysteryBoxSession(player, building, randomItems(player)));
+		this.sessions.put(player, new MysteryBoxSession(player, building, randomItems()));
 	}
 
 	public void loadTemplate(String template) {
@@ -98,28 +100,31 @@ public class MysteryBox extends kListener {
 		this.config.setItemStack("MysteryBox.item", item);
 		this.config.set("MysteryBox.template", template);
 		this.config.set("MysteryBox.canOpen", 2);
-		this.config.set("MysteryBox.Sharps", 2000);
+		this.config.set("MysteryBox.shards", 2000);
 		this.config.save();
 		this.name = name;
 		this.item = item;
-		this.sharps=2000;
+		this.Shards=2000;
 
 		loadTemplate(template);
 		loadItems();
 	}
 
-	public MysteryItem[] randomItems(Player player) {
+	public MysteryItem[] randomItems() {
 		ArrayList<MysteryItem> list = new ArrayList<>();
+		ArrayList<MysteryItem> all_items = new ArrayList<>(items);
+		double itotal = total;
 		for (int i = 0; i < canOpen; i++) {
-			double last_chance = 0;
-			double chance = UtilMath.RandomDouble(0, total);
-
-			for (MysteryItem item : items) {
-				if (item.getChance() <= chance && (last_chance + item.getChance()) >= chance) {
+			double add_chance = 0;
+			double chance = UtilMath.RandomDouble(0, itotal);
+			for (MysteryItem item : all_items) {
+				if (add_chance <= chance && (add_chance+item.getChance()) >= chance) {
 					list.add(item);
+					all_items.remove(item);
+					itotal-=item.getChance();
 					break;
 				}
-				last_chance += item.getChance();
+				add_chance += item.getChance();
 			}
 		}
 		return list.toArray(new MysteryItem[] {});
@@ -134,13 +139,15 @@ public class MysteryBox extends kListener {
 				}
 
 				total += this.config.getDouble("MysteryBox.items." + s + ".chance");
+				
 				items.add(new MysteryItem(this.config.getItemStack("MysteryBox.items." + s + ".item"),
-						this.config.getInt("MysteryBox.items." + s + ".sharps"),
+						this.config.getInt("MysteryBox.items." + s + ".Shards"),
 						this.config.getDouble("MysteryBox.items." + s + ".chance"),
 						this.config.getString("MysteryBox.items." + s + ".Permission"),
 						GroupTyp.values()[this.config.getInt("MysteryBox.items." + s + ".GroupTyp")],
 						this.config.getString("MysteryBox.items." + s + ".Command")));
 			}
+			Collections.shuffle(items);
 
 			logMessage("Total Chance: " + total);
 		}
@@ -151,12 +158,12 @@ public class MysteryBox extends kListener {
 		return true;
 	}
 
-	public int addItem(ItemStack item,int sharps, double chance, String permission, GroupTyp typ, String CMD) {
-		this.items.add(new MysteryItem(item,sharps, chance, CMD, typ, permission));
+	public int addItem(ItemStack item,int Shards, double chance, String permission, GroupTyp typ, String CMD) {
+		this.items.add(new MysteryItem(item,Shards, chance, CMD, typ, permission));
 		this.counter++;
 		this.total+=chance;
 		this.config.setItemStack("MysteryBox.items." + counter + ".item", item);
-		this.config.set("MysteryBox.items." + counter + ".sharps", sharps);
+		this.config.set("MysteryBox.items." + counter + ".Shards", Shards);
 		this.config.set("MysteryBox.items." + counter + ".chance", chance);
 		this.config.set("MysteryBox.items." + counter + ".Command", CMD);
 		this.config.set("MysteryBox.items." + counter + ".Permission", permission);

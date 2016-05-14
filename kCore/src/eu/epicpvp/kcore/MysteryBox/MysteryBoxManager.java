@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.nbt.NBTTagCompound;
+import eu.epicpvp.kcore.Command.Admin.CommandGiveSharps;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MysteryBox.Templates.Building;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
@@ -52,6 +53,7 @@ public class MysteryBoxManager extends kListener{
 		this.chests=new HashMap<>();
 		this.blocked=new ArrayList<>();
 		UtilServer.getCommandHandler().register(CommandMysteryBox.class, new CommandMysteryBox(this));
+		UtilServer.getCommandHandler().register(CommandGiveSharps.class, new CommandGiveSharps());
 		loadChests();
 		UtilServer.setMysteryBoxManager(this);
 	}
@@ -60,6 +62,14 @@ public class MysteryBoxManager extends kListener{
 		for(Location c : getBlocked()){
 			if(c.distanceSquared(location) < 8){
 				return true;
+			}
+		}
+		
+		for(MysteryBox box : getChests().values()){
+			for(MysteryBoxSession session : box.getSessions().values()){
+				if(session.getLocation().distanceSquared(location) < 10){
+					return true;
+				}
 			}
 		}
 		return false;

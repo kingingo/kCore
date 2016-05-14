@@ -33,6 +33,7 @@ public class GadgetHandler extends kListener{
 		this.statsManager.setForceSave(true);
 		if(UtilTime.getTimeManager()==null)UtilTime.setTimeManager(UtilServer.getPermissionManager());
 		UtilServer.getCommandHandler().register(CommandGiveGadget.class, new CommandGiveGadget(this));
+		UtilServer.setGadgetHandler(this);
 	}
 	
 	public Gadget getGadget(String gadget){

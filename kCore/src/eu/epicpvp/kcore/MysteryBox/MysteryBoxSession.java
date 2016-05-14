@@ -91,17 +91,21 @@ public class MysteryBoxSession {
         it.setPickupDelay(1000*20);
         NameTagMessage msg;
       
-        if(!drop.getPermission().equalsIgnoreCase("-") && UtilServer.getPermissionManager().getPermissionPlayer(player).hasPermission(drop.getPermission(), drop.getGroupTyp())){
-        	msg = new NameTagMessage(NameTagType.PACKET, loc.clone().add(0,0.4,0), new String[]{"[Doppelt] §cDu hast "+drop.getSharps()+" Mystery Sharps erhalten.",drop.getItemMeta().getDisplayName()});
+
+		System.out.println("[MysterySession] Perm "+drop.getPermission()+" "+drop.getGroupTyp().name()+" "+(UtilServer.getPermissionManager().getPermissionPlayer(player)==null));
+        if(!drop.getPermission().equalsIgnoreCase("-") 
+        		&& UtilServer.getPermissionManager().getPermissionPlayer(player).hasPermission(drop.getPermission(), drop.getGroupTyp())){
+        	msg = new NameTagMessage(NameTagType.PACKET, loc.clone().add(0,0.4,0), new String[]{"§c[Doppelt] Du hast "+drop.getSharps()+" Mystery Sharps erhalten.",drop.getItemMeta().getDisplayName()});
         	StatsManagerRepository.getStatsManager(GameType.Money).add(player, StatsKey.MYSTERY_SHARPS, drop.getSharps());
         }else{
         	msg = new NameTagMessage(NameTagType.PACKET, loc.clone().add(0,0.4,0), drop.getItemMeta().getDisplayName());
-    		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rdm(drop.getCmd().replaceAll("[p]", player.getName())));
+        	String cmd = rdm(drop.getCmd().replaceAll("-player-", player.getName()));
+    		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
+    		System.out.println("[MysterySession] Command "+cmd);
         }
         msg.send();
         this.drops.put(it,msg);
         
-		
 		if(item>=items.length){
 			time=System.currentTimeMillis()-TimeSpan.SECOND*25;
 			UtilPlayer.setMove(player, true);
@@ -119,7 +123,7 @@ public class MysteryBoxSession {
 					int min = UtilNumber.toInt(ssplit[1]);
 					int max = UtilNumber.toInt(ssplit[2]);
 					
-					cmd.replaceAll("R,"+min+","+max, ""+UtilMath.RandomInt(max, min));
+					cmd=cmd.replaceAll("R,"+min+","+max, ""+UtilMath.RandomInt(max, min));
 					break;
 				}
 			}

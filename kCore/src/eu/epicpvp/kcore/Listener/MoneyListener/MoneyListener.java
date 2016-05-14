@@ -41,7 +41,7 @@ public class MoneyListener extends kListener{
 	}
 	
 	public void update(String player, StatsKey key,String path, int value){
-		if(key==StatsKey.GEMS||key==StatsKey.COINS){
+		if(key==StatsKey.GEMS||key==StatsKey.COINS||key==StatsKey.MYSTERY_SHARPS){
 			LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player);
 			
 			if(UtilPlayer.isOnline(player)){
@@ -91,13 +91,13 @@ public class MoneyListener extends kListener{
 								@Override
 								public void call(Integer playerId) {
 									NBTTagCompound nbt = properties.getNBTTagCompound(loadedplayer.getPlayerId(),key);
-									nbt.setInt(path, value);
+									nbt.setInt(path, nbt.getInt(path)+value);
 									logMessage("Add "+loadedplayer.getName()+" "+path+" "+value+""+key.getMySQLName()+" to his/her Account!");
 								}
 							});
 						}else{
 							DataBuffer buffer = new DataBuffer();
-							buffer.writeByte(getKeyID(key));
+							buffer.writeByte(key.ordinal());
 							buffer.writeInt(loadedplayer.getPlayerId());
 							buffer.writeInt(value);
 							buffer.writeString(path);
@@ -110,24 +110,6 @@ public class MoneyListener extends kListener{
 			}
 		}else{
 			throw new NullArgumentException("StatsKey is not Gems or Coins!? ("+key.getMySQLName()+")");
-		}
-	}
-	
-	public StatsKey byKeyID(int id){
-		switch(id){
-		case 1: return StatsKey.GEMS;
-		case 0: return StatsKey.COINS;
-		case 2: return StatsKey.PROPERTIES;
-		default: return null;
-		}
-	}
-	
-	public int getKeyID(StatsKey key){
-		switch(key){
-		case GEMS: return 1;
-		case COINS: return 0;
-		case PROPERTIES: return 2;
-		default: return -1;
 		}
 	}
 	
@@ -154,12 +136,12 @@ public class MoneyListener extends kListener{
 	@EventHandler
 	public void message(ServerMessageEvent ev){
 		if(ev.getChannel().equalsIgnoreCase("money")){
-			StatsKey key = byKeyID(ev.getBuffer().readByte());
+			StatsKey key = StatsKey.values()[ev.getBuffer().readByte()];
 			int playerId = ev.getBuffer().readInt();
 			int value = ev.getBuffer().readInt();
 			String path = ev.getBuffer().readString();
 			
-			if(key==StatsKey.GEMS || StatsKey.COINS == key){
+			if(key==StatsKey.GEMS || StatsKey.COINS == key || StatsKey.MYSTERY_SHARPS == key){
 				if(money.isLoaded(playerId)){
 					money.add(playerId, key, value);
 					logMessage("Add "+playerId+" "+value+" "+key.getMySQLName()+" to his/her Account!");
@@ -186,7 +168,7 @@ public class MoneyListener extends kListener{
 						@Override
 						public void call(Integer playerId) {
 							NBTTagCompound nbt = properties.getNBTTagCompound(playerId, StatsKey.PROPERTIES);
-							nbt.setInt(path, value);
+							nbt.setInt(path, value+nbt.getInt(path));
 							
 							logMessage("Add "+playerId+" "+path+" "+value+""+key.getMySQLName()+" to his/her Account!");
 						}
