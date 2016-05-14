@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import com.google.common.collect.Maps;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Util.UtilNumber;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -47,12 +47,20 @@ public abstract class ParticleShape<P extends Enum<P>, V> {
 	protected abstract void initShape();
 
 	protected Map<Vector, P> createSymmetricLines(double x1, double y1, double x2, double y2, P part) {
-		return createSymmetricLines(x1, y1, 0, x2, y2, 0, part);
+		return createSymmetricLines(x1, y1, 0, x2, y2, 0, part, part);
+	}
+
+	protected Map<Vector, P> createSymmetricLines(double x1, double y1, double x2, double y2, P part1, P part2) {
+		return createSymmetricLines(x1, y1, 0, x2, y2, 0, part1, part2);
 	}
 
 	protected Map<Vector, P> createSymmetricLines(double x1, double y1, double z1, double x2, double y2, double z2, P part) {
-		Map<Vector, P> line1 = createLine(-x1, y1, z1, -x2, y2, z2, part);
-		Map<Vector, P> line2 = createLine(x1, y1, x2, z1, y2, z2, part);
+		return createSymmetricLines(x1, y1, z1, x2, y2, z2, part, part);
+	}
+
+	protected Map<Vector, P> createSymmetricLines(double x1, double y1, double z1, double x2, double y2, double z2, P part1, P part2) {
+		Map<Vector, P> line1 = createLine(-x1, y1, z1, -x2, y2, z2, part1);
+		Map<Vector, P> line2 = createLine(x1, y1, z1, x2, y2, z2, part2);
 		HashMap<Vector, P> result = Maps.newHashMapWithExpectedSize(line1.size() + line2.size());
 		result.putAll(line1);
 		result.putAll(line2);
@@ -127,7 +135,7 @@ public abstract class ParticleShape<P extends Enum<P>, V> {
 	protected Map<Vector, P> createLine(double x1, double y1, double x2, double y2, P part) {
 		return createLine(x1, y1, 0, x2, y2, 0, part);
 	}
-	
+
 	protected Map<Vector, P> createSymmetricPoints(double x, double y, P part1, P part2) {
 		return ImmutableMap.of(new Vector(-x, y, 0), part1, new Vector(x, y, 0), part2);
 	}
@@ -140,15 +148,6 @@ public abstract class ParticleShape<P extends Enum<P>, V> {
 	@AllArgsConstructor
 	public static class ValueHolder<V> {
 		public V val;
-	}
-
-	protected synchronized void transformBehindPlayer(Player player, Location playerLoc, Vector particlePos, boolean accountForSneaking) {
-		if (accountForSneaking && player.isSneaking()) {
-			particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(0.7));
-			particlePos.setY(particlePos.getY() - .1);
-			return;
-		}
-		particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(0.3));
 	}
 
 	/**

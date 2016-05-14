@@ -13,19 +13,16 @@ public abstract class CapeShape extends NoMoveShape<CapeShape.CapePart, SimpleLa
 
 	private final Color outerColor;
 	private final Color innerColor;
-	private final Color middleColor;
 
-	public CapeShape(String name, PermissionType permission, Color outerColor, Color innerColor, Color middleColor) {
+	public CapeShape(String name, PermissionType permission, Color outerColor, Color innerColor) {
 		super(name, permission);
 		this.outerColor = outerColor;
 		this.innerColor = innerColor;
-		this.middleColor = middleColor;
 	}
 
 	public enum CapePart {
 		OUTER,
-		INNER,
-		MIDDLE
+		INNER
 	}
 
 	@Override
@@ -35,10 +32,16 @@ public abstract class CapeShape extends NoMoveShape<CapeShape.CapePart, SimpleLa
 
 	@Override
 	public Color transformPerParticle(Player player, Location playerLoc, Vector particlePos, CapePart capePart, ValueHolder<SimpleLastMoveHolder> valueHolder) {
-		//		particlePos.subtract(new Vector(0, 0, .85));
-		UtilVector.rotateAroundAxisX(particlePos, player.isSneaking() ? .6 : .5); //schräg zum körper
+//		particlePos.subtract(new Vector(0, 0, .85));
+		UtilVector.rotateAroundAxisX(particlePos, player.isSneaking() ? .43 : .3); //schräg zum körper
 		UtilVector.rotateVector(particlePos, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
-		transformBehindPlayer(player, playerLoc, particlePos, true);
+
+		if (player.isSneaking()) {
+			particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(.82));
+			particlePos.setY(particlePos.getY() - .15);
+		} else {
+			particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(.65));
+		}
 
 		Vector locVectorHere = playerLoc.toVector();
 
@@ -49,8 +52,6 @@ public abstract class CapeShape extends NoMoveShape<CapeShape.CapePart, SimpleLa
 				return innerColor;
 			case OUTER:
 				return outerColor;
-			case MIDDLE:
-				return middleColor;
 			default:
 				return null;
 		}
