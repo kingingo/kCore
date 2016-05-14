@@ -4,6 +4,7 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonCopy;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilItem;
@@ -30,8 +31,8 @@ public class ParticleShapeButton extends ButtonCopy {
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
+				player.closeInventory();
 				if (player.isOp() || UtilServer.getPermissionManager().hasPermission(player, particle.getPermission())) {
-					player.closeInventory();
 					PlayerParticleDisplayer oldParticleDisplayer = shop.getParticleDisplayers().remove(player.getUniqueId());
 					if (oldParticleDisplayer != null) {
 						oldParticleDisplayer.stop();
@@ -58,6 +59,8 @@ public class ParticleShapeButton extends ButtonCopy {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+				}else{
+					player.sendMessage(TranslationHandler.getPrefixAndText(player, "IN_MYSTERYBOXES"));
 				}
 			}
 		}, UtilItem.RenameItem(new ItemStack(351, 1, (byte) 8), "§7" + particle.getName()));

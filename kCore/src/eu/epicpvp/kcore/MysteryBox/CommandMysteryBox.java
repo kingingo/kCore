@@ -1,7 +1,10 @@
 package eu.epicpvp.kcore.MysteryBox;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -26,6 +29,7 @@ import eu.epicpvp.kcore.GagdetShop.Gagdet.SlimeHead;
 import eu.epicpvp.kcore.Kit.Kit;
 import eu.epicpvp.kcore.Kit.KitType;
 import eu.epicpvp.kcore.Kit.Perk;
+import eu.epicpvp.kcore.Kit.PerkManager;
 import eu.epicpvp.kcore.Kit.Perks.PerkArrowFire;
 import eu.epicpvp.kcore.Kit.Perks.PerkArrowPotionEffect;
 import eu.epicpvp.kcore.Kit.Perks.PerkDeathDropOnly;
@@ -66,7 +70,10 @@ import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilItem;
+import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilNumber;
+import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.kListen.kSort;
 
 public class CommandMysteryBox implements CommandExecutor {
 
@@ -99,6 +106,94 @@ public class CommandMysteryBox implements CommandExecutor {
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "/MysteryBox saveTemplate [Name]");
 					}
+				}else if(args[0].equalsIgnoreCase("testShards")){
+					Bukkit.getScheduler().runTaskAsynchronously(chestManager.getInstance(), new Runnable() {
+						
+						@Override
+						public void run() {
+							MysteryBox box = chestManager.getChest("MysteryBox");
+							HashMap<Integer, Integer> list = new HashMap<>();
+							
+							for(int i = 0; i<1000; i++){
+								int total=0;
+								int open=0;
+								for(int a = 0 ; a<1000000; a++){
+									open++;
+									MysteryItem[] items = box.randomItems();
+									
+									for(MysteryItem item : items){
+										if(item.getType() == Material.PRISMARINE_SHARD){
+											int shards = 0;
+											if(item.getCmd().contains("R,")){
+												String[] split = item.getCmd().split(" ");
+												
+												for(String s : split){
+													if(s.startsWith("R,")){
+														String[] ssplit = s.split(",");
+													
+														int min = UtilNumber.toInt(ssplit[1]);
+														int max = UtilNumber.toInt(ssplit[2]);
+														
+														shards=UtilMath.RandomInt(max, min);
+														break;
+													}
+												}
+											}
+											
+											total+=shards;
+										}
+									}
+									
+									if(total>=box.getShards()){
+										list.put(i, open);
+										break;
+									}
+								}
+								
+							}
+							
+							for(int i : list.keySet()){
+								System.err.println("I: "+i+" OPEN: "+list.get(i));
+							}
+							
+						}
+					});
+					
+					
+				}else if(args[0].equalsIgnoreCase("test")){
+					Bukkit.getScheduler().runTaskAsynchronously(chestManager.getInstance(), new Runnable() {
+						
+						@Override
+						public void run() {
+							MysteryBox box = chestManager.getChest("MysteryBox");
+							HashMap<String, Integer> list = new HashMap<>();
+							
+							for(int i = 0; i<UtilNumber.toInt(args[1]); i++){
+								MysteryItem[] items = box.randomItems();
+								
+								for(MysteryItem item : items){
+									if(!list.containsKey(item.getItemMeta().getDisplayName())){
+										list.put(item.getItemMeta().getDisplayName(), 1);
+									}else{
+										list.put(item.getItemMeta().getDisplayName(), list.get(item.getItemMeta().getDisplayName())+1);
+									}
+								}
+							}
+							
+							ArrayList<kSort> sort = new ArrayList<>();
+							
+							for(String s : list.keySet()){
+								sort.add(new kSort(s, list.get(s)));
+							}
+							Collections.sort(sort, kSort.ASCENDING);
+							
+							for(kSort s : sort){
+								System.err.println(s.getName()+" "+UtilNumber.toInt(s.getObj()));
+							}
+						}
+					});
+					
+					
 				}else if (args[0].equalsIgnoreCase("give")) {
 					if (args.length == 3) {
 						chestManager.addAmount(player, UtilNumber.toInt(args[2]), args[1]);
@@ -125,7 +220,7 @@ public class CommandMysteryBox implements CommandExecutor {
 									UtilItem.RenameItem(kit.getItem(), kit.getItem().getItemMeta().getDisplayName()+ "§7 (§eGame§7)"),
 									100,
 									UtilNumber.toDouble(args[2]), "-",GroupTyp.GAME,
-									"givegadget [p] "+kit.getName()+" R,50,250");
+									"givegadget -player- "+kit.getName()+" R,50,250");
 						}
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
@@ -142,7 +237,7 @@ public class CommandMysteryBox implements CommandExecutor {
 									UtilItem.RenameItem(kit, kit.getItemMeta().getDisplayName()+ "§7 (§eGame§7)"),
 									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission(),GroupTyp.GAME,
-									"k addperm [p] " + kit.getPermission() + " game");
+									"k addperm -player- " + kit.getPermission() + " game");
 						}
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
@@ -159,7 +254,7 @@ public class CommandMysteryBox implements CommandExecutor {
 									UtilItem.RenameItem(kit, kit.getItemMeta().getDisplayName()+ "§7 (§eGame§7)"),
 									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission(),GroupTyp.GAME,
-									"k addperm [p] " + kit.getPermission() + " game");
+									"k addperm -player- " + kit.getPermission() + " game");
 						}
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
@@ -177,7 +272,7 @@ public class CommandMysteryBox implements CommandExecutor {
 											kit.getItemMeta().getDisplayName()+ "§7 (§eSkyBlock§7)"),
 									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission(),GroupTyp.SKY,
-									"k addperm [p] " + kit.getPermission() + " sky");
+									"k addperm -player- " + kit.getPermission() + " sky");
 						}
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
@@ -195,7 +290,7 @@ public class CommandMysteryBox implements CommandExecutor {
 											kit.getItemMeta().getDisplayName()+ "§7 (§ePvP§7)"),
 									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission(),GroupTyp.PVP,
-									"k addperm [p] " + kit.getPermission() + " pvp");
+									"k addperm -player- " + kit.getPermission() + " pvp");
 						}
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
@@ -214,7 +309,7 @@ public class CommandMysteryBox implements CommandExecutor {
 													+ "§7 (§eSkyBlock§7)"),
 									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission().getPermissionToString(),GroupTyp.SKY,
-									"k addperm [p] " + kit.getPermission().getPermissionToString() + " sky");
+									"k addperm -player- " + kit.getPermission().getPermissionToString() + " sky");
 						}
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
@@ -233,7 +328,7 @@ public class CommandMysteryBox implements CommandExecutor {
 													+ "§7 (§ePvP§7)"),
 									100,
 									UtilNumber.toDouble(args[2]), kit.getPermission().getPermissionToString(),GroupTyp.PVP,
-									"k addperm [p] " + kit.getPermission().getPermissionToString() + " sky");
+									"k addperm -player- " + kit.getPermission().getPermissionToString() + " sky");
 						}
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
@@ -250,7 +345,7 @@ public class CommandMysteryBox implements CommandExecutor {
 									,300
 									, UtilNumber.toDouble(args[2]),
 									s.getPermission().getPermissionToString(),GroupTyp.GAME,
-									"k addperm [p] " + s.getPermission() + " game");
+									"k addperm -player- " + s.getPermission() + " game");
 						}
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
@@ -265,7 +360,7 @@ public class CommandMysteryBox implements CommandExecutor {
 						for (Kit kit : kits) {
 							chestManager.getChest(args[1]).addItem(kit.getItem(),100, UtilNumber.toDouble(args[2]),
 									kit.getPermission().getPermissionToString(),GroupTyp.GAME,
-									"k addperm [p] " + kit.getPermission().getPermissionToString() + " game");
+									"k addperm -player- " + kit.getPermission().getPermissionToString() + " game");
 						}
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
@@ -280,7 +375,7 @@ public class CommandMysteryBox implements CommandExecutor {
 						for (Kit kit : kits) {
 							chestManager.getChest(args[1]).addItem(kit.getItem(),100, UtilNumber.toDouble(args[2]),
 									kit.getPermission().getPermissionToString(),GroupTyp.GAME,
-									"k addperm [p] " + kit.getPermission().getPermissionToString() + " game");
+									"k addperm -player- " + kit.getPermission().getPermissionToString() + " game");
 						}
 						player.sendMessage(
 								TranslationHandler.getText(player, "PREFIX") + "§aAlle Items wurden hinzugefügt");
@@ -400,10 +495,14 @@ public class CommandMysteryBox implements CommandExecutor {
 	}
 	
 	public static Perk[] getPerks() {
-		return new Perk[] { new PerkStrength(), new PerkNoPotion(PotionEffectType.POISON), new PerkNoWaterdamage(),
+		Perk[] p = new Perk[] { new PerkStrength(), new PerkNoPotion(PotionEffectType.POISON), new PerkNoWaterdamage(),
 				new PerkArrowPotionEffect(), new PerkHat(), new PerkGoldenApple(), new PerkNoHunger(),
 				new PerkHealPotion(1), new PerkNoFiredamage(), new PerkRunner(0.35F), new PerkDoubleJump(),
 				new PerkDoubleXP(), new PerkDropper(), new PerkGetXP(), new PerkPotionClear(), new PerkItemName(null) };
+		PerkManager m = new PerkManager(UtilServer.getPermissionManager().getInstance() , p);
+		
+		
+		return p;
 	}
 
 	public static Kit[] getSheepKits() {
