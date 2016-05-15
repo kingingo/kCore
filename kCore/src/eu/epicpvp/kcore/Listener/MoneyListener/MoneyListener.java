@@ -79,8 +79,13 @@ public class MoneyListener extends kListener{
 			
 			if(UtilPlayer.isOnline(player)){
 				NBTTagCompound nbt = properties.getNBTTagCompound(loadedplayer.getPlayerId(),key);
-				nbt.setInt(path, value);
-				logMessage("Add "+loadedplayer.getName()+" "+path+" "+value+""+key.getMySQLName()+" to his/her Account!");
+				nbt.setInt(path, nbt.getInt(path)+value);
+				try {
+					properties.setNBTTagCompound(loadedplayer.getPlayerId(), nbt, StatsKey.PROPERTIES);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				logMessage("Add "+loadedplayer.getName()+" "+path+" "+value+" "+key.getMySQLName()+" to his/her Account!");
 			}else{
 				loadedplayer.getServer().getAsync(new Callback<String>() {
 					
@@ -92,7 +97,12 @@ public class MoneyListener extends kListener{
 								public void call(Integer playerId) {
 									NBTTagCompound nbt = properties.getNBTTagCompound(loadedplayer.getPlayerId(),key);
 									nbt.setInt(path, nbt.getInt(path)+value);
-									logMessage("Add "+loadedplayer.getName()+" "+path+" "+value+""+key.getMySQLName()+" to his/her Account!");
+									try {
+										properties.setNBTTagCompound(loadedplayer.getPlayerId(), nbt, StatsKey.PROPERTIES);
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									logMessage("Add "+loadedplayer.getName()+" "+path+" "+value+" "+key.getMySQLName()+" to his/her Account!");
 								}
 							});
 						}else{
@@ -160,8 +170,14 @@ public class MoneyListener extends kListener{
 			}else if(key == StatsKey.PROPERTIES){
 
 				if(properties.isLoaded(playerId)){
-					properties.add(playerId, key, value);
-					logMessage("Add "+playerId+" "+path+" "+value+""+key.getMySQLName()+" to his/her Account!");
+					NBTTagCompound nbt = properties.getNBTTagCompound(playerId,key);
+					nbt.setInt(path, nbt.getInt(path)+value);
+					try {
+						properties.setNBTTagCompound(playerId, nbt, StatsKey.PROPERTIES);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					logMessage("Add "+playerId+" "+path+" "+value+" "+key.getMySQLName()+" to his/her Account!");
 				}else{
 					properties.loadPlayer(playerId, new Callback<Integer>(){
 
@@ -169,7 +185,11 @@ public class MoneyListener extends kListener{
 						public void call(Integer playerId) {
 							NBTTagCompound nbt = properties.getNBTTagCompound(playerId, StatsKey.PROPERTIES);
 							nbt.setInt(path, value+nbt.getInt(path));
-							
+							try {
+								properties.setNBTTagCompound(playerId, nbt, StatsKey.PROPERTIES);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 							logMessage("Add "+playerId+" "+path+" "+value+""+key.getMySQLName()+" to his/her Account!");
 						}
 						

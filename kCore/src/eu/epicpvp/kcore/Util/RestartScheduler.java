@@ -46,9 +46,13 @@ public class RestartScheduler implements Listener{
 		if(gilden!=null)gilden.setOnDisable(true);
 		if(stats!=null)stats.setOnDisable(true);
 		if(money!=null)money.setOnDisable(true);
-		if(anti!=null)anti.setOnDisable(true);
+		if(anti!=null){
+			anti.setOnDisable(true);
+			anti.getPlayers().clear();
+		}
 		Bukkit.getPluginManager().registerEvents(this, instance);
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "whitelist on");
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pvpmute");
 	}
 	
 	public void broadcast(String name,Object input){
