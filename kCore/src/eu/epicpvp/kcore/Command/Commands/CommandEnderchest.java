@@ -47,7 +47,7 @@ public class CommandEnderchest extends kListener implements CommandExecutor{
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					
 					if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
-						LoadedPlayer loadedplayer = UtilServer.getClient().getPlayer(args[0]);
+						LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(args[0]);
 						target=null;
 						target = UtilPlayer.loadPlayer(loadedplayer.getUUID());
 						

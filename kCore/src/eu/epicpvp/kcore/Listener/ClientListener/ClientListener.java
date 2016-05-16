@@ -54,7 +54,7 @@ public class ClientListener extends kListener{
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void quit(PlayerQuitEvent ev){
-		getClient().clearCacheForPlayer(getClient().getPlayer(ev.getPlayer().getName()));
+		getClient().clearCacheForPlayer(getClient().getPlayerAndLoad(ev.getPlayer().getName()));
 	}
 	
 	@EventHandler

@@ -37,7 +37,7 @@ public class CommandGiveBooster implements CommandExecutor{
 	}
 	
 	public boolean add(String[] args){
-		LoadedPlayer loadedplayer = UtilServer.getClient().getPlayer(args[0]);
+		LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(args[0]);
 		
 		int sec = UtilInteger.isNumber(args[1]);
 		if(sec==-1)return false;

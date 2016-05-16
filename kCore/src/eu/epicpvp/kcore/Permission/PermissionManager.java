@@ -185,9 +185,9 @@ public class PermissionManager {
 			String pp = getPrefix(p);
 			Team t1 = UtilScoreboard.setTeamPrefix(player.getScoreboard(), tabGroup, pp); //Atomaticly create if not exist
 			Team t2 = UtilScoreboard.setTeamPrefix(p.getScoreboard(), getTabGroup(player), prefix);//Atomaticly create if not exist
-			if (UtilServer.getClient().getPlayer(p.getName()) != null)
+			if (UtilServer.getClient().getPlayerAndLoad(p.getName()) != null)
 				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), t1, p);
-			if (UtilServer.getClient().getPlayer(player.getName()) != null)
+			if (UtilServer.getClient().getPlayerAndLoad(player.getName()) != null)
 				UtilScoreboard.addPlayerToTeam(p.getScoreboard(), t2, player);
 		}
 		
@@ -258,7 +258,7 @@ public class PermissionManager {
 	public boolean hasPermission(Player player, String permission, boolean message) {
 		boolean perm = hasPermission(UtilPlayer.getPlayerId(player), permission);
 		if (message && !perm)
-			player.sendMessage(UtilServer.getClient().getTranslationManager().translate("prefix", UtilServer.getClient().getTranslationManager().getLanguage(UtilServer.getClient().getPlayer(player.getName()))) + "§cYou don't have permission to do that.");
+			player.sendMessage(UtilServer.getClient().getTranslationManager().translate("prefix", UtilServer.getClient().getTranslationManager().getLanguage(UtilServer.getClient().getPlayerAndLoad(player.getName()))) + "§cYou don't have permission to do that.");
 		return perm;
 	}
 
