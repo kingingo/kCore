@@ -18,6 +18,7 @@ import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesGroupPackageBase;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
+import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
@@ -31,6 +32,10 @@ public class InventoryCopy extends InventoryPageBase{
 	@Getter
 	@Setter
 	private boolean for_with_copy_page = true;
+	
+	public InventoryCopy(InventorySize size, String title) {
+		this(size.getSize(), title);
+	}
 	
 	public InventoryCopy(int size, String title) {
 		super(size, title);

@@ -3,6 +3,8 @@ package eu.epicpvp.kcore.Enum;
 import lombok.Getter;
 
 public enum Zeichen {
+	POINT("●"),
+	LINE("▬"),
 	DOUBLE_ARROWS_l("«"),
 	DOUBLE_ARROWS_R("»"),
 	MAHLZEICHEN("✖"),

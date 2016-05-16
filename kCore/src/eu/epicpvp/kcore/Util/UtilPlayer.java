@@ -42,6 +42,8 @@ import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import lombok.Getter;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
 import net.minecraft.server.v1_8_R3.Packet;
@@ -51,6 +53,11 @@ import us.myles.ViaVersion.api.ViaVersionAPI;
 
 public class UtilPlayer
 {
+	public static TextComponent createClickableText(String text, String cmd) {
+		TextComponent message = new TextComponent(text);
+		message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd));
+		return message;
+	}
 	
 	public static CraftPlayer getCraftPlayer(LivingEntity player){
 		return (CraftPlayer)player;

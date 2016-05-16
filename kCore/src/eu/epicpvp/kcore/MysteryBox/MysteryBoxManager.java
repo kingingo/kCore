@@ -6,22 +6,18 @@ import java.util.HashMap;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.nbt.NBTTagCompound;
-import eu.epicpvp.kcore.Command.Admin.CommandGiveSharps;
+import eu.epicpvp.kcore.Command.Admin.CommandGiveShards;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MysteryBox.Templates.Building;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
-import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangedEvent;
-import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
 import eu.epicpvp.kcore.Util.UtilFile;
-import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
@@ -53,7 +49,7 @@ public class MysteryBoxManager extends kListener{
 		this.chests=new HashMap<>();
 		this.blocked=new ArrayList<>();
 		UtilServer.getCommandHandler().register(CommandMysteryBox.class, new CommandMysteryBox(this));
-		UtilServer.getCommandHandler().register(CommandGiveSharps.class, new CommandGiveSharps());
+		UtilServer.getCommandHandler().register(CommandGiveShards.class, new CommandGiveShards());
 		loadChests();
 		UtilServer.setMysteryBoxManager(this);
 	}

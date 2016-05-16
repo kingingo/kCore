@@ -63,7 +63,7 @@ public class MoneyListener extends kListener{
 							});
 						}else{
 							DataBuffer buffer = new DataBuffer();
-							buffer.writeByte((key==StatsKey.GEMS ? 1 : 2));
+							buffer.writeByte(key.ordinal());
 							buffer.writeInt(loadedplayer.getPlayerId());
 							buffer.writeInt(value);
 							buffer.writeString(path);

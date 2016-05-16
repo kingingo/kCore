@@ -47,7 +47,7 @@ public class CommandK implements CommandExecutor{
 	
 	public void addPermission(String player, String permission,GroupTyp typ){
 		LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player);
-		DataBuffer buffer = new DataBuffer().writeByte(3).writeInt(loadedplayer.getPlayerId()).writeString(permission).writeInt(GroupTyp.ALL.ordinal());
+		DataBuffer buffer = new DataBuffer().writeByte(3).writeInt(loadedplayer.getPlayerId()).writeString(permission).writeInt(typ.ordinal());
 		PacketServerMessage packet = new PacketServerMessage("permission", ClientType.BUNGEECORD, buffer);
 		UtilReflection.setValue("targets", packet, new PacketServerMessage.Target[]{new PacketServerMessage.Target(ClientType.BUNGEECORD,"targetlimit;1")});
 		UtilServer.getClient().writePacket(packet);

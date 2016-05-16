@@ -13,9 +13,9 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilInteger;
 import eu.epicpvp.kcore.Util.UtilServer;
 
-public class CommandGiveSharps implements CommandExecutor{
+public class CommandGiveShards implements CommandExecutor{
 	
-	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "givesharps", sender = Sender.CONSOLE)
+	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "giveshards", sender = Sender.CONSOLE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(sender instanceof Player){
 			Player player = (Player)sender;

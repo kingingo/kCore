@@ -9,7 +9,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class Perk implements Listener{
+public class Perk implements Listener{
 
 	@Getter
 	private String name;

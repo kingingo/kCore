@@ -19,6 +19,7 @@ import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonMultiSlotBase;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.InventorySplit;
 import eu.epicpvp.kcore.Util.UtilDebug;
+import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilString;
 import lombok.Getter;
@@ -127,27 +128,40 @@ public class InventoryPageBase extends CraftInventoryCustom {
 		return 0;
 	}
 	
+	public void fillBorder(Material material, int data){
+		fill(UtilInv.getInventoryBorder(InventorySize.invSize(getSize())), material,data);
+	}
+	
 	public void fill(Material material){
-		for(int i = 0 ; i < getSize(); i++){
-			if(getItem(i)==null||getItem(i).getType()==Material.AIR){
-				if(getItem(i)==null)setItem(i, new ItemStack(Material.IRON_FENCE));
-				getItem(i).setType(material);
-				ItemMeta im = getItem(i).getItemMeta();
-				im.setDisplayName(" ");
-				getItem(i).setItemMeta(im);
-			}
-		}
+		fill(null, material, 0);
 	}
 	
 	public void fill(Material material,int data){
-		for(int i = 0 ; i < getSize(); i++){
-			if(getItem(i)==null||getItem(i).getType()==Material.AIR){
-				if(getItem(i)==null)setItem(i, new ItemStack(Material.IRON_FENCE));
-				getItem(i).setType(material);
-				getItem(i).setDurability((short) data);
-				ItemMeta im = getItem(i).getItemMeta();
-				im.setDisplayName(" ");
-				getItem(i).setItemMeta(im);
+		fill(null, material, data);
+	}
+	
+	public void fill(Integer[] slots,Material material,int data){
+		if(slots==null){
+			for(int i = 0; i < getSize() ; i++){
+				if(getItem(i)==null||getItem(i).getType()==Material.AIR){
+					if(getItem(i)==null)setItem(i, new ItemStack(Material.IRON_FENCE));
+					getItem(i).setType(material);
+					if(data!=0)getItem(i).setDurability((short)data);
+					ItemMeta im = getItem(i).getItemMeta();
+					im.setDisplayName(" ");
+					getItem(i).setItemMeta(im);
+				}
+			}
+		}else{
+			for(int i : slots){
+				if(getItem(i)==null||getItem(i).getType()==Material.AIR){
+					if(getItem(i)==null)setItem(i, new ItemStack(Material.IRON_FENCE));
+					getItem(i).setType(material);
+					if(data!=0)getItem(i).setDurability((short)data);
+					ItemMeta im = getItem(i).getItemMeta();
+					im.setDisplayName(" ");
+					getItem(i).setItemMeta(im);
+				}
 			}
 		}
 	}

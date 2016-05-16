@@ -32,6 +32,7 @@ import dev.wolveringer.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
 import dev.wolveringer.translation.TranslationManager;
+import eu.epicpvp.kcore.ArchivmentsHandler.AchievementsHandler;
 import eu.epicpvp.kcore.Arena.TabManager;
 import eu.epicpvp.kcore.Arena.BestOf.BestOf;
 import eu.epicpvp.kcore.Command.CommandHandler;
@@ -77,6 +78,9 @@ public class UtilServer{
 	@Getter
 	@Setter
 	private static MoneyListener moneyListener;
+	@Getter
+	@Setter
+	private static AchievementsHandler achievementsHandler;
 	@Getter
 	@Setter
 	private static MysteryBoxManager mysteryBoxManager;

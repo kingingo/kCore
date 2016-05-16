@@ -214,8 +214,9 @@ public class ArenaManager extends kListener  {
 					arena = (PacketArenaStatus)this.server.get( list.get(UtilMath.r(list.size())) );
 					this.list.remove(arena.getServer()+arena.getArena());
 
+					if(UtilDebug.isDebug())logMessage("SERVER "+arena.getServer()+" "+arena.getArena()+" "+arena.getState().name());
 					if(arena.getState()==GameState.LobbyPhase){
-						if(UtilDebug.isDebug())logMessage("SERVER "+arena.getServer()+" "+arena.getArena()+" "+arena.getState().name());
+						if(UtilDebug.isDebug())logMessage("SERVER1 "+arena.getServer()+" "+arena.getArena()+" "+arena.getState().name());
 						
 						for(Team t : players.keySet())players.get(t).clear();
 
