@@ -1,11 +1,13 @@
 package eu.epicpvp.kcore.Command.Commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.Command.Commands.Events.PlayerDelHomeEvent;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
@@ -31,6 +33,8 @@ public class CommandDelHome implements CommandExecutor{
 		}else if(args.length>=1){
 			if(player.hasPermission(PermissionType.HOME_DEL.getPermissionToString())){
 				if(config.isSet("homes."+args[0])){
+					Bukkit.getPluginManager().callEvent(new PlayerDelHomeEvent(player, config.getLocation("homes."+args[0]),args[0], config));
+					
 					config.set("homes."+args[0], null);
 					config.save();
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HOME_DEL",args[0]));

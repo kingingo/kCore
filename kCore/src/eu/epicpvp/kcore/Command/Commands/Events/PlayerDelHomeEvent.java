@@ -10,27 +10,21 @@ import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
 import lombok.Setter;
 
-public class PlayerHomeEvent  extends Event implements Cancellable{
+public class PlayerDelHomeEvent  extends Event {
 	private static HandlerList handlers = new HandlerList();
 	@Getter
 	private Player player;
 	@Getter
-	@Setter
-	private boolean cancelled=false;
-	@Getter
-	@Setter
-	private String reason=null;
+	private kConfig config;
 	@Getter
 	private String name;
 	@Getter
 	private Location home;
-	@Getter
-	private kConfig config;
 	
-	public PlayerHomeEvent(Player player,Location home,String name,kConfig config){
+	public PlayerDelHomeEvent(Player player,Location home,String name,kConfig config){
 		this.player=player;
-		this.home=home;
 		this.name=name;
+		this.home=home;
 		this.config=config;
 	}
 	

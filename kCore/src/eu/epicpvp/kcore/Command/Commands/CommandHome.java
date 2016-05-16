@@ -53,7 +53,7 @@ public class CommandHome implements CommandExecutor{
 			}else{
 				if(config.isSet("homes."+args[0])){
 					home = config.getLocation("homes."+args[0]);
-					PlayerHomeEvent ev = new PlayerHomeEvent(player, home, config);
+					PlayerHomeEvent ev = new PlayerHomeEvent(player, home,args[0], config);
 					Bukkit.getPluginManager().callEvent(ev);
 					if(ev.isCancelled()){
 						if(ev.getReason()!=null)player.sendMessage(TranslationHandler.getText(player, "PREFIX")+ev.getReason());
