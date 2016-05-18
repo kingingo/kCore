@@ -100,7 +100,7 @@ public class MysteryBox extends kListener {
 		this.config.setItemStack("MysteryBox.item", item);
 		this.config.set("MysteryBox.template", template);
 		this.config.set("MysteryBox.canOpen", 2);
-		this.config.set("MysteryBox.shards", 2000);
+		this.config.set("MysteryBox.shards", 25);
 		this.config.save();
 		this.name = name;
 		this.item = item;
@@ -141,7 +141,7 @@ public class MysteryBox extends kListener {
 				total += this.config.getDouble("MysteryBox.items." + s + ".chance");
 				
 				items.add(new MysteryItem(this.config.getItemStack("MysteryBox.items." + s + ".item"),
-						this.config.getInt("MysteryBox.items." + s + ".Shards"),
+						this.config.getInt("MysteryBox.items." + s + ".shards"),
 						this.config.getDouble("MysteryBox.items." + s + ".chance"),
 						this.config.getString("MysteryBox.items." + s + ".Permission"),
 						GroupTyp.values()[this.config.getInt("MysteryBox.items." + s + ".GroupTyp")],
@@ -163,7 +163,7 @@ public class MysteryBox extends kListener {
 		this.counter++;
 		this.total+=chance;
 		this.config.setItemStack("MysteryBox.items." + counter + ".item", item);
-		this.config.set("MysteryBox.items." + counter + ".Shards", Shards);
+		this.config.set("MysteryBox.items." + counter + ".shards", Shards);
 		this.config.set("MysteryBox.items." + counter + ".chance", chance);
 		this.config.set("MysteryBox.items." + counter + ".Command", CMD);
 		this.config.set("MysteryBox.items." + counter + ".Permission", permission);

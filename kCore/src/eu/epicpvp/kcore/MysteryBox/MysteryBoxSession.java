@@ -93,6 +93,10 @@ public class MysteryBoxSession {
       
 
 		System.out.println("[MysterySession] Perm "+drop.getPermission()+" "+drop.getGroupTyp().name()+" "+(UtilServer.getPermissionManager().getPermissionPlayer(player)==null));
+		if(!drop.getPermission().equalsIgnoreCase("-")){
+			System.out.println("[MysterySession] TEST: "+UtilServer.getPermissionManager().getPermissionPlayer(player).hasPermission(drop.getPermission(), drop.getGroupTyp())+" "+drop.getPermission()+" "+drop.getGroupTyp().getName());
+		}
+		
         if(!drop.getPermission().equalsIgnoreCase("-") 
         		&& UtilServer.getPermissionManager().getPermissionPlayer(player).hasPermission(drop.getPermission(), drop.getGroupTyp())){
         	msg = new NameTagMessage(NameTagType.PACKET, loc.clone().add(0,0.4,0), new String[]{"§c[Doppelt] Du hast "+drop.getSharps()+" Mystery Sharps erhalten.",drop.getItemMeta().getDisplayName()});

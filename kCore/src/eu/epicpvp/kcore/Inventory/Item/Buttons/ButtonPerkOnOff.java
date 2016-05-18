@@ -18,11 +18,16 @@ public class ButtonPerkOnOff extends ButtonCopy{
     	  
     	((InventoryPageBase)object).setItem(slot, perk.getItem());
     	  
-        if (((object instanceof InventoryPageBase)) &&   (player.hasPermission(perk.getPermission().getPermissionToString())) &&  (UtilServer.getUserData().contains(player))){
+        if (((object instanceof InventoryPageBase)) &&  (UtilServer.getUserData().contains(player))){
         	if(UtilServer.getUserData().getConfig(player).contains("perks." + perk.getName())){
         		if (UtilServer.getUserData().getConfig(player).getString("perks." + perk.getName()).equalsIgnoreCase("true")){
-            		((InventoryPageBase)object).setItem(toggle_slot, UtilItem.RenameItem(new ItemStack(351,1,(byte)10), "§aON"));
-            		return;
+        			if(player.hasPermission(perk.getPermission().getPermissionToString())){
+                		((InventoryPageBase)object).setItem(toggle_slot, UtilItem.RenameItem(new ItemStack(351,1,(byte)10), "§aON"));
+                		return;
+        			}else{
+        				UtilServer.getUserData().getConfig(player).set("perks." + perk.getName(), "false");
+                        UtilServer.getPerkManager().removePlayer(perk, player);
+        			}
             	}
         	}
         }
@@ -42,7 +47,7 @@ public class ButtonPerkOnOff extends ButtonCopy{
             	player.getOpenInventory().setItem(toggle_slot, UtilItem.RenameItem(new ItemStack(351,1,(byte)10), "§aON"));
            }
         	player.updateInventory();
-        } 
+        }
       }
     }
     , perk.getItem());

@@ -146,6 +146,18 @@ public class StatsManager extends kListener {
 				player.sendMessage("§b#§6" + (i+1) + "§b | §6" + UtilMath.trim(2, UtilNumber.toDouble(ranking.getRanking()[i].getTopValue())) + " §b|§6 " + ranking.getRanking()[i].getPlayer());
 		}
 	}
+	
+	public int getTotalInteger(Player player, StatsKey... keys){
+		int total = 0;
+		
+		for(StatsKey key : keys){
+			if(key.getClassId() == 0){
+				total += getInt(player, key);
+			}
+		}
+		
+		return total;
+	}
 
 	public boolean containsKey(Player player, StatsKey key){
 		return containsKey(UtilPlayer.getPlayerId(player),key);

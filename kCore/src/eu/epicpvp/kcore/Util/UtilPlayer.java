@@ -392,6 +392,7 @@ public class UtilPlayer
   public static Player searchExact(int playerId)
   {
 	  for(LoadedPlayer loadedplayer : UtilServer.getClient().getPlayers()){
+		  if(loadedplayer==null)continue;
 		  if(loadedplayer.getPlayerId()==playerId){
 			  return searchExact(loadedplayer.getName());
 		  }

@@ -27,7 +27,7 @@ public class CommandGems implements CommandExecutor{
 		Player player=(Player)sender;
 		
 		if(args.length==0){
-			player.openInventory(shop.getMain());
+			shop.openInv(player);
 		}else{
 			if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 				if(args[0].equalsIgnoreCase("addc")){
