@@ -26,7 +26,7 @@ public class BillGates extends Achievement{
 	public void PlayerStatsChanged(PlayerStatsChangedEvent ev){
 		if(ev.getManager().getType() != getType())return;
 		if(ev.getStats() != StatsKey.MONEY)return;
-		if(ev.getManager().getInt(ev.getPlayerId(), ev.getStats()) < 250000)return;
+		if(ev.getManager().getDouble(ev.getPlayerId(), ev.getStats()) < 250000)return;
 		
 		if(this.getPlayerProgress().containsKey(ev.getPlayerId())){
 			this.getPlayerProgress().put(ev.getPlayerId(), getProgress(ev.getPlayerId())+1);

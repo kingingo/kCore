@@ -108,11 +108,8 @@ public class WingShop extends InventoryCopy implements Listener{
 	
 	@EventHandler
 	public void load(PlayerStatsLoadedEvent ev){
-		if(ev.getManager().getType() == GameType.PROPERTIES && UtilPlayer.isOnline(ev.getPlayerId())){
-			Player player = UtilPlayer.searchExact(ev.getPlayerId());
-			if (player == null) {
-				return;
-			}
+		Player player = UtilPlayer.searchExact(ev.getPlayerId());
+		if(ev.getManager().getType() == GameType.PROPERTIES && player != null){
 			NBTTagCompound nbt = ev.getManager().getNBTTagCompound(player, StatsKey.PROPERTIES);
 			
 			if(nbt.hasKey("wings")){

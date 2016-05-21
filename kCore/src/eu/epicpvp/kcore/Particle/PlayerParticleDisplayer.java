@@ -46,9 +46,9 @@ public class PlayerParticleDisplayer<P extends Enum<P>, V> implements Listener, 
 	public boolean stop() {
 		HandlerList.unregisterAll(this);
 		if (taskId > -1) {
-			taskId = -1;
 			plugin.getServer().getScheduler().cancelTask(taskId);
 			plugin = null;
+			taskId = -1;
 			return true;
 		}
 		return false;

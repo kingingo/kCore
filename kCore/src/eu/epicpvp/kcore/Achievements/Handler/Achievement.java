@@ -23,6 +23,7 @@ import eu.epicpvp.kcore.Util.Title;
 import eu.epicpvp.kcore.Util.UtilFirework;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.Util.UtilString;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
 
@@ -74,6 +75,7 @@ public class Achievement implements Listener{
 		if(this.playerProgress.containsKey(playerId)){
 			if(getProgress(playerId) >= maxprogress){
 				saveProgress(playerId);
+				this.playerProgress.remove(playerId);
 				StatsManagerRepository.getStatsManager(getType()).add(playerId, getKey(), getProfit());
 				
 				Player player = UtilPlayer.searchExact(playerId);
@@ -83,6 +85,13 @@ public class Achievement implements Listener{
 					UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
 					UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
 					UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
+					
+					player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
+					player.sendMessage(" ");
+					player.sendMessage(UtilString.center("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".length(),"Du hast das Achievement erfolgreich abgeschlossen!".length())+"§aDu hast das Achievement erfolgreich abgeschlossen!");
+					player.sendMessage(UtilString.center("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".length(),("Du hast "+profit+" Epics erhalten.").length())+"§aDu hast §e"+profit+"§a Epics erhalten.");
+					player.sendMessage(" ");
+					player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
 				}
 				
 				return true;

@@ -215,6 +215,10 @@ public class StatsManager extends kListener {
 	public int getInt(int playerId, StatsKey key) {
 		return (int) get(playerId, key);
 	}
+	
+	public double getDouble(int playerId, StatsKey key) {
+		return (double) get(playerId, key);
+	}
 
 	public Object get(StatsKey key, Player player) {
 		return get(UtilPlayer.getPlayerId(player),key);
