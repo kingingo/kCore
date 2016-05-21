@@ -35,6 +35,10 @@ public class UtilInv {
 	}
 
 	public static Integer[] getSlotsBorder(InventorySize size, InventorySplit startLine) {
+		return getSlotsBorder(size, startLine, size.getLines()[size.getLines().length-1]);
+	}
+	
+	public static Integer[] getSlotsBorder(InventorySize size, InventorySplit startLine, InventorySplit endLine) {
 		ArrayList<Integer> list = new ArrayList<>();
 		for (int slot = (startLine.getMin() + 1); slot < size.getSize(); slot++) {
 			InventorySplit split = InventorySplit.split(slot);
@@ -44,7 +48,7 @@ public class UtilInv {
 					slot += 2;
 				}
 
-				if ((size.getSize() - 1) == InventorySplit.split(slot).getMax())
+				if (endLine.getMax() < slot)
 					break;
 				list.add(slot);
 			}

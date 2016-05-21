@@ -1,5 +1,6 @@
 package eu.epicpvp.kcore.Inventory.Item.Buttons;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -7,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
+import eu.epicpvp.kcore.ItemShop.Events.PlayerBuyItemEvent;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.InventorySplit;
@@ -37,6 +39,7 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 					}else{
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SIGN_SHOP_GET_",new String[]{String.valueOf(amount),String.valueOf(item.getTypeId()),String.valueOf(item.getData().getData()),String.valueOf( (amount*money) )}));
 					}
+					Bukkit.getPluginManager().callEvent(new PlayerBuyItemEvent(player, item, amount*money));
 				}else{
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NOT_ENOUGH_MONEY"));
 				}

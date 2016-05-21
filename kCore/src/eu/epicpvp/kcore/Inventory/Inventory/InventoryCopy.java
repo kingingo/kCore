@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Inventory.InventoryBase;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
+import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.IButton;
 import eu.epicpvp.kcore.Inventory.Item.IButtonMultiSlot;
 import eu.epicpvp.kcore.Inventory.Item.IButtonOneSlot;
@@ -32,13 +33,25 @@ public class InventoryCopy extends InventoryPageBase{
 	@Getter
 	@Setter
 	private boolean for_with_copy_page = true;
+	@Getter
+	@Setter
+	private Click configurate;
 	
 	public InventoryCopy(InventorySize size, String title) {
-		this(size.getSize(), title);
+		this(size.getSize(), title, null);
 	}
 	
 	public InventoryCopy(int size, String title) {
 		super(size, title);
+	}
+	
+	public InventoryCopy(InventorySize size, String title,Click configurate) {
+		this(size.getSize(), title, configurate);
+	}
+	
+	public InventoryCopy(int size, String title,Click configurate) {
+		super(size, title);
+		this.configurate=configurate;
 	}
 
 	public void open(Player player,InventoryBase base){
@@ -47,6 +60,8 @@ public class InventoryCopy extends InventoryPageBase{
 			
 			base.addAnother(page);
 			player.openInventory(page);
+			if(configurate!=null)configurate.onClick(player, ActionType.AIR, page);
+			
 			SalesPackageBase sale;
 			ButtonCopy c;
 			ButtonMultiCopy cc;

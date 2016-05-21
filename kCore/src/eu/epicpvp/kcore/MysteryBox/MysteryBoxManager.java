@@ -63,7 +63,7 @@ public class MysteryBoxManager extends kListener{
 		
 		for(MysteryBox box : getChests().values()){
 			for(MysteryBoxSession session : box.getSessions().values()){
-				if(session.getLocation().distanceSquared(location) < 10){
+				if(session.getLocation().distanceSquared(location) < 15){
 					return true;
 				}
 			}

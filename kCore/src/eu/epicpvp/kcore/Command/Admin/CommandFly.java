@@ -12,6 +12,7 @@ import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandFly extends kListener implements CommandExecutor{
 	
@@ -22,6 +23,7 @@ public class CommandFly extends kListener implements CommandExecutor{
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "fly",alias={"kfly"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		Player player = (Player)sender;
+		if(!UtilPlayer.isFly() && !player.isOp())return false;
 		if(player.hasPermission(PermissionType.kFLY.getPermissionToString())){
 			if(player.getAllowFlight()){
 				player.setAllowFlight(false);

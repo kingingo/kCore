@@ -38,8 +38,6 @@ public class UserDataConfig extends kListener{
 	@Getter
 	private String dataFolder;
 	@Getter
-	private String dataFolderOld;
-	@Getter
 	@Setter
 	private boolean restart=false;
 	
@@ -49,60 +47,24 @@ public class UserDataConfig extends kListener{
 		this.configs= new HashMap<>();
 		this.instance=instance;
 		this.dataFolder="plugins"+File.separator+instance.getPlugin(instance.getClass()).getName()+File.separator+"userdata";
-		this.dataFolderOld="plugins"+File.separator+instance.getPlugin(instance.getClass()).getName()+File.separator+"userdata_old";
 		new File(getDataFolder()).mkdirs();
-		new File(getDataFolderOld()).mkdirs();
 	}
 	
 	public static UUID getOfflineUUID(String player){
 		return UUID.nameUUIDFromBytes(new StringBuilder().append("OfflinePlayer:").append(player.toLowerCase()).toString().getBytes(Charsets.UTF_8));
 	}
 	
-	public kConfig convertConfig(LoadedPlayer loadedplayer, String playerName, UUID uuid){
-		File nfile = new File(getDataFolder(),loadedplayer.getPlayerId()+".yml");
-		if(!nfile.exists()){
-			File ofile = new File(getDataFolderOld(),uuid+".yml");
-			if(ofile.exists()){
-				ofile.renameTo(new File(getDataFolderOld(),loadedplayer.getPlayerId()+".yml"));
-				try {
-					Files.move(new File(getDataFolderOld(),loadedplayer.getPlayerId()+".yml"), nfile);
-					kConfig c=new kConfig(nfile);
-					Bukkit.getPluginManager().callEvent(new UserDataConfigConvertEvent(c, loadedplayer.getPlayerId()));
-					logMessage("Die Config von "+loadedplayer.getName()+"("+loadedplayer.getPlayerId()+"/"+uuid+") wurde convertiert!");
-					return c;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return null;
-	}
-	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
 		int playerId = UtilPlayer.getPlayerId(ev.getName());
-		kConfig config=convertConfig(UtilServer.getClient().getPlayerAndLoad(ev.getName()), ev.getName(), ev.getUniqueId());
 		
-		if(config!=null){
+		File file = new File(getDataFolder(),playerId+".yml");
+		kConfig config=new kConfig(file);
+		if(configs!=null){
 			logMessage("Die Config von "+ev.getName()+"("+playerId+"/"+ev.getUniqueId()+") wurde geladen");
 			configs.put(playerId, config);
 		}else{
-			File file = new File(getDataFolder(),playerId+".yml");
-			if(file!=null){
-				config=new kConfig(file);
-				if(config!=null){
-					if(configs!=null){
-						logMessage("Die Config von "+ev.getName()+"("+playerId+"/"+ev.getUniqueId()+") wurde geladen");
-						configs.put(playerId, config);
-					}else{
-						logMessage("AsyncPlayerPreLoginEvent configs HASHMAP == NULL");
-					}
-				}else{
-					logMessage("AsyncPlayerPreLoginEvent config == NULL");
-				}
-			}else{
-				logMessage("AsyncPlayerPreLoginEvent File == NULL");
-			}
+			logMessage("AsyncPlayerPreLoginEvent configs HASHMAP == NULL");
 		}
 	}
 	

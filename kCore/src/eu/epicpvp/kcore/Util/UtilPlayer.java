@@ -42,6 +42,7 @@ import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import lombok.Getter;
+import lombok.Setter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -53,6 +54,10 @@ import us.myles.ViaVersion.api.ViaVersionAPI;
 
 public class UtilPlayer
 {
+	@Getter
+	@Setter
+	private static boolean fly=true;
+	
 	public static TextComponent createClickableText(String text, String cmd) {
 		TextComponent message = new TextComponent(text);
 		message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd));

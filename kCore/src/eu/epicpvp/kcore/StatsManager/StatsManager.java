@@ -60,7 +60,7 @@ public class StatsManager extends kListener {
 	private boolean autoLoad = false;
 
 	public StatsManager(JavaPlugin instance, ClientWrapper client, GameType type) {
-		super(instance, "StatsManager");
+		super(instance, "StatsManager|"+type.getShortName());
 		this.instance = instance;
 		this.type = type;
 		this.client = client;

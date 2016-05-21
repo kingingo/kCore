@@ -10,12 +10,11 @@ import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Listener.BungeeCordFirewall.BungeeCordFirewallListener;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 
-public class CommandFirewall extends kListener implements CommandExecutor{
+public class CommandFirewall implements CommandExecutor{
 	
 	private BungeeCordFirewallListener instance;
 	
 	public CommandFirewall(BungeeCordFirewallListener instance){
-		super(instance.getInstance(),"kfirewall");
 		this.instance=instance;
 	}
 	
