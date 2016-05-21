@@ -1,6 +1,14 @@
 package eu.epicpvp.kcore.Permission;
 
 public enum PermissionType {
+	SKYBLOCK_INVITE_PLAYER_1("epicpvp.skyblock.invite.1"),
+	SKYBLOCK_INVITE_PLAYER_2("epicpvp.skyblock.invite.2"),
+	SKYBLOCK_INVITE_PLAYER_3("epicpvp.skyblock.invite.3"),
+	
+	SKYBLOCK_MEMBER_PLAYER_1("epicpvp.skyblock.member.1"),
+	SKYBLOCK_MEMBER_PLAYER_2("epicpvp.skyblock.member.2"),
+	SKYBLOCK_MEMBER_PLAYER_3("epicpvp.skyblock.member.3"),
+	
 	GUNGAME_SKIP_LEVEL_25("epicpvp.gg.skip.level.25"),
 	GUNGAME_SKIP_LEVEL_20("epicpvp.gg.skip.level.20"),
 	GUNGAME_SKIP_LEVEL_15("epicpvp.gg.skip.level.15"),

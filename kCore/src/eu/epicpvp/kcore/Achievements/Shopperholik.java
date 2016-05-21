@@ -20,7 +20,7 @@ import eu.epicpvp.kcore.Util.UtilPlayer;
 public class Shopperholik extends Achievement{
 
 	public Shopperholik() {
-		super("§aShopperholik", Arrays.asList(" ","§a"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7Kaufe 10000 Gegenstände im Shop"," "),1000,10000);
+		super("§aShopperholik", Arrays.asList(" ","§a"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7Führe 10.000 Transaktionen im Item Shop durch"," "),1000,10000);
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)

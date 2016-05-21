@@ -80,18 +80,23 @@ public class Achievement implements Listener{
 				
 				Player player = UtilPlayer.searchExact(playerId);
 				if(player!=null){
-					Title title = new Title("§6§lErfolgreich Abgeschlossen", ""+getName());
-					title.send(player);
-					UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
-					UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
-					UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
-					
-					player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
-					player.sendMessage(" ");
-					player.sendMessage(UtilString.center("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".length(),"Du hast das Achievement erfolgreich abgeschlossen!".length())+"§aDu hast das Achievement erfolgreich abgeschlossen!");
-					player.sendMessage(UtilString.center("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".length(),("Du hast "+profit+" Epics erhalten.").length())+"§aDu hast §e"+profit+"§a Epics erhalten.");
-					player.sendMessage(" ");
-					player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
+					Bukkit.getScheduler().runTask(handler.getInstance(), new Runnable() {
+						@Override
+						public void run() {
+							Title title = new Title("§6§lErfolgreich Abgeschlossen", ""+getName());
+							title.send(player);
+							UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
+							UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
+							UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
+							
+							player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
+							player.sendMessage(" ");
+							player.sendMessage(UtilString.center("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".length(),"Du hast das Achievement erfolgreich abgeschlossen!".length())+"§aDu hast das Achievement erfolgreich abgeschlossen!");
+							player.sendMessage(UtilString.center("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".length(),("Du hast "+profit+" Epics erhalten.").length())+"§aDu hast §e"+profit+"§a Epics erhalten.");
+							player.sendMessage(" ");
+							player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
+						}
+					});
 				}
 				
 				return true;

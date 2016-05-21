@@ -19,6 +19,7 @@ public class SerieKiller extends Achievement{
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void PlayerDeath(PlayerDeathEvent ev){
+		if(ev.getEntity().getKiller()==null)return;
 		int playerId = UtilPlayer.getPlayerId(ev.getEntity().getKiller());
 		if(this.getPlayerProgress().containsKey(playerId)){
 			this.getPlayerProgress().put(playerId, getProgress(playerId)+1);
