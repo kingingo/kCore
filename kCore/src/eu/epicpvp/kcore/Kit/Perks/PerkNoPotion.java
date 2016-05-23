@@ -24,7 +24,8 @@ public class PerkNoPotion extends Perk{
 	public void PotionSplash(PotionSplashEvent ev){
 		for(PotionEffect pe : ev.getPotion().getEffects()){
 			if(pe.getType() == type){
-				ev.getAffectedEntities().removeAll( getPerkData().getPlayers().get(this) );
+				ev.getAffectedEntities().removeAll(getPerkData().getPlayers().get(this));
+				break;
 			}
 		}
 	}

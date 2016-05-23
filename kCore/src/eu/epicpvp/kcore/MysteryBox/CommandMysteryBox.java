@@ -444,14 +444,14 @@ public class CommandMysteryBox implements CommandExecutor {
 		wings.add(new InsectWings("Insect Wings (Lila)", PermissionType.WINGS_INSECT_PURPLE, true, Color.PURPLE, Color.PURPLE, Color.YELLOW));
 		wings.add(new InsectWings("Insect Wings (Rot)", PermissionType.WINGS_INSECT_RED, true, Color.RED, Color.RED, Color.YELLOW));
 		wings.add(new InsectWings("Insect Wings (Gelb)", PermissionType.WINGS_INSECT_YELLOW, true, Color.YELLOW, Color.YELLOW, Color.YELLOW));
-		
-		wings.add(new SupermanCape("Cape (Rot)", PermissionType.CAPE_RED, Color.RED, Color.RED));
-		wings.add(new SupermanCape("Cape (Blau)", PermissionType.CAPE_BLUE, Color.BLUE, Color.BLUE));
-		wings.add(new SupermanCape("Cape (Gelb)", PermissionType.CAPE_YELLOW, Color.YELLOW, Color.YELLOW));
-		wings.add(new SupermanCape("Cape (Weiß)", PermissionType.CAPE_WHITE, Color.WHITE, Color.WHITE));
-		wings.add(new SupermanCape("Cape (Grün)", PermissionType.CAPE_GREEN, Color.GREEN, Color.GREEN));
-		wings.add(new SupermanCape("Cape (Orange)", PermissionType.CAPE_ORANGE, Color.ORANGE, Color.ORANGE));
-		wings.add(new SupermanCape("Cape (Lila)", PermissionType.CAPE_PURPLE, Color.PURPLE, Color.PURPLE));
+
+		wings.add(new SupermanCape("Cape (Rot / Blau)", PermissionType.CAPE_BLUE_RED, Color.BLUE, Color.RED));
+		wings.add(new SupermanCape("Cape (Aqua / Blau)", PermissionType.CAPE_AQUA_BLUE, Color.AQUA, Color.BLUE));
+		wings.add(new SupermanCape("Cape (Orange / Gelb)", PermissionType.CAPE_ORANGE_YELLOW, Color.ORANGE, Color.YELLOW));
+		wings.add(new SupermanCape("Cape (Grau / Weiß)", PermissionType.CAPE_GRAY_WHITE, Color.GRAY, Color.WHITE));
+		wings.add(new SupermanCape("Cape (Gelb / Grün)", PermissionType.CAPE_YELLOW_GREEN, Color.YELLOW, Color.GREEN));
+		wings.add(new SupermanCape("Cape (Rot / Orange)", PermissionType.CAPE_RED_ORANGE, Color.RED, Color.ORANGE));
+		wings.add(new SupermanCape("Cape (Grün / Lila)", PermissionType.CAPE_GREEN_PURPLE, Color.GREEN, Color.PURPLE));
 		return wings;
 	}
 	

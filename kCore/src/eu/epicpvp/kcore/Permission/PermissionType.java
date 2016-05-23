@@ -428,13 +428,13 @@ public enum PermissionType {
 	WINGS_INSECT_RED("epicpvp.particle.wings.insect.red"),
 	WINGS_INSECT_YELLOW("epicpvp.particle.wings.insect.yellow"),
 	
-	CAPE_RED("epicpvp.particle.cape.red"),
-	CAPE_BLUE("epicpvp.particle.cape.blue"),
-	CAPE_WHITE("epicpvp.particle.cape.white"),
-	CAPE_YELLOW("epicpvp.particle.cape.yellow"),
-	CAPE_GREEN("epicpvp.particle.cape.green"),
-	CAPE_ORANGE("epicpvp.particle.cape.orange"),
-	CAPE_PURPLE("epicpvp.particle.cape.purple"),
+	CAPE_BLUE_RED("epicpvp.particle.cape.blue.red"),
+	CAPE_AQUA_BLUE("epicpvp.particle.cape.aqua.blue"),
+	CAPE_ORANGE_YELLOW("epicpvp.particle.cape.orange.yellow"),
+	CAPE_GRAY_WHITE("epicpvp.particle.cape.gray.white"),
+	CAPE_YELLOW_GREEN("epicpvp.particle.cape.yellow.green"),
+	CAPE_RED_ORANGE("epicpvp.particle.cape.red.orange"),
+	CAPE_GREEN_PURPLE("epicpvp.particle.cape.green.purple"),
 	//
 
 	NONE("FAIL");

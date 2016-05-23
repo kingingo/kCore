@@ -83,13 +83,13 @@ public class WingShop extends InventoryCopy implements Listener{
 		this.wings.add(new InsectWings("Insect Wings (Rot)", PermissionType.WINGS_INSECT_RED, true, Color.RED, Color.RED, Color.YELLOW));
 		this.wings.add(new InsectWings("Insect Wings (Gelb)", PermissionType.WINGS_INSECT_YELLOW, true, Color.YELLOW, Color.YELLOW, Color.YELLOW));
 		
-//		this.wings.add(new SupermanCape("Cape (Rot)", PermissionType.CAPE_RED, Color.RED, Color.RED, Color.YELLOW));
-//		this.wings.add(new SupermanCape("Cape (Blau)", PermissionType.CAPE_BLUE, Color.BLUE, Color.BLUE, Color.YELLOW));
-//		this.wings.add(new SupermanCape("Cape (Gelb)", PermissionType.CAPE_YELLOW, Color.YELLOW, Color.YELLOW, Color.YELLOW));
-//		this.wings.add(new SupermanCape("Cape (Weiß)", PermissionType.CAPE_WHITE, Color.WHITE, Color.WHITE, Color.YELLOW));
-//		this.wings.add(new SupermanCape("Cape (Grün)", PermissionType.CAPE_GREEN, Color.GREEN, Color.GREEN, Color.YELLOW));
-//		this.wings.add(new SupermanCape("Cape (Orange)", PermissionType.CAPE_ORANGE, Color.ORANGE, Color.ORANGE, Color.YELLOW));
-//		this.wings.add(new SupermanCape("Cape (Lila)", PermissionType.CAPE_PURPLE, Color.PURPLE, Color.PURPLE, Color.YELLOW));
+		this.wings.add(new SupermanCape("Cape (Rot / Blau)", PermissionType.CAPE_BLUE_RED, Color.BLUE, Color.RED));
+		this.wings.add(new SupermanCape("Cape (Aqua / Blau)", PermissionType.CAPE_AQUA_BLUE, Color.AQUA, Color.BLUE));
+		this.wings.add(new SupermanCape("Cape (Orange / Gelb)", PermissionType.CAPE_ORANGE_YELLOW, Color.ORANGE, Color.YELLOW));
+		this.wings.add(new SupermanCape("Cape (Grau / Weiß)", PermissionType.CAPE_GRAY_WHITE, Color.GRAY, Color.WHITE));
+		this.wings.add(new SupermanCape("Cape (Gelb / Grün)", PermissionType.CAPE_YELLOW_GREEN, Color.YELLOW, Color.GREEN));
+		this.wings.add(new SupermanCape("Cape (Rot / Orange)", PermissionType.CAPE_RED_ORANGE, Color.RED, Color.ORANGE));
+		this.wings.add(new SupermanCape("Cape (Grün / Lila)", PermissionType.CAPE_GREEN_PURPLE, Color.GREEN, Color.PURPLE));
 		
 		int next = 0;
 		for(int slot : UtilInv.getSlotsBorder(InventorySize.invSize(getSize()), InventorySplit._18)){

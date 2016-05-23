@@ -25,7 +25,7 @@ public class LevelUP extends Achievement{
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void PlayerExpChange(PlayerExpChangeEvent ev){
-		if(ev.getAmount() < 100)return;
+		if(ev.getPlayer().getLevel() < 100)return;
 		
 		int playerId = UtilPlayer.getPlayerId(ev.getPlayer());
 		if(this.getPlayerProgress().containsKey(playerId)){
