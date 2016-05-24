@@ -497,7 +497,7 @@ public class CommandMysteryBox implements CommandExecutor {
 	public static Perk[] getPerks() {
 		Perk[] p = new Perk[] { new PerkStrength(), new PerkNoPotion(PotionEffectType.POISON), new PerkNoWaterdamage(),
 				new PerkArrowPotionEffect(), new PerkHat(), new PerkGoldenApple(), new PerkNoHunger(),
-				new PerkHealPotion(1), new PerkNoFiredamage(), new PerkRunner(0.35F), new PerkDoubleJump(),
+				new PerkHealPotion(1), new PerkNoFiredamage(), new PerkRunner(), new PerkDoubleJump(),
 				new PerkDoubleXP(), new PerkDropper(), new PerkGetXP(), new PerkPotionClear(), new PerkItemName(null) };
 		PerkManager m = new PerkManager(UtilServer.getPermissionManager().getInstance() , p);
 		

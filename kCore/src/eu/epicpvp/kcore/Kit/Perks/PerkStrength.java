@@ -40,7 +40,4 @@ public class PerkStrength extends Perk{
 			ev.getPlayer().removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
 		}
 	}
-	
-	
-
 }

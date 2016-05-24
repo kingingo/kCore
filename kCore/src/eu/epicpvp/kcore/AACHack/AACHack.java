@@ -39,6 +39,9 @@ public class AACHack extends kListener{
 	@Getter
 	private String server;
 	private ClientWrapper client;
+	@Getter
+	@Setter
+	private boolean createReport=false;
 
 	public AACHack(String server,MySQL mysql,ClientWrapper client) {
 		super(mysql.getInstance(), "AACHack");
@@ -89,7 +92,6 @@ public class AACHack extends kListener{
 					if (hackType == HackType.KILLAURA) { //they're similar hacks
 						hackType = HackType.FORCEFIELD;
 					}
-					UtilServer.getClient().createReport(UtilServer.getClient().getPlayerAndLoad("DasAntiHackSystem").getPlayerId(), UtilPlayer.getPlayerId(ev.getPlayer()), ev.getHackType().getName(), null);
 					UtilServer.getClient().brotcastMessage("report.alert", "§aDas §eAntiHackSystem §ahat den Spieler §e"+ev.getPlayer().getName()+" §awegen §6"+ev.getHackType().getName()+" §areportet!");
 
 					anzahl=getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='"+ hackType.getName()+"' AND playerId='"+UtilPlayer.getPlayerId(ev.getPlayer())+"'");
@@ -110,6 +112,8 @@ public class AACHack extends kListener{
 						
 						setZeitBan(ev.getPlayer(), a, type, ev.getHackType().getName());
 						ev.setCancelled(true);
+					}else{
+						if(createReport)UtilServer.getClient().createReport(UtilServer.getClient().getPlayerAndLoad("DasAntiHackSystem").getPlayerId(), UtilPlayer.getPlayerId(ev.getPlayer()), ev.getHackType().getName(), "Player Ping:"+UtilPlayer.getPlayerPing(ev.getPlayer()));
 					}
 				}
 			}

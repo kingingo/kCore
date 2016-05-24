@@ -4,6 +4,7 @@ public enum PermissionType {
 	SKYBLOCK_INVITE_PLAYER_1("epicpvp.skyblock.invite.1"),
 	SKYBLOCK_INVITE_PLAYER_2("epicpvp.skyblock.invite.2"),
 	SKYBLOCK_INVITE_PLAYER_3("epicpvp.skyblock.invite.3"),
+	SKYBLOCK_INVITE_PLAYER_4("epicpvp.skyblock.invite.4"),
 	
 	SKYBLOCK_MEMBER_PLAYER_1("epicpvp.skyblock.member.1"),
 	SKYBLOCK_MEMBER_PLAYER_2("epicpvp.skyblock.member.2"),
