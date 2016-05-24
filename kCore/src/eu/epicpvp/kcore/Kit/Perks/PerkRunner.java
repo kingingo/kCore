@@ -28,14 +28,14 @@ public class PerkRunner extends Perk{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void respawn(PlayerRespawnEvent ev){
 		if(getPerkData().hasPlayer(this, ev.getPlayer())){
-			UtilPlayer.addPotionEffect(ev.getPlayer(), PotionEffectType.SPEED, 999999,2);
+			UtilPlayer.addPotionEffect(ev.getPlayer(), PotionEffectType.SPEED, 999999,1);
 		}
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void join(PerkPlayerAddEvent ev){
 		if(getPerkData().hasPlayer(this, ev.getPlayer())){
-			UtilPlayer.addPotionEffect(ev.getPlayer(), PotionEffectType.SPEED, 999999,2);
+			UtilPlayer.addPotionEffect(ev.getPlayer(), PotionEffectType.SPEED, 999999,1);
 		}
 	}
 	
