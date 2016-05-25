@@ -35,6 +35,7 @@ public class BungeeCordFirewallListener extends kListener{
 	public void loadBG(){
 		bungeecord_ips.clear();
 		//TODO
+		
 	}
 	
 	@EventHandler
