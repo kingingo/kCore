@@ -4,16 +4,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 
-import dev.wolveringer.client.connection.ClientType;
-import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Events.ServerMessageEvent;
-import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Listener.BungeeCordFirewall.BungeeCordFirewallListener;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
-import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandFirewall implements CommandExecutor{
 	
@@ -36,12 +30,6 @@ public class CommandFirewall implements CommandExecutor{
 						instance.setFirewall(true);
 						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+ "§atrue");
 					}
-				}else{
-					if(args[0].equalsIgnoreCase("reload")){
-						instance.loadBG();
-						UtilServer.getClient().sendServerMessage(ClientType.ALL, "BungeeFirewall", new DataBuffer().writeInt(0));
-						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+ "§aReloaded...!");
-					}
 				}
 			}
 		}else{
@@ -52,12 +40,6 @@ public class CommandFirewall implements CommandExecutor{
 				}else{
 					instance.setFirewall(true);
 					System.out.println("[kFirewall] Die Firewall wurde aktiviert!");
-				}
-			}else{
-				if(args[0].equalsIgnoreCase("reload")){
-					instance.loadBG();
-					UtilServer.getClient().sendServerMessage(ClientType.ALL, "BungeeFirewall", new DataBuffer().writeInt(0));
-					System.out.println("[kFirewall] Reloaded!");
 				}
 			}
 		}
