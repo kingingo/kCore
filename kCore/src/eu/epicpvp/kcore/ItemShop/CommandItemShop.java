@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import dev.wolveringer.bukkit.permissions.PermissionType;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilNumber;
@@ -50,7 +51,7 @@ public class CommandItemShop implements CommandExecutor{
 				}else if(args[0].equalsIgnoreCase("addi")){
 					if(args.length==6){
 						ItemStack hand = player.getItemInHand();
-						hand=UtilItem.SetDescriptions(hand, new String[]{"§7§ §cBuy","§7-","§e1 § §a"+UtilNumber.toInt(args[3])+" Epics","§e10 § §a"+(UtilNumber.toInt(args[3])*10)+" Epics","§e64 § §a"+(UtilNumber.toInt(args[3])*64)+" Epics","§7----------","§7§ §cSell","§7-","§e1 § §a"+UtilNumber.toInt(args[4])+" Epics","§e10 § §a"+(UtilNumber.toInt(args[4])*10)+" Epics","§e64 § §a"+(UtilNumber.toInt(args[4])*64)+" Epics"});
+						hand=UtilItem.SetDescriptions(hand, new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cBuy","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+UtilNumber.toInt(args[3])+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(UtilNumber.toInt(args[3])*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(UtilNumber.toInt(args[3])*64)+" Epics","§7----------","§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cSell","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+UtilNumber.toInt(args[4])+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(UtilNumber.toInt(args[4])*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(UtilNumber.toInt(args[4])*64)+" Epics"});
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+shop.add(UtilNumber.toInt(args[1]), UtilNumber.toInt(args[2]), hand, UtilNumber.toInt(args[3]),UtilNumber.toInt(args[4]),UtilNumber.toInt(args[5])));
 					}else if(args.length==5){
 						ItemStack hand = player.getItemInHand();
@@ -80,6 +81,9 @@ public class CommandItemShop implements CommandExecutor{
 					player.openInventory(shop.getMove());
 				}else if(args[0].equalsIgnoreCase("edit")){
 					player.openInventory(shop.getEdit());
+				}else if(args[0].equalsIgnoreCase("fix")){
+					shop.fix();
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aFix all..");
 				}
 			}else{
 				player.openInventory(shop.getShop());

@@ -133,7 +133,7 @@ public class ItemShop{
 			getConfig().setItemStack("Main."+slot+".Item", item);
 			getConfig().set("Main."+slot+".PageName", pageName);
 			getConfig().save();
-			return "Category hinzugef§gt";
+			return "Category hinzugefügt";
 		}else{
 			return "Der Slot ist besetzt!";
 		}
@@ -422,18 +422,18 @@ public class ItemShop{
 						}
 						
 						if(page_back!=null){
-							page.addButton(48, new ButtonOpenInventory(page_back, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" "+(p-1))));
-							page_back.addButton(50, new ButtonOpenInventory(page, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a"+(p)+" §")));
+							page.addButton(48, new ButtonOpenInventory(page_back, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c"+Zeichen.DOUBLE_ARROWS_l.getIcon()+" "+(p-1))));
+							page_back.addButton(50, new ButtonOpenInventory(page, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a"+(p)+" "+Zeichen.DOUBLE_ARROWS_R.getIcon())));
 						}
 						
 						if(page_back_move!=null){
-							page_move.addButton(48, new ButtonOpenInventory(page_back_move, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" "+(p-1))));
-							page_back_move.addButton(50, new ButtonOpenInventory(page_move, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a"+(p)+" §")));
+							page_move.addButton(48, new ButtonOpenInventory(page_back_move, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c"+Zeichen.DOUBLE_ARROWS_l.getIcon()+" "+(p-1))));
+							page_back_move.addButton(50, new ButtonOpenInventory(page_move, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a"+(p)+" "+Zeichen.DOUBLE_ARROWS_R.getIcon())));
 						}
 						
 						if(page_back_edit!=null){
-							page_edit.addButton(48, new ButtonOpenInventory(page_back_edit, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" "+(p-1))));
-							page_back_edit.addButton(50, new ButtonOpenInventory(page_edit, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a"+(p)+" §")));
+							page_edit.addButton(48, new ButtonOpenInventory(page_back_edit, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§c"+Zeichen.DOUBLE_ARROWS_l.getIcon()+" "+(p-1))));
+							page_back_edit.addButton(50, new ButtonOpenInventory(page_edit, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§a"+(p)+" "+Zeichen.DOUBLE_ARROWS_R.getIcon())));
 						}
 
 						page_back=page;

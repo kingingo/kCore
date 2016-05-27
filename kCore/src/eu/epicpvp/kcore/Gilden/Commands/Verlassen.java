@@ -34,7 +34,8 @@ public class Verlassen {
 						for(int n : manager.getGilden_player().keySet()){
 							if(sky.getSky().getInstance().getUserData().getConfigs().containsKey(n)&&UtilPlayer.isOnline(n)){
 								config=sky.getSky().getInstance().getUserData().getConfig(n);
-								if(UtilPlayer.searchExact(n).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName()))UtilPlayer.searchExact(n).teleport(Bukkit.getWorld("world").getSpawnLocation());
+								if(UtilPlayer.searchExact(n).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName()))
+									UtilPlayer.searchExact(n).teleport(Bukkit.getWorld("world").getSpawnLocation());
 							}else{
 								config=sky.getSky().getInstance().getUserData().loadConfig(n);
 							}
@@ -61,7 +62,8 @@ public class Verlassen {
 							}
 						}
 						config.save();
-						if(p.getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName()))p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+						if(p.getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName()))
+							p.teleport(Bukkit.getWorld("world").getSpawnLocation());
 					}
 					
 					manager.sendGildenChat(g, "GILDE_PLAYER_GO_OUT",p.getName());

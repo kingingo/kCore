@@ -15,9 +15,9 @@ public class PerkHasPlayerEvent extends Event implements Cancellable{
 	@Getter
 	private Perk perk;
 	@Getter
-	Player player;
+	private Player player;
 	@Getter
-	PerkData perkData;
+	private PerkData perkData;
 	
 	public PerkHasPlayerEvent(Perk perk,Player player,PerkData perkData){
 		this.player=player;

@@ -114,17 +114,21 @@ public class ButtonShopSell extends ButtonMultiCopy{
 				page.setItem(s, null);
 			}
 		}
-		
+		ItemStack item;
 		for(int i = 0; i<(amount/64); i++){
 			if(slot>53)return a;
-			page.setItem(slot, new ItemStack(page.getItem(4).getType(),64,page.getItem(4).getData().getData()));
+			item=page.getItem(4).clone();
+			item.setAmount(64);
+			page.setItem(slot, item);
 			a+=64;
 			slot++;
 		}
 		
 		if((amount%64)!=0){
 			if(slot>53)return a;
-			page.setItem(slot, new ItemStack(page.getItem(4).getType(),(amount%64),page.getItem(4).getData().getData()));
+			item=page.getItem(4).clone();
+			item.setAmount(amount%64);
+			page.setItem(slot, item);
 			a+=(amount%64);
 		}
 		return a;

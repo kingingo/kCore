@@ -51,7 +51,14 @@ public class CommandVanish extends kListener implements CommandExecutor{
 	
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void Join(PlayerJoinEvent ev){
-		for(Player p : invisible)ev.getPlayer().hidePlayer(p);
+		for(Player player : UtilServer.getPlayers()){
+			player.hidePlayer(ev.getPlayer());
+			player.showPlayer(ev.getPlayer());
+			ev.getPlayer().showPlayer(player);
+			if(invisible.contains(player)){
+				ev.getPlayer().hidePlayer(player);
+			}
+		}
 	}
 	
 	public boolean visible(Player player){

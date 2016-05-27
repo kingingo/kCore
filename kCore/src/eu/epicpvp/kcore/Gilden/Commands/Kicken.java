@@ -41,7 +41,7 @@ public class Kicken {
 				
 				if(sky.getSky().getInstance().getUserData().getConfigs().containsKey(kick_id)&&UtilPlayer.isOnline(kick_o)){
 					config=sky.getSky().getInstance().getUserData().getConfig(Bukkit.getPlayer(kick_o));
-					Bukkit.getPlayer(kick_o).teleport(Bukkit.getWorld("world").getSpawnLocation());
+					if(Bukkit.getPlayer(kick_o).getWorld().getUID()!=Bukkit.getWorld("world").getUID())Bukkit.getPlayer(kick_o).teleport(Bukkit.getWorld("world").getSpawnLocation());
 				}else{
 					config=sky.getSky().getInstance().getUserData().loadConfig(kick_id);
 				}

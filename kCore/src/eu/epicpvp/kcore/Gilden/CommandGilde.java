@@ -75,10 +75,6 @@ public class CommandGilde implements CommandExecutor{
 				Money.use(p, args, manager);
 			}else if(manager.getTyp()==GildenType.SKY&&args[0].equalsIgnoreCase("createisland")){
 				Home.useSet(p, args, manager);
-			}else if(manager.getTyp()==GildenType.SKY&&p.hasPermission(PermissionType.GILDE_NEWISLAND.getPermissionToString())&&args[0].equalsIgnoreCase("newisland")){
-				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
-				sky.getSky().getGilden_world().newIsland(args[1]);
-				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+"§aDone.");
 			}
 		}
 		return false;

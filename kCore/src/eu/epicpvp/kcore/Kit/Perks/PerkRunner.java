@@ -34,14 +34,14 @@ public class PerkRunner extends Perk{
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void join(PerkPlayerAddEvent ev){
-		if(getPerkData().hasPlayer(this, ev.getPlayer())){
+		if(getPerkData().hasPlayer(this, ev.getPlayer())&& (ev.getPerk()==null||ev.getPerk()==this) ){
 			UtilPlayer.addPotionEffect(ev.getPlayer(), PotionEffectType.SPEED, 999999,1);
 		}
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void join(PerkPlayerRemoveEvent ev){
-		if(getPerkData().hasPlayer(this, ev.getPlayer())){
+		if(getPerkData().hasPlayer(this, ev.getPlayer())&& (ev.getPerk()==null||ev.getPerk()==this) ){
 			ev.getPlayer().removePotionEffect(PotionEffectType.SPEED);
 		}
 	}

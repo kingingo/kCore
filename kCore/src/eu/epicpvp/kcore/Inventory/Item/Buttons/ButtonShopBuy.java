@@ -26,12 +26,17 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 				int amount = getAmount(page);
 				if(statsManager.getDouble(StatsKey.MONEY, player)>=(amount*money)){
 					statsManager.addDouble(player, -(amount*money), StatsKey.MONEY);
+					ItemStack bitem;
 					for(int i = 0; i<(amount/64); i++){
-						player.getInventory().addItem(new ItemStack(page.getItem(4).getType(),64,page.getItem(4).getData().getData()));
+						bitem = page.getItem(4).clone();
+						bitem.setAmount(64);
+						player.getInventory().addItem(bitem);
 					}
 					
 					if((amount%64)!=0){
-						player.getInventory().addItem(new ItemStack(page.getItem(4).getType(),(amount%64),page.getItem(4).getData().getData()));
+						bitem = page.getItem(4).clone();
+						bitem.setAmount((amount%64));
+						player.getInventory().addItem(bitem);
 					}
 					
 					if(item.getData().getData()==0){
@@ -120,10 +125,13 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 			}
 		}
 		
+		ItemStack item;
 		for(int i = 0; i<(amount/64); i++){
 			if(slot>53)return a;
 			if(page.getItem(slot)!=null&&page.getItem(slot).hasItemMeta()&&page.getItem(slot).getItemMeta().hasDisplayName()&&page.getItem(slot).getItemMeta().getDisplayName().equalsIgnoreCase("§cBelegt"))return a;
-			page.setItem(slot, new ItemStack(page.getItem(4).getType(),64,page.getItem(4).getData().getData()));
+			item = page.getItem(4).clone();
+			item.setAmount(64);
+			page.setItem(slot, item);
 			a+=64;
 			slot++;
 		}
@@ -131,7 +139,9 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 		if((amount%64)!=0){
 			if(slot>53)return a;
 			if(page.getItem(slot)!=null&&page.getItem(slot).hasItemMeta()&&page.getItem(slot).getItemMeta().hasDisplayName()&&page.getItem(slot).getItemMeta().getDisplayName().equalsIgnoreCase("§cBelegt"))return a;
-			page.setItem(slot, new ItemStack(page.getItem(4).getType(),(amount%64),page.getItem(4).getData().getData()));
+			item = page.getItem(4).clone();
+			item.setAmount(amount%64);
+			page.setItem(slot, item);
 			a+=(amount%64);
 		}
 		return a;

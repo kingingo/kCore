@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import eu.epicpvp.kcore.Kit.Perk;
 import lombok.Getter;
 
 public class PerkPlayerRemoveEvent extends Event {
@@ -11,11 +12,11 @@ public class PerkPlayerRemoveEvent extends Event {
 	@Getter
 	private Player player;
 	@Getter
-	private String perkString;
+	private Perk perk;
 	
-	public PerkPlayerRemoveEvent(Player player,String perkString){
+	public PerkPlayerRemoveEvent(Player player,Perk perk){
 		this.player=player;
-		this.perkString=perkString;
+		this.perk=perk;
 	}
 	
 	@Override

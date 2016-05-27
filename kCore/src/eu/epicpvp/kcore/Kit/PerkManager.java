@@ -84,19 +84,19 @@ public class PerkManager extends PerkData{
 	}
 	
 	public void removePlayer(Perk perk,Player player){
-		Bukkit.getPluginManager().callEvent(new PerkPlayerRemoveEvent(player,perk.getName()));
+		Bukkit.getPluginManager().callEvent(new PerkPlayerRemoveEvent(player,perk));
 		getPlayers().get(perk).remove(player);
 	}
 	
-	public void removePlayer(String perkString,Player player){
-		Bukkit.getPluginManager().callEvent(new PerkPlayerRemoveEvent(player,perkString));
-		for(Perk perk : getPlayers().keySet()){
-			if(perk.getName().equalsIgnoreCase(perkString)){
-				getPlayers().get(perk).remove(player);
-				break;
-			}
-		}
-	}
+//	public void removePlayer(String perkString,Player player){
+//		Bukkit.getPluginManager().callEvent(new PerkPlayerRemoveEvent(player,perkString));
+//		for(Perk perk : getPlayers().keySet()){
+//			if(perk.getName().equalsIgnoreCase(perkString)){
+//				getPlayers().get(perk).remove(player);
+//				break;
+//			}
+//		}
+//	}
 	
 	public boolean setPermission(String perkString,PermissionType permission){
 		for(Perk perk : getPlayers().keySet()){
@@ -117,7 +117,7 @@ public class PerkManager extends PerkData{
 	
 	public void addPlayer(Perk perk, Player player){
 		getPlayers().get(perk).add(player);
-		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player,perk.getName()));
+		Bukkit.getPluginManager().callEvent(new PerkPlayerAddEvent(player,perk));
 		
 	}
 	

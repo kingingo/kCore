@@ -33,14 +33,14 @@ public class PerkDoubleJump extends Perk{
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void join(PerkPlayerAddEvent ev){
-		if(getPerkData().hasPlayer(this, ev.getPlayer()) && (ev.getPerkString()==null||ev.getPerkString().equalsIgnoreCase(getName())) ){
+		if(getPerkData().hasPlayer(this, ev.getPlayer()) && (ev.getPerk()==null||ev.getPerk()==this) ){
 			UtilPlayer.addPotionEffect(ev.getPlayer(), typ, 999999,staerke);
 		}
 	}
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void join(PerkPlayerRemoveEvent ev){
-		if(getPerkData().hasPlayer(this, ev.getPlayer()) && (ev.getPerkString()==null||ev.getPerkString().equalsIgnoreCase(getName())) ){
+		if(getPerkData().hasPlayer(this, ev.getPlayer()) && (ev.getPerk()==null||ev.getPerk()==this) ){
 			ev.getPlayer().removePotionEffect(typ);
 		}
 	}
