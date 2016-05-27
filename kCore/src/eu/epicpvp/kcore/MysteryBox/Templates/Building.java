@@ -24,12 +24,12 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.regions.Region;
 
+import eu.epicpvp.kcore.Lists.BlockVectorComparable;
 import eu.epicpvp.kcore.MysteryBox.MysteryBoxManager;
 import eu.epicpvp.kcore.Util.UtilFile;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilParticle;
 import eu.epicpvp.kcore.Util.UtilWorldEdit;
-import eu.epicpvp.kcore.kListen.BlockVectorComparable;
 
 public class Building {
 	private ArrayList<BlockVector> blocks;

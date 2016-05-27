@@ -59,6 +59,7 @@ import eu.epicpvp.kcore.Kit.Perks.PerkSneakDamage;
 import eu.epicpvp.kcore.Kit.Perks.PerkSpawnByDeath;
 import eu.epicpvp.kcore.Kit.Perks.PerkStopPerk;
 import eu.epicpvp.kcore.Kit.Perks.PerkStrength;
+import eu.epicpvp.kcore.Lists.kSort;
 import eu.epicpvp.kcore.MysteryBox.Items.MysteryItem;
 import eu.epicpvp.kcore.Particle.ParticleShape;
 import eu.epicpvp.kcore.Particle.Cape.SupermanCape;
@@ -73,7 +74,6 @@ import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilServer;
-import eu.epicpvp.kcore.kListen.kSort;
 
 public class CommandMysteryBox implements CommandExecutor {
 
