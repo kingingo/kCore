@@ -16,17 +16,15 @@ import eu.epicpvp.kcore.kConfig.kConfig;
 public class CommandDelHome implements CommandExecutor{
 	
 	private UserDataConfig userData;
-	private Player player;
-	private kConfig config;
-	
+
 	public CommandDelHome(UserDataConfig userData){
 		this.userData=userData;
 	}
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "delhome", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
-		config = userData.getConfig(player);
+		Player player = (Player) sender;
+		kConfig config = userData.getConfig(player);
 		
 		if(args.length==0){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/delhome [Name]");

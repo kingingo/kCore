@@ -13,10 +13,10 @@ import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandBanned implements CommandExecutor{
 	
-	private MySQL mysql;
+//	private MySQL mysql;
 	
 	public CommandBanned(MySQL mysql){
-		this.mysql=mysql;
+//		this.mysql=mysql;
 	}
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "kban", sender = Sender.CONSOLE)

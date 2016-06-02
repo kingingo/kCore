@@ -18,7 +18,6 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandSocialspy extends kListener implements CommandExecutor{
 
-	private Player player;
 	private ArrayList<Player> list = new ArrayList<>();
 	
 	public CommandSocialspy(JavaPlugin instance) {
@@ -27,7 +26,7 @@ public class CommandSocialspy extends kListener implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "socialspy", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
+		Player player = (Player) sender;
 		if(args.length==0){
 			if(player.hasPermission(PermissionType.SOCIAL_SPY.getPermissionToString())){
 				if(list.contains(player)){
@@ -49,7 +48,7 @@ public class CommandSocialspy extends kListener implements CommandExecutor{
 	
 	@EventHandler
 	public void Quit(PlayerQuitEvent ev){
-		if(list.contains(ev.getPlayer()))list.remove(ev.getPlayer());
+		list.remove(ev.getPlayer());
 	}
 
 	

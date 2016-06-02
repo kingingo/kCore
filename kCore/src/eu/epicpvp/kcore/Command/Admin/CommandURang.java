@@ -15,10 +15,10 @@ import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandURang implements CommandExecutor{
 
-	private PermissionManager manager;
+//	private PermissionManager manager;
 	
 	public CommandURang(PermissionManager manager){
-		this.manager=manager;
+//		this.manager=manager;
 	}
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "urang", sender = Sender.CONSOLE)

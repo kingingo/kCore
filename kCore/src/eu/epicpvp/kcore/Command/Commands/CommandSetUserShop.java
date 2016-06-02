@@ -12,8 +12,7 @@ import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandSetUserShop implements CommandExecutor{
-	
-	private Player player;
+
 	private kConfig config;
 	
 	public CommandSetUserShop(kConfig config){
@@ -22,7 +21,7 @@ public class CommandSetUserShop implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "setusershop", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		
 		if(args.length==0){
 			if(UtilServer.getUserData().getConfig(player).contains("UserStores")){

@@ -18,11 +18,11 @@ public class CommandMemFix implements CommandExecutor{
 			
 			if(p.hasPermission(PermissionType.COMMAND_MEM.getPermissionToString())){
 				System.gc();
-				p.sendMessage(TranslationHandler.getText(p,"PREFIX")+"§aMemory Fix wurde durchgef§hrt!");
+				p.sendMessage(TranslationHandler.getText(p,"PREFIX")+"§aEs wurde versucht, den RAM-Verbrauch zu senken.");
 			}
 		}else{
 			System.gc();
-			System.out.println("[EpicPvP]: Memory Fix wurde durchgef§hrt!");
+			System.out.println("[ClashMC]: Es wurde versucht, den RAM-Verbrauch zu senken.");
 		}
 		return false;
 	}

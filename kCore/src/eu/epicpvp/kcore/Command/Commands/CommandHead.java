@@ -11,11 +11,9 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandHead implements CommandExecutor{
 
-	private Player player;
-	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "head",alias={"kopf","hat","hut"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
+		Player player = (Player) sender;
 			
 		if(player.hasPermission(PermissionType.HEAD.getPermissionToString())){
 			if(player.getItemInHand()!=null){

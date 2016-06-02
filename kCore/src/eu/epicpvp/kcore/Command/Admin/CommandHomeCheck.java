@@ -1,11 +1,13 @@
 package eu.epicpvp.kcore.Command.Admin;
 
 import java.io.File;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
 
+import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.Util.UtilNumber;
+import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.kConfig.kConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -13,29 +15,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.google.common.base.Charsets;
-
-import dev.wolveringer.client.LoadedPlayer;
-import dev.wolveringer.client.connection.ClientType;
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
-import dev.wolveringer.dataserver.protocoll.DataBuffer;
-import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.Action;
-import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.EditStats;
-import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
-import eu.epicpvp.kSkyblock.World.SkyBlockWorld;
-import eu.epicpvp.kSkyblock.World.Island.Island;
-import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.MySQL.MySQL;
-import eu.epicpvp.kcore.Permission.Group.GroupTyp;
-import eu.epicpvp.kcore.StatsManager.StatsManager;
-import eu.epicpvp.kcore.Translation.TranslationHandler;
-import eu.epicpvp.kcore.Util.UtilNumber;
-import eu.epicpvp.kcore.Util.UtilPlayer;
-import eu.epicpvp.kcore.Util.UtilReflection;
-import eu.epicpvp.kcore.Util.UtilServer;
-import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandHomeCheck implements CommandExecutor{
 	
@@ -61,7 +40,7 @@ public class CommandHomeCheck implements CommandExecutor{
 					@Override
 					public void run() {
 						ArrayList<kConfig> configs = new ArrayList<>();
-						File[] list = new File("plugins"+File.separator+instance.getPlugin(instance.getClass()).getName()+File.separator+"userdata").listFiles();
+						File[] list = new File(instance.getDataFolder(), "userdata").listFiles();
 						System.out.println("[HomeCheck] Load "+list.length+" files..");
 						
 						try {

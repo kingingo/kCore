@@ -13,12 +13,10 @@ import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandClearInventory implements CommandExecutor{
-	
-	private Player player;
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "clearinventory",alias={"ci"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		
 		if(player.hasPermission(PermissionType.CLEARINVENTORY.getPermissionToString())){
 			if(args.length==0){
@@ -29,7 +27,7 @@ public class CommandClearInventory implements CommandExecutor{
 				player.getInventory().setBoots(null);
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY"));
 			}else{
-				if(args[0].equalsIgnoreCase("all")&&player.hasPermission(PermissionType.CLEARINVENTORY_ALL.getPermissionToString())){
+				if(args[0].equalsIgnoreCase("all")&& player.hasPermission(PermissionType.CLEARINVENTORY_ALL.getPermissionToString())){
 					for(Player p : UtilServer.getPlayers()){
 						if(p.getName().equalsIgnoreCase(player.getName()))continue;
 						p.getInventory().clear();
@@ -37,7 +35,7 @@ public class CommandClearInventory implements CommandExecutor{
 						p.getInventory().setChestplate(null);
 						p.getInventory().setLeggings(null);
 						p.getInventory().setBoots(null);
-						p.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY_OTHER",player.getName()));
+						p.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY_OTHER", player.getName()));
 					}
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY_ALL"));
 				}else if(player.hasPermission(PermissionType.CLEARINVENTORY_OTHER.getPermissionToString())){
@@ -48,7 +46,7 @@ public class CommandClearInventory implements CommandExecutor{
 						Bukkit.getPlayer(args[0]).getInventory().setLeggings(null);
 						Bukkit.getPlayer(args[0]).getInventory().setBoots(null);
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY_FROM_OTHER",args[0]));
-						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY_OTHER",player.getName()));
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEARINVENTORY_OTHER", player.getName()));
 					}else{
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}

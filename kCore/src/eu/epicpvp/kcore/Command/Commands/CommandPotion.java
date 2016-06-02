@@ -21,17 +21,13 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilTime;
 
 public class CommandPotion implements CommandExecutor{
-	
-	private Player player;
-	private String s;
-	private Long l;
-	private String potions;
-	private HashMap<PotionEffectType,Potion> types;
+
+	private final String potions;
+	private final HashMap<PotionEffectType,Potion> types = new HashMap<>();
 	private PermissionManager manager;
 	
 	public CommandPotion(PermissionManager manager){
 		this.manager=manager;
-		this.types=new HashMap<>();
 		this.types.put(PotionEffectType.FIRE_RESISTANCE, new Potion(PotionType.FIRE_RESISTANCE, Tier.TWO, true));
 		this.types.put(PotionEffectType.HEAL, new Potion(PotionType.INSTANT_HEAL, Tier.TWO, true));
 		this.types.put(PotionEffectType.HARM, new Potion(PotionType.INSTANT_DAMAGE, Tier.TWO, true));
@@ -44,25 +40,25 @@ public class CommandPotion implements CommandExecutor{
 		this.types.put(PotionEffectType.SLOW, new Potion(PotionType.SLOWNESS, Tier.TWO, true));
 		this.types.put(PotionEffectType.NIGHT_VISION, new Potion(PotionType.NIGHT_VISION, Tier.TWO, true));
 		this.types.put(PotionEffectType.WEAKNESS, new Potion(PotionType.WEAKNESS, Tier.TWO, true));
-		this.potions="";
+		StringBuilder sb = new StringBuilder();
 		for(PotionEffectType type : types.keySet()){
-			this.potions+=type.getName()+",";
+			sb.append(type.getName()).append(", ");
 		}
 		
-		this.potions=potions.substring(0, potions.length()-1);
+		this.potions=sb.substring(0, sb.length() - 2);
 	}
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "potion", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		if(player.hasPermission(PermissionType.POTION.getPermissionToString())){
 			if(args.length==0){
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/potion [potion]");
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+potions);
 			}else{
-				s=UtilTime.getTimeManager().check(cmd.getName(), player);
-				if(s!=null){
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME",s));
+				String s = UtilTime.getTimeManager().check(cmd.getName(), player);
+				if(s !=null){
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME", s));
 				}else{
 					PotionEffectType mob = PotionEffectType.getByName(args[0]);
 					
@@ -97,8 +93,8 @@ public class CommandPotion implements CommandExecutor{
 						}
 					}
 
-					l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
-					if( l!=0 ){
+					Long l = UtilTime.getTimeManager().hasPermission(player, cmd.getName());
+					if( l !=0 ){
 						UtilTime.getTimeManager().add(cmd.getName(), player, l);
 					}
 					player.getInventory().addItem( this.types.get(mob).toItemStack(a) );

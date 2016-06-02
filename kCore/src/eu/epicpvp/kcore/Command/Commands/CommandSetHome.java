@@ -19,8 +19,6 @@ import eu.epicpvp.kcore.kConfig.kConfig;
 public class CommandSetHome implements CommandExecutor{
 	
 	private UserDataConfig userData;
-	private Player player;
-	private kConfig config;
 	private PermissionManager manager;
 	
 	public CommandSetHome(UserDataConfig userData,PermissionManager manager){
@@ -30,8 +28,8 @@ public class CommandSetHome implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "sethome", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
-		config = userData.getConfig(player);
+		Player player = (Player) sender;
+		kConfig config = userData.getConfig(player);
 		
 		if(args.length==0){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/sethome [Name]");
@@ -51,15 +49,15 @@ public class CommandSetHome implements CommandExecutor{
 					return false;
 				}
 				
-				if(a!=-1&&config.getPathList("homes").size()>=a){
+				if(a!=-1&& config.getPathList("homes").size()>=a){
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player,"HOME_MAX",String.valueOf(a)));
 					return false;
 				}
 				
-				PlayerSetHomeEvent ev = new PlayerSetHomeEvent(player,player.getLocation(),args[0]);
+				PlayerSetHomeEvent ev = new PlayerSetHomeEvent(player, player.getLocation(),args[0]);
 				Bukkit.getPluginManager().callEvent(ev);
 				if(ev.isCancelled()){
-					if(ev.getReason()!=null)player.sendMessage(TranslationHandler.getText(player, "PREFIX")+ev.getReason());
+					if(ev.getReason()!=null) player.sendMessage(TranslationHandler.getText(player, "PREFIX")+ev.getReason());
 					return false;
 				}
 				

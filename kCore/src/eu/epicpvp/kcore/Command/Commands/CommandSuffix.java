@@ -13,8 +13,6 @@ import eu.epicpvp.kcore.Util.Color;
 
 public class CommandSuffix implements CommandExecutor{
 
-	private Player player;
-	private String color;
 	private UserDataConfig userData;
 	
 	public CommandSuffix(UserDataConfig userData){
@@ -23,7 +21,7 @@ public class CommandSuffix implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "suffix", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
+		Player player = (Player) sender;
 		if(player.hasPermission(PermissionType.SUFFIX.getPermissionToString())){
 			if(args.length==0){
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/suffix &COLOR");
@@ -33,15 +31,15 @@ public class CommandSuffix implements CommandExecutor{
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SUFFIX_RESET"));
 					return true;
 				}else{
-					this.color = args[0];
+					String color = args[0];
 					
 					if(color.contains("&")){
-						this.color=this.color.replaceAll("&", "§");
+						color = color.replaceAll("&", "§");
 						
-						if(this.color.length()>=2){
-							if(this.color.length()<=10){
-								if(Color.isColor(this.color)){
-									this.userData.getConfig(player).set("Chat.Suffix", this.color);
+						if(color.length()>=2){
+							if(color.length()<=10){
+								if(Color.isColor(color)){
+									this.userData.getConfig(player).set("Chat.Suffix", color);
 									player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SUFFIX_SAVE"));
 									return true;
 								}else{

@@ -3,28 +3,25 @@ package eu.epicpvp.kcore.Command.Commands;
 import java.io.File;
 import java.util.Map;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.TeleportManager.TeleportManager;
 import eu.epicpvp.kcore.TeleportManager.Teleporter;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.kConfig.kConfig;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class CommandUserShop implements CommandExecutor{
-	
-	private Player player;
+
 	private kConfig config;
-	private Map<String, Object> list;
 	private TeleportManager teleport;
 	
 	public CommandUserShop(TeleportManager teleport){
-		this.config=new kConfig(new File("plugins"+File.separator+teleport.getPermManager().getInstance().getPlugin(teleport.getPermManager().getInstance().getClass()).getName()+File.separator+"shops.yml"));
+		this.config=new kConfig(new File(teleport.getPermManager().getInstance().getDataFolder(), "shops.yml"));
 		this.teleport=teleport;
 		teleport.getCmd().register(CommandDelUserShop.class, new CommandDelUserShop(config));
 		teleport.getCmd().register(CommandSetUserShop.class, new CommandSetUserShop(config));
@@ -32,15 +29,15 @@ public class CommandUserShop implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "usershop", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		
 		if(args.length==0){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/usershop [Name]");
 			if(player.hasPermission(PermissionType.WARP_LIST.getPermissionToString())){
-				String warps = "";
-				list = config.getPathList("shops");
-				for(String s : list.keySet())warps+=s+",";
-				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+ (warps.equalsIgnoreCase("") ? TranslationHandler.getText(player, "WARPS_EMPTY") : "Shops: "+warps.substring(0,warps.length()-1)) );
+				StringBuilder sb = new StringBuilder();
+				Map<String, Object> list = config.getPathList("shops");
+				for(String s : list.keySet())sb.append(s).append(", ");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX") + (sb.length() == 0 ? TranslationHandler.getText(player, "WARPS_EMPTY") : "Shops: " + sb.substring(0, sb.length() - 2)));
 			}
 		}else{
 			if(config.isSet("shops."+args[0].toLowerCase())){

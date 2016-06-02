@@ -14,9 +14,6 @@ import eu.epicpvp.kcore.Util.UtilTime;
 
 public class CommandkSpawn implements CommandExecutor{
 
-	private String s;
-	private Long l;
-	private Player p;
 	private AntiLogoutManager manager;
 	
 	public CommandkSpawn(AntiLogoutManager manager){
@@ -25,17 +22,17 @@ public class CommandkSpawn implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "kspawn", alias = {"ksp"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd,String arg2,String[] args) {
-		p = (Player)cs;
+		Player p = (Player) cs;
 		if(args.length==0){
 			if(p.hasPermission(PermissionType.KSPAWN.getPermissionToString())){
-				s=UtilTime.getTimeManager().check(cmd.getName(), p);
-				if(s!=null){
-					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "USE_BEFEHL_TIME",s));
+				String s = UtilTime.getTimeManager().check(cmd.getName(), p);
+				if(s !=null){
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "USE_BEFEHL_TIME", s));
 				}else{
 					if(manager!=null)manager.del(p);
 					p.teleport(Bukkit.getWorld("world").getSpawnLocation());
-					l=UtilTime.getTimeManager().hasPermission(p, cmd.getName());
-					if( l!=0 ){
+					Long l = UtilTime.getTimeManager().hasPermission(p, cmd.getName());
+					if( l !=0 ){
 						UtilTime.getTimeManager().add(cmd.getName(), p, l);
 					}
 				}

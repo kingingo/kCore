@@ -15,12 +15,13 @@ public class CommandPing implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "ping", alias={"kping"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
+		Player plr = (Player) sender;
 		if(args.length==0){
-			((Player)sender).sendMessage(TranslationHandler.getText(((Player)sender), "PREFIX")+"Player-Ping: §e"+UtilPlayer.getPlayerPing(((Player)sender))+"§7 Server-TPS: §e"+(int)UtilServer.getLagMeter().getTicksPerSecond());
+			sender.sendMessage(TranslationHandler.getText(plr, "PREFIX")+"Player-Ping: §e"+UtilPlayer.getPlayerPing(plr)+"§7 Server-TPS: §e"+(int)UtilServer.getLagMeter().getTicksPerSecond());
 		}else{
-			if(((Player)sender).isOp()){
+			if(sender.isOp()){
 				if(UtilPlayer.isOnline(args[0])){
-					((Player)sender).sendMessage(TranslationHandler.getText(((Player)sender), "PREFIX")+args[0]+"-Ping: §e"+UtilPlayer.getPlayerPing(Bukkit.getPlayer(args[0]))+"§7 Server-TPS: §e"+(int)UtilServer.getLagMeter().getTicksPerSecond());
+					sender.sendMessage(TranslationHandler.getText(plr, "PREFIX")+args[0]+"-Ping: §e"+UtilPlayer.getPlayerPing(Bukkit.getPlayer(args[0]))+"§7 Server-TPS: §e"+(int)UtilServer.getLagMeter().getTicksPerSecond());
 				}
 			}
 		}

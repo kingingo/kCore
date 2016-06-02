@@ -19,26 +19,24 @@ import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandInvsee extends kListener implements CommandExecutor{
 	
-	private MySQL mysql;
+//	private MySQL mysql;
 	
 	public CommandInvsee(MySQL mysql) {
 		super(mysql.getInstance(), "CommandInvsee");
-		this.mysql=mysql;
+//		this.mysql=mysql;
 	}
 
-	private Player player;
-	private Player target;
-	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "invsee",alias={"bodysee","open","openinv","openbody"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		
 		if(args.length==0){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/invsee [Name]");
 		}else{
 			if(player.hasPermission(PermissionType.INVSEE.getPermissionToString())){
+				Player target;
 				if(UtilPlayer.isOnline(args[0])){
-					target=Bukkit.getPlayer(args[0]);
+					target =Bukkit.getPlayer(args[0]);
 
 					if(player.hasPermission(PermissionType.INVSEE_BODY.getPermissionToString())){
 						player.openInventory( new InventoryPlayer(target).getInventory() );
@@ -51,7 +49,7 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 					if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 						target = UtilPlayer.loadPlayer(args[0]);
 						
-						if(target!=null){
+						if(target !=null){
 							if(player.hasPermission(PermissionType.INVSEE_BODY.getPermissionToString())){
 								player.openInventory( new InventoryPlayer(target).getInventory() );
 							}else{
@@ -70,9 +68,9 @@ public class CommandInvsee extends kListener implements CommandExecutor{
 	
 	@EventHandler
 	public void Click(InventoryClickEvent ev){
-		if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
+		if (ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
 		if(ev.getInventory() instanceof PlayerInventory){
-			if(! ((Player)ev.getWhoClicked()).hasPermission(PermissionType.INVSEE_CLICK.getPermissionToString()) ){
+			if(!ev.getWhoClicked().hasPermission(PermissionType.INVSEE_CLICK.getPermissionToString()) ){
 				ev.setCancelled(true);
 			}
 		}

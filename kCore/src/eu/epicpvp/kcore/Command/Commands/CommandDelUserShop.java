@@ -10,8 +10,7 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandDelUserShop implements CommandExecutor{
-	
-	private Player player;
+
 	private kConfig config;
 	
 	public CommandDelUserShop(kConfig config){
@@ -20,11 +19,11 @@ public class CommandDelUserShop implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "delusershop", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		
 		if(args.length==0){
-			if(config.isSet("shops."+player.getName().toLowerCase())){
-				config.set("shops."+player.getName().toLowerCase(), null);
+			if(config.isSet("shops."+ player.getName().toLowerCase())){
+				config.set("shops."+ player.getName().toLowerCase(), null);
 				config.save();
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "SHOP_DEL"));
 			}else{

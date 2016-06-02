@@ -17,8 +17,7 @@ import eu.epicpvp.kcore.Permission.PermissionType;
 
 public class CommandBack extends kListener implements CommandExecutor{
 
-	private Player player;
-	private HashMap<Player,Location> last = new HashMap<>();
+	private HashMap<Player, Location> last = new HashMap<>();
 	
 	public CommandBack(JavaPlugin instance) {
 		super(instance, "CommandBack");
@@ -26,9 +25,9 @@ public class CommandBack extends kListener implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "back", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
-		if(args.length==0&&player.hasPermission(PermissionType.BACK.getPermissionToString())){
-			if(last.containsKey(player))player.teleport(last.get(player));
+		Player player = (Player) sender;
+		if(args.length==0&& player.hasPermission(PermissionType.BACK.getPermissionToString())){
+			if(last.containsKey(player)) player.teleport(last.get(player));
 		}
 		return false;
 	}

@@ -13,11 +13,9 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandFill implements CommandExecutor{
 
-	private Player player;
-	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "kfill", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
+		Player player = (Player) sender;
 			
 		if(player.hasPermission(PermissionType.FILL.getPermissionToString())){
 			if(args.length==0){

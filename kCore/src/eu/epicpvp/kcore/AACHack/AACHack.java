@@ -78,7 +78,7 @@ public class AACHack extends kListener{
 	public void onPlayerViolationKick(PlayerViolationCommandEvent ev){
 		if(ev.getCommand().contains("kick")){
 			if(!ev.isCancelled()){
-				getMysql().Update("INSERT INTO AAC_HACK (playerId,ip,server,hackType,violations) VALUES ('"+UtilPlayer.getPlayerId(ev.getPlayer())+"','"+ev.getPlayer().getAddress().getAddress().getHostAddress()+"','"+server+"','"+ev.getHackType().getName()+"','0');");
+				getMysql().Update("INSERT INTO AAC_HACK (playerId,ip,server,hackType,violations) VALUES ('" + UtilPlayer.getPlayerId(ev.getPlayer()) + "','" + ev.getPlayer().getAddress().getAddress().getHostAddress() + "','" + server + "','" + ev.getHackType().getName() + "','0');");
 				
 				if(getAntiLogoutManager()!=null&&ev.getHackType()!=HackType.SPAM)getAntiLogoutManager().del(ev.getPlayer());
 				
@@ -92,9 +92,9 @@ public class AACHack extends kListener{
 					if (hackType == HackType.KILLAURA) { //they're similar hacks
 						hackType = HackType.FORCEFIELD;
 					}
-					UtilServer.getClient().broadcastMessage("report.alert", "§aDas §eAntiHackSystem §ahat den Spieler §e"+ev.getPlayer().getName()+" §awegen §6"+ev.getHackType().getName()+" §areportet!");
+					UtilServer.getClient().broadcastMessage("report.alert", "§aDas §eAntiHackSystem §ahat den Spieler §e" + ev.getPlayer().getName() + " §awegen §6" + ev.getHackType().getName() + " §areportet!");
 
-					anzahl=getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='"+ hackType.getName()+"' AND playerId='"+UtilPlayer.getPlayerId(ev.getPlayer())+"'");
+					anzahl=getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='" + hackType.getName() + "' AND playerId='" + UtilPlayer.getPlayerId(ev.getPlayer()) + "'");
 					
 					if(anzahl>=5){
 						String type="";
@@ -113,7 +113,7 @@ public class AACHack extends kListener{
 						setZeitBan(ev.getPlayer(), a, type, ev.getHackType().getName());
 						ev.setCancelled(true);
 					}else{
-						if(createReport)UtilServer.getClient().createReport(UtilServer.getClient().getPlayerAndLoad("DasAntiHackSystem").getPlayerId(), UtilPlayer.getPlayerId(ev.getPlayer()), ev.getHackType().getName(), "Player Ping:"+UtilPlayer.getPlayerPing(ev.getPlayer()));
+						if(createReport)UtilServer.getClient().createReport(UtilServer.getClient().getPlayerAndLoad("DasAntiHackSystem").getPlayerId(), UtilPlayer.getPlayerId(ev.getPlayer()), ev.getHackType().getName(), "Player Ping: " + AACAPIProvider.getAPI().getPing(ev.getPlayer()));
 					}
 				}
 			}

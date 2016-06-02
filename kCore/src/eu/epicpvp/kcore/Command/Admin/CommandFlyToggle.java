@@ -1,17 +1,14 @@
 package eu.epicpvp.kcore.Command.Admin;
 
+import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilServer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
-
-import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.Translation.TranslationHandler;
-import eu.epicpvp.kcore.Util.UtilPlayer;
-import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandFlyToggle implements CommandExecutor{
 	
@@ -22,10 +19,6 @@ public class CommandFlyToggle implements CommandExecutor{
 			if(UtilPlayer.isFly()){
 				UtilPlayer.setFly(false);
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aFly wurde deaktviert");
-			}else{
-				UtilPlayer.setFly(true);
-				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cFly wurde aktviert");
-				
 				for(Player p : UtilServer.getPlayers()){
 					if(!p.isOp() && p.isFlying()){
 						p.setFlying(false);
@@ -33,6 +26,9 @@ public class CommandFlyToggle implements CommandExecutor{
 						p.removePotionEffect(PotionEffectType.JUMP);
 					}
 				}
+			}else{
+				UtilPlayer.setFly(true);
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cFly wurde aktviert");
 			}
 		}
 		return false;

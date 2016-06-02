@@ -25,7 +25,6 @@ import lombok.Setter;
 public class CommandSpawn extends kListener implements CommandExecutor{
 	
 	private TeleportManager teleport;
-	private Player player;
 	@Setter
 	@Getter
 	private Location spawn;
@@ -34,7 +33,7 @@ public class CommandSpawn extends kListener implements CommandExecutor{
 	public CommandSpawn(TeleportManager teleport){
 		super(teleport.getPermManager().getInstance(),"CommandSpawn");
 		this.teleport=teleport;
-		this.config=new kConfig(new File("plugins"+File.separator+teleport.getPermManager().getInstance().getPlugin(teleport.getPermManager().getInstance().getClass()).getName()+File.separator+"spawn.yml"));
+		this.config=new kConfig(new File(teleport.getPermManager().getInstance().getDataFolder(), "spawn.yml"));
 		if(config.getString("spawn.world")!=null&&Bukkit.getWorld(config.getString("spawn.world"))!=null){
 			if(config.isSet("spawn")){
 				spawn=config.getLocation("spawn");
@@ -67,7 +66,7 @@ public class CommandSpawn extends kListener implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "spawn", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		if(player.hasPermission(PermissionType.SPAWN_IGNORE_DELAY.getPermissionToString())){
 			player.teleport(spawn,TeleportCause.PLUGIN);
 		}else{

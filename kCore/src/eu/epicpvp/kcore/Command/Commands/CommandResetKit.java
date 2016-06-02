@@ -13,11 +13,9 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandResetKit implements CommandExecutor{
 
-	private Player player;
-	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "resetkit", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
+		Player player = (Player) sender;
 		
 		if(player.hasPermission(PermissionType.KIT_RESET.getPermissionToString())){
 			if(args.length==0){

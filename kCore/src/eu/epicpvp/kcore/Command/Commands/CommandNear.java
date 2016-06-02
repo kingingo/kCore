@@ -31,7 +31,7 @@ public class CommandNear implements CommandExecutor{
 
 			if(!list.isEmpty()){
 				for(Map.Entry<Double, Player> entry : list.entrySet()){
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NEAR_FIND",new String[]{entry.getValue().getName(), String.valueOf(entry.getKey())}));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NEAR_FIND", entry.getValue().getName(), String.valueOf(entry.getKey())));
 				}
 				list.clear();
 			}else{

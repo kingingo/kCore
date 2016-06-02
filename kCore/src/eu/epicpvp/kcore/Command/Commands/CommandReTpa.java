@@ -14,15 +14,14 @@ public class CommandReTpa implements CommandExecutor{
 	
 	@Getter
 	private TeleportManager manager;
-	private Player player;
-	
+
 	public CommandReTpa(TeleportManager manager){
 		this.manager=manager;
 	}
 
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "retpa", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
-		player = (Player)cs;
+		Player player = (Player) cs;
 		if(getManager().getTeleport_anfrage().containsKey(player)){
 			getManager().getTeleport_anfrage().remove(player);
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEAR"));

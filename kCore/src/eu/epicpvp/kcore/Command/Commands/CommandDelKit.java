@@ -14,7 +14,6 @@ import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandDelKit implements CommandExecutor{
 
-	private Player player;
 	private kConfig config;
 	
 	public CommandDelKit(kConfig config){
@@ -23,7 +22,7 @@ public class CommandDelKit implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "delkit", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
+		Player player = (Player) sender;
 		
 		if(player.hasPermission(PermissionType.KIT_SET.getPermissionToString())){
 			if(args.length==0){

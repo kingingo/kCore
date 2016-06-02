@@ -1,5 +1,6 @@
 package eu.epicpvp.kcore.Command.Admin;
 
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,42 +25,43 @@ public class CommandAdminStats  implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(sender instanceof Player){
 			Player player = (Player)sender;
+
+			if (!player.isOp()) {
+				return true;
+			}
+			if (args.length==0) {
+				sender.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/adminstats [Player]");
+				return true;
+			}
+			String spieler = args[0];
 			
-			if(player.isOp()){
-				if(args.length==0){
-					System.out.println("[EpicPvP:] /adminstats [Player]");
+			if(args.length==1){
+				if(!UtilPlayer.isOnline(spieler)){
+					statsManager.loadPlayer(spieler, new Callback<Integer>() {
+						
+						@Override
+						public void call(Integer playerId) {
+							callAllStats(player,playerId);
+						}
+					});
 				}else{
-					String spieler = args[0];
+					callAllStats(player,UtilPlayer.getPlayerId(Bukkit.getPlayer(spieler)));
+				}
+			}else{
+				if(args[2].equalsIgnoreCase("set")){
+					StatsKey key = StatsKey.valueOf(args[3]);
+					String value = args[4];
 					
-					if(args.length==1){
-						if(!UtilPlayer.isOnline(spieler)){
-							statsManager.loadPlayer(spieler, new Callback<Integer>() {
-								
-								@Override
-								public void call(Integer playerId) {
-									callAllStats(player,playerId);
-								}
-							});
-						}else{
-							callAllStats(player,UtilPlayer.getPlayerId(Bukkit.getPlayer(spieler)));
-						}
-					}else{
-						if(args[2].equalsIgnoreCase("set")){
-							StatsKey key = StatsKey.valueOf(args[3]);
-							String value = args[4];
+					if(!UtilPlayer.isOnline(spieler)){
+						statsManager.loadPlayer(spieler, new Callback<Integer>() {
 							
-							if(!UtilPlayer.isOnline(spieler)){
-								statsManager.loadPlayer(spieler, new Callback<Integer>() {
-									
-									@Override
-									public void call(Integer playerId) {
-										set(player, playerId, key, value);
-									}
-								});
-							}else{
-								set(player, UtilPlayer.getPlayerId(Bukkit.getPlayer(spieler)), key, value);
+							@Override
+							public void call(Integer playerId) {
+								set(player, playerId, key, value);
 							}
-						}
+						});
+					}else{
+						set(player, UtilPlayer.getPlayerId(Bukkit.getPlayer(spieler)), key, value);
 					}
 				}
 			}

@@ -15,22 +15,21 @@ public class CommandTpdeny implements CommandExecutor{
 	
 	@Getter
 	private TeleportManager manager;
-	private Player player;
-	
+
 	public CommandTpdeny(TeleportManager manager){
 		this.manager=manager;
 	}
 
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "tpdeny",alias={"tpno"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
-		player = (Player)cs;
+		Player player = (Player) cs;
 		if(getManager().getPermManager().hasPermission(player, PermissionType.PLAYER_TELEPORT_ACCEPT)){
 			if(getManager().getTeleport_anfrage().containsKey(player)){
 				if(getManager().getTeleport_anfrage().get(player).getTo()!=null&&!getManager().getTeleport_anfrage().get(player).getTo().getName().equalsIgnoreCase(player.getName())){
-					getManager().getTeleport_anfrage().get(player).getTo().sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "DENY_FROM",player.getName()));
+					getManager().getTeleport_anfrage().get(player).getTo().sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "DENY_FROM", player.getName()));
 				}
 				if(getManager().getTeleport_anfrage().get(player).getFrom()!=null&&!getManager().getTeleport_anfrage().get(player).getFrom().getName().equalsIgnoreCase(player.getName())){
-					getManager().getTeleport_anfrage().get(player).getFrom().sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "DENY_FROM",player.getName()));
+					getManager().getTeleport_anfrage().get(player).getFrom().sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "DENY_FROM", player.getName()));
 				}
 				getManager().getTeleport_anfrage().remove(player);
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "DENY"));

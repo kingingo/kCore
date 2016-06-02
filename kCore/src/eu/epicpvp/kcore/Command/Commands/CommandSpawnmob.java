@@ -14,24 +14,21 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilTime;
 
 public class CommandSpawnmob implements CommandExecutor{
-	
-	private Player player;
-	private String s;
-	private Long l;
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "spawnmob", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		if(player.hasPermission(PermissionType.SPAWNMOB.getPermissionToString())){
 			if(args.length==0){
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/spawnmob [Mob] [Anzahl]");
-				String s = TranslationHandler.getText(player, "PREFIX")+"";
-				for(Mob mob : Mob.values())s+=mob.name()+",";
-				player.sendMessage(s.substring(0, s.length()-1));
+				StringBuilder sb = new StringBuilder();
+				sb.append(TranslationHandler.getText(player, "PREFIX"));
+				for(Mob mob : Mob.values())sb.append(mob.name()).append(", ");
+				player.sendMessage(sb.substring(0, sb.length()-2));
 			}else{
-				s=UtilTime.getTimeManager().check(cmd.getName(), player);
-				if(s!=null){
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME",s));
+				String s = UtilTime.getTimeManager().check(cmd.getName(), player);
+				if(s !=null){
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME", s));
 				}else{
 					Mob mob = Mob.fromName(args[0]);
 					
@@ -48,7 +45,7 @@ public class CommandSpawnmob implements CommandExecutor{
 					
 					int a = 10;
 					
-					if(args.length==2&&player.hasPermission(PermissionType.SPAWNMOB_ALL.getPermissionToString())){
+					if(args.length==2&& player.hasPermission(PermissionType.SPAWNMOB_ALL.getPermissionToString())){
 						try{
 							a=Integer.valueOf(args[1]);
 						}catch(NumberFormatException e){
@@ -57,8 +54,8 @@ public class CommandSpawnmob implements CommandExecutor{
 						}
 					}
 
-					l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
-					if( l!=0 ){
+					Long l = UtilTime.getTimeManager().hasPermission(player, cmd.getName());
+					if( l !=0 ){
 						UtilTime.getTimeManager().add(cmd.getName(), player, l);
 					}
 					

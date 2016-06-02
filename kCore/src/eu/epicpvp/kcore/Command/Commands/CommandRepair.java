@@ -14,23 +14,19 @@ import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilTime;
 
 public class CommandRepair implements CommandExecutor{
-	
-	private Player player;
-	private String s;
-	private Long l;
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "repair",alias={"rp","fix","ifix"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		if(player.hasPermission(PermissionType.REPAIR.getPermissionToString())){
-			
-			s=UtilTime.getTimeManager().check(cmd.getName(), player);
-			if(s!=null){
-				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME",s));
+
+			String s = UtilTime.getTimeManager().check(cmd.getName(), player);
+			if(s !=null){
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME", s));
 			}else{
-				
-				l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
-				if( l!=0 ){
+
+				Long l = UtilTime.getTimeManager().hasPermission(player, cmd.getName());
+				if( l !=0 ){
 					UtilTime.getTimeManager().add(cmd.getName(), player, l);
 				}
 				
@@ -53,7 +49,7 @@ public class CommandRepair implements CommandExecutor{
 						if(player.hasPermission(PermissionType.REPAIR_ALL_PLAYERS.getPermissionToString())){
 							for(Player p : UtilServer.getPlayers()){
 								UtilInv.repairInventory(p, true);
-								p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "REPAIR_ALL_BY",new String[]{player.getName()}));
+								p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "REPAIR_ALL_BY", player.getName()));
 							}
 						}
 					}

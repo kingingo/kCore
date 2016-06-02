@@ -1,5 +1,6 @@
 package eu.epicpvp.kcore.Command.Admin;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,14 +36,13 @@ public class CommandBroadcast implements CommandExecutor{
 	
 	public void broadcast(String[] args){
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < args.length; i++) {
-			sb.append(args[i]);
-			sb.append(" ");
+		for (String arg : args) {
+			sb.append(arg).append(' ');
 		}
 		sb.setLength(sb.length() - 1);
 		String msg = sb.toString();
 		
-		UtilServer.broadcast(msg.replaceAll("&", "§"));
+		UtilServer.broadcast(ChatColor.translateAlternateColorCodes('&', msg));
 	}
 	
 }

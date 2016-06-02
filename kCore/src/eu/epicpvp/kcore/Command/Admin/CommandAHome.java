@@ -24,46 +24,42 @@ import eu.epicpvp.kcore.kConfig.kConfig;
 public class CommandAHome implements CommandExecutor{
 	
 	private CommandHome cmdHome;
-	private Player player;
-	private kConfig config;
-	private Map<String, Object> list;
-	private Location home;
-	
+
 	public CommandAHome(CommandHome cmdHome){
 		this.cmdHome=cmdHome;
 	}
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "ahome", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
-		config=null;
+		Player player = (Player) sender;
+		kConfig config = null;
 		
 		if(player.hasPermission(PermissionType.HOME_ADMIN.getPermissionToString())){
 			if(args.length==0){
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/ahome [Player] [Home]");
 			}else{
 				if(UtilPlayer.isOnline(args[0])){
-					config=cmdHome.getUserData().getConfig( Bukkit.getPlayer(args[0]) );
+					config =cmdHome.getUserData().getConfig( Bukkit.getPlayer(args[0]) );
 					
 				}else{
 					player.sendMessage(TranslationHandler.getText(player,"PREFIX")+TranslationHandler.getText(player,"PLAYER_IS_OFFLINE",args[0]));
 					LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(args[0]);
-					config=cmdHome.getUserData().loadConfig(loadedplayer.getPlayerId());
+					config =cmdHome.getUserData().loadConfig(loadedplayer.getPlayerId());
 				}
 				
-				if(config==null)return false;
+				if(config ==null)return false;
 				if(args.length==1){
 					String homes = "";
-					list = config.getPathList("homes");
+					Map<String, Object> list = config.getPathList("homes");
 					for(String s : list.keySet())homes+=s+",";
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+ (homes.equalsIgnoreCase("") ? TranslationHandler.getText(player,"HOMES_EMPTY") : args[0]+" Homes: "+homes.substring(0,homes.length()-1)) );	
 				}else{
 					if(config.isSet("homes."+args[1])){
-						home = config.getLocation("homes."+args[1]);
+						Location home = config.getLocation("homes." + args[1]);
 						PlayerHomeEvent ev = new PlayerHomeEvent(player, home,args[1], config);
 						Bukkit.getPluginManager().callEvent(ev);
 						if(ev.isCancelled()){
-							if(ev.getReason()!=null)player.sendMessage(TranslationHandler.getText(player, "PREFIX")+ev.getReason());
+							if(ev.getReason()!=null) player.sendMessage(TranslationHandler.getText(player, "PREFIX")+ev.getReason());
 							return false;
 						}
 						
@@ -71,7 +67,7 @@ public class CommandAHome implements CommandExecutor{
 							player.teleport(home,TeleportCause.PLUGIN);
 							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "TELEPORT"));
 						}else{
-							cmdHome.getTeleport().getTeleport().add(new Teleporter(player,home,5));
+							cmdHome.getTeleport().getTeleport().add(new Teleporter(player, home,5));
 						}
 					}else{
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HOME_EXIST"));

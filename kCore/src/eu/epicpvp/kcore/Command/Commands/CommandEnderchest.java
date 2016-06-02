@@ -19,18 +19,16 @@ import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandEnderchest extends kListener implements CommandExecutor{
 
-	private Player player;
-	private Player target;
-	private MySQL mysql;
+//	private MySQL mysql;
 	
 	public CommandEnderchest(MySQL mysql) {
 		super(mysql.getInstance(), "CommandEnderchest");
-		this.mysql=mysql;
+//		this.mysql=mysql;
 	}
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "enderchest", alias = {"endersee","echest","esee"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		
 		if(player.hasPermission(PermissionType.ENDERCHEST_ADDON.getPermissionToString())&&!player.hasPermission(PermissionType.ENDERCHEST_USE.getPermissionToString()))return false;
 		
@@ -40,18 +38,19 @@ public class CommandEnderchest extends kListener implements CommandExecutor{
 			}
 		}else{
 			if(player.hasPermission(PermissionType.ENDERCHEST_OTHER.getPermissionToString())){
+				Player target;
 				if(UtilPlayer.isOnline(args[0])){
-					target=Bukkit.getPlayer(args[0]);
+					target =Bukkit.getPlayer(args[0]);
 					player.openInventory(target.getEnderChest());
 				}else{
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					
 					if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
 						LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(args[0]);
-						target=null;
+						target =null;
 						target = UtilPlayer.loadPlayer(loadedplayer.getUUID());
 						
-						if(target!=null){
+						if(target !=null){
 							player.openInventory(target.getEnderChest());
 						}else{
 							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cnicht gefunden!");

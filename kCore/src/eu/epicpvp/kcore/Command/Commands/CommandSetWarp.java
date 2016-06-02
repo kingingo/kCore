@@ -12,8 +12,7 @@ import eu.epicpvp.kcore.Util.UtilString;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandSetWarp implements CommandExecutor{
-	
-	private Player player;
+
 	private kConfig config;
 	
 	public CommandSetWarp(kConfig config){
@@ -22,7 +21,7 @@ public class CommandSetWarp implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "setwarp", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		
 		if(args.length==0){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/setwarp [Name]");

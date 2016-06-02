@@ -24,82 +24,107 @@ public class CommandToggle extends kListener implements CommandExecutor{
 	long online;
 	
 	public CommandToggle(JavaPlugin instance){
-		super(instance,"Toggle");
-		this.online=System.currentTimeMillis();
+		super(instance, "PluginManager");
+		this.online = System.currentTimeMillis();
 	}
 	
-	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "toggle", sender = Sender.PLAYER)
-	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
+	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "pluginmanager", sender = Sender.PLAYER, alias = {"plugman", "toggle"})
+	public boolean onCommand(CommandSender cs, Command cmd, String alias,String[] args) {
 		if(cs instanceof Player){
 			Player p = (Player)cs;
 			if(p.hasPermission(PermissionType.COMMAND_TOGGLE.getPermissionToString())){
-				if(args.length == 0){
-					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§a/toggle [Plugin]");
+				if (args.length == 0) {
+					sendHelp(p, alias);
 					return false;
-				}else if(args[0].equalsIgnoreCase("list")){
-					String list = "";
-					Plugin[] plugins = Bukkit.getPluginManager().getPlugins();
-					
-					for(Plugin pl: plugins){
+				} else if(args[0].equalsIgnoreCase("list")){
+					StringBuilder sb = new StringBuilder();
+					for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
 						if(pl.isEnabled()){
-							list = list + "§a" + pl.getName() + "§7,";
+							sb.append("§a");
 						}else{
-							list = list + "§c" + pl.getName() + "§7,";
+							sb.append("§c");
 						}
+						sb.append(pl.getName()).append("§7, ");
 					}
-					
-					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§aPlugins §7: " + list);
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§7Plugins: " + sb.substring(0, sb.length() - 4));
 					return false;
-				}else if(args[0].equalsIgnoreCase("load")){
-					File pl = new File(args[1]);
-					try {
-						Bukkit.getPluginManager().loadPlugin(pl);
-					} catch (UnknownDependencyException e) {
-						System.err.println(e);
-						e.printStackTrace();
-					} catch (InvalidPluginException e) {
-						System.err.println(e);
-						e.printStackTrace();
-					} catch (InvalidDescriptionException e) {
-						System.err.println(e);
-						e.printStackTrace();
-					}
-					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDas Plugin wurde geladen!");
-				}else if(args.length == 1){
-					
-					boolean on = false;
-					for(Plugin l: Bukkit.getPluginManager().getPlugins()){
-						if(l.getName().equals(args[0])){
-							on = true;
+				} else if (args.length >= 2) {
+					if (args[0].equalsIgnoreCase("load")) {
+						File pluginFile = new File(args[1]);
+						if (!pluginFile.exists() || !pluginFile.isFile()) {
+							cs.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDie Datei §6" + args[1] + "§c konnte nicht gefunden werden!");
+							return true;
 						}
-					}
-					
-					if(on){
+						try {
+							Plugin loadedPlugin = Bukkit.getPluginManager().loadPlugin(pluginFile);
+							if (loadedPlugin == null) {
+								cs.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDatei ungültig: §6" + args[1]);
+							} else {
+								p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§7Das Plugin §6" + loadedPlugin.getName() + "§7 wurde §ageladen§7!");
+							}
+						} catch (UnknownDependencyException | InvalidPluginException | InvalidDescriptionException e) {
+							e.printStackTrace();
+							p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDas Plugin konnte nicht geladen werden: §6" + e.getLocalizedMessage());
+						}
+					} else if (args[0].equalsIgnoreCase("toggle")) {
 						Plugin pl = Bukkit.getPluginManager().getPlugin(args[0]);
-					if(pl.getName().equalsIgnoreCase("kHub")||pl.getName().equalsIgnoreCase("kSkyBlock")||pl.getName().equalsIgnoreCase("kCore")||pl.getName().equalsIgnoreCase("kPvP")||pl.getName().equalsIgnoreCase("kArcade")||pl.getName().equalsIgnoreCase("kWarZ")){
-						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDu kannst das Plugin nicht Disablen!");
+						if (pl == null) {
+							pl = findPlugin(args[0]);
+						}
+						if (pl == null) {
+							cs.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDas Plugin §6" + args[0] + "§c konnte nicht gefunden werden.");
+							return true;
+						}
+						String plName = pl.getName();
+						if (plName.equalsIgnoreCase("kHub") || plName.equalsIgnoreCase("kSkyBlock") || plName.equalsIgnoreCase("kCore") || plName.equalsIgnoreCase("kPvP")
+								|| plName.equalsIgnoreCase("kArcade") || plName.equalsIgnoreCase("WarZ")) {
+							p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDu kannst dieses Plugin nicht ausschalten!");
+							return false;
+						}
+
+						if (pl.isEnabled()) {
+							try {
+								Bukkit.getPluginManager().disablePlugin(pl);
+								p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§7Das Plugin §6" + plName + "§7 wurde §causgeschaltet§7!");
+							} catch (Exception ex) {
+								p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cFehler beim Ausschalten des Plugins §6" + plName + "§c: §6" + ex.getLocalizedMessage());
+							}
+						} else {
+							if (pl.getName().equalsIgnoreCase("logblock") || (args.length >= 3 && args[2].equalsIgnoreCase("onLoad"))) {
+								pl.onLoad();
+							}
+							try {
+								Bukkit.getPluginManager().enablePlugin(pl);
+								p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§7Das Plugin §6" + plName + "§7 wurde §aeingeschaltet§7!");
+							} catch (Exception ex) {
+								p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cFehler beim Einschalten des Plugins §6" + plName + "§c: §6" + ex.getLocalizedMessage());
+							}
+						}
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDas Plugin wurde nicht gefunden: §6" + args[0]);
 						return false;
 					}
-					
-					if(Bukkit.getPluginManager().isPluginEnabled(args[0])){
-						Bukkit.getPluginManager().disablePlugin(pl);
-						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDas Plugin " + pl.getName() + " wurde Disable!");
-						
-					}else{
-						
-						Bukkit.getPluginManager().enablePlugin(pl);
-						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§aDas Plugin " + pl.getName() + " wurde Enable!");
-						
-					}
-					}else{
-						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cDas Plugin wurde nicht gefunden " + args[0]);
-						return false;
-					}
-				} 
+				} else {
+					sendHelp(p, alias);
+					return true;
+				}
 			}
 		}
 		return false;
 	}
-	
+
+	private void sendHelp(Player p, String alias) {
+		p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§a/" + alias + " list");
+		p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§a/" + alias + " toggle <Plugin> [onload]");
+		p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§a/" + alias + " load <Datei>");
+	}
+
+	private static Plugin findPlugin(String name) {
+		for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+			if (plugin.getName().equalsIgnoreCase(name)) {
+				return plugin;
+			}
+		}
+		return null;
+	}
 }
 

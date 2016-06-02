@@ -12,19 +12,20 @@ import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandRemoveEnchantment implements CommandExecutor{
-	
-	private Player player;
-	private String enchantments;
+
+	private final String enchantments;
 	
 	public CommandRemoveEnchantment() {
-		this.enchantments="";
-		for(Enchantment ench : Enchantment.values())enchantments+=ench.getName()+",";
-		this.enchantments=enchantments.substring(0, enchantments.length()-1);
+		StringBuilder sb = new StringBuilder();
+		for(Enchantment ench : Enchantment.values()) {
+			sb.append(ench.getName()).append(", ");
+		}
+		this.enchantments = sb.substring(0, sb.length()-2);
 	}
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "removeEnchantment",alias={"re"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		
 		if(player.hasPermission(PermissionType.REMOVE_ENCHANTMENT.getPermissionToString())){
 			if(args.length==0){
@@ -38,7 +39,7 @@ public class CommandRemoveEnchantment implements CommandExecutor{
 					return false;
 				}
 				
-				if(player.getItemInHand()==null||player.getItemInHand().getType()==Material.AIR){
+				if(player.getItemInHand()==null|| player.getItemInHand().getType()==Material.AIR){
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HEAD_ITEM_EQUAL_NULL"));
 					return false;
 				}

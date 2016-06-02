@@ -26,7 +26,6 @@ import lombok.Getter;
 
 public class CommandKit implements CommandExecutor{
 
-	private Player player;
 	@Getter
 	private kConfig config;
 	private kConfig userconfig;
@@ -39,7 +38,7 @@ public class CommandKit implements CommandExecutor{
 	private HashMap<String,Long> kits_delay = new HashMap<>();
 	
 	public CommandKit(UserDataConfig userData,CommandHandler cmd){
-		this.config=new kConfig(new File("plugins"+File.separator+userData.getInstance().getPlugin(userData.getInstance().getClass()).getName()+File.separator+"kits.yml"));
+		this.config=new kConfig(new File(userData.getInstance().getDataFolder(), "kits.yml"));
 		this.userData=userData;
 		for(String kit : config.getPathList("kits").keySet()){
 			kits.put(kit, config.getInventory("kits."+kit+".Inventory").getContents());
@@ -82,7 +81,7 @@ public class CommandKit implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "kit", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
+		Player player = (Player) sender;
 		
 		if(player.hasPermission(PermissionType.KIT.getPermissionToString())){
 			if(args.length==0){

@@ -17,7 +17,6 @@ import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandSetKit implements CommandExecutor{
 
-	private Player player;
 	private kConfig config;
 	
 	public CommandSetKit(kConfig config){
@@ -26,7 +25,7 @@ public class CommandSetKit implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "setkit", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
+		Player player = (Player) sender;
 		
 		if(player.hasPermission(PermissionType.KIT_SET.getPermissionToString())){
 			if(args.length<=1){

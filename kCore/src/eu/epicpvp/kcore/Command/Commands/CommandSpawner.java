@@ -18,21 +18,17 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilTime;
 
 public class CommandSpawner implements CommandExecutor{
-	
-	private Player player;
-	private String s;
-	private Long l;
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "spawner", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		if(player.hasPermission(PermissionType.SPAWNER.getPermissionToString())){
 			if(args.length==0){
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/spawner [Mob]");
 			}else{
-				s=UtilTime.getTimeManager().check(cmd.getName(), player);
-				if(s!=null){
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME",s));
+				String s = UtilTime.getTimeManager().check(cmd.getName(), player);
+				if(s !=null){
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME", s));
 				}else{
 				Mob mob = Mob.fromName(args[0]);
 				
@@ -49,8 +45,8 @@ public class CommandSpawner implements CommandExecutor{
 				
 				Block block = player.getTargetBlock((HashSet<Byte>) null, 100);
 				if(block!=null&&block.getType()==Material.MOB_SPAWNER){
-					l=UtilTime.getTimeManager().hasPermission(player, cmd.getName());
-					if( l!=0 ){
+					Long l = UtilTime.getTimeManager().hasPermission(player, cmd.getName());
+					if( l !=0 ){
 						UtilTime.getTimeManager().add(cmd.getName(), player, l);
 					}
 					CreatureSpawner spawner = (CreatureSpawner)block.getState();

@@ -70,8 +70,8 @@ public class CommandXP implements CommandExecutor{
 					p.setExp(0);
 					p.giveExp( exp );
 					
-					target.sendMessage(TranslationHandler.getText(target, "PREFIX")+ TranslationHandler.getText(target, "EXP_HIS_TO_ME",new String[]{p.getName(),String.valueOf(amount_exp-exp)}));
-					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(target, "EXP_ME_TO_HIS",new String[]{target.getName(),String.valueOf(amount_exp-exp)}));
+					target.sendMessage(TranslationHandler.getText(target, "PREFIX")+ TranslationHandler.getText(target, "EXP_HIS_TO_ME", p.getName(),String.valueOf(amount_exp-exp)));
+					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(target, "EXP_ME_TO_HIS", target.getName(),String.valueOf(amount_exp-exp)));
 					
 					
 					return false;

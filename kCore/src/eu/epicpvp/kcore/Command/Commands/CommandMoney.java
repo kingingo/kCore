@@ -20,9 +20,6 @@ import eu.epicpvp.kcore.Util.UtilPlayer;
 public class CommandMoney implements CommandExecutor{
 	
 	private StatsManager stats;
-	private Player player;
-	private Player target;
-	private double money;
 	private Ranking ranking;
 	private String prefix;
 	
@@ -35,8 +32,10 @@ public class CommandMoney implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "money",alias = {"geld","konto","kontostand","stand"}, sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
+		Player target;
+		double money;
 		if(cs instanceof Player){
-			player = (Player)cs;
+			Player player = (Player) cs;
 			if(args.length==0){
 				player.sendMessage(prefix+ TranslationHandler.getText(player, "MONEY") + stats.getDouble(player, StatsKey.MONEY));
 			}else{
@@ -47,25 +46,25 @@ public class CommandMoney implements CommandExecutor{
 					}
 
 					if(UtilPlayer.isOnline(args[0])){
-						target=Bukkit.getPlayer(args[0]);
-						player.sendMessage(prefix+target.getName()+" Kontostand betr§§gt:§§3 " + stats.getDouble(target, StatsKey.MONEY));
+						target =Bukkit.getPlayer(args[0]);
+						player.sendMessage(prefix+ target.getName()+" Kontostand betr§§gt:§§3 " + stats.getDouble(target, StatsKey.MONEY));
 					}else{
 						player.sendMessage(prefix+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));
 					}
 				}else if(args.length==3){
 					if(args[0].equalsIgnoreCase("send")){
 						if(UtilPlayer.isOnline(args[1])){
-							target=Bukkit.getPlayer(args[1]);
-							money=UtilNumber.toDouble(args[2]);
+							target =Bukkit.getPlayer(args[1]);
+							money =UtilNumber.toDouble(args[2]);
 							
-							if(money<0)return false;
+							if(money <0)return false;
 							
-							if(money!=0){
+							if(money !=0){
 								if(stats.getDouble(player, StatsKey.MONEY) >= money){
 									stats.add(player, StatsKey.MONEY, -money);
 									stats.add(target, StatsKey.MONEY, money);
-									target.sendMessage(prefix+TranslationHandler.getText(player, "MONEY_RECEIVE_FROM",new String[]{player.getName(),String.valueOf(money)}));
-									player.sendMessage(prefix+TranslationHandler.getText(target, "MONEY_SEND_TO",new String[]{target.getName(),String.valueOf(money)}));
+									target.sendMessage(prefix+TranslationHandler.getText(player, "MONEY_RECEIVE_FROM", player.getName(), String.valueOf(money)));
+									player.sendMessage(prefix+TranslationHandler.getText(target, "MONEY_SEND_TO", target.getName(), String.valueOf(money)));
 								}else{
 									player.sendMessage(prefix+TranslationHandler.getText(player, "MONEY_ENOUGH_MONEY"));
 								}
@@ -82,12 +81,12 @@ public class CommandMoney implements CommandExecutor{
 			if(args.length==3){
 				if(args[0].equalsIgnoreCase("add")){
 					if(UtilPlayer.isOnline(args[1])){
-						target=Bukkit.getPlayer(args[1]);
-						money=UtilNumber.toDouble(args[2]);
+						target =Bukkit.getPlayer(args[1]);
+						money =UtilNumber.toDouble(args[2]);
 						
-						if(money<0)return false;
+						if(money <0)return false;
 						
-						if(money!=0){
+						if(money !=0){
 							stats.add(target, StatsKey.MONEY, money);
 						}else{
 							System.out.println("[EpicPvP] ist kein Double.");

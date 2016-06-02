@@ -11,8 +11,7 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandDelWarp implements CommandExecutor{
-	
-	private Player player;
+
 	private kConfig config;
 	
 	public CommandDelWarp(kConfig config){
@@ -21,7 +20,7 @@ public class CommandDelWarp implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "delwarp", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player = (Player)sender;
+		Player player = (Player) sender;
 		
 		if(args.length==0){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/delwarp [Name]");

@@ -18,10 +18,6 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandR extends kListener implements CommandExecutor{
 
-	private Player player;
-	private Player target;
-	private StringBuilder sb;
-	private String msg;
 	private HashMap<Player,Player> list = new HashMap<>();
 	
 	public CommandR(JavaPlugin instance) {
@@ -30,23 +26,23 @@ public class CommandR extends kListener implements CommandExecutor{
 	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "r", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		player=(Player)sender;
+		Player player = (Player) sender;
 		if(args.length==0){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/r [Text]");
 		}else{
 			if(list.containsKey(player)){
 				if(list.get(player).isOnline()){
-					target=list.get(player);
-					sb = new StringBuilder();
+					Player target = list.get(player);
+					StringBuilder sb = new StringBuilder();
 					for (int i = 0; i < args.length; i++) {
 						sb.append(args[i]);
 						sb.append(" ");
 					}
 					sb.setLength(sb.length() - 1);
-					msg = sb.toString();
+					String msg = sb.toString();
 					Bukkit.getPluginManager().callEvent(new PlayerMsgSendEvent(player, target, msg,false));
-					target.sendMessage(TranslationHandler.getText(player, "PREFIX")+player.getName()+"->"+TranslationHandler.getText(target, "ME")+":§b "+msg);
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ME")+"->"+target.getName()+":§b "+msg);
+					target.sendMessage(TranslationHandler.getText(player, "PREFIX")+ player.getName()+"->"+TranslationHandler.getText(target, "ME")+":§b "+ msg);
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ME")+"->"+ target.getName()+":§b "+ msg);
 				}else{
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",list.get(player).getName()));
 				}
@@ -68,7 +64,7 @@ public class CommandR extends kListener implements CommandExecutor{
 	
 	@EventHandler
 	public void Quit(PlayerQuitEvent ev){
-		if(list.containsKey(ev.getPlayer()))list.remove(ev.getPlayer());
+		list.remove(ev.getPlayer());
 	}
 
 	
