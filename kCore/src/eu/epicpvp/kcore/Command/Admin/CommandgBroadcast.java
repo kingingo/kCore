@@ -19,7 +19,7 @@ public class CommandgBroadcast implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 			String m = "";
 			for(int i = 0; i < args.length; i++)m =m + args[i] + " ";
-            client.brotcastMessage(null, m);
+            client.broadcastMessage(null, m);
 		return false;
 	}
 

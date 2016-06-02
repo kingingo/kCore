@@ -1,7 +1,6 @@
 package eu.epicpvp.kcore.GemsShop;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -10,14 +9,15 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.ServerType;
-import eu.epicpvp.kcore.Command.CommandHandler;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.GemsShop.Events.PlayerGemsBuyEvent;
-import eu.epicpvp.kcore.Hologram.Hologram;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
 import eu.epicpvp.kcore.Inventory.InventoryBase;
@@ -34,19 +34,24 @@ import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
+import eu.epicpvp.kcore.Update.UpdateType;
+import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.InventorySize;
+import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilEnt;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilFile;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
+import eu.epicpvp.kcore.Util.UtilMath;
+import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
 import lombok.Setter;
 
-public class GemsShop{
+public class GemsShop implements Listener{
 
 	@Getter
 	private StatsManager gems;
@@ -71,6 +76,7 @@ public class GemsShop{
 	@Getter
 	@Setter
 	private Click click;
+	private double sale;
 	
 	public GemsShop(ServerType type){
 		this("§a§lGem-Shop",EntityType.CREEPER, type);
@@ -88,12 +94,17 @@ public class GemsShop{
 		this.etype=etype;
 		this.permission=UtilServer.getPermissionManager();
 		this.config=config;
+		this.sale= getConfig().getDouble("Main.Sale");
 		this.base=UtilInv.getBase();
 		UtilServer.getMysql().Update("CREATE TABLE IF NOT EXISTS `gems_shop`(playerId int,ip varchar(60),gems int,article varchar(30),timestamp timestamp,server varchar(30));");
 		load();
 		
 		if(this.config.contains("Main.Location")){
 			setCreature();
+			
+			if(sale!=0){
+				Bukkit.getPluginManager().registerEvents(this, this.gems.getInstance());
+			}
 		}
 		
 		UtilServer.getCommandHandler().register(CommandGems.class, new CommandGems(this));
@@ -144,6 +155,33 @@ public class GemsShop{
 			listener.setEntity(v);
 		}
 			
+	}
+	
+	int color = 1;
+	NameTagMessage salep;
+	@EventHandler
+	public void sale(UpdateEvent ev){
+		if(ev.getType()==UpdateType.FAST && !UtilServer.getPlayers().isEmpty() && listener!=null && listener.getEntity()!=null){
+			if(salep!=null){
+				salep.remove();
+			}
+			
+			salep=new NameTagMessage(NameTagType.PACKET, listener.getEntity().getLocation().add(0, 2.4, 0),(color==1 ? "§f" : "§c")+"§l"+sale+"% SALE!");
+			
+			for(Player player : UtilServer.getPlayers()){
+				if(((UtilServer.getPermissionManager().getPermissionPlayer(player)!=null 
+						&& !UtilServer.getPermissionManager().getPermissionPlayer(player).getGroups().isEmpty()
+						&& !UtilServer.getPermissionManager().getPermissionPlayer(player).getGroups().get(0).getName().equalsIgnoreCase("default"))
+						||
+						StatsManagerRepository.getStatsManager(GameType.TIME).isLoaded(player) && StatsManagerRepository.getStatsManager(GameType.TIME).getTotalInteger(player, new StatsKey[]{StatsKey.SKY_TIME,StatsKey.PVP_TIME,StatsKey.GUNGAME_TIME,StatsKey.GAME_TIME}) > TimeSpan.MINUTE * 30)){
+
+					salep.sendToPlayer(player);
+				}
+			}
+			
+			if(color==1)color=0;
+			else color=1;
+		}
 	}
 	
 	public void fixInventory(InventoryPageBase page){
@@ -235,7 +273,7 @@ public class GemsShop{
 		this.main=new InventoryPageBase(InventorySize._54, shopName);
 		base.addPage(this.main);
 		fixInventory(this.main);
-		
+		double sale = getConfig().getDouble("Main.Sale");
 		InventoryCopy page;
 		for(int i = 9; i <= 45; i++){
 			if(getConfig().contains("Main."+i)){
@@ -247,6 +285,22 @@ public class GemsShop{
 						int price = getConfig().getInt("Main."+i+"."+a+".Gems");
 						String s = getConfig().getString("Main."+i+"."+a+".Reward");
 						ItemStack it = getConfig().getItemStack("Main."+i+"."+a+".Item");
+						
+						if(sale != 0 && it.hasItemMeta() && it.getItemMeta().hasLore()){
+							List<String> lore = it.getItemMeta().getLore();
+							String preisLine = lore.get(lore.size()-1);
+							
+							if(preisLine.contains("Preis")){
+								ItemMeta im = it.getItemMeta();
+								double preis = UtilNumber.toDouble(preisLine.split(" ")[1].replaceAll(",", "."));
+								double preisWithSale = UtilMath.trim(2, preis - ( (sale/100)*preis ));
+								lore.remove(preisLine);
+								lore.add("§c§mPreis: "+preis+" Euro");
+								lore.add("§bPreis: §7"+preisWithSale+" Euro");
+								im.setLore(lore);
+								it.setItemMeta(im);
+							}
+						}
 						
 						if(PermissionType.isPerm(s)!=PermissionType.NONE){
 							page.setCreate_new_inv(true);

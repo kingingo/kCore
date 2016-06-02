@@ -30,7 +30,15 @@ public class CommandGems implements CommandExecutor{
 			shop.openInv(player);
 		}else{
 			if(player.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString())){
-				if(args[0].equalsIgnoreCase("addc")){
+				if(args[0].equalsIgnoreCase("setSale")){
+					if(args.length>=1){
+						shop.getConfig().set("Main.Sale", UtilNumber.toDouble(args[1]));
+						shop.getConfig().save();
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§a Der Sale wurde auf "+args[1]+"% gesetzt.");
+					}else{
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/gems setSale [Rabatt %]");
+					}
+				}else if(args[0].equalsIgnoreCase("addc")){
 					if(args.length>=2){
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+shop.addCategory(UtilNumber.toInt(args[1]), args[2], player.getItemInHand()));
 					}else{

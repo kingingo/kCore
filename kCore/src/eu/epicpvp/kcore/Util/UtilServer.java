@@ -198,10 +198,10 @@ public class UtilServer{
 				}
 				
 				@Override
-				public void brotcast(String permission, String message) {
+				public void broadcast(String permission, String message) {
 					message=message.replaceAll("&", "§");
 					if(permission == null){
-						broadcast(message);
+						UtilServer.broadcast(message);
 					}else{
 						for(Player player : UtilServer.getPlayers()){
 							if(player.hasPermission(permission)){
@@ -384,7 +384,7 @@ public class UtilServer{
 			for(Player p : getPlayers())if(p.hasPermission(PermissionType.TEAM_MESSAGE.getPermissionToString()))p.sendMessage(message);
 		}
 		
-		client.brotcastMessage(PermissionType.TEAM_MESSAGE.getPermissionToString(), message);
+		client.broadcastMessage(PermissionType.TEAM_MESSAGE.getPermissionToString(), message);
 	}
 	
 	public static double getMaxMemoryMB(){
