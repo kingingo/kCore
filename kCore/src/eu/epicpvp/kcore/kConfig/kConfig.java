@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilNumber;
+import eu.epicpvp.kcore.Util.UtilTime;
 
 public class kConfig extends YamlConfiguration{
 
@@ -183,6 +184,7 @@ public class kConfig extends YamlConfiguration{
 		set(path+".z", location.getZ());
 		set(path+".pitch", location.getPitch());
 		set(path+".yaw", location.getYaw());
+		set(path+".Date", UtilTime.now());
 	}
 	
 	public void save(){

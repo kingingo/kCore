@@ -22,6 +22,7 @@ import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
 import eu.epicpvp.kcore.MysteryBox.Items.MysteryItem;
 import eu.epicpvp.kcore.MysteryBox.Templates.Building;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutBlockAction;
+import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilBlock;
@@ -93,9 +94,9 @@ public class MysteryBoxSession {
       
 
 		System.out.println("[MysterySession] Perm "+drop.getPermission()+" "+drop.getGroupTyp().name()+" "+(UtilServer.getPermissionManager().getPermissionPlayer(player)==null));
-		if(!drop.getPermission().equalsIgnoreCase("-")){
+		if(!drop.getPermission().equalsIgnoreCase("-"))
 			System.out.println("[MysterySession] TEST: "+UtilServer.getPermissionManager().getPermissionPlayer(player).hasPermission(drop.getPermission(), drop.getGroupTyp())+" "+drop.getPermission()+" "+drop.getGroupTyp().getName());
-		}
+			
 		
         if(!drop.getPermission().equalsIgnoreCase("-") 
         		&& UtilServer.getPermissionManager().getPermissionPlayer(player).hasPermission(drop.getPermission(), drop.getGroupTyp())){

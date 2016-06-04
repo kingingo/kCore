@@ -162,7 +162,7 @@ public class PetManager extends kListener {
 		return (LivingEntity) this.activePetOwners.get(player.getName().toLowerCase());
 	}
 
-	@EventHandler(priority=EventPriority.MONITOR)
+	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onEntityDamage(EntityDamageEvent event) {
 		if (EntityDamageEvent) {
 			if (event.getEntity() instanceof LivingEntity && isPet((LivingEntity) event.getEntity())) {

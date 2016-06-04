@@ -129,7 +129,7 @@ public class PermissionPlayer {
 			if ((type == GroupTyp.ALL || p.getGroup() == type) && p.acceptPermission(permission))
 				return true;
 		for (Group group : groups)
-			if (group.hasPermission(permission, type))
+			if (group.hasPermission(permission, type)||group.hasPermission(permission, GroupTyp.ALL))
 				return true;
 		return false;
 	}
