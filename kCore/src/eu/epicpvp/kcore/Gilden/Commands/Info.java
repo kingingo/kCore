@@ -63,14 +63,16 @@ public class Info {
 			manager.getMember(g);
 			String[] players = manager.getGildenPlayersName(g);
 			String l = "§6List: ";
-			for(String player : players){
-				if(UtilPlayer.isOnline(player)){
-					l=l+" §a"+Bukkit.getPlayer(player).getName()+",";
-				}else{
-					l=l+" §c"+player+",";
+			if(players!=null){
+				for(String player : players){
+					if(UtilPlayer.isOnline(player)){
+						l=l+" §a"+Bukkit.getPlayer(player).getName()+",";
+					}else{
+						l=l+" §c"+player+",";
+					}
 				}
+				l=l.substring(0, l.length()-1);
 			}
-			l=l.substring(0, l.length()-1);
 			p.sendMessage(l);
 		}else{
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+" /gilde info oder /gilde info [Gilde]");

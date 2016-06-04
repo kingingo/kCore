@@ -161,32 +161,11 @@ public class PetManager extends kListener {
 	public LivingEntity GetPet(Player player) {
 		return (LivingEntity) this.activePetOwners.get(player.getName().toLowerCase());
 	}
-	
-	@EventHandler
-	public void teleport(PlayerTeleportEvent ev){
-		if(this.activePetOwners.containsKey(ev.getPlayer().getName().toLowerCase())){
-			this.failedAttempts.put(ev.getPlayer().getName().toLowerCase(), Integer.valueOf(0));
-			LivingEntity pet = this.activePetOwners.get(ev.getPlayer().getName().toLowerCase());
-			
-			if (pet.getPassenger() != null) {
-				Entity passenger = pet.getPassenger();
-				passenger.leaveVehicle();
 
-				passenger.teleport(ev.getTo(), TeleportCause.PLUGIN);
-				pet.teleport(ev.getTo(), TeleportCause.PLUGIN);
-				pet.setPassenger(passenger);
-			} else {
-				pet.teleport(ev.getTo(), TeleportCause.PLUGIN);
-			}
-		}
-	}
-
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority=EventPriority.MONITOR)
 	public void onEntityDamage(EntityDamageEvent event) {
 		if (EntityDamageEvent) {
-			if (((event.getEntity() instanceof LivingEntity))
-					&& (this.petToLocation.containsKey((LivingEntity) event.getEntity())
-							|| isPet((LivingEntity) event.getEntity()))) {
+			if (event.getEntity() instanceof LivingEntity && isPet((LivingEntity) event.getEntity())) {
 				event.setCancelled(true);
 			}
 		}
@@ -213,7 +192,7 @@ public class PetManager extends kListener {
 					Entity passenger = pet.getPassenger();
 					passenger.leaveVehicle();
 
-					passenger.teleport(owner);
+					passenger.teleport(owner, TeleportCause.PLUGIN);
 					pet.teleport(owner, TeleportCause.PLUGIN);
 					pet.setPassenger(passenger);
 				} else {
