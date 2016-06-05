@@ -228,8 +228,9 @@ public class UtilServer{
 
 				@Override
 				public void sendMessage(int playerId, String message) {
-					if(UtilPlayer.isOnline(playerId)){
-						UtilPlayer.searchExact(playerId).sendMessage(message);
+					Player player = UtilPlayer.searchExact(playerId);
+					if (player != null) {
+						player.sendMessage(message);
 					}
 				}
 			},new ServerInformations() {
