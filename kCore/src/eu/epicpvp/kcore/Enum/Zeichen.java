@@ -18,4 +18,9 @@ public enum Zeichen {
 	private Zeichen(String icon){
 		this.icon=icon;
 	}
+
+	@Override
+	public String toString() {
+		return icon;
+	}
 }
