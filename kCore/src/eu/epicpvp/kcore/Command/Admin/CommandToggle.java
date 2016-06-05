@@ -50,15 +50,16 @@ public class CommandToggle extends kListener implements CommandExecutor{
 					return false;
 				} else if (args.length >= 2) {
 					if (args[0].equalsIgnoreCase("load")) {
-						File pluginFile = new File(args[1]);
+						String input = args[1];
+						File pluginFile = new File(input);
 						if (!pluginFile.exists() || !pluginFile.isFile()) {
-							cs.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDie Datei §6" + args[1] + "§c konnte nicht gefunden werden!");
+							cs.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDie Datei §6" + input + "§c konnte nicht gefunden werden!");
 							return true;
 						}
 						try {
 							Plugin loadedPlugin = Bukkit.getPluginManager().loadPlugin(pluginFile);
 							if (loadedPlugin == null) {
-								cs.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDatei ungültig: §6" + args[1]);
+								cs.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDatei ungültig: §6" + input);
 							} else {
 								p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§7Das Plugin §6" + loadedPlugin.getName() + "§7 wurde §ageladen§7!");
 							}
@@ -67,12 +68,13 @@ public class CommandToggle extends kListener implements CommandExecutor{
 							p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDas Plugin konnte nicht geladen werden: §6" + e.getLocalizedMessage());
 						}
 					} else if (args[0].equalsIgnoreCase("toggle")) {
-						Plugin pl = Bukkit.getPluginManager().getPlugin(args[0]);
+						String input = args[1];
+						Plugin pl = Bukkit.getPluginManager().getPlugin(input);
 						if (pl == null) {
-							pl = findPlugin(args[0]);
+							pl = findPlugin(input);
 						}
 						if (pl == null) {
-							cs.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDas Plugin §6" + args[0] + "§c konnte nicht gefunden werden.");
+							cs.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDas Plugin §6" + input + "§c konnte nicht gefunden werden.");
 							return true;
 						}
 						String plName = pl.getName();
@@ -100,7 +102,7 @@ public class CommandToggle extends kListener implements CommandExecutor{
 								p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cFehler beim Einschalten des Plugins §6" + plName + "§c: §6" + ex.getLocalizedMessage());
 							}
 						}
-						p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDas Plugin wurde nicht gefunden: §6" + args[0]);
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDas Plugin wurde nicht gefunden: §6" + input);
 						return false;
 					}
 				} else {
