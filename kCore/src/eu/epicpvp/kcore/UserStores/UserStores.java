@@ -348,7 +348,7 @@ public class UserStores extends kListener{
 													getStatsManager().loadPlayer(playerId, new Callback<Integer>() {
 														
 														@Override
-														public void call(Integer obj) {
+														public void call(Integer obj, Throwable exception) {
 															getStatsManager().add(obj, StatsKey.MONEY, (preis*anzahl));
 														}
 													});

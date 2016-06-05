@@ -29,7 +29,7 @@ public class TeamListener extends kListener {
 		int teamId = statsManager.getInt(ev.getPlayer(), StatsKey.TEAM_ID);
 
 		if (teamId > 0) {
-			teamManager.getTeam(teamId, team -> {
+			teamManager.getTeam(teamId, (team,ex) -> {
 				if (team != null) {
 					team.broadcast("GILDE_PLAYER_LEAVE", ev.getPlayer().getName());
 					Bukkit.getPluginManager().callEvent(new TeamPlayerQuitEvent(team, ev.getPlayer()));
@@ -45,7 +45,7 @@ public class TeamListener extends kListener {
 				int teamId = ev.getManager().getInt(ev.getPlayerId(), StatsKey.TEAM_ID);
 
 				if (teamId > 0) {
-					teamManager.getTeam(teamId, team -> {
+					teamManager.getTeam(teamId, (team,ex) -> {
 						Player player = UtilPlayer.searchExact(ev.getPlayerId());
 
 						if (team != null && player != null) {

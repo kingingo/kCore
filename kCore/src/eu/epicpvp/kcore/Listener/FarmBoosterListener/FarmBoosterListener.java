@@ -83,7 +83,7 @@ public class FarmBoosterListener extends kListener{
 		UtilServer.getClient().getNetworkBooster(type).getAsync(new Callback<NetworkBooster>() {
 			
 			@Override
-			public void call(NetworkBooster b) {
+			public void call(NetworkBooster b, Throwable exception) {
 				booster=b;
 				
 				if(b!=null && b.isActive()){

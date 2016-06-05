@@ -33,8 +33,7 @@ public class Create {
 				player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + " §c§lDu hast ein Ung§ltiges Zeichen in deinen Clannamen!");
 				return false;
 			}
-
-			teamManager.createTeam(UtilPlayer.getPlayerId(player), teamName, "§7" + teamName + "§b*§f", team -> {
+			teamManager.createTeam(UtilPlayer.getPlayerId(player), teamName, "§7" + teamName + "§b*§f", (team,exception) -> {
 				//success
 				if (teamManager.getTeamType() == GameType.TEAMS_PVP) {
 					team.setStatistic(StatsKey.LOC_X, player.getLocation().getBlockX());
@@ -51,7 +50,7 @@ public class Create {
 //					}
 				}
 				player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + TranslationHandler.getText(player, "GILDE_CREATE", teamManager));
-			}, obj -> {
+			}, (obj,ex) -> {
 				//team already exists
 				player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + TranslationHandler.getText(player, "GILDE_EXIST"));
 			});

@@ -13,7 +13,7 @@ import lombok.Setter;
 public class PacketArenaSettings extends Packet{
 
 	public static void register(){
-		Packet.registerPacket(0xA0, PacketArenaSettings.class, PacketDirection.TO_CLIENT);
+		Packet.registerPacket(0xA0, PacketDirection.TO_CLIENT, PacketArenaSettings.class);
 	}
 	
 	@Getter

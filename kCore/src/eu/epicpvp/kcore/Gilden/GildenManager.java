@@ -153,7 +153,7 @@ public class GildenManager implements Listener {
 			getMysql().asyncQuery("SELECT `kills`,`gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` ORDER BY kills DESC LIMIT 15;", new Callback<ResultSet>() {
 				
 				@Override
-				public void call(ResultSet value) {
+				public void call(ResultSet value, Throwable exception) {
 					try{
 						ResultSet rs = (ResultSet)value;
 						
@@ -189,7 +189,7 @@ public class GildenManager implements Listener {
 			getMysql().asyncQuery("SELECT `elo`,`gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` ORDER BY elo DESC LIMIT 15;", new Callback<ResultSet>() {
 				
 				@Override
-				public void call(ResultSet value) {
+				public void call(ResultSet value, Throwable exception) {
 					try{
 						ResultSet rs = (ResultSet)value;
 						
@@ -514,7 +514,7 @@ public class GildenManager implements Listener {
 		getMysql().asyncGetString("SELECT `gildentag` FROM `list_gilden_"+typ.getKuerzel()+"` WHERE gilde='"+gilde.toLowerCase()+"'", new Callback<String>() {
 			
 			@Override
-			public void call(String value) {
+			public void call(String value, Throwable exception) {
 				gilden_tag.put(gilde.toLowerCase(),((String)value));
 			}
 		});
@@ -525,7 +525,7 @@ public class GildenManager implements Listener {
 			if(!this.gilden_data.get(gilde.toLowerCase()).get(typ).containsKey(stats)){
 				getMysql().asyncGetObject("SELECT "+stats.getMySQLName()+" FROM list_gilden_"+typ.getKuerzel()+"_data WHERE gilde= '"+gilde.toLowerCase()+"'", new Callback<Object>() {
 					@Override
-					public void call(Object value) {
+					public void call(Object value, Throwable exception) {
 						if(value instanceof Double){
 							gilden_data.get(gilde.toLowerCase()).get(typ).put(stats, ((Double)value));
 						}else if(value instanceof Integer){
@@ -546,7 +546,7 @@ public class GildenManager implements Listener {
 		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_data` WHERE `gilde`='"+gilde.toLowerCase()+"'", new Callback<ResultSet>() {
 			
 			@Override
-			public void call(ResultSet value) {
+			public void call(ResultSet value, Throwable exception) {
 				gilden_data.put(gilde.toLowerCase(),new HashMap<GildenType,HashMap<StatsKey,Object>>());
 				gilden_data.get(gilde.toLowerCase()).put(typ, new HashMap<StatsKey,Object>());
 				loadTag(gilde.toLowerCase());
@@ -555,7 +555,7 @@ public class GildenManager implements Listener {
 		}, new Callback<Boolean>() {
 			
 			@Override
-			public void call(Boolean value) {
+			public void call(Boolean value, Throwable exception) {
 				createDataEintrag(gilde.toLowerCase(), typ);
 				gilden_data.put(gilde.toLowerCase(),new HashMap<GildenType,HashMap<StatsKey,Object>>());
 				gilden_data.get(gilde.toLowerCase()).put(typ, new HashMap<StatsKey,Object>());
@@ -570,7 +570,7 @@ public class GildenManager implements Listener {
 		getMysql().asyncQuery("SELECT `gilde` FROM `list_gilden_"+typ.getKuerzel()+"_user` WHERE playerId='"+UtilPlayer.getPlayerId(player)+"'", new Callback<ResultSet>() {
 			
 			@Override
-			public void call(ResultSet value) {
+			public void call(ResultSet value, Throwable exception) {
 				if(value instanceof ResultSet){
 					try {
 						GildenPlayerPut(player,((ResultSet)value).getString(1));
@@ -583,7 +583,7 @@ public class GildenManager implements Listener {
 		},new Callback<Boolean>() {
 			
 			@Override
-			public void call(Boolean value) {
+			public void call(Boolean value, Throwable exception) {
 				GildenPlayerPut(player,"-");
 			}
 		});

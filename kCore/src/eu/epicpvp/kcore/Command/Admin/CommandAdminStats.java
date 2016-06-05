@@ -40,7 +40,7 @@ public class CommandAdminStats  implements CommandExecutor{
 					statsManager.loadPlayer(spieler, new Callback<Integer>() {
 						
 						@Override
-						public void call(Integer playerId) {
+						public void call(Integer playerId, Throwable exception) {
 							callAllStats(player,playerId);
 						}
 					});
@@ -56,7 +56,7 @@ public class CommandAdminStats  implements CommandExecutor{
 						statsManager.loadPlayer(spieler, new Callback<Integer>() {
 							
 							@Override
-							public void call(Integer playerId) {
+							public void call(Integer playerId, Throwable exception) {
 								set(player, playerId, key, value);
 							}
 						});

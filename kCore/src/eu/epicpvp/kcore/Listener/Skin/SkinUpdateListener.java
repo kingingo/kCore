@@ -48,7 +48,7 @@ public class SkinUpdateListener extends kListener {
 				logMessage("Updating skin for " + player.getName());
 				UtilServer.getClient().getPlayerAndLoad(player.getName()).getOwnSkin().getAsync(new Callback<Skin>() {
 					@Override
-					public void call(Skin obj) {
+					public void call(Skin obj, Throwable exception) {
 						updateSkin(player, obj);
 						logMessage("Updated the skin of " + player.getName());
 					}

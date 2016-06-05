@@ -65,7 +65,7 @@ public class PluginMessageFutureTask<T> {
 				} catch (Exception e) {
 
 				}
-				call.call(out);
+				call.call(out,null);
 			}
 		}).start();
 	}

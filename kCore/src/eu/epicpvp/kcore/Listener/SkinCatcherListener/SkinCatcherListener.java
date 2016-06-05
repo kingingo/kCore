@@ -69,7 +69,7 @@ public class SkinCatcherListener extends kListener{
 			UtilSkin.loadSkin(new Callback<Skin>() {
 				
 				@Override
-				public void call(Skin data) {
+				public void call(Skin data, Throwable exception) {
 					skins.put(ev.getPlayer().getUniqueId(), data);
 				}
 			}, ev.getPlayer().getName());

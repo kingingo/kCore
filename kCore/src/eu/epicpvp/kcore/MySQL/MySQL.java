@@ -98,7 +98,7 @@ public class MySQL {
 							Statement stmt = connection.createStatement();
 							rs = stmt.executeQuery(qry);
 							while (rs.next())
-								callback.call(rs.getObject(1));
+								callback.call(rs.getObject(1),null);
 							rs.close();
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -120,7 +120,7 @@ public class MySQL {
 							Statement stmt = connection.createStatement();
 							rs = stmt.executeQuery(qry);
 							while (rs.next())
-								callback.call(rs.getInt(1));
+								callback.call(rs.getInt(1),null);
 							rs.close();
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -144,7 +144,7 @@ public class MySQL {
 							Statement stmt = connection.createStatement();
 							rs = stmt.executeQuery(qry);
 							while (rs.next())
-								callback.call(rs.getString(1));
+								callback.call(rs.getString(1),null);
 							rs.close();
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -168,7 +168,7 @@ public class MySQL {
 							Statement stmt = connection.createStatement();
 							rs = stmt.executeQuery(qry);
 							while (rs.next())
-								callback.call(rs.getDouble(1));
+								callback.call(rs.getDouble(1),null);
 							rs.close();
 						} catch (Exception ex) {
 							ex.printStackTrace();
@@ -197,12 +197,12 @@ public class MySQL {
 							rs = stmt.executeQuery(qry);
 							boolean b = false;
 							while (rs.next()) {
-								callback.call(rs);
+								callback.call(rs,null);
 								b = true;
 							}
 
 							if (!b && noAnswer != null)
-								noAnswer.call(false);
+								noAnswer.call(false,null);
 							rs.close();
 						} catch (Exception ex) {
 							ex.printStackTrace();

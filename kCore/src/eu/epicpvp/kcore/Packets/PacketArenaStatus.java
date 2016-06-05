@@ -11,7 +11,7 @@ import lombok.Setter;
 public class PacketArenaStatus extends Packet{
 	
 	public static void register(){
-		Packet.registerPacket(0xA1, PacketArenaStatus.class, PacketDirection.TO_CLIENT);
+		Packet.registerPacket(0xA1, PacketDirection.TO_CLIENT, PacketArenaStatus.class);
 	}
 	
 	@Setter

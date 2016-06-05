@@ -51,11 +51,11 @@ public class MoneyListener extends kListener{
 				loadedplayer.getServer().getAsync(new Callback<String>() {
 					
 					@Override
-					public void call(String server) {
+					public void call(String server, Throwable exception) {
 						if(server==null){
 							money.loadPlayer(loadedplayer, new Callback<Integer>() {
 								@Override
-								public void call(Integer playerId) {
+								public void call(Integer playerId, Throwable exception) {
 									money.add(playerId, key, value);
 									money.save(playerId);
 									logMessage("Add "+loadedplayer.getName()+" "+value+""+key.getMySQLName()+" to his/her Account!");
@@ -90,11 +90,11 @@ public class MoneyListener extends kListener{
 				loadedplayer.getServer().getAsync(new Callback<String>() {
 					
 					@Override
-					public void call(String server) {
+					public void call(String server, Throwable exception) {
 						if(server==null){
 							properties.loadPlayer(loadedplayer, new Callback<Integer>() {
 								@Override
-								public void call(Integer playerId) {
+								public void call(Integer playerId, Throwable exception) {
 									NBTTagCompound nbt = properties.getNBTTagCompound(loadedplayer.getPlayerId(),key);
 									nbt.setInt(path, nbt.getInt(path)+value);
 									try {
@@ -159,7 +159,7 @@ public class MoneyListener extends kListener{
 					money.loadPlayer(playerId, new Callback<Integer>(){
 
 						@Override
-						public void call(Integer playerId) {
+						public void call(Integer playerId, Throwable exception) {
 							money.add(playerId, key, value);
 							money.save(playerId);
 							logMessage("Add "+playerId+" "+value+" "+key.getMySQLName()+" to his/her Account!");
@@ -182,7 +182,7 @@ public class MoneyListener extends kListener{
 					properties.loadPlayer(playerId, new Callback<Integer>(){
 
 						@Override
-						public void call(Integer playerId) {
+						public void call(Integer playerId, Throwable exception) {
 							NBTTagCompound nbt = properties.getNBTTagCompound(playerId, StatsKey.PROPERTIES);
 							nbt.setInt(path, value+nbt.getInt(path));
 							try {

@@ -119,7 +119,7 @@ public class NPC {
 	public void loadSkin(UUID uuid) {
 		UtilSkin.loadSkin(new Callback<Skin>() {
 			@Override
-			public void call(Skin obj) {
+			public void call(Skin obj, Throwable exception) {
 				loadSkin(obj);
 			}
 		}, uuid);
@@ -128,7 +128,7 @@ public class NPC {
 	public void loadSkin(String playerName) {
 		UtilSkin.loadSkin(new Callback<Skin>() {
 			@Override
-			public void call(Skin obj) {
+			public void call(Skin obj, Throwable exception) {
 				loadSkin(obj);
 			}
 		}, playerName);

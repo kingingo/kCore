@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class PacketPlayerPermissionReload extends Packet{
 
 	public static void register(){
-		Packet.registerPacket(0xA3, PacketPlayerPermissionReload.class, PacketDirection.TO_CLIENT);
+		Packet.registerPacket(0xA3, PacketDirection.TO_CLIENT, PacketPlayerPermissionReload.class);
 	}
 	
 	@Getter

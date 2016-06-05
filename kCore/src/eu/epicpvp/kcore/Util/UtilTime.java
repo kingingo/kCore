@@ -6,12 +6,17 @@ import java.util.Date;
 
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.TimeManager.TimeManager;
+import lombok.Setter;
 
 public class UtilTime {
+	private static TimeManager manager;
 	public static final SimpleDateFormat DATE_FORMAT_NOW = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public static final SimpleDateFormat DATE_FORMAT_DAY = new SimpleDateFormat("yyyy-MM-dd");
-	private static TimeManager manager;
 
+	public static void setTimeManager(TimeManager timeManager) {
+		manager=timeManager;
+	}
+	
 	public static void setTimeManager(PermissionManager perm) {
 		if (manager != null)
 			return;

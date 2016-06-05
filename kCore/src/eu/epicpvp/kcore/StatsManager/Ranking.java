@@ -31,10 +31,10 @@ public class Ranking {
 			UtilServer.getClient().getTopTen(getType(), getStats()).getAsync(new Callback<PacketOutTopTen>() {
 				
 				@Override
-				public void call(PacketOutTopTen packet) {
+				public void call(PacketOutTopTen packet, Throwable exception) {
 					if(packet != null){
 						ranking=packet.getRanks();
-						if(call!=null)call.call(null);
+						if(call!=null)call.call(null,null);
 					}
 				}
 			});

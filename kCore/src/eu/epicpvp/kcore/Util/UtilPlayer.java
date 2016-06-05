@@ -193,7 +193,7 @@ public class UtilPlayer
 		
 		statsManager.getAsync(player, StatsKey.MONEY, new Callback<Object>() {
 			@Override
-			public void call(Object obj) {
+			public void call(Object obj, Throwable exception) {
 				Bukkit.getScheduler().runTask(money.getInstance(), new Runnable() {
 					public void run() {
 						UtilScoreboard.resetScore(player.getScoreboard(), 5, DisplaySlot.SIDEBAR);
@@ -205,7 +205,7 @@ public class UtilPlayer
 		
 		money.getAsync(player, StatsKey.GEMS, new Callback<Object>() {
 			@Override
-			public void call(Object obj) {
+			public void call(Object obj, Throwable exception) {
 				Bukkit.getScheduler().runTask(money.getInstance(), new Runnable() {
 					public void run() {
 						UtilScoreboard.resetScore(player.getScoreboard(), 8, DisplaySlot.SIDEBAR);
@@ -234,7 +234,7 @@ public class UtilPlayer
 		
 		money.getAsync(player, StatsKey.GEMS, new Callback<Object>() {
 			@Override
-			public void call(Object obj) {
+			public void call(Object obj, Throwable exception) {
 				Bukkit.getScheduler().runTask(money.getInstance(), new Runnable() {
 					public void run() {
 						UtilScoreboard.resetScore(player.getScoreboard(), 11, DisplaySlot.SIDEBAR);
@@ -265,7 +265,7 @@ public class UtilPlayer
 
 		money.getAsync(player, StatsKey.COINS, new Callback<Object>() {
 			@Override
-			public void call(Object obj) {
+			public void call(Object obj, Throwable exception) {
 				Bukkit.getScheduler().runTask(money.getInstance(), new Runnable() {
 					public void run() {
 						UtilScoreboard.resetScore(player.getScoreboard(), 11, DisplaySlot.SIDEBAR);
@@ -277,7 +277,7 @@ public class UtilPlayer
 		
 		money.getAsync(player, StatsKey.GEMS, new Callback<Object>() {
 			@Override
-			public void call(Object obj) {
+			public void call(Object obj, Throwable exception) {
 				Bukkit.getScheduler().runTask(money.getInstance(), new Runnable() {
 					public void run() {
 						UtilScoreboard.resetScore(player.getScoreboard(), 14, DisplaySlot.SIDEBAR);

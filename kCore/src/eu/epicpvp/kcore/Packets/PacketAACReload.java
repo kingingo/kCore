@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class PacketAACReload extends Packet{
 
 	public static void register(){
-		Packet.registerPacket(0xA5, PacketAACReload.class, PacketDirection.TO_CLIENT);
+		Packet.registerPacket(0xA5, PacketDirection.TO_CLIENT, PacketAACReload.class);
 	}
 	
 	public PacketAACReload(DataBuffer buffer){

@@ -57,7 +57,7 @@ public class TeamManager {
 		int teamId = teamStatsManager.getInt(player, StatsKey.TEAM_ID);
 		if (teamId <= 0) {
 			if (callback != null) {
-				callback.call(null);
+				callback.call(null,null);
 			}
 		}
 		getTeam(teamId, callback);
@@ -82,23 +82,23 @@ public class TeamManager {
 	public void getTeam(int teamId, @Nullable Callback<Team> callback) {
 		if (teamId <= 0) {
 			if (callback != null) {
-				callback.call(null);
+				callback.call(null,null);
 			}
 			return;
 		} 
 		Team team = teams.get(teamId);
 		if (team != null) {
 			if (callback != null) {
-				callback.call(team);
+				callback.call(team,null);
 			}
 			return;
 		}
-		loadTeam(teamId, loadedTeam -> {
+		loadTeam(teamId, (loadedTeam,ex) -> {
 			if (loadedTeam != null) {
 				teams.put(teamId, loadedTeam);
 				teamsByName.put(loadedTeam.getName().toLowerCase(), loadedTeam);
 				if (callback != null) {
-					callback.call(loadedTeam);
+					callback.call(loadedTeam,null);
 				}
 				Bukkit.getPluginManager().callEvent(new TeamLoadedEvent(loadedTeam));
 			}
@@ -109,17 +109,17 @@ public class TeamManager {
 		Team team = teamsByName.get(name.toLowerCase());
 		if (team != null) {
 			if (callback != null) {
-				callback.call(team);
+				callback.call(team,null);
 			}
 			return;
 		}
 		int teamId = UtilServer.getClient().getPlayerAndLoad(name).getPlayerId();
-		loadTeam(teamId, loadedTeam -> {
+		loadTeam(teamId, (loadedTeam,ex) -> {
 			if (loadedTeam != null) {
 				teams.put(loadedTeam.getTeamId(), loadedTeam);
 				teamsByName.put(loadedTeam.getName(), loadedTeam);
 				if (callback != null) {
-					callback.call(loadedTeam);
+					callback.call(loadedTeam,null);
 				}
 				Bukkit.getPluginManager().callEvent(new TeamLoadedEvent(loadedTeam));
 			}
@@ -128,10 +128,10 @@ public class TeamManager {
 
 	public void createTeam(int ownerId, String name, String prefix, @Nullable Callback<Team> successCallback, @Nullable Callback<Void> alreadyExistsCallback) {
 		LoadedPlayer teamPlayer = UtilServer.getClient().getPlayerAndLoad(getTeamStatsName(name));
-		teamStatsManager.loadPlayer(teamPlayer, teamId -> {
+		teamStatsManager.loadPlayer(teamPlayer, (teamId,ex) -> {
 			if (teamStatsManager.get(teamId, StatsKey.TEAM_PREFIX) != null) {
 				if (alreadyExistsCallback != null) {
-					alreadyExistsCallback.call(null);
+					alreadyExistsCallback.call(null,null);
 				}
 				return;
 			}
@@ -139,7 +139,7 @@ public class TeamManager {
 			Team team = new Team(TeamManager.this, teamId, name, prefix);
 			team.addPlayer(ownerId, TeamRank.OWNER);
 			if(successCallback!=null){
-				successCallback.call(team);
+				successCallback.call(team,null);
 			}
 		});
 	}
@@ -151,7 +151,7 @@ public class TeamManager {
 	}
 
 	private void loadTeam(int teamId, @Nullable Callback<Team> callback) {
-		teamStatsManager.loadPlayer(teamId, loadedTeamId -> {
+		teamStatsManager.loadPlayer(teamId, (loadedTeamId,ex) -> {
 			Team team = null;
 			String prefix = teamStatsManager.getString(teamId, StatsKey.TEAM_PREFIX);
 			if (prefix != null) {
@@ -161,7 +161,7 @@ public class TeamManager {
 				loadPlayersInTeam(team);
 			}
 			if (callback != null) {
-				callback.call(team);
+				callback.call(team,null);
 			}
 		});
 	}

@@ -22,6 +22,7 @@ public class TimeManager extends kListener{
 	public TimeManager(PermissionManager manager){
 		super(manager.getInstance(),"TimeManager");
 		this.manager=manager;
+		UtilTime.setTimeManager(this);
 	}
 
 	public Long hasPermission(Player player,String typ){

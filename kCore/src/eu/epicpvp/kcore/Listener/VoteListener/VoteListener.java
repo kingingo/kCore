@@ -49,7 +49,7 @@ public class VoteListener extends kListener{
 							return;
 						}
 					}
-					callback.call(vote.getPlayername());
+					callback.call(vote.getPlayername(),null);
 				}
 			}
 		});
@@ -60,7 +60,7 @@ public class VoteListener extends kListener{
 		if(this.players!=null){
 			if(this.players.contains(ev.getPlayer().getName().toLowerCase())){
 				this.players.remove(ev.getPlayer().getName().toLowerCase());
-				callback.call(ev.getPlayer().getName());
+				callback.call(ev.getPlayer().getName(),null);
 			}
 		}
 	}

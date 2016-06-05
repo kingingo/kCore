@@ -34,7 +34,7 @@ class VotifierListener implements Listener{
 				return;
 			}
 		}
-		if(getVoteListener().getCallback()!=null)getVoteListener().getCallback().call(ev.getVote().getUsername());
+		if(getVoteListener().getCallback()!=null)getVoteListener().getCallback().call(ev.getVote().getUsername(),null);
 		
 	}
 }

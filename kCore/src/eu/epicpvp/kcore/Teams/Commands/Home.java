@@ -106,7 +106,7 @@ public class Home {
 //					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cGilde nicht gefunden");
 //				}
 			} else {
-				teamManager.getTeam(args[1], team -> {
+				teamManager.getTeam(args[1], (team,ex) -> {
 					if (team == null) {
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "§cGilde nicht gefunden");
 						return;

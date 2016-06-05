@@ -12,7 +12,7 @@ import lombok.Setter;
 public class PacketArenaWinner extends Packet{
 
 	public static void register(){
-		Packet.registerPacket(0xA2, PacketArenaWinner.class, PacketDirection.TO_CLIENT);
+		Packet.registerPacket(0xA2, PacketDirection.TO_CLIENT, PacketArenaWinner.class);
 	}
 	
 	@Setter

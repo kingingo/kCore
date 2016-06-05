@@ -102,7 +102,7 @@ public class LoginManager extends kListener{
 		loadedplayer.getSettings(Setting.PASSWORD).getAsync( new Callback<PacketOutPlayerSettings.SettingValue[]>() {
 
 			@Override
-			public void call(PacketOutPlayerSettings .SettingValue[] response) {
+			public void call(PacketOutPlayerSettings .SettingValue[] response, Throwable exception) {
 				logMessage("STEP 1 "+loadedplayer.getName());
 				if (response.length == 1 && response[0].getSetting() == Setting.PASSWORD){
 					logMessage("STEP 2 "+loadedplayer.getName());

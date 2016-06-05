@@ -9,7 +9,7 @@ import lombok.Setter;
 public class PacketPlayerVote extends Packet{
 
 	public static void register(){
-		Packet.registerPacket(0xA4, PacketPlayerVote.class, PacketDirection.TO_CLIENT);
+		Packet.registerPacket(0xA4, PacketDirection.TO_CLIENT, PacketPlayerVote.class);
 	}
 	
 	@Getter

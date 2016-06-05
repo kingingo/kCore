@@ -114,7 +114,7 @@ public class StatsManager extends kListener {
 		ArrayList<Callback<Integer>> callbacks = this.loading.get(ev.getPlayerId());
 		if (callbacks != null) {
 			for (Callback<Integer> call : new ArrayList<>(callbacks))
-				call.call(ev.getPlayerId());
+				call.call(ev.getPlayerId(), null );
 		}
 	}
 
@@ -135,7 +135,7 @@ public class StatsManager extends kListener {
 		if(ranking.getRanking() ==null){
 			ranking.load(new Callback<Object>() {
 				@Override
-				public void call(Object obj) {
+				public void call(Object obj, Throwable exception) {
 					StatsManager.this.SendRankingMessage(player, ranking);
 				}
 			});
@@ -254,7 +254,7 @@ public class StatsManager extends kListener {
 		if (statsMap != null) {
 			StatsObject statsObject = statsMap.get(key);
 			if (statsObject != null) {
-				callback.call(statsObject.getValue());
+				callback.call(statsObject.getValue(),null);
 			}
 			return;
 		}
@@ -267,7 +267,7 @@ public class StatsManager extends kListener {
 		ArrayList<Callback<Integer>> callbacksFinalVar = callbacks;
 		callbacks.add(new Callback<Integer>() {
 			@Override
-			public void call(Integer playerId) {
+			public void call(Integer playerId, Throwable exception) {
 				getAsync(playerId, key, callback);
 				callbacksFinalVar.remove(this);
 			}
@@ -377,7 +377,7 @@ public class StatsManager extends kListener {
 				logMessage("set LOAD PLAYER " + playerId);
 				loadPlayer(playerId, new Callback<Integer>() {
 					@Override
-					public void call(Integer pid) {
+					public void call(Integer pid, Throwable exception) {
 						set(playerId, key, obj);
 					}
 				});
@@ -413,7 +413,7 @@ public class StatsManager extends kListener {
 			loadPlayer(playerId, new Callback<Integer>() {
 
 				@Override
-				public void call(Integer pid) {
+				public void call(Integer pid, Throwable exception) {
 					add(pid, key, value);
 				}
 			});
@@ -445,7 +445,7 @@ public class StatsManager extends kListener {
 			logMessage("Player is loaded!? "+loadedplayer.getName());
 			
 			if (callback != null) {
-				callback.call(loadedplayer.getPlayerId());
+				callback.call(loadedplayer.getPlayerId(),null);
 			}
 			loadplayers.remove(loadedplayer.getName());
 			return;
@@ -455,7 +455,7 @@ public class StatsManager extends kListener {
 		loadedplayer.getStats(getType()).getAsync(new Callback<Statistic[]>() {
 
 			@Override
-			public void call(Statistic[] statistics) {
+			public void call(Statistic[] statistics, Throwable exception) {
 
 				Map<StatsKey, StatsObject> statsMap = players.computeIfAbsent(loadedplayer.getPlayerId(), key -> new EnumMap<>(StatsKey.class));
 
@@ -476,7 +476,7 @@ public class StatsManager extends kListener {
 				}
 
 				if (callback != null) {
-					callback.call(loadedplayer.getPlayerId());
+					callback.call(loadedplayer.getPlayerId(),null);
 				}
 				
 				loadplayers.remove(loadedplayer.getName());

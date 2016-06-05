@@ -120,7 +120,7 @@ public class PlayerKitManager{
 			mysql.asyncQuery("statistics_"+type.getShortName()+"_kits", "`content`,`armor_content`", "playerId='"+playerId+"' AND id='"+id+"'", new Callback<ResultSet>() {
 				
 				@Override
-				public void call(ResultSet value) {
+				public void call(ResultSet value, Throwable ex) {
 					if(value instanceof ResultSet){
 						
 						try {
@@ -131,7 +131,7 @@ public class PlayerKitManager{
 							kits.get(playerId).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
 							kits.get(playerId).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
 								 
-							if(callback!=null)callback.call(kits.get(playerId));
+							if(callback!=null)callback.call(kits.get(playerId),null);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						} catch (IOException e) {

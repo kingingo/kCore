@@ -26,7 +26,7 @@ public class UtilSkin {
 	public static void loadSkin(Callback<Skin> callback, String playerName){
 		if(catcher!=null){
 			if(catcher.getSkins().containsKey(playerName)){
-				callback.call(catcher.getSkins().get(playerName));
+				callback.call(catcher.getSkins().get(playerName),null);
 				return;
 			}
 		}
@@ -35,7 +35,7 @@ public class UtilSkin {
 			ProgressFuture<Skin> response = UtilServer.getClient().getSkin(playerName);
 			response.getAsync(callback);
 		}else{
-			callback.call(new SteveSkin());
+			callback.call(new SteveSkin(),null);
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class UtilSkin {
 		
 		loadSkin(new Callback<Skin>() {
 			@Override
-			public void call(Skin skin) {
+			public void call(Skin skin, Throwable ex) {
 				 profile.loadSkin(skin);
 			}
 		}, playerName);
@@ -64,14 +64,14 @@ public class UtilSkin {
 			ProgressFuture<Skin> response = UtilServer.getClient().getSkin(uuid);
 			response.getAsync(callback);
 		}else{
-			callback.call(new SteveSkin());
+			callback.call(new SteveSkin(),null);
 		}
 	}
 	
 	public static void loadSkin(kGameProfile profile, UUID uuid){
 		loadSkin(new Callback<Skin>() {
 			@Override
-			public void call(Skin skin) {
+			public void call(Skin skin, Throwable ex) {
 				 profile.loadSkin(skin);
 			}
 		}, uuid);
