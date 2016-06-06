@@ -1,17 +1,15 @@
 package eu.epicpvp.kcore.Command.Commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilTime;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CommandHeal implements CommandExecutor{
 
@@ -24,8 +22,9 @@ public class CommandHeal implements CommandExecutor{
 				if(s !=null){
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME", s));
 				}else{
-					player.setHealth(((CraftPlayer) player).getMaxHealth());
+					player.setHealth(player.getMaxHealth());
 					player.setFoodLevel(20);
+					player.setSaturation(20);
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HEAL"));
 					Long l = UtilTime.getTimeManager().hasPermission(player, cmd.getName());
 					if( l !=0 ){
@@ -36,17 +35,20 @@ public class CommandHeal implements CommandExecutor{
 				if(args[0].equalsIgnoreCase("all")){
 					if(player.hasPermission(PermissionType.HEAL_ALL.getPermissionToString())){
 						for(Player p : UtilServer.getPlayers()){
-							p.setHealth(((CraftPlayer)p).getMaxHealth());
+							p.setHealth(p.getMaxHealth());
 							p.setFoodLevel(20);
+							p.setSaturation(20);
 							p.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HEAL_ALL", player.getName()));
 						}
 					}
 				}else{
 					if(player.hasPermission(PermissionType.HEAL_OTHER.getPermissionToString())){
-						if(Bukkit.getPlayer(args[0])!=null){
-							Bukkit.getPlayer(args[0]).setHealth(((CraftPlayer)Bukkit.getPlayer(args[0])).getMaxHealth());
-							Bukkit.getPlayer(args[0]).setFoodLevel(20);
-							Bukkit.getPlayer(args[0]).sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HEAL_ALL", player.getName()));
+						Player target = Bukkit.getPlayer(args[0]);
+						if(target !=null){
+							target.setHealth(target.getMaxHealth());
+							target.setFoodLevel(20);
+							target.setSaturation(20);
+							target.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HEAL_ALL", player.getName()));
 							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "HEAL_OTHER",args[0]));
 						}else{
 							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",args[0]));

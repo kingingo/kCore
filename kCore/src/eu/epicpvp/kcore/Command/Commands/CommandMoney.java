@@ -63,7 +63,7 @@ public class CommandMoney implements CommandExecutor{
 								if(stats.getDouble(player, StatsKey.MONEY) >= money){
 									stats.add(player, StatsKey.MONEY, -money);
 									stats.add(target, StatsKey.MONEY, money);
-									target.sendMessage(prefix+TranslationHandler.getText(player, "MONEY_RECEIVE_FROM", player.getName(), String.valueOf(money)));
+									target.sendMessage(prefix+TranslationHandler.getText(player, "MONEY_RECEIVE_FROM", String.valueOf(money), player.getName()));
 									player.sendMessage(prefix+TranslationHandler.getText(target, "MONEY_SEND_TO", target.getName(), String.valueOf(money)));
 								}else{
 									player.sendMessage(prefix+TranslationHandler.getText(player, "MONEY_ENOUGH_MONEY"));
