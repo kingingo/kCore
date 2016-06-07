@@ -33,6 +33,7 @@ public class MoneyListener extends kListener{
 		this.properties.setForceSave(true);
 		this.properties.setAutoLoad(true);;
 		UtilServer.setMoneyListener(this);
+		logMessage("enabled!");
 	}
 	
 

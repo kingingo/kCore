@@ -6,7 +6,8 @@ GUNGAME("gungame"),
 GAME("game"),
 PVP("pvp"),
 SKY("sky"),
-WARZ("warz");
+WARZ("warz"),
+CREATIVE("creative");
 
 public static GroupTyp get(String typ){
 	GroupTyp per=null;

@@ -15,15 +15,15 @@ public class AddonSun extends kListener {
 	@Getter
 	private World world;
 	
-	public AddonSun(JavaPlugin plugin,World w){
-		super(plugin,"AddonSun");
-		this.world=w;
-		this.instance=plugin;
+	public AddonSun(JavaPlugin instance,World world){
+		super(instance,"AddonSun");
+		this.world=world;
+		this.instance=instance;
 	}
 	
 	@EventHandler
 	public void weather(WeatherChangeEvent ev){
-		if(ev.getWorld().getUID()==getWorld().getUID()){
+		if(getWorld()==null || ev.getWorld().getUID()==getWorld().getUID()){
 			if(ev.toWeatherState())ev.getWorld().setStorm(false);
 		}
 	}

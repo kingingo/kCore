@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import eu.epicpvp.kcore.GagdetShop.GadgetHandler;
 import eu.epicpvp.kcore.Scheduler.kScheduler;
 import eu.epicpvp.kcore.Update.UpdateType;
+import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilEffect;
 import eu.epicpvp.kcore.Util.UtilEvent;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
@@ -33,12 +34,13 @@ public class Ragebow extends Gadget{
 				&& UtilEvent.isAction(ev, ActionType.R)
 				&& use(ev.getPlayer())){
 			Arrow arrow = ev.getPlayer().shootArrow();
+			long time = System.currentTimeMillis();
 			
 			 new kScheduler(getHandler().getInstance(), new kScheduler.kSchedulerHandler() {
 					
 					@Override
 					public void onRun(kScheduler scheduler) {
-						if(arrow.isDead()||arrow.isOnGround()||arrow.isInsideVehicle()){
+						if(arrow.isDead()||arrow.isOnGround()||arrow.isInsideVehicle()|| (System.currentTimeMillis()-time)>TimeSpan.SECOND*5){
 							arrow.remove();
 							scheduler.close();
 						}else{

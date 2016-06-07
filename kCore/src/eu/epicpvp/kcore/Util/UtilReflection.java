@@ -25,7 +25,7 @@ public class UtilReflection {
 			field.setAccessible(true);
 			field.set(instance, value);
 		}catch(Exception e){
-			System.err.println(e);
+			e.printStackTrace();
 		}
 	}
 	
