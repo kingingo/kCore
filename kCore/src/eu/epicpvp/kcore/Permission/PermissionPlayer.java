@@ -31,7 +31,6 @@ public class PermissionPlayer {
 	private boolean loaded;
 	
 	public ArrayList<Group> getGroups() {
-		loadPermissions();
 		if (groups.size() == 0) {
 			if (manager.getGroup("default") == null)
 				manager.loadGroup("default");
@@ -98,7 +97,7 @@ public class PermissionPlayer {
 			}
 		}
 
-		if (player.hasPermission("epicpvp.op")) {
+		if (hasPermission("epicpvp.op")) {
 			player.setOp(true);
 		} else {
 			if (player.isOp()) {
@@ -108,8 +107,8 @@ public class PermissionPlayer {
 
 		player.recalculatePermissions();
 		long end = System.currentTimeMillis();
-		loaded = true;
 		System.out.println("[PermissionManager]: Player geladen ("+(end-start)+"ms)");
+		loaded = true;
 	}
 
 	public void reloadPermissions() {

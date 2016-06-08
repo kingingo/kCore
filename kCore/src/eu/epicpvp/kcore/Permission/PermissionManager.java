@@ -257,7 +257,7 @@ public class PermissionManager {
 		PermissionPlayer permissionPlayer = user.get(playerId);
 		if (permissionPlayer == null)
 			return false;
-		return permissionPlayer.hasPermission(permission) || permissionPlayer.hasPermission(PermissionType.ALL_PERMISSION.getPermissionToString());
+		return permissionPlayer.hasPermission(permission);
 	}
 
 	public void addPermission(Player player, PermissionType type) {
