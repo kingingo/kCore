@@ -49,13 +49,6 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 				}
 			}
 		}).start();
-		
-//		for(PermissionChannelListener listener : new ArrayList<>(this.listener)){
-//			if(listener.handle(from, buffer)){
-//				this.listener.remove(listener);
-//				break;
-//			}
-//		}
 	}
 	
 	public PluginMessageFutureTask<DataBuffer> sendMessage(Player player,DataBuffer buffer){
