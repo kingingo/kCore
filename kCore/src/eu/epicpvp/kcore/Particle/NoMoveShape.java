@@ -1,11 +1,11 @@
 package eu.epicpvp.kcore.Particle;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import eu.epicpvp.kcore.Permission.PermissionType;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 public abstract class NoMoveShape<E extends Enum<E>, V extends NoMoveShape.LastMoveHolder> extends ParticleShape<E, V> {
 

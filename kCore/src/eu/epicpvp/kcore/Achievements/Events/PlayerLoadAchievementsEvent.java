@@ -5,7 +5,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import eu.epicpvp.kcore.Achievements.Handler.Achievement;
-import eu.epicpvp.kcore.AntiLogout.AntiLogoutManager;
 import lombok.Getter;
 
 public class PlayerLoadAchievementsEvent extends Event

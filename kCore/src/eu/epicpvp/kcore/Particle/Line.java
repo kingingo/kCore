@@ -3,8 +3,9 @@ package eu.epicpvp.kcore.Particle;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.epicpvp.kcore.Util.Tuple;
 import org.bukkit.util.Vector;
+
+import eu.epicpvp.kcore.Util.Tuple;
 
 /**
  * seems to contain bugs

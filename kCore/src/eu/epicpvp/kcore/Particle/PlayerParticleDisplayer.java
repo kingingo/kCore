@@ -2,8 +2,6 @@ package eu.epicpvp.kcore.Particle;
 
 import java.util.UUID;
 
-import eu.epicpvp.kcore.Util.UtilParticle;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -17,6 +15,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
+
+import eu.epicpvp.kcore.Util.UtilParticle;
+import lombok.Getter;
 
 public class PlayerParticleDisplayer<P extends Enum<P>, V> implements Listener, Runnable {
 

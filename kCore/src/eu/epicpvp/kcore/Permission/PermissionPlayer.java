@@ -6,9 +6,9 @@ import java.util.Arrays;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
+import dev.wolveringer.bukkit.permissions.GroupTyp;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import eu.epicpvp.kcore.Permission.Group.Group;
-import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 import lombok.Setter;

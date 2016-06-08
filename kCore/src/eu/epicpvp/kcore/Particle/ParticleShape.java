@@ -3,17 +3,19 @@ package eu.epicpvp.kcore.Particle;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 public abstract class ParticleShape<P extends Enum<P>, V> {
 

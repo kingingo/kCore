@@ -1,12 +1,13 @@
 package eu.epicpvp.kcore.Particle.Wings;
 
-import eu.epicpvp.kcore.Particle.NoMoveShape;
-import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Util.UtilVector;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import eu.epicpvp.kcore.Particle.NoMoveShape;
+import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Util.UtilVector;
 
 public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingState> {
 

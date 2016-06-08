@@ -2,7 +2,7 @@ package eu.epicpvp.kcore.MysteryBox.Items;
 
 import org.bukkit.inventory.ItemStack;
 
-import eu.epicpvp.kcore.Permission.Group.GroupTyp;
+import dev.wolveringer.bukkit.permissions.GroupTyp;
 import lombok.Getter;
 
 public class MysteryItem extends ItemStack{

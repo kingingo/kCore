@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import dev.wolveringer.bukkit.permissions.GroupTyp;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.GagdetShop.Gagdet.Gadget;
 import eu.epicpvp.kcore.GagdetShop.Gagdet.MobGun;
@@ -68,7 +69,6 @@ import eu.epicpvp.kcore.Particle.Wings.BatWings;
 import eu.epicpvp.kcore.Particle.Wings.ButterflyWings;
 import eu.epicpvp.kcore.Particle.Wings.InsectWings;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Permission.Group.GroupTyp;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilMath;

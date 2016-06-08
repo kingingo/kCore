@@ -6,16 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Inventory.Inventory.InventoryCopy;
-import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonOpenInventoryCopy;
-import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationHandler;
-import eu.epicpvp.kcore.Util.UtilItem;
-import eu.epicpvp.kcore.Util.UtilNumber;
-import eu.epicpvp.kcore.Util.UtilString;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 

@@ -9,8 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.util.ChatPaginator;
 
-import lombok.Setter;
-
 /**
  * User: bobacadodl Date: 1/25/14 Time: 10:28 PM
  */

@@ -15,7 +15,6 @@ import eu.epicpvp.kcore.Gilden.Commands.Kicken;
 import eu.epicpvp.kcore.Gilden.Commands.Money;
 import eu.epicpvp.kcore.Gilden.Commands.Ranking;
 import eu.epicpvp.kcore.Gilden.Commands.Verlassen;
-import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandGilde implements CommandExecutor{

@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import eu.epicpvp.kcore.Achievements.Handler.Achievement;

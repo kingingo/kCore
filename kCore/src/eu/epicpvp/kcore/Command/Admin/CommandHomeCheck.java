@@ -3,11 +3,6 @@ package eu.epicpvp.kcore.Command.Admin;
 import java.io.File;
 import java.util.ArrayList;
 
-import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Translation.TranslationHandler;
-import eu.epicpvp.kcore.Util.UtilNumber;
-import eu.epicpvp.kcore.Util.UtilServer;
-import eu.epicpvp.kcore.kConfig.kConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -15,6 +10,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.Util.UtilNumber;
+import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.kConfig.kConfig;
 
 public class CommandHomeCheck implements CommandExecutor{
 	

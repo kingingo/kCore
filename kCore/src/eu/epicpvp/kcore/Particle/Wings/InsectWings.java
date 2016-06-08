@@ -1,7 +1,8 @@
 package eu.epicpvp.kcore.Particle.Wings;
 
-import eu.epicpvp.kcore.Permission.PermissionType;
 import org.bukkit.Color;
+
+import eu.epicpvp.kcore.Permission.PermissionType;
 
 public class InsectWings extends WingShape {
 

@@ -1,8 +1,5 @@
 package eu.epicpvp.kcore.Command.Admin;
 
-import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,6 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;
 import net.minecraft.server.v1_8_R3.PacketPlayInFlying;
 import net.minecraft.server.v1_8_R3.PacketPlayInFlying.PacketPlayInPosition;
 

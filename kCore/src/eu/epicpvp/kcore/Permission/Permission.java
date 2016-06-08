@@ -1,6 +1,6 @@
 package eu.epicpvp.kcore.Permission;
 
-import eu.epicpvp.kcore.Permission.Group.GroupTyp;
+import dev.wolveringer.bukkit.permissions.GroupTyp;
 import lombok.Getter;
 
 @Getter

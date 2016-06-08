@@ -2,9 +2,10 @@ package eu.epicpvp.kcore.Particle.Cape;
 
 import java.util.Map;
 
-import eu.epicpvp.kcore.Permission.PermissionType;
 import org.bukkit.Color;
 import org.bukkit.util.Vector;
+
+import eu.epicpvp.kcore.Permission.PermissionType;
 
 public class SupermanCape extends CapeShape {
 

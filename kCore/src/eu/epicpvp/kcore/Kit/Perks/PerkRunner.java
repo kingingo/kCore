@@ -1,21 +1,15 @@
 package eu.epicpvp.kcore.Kit.Perks;
 
 import org.bukkit.Material;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.entity.PotionSplashEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import eu.epicpvp.kcore.Kit.Perk;
 import eu.epicpvp.kcore.Kit.Perks.Event.PerkPlayerAddEvent;
 import eu.epicpvp.kcore.Kit.Perks.Event.PerkPlayerRemoveEvent;
-import eu.epicpvp.kcore.Kit.Perks.Event.PerkStartEvent;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 

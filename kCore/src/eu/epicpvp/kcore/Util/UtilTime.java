@@ -6,7 +6,6 @@ import java.util.Date;
 
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.TimeManager.TimeManager;
-import lombok.Setter;
 
 public class UtilTime {
 	private static TimeManager manager;

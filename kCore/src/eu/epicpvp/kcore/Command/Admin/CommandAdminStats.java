@@ -1,6 +1,5 @@
 package eu.epicpvp.kcore.Command.Admin;
 
-import eu.epicpvp.kcore.Translation.TranslationHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,6 +10,7 @@ import dev.wolveringer.client.Callback;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandAdminStats  implements CommandExecutor{

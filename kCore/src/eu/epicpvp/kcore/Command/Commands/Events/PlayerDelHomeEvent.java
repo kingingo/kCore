@@ -2,13 +2,11 @@ package eu.epicpvp.kcore.Command.Commands.Events;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
-import lombok.Setter;
 
 public class PlayerDelHomeEvent  extends Event {
 	private static HandlerList handlers = new HandlerList();

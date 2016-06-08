@@ -16,11 +16,8 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 
-import dev.wolveringer.client.LoadedPlayer;
 import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigConvertEvent;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
