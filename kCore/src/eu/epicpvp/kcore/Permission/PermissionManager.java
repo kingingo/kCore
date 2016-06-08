@@ -53,76 +53,65 @@ public class PermissionManager {
 
 	public PermissionManager(JavaPlugin instance, GroupTyp type) {
 		this.instance = instance;
-		PermissionManager.manager=this;
+		PermissionManager.manager = this;
 		this.type = type;
 		this.handler = new PermissionChannelHandler(this);
 		Bukkit.getMessenger().registerIncomingPluginChannel(instance, "permission", handler);
 		Bukkit.getMessenger().registerOutgoingPluginChannel(instance, "permission");
 		UtilServer.setPermissionManager(this);
 	}
-	
-	public boolean isBuyableTimeRank(String group){
-		return group.equalsIgnoreCase("vip1")
-				||group.equalsIgnoreCase("vip3")
-				||group.equalsIgnoreCase("vip6")
-				||group.equalsIgnoreCase("ultra1")
-				||group.equalsIgnoreCase("ultra3")
-				||group.equalsIgnoreCase("ultra6")
-				||group.equalsIgnoreCase("legend1")
-				||group.equalsIgnoreCase("legend3")
-				||group.equalsIgnoreCase("legend6")
-				||group.equalsIgnoreCase("mvp1")
-				||group.equalsIgnoreCase("mvp3")
-				||group.equalsIgnoreCase("mvp6")
-				||group.equalsIgnoreCase("mvp+1")
-				||group.equalsIgnoreCase("mvp+3")
-				||group.equalsIgnoreCase("mvp+6");
+
+	public boolean isBuyableTimeRank(String group) {
+		return group.equalsIgnoreCase("vip1") || group.equalsIgnoreCase("vip3") || group.equalsIgnoreCase("vip6") || group.equalsIgnoreCase("ultra1") || group.equalsIgnoreCase("ultra3") || group.equalsIgnoreCase("ultra6") || group.equalsIgnoreCase("legend1") || group.equalsIgnoreCase("legend3") || group.equalsIgnoreCase("legend6") || group.equalsIgnoreCase("mvp1") || group.equalsIgnoreCase("mvp3") || group.equalsIgnoreCase("mvp6") || group.equalsIgnoreCase("mvp+1")
+				|| group.equalsIgnoreCase("mvp+3") || group.equalsIgnoreCase("mvp+6");
 	}
-	
-	public boolean isBuyableRank(String group){
-		return group.equalsIgnoreCase("vip")
-				||group.equalsIgnoreCase("ultra")
-				||group.equalsIgnoreCase("legend")
-				||group.equalsIgnoreCase("mvp")
-				||group.equalsIgnoreCase("mvp+");
+
+	public boolean isBuyableRank(String group) {
+		return group.equalsIgnoreCase("vip") || group.equalsIgnoreCase("ultra") || group.equalsIgnoreCase("legend") || group.equalsIgnoreCase("mvp") || group.equalsIgnoreCase("mvp+");
 	}
-	
-	public int getUpdgradeGroupPrice(Player player, String toGroup){
+
+	public int getUpdgradeGroupPrice(Player player, String toGroup) {
 		PermissionPlayer permissionPlayer = getPermissionPlayer(player);
 		Group group = permissionPlayer.getGroups().get(0);
-		
-		if(isBuyableRank(group.getName())){
+
+		if (isBuyableRank(group.getName())) {
 			return getUpdgradeGroupPrice(group.getName(), toGroup);
 		}
-		
+
 		return getGroupPrice(toGroup);
 	}
-	
-	public int getUpdgradeGroupPrice(String playerGroup, String toGroup){
+
+	public int getUpdgradeGroupPrice(String playerGroup, String toGroup) {
 		int player_group = getGroupPrice(playerGroup);
 		int new_group = getGroupPrice(toGroup);
 		return new_group - player_group;
 	}
-	
-	public boolean checkHigherRank(Player player,String group){
+
+	public boolean checkHigherRank(Player player, String group) {
 		PermissionPlayer permissionPlayer = getPermissionPlayer(player);
 		Group pgroup = permissionPlayer.getGroups().get(0);
-		
-		if(isBuyableRank(pgroup.getName())){
+
+		if (isBuyableRank(pgroup.getName())) {
 			return (getGroupPrice(pgroup.getName()) > getGroupPrice(group));
 		}
-		
+
 		return false;
 	}
-	
-	public int getGroupPrice(String groupName){
-		switch(groupName.toLowerCase()){
-			case "vip": return 5400;
-			case "ultra": return 12000;
-			case "legend": return 17400;
-			case "mvp": return 24000;
-			case "mvp+": return 35000;
-			default: return 99999999;
+
+	public int getGroupPrice(String groupName) {
+		switch (groupName.toLowerCase()) {
+		case "vip":
+			return 5400;
+		case "ultra":
+			return 12000;
+		case "legend":
+			return 17400;
+		case "mvp":
+			return 24000;
+		case "mvp+":
+			return 35000;
+		default:
+			return 99999999;
 		}
 	}
 
@@ -133,7 +122,7 @@ public class PermissionManager {
 			if (getPermissionPlayer(p) != null && !getPermissionPlayer(p).getGroups().isEmpty() && board.getTeam(getPermissionPlayer(p).getGroups().get(0).getName()) == null) {
 				UtilScoreboard.addTeam(board, getPermissionPlayer(p).getGroups().get(0).getName(), null, getPermissionPlayer(p).getGroups().get(0).getPrefix());
 			}
-			if(getPermissionPlayer(p)!=null && !getPermissionPlayer(p).getGroups().isEmpty())
+			if (getPermissionPlayer(p) != null && !getPermissionPlayer(p).getGroups().isEmpty())
 				UtilScoreboard.addPlayerToTeam(board, getPermissionPlayer(p).getGroups().get(0).getName(), p);
 		}
 
@@ -144,7 +133,6 @@ public class PermissionManager {
 		setTabList(player, true);
 	}
 
-	@SuppressWarnings("deprecation")
 	public void setTabList(Player player, boolean callEvent) {
 		try {
 			AsyncCatcher.catchOp("");
@@ -190,7 +178,7 @@ public class PermissionManager {
 			if (UtilServer.getClient().getPlayerAndLoad(player.getName()) != null)
 				UtilScoreboard.addPlayerToTeam(p.getScoreboard(), t2, player);
 		}
-		
+
 		Bukkit.getPluginManager().callEvent(new PlayerSetScoreboardEvent(player));
 		if (callEvent) {
 			Bukkit.getPluginManager().callEvent(new PlayerLoadPermissionEvent(this, getPermissionPlayer(player)));
@@ -203,7 +191,7 @@ public class PermissionManager {
 
 	public void loadPlayer(Player player, int playerId) {
 		if (!user.containsKey(playerId))
-			new PermissionPlayer(player, this, playerId);
+			user.put(playerId, new PermissionPlayer(player, this, playerId));
 	}
 
 	public PermissionPlayer getPermissionPlayer(Player player) {
@@ -254,7 +242,6 @@ public class PermissionManager {
 		return prefix;
 	}
 
-	@SuppressWarnings("deprecation")
 	public boolean hasPermission(Player player, String permission, boolean message) {
 		boolean perm = hasPermission(UtilPlayer.getPlayerId(player), permission);
 		if (message && !perm)
@@ -278,9 +265,11 @@ public class PermissionManager {
 	}
 
 	public Group getGroup(String name) {
-		for (Group g : groups)
-			if (g.getName().equalsIgnoreCase(name))
-				return g;
+		for (Group g : new ArrayList<>(groups))
+			if (g != null)
+				if (g.getName() != null)
+					if (g.getName().equalsIgnoreCase(name))
+						return g;
 		return null;
 	}
 
@@ -290,15 +279,15 @@ public class PermissionManager {
 			groups.add(g = new Group(this, name));
 		}
 		if (!g.isLoaded())
-			g.reload();
+			g.load();
 		return g;
 	}
 
 	public void unloadGroup(Group g) {
 		groups.remove(g);
 	}
-	
-	public void setGroup(Player player, String toGroup){
+
+	public void setGroup(Player player, String toGroup) {
 		LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player.getName());
 		DataBuffer buffer = new DataBuffer();
 		buffer.writeByte(2);
@@ -307,10 +296,11 @@ public class PermissionManager {
 		buffer.writeString(toGroup);
 		PacketServerMessage packet = new PacketServerMessage("permission", ClientType.BUNGEECORD, buffer);
 
-		UtilReflection.setValue("targets", packet, new PacketServerMessage.Target[]{new PacketServerMessage.Target(ClientType.BUNGEECORD,"targetlimit;1")});
+		UtilReflection.setValue("targets", packet, new PacketServerMessage.Target[]
+		{ new PacketServerMessage.Target(ClientType.BUNGEECORD, "targetlimit;1") });
 
 		UtilServer.getClient().writePacket(packet);
-		System.out.println("Set "+player+"("+loadedplayer.getPlayerId()+") to "+toGroup);
+		System.out.println("Set " + player + "(" + loadedplayer.getPlayerId() + ") to " + toGroup);
 	}
 
 	protected void updatePlayer(int playerId) {
@@ -332,10 +322,11 @@ public class PermissionManager {
 			@Override
 			public void run() {
 				groups.remove(getGroup(group));
-				if (!Bukkit.getOnlinePlayers().isEmpty())
+				if (!Bukkit.getOnlinePlayers().isEmpty()){
 					loadGroup(group);
-				for (PermissionPlayer p : new ArrayList<PermissionPlayer>(user.values()))
-					updatePlayer(p.getPlayerId());
+					for (PermissionPlayer p : new ArrayList<PermissionPlayer>(user.values()))
+						updatePlayer(p.getPlayerId());
+				}
 			}
 		});
 	}

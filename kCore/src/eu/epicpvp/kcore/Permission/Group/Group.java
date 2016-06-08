@@ -32,7 +32,9 @@ public class Group {
 		init();
 	}
 
-	private void init(){
+	private synchronized void init(){
+		if(isLoaded())
+			return;
 		try{
 			DataBuffer response =  manager.getHandler().sendMessage(createPlayer(), new DataBuffer().writeByte(1).writeString(name)).getSync(); //Action=1 Getgroup informatin
 			if(response == null){
@@ -80,10 +82,15 @@ public class Group {
 	}
 	
 	public void reload(){
+		loaded = false;
 		init();
 	}
 
 	public ArrayList<Permission> getPermissions() {
 		return perms;
+	}
+
+	public void load() {
+		init();
 	}
 }
