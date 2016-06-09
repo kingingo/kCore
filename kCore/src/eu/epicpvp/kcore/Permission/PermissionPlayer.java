@@ -98,6 +98,11 @@ public class PermissionPlayer {
 			}
 		}
 
+		player.recalculatePermissions();
+		long end = System.currentTimeMillis();
+		System.out.println("[PermissionManager]: Player geladen ("+(end-start)+"ms)");
+		loaded = true;
+		
 		if (hasPermission("epicpvp.op")) {
 			player.setOp(true);
 		} else {
@@ -105,11 +110,6 @@ public class PermissionPlayer {
 				player.setOp(false);
 			}
 		}
-
-		player.recalculatePermissions();
-		long end = System.currentTimeMillis();
-		System.out.println("[PermissionManager]: Player geladen ("+(end-start)+"ms)");
-		loaded = true;
 	}
 
 	public void reloadPermissions() {
