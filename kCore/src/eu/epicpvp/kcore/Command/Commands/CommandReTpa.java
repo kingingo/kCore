@@ -1,5 +1,6 @@
 package eu.epicpvp.kcore.Command.Commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,8 +23,18 @@ public class CommandReTpa implements CommandExecutor{
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "retpa", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		Player player = (Player) cs;
-		if(getManager().getTeleport_anfrage().containsKey(player)){
-			getManager().getTeleport_anfrage().remove(player);
+		if (args.length == 0) {
+			cs.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/retpa <name>");
+			return false;
+		}
+		String targetName = args[0];
+		Player target = Bukkit.getPlayer(targetName);
+		if (target == null) {
+			cs.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "PLAYER_IS_OFFLINE",targetName));
+			return false;
+		}
+		if(getManager().getTeleport_anfrage().containsKey(target)){
+			getManager().getTeleport_anfrage().remove(target);
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "CLEAR"));
 		}else{
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "NO_ANFRAGE"));

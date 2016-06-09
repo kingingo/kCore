@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.TeleportManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,15 +46,15 @@ public class TeleportManager extends kListener{
 		cmd.register(CommandTpdeny.class, new CommandTpdeny(this));
 		UtilServer.setTeleportManager(this);
 	}
-	
-	Teleporter tp;
+
 	@EventHandler
 	public void Updater(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.FAST)return;
-		for(int i = 0; i < teleport.size(); i++){
-			tp=((Teleporter)teleport.get(i));
+		Iterator<Teleporter> iterator = teleport.iterator();
+		while (iterator.hasNext()) {
+			Teleporter tp = iterator.next();
 			if(tp.TeleportDo()){
-				teleport.remove(tp);
+				iterator.remove();
 			}
 		}
 	}

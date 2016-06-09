@@ -1,10 +1,19 @@
-package eu.epicpvp.kcore.UserDataConfig;
+﻿package eu.epicpvp.kcore.UserDataConfig;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import com.google.common.base.Charsets;
+import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
+import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
+import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.kConfig.kConfig;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,17 +23,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.google.common.base.Charsets;
-
-import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
-import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
-import eu.epicpvp.kcore.Util.UtilPlayer;
-import eu.epicpvp.kcore.Util.UtilServer;
-import eu.epicpvp.kcore.kConfig.kConfig;
-import lombok.Getter;
-import lombok.Setter;
 
 public class UserDataConfig extends kListener{
 
@@ -53,6 +51,9 @@ public class UserDataConfig extends kListener{
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Login(AsyncPlayerPreLoginEvent ev){
+		if (UtilServer.getClient() == null) {
+			ev.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Server still starting up...");
+		}
 		int playerId = UtilPlayer.getPlayerId(ev.getName());
 		
 		File file = new File(getDataFolder(),playerId+".yml");

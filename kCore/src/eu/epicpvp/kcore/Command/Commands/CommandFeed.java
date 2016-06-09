@@ -24,6 +24,7 @@ public class CommandFeed implements CommandExecutor{
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME", s));
 				}else{
 					player.setFoodLevel(20);
+					player.setSaturation(20);
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "FEED"));
 					Long l = UtilTime.getTimeManager().hasPermission(player, cmd.getName());
 					if( l !=0 ){
@@ -35,6 +36,7 @@ public class CommandFeed implements CommandExecutor{
 					if(player.hasPermission(PermissionType.FEED_ALL.getPermissionToString())){
 						for(Player p : UtilServer.getPlayers()){
 							p.setFoodLevel(20);
+							p.setSaturation(20);
 							p.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "FEED_ALL", player.getName()));
 						}
 					}
@@ -42,6 +44,7 @@ public class CommandFeed implements CommandExecutor{
 					if(player.hasPermission(PermissionType.FEED_OTHER.getPermissionToString())){
 						if(Bukkit.getPlayer(args[0])!=null){
 							Bukkit.getPlayer(args[0]).setFoodLevel(20);
+							Bukkit.getPlayer(args[0]).setSaturation(20);
 							Bukkit.getPlayer(args[0]).sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "FEED_ALL", player.getName()));
 							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "FEED_OTHER",args[0]));
 						}else{
