@@ -15,7 +15,6 @@ import lombok.Getter;
 
 public class Group {
 
-	@Getter
 	private String prefix = "undefined";
 	@Getter
 	private String name = "undefined";
@@ -66,7 +65,12 @@ public class Group {
 		}
 		loaded = true;
 	}
-
+	
+	public String getPrefix() {
+		init();
+		return prefix;
+	}
+	
 	private Player createPlayer() {
 		return UtilServer.getPlayers().isEmpty() ? null : UtilServer.getPlayers().iterator().next();
 	}
