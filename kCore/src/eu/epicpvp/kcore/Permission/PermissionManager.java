@@ -317,7 +317,7 @@ public class PermissionManager {
 		}
 	}
 
-	protected void updateGroup(String group) {
+	public void updateGroup(String group) {
 		Bukkit.getScheduler().runTask(manager.getInstance(), new Runnable() {
 			@Override
 			public void run() {

@@ -40,6 +40,9 @@ public class CommandK implements CommandExecutor{
 				GroupTyp group = GroupTyp.get(args[3]);
 				
 				addPermission(player, perm,group);
+			}else if(args[0].equalsIgnoreCase("update")){
+				UtilServer.getPermissionManager().updateGroup(args[1]);
+				System.out.println("UPDATE");
 			}
 		}
 		return false;
