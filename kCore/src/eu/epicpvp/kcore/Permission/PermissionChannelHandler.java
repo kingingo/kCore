@@ -43,6 +43,7 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		ThreadFactory.getFactory().createThread(new Runnable() {
 			@Override
 			public void run() {
+				System.out.print("Having plugin message: "+from);
 				if(listener.containsKey(from)){
 					listener.get(from).handle(from, buffer);
 					removeListener(from);
