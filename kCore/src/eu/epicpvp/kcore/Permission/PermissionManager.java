@@ -318,16 +318,16 @@ public class PermissionManager {
 	}
 
 	public void updateGroup(String group) {
-		Bukkit.getScheduler().runTask(manager.getInstance(), new Runnable() {
+		ThreadFactory.getFactory().createThread(new Runnable() {
 			@Override
 			public void run() {
 				groups.remove(getGroup(group));
-				if (!Bukkit.getOnlinePlayers().isEmpty()){
+				if (!Bukkit.getOnlinePlayers().isEmpty()) {
 					loadGroup(group);
 					for (PermissionPlayer p : new ArrayList<PermissionPlayer>(user.values()))
 						updatePlayer(p.getPlayerId());
 				}
 			}
-		});
+		}).start();
 	}
 }

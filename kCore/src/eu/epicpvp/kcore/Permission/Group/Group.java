@@ -38,13 +38,6 @@ public class Group {
 			return;
 		try {
 			DataBuffer response = manager.getHandler().sendMessage(createPlayer(), new DataBuffer().writeByte(1).writeString(name)).getSync(); //Action=1 Getgroup informatin
-			new NullPointerException().printStackTrace();
-			try{
-				AsyncCatcher.catchOp("text");
-				System.out.println("§cSync");
-			}catch (Exception e){
-				System.out.println("§aAsnyc");
-			}
 			if (response == null) {
 				System.out.println("Cant load group " + name + " (Response == null)");
 			}
@@ -77,6 +70,7 @@ public class Group {
 	}
 	
 	public String getPrefix() {
+		init();
 		return prefix;
 	}
 	

@@ -43,7 +43,6 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		ThreadFactory.getFactory().createThread(new Runnable() {
 			@Override
 			public void run() {
-				System.out.print("Having plugin message: "+from);
 				if(listener.containsKey(from)){
 					listener.get(from).handle(from, buffer);
 					removeListener(from);
@@ -60,12 +59,12 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		final UUID taskId = UUID.randomUUID();
 
 		final PluginMessageFutureTask<DataBuffer> task = new PluginMessageFutureTask<>();
-		
+		long start = System.currentTimeMillis();
 		addListener(taskId,new PermissionChannelListener() {
 			@Override
 			public boolean handle(UUID fromPacket, DataBuffer buffer) {
 				if(fromPacket.equals(taskId)){
-					System.out.println("Request response avariable ("+taskId+")");
+					System.out.println("Request response avariable ("+taskId+" -> "+(System.currentTimeMillis()-start)+"ms)");
 					task.done(buffer);
 					return true;
 				}
