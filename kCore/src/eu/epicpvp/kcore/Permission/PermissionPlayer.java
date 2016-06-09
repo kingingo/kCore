@@ -50,6 +50,7 @@ public class PermissionPlayer {
 	private synchronized void loadPermissions() {
 		if(loaded)
 			return;
+		new NullPointerException().printStackTrace();
 		long start = System.currentTimeMillis();
 		System.out.println("[PermissionManager]: Requesting player Permissions");
 		UtilPlayer.getPermissionList(this.permissionAttachment).clear();

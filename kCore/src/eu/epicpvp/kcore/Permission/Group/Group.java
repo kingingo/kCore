@@ -25,63 +25,64 @@ public class Group {
 	private int importance;
 	@Getter
 	private boolean loaded = false;
-	
-	public Group(PermissionManager manager,String name) {
+
+	public Group(PermissionManager manager, String name) {
 		this.name = name;
 		this.manager = manager;
 		init();
 	}
 
-	private synchronized void init(){
-		if(isLoaded())
+	private synchronized void init() {
+		if (isLoaded())
 			return;
-		try{
-			DataBuffer response =  manager.getHandler().sendMessage(createPlayer(), new DataBuffer().writeByte(1).writeString(name)).getSync(); //Action=1 Getgroup informatin
-			if(response == null){
-				System.out.println("Cant load group "+name+" (Response == null)");
+		try {
+			DataBuffer response = manager.getHandler().sendMessage(createPlayer(), new DataBuffer().writeByte(1).writeString(name)).getSync(); //Action=1 Getgroup informatin
+			if (response == null) {
+				System.out.println("Cant load group " + name + " (Response == null)");
 			}
 			int length = response.readInt();
-			if(length == -1){
-				System.out.println("Group loading error: "+response.readString());
+			if (length == -1) {
+				System.out.println("Group loading error: " + response.readString());
 				return;
 			}
 			perms.clear();
 			for (int i = 0; i < length; i++) {
 				String perm = response.readString();
 				GroupTyp typ = GroupTyp.values()[response.readByte()];
-				
-				if(typ==GroupTyp.ALL || typ == manager.getType()){
+
+				if (typ == GroupTyp.ALL || typ == manager.getType()) {
 					perms.add(new Permission(perm, typ));
 				}
 			}
 			prefix = response.readString();
 			importance = response.readInt();
 			Bukkit.getPluginManager().callEvent(new GroupLoadedEvent(manager, this));
-		}catch(Exception e){
-			if(e.getMessage().toLowerCase().contains("time")){
-				System.out.println("Timeout while loading group "+name+".");
+		} catch (Exception e) {
+			if (e.getMessage().toLowerCase().contains("time")) {
+				System.out.println("Timeout while loading group " + name + ".");
 				return;
 			}
 			e.printStackTrace();
 		}
 		loaded = true;
 	}
-	
-	private Player createPlayer(){
+
+	private Player createPlayer() {
 		return UtilServer.getPlayers().isEmpty() ? null : UtilServer.getPlayers().iterator().next();
 	}
-	
-	public boolean hasPermission(String permission){
+
+	public boolean hasPermission(String permission) {
 		return hasPermission(permission, GroupTyp.ALL);
 	}
-	public boolean hasPermission(String permission,GroupTyp type){
-		for(Permission p : new ArrayList<>(perms))
-			if((type == GroupTyp.ALL || p.getGroup() == type) && p.acceptPermission(permission))
+
+	public boolean hasPermission(String permission, GroupTyp type) {
+		for (Permission p : new ArrayList<>(perms))
+			if ((type == GroupTyp.ALL || p.getGroup() == type) && p.acceptPermission(permission))
 				return true;
 		return false;
 	}
-	
-	public void reload(){
+
+	public void reload() {
 		loaded = false;
 		init();
 	}
