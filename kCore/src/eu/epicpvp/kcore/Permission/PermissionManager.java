@@ -224,7 +224,7 @@ public class PermissionManager {
 		String name = player.getName();
 		PermissionPlayer pplayer = getPermissionPlayer(player);
 		if (!pplayer.getGroups().isEmpty())
-			name = String.format("%03d", 999 - pplayer.getGroups().get(0).getImportance()) + name;
+			name = String.format("%03d", 999 - pplayer.getGroups().get(0).getImportance()) + pplayer.getGroups().get(0).getName();
 		else
 			name = "000" + name;
 		if (name.length() > 16)

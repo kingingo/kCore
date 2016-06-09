@@ -133,13 +133,8 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 			@Override
 			public void run() {
 				manager.loadPlayer(ev.getPlayer(), UtilPlayer.getPlayerId(ev.getPlayer()));
-				Bukkit.getScheduler().runTask(manager.getInstance(), new Runnable() {
-					@Override
-					public void run() {
-						System.out.println("setting player tablist");
-						manager.setTabList(ev.getPlayer());
-					}
-				});
+				System.out.println("setting player tablist");
+				manager.setTabList(ev.getPlayer());
 			}
 		});
 	}
