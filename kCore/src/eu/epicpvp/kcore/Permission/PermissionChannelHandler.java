@@ -63,14 +63,15 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 		addListener(taskId,new PermissionChannelListener() {
 			@Override
 			public boolean handle(UUID fromPacket, DataBuffer buffer) {
-				System.out.println(fromPacket+":"+taskId);
 				if(fromPacket.equals(taskId)){
+					System.out.println("Request response avariable ("+taskId+")");
 					task.done(buffer);
 					return true;
 				}
 				return false;
 			}
 		});
+		System.out.println("Sending message ("+taskId+")");
 		sendToBungeecord(player, taskId, buffer);
 		return task;
 	}

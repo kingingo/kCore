@@ -59,6 +59,7 @@ public class Group {
 		} catch (Exception e) {
 			if (e.getMessage().toLowerCase().contains("time")) {
 				System.out.println("Timeout while loading group " + name + ".");
+				e.printStackTrace();
 				return;
 			}
 			e.printStackTrace();
@@ -67,7 +68,6 @@ public class Group {
 	}
 	
 	public String getPrefix() {
-		init();
 		return prefix;
 	}
 	
