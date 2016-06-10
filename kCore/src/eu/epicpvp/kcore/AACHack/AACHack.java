@@ -5,6 +5,7 @@ import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.client.connection.PacketListener;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.AntiLogout.AntiLogoutManager;
+import eu.epicpvp.kcore.Command.Admin.CommandReport;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Packets.PacketAACReload;
@@ -29,30 +30,21 @@ public class AACHack extends kListener{
 	@Setter
 	@Getter
 	private AntiLogoutManager antiLogoutManager;
-//	private Date MyDate;
-//	private SimpleDateFormat dateFormat;
 	@Getter
 	private String server;
 	private ClientWrapper client;
-	@Getter
-	@Setter
-	private boolean createReport = false;
 
-	public AACHack(String server, MySQL mysql, ClientWrapper client) {
-		super(mysql.getInstance(), "AACHack");
+	public AACHack(String server) {
+		super(UtilServer.getPermissionManager().getInstance(), "AACHack");
 		if (Bukkit.getPluginManager().getPlugin("AAC") == null) {
 			logMessage("Das Plugin AAC fehlt!!!");
 			return;
 		}
+		this.mysql = UtilServer.getMysql();
+		this.client = UtilServer.getClient();
 		this.instance = mysql.getInstance();
 		this.server = server;
-		this.mysql = mysql;
-		this.client = client;
-//		this.MyDate = new Date();
-//		this.dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-//		this.dateFormat.setTimeZone(TimeZone.getDefault());
-//		this.dateFormat.format(MyDate);
-	
+		UtilServer.getCommandHandler().register(CommandReport.class, new CommandReport());
 		
 		UtilServer.getClient().getHandle().getHandlerBoss().addListener(new PacketListener() {
 			
@@ -110,11 +102,6 @@ public class AACHack extends kListener{
 
 				setZeitBan(ev.getPlayer(), a, type, ev.getHackType().getName());
 				ev.setCancelled(true);
-			} else {
-				if (createReport) {
-					UtilServer.getClient().broadcastMessage("report.alert", "§aDas §eAntiHackSystem §ahat den Spieler §e" + ev.getPlayer().getName() + " §awegen §6" + ev.getHackType().getName() + " §areportet!");
-					UtilServer.getClient().createReport(UtilServer.getClient().getPlayerAndLoad("DasAntiHackSystem").getPlayerId(), UtilPlayer.getPlayerId(ev.getPlayer()), ev.getHackType().getName(), "Player Ping: " + AACAPIProvider.getAPI().getPing(ev.getPlayer()));
-				}
 			}
 		}
 	}

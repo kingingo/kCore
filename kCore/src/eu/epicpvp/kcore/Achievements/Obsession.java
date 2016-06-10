@@ -18,10 +18,12 @@ import eu.epicpvp.kcore.Util.TimeSpan;
 public class Obsession extends Achievement{
 
 	private StatsManager stats;
+	private StatsKey key;
 	
-	public Obsession() {
-		super("§aSucht!", Arrays.asList(" ","§a"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7Spiele 24 Stunden auf dem Skyblock Server."," "),5000,1);
+	public Obsession(StatsKey key) {
+		super("§aSucht!", Arrays.asList(" ","§a"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7Spiele 24 Stunden auf dem Server."," "),5000,1);
 		this.stats=StatsManagerRepository.getStatsManager(GameType.TIME);
+		this.key=key;
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)
@@ -35,7 +37,7 @@ public class Obsession extends Achievement{
 	public void load(PlayerStatsLoadedEvent ev){
 		if(ev.getManager().getType()!=GameType.TIME)return;
 		if(this.getPlayerProgress().containsKey(ev.getPlayerId())){
-			if(ev.getManager().getInt(ev.getPlayerId(), StatsKey.SKY_TIME) > TimeSpan.DAY){
+			if(ev.getManager().getInt(ev.getPlayerId(), key) > TimeSpan.DAY){
 				this.getPlayerProgress().put(ev.getPlayerId(), getProgress(ev.getPlayerId())+1);
 				done(ev.getPlayerId());
 			}
