@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
-
 import com.google.common.base.Charsets;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
