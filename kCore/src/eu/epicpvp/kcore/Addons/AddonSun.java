@@ -15,6 +15,10 @@ public class AddonSun extends kListener {
 	@Getter
 	private World world;
 	
+	public AddonSun(JavaPlugin instance){
+		this(instance,null);
+	}
+	
 	public AddonSun(JavaPlugin instance,World world){
 		super(instance,"AddonSun");
 		this.world=world;

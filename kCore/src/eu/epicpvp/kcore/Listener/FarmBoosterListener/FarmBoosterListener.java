@@ -1,8 +1,12 @@
 package eu.epicpvp.kcore.Listener.FarmBoosterListener;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
 
@@ -26,25 +30,13 @@ import eu.epicpvp.kcore.Util.UtilTime;
 public class FarmBoosterListener extends kListener{
 	
 	private NetworkBooster booster;
-	public int cactusModifier;
-	public int caneModifier;
-	public int melonModifier;
-	public int mushroomModifier;
-	public int pumpkinModifier;
-	public int saplingModifier;
-	public int wheatModifier;
-	public int wartModifier;
+	private ArrayList<FarmWorld> worlds;
 
 	public FarmBoosterListener(JavaPlugin instance) {
 		super(instance, "FarmBoosterListener");
-		this.cactusModifier=((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.cactusModifier;
-		this.caneModifier=((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.caneModifier;
-		this.melonModifier=((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.melonModifier;
-		this.mushroomModifier=((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.mushroomModifier;
-		this.pumpkinModifier=((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.pumpkinModifier;
-		this.saplingModifier=((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.saplingModifier;
-		this.wheatModifier=((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.wheatModifier;
-		this.wartModifier=((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.wartModifier;
+		this.worlds=new ArrayList<>();
+		
+		for(World world : Bukkit.getWorlds())this.worlds.add(new FarmWorld(world));
 		
 		call(BoosterType.SKY);
 		
@@ -91,7 +83,11 @@ public class FarmBoosterListener extends kListener{
 			}
 		});
 	}
-	
+
+	@EventHandler
+	public void load(WorldLoadEvent ev){
+		this.worlds.add(new FarmWorld(ev.getWorld()));
+	}
 
 	@EventHandler
 	public void join(PlayerSetScoreboardEvent ev){
@@ -126,13 +122,5 @@ public class FarmBoosterListener extends kListener{
 		}
 		
 		logMessage("Set the Growth Modifier to "+i);
-		((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.cactusModifier = cactusModifier*i;
-		((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.caneModifier = caneModifier*i;
-		((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.melonModifier = melonModifier*i;
-		((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.mushroomModifier = mushroomModifier*i;
-		((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.pumpkinModifier = pumpkinModifier*i;
-		((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.saplingModifier = saplingModifier*i;
-		((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.wheatModifier = wheatModifier*i;
-		((net.minecraft.server.v1_8_R3.World)Bukkit.getWorld("world")).spigotConfig.wartModifier = wartModifier*i;
 	}
 }

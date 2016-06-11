@@ -31,9 +31,10 @@ public class UserDataConfig extends kListener{
 	private JavaPlugin instance;
 	@Getter
 	private String dataFolder;
-	@Getter
-	@Setter
-	private boolean restart=false;
+//	@Getter
+//	@Setter
+//	private boolean restart=false;
+	
 	
 	public UserDataConfig(JavaPlugin instance){
 		super(instance,"UserDataConfig");
@@ -129,7 +130,7 @@ public class UserDataConfig extends kListener{
 	
 	@EventHandler(priority=EventPriority.LOW)
 	public void Quit(PlayerQuitEvent ev){
-		if(isRestart())return;
+//		if(isRestart())return;
 		int playerId = UtilPlayer.getPlayerId(ev.getPlayer());
 		if(configs!=null&&configs.containsKey(playerId)){
 			Bukkit.getPluginManager().callEvent(new UserDataConfigRemoveEvent(configs.get(playerId), ev.getPlayer()));

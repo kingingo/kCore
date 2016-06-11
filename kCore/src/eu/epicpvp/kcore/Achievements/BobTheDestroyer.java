@@ -6,14 +6,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 
+import dev.wolveringer.client.Callback;
 import eu.epicpvp.kcore.Achievements.Handler.Achievement;
 import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class BobTheDestroyer extends Achievement{
 
-	public BobTheDestroyer() {
-		super("§aBob der Zerstörer", Arrays.asList(" ","§a"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7Baue 10000 Blöcke ab"," "),5000,10000);
+	public BobTheDestroyer(){
+		this(null);
+	}
+
+	public BobTheDestroyer(Callback<Integer> done) {
+		super("§aBob der Zerstörer", Arrays.asList(" ","§a"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7Baue 10000 Blöcke ab"," "),done,false,10000);
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)

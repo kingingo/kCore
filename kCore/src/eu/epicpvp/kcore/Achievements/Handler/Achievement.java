@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import dev.wolveringer.client.Callback;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Achievements.Events.PlayerLoadAchievementsEvent;
@@ -30,30 +31,18 @@ public class Achievement implements Listener{
 	private boolean secret;
 	private String name;
 	private List<String> description;
-	private int profit=0;
 	protected int maxprogress;
-	private StatsKey key;
-	private GameType type;
 	private HashMap<Integer,Integer> playerProgress;
 	private AchievementsHandler handler;
+	private Callback<Integer> done;
 	
-	public Achievement(String name,List<String> description, int profit, int progress){
-		this(name,description,profit,progress,false);
-	}
-	
-	public Achievement(String name,List<String> description, int profit, int progress,boolean secret){
-		this(name,description,profit,progress,StatsKey.MONEY,GameType.SKYBLOCK,secret);
-	}
-	
-	public Achievement(String name,List<String> description,int profit, int maxprogress, StatsKey key,GameType type,boolean secret){
+	public Achievement(String name,List<String> description,Callback<Integer> done,boolean secret,int maxprogress){
 		this.name=name;
 		this.description=description;
-		this.profit=profit;
 		this.maxprogress=maxprogress;
-		this.key=key;
-		this.type=type;
 		this.playerProgress=new HashMap<>();
 		this.secret=secret;
+		this.done=done;
 	}
 	
 	public ArrayList<String> getDescription(Player player){
@@ -73,7 +62,7 @@ public class Achievement implements Listener{
 			if(getProgress(playerId) >= maxprogress){
 				saveProgress(playerId);
 				this.playerProgress.remove(playerId);
-				StatsManagerRepository.getStatsManager(getType()).add(playerId, getKey(), getProfit());
+				if(done!=null)done.call(playerId, null);
 				
 				Player player = UtilPlayer.searchExact(playerId);
 				if(player!=null){
@@ -89,7 +78,6 @@ public class Achievement implements Listener{
 							player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
 							player.sendMessage(" ");
 							player.sendMessage(UtilString.center("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".length(),"Du hast das Achievement erfolgreich abgeschlossen!".length())+"§aDu hast das Achievement erfolgreich abgeschlossen!");
-							player.sendMessage(UtilString.center("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".length(),("Du hast "+profit+" Epics erhalten.").length())+"§aDu hast §e"+profit+"§a Epics erhalten.");
 							player.sendMessage(" ");
 							player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
 						}

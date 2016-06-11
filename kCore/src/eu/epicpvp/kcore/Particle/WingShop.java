@@ -32,6 +32,7 @@ import eu.epicpvp.kcore.Util.InventorySplit;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 
 public class WingShop extends InventoryCopy implements Listener{
@@ -104,6 +105,7 @@ public class WingShop extends InventoryCopy implements Listener{
 		setCreate_new_inv(true);
 		fill(Material.STAINED_GLASS_PANE,7);
 		UtilInv.getBase().addPage(this);
+		UtilServer.getCommandHandler().register(CommandWings.class, new CommandWings(this));
 	}
 	
 	@EventHandler

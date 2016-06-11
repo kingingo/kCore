@@ -1,7 +1,7 @@
 package eu.epicpvp.kcore.Arena;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -34,8 +34,8 @@ public class TabManager extends kListener{
 	@Getter
 	private GameType[] types;
 	private kPacketPlayOutPlayerInfo info;
-	private HashMap<UUID,kPlayerInfoData> players;
-	private HashMap<UUID,kPacketPlayOutPlayerInfo> last_packet;
+	private HashMap<Integer,kPlayerInfoData> players;
+	private HashMap<Integer,kPacketPlayOutPlayerInfo> last_packet;
 	
 	public TabManager(JavaPlugin instance,GameType[] types) {
 		super(instance, "TabManager");
@@ -48,28 +48,6 @@ public class TabManager extends kListener{
 		UtilServer.createPacketListener(instance);
 		UtilServer.getClient().getHandle().getEventManager().getEventManager(EventType.SERVER_SWITCH).setConditionEnables(EventConditions.GAME_TYPE_ARRAY, true);
 		for(GameType type : types)UtilServer.getClient().getHandle().getEventManager().getEventManager(EventType.SERVER_SWITCH).getCondition(EventConditions.GAME_TYPE_ARRAY).addValue(type);
-		
-//		UtilServer.getClient().getGameTypeServerStatus(types, true).getAsync(new Callback<PacketOutServerStatus>() {
-//
-//			@Override
-//			public void call(PacketOutServerStatus response) {
-//				for(String player : response.getPlayers()){
-//					if(!UtilPlayer.isOnline(player)){
-//						LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player);
-//						kPacketPlayOutPlayerInfo add = new kPacketPlayOutPlayerInfo();
-//						add.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
-//						
-//						add.getList().add(new kPlayerInfoData(add,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)), (UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getUUID()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
-//						for(Player p : UtilServer.getPlayers()){
-//							UtilPlayer.sendPacket(p, add);
-//						}
-//						last_packet.put(loadedplayer.getUUID(), add);
-//						players.put(loadedplayer.getUUID(), new kPlayerInfoData(info,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)),(UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getUUID()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
-//						info.getList().add(players.get(loadedplayer.getUUID()));
-//					}
-//				}
-//			}
-//		});
 		
 		UtilServer.getClient().getHandle().getEventManager().registerListener(new EventListener() {
 			
@@ -88,29 +66,54 @@ public class TabManager extends kListener{
 									kPacketPlayOutPlayerInfo add = new kPacketPlayOutPlayerInfo();
 									add.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
 									
-									add.getList().add(new kPlayerInfoData(add,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)), (UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getUUID()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
+									add.getList().add(new kPlayerInfoData(add,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)), (UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getPlayerId()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
 									for(Player player : UtilServer.getPlayers()){
 										UtilPlayer.sendPacket(player, add);
 									}
-									last_packet.put(loadedplayer.getUUID(), add);
+									last_packet.put(loadedplayer.getPlayerId(), add);
 								}
 							}
 						}, 10);
 						
-						players.put(loadedplayer.getUUID(), new kPlayerInfoData(info,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)),(UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getUUID()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
-						info.getList().add(players.get(loadedplayer.getUUID()));
-					}else if(ev.getFrom() != null && ev.getFrom().startsWith("a") && players.containsKey(loadedplayer.getUUID())){
-						if(last_packet.containsKey(loadedplayer.getUUID())){
-							kPacketPlayOutPlayerInfo remove = last_packet.get(loadedplayer.getUUID());
+						players.put(loadedplayer.getPlayerId(), new kPlayerInfoData(info,EnumGamemode.SPECTATOR, new kGameProfile(loadedplayer.getUUID(),loadedplayer.getName(),(UtilSkin.getCatcher().getSkins().containsKey(loadedplayer.getName().toLowerCase()) ? UtilSkin.getCatcher().getSkins().get(loadedplayer.getName().toLowerCase()) : null)),(UtilSkin.getCatcher().getTabnames().containsKey(loadedplayer.getPlayerId()) ? UtilSkin.getCatcher().getTabnames().get(loadedplayer.getUUID())+loadedplayer.getName() : "§7"+loadedplayer.getName())));
+						info.getList().add(players.get(loadedplayer.getPlayerId()));
+					}else if(ev.getFrom() != null && ev.getFrom().startsWith("a") && players.containsKey(loadedplayer.getPlayerId())){
+						if(last_packet.containsKey(loadedplayer.getPlayerId())){
+							kPacketPlayOutPlayerInfo remove = last_packet.get(loadedplayer.getPlayerId());
 							remove.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
 							for(Player player : UtilServer.getPlayers())UtilPlayer.sendPacket(player, remove);
 						}
-						info.getList().remove(players.get(loadedplayer.getUUID()));
-						players.remove(loadedplayer.getUUID());
-						last_packet.remove(loadedplayer.getUUID());
+						info.getList().remove(players.get(loadedplayer.getPlayerId()));
+						players.remove(loadedplayer.getPlayerId());
+						last_packet.remove(loadedplayer.getPlayerId());
 					}
 				}
 			}
+		});
+		
+		Bukkit.getScheduler().runTaskAsynchronously(instance, new Runnable(){
+
+			@Override
+			public void run() {
+				if(!UtilServer.getClient().getHandle().isConnected())return;
+				for(Integer id : new ArrayList<>(players.keySet())){
+					if(!UtilServer.getClient().getPlayerAndLoad(id).isOnlineSync()){
+						if(last_packet.containsKey(id)){
+							kPacketPlayOutPlayerInfo remove = last_packet.get(id);
+							remove.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
+							for(Player player : UtilServer.getPlayers())UtilPlayer.sendPacket(player, remove);
+						}
+						players.remove(id);
+						last_packet.remove(id);
+					}
+				}
+				
+				try {
+					Thread.sleep(1000*20);
+				} catch (InterruptedException e) {
+				}
+			}
+			
 		});
 		UtilServer.setTabManager(this);
 	}

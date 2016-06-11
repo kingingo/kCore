@@ -30,9 +30,9 @@ public class RestartScheduler implements Listener{
 	@Setter
 	@Getter
 	private GildenManager gilden;
-	@Getter
-	@Setter
-	private UserDataConfig userData;
+//	@Getter
+//	@Setter
+//	private UserDataConfig userData;
 	@Setter
 	@Getter
 	private AntiLogoutManager anti;
@@ -110,7 +110,7 @@ public class RestartScheduler implements Listener{
 				if(stats!=null)stats.saveAll();
 				if(money!=null)money.saveAll();
 				if(gilden!=null)gilden.AllUpdateGilde();
-				if(userData!=null)userData.saveAllConfigs();
+//				if(userData!=null)userData.saveAllConfigs();
 				break;
 			case 5:for(World world : Bukkit.getWorlds())world.save();break;
 			case 0:

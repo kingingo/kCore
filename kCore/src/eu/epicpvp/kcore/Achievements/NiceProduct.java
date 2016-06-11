@@ -7,14 +7,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 
+import dev.wolveringer.client.Callback;
 import eu.epicpvp.kcore.Achievements.Handler.Achievement;
 import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class NiceProduct extends Achievement{
 
-	public NiceProduct() {
-		super("§aFeinsteWare", Arrays.asList(" ","§a"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7Schere 500 Schafe."," "),500,500);
+	public NiceProduct(){
+		this(null);
+	}
+
+	public NiceProduct(Callback<Integer> done) {
+		super("§aFeinsteWare", Arrays.asList(" ","§a"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7Schere 500 Schafe."," "),done,false,500);
 	}
 	
 	@EventHandler(priority=EventPriority.LOWEST)

@@ -20,7 +20,9 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.SlimeSplitEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Listener.kListener;
@@ -169,6 +171,28 @@ public class PetManager extends kListener {
 			}
 		}
 	}
+	
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void teleport(PlayerTeleportEvent ev){
+		if(!ev.isCancelled()){
+			if(this.activePetOwners.containsKey(ev.getPlayer().getName().toLowerCase())){
+				this.failedAttempts.put(ev.getPlayer().getName().toLowerCase(), Integer.valueOf(0));
+				LivingEntity pet = (LivingEntity) activePetOwners.get(ev.getPlayer().getName().toLowerCase());
+				
+				if (pet.getPassenger() != null) {
+					Entity passenger = pet.getPassenger();
+					passenger.leaveVehicle();
+
+					passenger.teleport(ev.getTo(), TeleportCause.PLUGIN);
+					pet.teleport(ev.getTo(), TeleportCause.PLUGIN);
+					pet.setPassenger(passenger);
+					
+				} else {
+					pet.teleport(ev.getTo(), TeleportCause.PLUGIN);
+				}
+			}
+		}
+	}
 
 	@EventHandler
 	public void onUpdateTo(UpdateEvent event) {
@@ -194,6 +218,7 @@ public class PetManager extends kListener {
 					passenger.teleport(owner, TeleportCause.PLUGIN);
 					pet.teleport(owner, TeleportCause.PLUGIN);
 					pet.setPassenger(passenger);
+					
 				} else {
 					pet.teleport(owner, TeleportCause.PLUGIN);
 				}
