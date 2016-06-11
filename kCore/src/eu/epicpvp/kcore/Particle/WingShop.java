@@ -6,7 +6,10 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +20,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.nbt.NBTTagCompound;
+import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
+import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryCopy;
+import eu.epicpvp.kcore.Inventory.Item.Click;
+import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.Particle.Cape.SupermanCape;
 import eu.epicpvp.kcore.Particle.Wings.AngelWings;
 import eu.epicpvp.kcore.Particle.Wings.BatWings;
@@ -29,10 +36,12 @@ import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsLoadedEvent;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.InventorySplit;
+import eu.epicpvp.kcore.Util.UtilEnt;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import lombok.Getter;
 
 public class WingShop extends InventoryCopy implements Listener{
@@ -106,6 +115,24 @@ public class WingShop extends InventoryCopy implements Listener{
 		fill(Material.STAINED_GLASS_PANE,7);
 		UtilInv.getBase().addPage(this);
 		UtilServer.getCommandHandler().register(CommandWings.class, new CommandWings(this));
+	}
+	
+	public void setEntity(Location location){
+		InventoryCopy page = this;
+		Entity entity = location.getWorld().spawnEntity(location, EntityType.ZOMBIE);
+		UtilEnt.setNoAI(entity, true);
+		UtilEnt.setSilent(entity, true);
+		
+		NameTagMessage m = new NameTagMessage(NameTagType.SERVER, entity.getLocation().add(0, 2.1, 0), "§c§lWings");
+		m.send();
+		
+		 new EntityClickListener(getInstance(), new Click() {
+			
+			@Override
+			public void onClick(Player player, ActionType type, Object object) {
+				((InventoryCopy)page).open(player, UtilInv.getBase());
+			}
+		}, entity);
 	}
 	
 	@EventHandler
