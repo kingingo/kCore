@@ -1,6 +1,7 @@
 package eu.epicpvp.kcore.Particle;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Permission.PermissionType;
@@ -40,7 +41,7 @@ public abstract class NoMoveShape<E extends Enum<E>, V extends NoMoveShape.LastM
 	}
 
 	@Override
-	public final boolean transformPerTick(Player player, Location playerLoc, ValueHolder<V> valueHolder, Location previous) {
+	public final boolean transformPerTick(Entity entity, Location playerLoc, ValueHolder<V> valueHolder, Location previous) {
 		long now = System.currentTimeMillis();
 
 		boolean isMovementNow = previous != null;
@@ -52,8 +53,8 @@ public abstract class NoMoveShape<E extends Enum<E>, V extends NoMoveShape.LastM
 		} else if (now - valueHolder.val.getLastMove() < movementMillis) { //while moving do not display particles from timer
 			return false;
 		}
-		return transformPerTick0(player, playerLoc, valueHolder, previous);
+		return transformPerTick0(entity, playerLoc, valueHolder, previous);
 	}
 
-	protected abstract boolean transformPerTick0(Player player, Location playerLoc, ValueHolder<V> valueHolder, Location previous);
+	protected abstract boolean transformPerTick0(Entity entity, Location playerLoc, ValueHolder<V> valueHolder, Location previous);
 }

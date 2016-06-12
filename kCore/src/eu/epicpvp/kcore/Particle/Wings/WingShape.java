@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.Particle.Wings;
 
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -43,7 +44,7 @@ public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingStat
 	}
 
 	@Override
-	protected boolean transformPerTick0(Player player, Location playerLoc, ValueHolder<WingState> valueHolder, Location previous) {
+	protected boolean transformPerTick0(Entity entity, Location playerLoc, ValueHolder<WingState> valueHolder, Location previous) {
 		if (!moveWings) {
 			valueHolder.val.rotTransformed = WING_ANIMATION_DISABLED_ROT;
 			return true;
@@ -70,13 +71,13 @@ public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingStat
 	}
 
 	@Override
-	public Color transformPerParticle(Player player, Location playerLoc, Vector particlePos, WingPart wingPart, ValueHolder<WingState> valueHolder) {
-		if (player.isSneaking()) {
+	public Color transformPerParticle(Entity entity, Location playerLoc, Vector particlePos, WingPart wingPart, ValueHolder<WingState> valueHolder) {
+		if (entity instanceof Player && ((Player)entity).isSneaking()) {
 			UtilVector.rotateAroundAxisX(particlePos, .1 * PI); //schräg zum körper
 		}
 		UtilVector.rotateVector(particlePos, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
 
-		if (player.isSneaking()) {
+		if (entity instanceof Player && ((Player)entity).isSneaking()) {
 			particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(.3 + .4));
 			particlePos.setY(particlePos.getY() - .1);
 		} else {

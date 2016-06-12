@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -119,9 +120,14 @@ public class WingShop extends InventoryCopy implements Listener{
 	
 	public void setEntity(Location location){
 		InventoryCopy page = this;
-		Entity entity = location.getWorld().spawnEntity(location, EntityType.ZOMBIE);
+		location.getChunk().load();
+		Zombie entity = (Zombie) location.getWorld().spawnEntity(location, EntityType.ZOMBIE);
+		entity.setBaby(false);
+		entity.setVillager(false);
 		UtilEnt.setNoAI(entity, true);
 		UtilEnt.setSilent(entity, true);
+		PlayerParticleDisplayer particleDisplayer = new PlayerParticleDisplayer<>(entity, this.wings.get(10));
+		particleDisplayer.start(getInstance());
 		
 		NameTagMessage m = new NameTagMessage(NameTagType.SERVER, entity.getLocation().add(0, 2.1, 0), "§c§lWings");
 		m.send();

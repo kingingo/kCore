@@ -89,15 +89,17 @@ public class FarmBoosterListener extends kListener{
 		this.worlds.add(new FarmWorld(ev.getWorld()));
 	}
 
-	@EventHandler
-	public void join(PlayerSetScoreboardEvent ev){
-		if(booster!=null)
-			UtilScoreboard.setScore(ev.getPlayer().getScoreboard(),"§eFarm Booster by §C"+UtilServer.getClient().getPlayerAndLoad(booster.getPlayer()).getName(), DisplaySlot.SIDEBAR, 11);
-	}
+//	@EventHandler
+//	public void join(PlayerSetScoreboardEvent ev){
+//		if(booster!=null){
+//			UtilScoreboard.setScore(ev.getPlayer().getScoreboard(),"§eFarm Booster by §C"+UtilServer.getClient().getPlayerAndLoad(booster.getPlayer()).getName(), DisplaySlot.SIDEBAR, 11);
+//			UtilScoreboard.setScore(ev.getPlayer().getScoreboard(),"      ", DisplaySlot.SIDEBAR, 10);
+//		}
+//	}
 	
 	@EventHandler
 	public void async(UpdateAsyncEvent ev){
-		if(ev.getType()==UpdateAsyncType.FAST){
+		if(ev.getType()==UpdateAsyncType.SEC_4){
 			if(booster != null){
 				if(!booster.isActive()){
 					setModifer(1);
@@ -109,18 +111,20 @@ public class FarmBoosterListener extends kListener{
 	
 	public void setModifer(int i){
 		if(booster!=null){
-			if(i==1){
-				for(Player player : UtilServer.getPlayers()){
-					UtilScoreboard.resetScore(player.getScoreboard(), 11, DisplaySlot.SIDEBAR);
-					UtilScoreboard.resetScore(player.getScoreboard(), 10, DisplaySlot.SIDEBAR);
-				}
-			}else{
-				for(Player player : UtilServer.getPlayers()){
-					UtilScoreboard.setScore(player.getScoreboard(),"§eFarm Booster by §C"+UtilServer.getClient().getPlayerAndLoad(booster.getPlayer()).getName(), DisplaySlot.SIDEBAR, 11);
-				}
-			}
+			for(FarmWorld fw : worlds)fw.setModifer(i);
+			logMessage("Set the Growth Modifier to "+i);
+			
+//			if(i==1){
+//				for(Player player : UtilServer.getPlayers()){
+//					UtilScoreboard.resetScore(player.getScoreboard(), 11, DisplaySlot.SIDEBAR);
+//					UtilScoreboard.resetScore(player.getScoreboard(), 10, DisplaySlot.SIDEBAR);
+//				}
+//			}else{
+//				for(Player player : UtilServer.getPlayers()){
+//					UtilScoreboard.setScore(player.getScoreboard(),"§eFarm Booster by §C"+UtilServer.getClient().getPlayerAndLoad(booster.getPlayer()).getName(), DisplaySlot.SIDEBAR, 11);
+//					UtilScoreboard.setScore(player.getScoreboard(),"      ", DisplaySlot.SIDEBAR, 10);
+//				}
+//			}
 		}
-		
-		logMessage("Set the Growth Modifier to "+i);
 	}
 }

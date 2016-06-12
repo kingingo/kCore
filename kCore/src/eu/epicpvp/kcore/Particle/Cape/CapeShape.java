@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.Particle.Cape;
 
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -27,17 +28,17 @@ public abstract class CapeShape extends NoMoveShape<CapeShape.CapePart, SimpleLa
 	}
 
 	@Override
-	public boolean transformPerTick0(Player player, Location playerLoc, ValueHolder<SimpleLastMoveHolder> valueHolder, Location previous) {
+	public boolean transformPerTick0(Entity entity, Location playerLoc, ValueHolder<SimpleLastMoveHolder> valueHolder, Location previous) {
 		return true;
 	}
 
 	@Override
-	public Color transformPerParticle(Player player, Location playerLoc, Vector particlePos, CapePart capePart, ValueHolder<SimpleLastMoveHolder> valueHolder) {
+	public Color transformPerParticle(Entity entity, Location playerLoc, Vector particlePos, CapePart capePart, ValueHolder<SimpleLastMoveHolder> valueHolder) {
 //		particlePos.subtract(new Vector(0, 0, .85));
-		UtilVector.rotateAroundAxisX(particlePos, player.isSneaking() ? .43 : .3); //schräg zum körper
+		if(entity instanceof Player)UtilVector.rotateAroundAxisX(particlePos, ((Player)entity).isSneaking() ? .43 : .3); //schräg zum körper
 		UtilVector.rotateVector(particlePos, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
 
-		if (player.isSneaking()) {
+		if (entity instanceof Player && ((Player)entity).isSneaking()) {
 			particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(.82));
 			particlePos.setY(particlePos.getY() - .15);
 		} else {

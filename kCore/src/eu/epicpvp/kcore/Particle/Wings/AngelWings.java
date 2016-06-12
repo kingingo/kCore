@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.Particle.Wings;
 
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -47,16 +48,16 @@ public class AngelWings extends WingShape {
 	}
 
 	@Override
-	public Color transformPerParticle(Player player, Location playerLoc, Vector particlePos, WingPart wingPart, ValueHolder<WingState> valueHolder) {
+	public Color transformPerParticle(Entity entity, Location playerLoc, Vector particlePos, WingPart wingPart, ValueHolder<WingState> valueHolder) {
 		//TODO create method in ParticleShape (this is duplicate code with BatWings)
 		if (wingPart != WingPart.MIDDLE) {
-			return super.transformPerParticle(player, playerLoc, particlePos, wingPart, valueHolder);
+			return super.transformPerParticle(entity, playerLoc, particlePos, wingPart, valueHolder);
 		}
 		UtilVector.rotateAroundAxisX(particlePos, Math.toRadians(playerLoc.getPitch()));
 		UtilVector.rotateVector(particlePos, playerLoc.getYaw() - 90, 0);
 
 		Vector playerLocVector = playerLoc.toVector();
-		playerLocVector.setY(playerLocVector.getY() + (player.isSneaking() ? 1.1 : 1.4));
+		playerLocVector.setY(playerLocVector.getY() + (entity instanceof Player ? (((Player)entity).isSneaking() ? 1.1 : 1.4) : 1.4));
 		particlePos.add(playerLocVector);
 
 		return middleColor;

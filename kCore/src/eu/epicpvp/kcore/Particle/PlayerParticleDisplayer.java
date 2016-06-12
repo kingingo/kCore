@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,15 +22,15 @@ import lombok.Getter;
 
 public class PlayerParticleDisplayer<P extends Enum<P>, V> implements Listener, Runnable {
 
-	private final UUID uuid;
+	private final Entity entity;
 	@Getter
 	private final ParticleShape<P, V> shape;
 	private final ParticleShape.ValueHolder<V> valueHolder;
 	private int taskId = -1;
 	private JavaPlugin plugin;
 
-	public PlayerParticleDisplayer(Player player, ParticleShape<P, V> shape) {
-		this.uuid = player.getUniqueId();
+	public PlayerParticleDisplayer(Entity entity, ParticleShape<P, V> shape) {
+		this.entity = entity;
 		this.shape = shape;
 		valueHolder = shape.createValueHolder();
 	}
@@ -58,16 +59,19 @@ public class PlayerParticleDisplayer<P extends Enum<P>, V> implements Listener, 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
-		if (!player.getUniqueId().equals(uuid)) {
-			return;
+		
+		if(entity instanceof Player){
+			if (!player.getUniqueId().equals( ((Player)entity).getUniqueId()) ) {
+				return;
+			}
+			Location to = event.getTo();
+			Location from = event.getFrom();
+			display(player, from, to);
 		}
-		Location to = event.getTo();
-		Location from = event.getFrom();
-		display(player, from, to);
 	}
 
-	private synchronized void display(Player player, Location from, Location to) {
-		boolean show = shape.transformPerTick(player, to, valueHolder, from);
+	private synchronized void display(Entity entity, Location from, Location to) {
+		boolean show = shape.transformPerTick(entity, to, valueHolder, from);
 
 		if (!show) {
 			return;
@@ -76,20 +80,20 @@ public class PlayerParticleDisplayer<P extends Enum<P>, V> implements Listener, 
 		shape.getPositions().entrySet().parallelStream().forEach(entry -> {
 			P shapePart = entry.getValue();
 			Vector particlePos = entry.getKey().clone();
-			Color color = shape.transformPerParticle(player, to, particlePos, shapePart, valueHolder);
+			Color color = shape.transformPerParticle(entity, to, particlePos, shapePart, valueHolder);
 			if (color != null) {
 				if (shape.isPlayerSpecificTransform()) {
 					Bukkit.getOnlinePlayers().parallelStream().forEach(plr -> {
 						Vector finalParticlePos = particlePos.clone();
-						Color finalColor = shape.transformPerParticleAndPlayer(player, plr, to, finalParticlePos, shapePart, valueHolder, color);
+						Color finalColor = shape.transformPerParticleAndPlayer(entity, plr, to, finalParticlePos, shapePart, valueHolder, color);
 						
 						if (finalColor != null) {
-							Location particleLoc = finalParticlePos.toLocation(player.getWorld());
+							Location particleLoc = finalParticlePos.toLocation(entity.getWorld());
 							trySendParticle(plr, particleLoc, finalColor);
 						}
 					});
 				} else {
-					Location particleLoc = particlePos.toLocation(player.getWorld());
+					Location particleLoc = particlePos.toLocation(entity.getWorld());
 					sendToAll(color, particleLoc);
 				}
 			}
@@ -100,15 +104,14 @@ public class PlayerParticleDisplayer<P extends Enum<P>, V> implements Listener, 
 	public void run() {
 		while (taskId > -1) {
 			long start = System.currentTimeMillis();
-			Player player = Bukkit.getPlayer(uuid);
-			if (player == null) {
+			if (entity == null || (entity instanceof Player && !((Player)entity).isOnline())){
 				stop();
 				return;
 			}
-			display(player, null, player.getLocation());
+			display(entity, null, entity.getLocation());
 			long milliDur = System.currentTimeMillis() - start;
 			if (milliDur >= 50) {
-				System.out.println(shape.getName() + " particles for " + player.getName() + " took too long: " + milliDur + "ms");
+				System.out.println(shape.getName() + " particles for " + entity.getName() + " took too long: " + milliDur + "ms");
 			} else {
 				try {
 					Thread.sleep(50 - milliDur);
@@ -121,15 +124,19 @@ public class PlayerParticleDisplayer<P extends Enum<P>, V> implements Listener, 
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onQuit(PlayerQuitEvent event) {
-		if (event.getPlayer().getUniqueId().equals(uuid)) {
-			stop();
+		if(entity instanceof Player){
+			if (event.getPlayer().getUniqueId().equals( ((Player)entity).getUniqueId() )) {
+				stop();
+			}
 		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onKick(PlayerKickEvent event) {
-		if (event.getPlayer().getUniqueId().equals(uuid)) {
-			stop();
+		if(entity instanceof Player){
+			if (event.getPlayer().getUniqueId().equals( ((Player)entity).getUniqueId() )) {
+				stop();
+			}
 		}
 	}
 

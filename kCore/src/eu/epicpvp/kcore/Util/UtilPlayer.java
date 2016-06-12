@@ -408,26 +408,11 @@ public class UtilPlayer
   public static Player searchExact(UUID uuid)
   {
 	return Bukkit.getPlayer(uuid);
-	/*
-	for (Player cur : UtilServer.getPlayers()) {
-      if (cur.getUniqueId().equals(uuid))
-      	return cur;
-    }
-    return null;
-    */
   }
   
-  @SuppressWarnings("deprecation")
   public static Player searchExact(String name)
   {
 	return Bukkit.getPlayerExact(name);
-    /*
-    for (Player cur : UtilServer.getPlayers()) {
-      if (cur.getName().equalsIgnoreCase(name))
-        return cur;
-    }
-    return null;
-    */
   }
   
   public static TreeMap<Double, Player> getNearby(Location loc, double maxDist){

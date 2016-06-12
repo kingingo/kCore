@@ -297,11 +297,7 @@ public class LagMeter extends kListener
 	}
 
   public void sendUpdate(Player player){
-    player.sendMessage(" ");
-    player.sendMessage(" ");
-    player.sendMessage(" ");
-    player.sendMessage(" ");
-    player.sendMessage(" ");
+    for(int i = 0; i<10; i++)player.sendMessage(" ");
     player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"Online-Players: §e"+ UtilServer.getPlayers().size() + " §7Your-Ping: §e"+ UtilPlayer.getPlayerPing(player) +" §7Avg-Ping:§e "+getAvgPing());
     player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"Live: §e" + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecond) }) + " §7Avg:§e " + String.format("%.00f", new Object[] { Double.valueOf(this._ticksPerSecondAverage * 20.0D) }));
     player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"Free-Mem:§e " + Runtime.getRuntime().freeMemory() / 1048576L + "MB §7Max-Mem: §e"+Runtime.getRuntime().maxMemory() / 1048576L+ "MB");

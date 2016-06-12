@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -156,16 +157,16 @@ public abstract class ParticleShape<P extends Enum<P>, V> {
 	 * @param player the player to check
 	 * @return whether to go on drawing
 	 */
-	public abstract boolean transformPerTick(Player player, Location playerLoc, ValueHolder<V> valueHolder, Location previous);
+	public abstract boolean transformPerTick(Entity entity, Location playerLoc, ValueHolder<V> valueHolder, Location previous);
 
 	/**
 	 * @param player the player to check
 	 * @param playerLoc the base draw location, (= player location)
 	 * @param particlePos the particle position (change this object!)
 	 */
-	public abstract Color transformPerParticle(Player player, Location playerLoc, Vector particlePos, P part, ValueHolder<V> valueHolder);
+	public abstract Color transformPerParticle(Entity entity, Location playerLoc, Vector particlePos, P part, ValueHolder<V> valueHolder);
 
-	public Color transformPerParticleAndPlayer(Player player, Player sendTo, Location playerLoc, Vector particlePos, P part, ValueHolder<V> valueHolder, Color color) {
+	public Color transformPerParticleAndPlayer(Entity entity, Player sendTo, Location playerLoc, Vector particlePos, P part, ValueHolder<V> valueHolder, Color color) {
 		return color;
 	}
 
