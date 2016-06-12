@@ -1,4 +1,4 @@
-﻿package eu.epicpvp.kcore.UserDataConfig;
+package eu.epicpvp.kcore.UserDataConfig;
 
 import java.io.File;
 import java.io.IOException;
