@@ -29,6 +29,27 @@ public class Color {
 	public static String[] FORMAT = new String[]{BOLD,ITALIC,RESET,STRIKE_THROUGH,OBFUSCATED};
 	public static String[] COLORS = new String[]{DARK_GREEN,GRAY,DARK_RED,DARK_GRAY,RED,YELLOW,GREEN,BLACK,BLUE,AQUA,WHITE,ORANGE,PURPLE,PINK,CYAN};
 	
+	public static org.bukkit.Color toColor(String color){
+		switch(color){
+		case "§7":return org.bukkit.Color.GRAY;
+		case "§8":return org.bukkit.Color.GRAY;
+		case "§c":return org.bukkit.Color.RED;
+		case "§4":return org.bukkit.Color.RED;
+		case "§e":return org.bukkit.Color.YELLOW;
+		case "§a":return org.bukkit.Color.LIME;
+		case "§0":return org.bukkit.Color.BLACK;
+		case "§1":return org.bukkit.Color.BLUE;
+		case "§b":return org.bukkit.Color.AQUA;
+		case "§f":return org.bukkit.Color.WHITE;
+		case "§6":return org.bukkit.Color.ORANGE;
+		case "§5":return org.bukkit.Color.PURPLE;
+		case "§2":return org.bukkit.Color.GREEN;
+		case "§d":return org.bukkit.Color.MAROON;
+		case "§3":return org.bukkit.Color.NAVY;
+		}
+		return org.bukkit.Color.BLACK;
+	}
+	
 	public static org.bukkit.Color rdmColor(){
 		return rdmDyeColor().getColor();
 	}

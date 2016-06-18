@@ -2,6 +2,8 @@ package eu.epicpvp.kcore.Util;
 
 import java.util.ArrayList;
 
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
 
 import eu.epicpvp.kcore.MysteryBox.Templates.BlockVector;
@@ -73,7 +75,8 @@ public class UtilVector {
 	}
 
 	public static BlockVector subtract(BlockVector a, BlockVector b) {
-		return new BlockVector(b.getBlockX() - a.getBlockX(), b.getBlockY() - a.getBlockY(), b.getBlockZ() - a.getBlockZ(), 0, (byte) 0);
+		return new BlockVector(b.getBlockX() - a.getBlockX(), b.getBlockY() - a.getBlockY(),
+				b.getBlockZ() - a.getBlockZ(), 0, (byte) 0);
 	}
 
 	public static final Vector rotateAroundAxisX(Vector v, double angle) {
@@ -111,8 +114,39 @@ public class UtilVector {
 		return Math.atan2(vector.getX(), vector.getY());
 	}
 
+	public static ArrayList<Vector> makeCircleTop(Location center, double radius) {
+		ArrayList<Location> list = UtilLocation.makeCircle(center, radius);
+		ArrayList<Vector> top = new ArrayList<>();
+		
+		for(Location loc : list){
+			Block highestBlock = loc.getWorld().getHighestBlockAt(loc);
+			
+			if(highestBlock!=null){
+				top.add(subtract(center.toVector(), highestBlock.getLocation().toVector()));
+			}
+		}
+		
+		return top;
+	}
+
+	public static ArrayList<Vector> convertToVector(Location center, ArrayList<Location> list) {
+		ArrayList<Vector> vlist = new ArrayList<>();
+
+		for (Location loc : list) {
+			vlist.add(UtilVector.subtract(center.toVector(), loc.toVector()));
+		}
+
+		return vlist;
+	}
+
+	public static ArrayList<Vector> makeCircle(Location center, Integer radius) {
+		ArrayList<Location> list = UtilLocation.makeCircle(center, radius);
+		return convertToVector(center, list);
+	}
+
 	/**
-	 * This handles non-unit vectors, with yaw and pitch instead of X,Y,Z angles.
+	 * This handles non-unit vectors, with yaw and pitch instead of X,Y,Z
+	 * angles.
 	 * <p>
 	 * Thanks to SexyToad!
 	 */

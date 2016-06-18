@@ -33,7 +33,7 @@ public class UtilInv {
 			new InventoryBase(UtilServer.getPermissionManager().getInstance());
 		return base;
 	}
-
+	
 	public static Integer[] getSlotsBorder(InventorySize size, InventorySplit startLine) {
 		return getSlotsBorder(size, startLine, size.getLines()[size.getLines().length-1]);
 	}

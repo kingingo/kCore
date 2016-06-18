@@ -16,6 +16,57 @@ import org.bukkit.util.Vector;
 import com.google.common.collect.Lists;
 
 public class UtilLocation {
+	public static int X = 0;
+	public static int Y = 1;
+	public static int Z = 2;
+	public static int Min = 0;
+	public static int Max = 1;
+	
+	public static int[][] getMinMax(Location ecke1, Location ecke2){
+		int [][] MinMax=new int[3][2];
+		
+		if (ecke1.getBlockX() > ecke2.getBlockX()) {
+			MinMax[X][Min] = ecke2.getBlockX();
+			MinMax[X][Max] = ecke1.getBlockX();
+		} else {
+			MinMax[X][Max] = ecke2.getBlockX();
+			MinMax[X][Min] = ecke1.getBlockX();
+		}
+		if (ecke1.getBlockY() > ecke2.getBlockY()) {
+			MinMax[Y][Min] = ecke2.getBlockY();
+			MinMax[Y][Max] = ecke1.getBlockY();
+		} else {
+			MinMax[Y][Max] = ecke2.getBlockY();
+			MinMax[Y][Min] = ecke1.getBlockY();
+		}
+		if (ecke1.getBlockZ() > ecke2.getBlockZ()) {
+			MinMax[Z][Min] = ecke2.getBlockZ();
+			MinMax[Z][Max] = ecke1.getBlockZ();
+		} else {
+			MinMax[Z][Max] = ecke2.getBlockZ();
+			MinMax[Z][Min] = ecke1.getBlockZ();
+		}
+		
+		return MinMax;
+	}
+	
+	public static boolean isInMinMax(int [][] MinMax, Location loc){
+		if(loc.getY()<=MinMax[Y][Max]){
+			if(loc.getY()>=MinMax[Y][Min]){
+				if(loc.getZ()<=MinMax[Z][Max]){
+					if(loc.getZ()>=MinMax[Z][Min]){
+						if(loc.getX()<=MinMax[X][Max]){
+							if(loc.getX()>=MinMax[X][Min]){
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
 	
 	public static Location Distance(ArrayList<Location> locs,Location l){
 		double dis=0;
@@ -216,7 +267,8 @@ public class UtilLocation {
 		return SpiralLocs(w, locs,border,new Location(w,x,y,z));
 	}
 	
-	public static void makeCircle(Location loc, Integer r, Material m) {
+	public static ArrayList<Location> makeCircle(Location loc, double r) {
+		ArrayList<Location> list = new ArrayList<>();
         int x;
         int y = loc.getBlockY();
         int z;      
@@ -225,8 +277,19 @@ public class UtilLocation {
         	double angle = i * Math.PI / 180;
             x = (int)(loc.getX() + r * Math.cos(angle));
             z = (int)(loc.getZ() + r * Math.sin(angle));
-            loc.getWorld().getBlockAt(x, y, z).setType(m);
+            
+            list.add(loc.getWorld().getBlockAt(x, y, z).getLocation());
         }
+        
+        return list;
+    }
+	
+	public static void makeCircle(Location loc, Integer r, Material m) {
+       ArrayList<Location> list = makeCircle(loc, r);
+       
+       for(Location l : list){
+    	   l.getBlock().setType(m);
+       }
     }
 	
 	public static void playHelix(Location location, EntityType e){

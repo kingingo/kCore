@@ -180,15 +180,15 @@ public class CommandMysteryBox implements CommandExecutor {
 								}
 							}
 							
-							ArrayList<kSort> sort = new ArrayList<>();
+							ArrayList<kSort<String>> sort = new ArrayList<>();
 							
 							for(String s : list.keySet()){
-								sort.add(new kSort(s, list.get(s)));
+								sort.add(new kSort<String>(s, list.get(s)));
 							}
 							Collections.sort(sort, kSort.ASCENDING);
 							
 							for(kSort s : sort){
-								System.err.println(s.getName()+" "+UtilNumber.toInt(s.getObj()));
+								System.err.println(s.getObject()+" "+UtilNumber.toInt(s.getValue()));
 							}
 						}
 					});

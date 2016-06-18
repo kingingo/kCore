@@ -27,7 +27,7 @@ LIME("LIME",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)5), Color.GR
 VILLAGE_RED("VILLAGE_RED", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)14), Color.RED+"Villager - Rot"),Color.RED),
 VILLAGE_YELLOW("VILLAGE_YELLOW", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)4), Color.YELLOW+"Villager - Gelb"),Color.YELLOW),
 VILLAGE_BLUE("VILLAGE_BLUE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)11), Color.BLUE+"Villager - Blau"),Color.BLUE),
-VILLAGE_GREEN("VILLAGE_GREEN",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)5), Color.GREEN+"Villager - Grün"),Color.GREEN),
+VILLAGE_GREEN("VILLAGE_GREEN",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)13), Color.GREEN+"Villager - Grün"),Color.GREEN),
 VILLAGE_PINK("VILLAGE_PINK", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)6), Color.PINK+"Villager - Pink"),Color.PINK),
 VILLAGE_ORANGE("VILLAGE_ORANGE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), Color.ORANGE+"Villager - Orange"),Color.ORANGE),
 VILLAGE_PURPLE("VILLAGE_PURPLE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)10), Color.PURPLE+"Villager - Lila"),Color.PURPLE),
@@ -44,14 +44,14 @@ VILLAGE_LIME("VILLAGE_LIME",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(b
 SHEEP_RED("SHEEP_RED", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)14), Color.RED+"Sheep - Rot"),Color.RED),
 SHEEP_YELLOW("SHEEP_YELLOW", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)4), Color.YELLOW+"Sheep - Gelb"),Color.YELLOW),
 SHEEP_BLUE("SHEEP_BLUE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)11), Color.BLUE+"Sheep - Blau"),Color.BLUE),
-SHEEP_GREEN("SHEEP_GREEN",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)5), Color.GREEN+"Sheep - Grün"),Color.GREEN),
+SHEEP_GREEN("SHEEP_GREEN",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)13), Color.GREEN+"Sheep - Grün"),Color.GREEN),
 SHEEP_PINK("SHEEP_PINK", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)6), Color.PINK+"Sheep - Pink"),Color.PINK),
 SHEEP_ORANGE("SHEEP_ORANGE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)1), Color.ORANGE+"Sheep - Orange"),Color.ORANGE),
 SHEEP_PURPLE("SHEEP_PURPLE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)10), Color.PURPLE+"Sheep - Lila"),Color.PURPLE),
 SHEEP_GRAY("SHEEP_GRAY",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)7), Color.GRAY+"Sheep - Grau"),Color.GRAY),
 SHEEP_AQUA("SHEEP_AQUA", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)6), Color.AQUA+"Sheep - Hell Blau"),Color.AQUA),
 SHEEP_CYAN("SHEEP_CYAN", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)9), Color.CYAN+"Sheep - Cyan"),Color.CYAN),
-SHEEP_WHITE("SHEEP_WHITE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)10), Color.WHITE+"Sheep - Weiß"),Color.WHITE),
+SHEEP_WHITE("SHEEP_WHITE", UtilItem.RenameItem(new ItemStack(Material.WOOL,1), Color.WHITE+"Sheep - Weiß"),Color.WHITE),
 SHEEP_BLACK("SHEEP_BLACK",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)8), Color.BLACK+"Sheep - Schwarz"),Color.BLACK),
 SHEEP_MAGENTA("SHEEP_MAGENTA",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)2), "§5Sheep - Magenta"),"§5"),
 SHEEP_LIGHT_GRAY("SHEEP_LIGHT_GRAY",UtilItem.RenameItem(new ItemStack(Material.WOOL,1,(byte)8), "§7Sheep - Hell Grau"),"§7"),
@@ -152,13 +152,11 @@ SOLO("SOLO",null,Color.GRAY);
 private String n;
 private ItemStack i;
 private String c;
-private ItemStack[] armor;
 
 private Team(String n,ItemStack i,String c){
 	this.n=n;
 	this.i=i;
 	this.c=c;
-	this.armor=armor;
 }
 
 public String getColor(){
@@ -171,6 +169,28 @@ public ItemStack getItem(){
 
 public String Name(){
 	return n;
+}
+
+public static Team getTeamToVillageTeam(Team playerTeam){
+	switch(playerTeam){
+	case RED: return Team.VILLAGE_RED;
+	case AQUA: return Team.VILLAGE_AQUA;
+	case BLACK: return Team.VILLAGE_BLACK;
+	case BLUE: return Team.VILLAGE_BLUE;
+	case YELLOW: return Team.VILLAGE_YELLOW;
+	case GREEN: return Team.VILLAGE_GREEN;
+	case ORANGE: return Team.VILLAGE_ORANGE;
+	case BROWN: return Team.VILLAGE_BROWN;
+	case LIME: return Team.VILLAGE_LIME;
+	case CYAN: return Team.VILLAGE_CYAN;
+	case WHITE: return Team.VILLAGE_WHITE;
+	case LIGHT_GRAY: return Team.VILLAGE_LIGHT_GRAY;
+	case GRAY: return Team.VILLAGE_GRAY;
+	case MAGENTA: return Team.VILLAGE_MAGENTA;
+	case PINK: return Team.VILLAGE_PINK;
+	case PURPLE: return Team.VILLAGE_PURPLE;
+	}
+	return null;
 }
 
 public static Team getPoint(Team team){

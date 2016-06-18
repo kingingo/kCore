@@ -176,9 +176,12 @@ public class ImageMessage {
 		}
 	}
 
+	public void setLines(String[] msg) {
+		lines=msg;
+	}
+	
 	public void setLines(int index,String msg) {
 		lines[index]=msg;
-		
 	}
 	
 	public String[] getLines() {
