@@ -5,6 +5,7 @@ import java.util.Map;
 import org.bukkit.Color;
 import org.bukkit.util.Vector;
 
+import eu.epicpvp.kcore.Particle.Cape.CapeShape.CapePart;
 import eu.epicpvp.kcore.Permission.PermissionType;
 
 public class Portal extends PortalShape {
@@ -15,7 +16,8 @@ public class Portal extends PortalShape {
 
 	@Override
 	protected void initShape() {
-
+		getPositions().putAll( createEllipse(3, 1.5, 0, 0.4, 0.9, PortalPart.OUTER) );
+		getPositions().putAll( createFillEllipse(3, 1.5, 0, 0.3, 0.8, PortalPart.INNER) );
 		
 		particlesPerBlock = PARTICLES_PER_BLOCK_DEFAULT;
 	}

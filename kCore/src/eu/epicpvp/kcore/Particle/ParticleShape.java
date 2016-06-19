@@ -15,6 +15,7 @@ import com.google.common.collect.Maps;
 
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Util.UtilNumber;
+import eu.epicpvp.kcore.Util.UtilVector;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -106,19 +107,40 @@ public abstract class ParticleShape<P extends Enum<P>, V> {
 		return result;
 	}
 
-	protected Map<Vector, P> createCircle1(double x, double y, double z, double radius, P part) {
-		double amount = radius * 64;
+	protected Map<Vector, P> createFillEllipse(double x, double y, double z, double a, double b, P part) {
+		double amount = ((a+b)/2) * 64;
+		double inc = (2 * Math.PI) / amount;
 		Map<Vector, P> result = Maps.newHashMapWithExpectedSize(UtilNumber.toInt(amount));
-		
-		for(int i = 0; i < amount; i++){
-			double angle = Math.PI * 2 / amount;
-			
-			double cx = (Math.cos(90)*radius)+x;
-			double cz = (Math.sin(90)*radius)+z;
-			
-			Vector vector = new Vector(cx, y, cz);
-			result.put(vector, part);
+		for (int i = 0; i < amount; i++) {
+			double angle = i * inc;
+			double yCurr = (b * Math.cos(angle)) + y;
+			double zCurr = (a * Math.sin(angle)) + z;
+			result.putAll(createLine(x, y, z, x, yCurr, zCurr, part));
 		}
+		
+		return result;
+	}
+	
+	protected Map<Vector, P> createEllipse(double x, double y, double z, double a, double b, P part) {
+		double amount = ((a+b)/2) * 64;
+		double inc = (2 * Math.PI) / amount;
+		Map<Vector, P> result = Maps.newHashMapWithExpectedSize(UtilNumber.toInt(amount));
+		for (int i = 0; i < amount; i++) {
+			double angle = i * inc;
+			double yCurr = (b * Math.cos(angle)) + y;
+			double zCurr = (a * Math.sin(angle)) + z;
+			Vector v = new Vector(x, yCurr, zCurr);
+			result.put(v, part);
+		}
+		
+		return result;
+	}
+	
+	protected Map<Vector, P> rotateAroundAxisY(Map<Vector, P> map, double angle){
+		Map<Vector, P> result = Maps.newHashMapWithExpectedSize(UtilNumber.toInt(map.size()));
+		
+		for(Vector v : map.keySet())
+			result.put(UtilVector.rotateAroundAxisY(v, angle), map.get(v));
 		
 		return result;
 	}

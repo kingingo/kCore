@@ -27,6 +27,7 @@ import eu.epicpvp.kcore.Inventory.Inventory.InventoryCopy;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Listener.EntityClick.EntityClickListener;
 import eu.epicpvp.kcore.Particle.Cape.SupermanCape;
+import eu.epicpvp.kcore.Particle.Portal.Portal;
 import eu.epicpvp.kcore.Particle.Wings.AngelWings;
 import eu.epicpvp.kcore.Particle.Wings.BatWings;
 import eu.epicpvp.kcore.Particle.Wings.ButterflyWings;
@@ -62,6 +63,7 @@ public class WingShop extends InventoryCopy implements Listener{
 		this.wings=new ArrayList<>();
 		this.statsManager=StatsManagerRepository.getStatsManager(GameType.PROPERTIES);
 		this.instance=instance;
+		
 		this.wings.add(new AngelWings("Angel Wings (Weiß)",PermissionType.WINGS_ANGEL_WHITE, true, Color.WHITE, Color.WHITE, Color.YELLOW));
 		this.wings.add(new AngelWings("Angel Wings (Schwarz)",PermissionType.WINGS_ANGEL_BLACK, true, Color.BLACK, Color.BLACK, null));
 		this.wings.add(new AngelWings("Angel Wings (Grau)",PermissionType.WINGS_ANGEL_GRAY, true, Color.GRAY, Color.GRAY, null));
