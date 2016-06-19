@@ -34,21 +34,21 @@ public class Create {
 				return false;
 			}
 			teamManager.createTeam(UtilPlayer.getPlayerId(player), teamName, "§7" + teamName + "§b*§f", (team,exception) -> {
-				//success
-				if (teamManager.getTeamType() == GameType.TEAMS_PVP) {
-					team.setStatistic(StatsKey.LOC_X, player.getLocation().getBlockX());
-					team.setStatistic(StatsKey.LOC_Y, player.getLocation().getBlockY());
-					team.setStatistic(StatsKey.LOC_Z, player.getLocation().getBlockZ());
-					team.setStatistic(StatsKey.WORLD, player.getLocation().getWorld().getName());
-				} else if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
-//					SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
-//					if(sky.getStats().getDouble(player, StatsKey.MONEY)>=500.0){
-//						sky.getStats().add(player, StatsKey.MONEY,-500.0);
-//					}else{
-//						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"Du brauchst 500 Epics um eine Gilde zu erstellen.");
-//						return;
-//					}
-				}
+//				//success
+//				if (teamManager.getTeamType() == GameType.TEAMS_PVP) {
+//					team.setStatistic(StatsKey.LOC_X, player.getLocation().getBlockX());
+//					team.setStatistic(StatsKey.LOC_Y, player.getLocation().getBlockY());
+//					team.setStatistic(StatsKey.LOC_Z, player.getLocation().getBlockZ());
+//					team.setStatistic(StatsKey.WORLD, player.getLocation().getWorld().getName());
+//				} else if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
+////					SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
+////					if(sky.getStats().getDouble(player, StatsKey.MONEY)>=500.0){
+////						sky.getStats().add(player, StatsKey.MONEY,-500.0);
+////					}else{
+////						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"Du brauchst 500 Epics um eine Gilde zu erstellen.");
+////						return;
+////					}
+//				}
 				player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + TranslationHandler.getText(player, "GILDE_CREATE", teamManager));
 			}, (obj,ex) -> {
 				//team already exists

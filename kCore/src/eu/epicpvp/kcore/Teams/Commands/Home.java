@@ -37,24 +37,24 @@ public class Home {
 			return true;
 		}
 
-		if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
-//			if(teamManager instanceof SkyBlockGildenManager){
-//				SkyBlockGildenManager skymanager = (SkyBlockGildenManager)teamManager;
-//				
-//				if(skymanager.getSky().getGilden_world().getIslands().containsKey(g.toLowerCase())){
-//					return true;
-//				}
-//				
-//				if(player.hasPermission(PermissionType.SKYBLOCK_GILDEN_ISLAND.getPermissionToString())){
-//					skymanager.getSky().addGildenIsland(player, g);
-//					player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "GILDE_SETISLAND"));
-//					return true;
-//				}else{
-//					player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "NO_RANG"));
-//					return true;
-//				}
-//			}
-		}
+//		if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
+////			if(teamManager instanceof SkyBlockGildenManager){
+////				SkyBlockGildenManager skymanager = (SkyBlockGildenManager)teamManager;
+////				
+////				if(skymanager.getSky().getGilden_world().getIslands().containsKey(g.toLowerCase())){
+////					return true;
+////				}
+////				
+////				if(player.hasPermission(PermissionType.SKYBLOCK_GILDEN_ISLAND.getPermissionToString())){
+////					skymanager.getSky().addGildenIsland(player, g);
+////					player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "GILDE_SETISLAND"));
+////					return true;
+////				}else{
+////					player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "NO_RANG"));
+////					return true;
+////				}
+////			}
+//		}
 
 		if (UtilDebug.isDebug()) {
 			UtilDebug.debug("CMD:Home", new String[]{"Gilde:" + g, "PLAYER: " + player.getName()});
@@ -64,9 +64,9 @@ public class Home {
 		team.setStatistic(StatsKey.LOC_Y, loc.getBlockY());
 		team.setStatistic(StatsKey.LOC_Z, loc.getBlockZ());
 		team.setStatistic(StatsKey.WORLD, loc.getWorld().getName());
-		if (teamManager.getTeamType() == GameType.TEAMS_PVP) {
-			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + TranslationHandler.getText(player, "GILDE_SETHOME"));
-		}
+//		if (teamManager.getTeamType() == GameType.TEAMS_PVP) {
+//			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + TranslationHandler.getText(player, "GILDE_SETHOME"));
+//		}
 		return true;
 	}
 
@@ -96,25 +96,25 @@ public class Home {
 				player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + " /gilde " + args[0]);
 				return true;
 			}
-			if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
-//				SkyBlockGildenManager sky = (SkyBlockGildenManager)teamManager;
-//				
-//				if(sky.getSky().getGilden_world().getIslands().containsKey(args[1].toLowerCase())){
-//					player.teleport(sky.getSky().getGilden_world().getIslandHome(args[1].toLowerCase()));
-//					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aDu wurdest Teleporiert.");
-//				}else{
-//					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cGilde nicht gefunden");
-//				}
-			} else {
-				teamManager.getTeam(args[1], (team,ex) -> {
-					if (team == null) {
-						player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "§cGilde nicht gefunden");
-						return;
-					}
-					player.teleport(getHome(team));
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "§aDu wurdest Teleporiert.");
-				});
-			}
+//			if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
+////				SkyBlockGildenManager sky = (SkyBlockGildenManager)teamManager;
+////				
+////				if(sky.getSky().getGilden_world().getIslands().containsKey(args[1].toLowerCase())){
+////					player.teleport(sky.getSky().getGilden_world().getIslandHome(args[1].toLowerCase()));
+////					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aDu wurdest Teleporiert.");
+////				}else{
+////					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cGilde nicht gefunden");
+////				}
+//			} else {
+//				teamManager.getTeam(args[1], (team,ex) -> {
+//					if (team == null) {
+//						player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "§cGilde nicht gefunden");
+//						return;
+//					}
+//					player.teleport(getHome(team));
+//					player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "§aDu wurdest Teleporiert.");
+//				});
+//			}
 		} else {
 			player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX") + " /gilde " + args[0]);
 		}

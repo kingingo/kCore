@@ -31,7 +31,7 @@ public class Kick {
 			return true;
 		}
 
-		if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
+//		if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
 //			SkyBlockGildenManager sky = (SkyBlockGildenManager)teamManager;
 //			kConfig config;
 //			
@@ -48,7 +48,7 @@ public class Kick {
 //				}
 //			}
 //			config.save();
-		}
+//		}
 
 		team.broadcast("GILDE_KICK_PLAYER", kick_o);
 		teamManager.delete(team);

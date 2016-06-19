@@ -33,15 +33,15 @@ public class CommandTeam implements CommandExecutor {
 			player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD6"));
 			player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD7"));
 			player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD14"));
-			if (teamManager.getTeamType() == GameType.TEAMS_PVP) {
-				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD8"));
-				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD9"));
-			} else if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
-				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD10"));
-				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD11"));
-				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD12"));
-				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD13"));
-			}
+//			if (teamManager.getTeamType() == GameType.TEAMS_PVP) {
+//				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD8"));
+//				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD9"));
+//			} else if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
+//				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD10"));
+//				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD11"));
+//				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD12"));
+//				player.sendMessage(TranslationHandler.getText(player, "GILDE_CMD13"));
+//			}
 			player.sendMessage("§b§ ---------------------6§l GILDE §b---------------------");
 			return true;
 		}

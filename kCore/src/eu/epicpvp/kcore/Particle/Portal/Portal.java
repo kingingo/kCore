@@ -19,7 +19,7 @@ public class Portal extends PortalShape {
 		getPositions().putAll( createEllipse(3, 1.5, 0, 0.4, 0.9, PortalPart.OUTER) );
 		getPositions().putAll( createFillEllipse(3, 1.5, 0, 0.3, 0.8, PortalPart.INNER) );
 		
-		particlesPerBlock = PARTICLES_PER_BLOCK_DEFAULT;
+		particlesPerBlock = PARTICLES_PER_BLOCK_DEFAULT/2;
 	}
 
 	private Map<Vector, PortalPart> createSymmetricCapeLines(double x2, double y, PortalPart portalPart) {

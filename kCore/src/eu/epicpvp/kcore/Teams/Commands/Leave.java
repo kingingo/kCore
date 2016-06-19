@@ -25,7 +25,7 @@ public class Leave {
 		TeamRank rank = team.getRank(player);
 		if (rank == TeamRank.OWNER) {
 
-			if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
+//			if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
 //					SkyBlockGildenManager sky = (SkyBlockGildenManager)teamManager;
 //					kConfig config;
 //					for(int n : teamManager.getGilden_player().keySet()){
@@ -43,12 +43,12 @@ public class Leave {
 //						}
 //						config.save();
 //					}
-			}
+//			}
 
 			team.broadcast("GILDE_CLOSED");
 			teamManager.delete(team);
-		} else {
-			if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
+//		} else {
+//			if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
 //					SkyBlockGildenManager sky = (SkyBlockGildenManager)teamManager;
 //					kConfig config=sky.getSky().getInstance().getUserData().getConfig(player);
 //					for(String path : config.getPathList("homes").keySet()){
@@ -63,7 +63,7 @@ public class Leave {
 			team.broadcast("GILDE_PLAYER_GO_OUT", player.getName());
 			team.removePlayer(playerId);
 			player.setDisplayName(player.getName());
-		}
+//		}
 		return true;
 	}
 }
