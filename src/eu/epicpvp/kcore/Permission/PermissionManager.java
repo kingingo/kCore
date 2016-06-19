@@ -155,14 +155,17 @@ public class PermissionManager {
 			return;
 		}
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-		player.setPlayerListName(getPrefix(player)+player);
-		UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(player)).addEntry(player.getName());;
+		String prefix = getPrefix(player);
+		String tabGroup = getTabGroup(player);
+		
+		player.setPlayerListName(prefix+player.getName());
+		UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(player), prefix).addEntry(player.getName());;
 
 		for (Player p : UtilServer.getPlayers()) {
 			if (p.equals(player))
 				continue;
-			UtilScoreboard.addTeam(p.getScoreboard(), getTabGroup(player)).addEntry(player.getName());
-			UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p)).addEntry(p.getName());
+			UtilScoreboard.addTeam(p.getScoreboard(), tabGroup, prefix).addEntry(player.getName());
+			UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p), getPrefix(p)).addEntry(p.getName());
 		}
 
 		Bukkit.getPluginManager().callEvent(new PlayerSetScoreboardEvent(player));
@@ -209,6 +212,10 @@ public class PermissionManager {
 	public String getTabGroup(Player player) {
 		String name = player.getName();
 		PermissionPlayer pplayer = getPermissionPlayer(player);
+		if(pplayer == null){
+			Bukkit.getConsoleSender().sendMessage("§cPermission player for "+player.getName()+" is empty!");
+			return "000"+name;
+		}
 		if (!pplayer.getGroups().isEmpty())
 			name = String.format("%03d", 999 - pplayer.getGroups().get(0).getImportance()) + pplayer.getGroups().get(0).getName();
 		else
@@ -222,10 +229,7 @@ public class PermissionManager {
 		PermissionPlayer pplayer = getPermissionPlayer(player);
 		if (pplayer.getGroups().isEmpty() || !pplayer.isPrefix())
 			return "§6§m";
-		String prefix = pplayer.getGroups().get(0).getPrefix();
-		if (prefix.length() > 16)
-			prefix = prefix.substring(0, 16);
-		return prefix;
+		return pplayer.getGroups().get(0).getPrefix();
 	}
 
 	public boolean hasPermission(Player player, String permission, boolean message) {
@@ -310,8 +314,16 @@ public class PermissionManager {
 				groups.remove(getGroup(group));
 				if (!Bukkit.getOnlinePlayers().isEmpty()) {
 					loadGroup(group);
-					for (PermissionPlayer p : new ArrayList<PermissionPlayer>(user.values()))
-						updatePlayer(p.getPlayerId());
+					for (PermissionPlayer p : new ArrayList<PermissionPlayer>(user.values())){
+						int playerId = UtilPlayer.getPlayerId(p.getPlayer());
+						if (user.containsKey(playerId))
+							user.remove(playerId);
+						loadPlayer(p.getPlayer(), playerId);
+					}
+					for (PermissionPlayer p : new ArrayList<PermissionPlayer>(user.values())){
+						if(p.getPlayer() != null && p.getPlayer().isOnline())
+							setTabList(p.getPlayer(), false);
+					}
 				}
 			}
 		}).start();
