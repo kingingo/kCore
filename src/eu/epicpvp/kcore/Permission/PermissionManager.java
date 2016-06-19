@@ -155,28 +155,14 @@ public class PermissionManager {
 			return;
 		}
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-		String prefix = getPrefix(player);
-		String suffix = "";
-		String groupName = getTabGroup(player);
-
-		UtilScoreboard.addTeam(player.getScoreboard(), groupName, null, prefix, suffix);
-		UtilScoreboard.addPlayerToTeam(player.getScoreboard(), groupName, player);
+		player.setPlayerListName(getPrefix(player)+player);
+		UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(player)).addEntry(player.getName());;
 
 		for (Player p : UtilServer.getPlayers()) {
 			if (p.equals(player))
 				continue;
-			if (getPermissionPlayer(p) == null) {
-				System.err.println("Cant find permissionplayer for " + p.getName() + " [" + getClass().getName() + "]");
-				continue;
-			}
-			String tabGroup = getTabGroup(p);
-			String pp = getPrefix(p);
-			Team t1 = UtilScoreboard.setTeamPrefix(player.getScoreboard(), tabGroup, pp); //Atomaticly create if not exist
-			Team t2 = UtilScoreboard.setTeamPrefix(p.getScoreboard(), getTabGroup(player), prefix);//Atomaticly create if not exist
-			if (UtilServer.getClient().getPlayerAndLoad(p.getName()) != null)
-				UtilScoreboard.addPlayerToTeam(player.getScoreboard(), t1, p);
-			if (UtilServer.getClient().getPlayerAndLoad(player.getName()) != null)
-				UtilScoreboard.addPlayerToTeam(p.getScoreboard(), t2, player);
+			UtilScoreboard.addTeam(p.getScoreboard(), getTabGroup(player)).addEntry(player.getName());
+			UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p)).addEntry(p.getName());
 		}
 
 		Bukkit.getPluginManager().callEvent(new PlayerSetScoreboardEvent(player));
