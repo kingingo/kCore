@@ -34,7 +34,7 @@ public class ParticleShapeButton extends ButtonCopy {
 			public void onClick(Player player, ActionType type, Object object) {
 				player.closeInventory();
 				if (player.isOp() || UtilServer.getPermissionManager().hasPermission(player, particle.getPermission())) {
-					PlayerParticleDisplayer oldParticleDisplayer = shop.getParticleDisplayers().remove(player.getUniqueId());
+					EntityParticleDisplayer oldParticleDisplayer = shop.getParticleDisplayers().remove(player.getUniqueId());
 					if (oldParticleDisplayer != null) {
 						oldParticleDisplayer.stop();
 
@@ -49,7 +49,7 @@ public class ParticleShapeButton extends ButtonCopy {
 							return;
 						}
 					}
-					PlayerParticleDisplayer particleDisplayer = new PlayerParticleDisplayer<>(player, particle);
+					EntityParticleDisplayer particleDisplayer = new EntityParticleDisplayer<>(player, particle);
 					particleDisplayer.start(shop.getInstance());
 					shop.getParticleDisplayers().put(player.getUniqueId(), particleDisplayer);
 

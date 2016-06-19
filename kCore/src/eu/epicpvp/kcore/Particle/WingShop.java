@@ -48,7 +48,7 @@ import lombok.Getter;
 public class WingShop extends InventoryCopy implements Listener{
 
 	@Getter
-	private final HashMap<UUID, PlayerParticleDisplayer> particleDisplayers = new HashMap<>();
+	private final HashMap<UUID, EntityParticleDisplayer> particleDisplayers = new HashMap<>();
 	@Getter
 	private final JavaPlugin instance;
 	@Getter
@@ -126,7 +126,7 @@ public class WingShop extends InventoryCopy implements Listener{
 		entity.setVillager(false);
 		UtilEnt.setNoAI(entity, true);
 		UtilEnt.setSilent(entity, true);
-		PlayerParticleDisplayer particleDisplayer = new PlayerParticleDisplayer<>(entity, this.wings.get(10));
+		EntityParticleDisplayer particleDisplayer = new EntityParticleDisplayer<>(entity, this.wings.get(10));
 		particleDisplayer.start(getInstance());
 		
 		NameTagMessage m = new NameTagMessage(NameTagType.SERVER, entity.getLocation().add(0, 2.1, 0), "§c§lWings");
@@ -150,7 +150,7 @@ public class WingShop extends InventoryCopy implements Listener{
 			if(nbt.hasKey("wings")){
 				for(ParticleShape<?, ?> particleShape : wings){
 					if(particleShape.getName().equalsIgnoreCase(nbt.getString("wings"))){
-						PlayerParticleDisplayer<?, ?> particleDisplayer = new PlayerParticleDisplayer<>(player, particleShape);
+						EntityParticleDisplayer<?, ?> particleDisplayer = new EntityParticleDisplayer<>(player, particleShape);
 						particleDisplayer.start(instance);
 						particleDisplayers.put(player.getUniqueId(), particleDisplayer);
 						break;

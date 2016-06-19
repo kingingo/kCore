@@ -1,6 +1,12 @@
 package eu.epicpvp.kcore.Kit.Perks;
 
+import java.util.ArrayList;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.inventory.ItemStack;
@@ -21,10 +27,16 @@ public class PerkNoPotion extends Perk{
 	}
 	
 	@EventHandler
-	public void PotionSplash(PotionSplashEvent ev){
+	public void splash(PotionSplashEvent ev){
 		for(PotionEffect pe : ev.getPotion().getEffects()){
-			if(pe.getType() == type){
-				ev.getAffectedEntities().removeAll(getPerkData().getPlayers().get(this));
+			if(pe.getType().equals(type)){
+				for(LivingEntity e :ev.getAffectedEntities()){
+					if(e instanceof Player){
+						if(getPerkData().getPlayers().get(this).contains( ((Player)e) )){
+							ev.setIntensity(e, 0);
+						}
+					}
+				}
 				break;
 			}
 		}

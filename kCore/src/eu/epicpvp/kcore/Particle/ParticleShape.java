@@ -1,5 +1,6 @@
 package eu.epicpvp.kcore.Particle;
 
+import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,6 +106,23 @@ public abstract class ParticleShape<P extends Enum<P>, V> {
 		return result;
 	}
 
+	protected Map<Vector, P> createCircle1(double x, double y, double z, double radius, P part) {
+		double amount = radius * 64;
+		Map<Vector, P> result = Maps.newHashMapWithExpectedSize(UtilNumber.toInt(amount));
+		
+		for(int i = 0; i < amount; i++){
+			double angle = Math.PI * 2 / amount;
+			
+			double cx = (Math.cos(90)*radius)+x;
+			double cz = (Math.sin(90)*radius)+z;
+			
+			Vector vector = new Vector(cx, y, cz);
+			result.put(vector, part);
+		}
+		
+		return result;
+	}
+	
 	protected Map<Vector, P> createCircle(double x, double y, double z, double radius, P part) {
 		double amount = radius * 64;
 		double inc = (2 * Math.PI) / amount;
@@ -116,6 +134,8 @@ public abstract class ParticleShape<P extends Enum<P>, V> {
 			Vector v = new Vector(xCurr, y, zCurr);
 			result.put(v, part);
 		}
+	
+		
 		return result;
 	}
 
