@@ -19,7 +19,7 @@ public class CommandUnBan implements CommandExecutor{
 			System.out.println("/unban [Player]");
 		}else{
 			LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(args[0]);
-			loadedplayer.banPlayer("undefined", "unban", "system", UUID.nameUUIDFromBytes("system".getBytes()), -2, System.currentTimeMillis(), "§cunbanned Buycraft");
+			loadedplayer.banPlayer("undefined", "buycraft", "system", UUID.nameUUIDFromBytes("system".getBytes()), -2, System.currentTimeMillis(), "§cUnban from Buycraft");
 			System.out.println(loadedplayer.getName()+ "("+loadedplayer.getPlayerId()+") wurde entbannt!!");
 		}
 		return false;
