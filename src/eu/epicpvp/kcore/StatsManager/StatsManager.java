@@ -441,13 +441,18 @@ public class StatsManager extends kListener {
 	}
 	
 	public void loadPlayer(LoadedPlayer loadedplayer, Callback<Integer> callback){
-		if(this.players.containsKey(loadedplayer.getPlayerId())||this.loadplayers.contains(loadedplayer.getName())){
+		if(this.players.containsKey(loadedplayer.getPlayerId())){
 			logMessage("Player is loaded!? "+loadedplayer.getName());
 			
 			if (callback != null) {
 				callback.call(loadedplayer.getPlayerId(),null);
 			}
 			loadplayers.remove(loadedplayer.getName());
+			return;
+		}
+		
+		if(this.loadplayers.contains(loadedplayer.getName())){
+			logMessage("Player will load!? "+loadedplayer.getName());
 			return;
 		}
 		loadplayers.add(loadedplayer.getName());
