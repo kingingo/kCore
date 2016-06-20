@@ -46,8 +46,8 @@ public class MoneyListener extends kListener{
 			LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player);
 			
 			if(UtilPlayer.isOnline(player)){
-				money.add(loadedplayer.getPlayerId(), key, value);
-				logMessage("Add "+loadedplayer.getName()+" "+value+""+key.getMySQLName()+" to his/her Account!");
+				money.reloadPlayer(loadedplayer);
+				logMessage("Reload the Player Stats from "+loadedplayer.getName()+"!");
 			}else{
 				loadedplayer.getServer().getAsync(new Callback<String>() {
 					
@@ -66,8 +66,6 @@ public class MoneyListener extends kListener{
 							DataBuffer buffer = new DataBuffer();
 							buffer.writeByte(key.ordinal());
 							buffer.writeInt(loadedplayer.getPlayerId());
-							buffer.writeInt(value);
-							buffer.writeString(path);
 
 							logMessage("Send to "+server+" the Server!");
 							UtilServer.getClient().sendServerMessage(server, "money", buffer);
@@ -149,26 +147,17 @@ public class MoneyListener extends kListener{
 		if(ev.getChannel().equalsIgnoreCase("money")){
 			StatsKey key = StatsKey.values()[ev.getBuffer().readByte()];
 			int playerId = ev.getBuffer().readInt();
-			int value = ev.getBuffer().readInt();
-			String path = ev.getBuffer().readString();
 			
 			if(key==StatsKey.GEMS || StatsKey.COINS == key || StatsKey.MYSTERY_SHARPS == key){
 				if(money.isLoaded(playerId)){
-					money.add(playerId, key, value);
-					logMessage("Add "+playerId+" "+value+" "+key.getMySQLName()+" to his/her Account!");
-				}else{
-					money.loadPlayer(playerId, new Callback<Integer>(){
-
-						@Override
-						public void call(Integer playerId, Throwable exception) {
-							money.add(playerId, key, value);
-							money.save(playerId);
-							logMessage("Add "+playerId+" "+value+" "+key.getMySQLName()+" to his/her Account!");
-						}
-						
-					});
+					LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(playerId);
+					
+					money.reloadPlayer(loadedplayer);
+					logMessage("Reload the Player Stats from "+loadedplayer.getName()+"!");
 				}
 			}else if(key == StatsKey.PROPERTIES){
+				int value = ev.getBuffer().readInt();
+				String path = ev.getBuffer().readString();
 
 				if(properties.isLoaded(playerId)){
 					NBTTagCompound nbt = properties.getNBTTagCompound(playerId,key);

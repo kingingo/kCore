@@ -60,11 +60,11 @@ public class StatsManager extends kListener {
 	private boolean autoLoad = false;
 
 	public StatsManager(JavaPlugin instance, ClientWrapper client, GameType type) {
-		super(instance, "StatsManager|"+type.getShortName());
+		super(instance, "StatsManager|" + type.getShortName());
 		this.instance = instance;
 		this.type = type;
 		this.client = client;
-		if(type==GameType.Money){
+		if (type == GameType.Money) {
 			setForceSave(true);
 			new MoneyListener(this);
 		}
@@ -84,13 +84,13 @@ public class StatsManager extends kListener {
 		rankings.add(ranking);
 	}
 
-
-	@EventHandler(priority=EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void join(PlayerJoinEvent ev) {
-		if(isAutoLoad())loadPlayer(ev.getPlayer());
+		if (isAutoLoad())
+			loadPlayer(ev.getPlayer());
 	}
-	
-	@EventHandler(priority=EventPriority.MONITOR)
+
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void quit(PlayerQuitEvent ev) {
 		this.loadplayers.remove(ev.getPlayer().getName());
 		save(ev.getPlayer());
@@ -101,10 +101,10 @@ public class StatsManager extends kListener {
 		}
 		this.players.remove(playerId);
 	}
-	
+
 	@EventHandler
-	public void forceSave(PlayerStatsChangedEvent ev){
-		if(isForceSave()){
+	public void forceSave(PlayerStatsChangedEvent ev) {
+		if (isForceSave()) {
 			save(ev.getPlayerId());
 		}
 	}
@@ -114,7 +114,7 @@ public class StatsManager extends kListener {
 		ArrayList<Callback<Integer>> callbacks = this.loading.get(ev.getPlayerId());
 		if (callbacks != null) {
 			for (Callback<Integer> call : new ArrayList<>(callbacks))
-				call.call(ev.getPlayerId(), null );
+				call.call(ev.getPlayerId(), null);
 		}
 	}
 
@@ -132,50 +132,52 @@ public class StatsManager extends kListener {
 	}
 
 	public void SendRankingMessage(Player player, Ranking ranking) {
-		if(ranking.getRanking() ==null){
+		if (ranking.getRanking() == null) {
 			ranking.load(new Callback<Object>() {
 				@Override
 				public void call(Object obj, Throwable exception) {
 					StatsManager.this.SendRankingMessage(player, ranking);
 				}
 			});
-		}else{
-			player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top "+ranking.getRanking().length+" §b■■■■■■■■");
+		} else {
+			player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top " + ranking.getRanking().length + " §b■■■■■■■■");
 			player.sendMessage("§b Platz | " + ranking.getStats().getMySQLName() + " | Player");
-			for (int i = 0; i < ranking.getRanking().length ; i++)
-				player.sendMessage("§b#§6" + (i+1) + "§b | §6" + UtilMath.trim(2, UtilNumber.toDouble(ranking.getRanking()[i].getTopValue())) + " §b|§6 " + ranking.getRanking()[i].getPlayer());
+			for (int i = 0; i < ranking.getRanking().length; i++)
+				player.sendMessage("§b#§6" + (i + 1) + "§b | §6"
+						+ UtilMath.trim(2, UtilNumber.toDouble(ranking.getRanking()[i].getTopValue())) + " §b|§6 "
+						+ ranking.getRanking()[i].getPlayer());
 		}
 	}
-	
-	public int getTotalInteger(Player player, StatsKey... keys){
+
+	public int getTotalInteger(Player player, StatsKey... keys) {
 		int total = 0;
-		
-		for(StatsKey key : keys){
-			if(key.getClassId() == 0){
+
+		for (StatsKey key : keys) {
+			if (key.getClassId() == 0) {
 				total += getInt(player, key);
 			}
 		}
-		
+
 		return total;
 	}
 
-	public boolean containsKey(Player player, StatsKey key){
-		return containsKey(UtilPlayer.getPlayerId(player),key);
+	public boolean containsKey(Player player, StatsKey key) {
+		return containsKey(UtilPlayer.getPlayerId(player), key);
 	}
-	
-	public boolean containsKey(int playerId, StatsKey key){
+
+	public boolean containsKey(int playerId, StatsKey key) {
 		Map<StatsKey, StatsObject> statsMap = players.get(playerId);
 		return (statsMap != null && statsMap.containsKey(key));
 	}
 
-	public NBTTagCompound getNBTTagCompound(int playerId,StatsKey key){
-		return (NBTTagCompound)get(playerId,key);
+	public NBTTagCompound getNBTTagCompound(int playerId, StatsKey key) {
+		return (NBTTagCompound) get(playerId, key);
 	}
 
-	public NBTTagCompound getNBTTagCompound(Player player,StatsKey key){
-		return (NBTTagCompound)get(player,key);
+	public NBTTagCompound getNBTTagCompound(Player player, StatsKey key) {
+		return (NBTTagCompound) get(player, key);
 	}
-	
+
 	public long getLong(StatsKey key, Player player) {
 		return (long) get(player, key);
 	}
@@ -215,17 +217,17 @@ public class StatsManager extends kListener {
 	public int getInt(int playerId, StatsKey key) {
 		return (int) get(playerId, key);
 	}
-	
+
 	public double getDouble(int playerId, StatsKey key) {
 		return (double) get(playerId, key);
 	}
 
 	public Object get(StatsKey key, Player player) {
-		return get(UtilPlayer.getPlayerId(player),key);
+		return get(UtilPlayer.getPlayerId(player), key);
 	}
 
 	public Object get(Player player, StatsKey key) {
-		return get(UtilPlayer.getPlayerId(player),key);
+		return get(UtilPlayer.getPlayerId(player), key);
 	}
 
 	public Object get(int playerId, StatsKey key) {
@@ -237,7 +239,7 @@ public class StatsManager extends kListener {
 			} else {
 				return null;
 			}
-		}else{
+		} else {
 			loadPlayer(playerId, null);
 		}
 
@@ -254,7 +256,7 @@ public class StatsManager extends kListener {
 		if (statsMap != null) {
 			StatsObject statsObject = statsMap.get(key);
 			if (statsObject != null) {
-				callback.call(statsObject.getValue(),null);
+				callback.call(statsObject.getValue(), null);
 			}
 			return;
 		}
@@ -275,7 +277,9 @@ public class StatsManager extends kListener {
 	}
 
 	public double getKDR(int k, int d) {
-		if (d == 0) { //prevent ArithmeticException - alternative: use deaths to calculate lives (= add 1) and then calculate KLR instead?
+		if (d == 0) { // prevent ArithmeticException - alternative: use deaths
+						// to calculate lives (= add 1) and then calculate KLR
+						// instead?
 			d = 1;
 		}
 		double kdr = (double) k / (double) d;
@@ -284,18 +288,18 @@ public class StatsManager extends kListener {
 		kdr = kdr / 100D;
 		return kdr;
 	}
-	
-	public void setNBTTagCompound(Player player, NBTTagCompound nbt, StatsKey key) throws Exception{
+
+	public void setNBTTagCompound(Player player, NBTTagCompound nbt, StatsKey key) throws Exception {
 		setNBTTagCompound(UtilPlayer.getPlayerId(player), nbt, key);
 	}
 
-	public void setNBTTagCompound(int playerId, NBTTagCompound nbt, StatsKey key) throws Exception{
+	public void setNBTTagCompound(int playerId, NBTTagCompound nbt, StatsKey key) throws Exception {
 		if (key == StatsKey.PROPERTIES) {
 			this.players.get(playerId).get(key).add(nbt);
 			Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this, key, playerId));
 		}
 	}
-	
+
 	public void setString(Player player, String s, StatsKey key) {
 		setString(UtilPlayer.getPlayerId(player), key, s);
 	}
@@ -328,19 +332,19 @@ public class StatsManager extends kListener {
 	}
 
 	public void set(int playerId, StatsKey key, Object obj) {
-		if(key == StatsKey.PROPERTIES){
-			if(obj instanceof NBTTagCompound){
+		if (key == StatsKey.PROPERTIES) {
+			if (obj instanceof NBTTagCompound) {
 				try {
-					setNBTTagCompound(playerId, ((NBTTagCompound)obj), key);
+					setNBTTagCompound(playerId, ((NBTTagCompound) obj), key);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}else{
-				logMessage("Das Object ist kein NBT TAG " +playerId);
+			} else {
+				logMessage("Das Object ist kein NBT TAG " + playerId);
 			}
-		}else if(key.getType() == String.class){
+		} else if (key.getType() == String.class) {
 			setString(playerId, key, ((String) obj));
-		}else{
+		} else {
 			Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
 			if (statsMap != null) {
 				StatsObject statsObject = statsMap.get(key);
@@ -398,18 +402,18 @@ public class StatsManager extends kListener {
 	}
 
 	public void add(Player player, StatsKey key, Object value) {
-		add( UtilPlayer.getPlayerId(player), key, value);
+		add(UtilPlayer.getPlayerId(player), key, value);
 	}
 
 	public void add(int playerId, StatsKey key, Object value) {
 		Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
 		if (statsMap != null) {
-			PlayerStatsAddEvent add = new PlayerStatsAddEvent(this,key,value,playerId);
+			PlayerStatsAddEvent add = new PlayerStatsAddEvent(this, key, value, playerId);
 			Bukkit.getPluginManager().callEvent(add);
 			statsMap.computeIfAbsent(key, k -> new StatsObject(0)).add(add.getValue());
-			Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this,key, playerId));
+			Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this, key, playerId));
 		} else {
-			logMessage("add LOAD PLAYER "+playerId);
+			logMessage("add LOAD PLAYER " + playerId);
 			loadPlayer(playerId, new Callback<Integer>() {
 
 				@Override
@@ -419,19 +423,19 @@ public class StatsManager extends kListener {
 			});
 		}
 	}
-	
+
 	public void loadPlayer(String playerName, Callback<Integer> callback) {
 		loadPlayer(client.getPlayerAndLoad(playerName), callback);
 	}
-	
+
 	public void loadPlayer(Player player, Callback<Integer> callback) {
-		loadPlayer(player.getName(),callback);
+		loadPlayer(player.getName(), callback);
 	}
-	
+
 	public void loadPlayer(String playerName) {
 		loadPlayer(client.getPlayerAndLoad(playerName), null);
 	}
-	
+
 	public void loadPlayer(Player player) {
 		loadPlayer(player.getName());
 	}
@@ -439,57 +443,89 @@ public class StatsManager extends kListener {
 	public void loadPlayer(int playerId, Callback<Integer> callback) {
 		loadPlayer(client.getPlayerAndLoad(playerId), callback);
 	}
-	
-	public void loadPlayer(LoadedPlayer loadedplayer, Callback<Integer> callback){
-		if(this.players.containsKey(loadedplayer.getPlayerId())){
-			logMessage("Player is loaded!? "+loadedplayer.getName());
-			
+
+	public void loadPlayer(LoadedPlayer loadedplayer, Callback<Integer> callback) {
+		if (this.players.containsKey(loadedplayer.getPlayerId())) {
+			logMessage("Player is loaded!? " + loadedplayer.getName());
+
 			if (callback != null) {
-				callback.call(loadedplayer.getPlayerId(),null);
+				callback.call(loadedplayer.getPlayerId(), null);
 			}
 			loadplayers.remove(loadedplayer.getName());
 			return;
 		}
-		
-		if(this.loadplayers.contains(loadedplayer.getName())){
-			logMessage("Player will load!? "+loadedplayer.getName());
+
+		if (this.loadplayers.contains(loadedplayer.getName())) {
+			logMessage("Player will load!? " + loadedplayer.getName());
 			return;
 		}
 		loadplayers.add(loadedplayer.getName());
-		
+
 		loadedplayer.getStats(getType()).getAsync(new Callback<Statistic[]>() {
 
 			@Override
 			public void call(Statistic[] statistics, Throwable exception) {
 
-				Map<StatsKey, StatsObject> statsMap = players.computeIfAbsent(loadedplayer.getPlayerId(), key -> new EnumMap<>(StatsKey.class));
+				Map<StatsKey, StatsObject> statsMap = players.computeIfAbsent(loadedplayer.getPlayerId(),key -> new EnumMap<>(StatsKey.class));
 
 				for (Statistic s : statistics) {
-					if(s.getStatsKey() == StatsKey.PROPERTIES){
-						if(((String)s.getValue()).isEmpty()){
+					if (s.getStatsKey() == StatsKey.PROPERTIES) {
+						if (((String) s.getValue()).isEmpty()) {
 							statsMap.put(s.getStatsKey(), new StatsObject(new NBTTagCompound()));
-						}else{
+						} else {
 							try {
-								statsMap.put(s.getStatsKey(), new StatsObject(NBTCompressedStreamTools.read( ((String)s.getValue()) )));
+								statsMap.put(s.getStatsKey(),
+										new StatsObject(NBTCompressedStreamTools.read(((String) s.getValue()))));
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 						}
-					}else{
+					} else {
 						statsMap.put(s.getStatsKey(), new StatsObject(s.getValue()));
 					}
 				}
 
 				if (callback != null) {
-					callback.call(loadedplayer.getPlayerId(),null);
+					callback.call(loadedplayer.getPlayerId(), null);
 				}
-				
+
 				loadplayers.remove(loadedplayer.getName());
 				Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(StatsManager.this, loadedplayer.getPlayerId()));
 			}
 		});
 	}
-	
+
+	public void reloadPlayer(LoadedPlayer loadedplayer) {
+		if (this.players.containsKey(loadedplayer.getPlayerId())) {
+			loadedplayer.getStats(getType()).getAsync(new Callback<Statistic[]>() {
+				
+				@Override
+				public void call(Statistic[] statistics, Throwable exception) {
+					Map<StatsKey, StatsObject> statsMap = players.get(loadedplayer.getPlayerId());
+					statsMap.clear();
+					
+					for (Statistic s : statistics) {
+						if (s.getStatsKey() == StatsKey.PROPERTIES) {
+							if (((String) s.getValue()).isEmpty()) {
+								statsMap.put(s.getStatsKey(), new StatsObject(new NBTTagCompound()));
+							} else {
+								try {
+									statsMap.put(s.getStatsKey(),new StatsObject(NBTCompressedStreamTools.read(((String) s.getValue()))));
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						} else {
+							statsMap.put(s.getStatsKey(), new StatsObject(s.getValue()));
+						}
+					}
+
+					Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(StatsManager.this, loadedplayer.getPlayerId()));
+				}
+			});
+		}
+	}
+
 	public void saveAll() {
 		EditStats[] stats;
 		for (Map.Entry<Integer, Map<StatsKey, StatsObject>> entry : this.players.entrySet()) {
@@ -509,13 +545,14 @@ public class StatsManager extends kListener {
 			StatsKey key = entry.getKey();
 			StatsObject statsObject = entry.getValue();
 			if (statsObject.getChange() != null) {
-				if(key == StatsKey.PROPERTIES){
+				if (key == StatsKey.PROPERTIES) {
 					try {
-						stats[i] = new EditStats(getType(), Action.SET, key, NBTCompressedStreamTools.toString(((NBTTagCompound)statsObject.getValue())));
+						stats[i] = new EditStats(getType(), Action.SET, key,
+								NBTCompressedStreamTools.toString(((NBTTagCompound) statsObject.getValue())));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				}else if (key.getType() == String.class) {
+				} else if (key.getType() == String.class) {
 					stats[i] = new EditStats(getType(), Action.SET, key, statsObject.getValue());
 				} else {
 					stats[i] = new EditStats(getType(), Action.ADD, key, statsObject.getChange());
@@ -536,7 +573,8 @@ public class StatsManager extends kListener {
 	}
 
 	public void save(int playerId) {
-		if (isOnDisable()) return;
+		if (isOnDisable())
+			return;
 		if (this.players.containsKey(playerId)) {
 			LoadedPlayer loadedplayer = client.getPlayerAndLoad(playerId);
 			Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);

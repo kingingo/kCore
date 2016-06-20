@@ -549,8 +549,12 @@ public class UtilPlayer
     health((LivingEntity) player, mod);
   }
   
-  public static void addPotionEffect(Player p,PotionEffectType typ, int time,int staerke){
-	  p.addPotionEffect(new PotionEffect(typ,time*20,staerke),true);
+  public static PotionEffect getPotionEffect(PotionEffectType typ, int sec,int staerke){
+	  return new PotionEffect(typ,sec*20,staerke);
+  }
+  
+  public static void addPotionEffect(Player p,PotionEffectType typ, int sec,int staerke){
+	  p.addPotionEffect(getPotionEffect(typ,sec,staerke),true);
   }
 
   public static void hunger(Player player, int mod){
