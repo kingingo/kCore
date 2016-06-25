@@ -109,7 +109,12 @@ public class WingShop extends InventoryCopy implements Listener{
 			if(wings.size()<=next){
 				setItem(slot, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)14), " "));
 			}else{
-				addButton(slot, new ParticleShapeButton(slot, this, wings.get(next)));
+				if(wings.get(next).getPermission() == PermissionType.WINGS_ANGEL_WHITE ||
+						wings.get(next).getPermission() == PermissionType.WINGS_BAT_BLACK_RED){
+					addButton(slot, new ParticleShapeButton(slot, 1000, this, wings.get(next)));
+				}else{
+					addButton(slot, new ParticleShapeButton(slot, 500, this, wings.get(next)));
+				}
 			}
 			next++;
 		}

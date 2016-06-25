@@ -307,7 +307,6 @@ public class UtilPlayer
 	}
 	
 	public static int getPlayerId(String playerName){
-		//long s = System.currentTimeMillis();
 		LoadedPlayer player = UtilServer.getClient().getPlayerAndLoad(playerName);
 		return player.getPlayerId();
 	}
