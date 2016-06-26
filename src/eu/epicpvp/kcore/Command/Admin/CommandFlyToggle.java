@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.Particle.EntityParticleDisplayer;
+import eu.epicpvp.kcore.ParticleManager.ParticleManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
@@ -19,7 +21,9 @@ public class CommandFlyToggle implements CommandExecutor{
 		if(player.isOp()){
 			if(UtilPlayer.isFly()){
 				UtilPlayer.setFly(false);
-				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aFly wurde deaktviert");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aFly & wings wurde deaktviert");
+				ParticleManager.PARTICEL_ACTIVE = false;
+				EntityParticleDisplayer.ACTIVE = false;
 				for(Player p : UtilServer.getPlayers()){
 					if(!p.isOp() && p.isFlying()){
 						p.setFlying(false);
@@ -29,7 +33,9 @@ public class CommandFlyToggle implements CommandExecutor{
 				}
 			}else{
 				UtilPlayer.setFly(true);
-				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cFly wurde aktviert");
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§cFly & wings wurde aktviert");
+				ParticleManager.PARTICEL_ACTIVE = true;
+				EntityParticleDisplayer.ACTIVE = true;
 			}
 		}
 		return false;

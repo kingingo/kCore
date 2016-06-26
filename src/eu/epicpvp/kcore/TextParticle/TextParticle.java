@@ -19,7 +19,7 @@ import eu.epicpvp.kcore.Util.UtilVector;
 import lombok.Getter;
 import lombok.Setter;
 
-public class TextParticle extends kListener{
+public class TextParticle extends kListener {
 
 	@Getter
 	@Setter
@@ -38,7 +38,7 @@ public class TextParticle extends kListener{
 	private int stepX = 1;
 	@Getter
 	@Setter
- 	private int stepY = 1;
+	private int stepY = 1;
 	@Getter
 	@Setter
 	private Vector vector;
@@ -47,43 +47,44 @@ public class TextParticle extends kListener{
 	private Font font;
 	@Getter
 	@Setter
-	private float size= 0.2F;
+	private float size = 0.2F;
 	@Getter
 	@Setter
- 	private int clr = 0;
+	private int clr = 0;
 	@Getter
 	@Setter
- 	private boolean invert = false;
-	
-	public TextParticle(JavaPlugin instance,String text,Location location,UtilParticle particle){
-		super(instance,"[TextParticle]:");
-		this.text=text;
-		this.location=location;
-		this.particle=particle;
-		this.font=new Font("Tahoma", 0, 16);
+	private boolean invert = false;
+
+	public TextParticle(JavaPlugin instance, String text, Location location, UtilParticle particle) {
+		super(instance, "[TextParticle]:");
+		this.text = text;
+		this.location = location;
+		this.particle = particle;
+		this.font = new Font("Tahoma", 0, 16);
 	}
-	
-	public void stop(){
+
+	public void stop() {
 		HandlerList.unregisterAll(this);
 	}
-	
+
 	@EventHandler
-	public void Update(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.FASTEST)return;
+	public void Update(UpdateEvent ev) {
+		if (ev.getType() != UpdateType.FASTEST)
+			return;
 		this.image = UtilString.stringToBufferedImage(this.font, this.text);
-		for (int y = 0; y < this.image.getHeight(); y += this.stepY){
+		for (int y = 0; y < this.image.getHeight(); y += this.stepY) {
 			for (int x = 0; x < this.image.getWidth(); x += this.stepX) {
 				clr = this.image.getRGB(x, y);
-				if ((this.invert) || (Color.black.getRGB() == clr)){
-		            if ((!this.invert) || (Color.black.getRGB() != clr)){
-		            	vector = new Vector(this.image.getWidth() / 2.0F - x, this.image.getHeight() / 2.0F - y, 0.0F).multiply(this.size);
-		 			    UtilVector.rotateAroundAxisY(vector, -location.getYaw() * 0.01745329F);
-		 			    particle.display(0, 8, location.add(vector), 20);
-		 			    location.subtract(vector);
-		            }
-		        }
+				if ((this.invert) || (Color.black.getRGB() == clr)) {
+					if ((!this.invert) || (Color.black.getRGB() != clr)) {
+						vector = new Vector(this.image.getWidth() / 2.0F - x, this.image.getHeight() / 2.0F - y, 0.0F).multiply(this.size);
+						UtilVector.rotateAroundAxisY(vector, -location.getYaw() * 0.01745329F);
+						particle.display(0, 8, location.add(vector), 20);
+						location.subtract(vector);
+					}
+				}
 			}
-		}       
+		}
 	}
-	
+
 }

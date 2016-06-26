@@ -28,7 +28,7 @@ public class CommandGivePro implements CommandExecutor{
 					if(c==-1)return false;
 					
 					UtilServer.getMoneyListener().update(spieler, StatsKey.PROPERTIES,args[1], c);
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+(c<0?TranslationHandler.getText(player, "GEMS_DEL_PLAYER",new String[]{player.getName(),String.valueOf(c)}):TranslationHandler.getText(player, "GEMS_ADD_PLAYER",new String[]{player.getName(),String.valueOf(c)})));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+(TranslationHandler.getText(player, c<0?"GEMS_DEL_PLAYER":"GEMS_ADD_PLAYER",new String[]{player.getName(),String.valueOf(Math.abs(c))})));
 				}
 			}
 		}else if(sender instanceof CommandSender){

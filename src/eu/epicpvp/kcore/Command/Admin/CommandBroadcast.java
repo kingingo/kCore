@@ -12,37 +12,38 @@ import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilServer;
 
-public class CommandBroadcast implements CommandExecutor{
-	
+public class CommandBroadcast implements CommandExecutor {
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "broadcast", sender = Sender.EVERYONE)
-	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
-		if(sender instanceof Player){
-			Player p = (Player)sender;
-			if(!p.hasPermission(PermissionType.BROADCAST.getPermissionToString()))return false;
-			if(args.length==0){
-				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§7/broadcast [Message]");
-			}else{
+	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			if (!p.hasPermission(PermissionType.BROADCAST.getPermissionToString()))
+				return false;
+			if (args.length == 0) {
+				p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§7/broadcast [Message]");
+			} else {
 				broadcast(args);
 			}
-		}else if(sender instanceof ConsoleCommandSender){
-			if(args.length==0){
+		} else if (sender instanceof ConsoleCommandSender) {
+			if (args.length == 0) {
 				System.out.println("[EpicPvP] /broadcast [Nachricht]");
-			}else{
+			} else {
 				broadcast(args);
 			}
 		}
 		return false;
 	}
-	
-	public void broadcast(String[] args){
+
+	public void broadcast(String[] args) {
 		StringBuilder sb = new StringBuilder();
 		for (String arg : args) {
 			sb.append(arg).append(' ');
 		}
 		sb.setLength(sb.length() - 1);
 		String msg = sb.toString();
-		
+
 		UtilServer.broadcast(ChatColor.translateAlternateColorCodes('&', msg));
 	}
-	
+
 }

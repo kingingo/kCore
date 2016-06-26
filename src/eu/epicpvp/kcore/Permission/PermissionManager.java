@@ -175,7 +175,11 @@ public class PermissionManager {
 	}
 
 	public void unloadPlayer(Player player) {
-		user.remove(UtilPlayer.getPlayerId(player));
+		UtilServer.loopbackUntilValidDataserverConnection(()->{
+			synchronized (user) {
+				user.remove(UtilPlayer.getPlayerId(player));
+			}
+		}, "unload player "+player.getName(), false);
 	}
 
 	public void loadPlayer(Player player, int playerId) {

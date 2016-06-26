@@ -26,123 +26,127 @@ import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
 
 @Getter
-public class Achievement implements Listener{
+public class Achievement implements Listener {
 
 	private boolean secret;
 	private String name;
 	private List<String> description;
 	protected int maxprogress;
-	private HashMap<Integer,Integer> playerProgress;
+	private HashMap<Integer, Integer> playerProgress;
 	private AchievementsHandler handler;
 	private Callback<Integer> done;
-	
-	public Achievement(String name,List<String> description,Callback<Integer> done,boolean secret,int maxprogress){
-		this.name=name;
-		this.description=description;
-		this.maxprogress=maxprogress;
-		this.playerProgress=new HashMap<>();
-		this.secret=secret;
-		this.done=done;
+
+	public Achievement(String name, List<String> description, Callback<Integer> done, boolean secret, int maxprogress) {
+		this.name = name;
+		this.description = description;
+		this.maxprogress = maxprogress;
+		this.playerProgress = new HashMap<>();
+		this.secret = secret;
+		this.done = done;
 	}
-	
-	public ArrayList<String> getDescription(Player player){
+
+	public ArrayList<String> getDescription(Player player) {
 		ArrayList<String> list = new ArrayList<>(getDescription());
 		int progress = getProgress(player);
-		
-		list.add("§6Fortschritt: "+(progress==maxprogress ? "§a" : "§c")+progress+"§7/§a"+maxprogress);
+
+		list.add("§6Fortschritt: " + (progress == maxprogress ? "§a" : "§c") + progress + "§7/§a" + maxprogress);
 		return list;
 	}
-	
-	public boolean done(Player player){
+
+	public boolean done(Player player) {
 		return done(UtilPlayer.getPlayerId(player));
 	}
-	
-	public boolean done(int playerId){
-		if(this.playerProgress.containsKey(playerId)){
-			if(getProgress(playerId) >= maxprogress){
+
+	public boolean done(int playerId) {
+		if (this.playerProgress.containsKey(playerId)) {
+			if (getProgress(playerId) >= maxprogress) {
 				saveProgress(playerId);
 				this.playerProgress.remove(playerId);
-				if(done!=null)done.call(playerId, null);
-				
+				if (done != null)
+					done.call(playerId, null);
+
 				Player player = UtilPlayer.searchExact(playerId);
-				if(player!=null){
+				if (player != null) {
 					Bukkit.getScheduler().runTask(handler.getInstance(), new Runnable() {
 						@Override
 						public void run() {
-							Title title = new Title("§6§lErfolgreich Abgeschlossen", ""+getName());
+							Title title = new Title("§6§lErfolgreich Abgeschlossen", "" + getName());
 							title.send(player);
 							UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
 							UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
 							UtilFirework.start(-1, player.getLocation(), UtilFirework.RandomColor(), Type.BALL_LARGE);
-							
+
 							player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
 							player.sendMessage(" ");
-							player.sendMessage(UtilString.center("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".length(),"Du hast das Achievement erfolgreich abgeschlossen!".length())+"§aDu hast das Achievement erfolgreich abgeschlossen!");
+							player.sendMessage(UtilString.center("▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".length(), "Du hast das Achievement erfolgreich abgeschlossen!".length()) + "§aDu hast das Achievement erfolgreich abgeschlossen!");
 							player.sendMessage(" ");
 							player.sendMessage("§a§l▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬");
 						}
 					});
 				}
-				
+
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public Integer getProgress(Player player){
+
+	public Integer getProgress(Player player) {
 		return getProgress(UtilPlayer.getPlayerId(player));
 	}
-	
-	public Integer getProgress(int playerId){
-		if(this.playerProgress.containsKey(playerId))return this.playerProgress.get(playerId);
-		
-		if(this.handler.isConfig()){
+
+	public Integer getProgress(int playerId) {
+		if (this.playerProgress.containsKey(playerId))
+			return this.playerProgress.get(playerId);
+
+		if (this.handler.isConfig()) {
 			kConfig config = UtilServer.getUserData().getConfig(Integer.valueOf(playerId));
-			if(config.isSet("Achievements."+ getClass().getName() +".Progress")){
-				return config.getInt("Achievements."+ getClass().getName() +".Progress");
+			if (config.isSet("Achievements." + getClass().getName() + ".Progress")) {
+				return config.getInt("Achievements." + getClass().getName() + ".Progress");
 			}
-		}else{
-			
+		} else {
+
 		}
 		return 0;
 	}
-	
-	public void saveProgress(Player player){
+
+	public void saveProgress(Player player) {
 		saveProgress(UtilPlayer.getPlayerId(player));
 	}
-	
-	public void saveProgress(int playerId){
-		if(this.handler.isConfig()){
+
+	public void saveProgress(int playerId) {
+		if (this.handler.isConfig()) {
 			kConfig config = UtilServer.getUserData().getConfig(Integer.valueOf(playerId));
-			config.set("Achievements."+ getClass().getName() +".Progress", getPlayerProgress().get(Integer.valueOf(playerId)));
+			config.set("Achievements." + getClass().getName() + ".Progress", getPlayerProgress().get(Integer.valueOf(playerId)));
 			config.save();
-		}else{
-			
 		}
 	}
-	
-	public void register(AchievementsHandler handler){
-		this.handler=handler;
+
+	public void register(AchievementsHandler handler) {
+		this.handler = handler;
 		Bukkit.getPluginManager().registerEvents(this, handler.getInstance());
 		handler.getAchievements().add(this);
 	}
 
 	@EventHandler
-	public void quit(PlayerQuitEvent ev){
-		if(this.playerProgress.containsKey(UtilPlayer.getPlayerId(ev.getPlayer()))){
-			saveProgress(ev.getPlayer());
-			this.playerProgress.remove(UtilPlayer.getPlayerId(ev.getPlayer()));
-		}
+	public void quit(PlayerQuitEvent ev) {
+		UtilServer.loopbackUntilValidDataserverConnection(() -> {
+			synchronized (playerProgress) {
+				if (this.playerProgress.containsKey(UtilPlayer.getPlayerId(ev.getPlayer()))) {
+					saveProgress(ev.getPlayer());
+					this.playerProgress.remove(UtilPlayer.getPlayerId(ev.getPlayer()));
+				}
+			}
+		}, "archievement save " + ev.getPlayer(), false);
 	}
-	
+
 	@EventHandler
-	public void join(PlayerJoinEvent ev){
+	public void join(PlayerJoinEvent ev) {
 		int pprogress = getProgress(ev.getPlayer());
-		if(pprogress < maxprogress){
+		if (pprogress < maxprogress) {
 			this.playerProgress.put(UtilPlayer.getPlayerId(ev.getPlayer()), pprogress);
 			Bukkit.getPluginManager().callEvent(new PlayerLoadAchievementsEvent(ev.getPlayer(), this));
 		}
 	}
-	
+
 }

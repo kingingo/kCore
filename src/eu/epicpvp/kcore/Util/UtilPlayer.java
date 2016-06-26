@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,6 +34,7 @@ import com.mojang.authlib.GameProfile;
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
+import dev.wolveringer.hashmaps.CachedHashMap;
 import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.PacketAPI.kPacket;
 import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutChat;
@@ -302,13 +304,30 @@ public class UtilPlayer
 		sendPacket(player, packet.getPacket());
 	}
 	
+	private static CachedHashMap<String, Integer> playerIds = new CachedHashMap<>(1, TimeUnit.MINUTES);
+	
 	public static int getPlayerId(Player player){
 		return getPlayerId(player.getName());
 	}
 	
 	public static int getPlayerId(String playerName){
+		synchronized (playerIds) {
+			playerIds.lock();
+			try{
+				if(playerIds.containsKey(playerName))
+					return playerIds.get(playerName);
+			}finally{
+				playerIds.unlock();
+			}
+		}
+		if(!UtilServer.getClient().getHandle().isConnected())
+			return -1;
 		LoadedPlayer player = UtilServer.getClient().getPlayerAndLoad(playerName);
-		return player.getPlayerId();
+		int id = player.getPlayerId();
+		synchronized (playerIds) {
+			playerIds.put(playerName, id);
+		}
+		return id;
 	}
 	
 	public static UUID getOfflineUUID(String player){

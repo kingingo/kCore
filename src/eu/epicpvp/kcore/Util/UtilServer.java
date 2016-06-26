@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.spigotmc.AsyncCatcher;
 
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.connection.Client;
@@ -68,9 +69,11 @@ import lombok.Setter;
 import net.minecraft.server.v1_8_R3.EntityHorse;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EntityWitherSkull;
+import net.minecraft.server.v1_8_R3.PacketPlayInArmAnimation;
 import net.minecraft.server.v1_8_R3.PacketPlayOutAttachEntity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 import net.minecraft.server.v1_8_R3.WorldServer;
 
 public class UtilServer{
@@ -447,12 +450,45 @@ public class UtilServer{
 	    for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, TranslationHandler.getText("PREFIX")+TranslationHandler.getText(cur, name));
   }
   
-  public static void broadcast(String message){
+	public static void broadcast(String message){
     for (Player cur : getPlayers())UtilPlayer.sendMessage(cur, message);
   }
 
   public static double getFilledPercent()
   {
     return getPlayers().size() / getServer().getMaxPlayers();
+  }
+  
+  public static void loopbackUntilValidDataserverConnection(Runnable run,String name,boolean sync){
+	  if(getClient().getHandle().isConnected()){
+		  if(!sync)
+				ThreadFactory.getFactory().createThread(run).start();
+			else
+				ensureMainthread(run);
+	  }
+	  ThreadFactory.getFactory().createThread(() -> {
+			System.out.println("Loopback "+name);
+			while (!UtilServer.getClient().getHandle().isConnected()) {
+				try {
+					Thread.sleep(500);
+				} catch (Exception e) {
+				}
+			}
+			if(!sync)
+				run.run();
+			else
+				ensureMainthread(run);
+		}).start();
+  }
+  
+  public static void ensureMainthread(Runnable run){
+	  boolean main = false;
+	  try{
+		  AsyncCatcher.catchOp("");
+		  main = true;
+	  }catch (Exception e) {}
+	  if(main)
+		  run.run();
+	  Bukkit.getScheduler().runTask(mysql.getInstance(), run);
   }
 }

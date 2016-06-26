@@ -1,7 +1,5 @@
 package eu.epicpvp.kcore.Particle;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -17,11 +15,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
+import dev.wolveringer.client.threadfactory.ThreadFactory;
 import eu.epicpvp.kcore.Util.UtilParticle;
 import lombok.Getter;
 
 public class EntityParticleDisplayer<P extends Enum<P>, V> implements Listener, Runnable {
-
+	public static boolean ACTIVE = false;
 	private final Entity entity;
 	@Getter
 	private final ParticleShape<P, V> shape;
@@ -59,9 +58,9 @@ public class EntityParticleDisplayer<P extends Enum<P>, V> implements Listener, 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
-		
-		if(entity instanceof Player){
-			if (!player.getUniqueId().equals( ((Player)entity).getUniqueId()) ) {
+
+		if (entity instanceof Player) {
+			if (!player.getUniqueId().equals(((Player) entity).getUniqueId())) {
 				return;
 			}
 			Location to = event.getTo();
@@ -70,41 +69,44 @@ public class EntityParticleDisplayer<P extends Enum<P>, V> implements Listener, 
 		}
 	}
 
-	private synchronized void display(Entity entity, Location from, Location to) {
+	private void display(Entity entity, Location from, Location to) {
+		if (!ACTIVE)
+			return;
 		boolean show = shape.transformPerTick(entity, to, valueHolder, from);
-
 		if (!show) {
 			return;
 		}
 
-		shape.getPositions().entrySet().parallelStream().forEach(entry -> {
-			P shapePart = entry.getValue();
-			Vector particlePos = entry.getKey().clone();
-			Color color = shape.transformPerParticle(entity, to, particlePos, shapePart, valueHolder);
-			if (color != null) {
-				if (shape.isPlayerSpecificTransform()) {
-					Bukkit.getOnlinePlayers().parallelStream().forEach(plr -> {
-						Vector finalParticlePos = particlePos.clone();
-						Color finalColor = shape.transformPerParticleAndPlayer(entity, plr, to, finalParticlePos, shapePart, valueHolder, color);
-						
-						if (finalColor != null) {
-							Location particleLoc = finalParticlePos.toLocation(entity.getWorld());
-							trySendParticle(plr, particleLoc, finalColor);
-						}
-					});
-				} else {
-					Location particleLoc = particlePos.toLocation(entity.getWorld());
-					sendToAll(color, particleLoc);
+		ThreadFactory.getFactory().createThread(()->{ //Can be send async (no check before)
+			shape.getPositions().entrySet().parallelStream().forEach(entry -> {
+				P shapePart = entry.getValue();
+				Vector particlePos = entry.getKey().clone();
+				Color color = shape.transformPerParticle(entity, to, particlePos, shapePart, valueHolder);
+				if (color != null) {
+					if (shape.isPlayerSpecificTransform()) {
+						Bukkit.getOnlinePlayers().parallelStream().forEach(plr -> {
+							Vector finalParticlePos = particlePos.clone();
+							Color finalColor = shape.transformPerParticleAndPlayer(entity, plr, to, finalParticlePos, shapePart, valueHolder, color);
+
+							if (finalColor != null) {
+								Location particleLoc = finalParticlePos.toLocation(entity.getWorld());
+								trySendParticle(plr, particleLoc, finalColor);
+							}
+						});
+					} else {
+						Location particleLoc = particlePos.toLocation(entity.getWorld());
+						sendToAll(color, particleLoc);
+					}
 				}
-			}
-		});
+			});
+		}).start();
 	}
 
 	@Override
 	public void run() {
 		while (taskId > -1) {
 			long start = System.currentTimeMillis();
-			if (entity == null || (entity instanceof Player && !((Player)entity).isOnline())){
+			if (entity == null || (entity instanceof Player && !((Player) entity).isOnline())) {
 				stop();
 				return;
 			}
@@ -124,8 +126,8 @@ public class EntityParticleDisplayer<P extends Enum<P>, V> implements Listener, 
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onQuit(PlayerQuitEvent event) {
-		if(entity instanceof Player){
-			if (event.getPlayer().getUniqueId().equals( ((Player)entity).getUniqueId() )) {
+		if (entity instanceof Player) {
+			if (event.getPlayer().getUniqueId().equals(((Player) entity).getUniqueId())) {
 				stop();
 			}
 		}
@@ -133,8 +135,8 @@ public class EntityParticleDisplayer<P extends Enum<P>, V> implements Listener, 
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onKick(PlayerKickEvent event) {
-		if(entity instanceof Player){
-			if (event.getPlayer().getUniqueId().equals( ((Player)entity).getUniqueId() )) {
+		if (entity instanceof Player) {
+			if (event.getPlayer().getUniqueId().equals(((Player) entity).getUniqueId())) {
 				stop();
 			}
 		}

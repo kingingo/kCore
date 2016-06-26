@@ -34,6 +34,7 @@ import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -92,14 +93,16 @@ public class StatsManager extends kListener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void quit(PlayerQuitEvent ev) {
-		this.loadplayers.remove(ev.getPlayer().getName());
-		save(ev.getPlayer());
-		int playerId = UtilPlayer.getPlayerId(ev.getPlayer());
-		ArrayList<Callback<Integer>> callbacks = this.loading.remove(playerId);
-		if (callbacks != null) {
-			callbacks.clear();
-		}
-		this.players.remove(playerId);
+		UtilServer.loopbackUntilValidDataserverConnection(() -> {
+			this.loadplayers.remove(ev.getPlayer().getName());
+			save(ev.getPlayer());
+			int playerId = UtilPlayer.getPlayerId(ev.getPlayer());
+			ArrayList<Callback<Integer>> callbacks = this.loading.remove(playerId);
+			if (callbacks != null) {
+				callbacks.clear();
+			}
+			this.players.remove(playerId);
+		}, "statsmanager save " + ev.getPlayer().getName(), false);
 	}
 
 	@EventHandler
@@ -143,9 +146,7 @@ public class StatsManager extends kListener {
 			player.sendMessage("§b■■■■■■■■§6 §lPlayer Ranking | Top " + ranking.getRanking().length + " §b■■■■■■■■");
 			player.sendMessage("§b Platz | " + ranking.getStats().getMySQLName() + " | Player");
 			for (int i = 0; i < ranking.getRanking().length; i++)
-				player.sendMessage("§b#§6" + (i + 1) + "§b | §6"
-						+ UtilMath.trim(2, UtilNumber.toDouble(ranking.getRanking()[i].getTopValue())) + " §b|§6 "
-						+ ranking.getRanking()[i].getPlayer());
+				player.sendMessage("§b#§6" + (i + 1) + "§b | §6" + UtilMath.trim(2, UtilNumber.toDouble(ranking.getRanking()[i].getTopValue())) + " §b|§6 " + ranking.getRanking()[i].getPlayer());
 		}
 	}
 
@@ -278,7 +279,7 @@ public class StatsManager extends kListener {
 
 	public double getKDR(int k, int d) {
 		if (d == 0) { // prevent ArithmeticException - alternative: use deaths
-						// to calculate lives (= add 1) and then calculate KLR
+							// to calculate lives (= add 1) and then calculate KLR
 						// instead?
 			d = 1;
 		}
@@ -466,7 +467,7 @@ public class StatsManager extends kListener {
 			@Override
 			public void call(Statistic[] statistics, Throwable exception) {
 
-				Map<StatsKey, StatsObject> statsMap = players.computeIfAbsent(loadedplayer.getPlayerId(),key -> new EnumMap<>(StatsKey.class));
+				Map<StatsKey, StatsObject> statsMap = players.computeIfAbsent(loadedplayer.getPlayerId(), key -> new EnumMap<>(StatsKey.class));
 
 				for (Statistic s : statistics) {
 					if (s.getStatsKey() == StatsKey.PROPERTIES) {
@@ -474,8 +475,7 @@ public class StatsManager extends kListener {
 							statsMap.put(s.getStatsKey(), new StatsObject(new NBTTagCompound()));
 						} else {
 							try {
-								statsMap.put(s.getStatsKey(),
-										new StatsObject(NBTCompressedStreamTools.read(((String) s.getValue()))));
+								statsMap.put(s.getStatsKey(), new StatsObject(NBTCompressedStreamTools.read(((String) s.getValue()))));
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -498,19 +498,19 @@ public class StatsManager extends kListener {
 	public void reloadPlayer(LoadedPlayer loadedplayer) {
 		if (this.players.containsKey(loadedplayer.getPlayerId())) {
 			loadedplayer.getStats(getType()).getAsync(new Callback<Statistic[]>() {
-				
+
 				@Override
 				public void call(Statistic[] statistics, Throwable exception) {
 					Map<StatsKey, StatsObject> statsMap = players.get(loadedplayer.getPlayerId());
 					statsMap.clear();
-					
+
 					for (Statistic s : statistics) {
 						if (s.getStatsKey() == StatsKey.PROPERTIES) {
 							if (((String) s.getValue()).isEmpty()) {
 								statsMap.put(s.getStatsKey(), new StatsObject(new NBTTagCompound()));
 							} else {
 								try {
-									statsMap.put(s.getStatsKey(),new StatsObject(NBTCompressedStreamTools.read(((String) s.getValue()))));
+									statsMap.put(s.getStatsKey(), new StatsObject(NBTCompressedStreamTools.read(((String) s.getValue()))));
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
@@ -547,8 +547,7 @@ public class StatsManager extends kListener {
 			if (statsObject.getChange() != null) {
 				if (key == StatsKey.PROPERTIES) {
 					try {
-						stats[i] = new EditStats(getType(), Action.SET, key,
-								NBTCompressedStreamTools.toString(((NBTTagCompound) statsObject.getValue())));
+						stats[i] = new EditStats(getType(), Action.SET, key, NBTCompressedStreamTools.toString(((NBTTagCompound) statsObject.getValue())));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
