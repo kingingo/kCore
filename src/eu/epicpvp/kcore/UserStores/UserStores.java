@@ -651,7 +651,7 @@ public class UserStores extends kListener{
 							store_chest = (Chest)ev.getBlock().getRelative(BlockFace.DOWN).getState();
 							
 							if(store_chest.getInventory().getSize() == InventorySize._27.getSize()
-									&& store_chest.getBlockInventory().getName().equalsIgnoreCase("container.chest")){
+									&& store_chest.getInventory().getName().equalsIgnoreCase("container.chest")){
 								if(!UtilInv.isInventoryEmpty(store_chest.getInventory())){
 									if(UtilInv.itemsAllSame(store_chest.getInventory())){
 										ItemStack i = UtilInv.getFirstItem(store_chest.getInventory());
