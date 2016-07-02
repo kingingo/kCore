@@ -20,7 +20,7 @@ import eu.epicpvp.kcore.Util.UtilParticle;
 import lombok.Getter;
 
 public class EntityParticleDisplayer<P extends Enum<P>, V> implements Listener, Runnable {
-	public static boolean ACTIVE = false;
+	public static boolean ACTIVE = true;
 	private final Entity entity;
 	@Getter
 	private final ParticleShape<P, V> shape;
