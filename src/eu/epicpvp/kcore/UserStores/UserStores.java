@@ -49,6 +49,7 @@ import eu.epicpvp.kcore.Util.AnvilGUI;
 import eu.epicpvp.kcore.Util.AnvilGUI.AnvilClickEvent;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.UtilBlock;
+import eu.epicpvp.kcore.Util.UtilDebug;
 import eu.epicpvp.kcore.Util.UtilEvent;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilInv;
@@ -304,6 +305,7 @@ public class UserStores extends kListener{
 				if(sign.getLine(0).startsWith(prefix)){
 					if(sign.getBlock().getRelative(BlockFace.DOWN).getState() instanceof Chest){
 						chest = (Chest)ev.getClickedBlock().getRelative(BlockFace.DOWN).getState();
+						
 						p=ev.getPlayer();
 						a=ev.getAction();
 						
@@ -360,6 +362,7 @@ public class UserStores extends kListener{
 												
 												for(ItemStack item : items)p.getInventory().addItem(item);
 												items.clear();
+												
 												p.updateInventory();
 												ev.setCancelled(true);
 					        					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SIGN_SHOP_GET",new String[]{String.valueOf(anzahl), String.valueOf(item.getTypeId()),String.valueOf((preis*anzahl))}));
@@ -500,7 +503,14 @@ public class UserStores extends kListener{
 			click_data = UtilNumber.toByte(click_config.getString("UserStores."+getLocString(open_chest.get(click_p).getLocation())+".data"));
 			
 			if(ev.getCurrentItem().getTypeId()==click_id&&ev.getCurrentItem().getData().getData()==click_data){
-				if(ev.getClickedInventory().getName().equalsIgnoreCase("container.chest")&&ev.getInventory().getName().equalsIgnoreCase("container.chest")){
+				
+				if(UtilDebug.isDebug()){
+					logMessage("Clicked: "+ev.getClickedInventory().getType().name()+" "+ev.getClickedInventory().getName());
+					logMessage("Inv: "+ev.getInventory().getType().name()+" "+ev.getInventory().getName());	
+				}
+					
+				if(ev.getClickedInventory().getName().equalsIgnoreCase("container.chest")
+						&&ev.getInventory().getName().equalsIgnoreCase("container.chest")){
 					click_p.getInventory().addItem(ev.getCurrentItem());
 					ev.getInventory().setItem(ev.getSlot(), null);
 				}else{
@@ -639,7 +649,9 @@ public class UserStores extends kListener{
 					if(store_preis>0){
 						if(ev.getBlock().getRelative(BlockFace.DOWN).getType()==Material.CHEST){
 							store_chest = (Chest)ev.getBlock().getRelative(BlockFace.DOWN).getState();
-							if(store_chest.getInventory().getSize() == InventorySize._27.getSize()){
+							
+							if(store_chest.getInventory().getSize() == InventorySize._27.getSize()
+									&& store_chest.getBlockInventory().getName().equalsIgnoreCase("container.chest")){
 								if(!UtilInv.isInventoryEmpty(store_chest.getInventory())){
 									if(UtilInv.itemsAllSame(store_chest.getInventory())){
 										ItemStack i = UtilInv.getFirstItem(store_chest.getInventory());
