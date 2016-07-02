@@ -1,8 +1,5 @@
 package eu.epicpvp.kcore.Command.Admin;
 
-import java.util.Arrays;
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,12 +8,10 @@ import org.bukkit.entity.Player;
 
 import dev.wolveringer.client.LoadedPlayer;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import me.konsolas.aac.api.AACAPIProvider;
-import net.md_5.bungee.api.ChatColor;
 
 public class CommandReport implements CommandExecutor {
 

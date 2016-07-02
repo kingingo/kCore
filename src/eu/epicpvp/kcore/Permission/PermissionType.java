@@ -174,6 +174,7 @@ public enum PermissionType {
 	PLAYER_TELEPORT_TOGGLE("epicpvp.player.tptoggle"),
 	PLAYER_TELEPORT_A("epicpvp.player.tpa"),
 	PLAYER_TELEPORT_AHERE("epicpvp.player.tpahere"),
+	PLAYER_TELEPORT_AHERE_PATTERN("epicpvp.player.tpahere.pattern"),
 	PLAYER_TELEPORT_A_BYPASS("epicpvp.player.tpa.bypass"),
 	PLAYER_TELEPORT_AHERE_BYPASS("epicpvp.player.tpahere.bypass"),
 	PLAYER_TELEPORT("epicpvp.player.tp"),
@@ -438,7 +439,8 @@ public enum PermissionType {
 	CAPE_GREEN_PURPLE("epicpvp.particle.cape.green.purple"),
 	//
 
-	NONE("FAIL");
+	NONE("FAIL"), 
+	PLAYER_TELEPORT_ALL("player.teleport.all");
 
 	public static PermissionType isPerm(String perm) {
 		PermissionType per = PermissionType.NONE;

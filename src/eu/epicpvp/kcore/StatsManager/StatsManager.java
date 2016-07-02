@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import dev.wolveringer.arrays.CachedArrayList;
 import dev.wolveringer.client.Callback;
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.LoadedPlayer;
@@ -45,14 +47,14 @@ public class StatsManager extends kListener {
 	@Getter
 	private GameType type;
 	@Getter
-	private Map<Integer, Map<StatsKey, StatsObject>> players = new HashMap<>();
+	private Map<Integer, Map<StatsKey, StatsObject>> cachedPlayerStats = new HashMap<>();
 	private ClientWrapper client;
 	private ArrayList<Ranking> rankings = new ArrayList<>();
 	@Getter
 	@Setter
 	private boolean onDisable = false;
 	private Map<Integer, ArrayList<Callback<Integer>>> loading = new HashMap<>();
-	private ArrayList<String> loadplayers = new ArrayList<>();
+	private ArrayList<String> loadingPlayers = new ArrayList<>();
 	@Getter
 	@Setter
 	private boolean forceSave = false;
@@ -60,7 +62,7 @@ public class StatsManager extends kListener {
 	@Setter
 	private boolean autoLoad = false;
 
-	public StatsManager(JavaPlugin instance, ClientWrapper client, GameType type) {
+	protected StatsManager(JavaPlugin instance, ClientWrapper client, GameType type) {
 		super(instance, "StatsManager|" + type.getShortName());
 		this.instance = instance;
 		this.type = type;
@@ -69,7 +71,6 @@ public class StatsManager extends kListener {
 			setForceSave(true);
 			new MoneyListener(this);
 		}
-		StatsManagerRepository.addStatsManager(this);
 	}
 
 	public boolean isLoaded(Player player) {
@@ -77,7 +78,7 @@ public class StatsManager extends kListener {
 	}
 
 	public boolean isLoaded(int playerId) {
-		return players.containsKey(playerId);
+		return cachedPlayerStats.containsKey(playerId);
 	}
 
 	public void addRanking(Ranking ranking) {
@@ -91,17 +92,27 @@ public class StatsManager extends kListener {
 			loadPlayer(ev.getPlayer());
 	}
 
+	CachedArrayList<String> players = new CachedArrayList<>(1, TimeUnit.SECONDS);
+
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void quit(PlayerQuitEvent ev) {
+		if (players.contains(ev.getPlayer().getName()))
+			return;
+		players.add(ev.getPlayer().getName());
 		UtilServer.loopbackUntilValidDataserverConnection(() -> {
-			this.loadplayers.remove(ev.getPlayer().getName());
+			long start = System.currentTimeMillis();
+			while (loadingPlayers.contains(ev.getPlayer())) {
+				if (System.currentTimeMillis() - 5000 > start)
+					throw new NullPointerException("Cant save player who isnt loaded in 5 sec!");
+			}
 			save(ev.getPlayer());
 			int playerId = UtilPlayer.getPlayerId(ev.getPlayer());
+			this.loadingPlayers.remove(ev.getPlayer().getName());
 			ArrayList<Callback<Integer>> callbacks = this.loading.remove(playerId);
 			if (callbacks != null) {
 				callbacks.clear();
 			}
-			this.players.remove(playerId);
+			this.cachedPlayerStats.remove(playerId);
 		}, "statsmanager save " + ev.getPlayer().getName(), false);
 	}
 
@@ -167,7 +178,7 @@ public class StatsManager extends kListener {
 	}
 
 	public boolean containsKey(int playerId, StatsKey key) {
-		Map<StatsKey, StatsObject> statsMap = players.get(playerId);
+		Map<StatsKey, StatsObject> statsMap = cachedPlayerStats.get(playerId);
 		return (statsMap != null && statsMap.containsKey(key));
 	}
 
@@ -232,7 +243,7 @@ public class StatsManager extends kListener {
 	}
 
 	public Object get(int playerId, StatsKey key) {
-		Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
+		Map<StatsKey, StatsObject> statsMap = this.cachedPlayerStats.get(playerId);
 		if (statsMap != null) {
 			StatsObject statsObject = statsMap.get(key);
 			if (statsObject != null) {
@@ -253,7 +264,7 @@ public class StatsManager extends kListener {
 	}
 
 	public void getAsync(int playerId, StatsKey key, Callback<Object> callback) {
-		Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
+		Map<StatsKey, StatsObject> statsMap = this.cachedPlayerStats.get(playerId);
 		if (statsMap != null) {
 			StatsObject statsObject = statsMap.get(key);
 			if (statsObject != null) {
@@ -296,7 +307,7 @@ public class StatsManager extends kListener {
 
 	public void setNBTTagCompound(int playerId, NBTTagCompound nbt, StatsKey key) throws Exception {
 		if (key == StatsKey.PROPERTIES) {
-			this.players.get(playerId).get(key).add(nbt);
+			this.cachedPlayerStats.get(playerId).get(key).add(nbt);
 			Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this, key, playerId));
 		}
 	}
@@ -311,7 +322,7 @@ public class StatsManager extends kListener {
 
 	public void setString(int playerId, StatsKey key, String s) {
 		if (key.getType() == String.class) {
-			this.players.get(playerId).get(key).add(s);
+			this.cachedPlayerStats.get(playerId).get(key).add(s);
 			Bukkit.getPluginManager().callEvent(new PlayerStatsChangedEvent(this, key, playerId));
 		}
 	}
@@ -346,7 +357,7 @@ public class StatsManager extends kListener {
 		} else if (key.getType() == String.class) {
 			setString(playerId, key, ((String) obj));
 		} else {
-			Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
+			Map<StatsKey, StatsObject> statsMap = this.cachedPlayerStats.get(playerId);
 			if (statsMap != null) {
 				StatsObject statsObject = statsMap.get(key);
 				if (statsObject != null) {
@@ -407,7 +418,7 @@ public class StatsManager extends kListener {
 	}
 
 	public void add(int playerId, StatsKey key, Object value) {
-		Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
+		Map<StatsKey, StatsObject> statsMap = this.cachedPlayerStats.get(playerId);
 		if (statsMap != null) {
 			PlayerStatsAddEvent add = new PlayerStatsAddEvent(this, key, value, playerId);
 			Bukkit.getPluginManager().callEvent(add);
@@ -446,28 +457,28 @@ public class StatsManager extends kListener {
 	}
 
 	public void loadPlayer(LoadedPlayer loadedplayer, Callback<Integer> callback) {
-		if (this.players.containsKey(loadedplayer.getPlayerId())) {
+		if (this.cachedPlayerStats.containsKey(loadedplayer.getPlayerId())) {
 			logMessage("Player is loaded!? " + loadedplayer.getName());
 
 			if (callback != null) {
 				callback.call(loadedplayer.getPlayerId(), null);
 			}
-			loadplayers.remove(loadedplayer.getName());
+			loadingPlayers.remove(loadedplayer.getName());
 			return;
 		}
 
-		if (this.loadplayers.contains(loadedplayer.getName())) {
+		if (this.loadingPlayers.contains(loadedplayer.getName())) {
 			logMessage("Player will load!? " + loadedplayer.getName());
 			return;
 		}
-		loadplayers.add(loadedplayer.getName());
+		loadingPlayers.add(loadedplayer.getName());
 
 		loadedplayer.getStats(getType()).getAsync(new Callback<Statistic[]>() {
 
 			@Override
 			public void call(Statistic[] statistics, Throwable exception) {
 
-				Map<StatsKey, StatsObject> statsMap = players.computeIfAbsent(loadedplayer.getPlayerId(), key -> new EnumMap<>(StatsKey.class));
+				Map<StatsKey, StatsObject> statsMap = cachedPlayerStats.computeIfAbsent(loadedplayer.getPlayerId(), key -> new EnumMap<>(StatsKey.class));
 
 				for (Statistic s : statistics) {
 					if (s.getStatsKey() == StatsKey.PROPERTIES) {
@@ -489,19 +500,19 @@ public class StatsManager extends kListener {
 					callback.call(loadedplayer.getPlayerId(), null);
 				}
 
-				loadplayers.remove(loadedplayer.getName());
+				loadingPlayers.remove(loadedplayer.getName());
 				Bukkit.getPluginManager().callEvent(new PlayerStatsLoadedEvent(StatsManager.this, loadedplayer.getPlayerId()));
 			}
 		});
 	}
 
 	public void reloadPlayer(LoadedPlayer loadedplayer) {
-		if (this.players.containsKey(loadedplayer.getPlayerId())) {
+		if (this.cachedPlayerStats.containsKey(loadedplayer.getPlayerId())) {
 			loadedplayer.getStats(getType()).getAsync(new Callback<Statistic[]>() {
 
 				@Override
 				public void call(Statistic[] statistics, Throwable exception) {
-					Map<StatsKey, StatsObject> statsMap = players.get(loadedplayer.getPlayerId());
+					Map<StatsKey, StatsObject> statsMap = cachedPlayerStats.get(loadedplayer.getPlayerId());
 					statsMap.clear();
 
 					for (Statistic s : statistics) {
@@ -528,7 +539,7 @@ public class StatsManager extends kListener {
 
 	public void saveAll() {
 		EditStats[] stats;
-		for (Map.Entry<Integer, Map<StatsKey, StatsObject>> entry : this.players.entrySet()) {
+		for (Map.Entry<Integer, Map<StatsKey, StatsObject>> entry : this.cachedPlayerStats.entrySet()) {
 			LoadedPlayer loadedplayer = client.getPlayerAndLoad(entry.getKey());
 			Map<StatsKey, StatsObject> statsMap = entry.getValue();
 			stats = createEditStatsArray(statsMap);
@@ -574,13 +585,15 @@ public class StatsManager extends kListener {
 	public void save(int playerId) {
 		if (isOnDisable())
 			return;
-		if (this.players.containsKey(playerId)) {
+		if (this.cachedPlayerStats.containsKey(playerId)) {
 			LoadedPlayer loadedplayer = client.getPlayerAndLoad(playerId);
-			Map<StatsKey, StatsObject> statsMap = this.players.get(playerId);
+			Map<StatsKey, StatsObject> statsMap = this.cachedPlayerStats.get(playerId);
+			if(statsMap == null) //Why null?
+				return;
 			EditStats[] stats = createEditStatsArray(statsMap);
 
 			loadedplayer.setStats(stats);
-			this.loadplayers.remove(loadedplayer.getName());
+			this.loadingPlayers.remove(loadedplayer.getName());
 		}
 	}
 }

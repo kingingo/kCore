@@ -165,7 +165,23 @@ public class PermissionManager {
 			if (p.equals(player))
 				continue;
 			UtilScoreboard.addTeam(p.getScoreboard(), tabGroup, prefix).addEntry(player.getName());
-			UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p), getPrefix(p)).addEntry(p.getName());
+			if(isLoaded(p)){
+				UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p), getPrefix(p)).addEntry(p.getName());
+			}
+			else
+				Bukkit.getScheduler().runTaskAsynchronously(UtilServer.getPluginInstance(), new Runnable() {
+					@Override
+					public void run() {
+						while (!isLoaded(p)) {
+							try {
+								Thread.sleep(10);
+							} catch (InterruptedException e) {}
+						}
+						UtilServer.ensureMainthread(()->{
+							UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p), getPrefix(p)).addEntry(p.getName());
+						});
+					}
+				});
 		}
 
 		Bukkit.getPluginManager().callEvent(new PlayerSetScoreboardEvent(player));
@@ -174,6 +190,10 @@ public class PermissionManager {
 		}
 	}
 
+	public boolean isLoaded(Player player){
+		return user.containsKey(UtilPlayer.getPlayerId(player));
+	}
+	
 	public void unloadPlayer(Player player) {
 		UtilServer.loopbackUntilValidDataserverConnection(()->{
 			synchronized (user) {

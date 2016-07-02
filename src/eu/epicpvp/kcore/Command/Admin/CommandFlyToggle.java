@@ -25,7 +25,7 @@ public class CommandFlyToggle implements CommandExecutor{
 				ParticleManager.PARTICEL_ACTIVE = false;
 				EntityParticleDisplayer.ACTIVE = false;
 				for(Player p : UtilServer.getPlayers()){
-					if(!p.isOp() && p.isFlying()){
+					if(!p.isOp()){
 						p.setFlying(false);
 						p.setAllowFlight(false);
 						p.removePotionEffect(PotionEffectType.JUMP);

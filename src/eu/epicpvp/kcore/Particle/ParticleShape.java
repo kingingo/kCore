@@ -139,26 +139,14 @@ public abstract class ParticleShape<P extends Enum<P>, V> {
 	protected Map<Vector, P> rotateAroundAxisY(Map<Vector, P> map, double angle){
 		Map<Vector, P> result = Maps.newHashMapWithExpectedSize(UtilNumber.toInt(map.size()));
 		
-		for(Vector v : map.keySet())
-			result.put(UtilVector.rotateAroundAxisY(v, angle), map.get(v));
+		for(Map.Entry<Vector, P> entry : map.entrySet())
+			result.put(UtilVector.rotateAroundAxisY(entry.getKey(), angle), entry.getValue());
 		
 		return result;
 	}
 	
 	protected Map<Vector, P> createCircle(double x, double y, double z, double radius, P part) {
-		double amount = radius * 64;
-		double inc = (2 * Math.PI) / amount;
-		Map<Vector, P> result = Maps.newHashMapWithExpectedSize(UtilNumber.toInt(amount));
-		for (int i = 0; i < amount; i++) {
-			double angle = i * inc;
-			double xCurr = (radius * Math.cos(angle)) + x;
-			double zCurr = (radius * Math.sin(angle)) + z;
-			Vector v = new Vector(xCurr, y, zCurr);
-			result.put(v, part);
-		}
-	
-		
-		return result;
+		return createEllipse(x, y, z, radius, radius, part);
 	}
 
 	protected Map<Vector, P> createLine(double x1, double y1, double z1, double x2, double y2, double z2, P part) {
@@ -196,13 +184,13 @@ public abstract class ParticleShape<P extends Enum<P>, V> {
 	}
 
 	/**
-	 * @param player the player to check
+	 * @param entity the entity to check
 	 * @return whether to go on drawing
 	 */
 	public abstract boolean transformPerTick(Entity entity, Location playerLoc, ValueHolder<V> valueHolder, Location previous);
 
 	/**
-	 * @param player the player to check
+	 * @param entity the entity to check
 	 * @param playerLoc the base draw location, (= player location)
 	 * @param particlePos the particle position (change this object!)
 	 */

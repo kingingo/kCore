@@ -9,7 +9,7 @@ import eu.epicpvp.kcore.Util.UtilItem;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Perk implements Listener{
+public class Perk implements Listener {
 
 	@Getter
 	private String name;
@@ -21,18 +21,18 @@ public class Perk implements Listener{
 	@Getter
 	@Setter
 	private ItemStack item;
-	
-	public Perk(String name){
-		this(name,UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§e"+name));
+
+	public Perk(String name) {
+		this(name, UtilItem.RenameItem(new ItemStack(Material.EMERALD), "§e" + name));
 	}
-	
-	public Perk(String name,ItemStack item){
-		this.name=name;
-		this.item=item;
+
+	public Perk(String name, ItemStack item) {
+		this.name = name;
+		this.item = item;
 	}
-	
-	public void setPerkData(PerkData perkData){
-		this.perkData=perkData;
+
+	public void setPerkData(PerkData perkData) {
+		this.perkData = perkData;
 	}
-	
+
 }

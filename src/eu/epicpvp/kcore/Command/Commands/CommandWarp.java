@@ -32,7 +32,7 @@ public class CommandWarp implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		Player player = (Player) sender;
 		
-		if(player.hasPermission(PermissionType.WARP.getPermissionToString())){f	
+		if(player.hasPermission(PermissionType.WARP.getPermissionToString())){
 			if(args.length==0){
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/warp [Name]");
 				if(player.hasPermission(PermissionType.WARP_LIST.getPermissionToString())){
@@ -59,4 +59,3 @@ public class CommandWarp implements CommandExecutor{
 	}
 
 }
-w

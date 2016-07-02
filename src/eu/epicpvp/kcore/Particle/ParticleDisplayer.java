@@ -57,7 +57,7 @@ public class ParticleDisplayer<P extends Enum<P>, V> implements Listener, Runnab
 		return false;
 	}
 
-	private synchronized void display(Location location) {
+	private void display(Location location) {
 		boolean show = shape.transformPerTick(null, null, valueHolder, location);
 
 		if (!show) {
