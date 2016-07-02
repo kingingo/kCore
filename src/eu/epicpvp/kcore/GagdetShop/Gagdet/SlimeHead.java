@@ -32,7 +32,7 @@ public class SlimeHead extends Gadget{
 		if(this.getActive_player().containsKey(ev.getPlayer())
 				&& ev.getPlayer().getItemInHand()!=null 
 				&& ev.getPlayer().getItemInHand().getType() == getItem().getType()
-				&& UtilEvent.isAction(ev, ActionType.R)
+				&& UtilEvent.isAction(ev, ActionType.RIGHT)
 				&& use(ev.getPlayer())){
 			 ev.setCancelled(true);
 			 long time = System.currentTimeMillis();

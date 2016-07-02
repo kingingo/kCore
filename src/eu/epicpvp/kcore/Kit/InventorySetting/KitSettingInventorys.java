@@ -581,7 +581,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					if(type==ActionType.R){
+					if(type==ActionType.RIGHT){
 						enchant_list.remove(player);
 						enchant_list.put(player, helm_place);
 						player.openInventory(helm_enchant);
@@ -597,7 +597,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					if(type==ActionType.R){
+					if(type==ActionType.RIGHT){
 						enchant_list.remove(player);
 						enchant_list.put(player, chestplate_place);
 						player.openInventory(chestplate_enchant);
@@ -613,7 +613,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					if(type==ActionType.R){
+					if(type==ActionType.RIGHT){
 						enchant_list.remove(player);
 						enchant_list.put(player, leggings_place);
 						player.openInventory(leggings_enchant);
@@ -629,7 +629,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					if(type==ActionType.R){
+					if(type==ActionType.RIGHT){
 						enchant_list.remove(player);
 						enchant_list.put(player, boots_place);
 						player.openInventory(boots_enchant);
@@ -645,7 +645,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					if(type==ActionType.R){
+					if(type==ActionType.RIGHT){
 						enchant_list.remove(player);
 						enchant_list.put(player, main_place_1);
 						if(page.getItem(main_place_1).getType()==Material.BOW){
@@ -665,7 +665,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					if(type==ActionType.R){
+					if(type==ActionType.RIGHT){
 						enchant_list.remove(player);
 						enchant_list.put(player, main_place_2);
 						if(page.getItem(main_place_2).getType()==Material.BOW){
@@ -685,7 +685,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					if(type==ActionType.R){
+					if(type==ActionType.RIGHT){
 						amount_list.remove(player);
 						amount_list.put(player, second_place_1);
 						player.openInventory(amount);
@@ -701,7 +701,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					if(type==ActionType.R){
+					if(type==ActionType.RIGHT){
 						amount_list.remove(player);
 						amount_list.put(player, second_place_2);
 						player.openInventory(amount);
@@ -717,7 +717,7 @@ public class KitSettingInventorys extends InventoryBase{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(inventorys.containsKey(player)){
-					if(type==ActionType.R){
+					if(type==ActionType.RIGHT){
 						amount_list.remove(player);
 						amount_list.put(player, potion_place);
 						player.openInventory(amount);

@@ -188,7 +188,7 @@ public class ItemShop{
 								int bprice = getConfig().getInt("Main."+i+"."+p+"."+a+".buy");
 								int sprice = getConfig().getInt("Main."+i+"."+p+"."+a+".sell");
 								ItemStack it = getConfig().getItemStack("Main."+i+"."+p+"."+a+".Item");
-								UtilItem.SetDescriptions(it, new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cBuy","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+bprice+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(bprice*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(bprice*64)+" Epics","§7----------","§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cSell","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+sprice+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(sprice*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(sprice*64)+" Epics"});
+								UtilItem.setLore(it, new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cBuy","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+bprice+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(bprice*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(bprice*64)+" Epics","§7----------","§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cSell","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+sprice+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(sprice*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(sprice*64)+" Epics"});
 								getConfig().setItemStack("Main."+i+"."+p+"."+a+".Item", it);
 							}
 						}
@@ -296,7 +296,7 @@ public class ItemShop{
 
 									@Override
 									public void onClick(Player player, ActionType type,Object object) {
-										if(type==ActionType.L){
+										if(type==ActionType.LEFT){
 											InventoryShopBuy buy = new InventoryShopBuy(shop,player, it, statsManager, bprice);
 											UtilInv.getBase().addAnother(buy);
 											player.openInventory(buy);
@@ -352,7 +352,7 @@ public class ItemShop{
 																getConfig().set("Main."+ii+"."+pp+"."+aa+".sell", i);
 																int bprice = getConfig().getInt("Main."+ii+"."+pp+"."+aa+".buy");
 																ItemStack it = getConfig().getItemStack("Main."+ii+"."+pp+"."+aa+".Item");
-																UtilItem.SetDescriptions(it, new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cBuy","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+bprice+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(bprice*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(bprice*64)+" Epics","§7----------","§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cSell","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+i+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(i*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(i*64)+" Epics"});
+																UtilItem.setLore(it, new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cBuy","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+bprice+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(bprice*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(bprice*64)+" Epics","§7----------","§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cSell","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+i+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(i*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(i*64)+" Epics"});
 																getConfig().setItemStack("Main."+ii+"."+pp+"."+aa+".Item", it);
 																getConfig().save();
 													        }catch(NumberFormatException e){
@@ -389,7 +389,7 @@ public class ItemShop{
 																getConfig().set("Main."+ii+"."+pp+"."+aa+".buy", i);
 																int sprice = getConfig().getInt("Main."+ii+"."+pp+"."+aa+".sell");
 																ItemStack it = getConfig().getItemStack("Main."+ii+"."+pp+"."+aa+".Item");
-																UtilItem.SetDescriptions(it, new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cBuy","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+i+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(i*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(i*64)+" Epics","§7----------","§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cSell","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+sprice+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(sprice*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(sprice*64)+" Epics"});
+																UtilItem.setLore(it, new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cBuy","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+i+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(i*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(i*64)+" Epics","§7----------","§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §cSell","§7-","§e1 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+sprice+" Epics","§e10 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(sprice*10)+" Epics","§e64 "+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §a"+(sprice*64)+" Epics"});
 																getConfig().setItemStack("Main."+ii+"."+pp+"."+aa+".Item", it);
 																getConfig().save();
 													        }catch(NumberFormatException e){

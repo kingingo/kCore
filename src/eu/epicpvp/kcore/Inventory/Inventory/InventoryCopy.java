@@ -79,7 +79,7 @@ public class InventoryCopy extends InventoryPageBase{
 									List<String> lores = item.getItemMeta().getLore();
 									lores.remove(lores.get(lores.size()-1));
 									lores.add("§aBereits gekauft!");
-									UtilItem.SetDescriptions(item, lores);
+									UtilItem.setLore(item, lores);
 									gsale.setDescription(lores.toArray(new String[]{}));
 									
 									gsale.setItemStack(item);
@@ -89,7 +89,7 @@ public class InventoryCopy extends InventoryPageBase{
 									List<String> lores = gsale.getItemStack().getItemMeta().getLore();
 									lores.remove(lores.get(lores.size()-1));
 									lores.add("§cUpgrade Preis: "+UtilServer.getPermissionManager().getUpdgradeGroupPrice(player, gsale.getGroup()));
-									UtilItem.SetDescriptions(item, lores);
+									UtilItem.setLore(item, lores);
 									gsale.setDescription(lores.toArray(new String[]{}));
 									gsale.setItemStack(item);
 									gsale.refreshItemStack();

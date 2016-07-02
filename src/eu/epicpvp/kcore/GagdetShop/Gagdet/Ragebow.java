@@ -31,7 +31,7 @@ public class Ragebow extends Gadget{
 		if(this.getActive_player().containsKey(ev.getPlayer())
 				&& ev.getPlayer().getItemInHand()!=null 
 				&& ev.getPlayer().getItemInHand().getType() == getItem().getType()
-				&& UtilEvent.isAction(ev, ActionType.R)
+				&& UtilEvent.isAction(ev, ActionType.RIGHT)
 				&& use(ev.getPlayer())){
 			Arrow arrow = ev.getPlayer().shootArrow();
 			long time = System.currentTimeMillis();

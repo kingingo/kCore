@@ -4,8 +4,9 @@ import org.bukkit.ChatColor;
 
 public enum PlayerState
   {
-    IN("In", ChatColor.GREEN), 
-    OUT("Out", ChatColor.RED),
+    INGAME("In", ChatColor.GREEN), 
+    SPECTATOR("Out", ChatColor.RED),
+    @Deprecated
     BOTH("Both",ChatColor.GRAY);
 
     private String name;

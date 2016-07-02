@@ -37,7 +37,7 @@ public class CommandItem implements CommandExecutor{
 					}else if(args[0].equalsIgnoreCase("head")){
 						player.getInventory().addItem(UtilItem.Head(args[1]));
 					}else if(args[0].equalsIgnoreCase("clear")){
-						player.setItemInHand( UtilItem.SetDescriptions(player.getItemInHand(), new String[]{}) );
+						player.setItemInHand( UtilItem.setLore(player.getItemInHand(), new String[]{}) );
 					}else if(args[0].equalsIgnoreCase("del")){
 						StringBuilder sb = new StringBuilder();
 						for (int i = 1; i < args.length; i++) {

@@ -139,9 +139,9 @@ public class InventoryBase extends kListener{
 				}
 				
 				if(ClickType.LEFT==ev.getClick()){
-					ev.setCancelled(page.useButton(p, ActionType.L, ev.getCurrentItem(),ev.getSlot()));
+					ev.setCancelled(page.useButton(p, ActionType.LEFT, ev.getCurrentItem(),ev.getSlot()));
 				}else if(ClickType.RIGHT==ev.getClick()){
-					ev.setCancelled(page.useButton(p, ActionType.R, ev.getCurrentItem(),ev.getSlot()));
+					ev.setCancelled(page.useButton(p, ActionType.RIGHT, ev.getCurrentItem(),ev.getSlot()));
 				}else if(ClickType.SHIFT_LEFT==ev.getClick()){
 					ev.setCancelled(page.useButton(p, ActionType.SHIFT_LEFT, ev.getCurrentItem(),ev.getSlot()));
 				}else if(ClickType.SHIFT_RIGHT==ev.getClick()){

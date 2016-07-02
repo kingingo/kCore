@@ -21,22 +21,22 @@ public class UtilEvent
 	
   public static boolean isAction(PlayerInteractEvent event, ActionType action)
   {
-    if (action == ActionType.L) {
+    if (action == ActionType.LEFT) {
       return (event.getAction() == Action.LEFT_CLICK_AIR) || (event.getAction() == Action.LEFT_CLICK_BLOCK);
     }
-    if (action == ActionType.L_AIR) {
+    if (action == ActionType.LEFT_AIR) {
       return event.getAction() == Action.LEFT_CLICK_AIR;
     }
-    if (action == ActionType.L_BLOCK) {
+    if (action == ActionType.LEFT_BLOCK) {
       return event.getAction() == Action.LEFT_CLICK_BLOCK;
     }
-    if (action == ActionType.R) {
+    if (action == ActionType.RIGHT) {
       return (event.getAction() == Action.RIGHT_CLICK_AIR) || (event.getAction() == Action.RIGHT_CLICK_BLOCK);
     }
-    if (action == ActionType.R_AIR) {
+    if (action == ActionType.RIGHT_AIR) {
       return event.getAction() == Action.RIGHT_CLICK_AIR;
     }
-    if (action == ActionType.R_BLOCK) {
+    if (action == ActionType.RIGHT_BLOCK) {
       return event.getAction() == Action.RIGHT_CLICK_BLOCK;
     }
     if (action == ActionType.BLOCK) {
@@ -84,8 +84,8 @@ public class UtilEvent
 	  case CREATIVE: return ActionType.CREATIVE;
 	  case DOUBLE_CLICK: return ActionType.DOUBLE_CLICK;
 	  case DROP: return ActionType.DROP;
-	  case LEFT: return ActionType.L;
-	  case RIGHT: return ActionType.R;
+	  case LEFT: return ActionType.LEFT;
+	  case RIGHT: return ActionType.RIGHT;
 	  case MIDDLE: return ActionType.MIDDLE;
 	  case NUMBER_KEY: return ActionType.NUMBER_KEY;
 	  case SHIFT_LEFT: return ActionType.SHIFT_LEFT;
@@ -111,13 +111,13 @@ public class UtilEvent
 	WINDOW_BORDER_RIGHT,
 	WINDOW_BORDER_LEFT,
 	PHYSICAL,
-    L, 
-    L_AIR, 
-    L_BLOCK, 
+    LEFT, 
+    LEFT_AIR, 
+    LEFT_BLOCK, 
     BLOCK,
     AIR,
-    R, 
-    R_AIR, 
-    R_BLOCK;
+    RIGHT, 
+    RIGHT_AIR, 
+    RIGHT_BLOCK;
   }
 }

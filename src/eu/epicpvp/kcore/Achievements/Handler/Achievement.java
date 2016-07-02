@@ -115,9 +115,12 @@ public class Achievement implements Listener {
 	}
 
 	public void saveProgress(int playerId) {
-		if (this.handler.isConfig()) {
+		if (this.handler.isConfig() &&  getPlayerProgress().get(Integer.valueOf(playerId)) != null) {
 			kConfig config = UtilServer.getUserData().getConfig(Integer.valueOf(playerId));
-			config.set("Achievements." + getClass().getName() + ".Progress", getPlayerProgress().get(Integer.valueOf(playerId)));
+			Integer val = getPlayerProgress().get(Integer.valueOf(playerId));
+			if(val == null)
+				return;
+			config.set("Achievements." + getClass().getName() + ".Progress", val.intValue());
 			config.save();
 		}
 	}
@@ -137,7 +140,7 @@ public class Achievement implements Listener {
 					this.playerProgress.remove(UtilPlayer.getPlayerId(ev.getPlayer()));
 				}
 			}
-		}, "archievement save " + ev.getPlayer(), false);
+		}, "archievement save " + ev.getPlayer().getName(), false);
 	}
 
 	@EventHandler

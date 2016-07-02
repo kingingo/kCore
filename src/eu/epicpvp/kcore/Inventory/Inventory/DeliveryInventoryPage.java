@@ -44,7 +44,7 @@ public class DeliveryInventoryPage extends InventoryPageBase{
 						&& (delivery.getObjects().containsKey(item.getItemMeta().getDisplayName())
 								&&((IButtonOneSlot)button).getItemStack().getType() != delivery.getObjects().get(item.getItemMeta().getDisplayName()).getDelay_material())){
 					if(((IButtonOneSlot)button).getItemStack().getType()==Material.JUKEBOX){	
-						((IButtonOneSlot)button).Clicked(player, ActionType.R, ((IButtonOneSlot)button).getItemStack());
+						((IButtonOneSlot)button).Clicked(player, ActionType.RIGHT, ((IButtonOneSlot)button).getItemStack());
 						return button.isCancelled();
 					}else{
 						if(UtilDebug.isDebug())UtilDebug.debug("DeliveryInv: UseButton", new String[]{"PLAYER: "+player.getName()});

@@ -63,7 +63,7 @@ public class InventoryBestOf extends InventoryCopy{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				setRoundGameItems( player );
-				player.getOpenInventory().setItem(38, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aausgewählt"})));
+				player.getOpenInventory().setItem(38, UtilItem.addEnchantmentGlow(UtilItem.setLore(((ItemStack)object), new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aausgewählt"})));
 				UtilServer.getUserData().getConfig(player).set("BestOf.Round."+getRound(player), "Bedwars1vs1");
 			}
 		}, UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedwars 1vs1")));
@@ -73,7 +73,7 @@ public class InventoryBestOf extends InventoryCopy{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				setRoundGameItems( player );
-				player.getOpenInventory().setItem(39, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aausgewählt"})));
+				player.getOpenInventory().setItem(39, UtilItem.addEnchantmentGlow(UtilItem.setLore(((ItemStack)object), new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aausgewählt"})));
 				UtilServer.getUserData().getConfig(player).set("BestOf.Round."+getRound(player), "Versus");
 			}
 		}, UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1")));
@@ -83,7 +83,7 @@ public class InventoryBestOf extends InventoryCopy{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				setRoundGameItems( player );
-				player.getOpenInventory().setItem(41, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aausgewählt"})));
+				player.getOpenInventory().setItem(41, UtilItem.addEnchantmentGlow(UtilItem.setLore(((ItemStack)object), new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aausgewählt"})));
 				UtilServer.getUserData().getConfig(player).set("BestOf.Round."+getRound(player), "SkyWars1vs1");
 			}
 		}, UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1")));
@@ -93,7 +93,7 @@ public class InventoryBestOf extends InventoryCopy{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				setRoundGameItems( player );
-				player.getOpenInventory().setItem(42, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aausgewählt"})));
+				player.getOpenInventory().setItem(42, UtilItem.addEnchantmentGlow(UtilItem.setLore(((ItemStack)object), new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aausgewählt"})));
 				UtilServer.getUserData().getConfig(player).set("BestOf.Round."+getRound(player), "SurvivalGames1vs1");
 			}
 		}, UtilItem.RenameItem(new ItemStack(Material.BOW), "§aSurvivalGames 1vs1")));
@@ -103,7 +103,7 @@ public class InventoryBestOf extends InventoryCopy{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				setRoundGameItems( player );
-				player.getOpenInventory().setItem(49, UtilItem.addEnchantmentGlow(UtilItem.SetDescriptions(((ItemStack)object), new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aausgewählt"})));
+				player.getOpenInventory().setItem(49, UtilItem.addEnchantmentGlow(UtilItem.setLore(((ItemStack)object), new String[]{"§7"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §aausgewählt"})));
 				UtilServer.getUserData().getConfig(player).set("BestOf.Round."+getRound(player), "Random");
 			}
 		}, UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aRandom")));

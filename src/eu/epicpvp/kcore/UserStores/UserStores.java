@@ -87,7 +87,7 @@ public class UserStores extends kListener{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				kConfig c = UtilServer.getUserData().getConfig(player);
-				((InventoryPageBase)object).setItem(4, UtilItem.SetDescriptions(((InventoryPageBase)object).getItem(4), new String[]{"§e"+c.getPathList("UserStores").size()+" Stores"}));
+				((InventoryPageBase)object).setItem(4, UtilItem.setLore(((InventoryPageBase)object).getItem(4), new String[]{"§e"+c.getPathList("UserStores").size()+" Stores"}));
 
 				ItemStack free = UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)5), "§aFreier Platz");
 				int slot=18;

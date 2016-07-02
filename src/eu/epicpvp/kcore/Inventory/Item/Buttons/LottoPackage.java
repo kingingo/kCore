@@ -32,7 +32,7 @@ public class LottoPackage extends SalesPackageBase{
 		this.id=LottoPackage.counter;
 		
 		if(!itemStack.getItemMeta().hasLore()){
-			UtilItem.SetDescriptions(itemStack, new String[]{"  ","N"+id});	
+			UtilItem.setLore(itemStack, new String[]{"  ","N"+id});	
 		}else{
 			ItemMeta meta = itemStack.getItemMeta();
 			List<String> l = meta.getLore();
@@ -47,12 +47,12 @@ public class LottoPackage extends SalesPackageBase{
 		if(getClick()==null){
 			player.getInventory().addItem(getItemStack().clone());
 		}else{
-			Clicked(player,ActionType.R,getItemStack());
+			Clicked(player,ActionType.RIGHT,getItemStack());
 		}
 	}
 	
 	public boolean hasPlayer(Player player){
 		if(booleanClick==null)return false;
-		return booleanClick.onBooleanClick(player, ActionType.R,getItemStack());
+		return booleanClick.onBooleanClick(player, ActionType.RIGHT,getItemStack());
 	}
 }

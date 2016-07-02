@@ -1,6 +1,7 @@
 package eu.epicpvp.kcore.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -544,22 +545,15 @@ public class UtilItem {
 		return items;
 	}
 	
-	public static org.bukkit.inventory.ItemStack SetDescriptions(org.bukkit.inventory.ItemStack i, List<String> msg){
+	public static org.bukkit.inventory.ItemStack setLore(org.bukkit.inventory.ItemStack i, List<String> msg){
 	    ItemMeta im = i.getItemMeta();
 	    im.setLore(msg);
 	    i.setItemMeta(im);
 	    return i;
 	  }
 
-	  public static org.bukkit.inventory.ItemStack SetDescriptions(org.bukkit.inventory.ItemStack i, String[] msg) {
-	    List msg1 = new ArrayList();
-	    for (String m : msg) {
-	      msg1.add(m);
-	    }
-	    ItemMeta im = i.getItemMeta();
-	    im.setLore(msg1);
-	    i.setItemMeta(im);
-	    return i;
+	  public static org.bukkit.inventory.ItemStack setLore(org.bukkit.inventory.ItemStack i, String[] msg) {
+	    return setLore(i, Arrays.asList(msg));
 	  }
 	  
 	  public static boolean isEnchantmentGlow(ItemStack item){ 
@@ -570,6 +564,16 @@ public class UtilItem {
 		  
 		  net.minecraft.server.v1_8_R3.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
 	      return nmsStack.getTag().hasKey("ench");
+	  }
+	  
+	  public static ItemStack setGlowing(ItemStack is,boolean flag){
+		  if(flag)
+			  if(!isEnchantmentGlow(is))
+				  return addEnchantmentGlow(is);
+		  else
+			  if(isEnchantmentGlow(is))
+				  return removeEnchantmentGlow(is);
+		  return is;
 	  }
 	  
 	  public static ItemStack addEnchantmentGlow(ItemStack item){ 
@@ -683,7 +687,7 @@ public class UtilItem {
 	  {
 	    i = RenameItem(i, msg1);
 
-	    i = SetDescriptions(i, msg);
+	    i = setLore(i, msg);
 
 	    return i;
 	  }
@@ -691,7 +695,7 @@ public class UtilItem {
 	  public static org.bukkit.inventory.ItemStack Item(org.bukkit.inventory.ItemStack i, String[] msg, String msg1){
 	    i = RenameItem(i, msg1);
 
-	    i = SetDescriptions(i, msg);
+	    i = setLore(i, msg);
 
 	    return i;
 	  }

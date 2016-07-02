@@ -28,7 +28,7 @@ public class MobGun extends Gadget{
 		if(this.getActive_player().containsKey(ev.getPlayer())
 				&& ev.getPlayer().getItemInHand()!=null 
 				&& ev.getPlayer().getItemInHand().getType() == getItem().getType()
-				&& UtilEvent.isAction(ev, ActionType.R)
+				&& UtilEvent.isAction(ev, ActionType.RIGHT)
 				&& use(ev.getPlayer())){
 			long time = System.currentTimeMillis();
 			for(int i = 0 ; i<4; i++){

@@ -40,7 +40,7 @@ public class EnderChestListener extends kListener{
 	
 	@EventHandler
 	public void Interact(PlayerInteractEvent ev){
-		if(UtilEvent.isAction(ev, ActionType.R_BLOCK)){
+		if(UtilEvent.isAction(ev, ActionType.RIGHT_BLOCK)){
 			if(!ev.getPlayer().hasPermission(PermissionType.ENDERCHEST_USE.getPermissionToString())){
 				ev.setCancelled(true);
 			}

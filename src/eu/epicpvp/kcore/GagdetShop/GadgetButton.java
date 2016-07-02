@@ -18,9 +18,9 @@ public class GadgetButton extends ButtonCopy{
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
 				if(gadget.getActive_player().containsKey(player)){
-					((InventoryPageBase)object).setItem(slot, UtilItem.SetDescriptions(UtilItem.addEnchantmentGlow(gadget.getItem()), new String[]{"§aOwn: §e"+gadget.getAmount(player)}));
+					((InventoryPageBase)object).setItem(slot, UtilItem.setLore(UtilItem.addEnchantmentGlow(gadget.getItem()), new String[]{"§aOwn: §e"+gadget.getAmount(player)}));
 				}else{
-			    	((InventoryPageBase)object).setItem(slot, UtilItem.SetDescriptions(gadget.getItem(), new String[]{"§aOwn: §e"+gadget.getAmount(player)}));
+			    	((InventoryPageBase)object).setItem(slot, UtilItem.setLore(gadget.getItem(), new String[]{"§aOwn: §e"+gadget.getAmount(player)}));
 				}
 			}
 			

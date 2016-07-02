@@ -16,39 +16,40 @@ public class AddonDay implements Listener {
 	JavaPlugin instance;
 	@Getter
 	World world;
-	
-	public AddonDay(JavaPlugin plugin){
-		this(plugin,null);
+
+	public AddonDay(JavaPlugin plugin) {
+		this(plugin, null);
 	}
-	
-	public AddonDay(JavaPlugin plugin,World w){
-		this.world=w;
-		this.instance=plugin;
+
+	public AddonDay(JavaPlugin plugin, World w) {
+		this.world = w;
+		this.instance = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@EventHandler
-	public void Night(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.FASTEST)return;
-		
-		if(world!=null){
+	public void Night(UpdateEvent ev) {
+		if (ev.getType() != UpdateType.FASTEST)
+			return;
+
+		if (world != null) {
 			checkWorld(world);
-		}else{
-			for(World w : Bukkit.getWorlds())checkWorld(w);
+		} else {
+			for (World w : Bukkit.getWorlds())
+				checkWorld(w);
 		}
 	}
-	
-	public void checkWorld(World world){
-		if(world.isThundering()){
+
+	public void checkWorld(World world) {
+		if (world.isThundering()) {
 			world.setStorm(false);
 		}
-		if(world.getTime()<3000||world.getTime()>9000){
-			long time=world.getTime();
-			time+=100;
+		if (world.getTime() < 3000 || world.getTime() > 9000) {
+			long time = world.getTime();
+			time += 100;
 			world.setStorm(false);
 			world.setTime(time);
 		}
 	}
-	
-}
 
+}

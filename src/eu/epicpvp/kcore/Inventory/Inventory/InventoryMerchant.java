@@ -27,7 +27,7 @@ public class InventoryMerchant extends InventoryPageBase{
 	public InventoryMerchant(Merchant merchant){
 		super(InventorySize.invSize(merchant.getOffers().size()+1), merchant.getTitle());
 		
-		int slot = InventorySplit._9.getMax();
+		int slot = InventorySize.invSize(merchant.getOffers().size()+1).getSize()-1;
 		for(MerchantOffer offer : merchant.getOffers()){
 			if(offer.getOutput()!=null&&offer.getOutput().getType()==Material.AIR){
 				throw new NullPointerException("offer.getOutput().getType()==Material.AIR");

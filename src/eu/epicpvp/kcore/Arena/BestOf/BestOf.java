@@ -170,7 +170,7 @@ public class BestOf extends kListener{
 	
 	@EventHandler
 	public void interact(PlayerInteractEvent ev){
-		if(UtilEvent.isAction(ev, ActionType.R)&&ev.getPlayer().getGameMode()!=GameMode.CREATIVE){
+		if(UtilEvent.isAction(ev, ActionType.RIGHT)&&ev.getPlayer().getGameMode()!=GameMode.CREATIVE){
 			if(ev.getPlayer().getItemInHand().getType()==this.item.getType()){
 				if(this.players.containsKey(ev.getPlayer().getUniqueId())){
 					removeBestOf(ev.getPlayer().getUniqueId());

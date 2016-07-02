@@ -61,7 +61,7 @@ public class ButtonBooleanInventory implements IButtonOneSlot{
 	}
 	
 	public void refreshItemStack(){
-		UtilItem.SetDescriptions(itemStack, getDescription());
+		UtilItem.setLore(itemStack, getDescription());
 		this.inventoryPageBase.setItem(slot, itemStack);
 	}
 	

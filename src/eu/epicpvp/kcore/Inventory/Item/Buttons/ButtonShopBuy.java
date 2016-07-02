@@ -102,7 +102,7 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 				changePrice(page,(money*(setAmount(page, getAmount(page)+64, money))));
 			}
 		}, UtilItem.RenameItem(new ItemStack(Material.WOOD_PLATE), "§a+64"), null)});
-		page.setItem(4, UtilItem.SetDescriptions(item, new String[]{"§eAnzahl "+1,"§e1 § §a"+money+" Epics","§e10 § §a"+(money*10)+" Epics","§e64 § §a"+(money*64)+" Epics"}));
+		page.setItem(4, UtilItem.setLore(item, new String[]{"§eAnzahl "+1,"§e1 § §a"+money+" Epics","§e10 § §a"+(money*10)+" Epics","§e64 § §a"+(money*64)+" Epics"}));
 		
 		for(int i=InventorySplit._18.getMin(); i<=InventorySplit._18.getMax(); i++)page.setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE,1,(byte)15)," "));
 	
@@ -150,11 +150,11 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 	public static int setAmount(InventoryPageBase page,int amount ,int money){
 		if(amount<=0){
 			amount = changeItems(page,1);
-			page.setItem(4, UtilItem.SetDescriptions(page.getItem(4), new String[]{"§eAnzahl "+1,"§e1 § §a"+money+" Epics","§e10 § §a"+(money*10)+" Epics","§e64 § §a"+(money*64)+" Epics"}));
+			page.setItem(4, UtilItem.setLore(page.getItem(4), new String[]{"§eAnzahl "+1,"§e1 § §a"+money+" Epics","§e10 § §a"+(money*10)+" Epics","§e64 § §a"+(money*64)+" Epics"}));
 			return 1;
 		}else{
 			amount = changeItems(page,amount);
-			page.setItem(4, UtilItem.SetDescriptions(page.getItem(4), new String[]{"§eAnzahl "+amount,"§e1 § §a"+money+" Epics","§e10 § §a"+(money*10)+" Epics","§e64 § §a"+(money*64)+" Epics"}));
+			page.setItem(4, UtilItem.setLore(page.getItem(4), new String[]{"§eAnzahl "+amount,"§e1 § §a"+money+" Epics","§e10 § §a"+(money*10)+" Epics","§e64 § §a"+(money*64)+" Epics"}));
 		}
 		return amount;
 	}
@@ -164,6 +164,6 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 	}
 	
 	public static void changePrice(InventoryPageBase page ,int money){
-		page.setItem(8, UtilItem.SetDescriptions(page.getItem(8), new String[]{"§e"+money+" Epics"}));
+		page.setItem(8, UtilItem.setLore(page.getItem(8), new String[]{"§e"+money+" Epics"}));
 	}
 }

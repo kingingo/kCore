@@ -65,13 +65,13 @@ public class MultiKitShop extends KitShop{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void Start(MultiGameStartEvent ev){
 		if(!list.containsKey(ev.getGame())){
-			list.put(ev.getGame(), ev.getGame().getGameList().getPlayers(PlayerState.IN));
+			list.put(ev.getGame(), ev.getGame().getGameList().getPlayers(PlayerState.INGAME));
 		}else{
 			list.get(ev.getGame()).clear();
 			list.remove(ev.getGame());
-			list.put(ev.getGame(), ev.getGame().getGameList().getPlayers(PlayerState.IN));
+			list.put(ev.getGame(), ev.getGame().getGameList().getPlayers(PlayerState.INGAME));
 		}
 		
-		Bukkit.getPluginManager().callEvent(new PerkStartEvent(ev.getGame().getGameList().getPlayers(PlayerState.IN)));
+		Bukkit.getPluginManager().callEvent(new PerkStartEvent(ev.getGame().getGameList().getPlayers(PlayerState.INGAME)));
 	}
 }

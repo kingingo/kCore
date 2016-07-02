@@ -29,7 +29,7 @@ public class PowerAxe extends Gadget{
 		if(this.getActive_player().containsKey(ev.getPlayer())
 				&& ev.getPlayer().getItemInHand()!=null 
 				&& ev.getPlayer().getItemInHand().getType() == getItem().getType()
-				&& UtilEvent.isAction(ev, ActionType.R)
+				&& UtilEvent.isAction(ev, ActionType.RIGHT)
 				&& use(ev.getPlayer())){
 			long time = System.currentTimeMillis();
 			Item item = ev.getPlayer().getWorld().dropItemNaturally(ev.getPlayer().getEyeLocation(), new ItemStack(Material.IRON_AXE));

@@ -32,7 +32,6 @@ public class MoneyListener extends kListener {
 		this.properties = StatsManagerRepository.getStatsManager(GameType.PROPERTIES);
 		this.properties.setForceSave(true);
 		this.properties.setAutoLoad(true);
-		;
 		UtilServer.setMoneyListener(this);
 		logMessage("enabled!");
 	}
@@ -47,8 +46,7 @@ public class MoneyListener extends kListener {
 
 			if (UtilPlayer.isOnline(player)) {
 				money.add(loadedplayer.getPlayerId(), key, value);
-				logMessage("Add " + loadedplayer.getName() + " " + value + "" + key.getMySQLName()
-						+ " to his/her Account!");
+				logMessage("Add " + loadedplayer.getName() + " " + value + "" + key.getMySQLName() + " to his/her Account!");
 			} else {
 				loadedplayer.getServer().getAsync(new Callback<String>() {
 
@@ -59,11 +57,10 @@ public class MoneyListener extends kListener {
 							public void call(Integer playerId, Throwable exception) {
 								money.add(playerId, key, value);
 								money.save(playerId);
-								logMessage("Add " + loadedplayer.getName() + " " + value + "" + key.getMySQLName()
-										+ " to his/her Account!");
+								logMessage("Add " + loadedplayer.getName() + " " + value + "" + key.getMySQLName() + " to his/her Account!");
 							}
 						});
-						
+
 						if (server != null) {
 							DataBuffer buffer = new DataBuffer();
 							buffer.writeByte(key.ordinal());
@@ -86,8 +83,7 @@ public class MoneyListener extends kListener {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				logMessage("Add " + loadedplayer.getName() + " " + path + " " + value + " " + key.getMySQLName()
-						+ " to his/her Account!");
+				logMessage("Add " + loadedplayer.getName() + " " + path + " " + value + " " + key.getMySQLName() + " to his/her Account!");
 			} else {
 				loadedplayer.getServer().getAsync(new Callback<String>() {
 
@@ -100,13 +96,11 @@ public class MoneyListener extends kListener {
 									NBTTagCompound nbt = properties.getNBTTagCompound(loadedplayer.getPlayerId(), key);
 									nbt.setInt(path, nbt.getInt(path) + value);
 									try {
-										properties.setNBTTagCompound(loadedplayer.getPlayerId(), nbt,
-												StatsKey.PROPERTIES);
+										properties.setNBTTagCompound(loadedplayer.getPlayerId(), nbt, StatsKey.PROPERTIES);
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
-									logMessage("Add " + loadedplayer.getName() + " " + path + " " + value + " "
-											+ key.getMySQLName() + " to his/her Account!");
+									logMessage("Add " + loadedplayer.getName() + " " + path + " " + value + " " + key.getMySQLName() + " to his/her Account!");
 								}
 							});
 						} else {
@@ -133,18 +127,13 @@ public class MoneyListener extends kListener {
 			if (UtilPlayer.isOnline(ev.getPlayerId())) {
 				Player player = UtilPlayer.searchExact(ev.getPlayerId());
 
-				if (player.getScoreboard() != null
-						&& player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
+				if (player.getScoreboard() != null && player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) != null) {
 					Score score = UtilScoreboard.searchScore(player.getScoreboard(), ev.getStats().getMySQLName());
 
 					if (score != null) {
 						int scoreId = score.getScore() - 1;
 						UtilScoreboard.resetScore(player.getScoreboard(), scoreId, DisplaySlot.SIDEBAR);
-						UtilScoreboard
-								.setScore(player.getScoreboard(),
-										(ev.getStats() == StatsKey.GEMS ? "§a" : "§c") + "§r§7"
-												+ ev.getManager().getInt(player, ev.getStats()),
-										DisplaySlot.SIDEBAR, scoreId);
+						UtilScoreboard.setScore(player.getScoreboard(), (ev.getStats() == StatsKey.GEMS ? "§a" : "§c") + "§r§7" + ev.getManager().getInt(player, ev.getStats()), DisplaySlot.SIDEBAR, scoreId);
 					}
 				}
 			}
@@ -154,9 +143,8 @@ public class MoneyListener extends kListener {
 	@EventHandler
 	public void message(ServerMessageEvent ev) {
 		if (ev.getChannel().equalsIgnoreCase("money")) {
-			StatsKey key = StatsKey.values()[ev.getBuffer().readByte()];
+			StatsKey key = StatsKey.values()[ev.getBuffer().readInt()];
 			int playerId = ev.getBuffer().readInt();
-
 			if (key == StatsKey.GEMS || StatsKey.COINS == key || StatsKey.MYSTERY_SHARPS == key) {
 				if (money.isLoaded(playerId)) {
 					LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(playerId);
@@ -176,8 +164,7 @@ public class MoneyListener extends kListener {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					logMessage("Add " + playerId + " " + path + " " + value + " " + key.getMySQLName()
-							+ " to his/her Account!");
+					logMessage("Add " + playerId + " " + path + " " + value + " " + key.getMySQLName() + " to his/her Account!");
 				} else {
 					properties.loadPlayer(playerId, new Callback<Integer>() {
 
@@ -190,8 +177,7 @@ public class MoneyListener extends kListener {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							logMessage("Add " + playerId + " " + path + " " + value + "" + key.getMySQLName()
-									+ " to his/her Account!");
+							logMessage("Add " + playerId + " " + path + " " + value + "" + key.getMySQLName() + " to his/her Account!");
 						}
 
 					});

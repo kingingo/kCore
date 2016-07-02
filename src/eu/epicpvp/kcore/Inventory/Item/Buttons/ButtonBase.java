@@ -98,7 +98,7 @@ public class ButtonBase implements IButtonOneSlot{
 	}
 	
 	public void refreshItemStack(){
-		if(getDescription()!=null)UtilItem.SetDescriptions(itemStack, getDescription());
+		if(getDescription()!=null)UtilItem.setLore(itemStack, getDescription());
 		this.inventoryPageBase.setItem(slot, itemStack);
 	}
 	

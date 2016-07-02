@@ -33,7 +33,7 @@ public class ButtonItemShopMove extends ButtonBase{
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
-				if(type == ActionType.L){
+				if(type == ActionType.LEFT){
 					players.remove(player);
 				}else{
 					if(players.containsKey(player)){

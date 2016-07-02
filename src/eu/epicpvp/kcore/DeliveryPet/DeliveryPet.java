@@ -482,7 +482,7 @@ public class DeliveryPet extends kListener {
 					deliveryBlock(player, dis);
 				}
 
-				objects.get(dis).click.onClick(player, ActionType.R, objects.get(dis));
+				objects.get(dis).click.onClick(player, ActionType.RIGHT, objects.get(dis));
 			}
 		} else {
 			UtilDebug.debug("deliveryUSE(Player,String,boolean)", new String[]

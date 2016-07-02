@@ -127,7 +127,7 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 							this.durchlauf_counter++;
 							if(this.durchlauf_counter>=this.durchlauf){
 								this.status=InventoryLotto2Status.GET;
-								win.Clicked( ((Player)getViewers().toArray()[0]), ActionType.R, this.win);
+								win.Clicked( ((Player)getViewers().toArray()[0]), ActionType.RIGHT, this.win);
 								break;
 							}
 						}
