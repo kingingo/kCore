@@ -124,14 +124,14 @@ public class AACHack extends kListener{
 		}
 
 		LoadedPlayer loadedplayer = client.getPlayerAndLoad(banned.getName());
-		loadedplayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, -1, time, reason);
+		loadedplayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, 2, time, reason);
 		loadedplayer.kickPlayer(reason);
 		UtilServer.sendTeamMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiHackSystem§c für §e" + ti + " " + typ.toUpperCase() + " §cgesperrt. Grund: §e" + reason);
 	}
 
 	private void setBan(int lvl, Player banned, String reason) {
 		LoadedPlayer loadedplayer = client.getPlayerAndLoad(banned.getName());
-		loadedplayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, -1, -1, reason);
+		loadedplayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, 2, -1, reason);
 		loadedplayer.kickPlayer(reason);
 		UtilServer.sendTeamMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiHackSystem§c permanent gesperrt. Grund: §e" + reason);
 	}
