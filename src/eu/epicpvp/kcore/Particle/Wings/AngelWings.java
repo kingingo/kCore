@@ -44,7 +44,7 @@ public class AngelWings extends WingShape {
 		// third inner line
 		getPositions().putAll(createSymmetricLines(.2, BOTTOM_MIDDLE_Y, .35, BOTTOM_MIDDLE_Y + .2, WingPart.INNER_LEFT, WingPart.INNER_RIGHT));
 
-		getPositions().putAll(createCircle(0, .9, 0, .3, WingPart.MIDDLE)); //we special case MIDDLE below, we add something to y later
+		getPositions().putAll(createCircleXZ(0, .9, 0, .3, WingPart.MIDDLE)); //we special case MIDDLE below, we add something to y later
 	}
 
 	@Override
