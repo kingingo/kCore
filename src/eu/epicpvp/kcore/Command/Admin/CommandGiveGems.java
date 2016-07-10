@@ -3,6 +3,7 @@ package eu.epicpvp.kcore.Command.Admin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
@@ -35,10 +36,16 @@ public class CommandGiveGems implements CommandExecutor{
 					if(c==-1)return false;
 
 					UtilServer.getMoneyListener().update(spieler, StatsKey.GEMS, c);
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+(c<0?TranslationHandler.getText(player, "GEMS_DEL_PLAYER",new String[]{player.getName(),String.valueOf(c)}):TranslationHandler.getText(player, "GEMS_ADD_PLAYER",new String[]{player.getName(),String.valueOf(c)})));
+					String translationId;
+					if (c < 0) {
+						translationId = "GEMS_DEL_PLAYER";
+					} else {
+						translationId = "GEMS_ADD_PLAYER";
+					}
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, translationId, spieler, String.valueOf(c)));
 				}
 			}
-		}else if(sender instanceof CommandSender){
+		}else if(sender instanceof ConsoleCommandSender){
 			if(args.length==0){
 				System.out.println("[EpicPvP:] /GiveGems [Spieler] [+/- Gems]");
 			}else if(args.length >= 2){
@@ -51,6 +58,8 @@ public class CommandGiveGems implements CommandExecutor{
 				UtilServer.getMoneyListener().update(spieler, StatsKey.GEMS, c);
 				System.out.println("[EpicPvP]: Der Spieler "+spieler+" hat die Gems erhalten!");
 			}
+		}else {
+			System.out.println("Unknown command sender for /givegems command: " + sender.getClass().getSimpleName() + " " + sender);
 		}
 		return false;
 	}
