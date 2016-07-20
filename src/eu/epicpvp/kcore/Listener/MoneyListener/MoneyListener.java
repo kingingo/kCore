@@ -143,7 +143,7 @@ public class MoneyListener extends kListener {
 	@EventHandler
 	public void message(ServerMessageEvent ev) {
 		if (ev.getChannel().equalsIgnoreCase("money")) {
-			StatsKey key = StatsKey.values()[ev.getBuffer().readInt()];
+			StatsKey key = StatsKey.values()[ev.getBuffer().readByte()];
 			int playerId = ev.getBuffer().readInt();
 			if (key == StatsKey.GEMS || StatsKey.COINS == key || StatsKey.MYSTERY_SHARPS == key) {
 				if (money.isLoaded(playerId)) {
