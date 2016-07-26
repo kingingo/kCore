@@ -99,7 +99,6 @@ public class LoginManager extends kListener{
 		if(this.jumpAndRun.contains(playername))this.jumpAndRun.remove(playername);
 		
 		LoadedPlayer loadedplayer = this.client.getPlayerAndLoad(playername);
-		loadedplayer.getPasswordSync()
 		loadedplayer.getSettings(Setting.PASSWORD).getAsync( new Callback<PacketOutPlayerSettings.SettingValue[]>() {
 
 			@Override
