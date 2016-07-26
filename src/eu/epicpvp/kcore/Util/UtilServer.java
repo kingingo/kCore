@@ -576,4 +576,13 @@ public class UtilServer {
 	public static Plugin getPluginInstance(){
 		return  pluginInstance != null ? pluginInstance : mysql.getInstance();
 	}
+
+	public static Player getNickedPlayer(String string) {
+		if(Bukkit.getPlayer(string) != null)
+			return Bukkit.getPlayer(string);
+		for(Player p : Bukkit.getOnlinePlayers())
+			if(UtilServer.getClient().getPlayerAndLoad(string).getNickname().equalsIgnoreCase(string))
+				return p;
+		return null;
+	}
 }

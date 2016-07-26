@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 import org.spigotmc.AsyncCatcher;
 
 import dev.wolveringer.bukkit.permissions.GroupTyp;
@@ -158,15 +157,15 @@ public class PermissionManager {
 		String prefix = getPrefix(player);
 		String tabGroup = getTabGroup(player);
 		
-		player.setPlayerListName(prefix+player.getName());
-		UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(player), prefix).addEntry(player.getName());;
+		player.setPlayerListName(prefix+"{player_"+player.getName()+"}");
+		UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(player), prefix).addEntry("{player_"+player.getName()+"}");
 
 		for (Player p : UtilServer.getPlayers()) {
 			if (p.equals(player))
 				continue;
-			UtilScoreboard.addTeam(p.getScoreboard(), tabGroup, prefix).addEntry(player.getName());
+			UtilScoreboard.addTeam(p.getScoreboard(), tabGroup, prefix).addEntry("{player_"+player.getName()+"}");
 			if(isLoaded(p)){
-				UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p), getPrefix(p)).addEntry(p.getName());
+				UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p), getPrefix(p)).addEntry("{player_"+p.getName()+"}");
 			}
 			else
 				Bukkit.getScheduler().runTaskAsynchronously(UtilServer.getPluginInstance(), new Runnable() {
@@ -178,7 +177,7 @@ public class PermissionManager {
 							} catch (InterruptedException e) {}
 						}
 						UtilServer.ensureMainthread(()->{
-							UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p), getPrefix(p)).addEntry(p.getName());
+							UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(p), getPrefix(p)).addEntry("{player_"+p.getName()+"}");
 						});
 					}
 				});

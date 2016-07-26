@@ -15,6 +15,9 @@ public class CommandMsg implements CommandExecutor{
 
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "msg",alias={"tell","m","t","w","wispher","wisphers"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
+		sender.sendMessage("§aWenn du mit einem Spieler schreiben möchtest nutze bitte @<Player>");
+		if(true) //Use @
+			return false;
 		Player player = (Player) sender;
 		if(args.length<=1){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/msg [Player] [Text]");

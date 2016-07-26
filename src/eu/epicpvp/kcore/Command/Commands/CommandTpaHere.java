@@ -12,6 +12,7 @@ import eu.epicpvp.kcore.TeleportManager.TeleportManager;
 import eu.epicpvp.kcore.TeleportManager.Teleporter;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilTime;
 import lombok.Getter;
 
@@ -42,8 +43,8 @@ public class CommandTpaHere implements CommandExecutor {
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, "USE_BEFEHL_TIME", s));
 				} else {
 					if(args.length == 1 || (args.length == 2 && args[1].equalsIgnoreCase("player"))){
-						if (UtilPlayer.isOnline(args[0])) {
-							Player tp = Bukkit.getPlayer(args[0]);
+						Player tp = UtilServer.getNickedPlayer(args[0]);
+						if (tp != null) {
 							sendTPA(tp, player);
 							player.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, "TELEPORT_ANFRAGE_SENDER", tp.getName()));
 							tp.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, "TELEPORT_ANFRAGE_HERE_EMPFÄNGER", player.getName()));

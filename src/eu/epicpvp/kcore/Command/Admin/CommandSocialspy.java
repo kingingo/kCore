@@ -43,7 +43,7 @@ public class CommandSocialspy extends kListener implements CommandExecutor{
 	
 	@EventHandler
 	public void Msg(PlayerMsgSendEvent ev){
-		for(Player player : list)player.sendMessage(TranslationHandler.getText(player, "PREFIX")+ev.getPlayer().getName()+"->"+ev.getTarget().getName()+":§b "+ev.getMessage());
+		for(Player player : list) player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"{player_"+ev.getPlayer().getName()+"}"+"->"+"{player_"+ev.getTarget().getName()+"}"+":§b "+ev.getMessage());
 	}
 	
 	@EventHandler

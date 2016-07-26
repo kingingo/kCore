@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilEXP;
+import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandXP implements CommandExecutor{
 
@@ -41,7 +42,7 @@ public class CommandXP implements CommandExecutor{
 					}
 					
 					try{
-						target = (Player) p.getServer().getPlayer(args[1]);
+						target = UtilServer.getNickedPlayer(args[1]);
 						if(target.isOnline()){
 							
 						}else{

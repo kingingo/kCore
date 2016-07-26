@@ -76,7 +76,7 @@ public class NeulingManager extends kListener{
 			if(getPlayers().containsKey(v)){
 				ev.setCancelled(true);
 				if(ev.getDamager() instanceof Player){
-					((Player)ev.getDamager()).sendMessage(TranslationHandler.getText(((Player)ev.getDamager()), "PREFIX")+TranslationHandler.getText(((Player)ev.getDamager()), "NEULING_SCHUTZ",v.getName()));
+					((Player)ev.getDamager()).sendMessage(TranslationHandler.getText(((Player)ev.getDamager()), "PREFIX")+TranslationHandler.getText(((Player)ev.getDamager()), "NEULING_SCHUTZ", v.getName()));
 				}
 			}
 			

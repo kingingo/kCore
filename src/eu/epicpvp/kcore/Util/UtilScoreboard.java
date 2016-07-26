@@ -60,22 +60,20 @@ public class UtilScoreboard {
 		if (!board.getTeam(Team).getEntries().contains(p))
 			return;
 		Team r = board.getTeam(Team);
-		r.removeEntry(p.getName());
+		r.removeEntry("{player_"+p.getName()+"}");
 	}
 
 	public static void addPlayerToTeam(Scoreboard board, String Team, Player p) {
 		Team t = board.getTeam(Team);
 		if (t == null)
 			new NullPointerException("team == NULL");
-		if (t.getEntries().contains(p.getName()))
-			return;
-		t.addEntry(p.getName());
+		addPlayerToTeam(board, t, p);
 	}
 
 	public static void addPlayerToTeam(Scoreboard board, Team t, Player p) {
-		if (t.getEntries().contains(p.getName()))
+		if (t.getEntries().contains("{player_"+p.getName()+"}"))
 			return;
-		t.addEntry(p.getName());
+		t.addEntry("{player_"+p.getName()+"}");
 	}
 
 	public static Team addTeam(Scoreboard board, String Team) {
@@ -174,7 +172,27 @@ public class UtilScoreboard {
 			o.setDisplayName(DisplayName);
 		}
 	}
+	
+	public static void resendScoreboard(Player player){
+		Scoreboard board = player.getScoreboard();
+		player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+		player.setScoreboard(board);
+	}
 
+	public static void resendTeamsFromPlayer(Player player){
+		for(Player p : Bukkit.getOnlinePlayers()){
+			Scoreboard board = p.getScoreboard();
+			for(Team team : board.getTeams()){
+				for(String s : team.getEntries()){
+					if(s.equalsIgnoreCase("{player_"+player.getName()+"}")){
+						team.removeEntry("{player_"+player.getName()+"}");
+						team.addEntry("{player_"+player.getName()+"}");
+					}
+				}
+			}
+		}
+	}
+	
 	public static void addBoard(Scoreboard board, DisplaySlot typ, String DisplayName) {
 		if (typ == DisplaySlot.SIDEBAR && DisplayName.length() >= 32) {
 			DisplayName = DisplayName.substring(0, 31);
