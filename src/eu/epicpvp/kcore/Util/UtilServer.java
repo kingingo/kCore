@@ -260,7 +260,8 @@ public class UtilServer {
 				
 				@Override
 				public boolean isOnline(String name) {
-					return Bukkit.getPlayer(name) != null && Bukkit.getPlayer(name).isOnline();
+					Player plr = Bukkit.getPlayerExact(name);
+					return plr != null && plr.isOnline();
 				}
 			}, new ServerInformations() {
 
