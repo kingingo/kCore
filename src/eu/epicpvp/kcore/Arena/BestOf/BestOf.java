@@ -159,7 +159,7 @@ public class BestOf extends kListener{
 	}
 	
 	public GameType random(){
-		switch(UtilMath.r(4)){
+		switch(UtilMath.randomInteger(4)){
 		case 0:return GameType.Versus;
 		case 1:return GameType.SurvivalGames1vs1;
 		case 2:return GameType.BedWars1vs1;

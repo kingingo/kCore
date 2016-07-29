@@ -22,89 +22,91 @@ public class NameTagMessage extends ImageMessage {
 	private double lineSpacing = 0.25d;
 	@Getter
 	private NameTagType type;
-	
+
 	private NameTagPacketSpawner packetSpawner;
 	private NameTagEntitySpawner entitySpawner;
-	
-	public NameTagMessage(NameTagType type,Location location,String... lines){
+
+	public NameTagMessage(NameTagType type, Location location, String... lines) {
 		super(lines);
-		this.location=location;
-		this.type=type;
+		this.location = location;
+		this.type = type;
 		initialize(this.lines.length);
 	}
 
-	public NameTagMessage(NameTagType type,BufferedImage image, int height, char imgChar) {
+	public NameTagMessage(NameTagType type, BufferedImage image, int height, char imgChar) {
 		super(image, height, imgChar);
-		this.type=type;
+		this.type = type;
 		initialize(height);
 	}
 
-	public NameTagMessage(NameTagType type,ChatColor[][] chatColors, char imgChar) {
+	public NameTagMessage(NameTagType type, ChatColor[][] chatColors, char imgChar) {
 		super(chatColors, imgChar);
 		this.location = Preconditions.checkNotNull(location, "location cannot be NULL");
-		this.type=type;
+		this.type = type;
 		initialize(chatColors.length);
 	}
-	
-	public NameTagMessage(NameTagType type,double y, String... imgLines) {
+
+	public NameTagMessage(NameTagType type, double y, String... imgLines) {
 		super(imgLines);
-		this.type=type;
-		initialize(imgLines.length,y);
+		this.type = type;
+		initialize(imgLines.length, y);
 	}
-	
-	public void remove(){
+
+	public void remove() {
 		clear();
-		this.location=null;
-		this.lineSpacing=0;
-		this.lines=null;
-		this.type=null;
-		this.packetSpawner=null;
-		this.entitySpawner=null;
+		this.location = null;
+		this.lineSpacing = 0;
+		this.lines = null;
+		this.type = null;
+		this.packetSpawner = null;
+		this.entitySpawner = null;
 	}
-	
+
 	private void initialize(int height, double y) {
-		if(getType()==NameTagType.PACKET){
-			this.packetSpawner = new NameTagPacketSpawner(height,y);
-		}else{
-			this.entitySpawner = new NameTagEntitySpawner(height,y);
+		if (getType() == NameTagType.PACKET) {
+			this.packetSpawner = new NameTagPacketSpawner(height, y);
+		} else {
+			this.entitySpawner = new NameTagEntitySpawner(height, y);
 		}
 	}
-	
+
 	private void initialize(int height) {
-		if(getType()==NameTagType.PACKET){
+		if (getType() == NameTagType.PACKET) {
 			this.packetSpawner = new NameTagPacketSpawner(height);
-		}else{
+		} else {
 			this.entitySpawner = new NameTagEntitySpawner(height);
 		}
 	}
-	
-	public void send(){
-		if(getType()==NameTagType.PACKET){
-			for(Player player : UtilServer.getPlayers())sendToPlayer(player);
-		}else{
+
+	public void send() {
+		if (getType() == NameTagType.PACKET) {
+			for (Player player : UtilServer.getPlayers())
+				sendToPlayer(player);
+		} else {
 			for (int i = 0; i < this.lines.length; i++) {
 				this.entitySpawner.setNameTag(i, location, -i * this.lineSpacing, this.lines[i]);
 			}
 		}
 	}
-	
+
 	public void sendToPlayer(Player player) {
 		sendToPlayer(player, this.location != null ? this.location : player.getLocation());
 	}
-	
+
 	public void sendToPlayer(Player player, Location location) {
-		if(getType()==NameTagType.PACKET){
-			this.location=location;
+		if (getType() == NameTagType.PACKET) {
+			this.location = location;
 			for (int i = 0; i < this.lines.length; i++) {
 				this.packetSpawner.setNameTag(i, player, location, -i * this.lineSpacing, this.lines[i]);
 			}
 		}
 	}
-	
+
 	public void move(Location location) {
-		if(getType()==NameTagType.PACKET){
-			for(Player player : UtilServer.getPlayers())move(player,location);
-		}else{
+		if (getType() == NameTagType.PACKET) {
+			for (Player player : UtilServer.getPlayers())
+				move(player, location);
+		} else {
 			Location copy = location.clone();
 
 			for (int i = 0; i < this.lines.length; i++) {
@@ -113,9 +115,9 @@ public class NameTagMessage extends ImageMessage {
 			}
 		}
 	}
-	
+
 	public void move(Player player, Location location) {
-		if(getType()==NameTagType.PACKET){
+		if (getType() == NameTagType.PACKET) {
 			setLocation(location);
 			Location copy = location.clone();
 
@@ -125,21 +127,22 @@ public class NameTagMessage extends ImageMessage {
 			}
 		}
 	}
-	
+
 	public void clear() {
-		if(getType()==NameTagType.PACKET){
-			for(Player player : UtilServer.getPlayers())clear(player);
-		}else{
-			if(this.entitySpawner==null){
+		if (getType() == NameTagType.PACKET) {
+			for (Player player : UtilServer.getPlayers())
+				clear(player);
+		} else {
+			if (this.entitySpawner == null) {
 				new NullPointerException("entitySpawner == NULL");
 				return;
 			}
 			this.entitySpawner.clearNameTags();
 		}
 	}
-	
+
 	public void clear(Player player) {
-		if(getType()==NameTagType.PACKET){
+		if (getType() == NameTagType.PACKET) {
 			this.packetSpawner.clearNameTags(player);
 		}
 	}

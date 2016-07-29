@@ -11,8 +11,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.spigotmc.AsyncCatcher;
 
-import dev.wolveringer.client.threadfactory.ThreadFactory;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
+import dev.wolveringer.thread.ThreadFactory;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Util.UtilPlayer;

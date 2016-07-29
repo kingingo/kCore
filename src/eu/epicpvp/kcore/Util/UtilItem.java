@@ -390,7 +390,7 @@ public class UtilItem {
 	}
 	
 	public static Material rdmWerkzeug(){
-		switch(UtilMath.r(5)){
+		switch(UtilMath.randomInteger(5)){
 		case 0: return rdmAxt();
 		case 1: return rdmSchwert();
 		case 2: return rdmHoe();
@@ -401,7 +401,7 @@ public class UtilItem {
 	}
 	
 	public static Material rdmHoe(){
-		switch(UtilMath.r(5)){
+		switch(UtilMath.randomInteger(5)){
 		case 0: return Material.IRON_HOE;
 		case 1: return Material.DIAMOND_HOE;
 		case 2: return Material.WOOD_HOE;
@@ -412,7 +412,7 @@ public class UtilItem {
 	}
 	
 	public static Material rdmSpitzhacke(){
-		switch(UtilMath.r(5)){
+		switch(UtilMath.randomInteger(5)){
 		case 0: return Material.IRON_PICKAXE;
 		case 1: return Material.DIAMOND_PICKAXE;
 		case 2: return Material.WOOD_PICKAXE;
@@ -423,7 +423,7 @@ public class UtilItem {
 	}
 	
 	public static Material rdmSchaufel(){
-		switch(UtilMath.r(5)){
+		switch(UtilMath.randomInteger(5)){
 		case 0: return Material.IRON_SPADE;
 		case 1: return Material.DIAMOND_SPADE;
 		case 2: return Material.WOOD_SPADE;
@@ -434,7 +434,7 @@ public class UtilItem {
 	}
 	
 	public static Material rdmAxt(){
-		switch(UtilMath.r(5)){
+		switch(UtilMath.randomInteger(5)){
 		case 0: return Material.IRON_AXE;
 		case 1: return Material.DIAMOND_AXE;
 		case 2: return Material.WOOD_AXE;
@@ -445,7 +445,7 @@ public class UtilItem {
 	}
 	
 	public static Material rdmSchwert(){
-		switch(UtilMath.r(5)){
+		switch(UtilMath.randomInteger(5)){
 		case 0: return Material.IRON_SWORD;
 		case 1: return Material.DIAMOND_SWORD;
 		case 2: return Material.WOOD_SWORD;
@@ -730,6 +730,7 @@ public class UtilItem {
 		   	ItemStack is = new ItemStack(Material.SKULL_ITEM, 1);
 		    is.setDurability((short)3);
 		    SkullMeta meta = (SkullMeta)is.getItemMeta();
+		    if(player != null)
 		    meta.setOwner(player);
 		    is.setItemMeta(meta);
 		    return is;

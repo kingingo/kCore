@@ -43,7 +43,7 @@ public class Group {
 			}
 			int length = response.readInt();
 			if (length == -1) {
-				System.out.println("Group loading error: " + response.readString());
+				System.out.println("Group loading error ("+name+"): " + response.readString());
 				return;
 			}
 			perms.clear();

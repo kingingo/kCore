@@ -592,7 +592,7 @@ public class UtilPlayer {
 	}
 
 	public static boolean isOnline(String name) {
-		return searchExact(name) != null;
+		return UtilServer.getNickedPlayer(name) != null;
 	}
 
 	public static String safeNameLength(String name) {

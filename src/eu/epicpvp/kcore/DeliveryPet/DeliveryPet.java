@@ -26,8 +26,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import dev.wolveringer.client.threadfactory.ThreadFactory;
 import dev.wolveringer.dataserver.gamestats.ServerType;
+import dev.wolveringer.thread.ThreadFactory;
 import eu.epicpvp.kcore.Hologram.Hologram;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
 import eu.epicpvp.kcore.Inventory.InventoryBase;
@@ -122,7 +122,7 @@ public class DeliveryPet extends kListener {
 					int legendary = 1;
 					int divine = 0;
 
-					if (UtilMath.r(100000) == 5356) {
+					if (UtilMath.randomInteger(100000) == 5356) {
 						divine++;
 					} else {
 						legendary++;
@@ -130,7 +130,7 @@ public class DeliveryPet extends kListener {
 
 					for (int i = 0; i < ps.length; i++) {
 						if (common != 0) {
-							ps[i] = packages.get(InventoryLotto2Type.COMMON).get(UtilMath.r(packages.get(InventoryLotto2Type.COMMON).size()));
+							ps[i] = packages.get(InventoryLotto2Type.COMMON).get(UtilMath.randomInteger(packages.get(InventoryLotto2Type.COMMON).size()));
 
 							if (ps[i].hasPlayer(player)) {
 								ps[i] = null;
@@ -139,7 +139,7 @@ public class DeliveryPet extends kListener {
 								common--;
 							}
 						} else if (uncommon != 0) {
-							ps[i] = packages.get(InventoryLotto2Type.UNCOMMON).get(UtilMath.r(packages.get(InventoryLotto2Type.UNCOMMON).size()));
+							ps[i] = packages.get(InventoryLotto2Type.UNCOMMON).get(UtilMath.randomInteger(packages.get(InventoryLotto2Type.UNCOMMON).size()));
 
 							if (ps[i].hasPlayer(player)) {
 								ps[i] = null;
@@ -148,7 +148,7 @@ public class DeliveryPet extends kListener {
 								uncommon--;
 							}
 						} else if (rare != 0) {
-							ps[i] = packages.get(InventoryLotto2Type.RARE).get(UtilMath.r(packages.get(InventoryLotto2Type.RARE).size()));
+							ps[i] = packages.get(InventoryLotto2Type.RARE).get(UtilMath.randomInteger(packages.get(InventoryLotto2Type.RARE).size()));
 
 							if (ps[i].hasPlayer(player)) {
 								ps[i] = null;
@@ -157,7 +157,7 @@ public class DeliveryPet extends kListener {
 								rare--;
 							}
 						} else if (legendary != 0) {
-							ps[i] = packages.get(InventoryLotto2Type.LEGENDARY).get(UtilMath.r(packages.get(InventoryLotto2Type.LEGENDARY).size()));
+							ps[i] = packages.get(InventoryLotto2Type.LEGENDARY).get(UtilMath.randomInteger(packages.get(InventoryLotto2Type.LEGENDARY).size()));
 
 							if (ps[i].hasPlayer(player)) {
 								ps[i] = null;
@@ -166,7 +166,7 @@ public class DeliveryPet extends kListener {
 								legendary--;
 							}
 						} else if (divine != 0) {
-							ps[i] = packages.get(InventoryLotto2Type.DIVINE).get(UtilMath.r(packages.get(InventoryLotto2Type.DIVINE).size()));
+							ps[i] = packages.get(InventoryLotto2Type.DIVINE).get(UtilMath.randomInteger(packages.get(InventoryLotto2Type.DIVINE).size()));
 
 							if (ps[i].hasPlayer(player)) {
 								ps[i] = null;
@@ -180,7 +180,7 @@ public class DeliveryPet extends kListener {
 					LottoPackage[] ps1 = new LottoPackage[ps.length];
 					int r;
 					for (int i = 0; i < ps.length; i++) {
-						r = UtilMath.r(ps.length);
+						r = UtilMath.randomInteger(ps.length);
 						if (ps1[r] != null) {
 							i--;
 							continue;

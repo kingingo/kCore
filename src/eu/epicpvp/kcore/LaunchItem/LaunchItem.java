@@ -30,8 +30,8 @@ public class LaunchItem {
 		this.time=System.currentTimeMillis()+TimeSpan.SECOND*sec;
 		this.droppedItem=new Entity[anzahl];
    		for(int i = 0 ; i < anzahl; i++){
-   			this.droppedItem[i]=(Entity) loc.getWorld().dropItemNaturally(loc,UtilItem.RenameItem(new ItemStack(id,1), "Item"+UtilMath.r(100)));
-   	   		this.droppedItem[i].setVelocity(loc.add(UtilMath.r(5),UtilMath.r(5),UtilMath.r(5)).getDirection());
+   			this.droppedItem[i]=(Entity) loc.getWorld().dropItemNaturally(loc,UtilItem.RenameItem(new ItemStack(id,1), "Item"+UtilMath.randomInteger(100)));
+   	   		this.droppedItem[i].setVelocity(loc.add(UtilMath.randomInteger(5),UtilMath.randomInteger(5),UtilMath.randomInteger(5)).getDirection());
    		}
    		UtilInv.remove(p, new ItemStack(id,1),anzahl);
    		this.player=p;
@@ -42,8 +42,8 @@ public class LaunchItem {
 		this.time=System.currentTimeMillis()+TimeSpan.SECOND*sec;
 		this.droppedItem=new Entity[anzahl];
    		for(int i = 0 ; i < anzahl; i++){
-   			this.droppedItem[i]=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(id,1), "Item"+UtilMath.r(100)));
-   	   		this.droppedItem[i].setVelocity(p.getLocation().add(UtilMath.r(5),UtilMath.r(5),UtilMath.r(5)).getDirection());
+   			this.droppedItem[i]=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(id,1), "Item"+UtilMath.randomInteger(100)));
+   	   		this.droppedItem[i].setVelocity(p.getLocation().add(UtilMath.randomInteger(5),UtilMath.randomInteger(5),UtilMath.randomInteger(5)).getDirection());
    		}
    		UtilInv.remove(p, new ItemStack(id,1),anzahl);
    		this.player=p;
@@ -53,7 +53,7 @@ public class LaunchItem {
 	public LaunchItem(Player p,int id,int sec,final LaunchItemEventHandler handler) {
 		this.time=System.currentTimeMillis()+TimeSpan.SECOND*sec;
 		this.droppedItem=new Entity[1];
-   		this.droppedItem[0]=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(id,1), "Item"+UtilMath.r(100)));
+   		this.droppedItem[0]=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(id,1), "Item"+UtilMath.randomInteger(100)));
    		this.droppedItem[0].setVelocity(p.getLocation().getDirection());
    		UtilInv.remove(p, new ItemStack(id,1),1);
    		this.player=p;
@@ -63,7 +63,7 @@ public class LaunchItem {
 	public LaunchItem(Player p,int sec,final LaunchItemEventHandler handler) {
 		this.time=System.currentTimeMillis()+TimeSpan.SECOND*sec;
 		this.droppedItem=new Entity[1];
-   		this.droppedItem[0]=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(p.getItemInHand().getType(),1,p.getItemInHand().getData().getData()), "Item"+UtilMath.r(100)));
+   		this.droppedItem[0]=(Entity) p.getWorld().dropItemNaturally(p.getEyeLocation(),UtilItem.RenameItem(new ItemStack(p.getItemInHand().getType(),1,p.getItemInHand().getData().getData()), "Item"+UtilMath.randomInteger(100)));
    		this.droppedItem[0].setVelocity(p.getLocation().getDirection());
    		UtilInv.remove(p, p.getItemInHand().getType(), p.getItemInHand().getData().getData(), 1);
    		this.player=p;

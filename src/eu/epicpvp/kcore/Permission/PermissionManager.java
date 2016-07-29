@@ -13,9 +13,9 @@ import org.spigotmc.AsyncCatcher;
 import dev.wolveringer.bukkit.permissions.GroupTyp;
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.client.connection.ClientType;
-import dev.wolveringer.client.threadfactory.ThreadFactory;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
+import dev.wolveringer.thread.ThreadFactory;
 import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
@@ -204,6 +204,7 @@ public class PermissionManager {
 	public void loadPlayer(Player player, int playerId) {
 		if (!user.containsKey(playerId))
 			user.put(playerId, new PermissionPlayer(player, this, playerId));
+		getDisplayedGroup(player);
 	}
 
 	public PermissionPlayer getPermissionPlayer(Player player) {
@@ -239,8 +240,9 @@ public class PermissionManager {
 			Bukkit.getConsoleSender().sendMessage("§cPermission player for "+player.getName()+" is empty!");
 			return "000"+name;
 		}
-		if (!pplayer.getGroups().isEmpty())
-			name = String.format("%03d", 999 - pplayer.getGroups().get(0).getImportance()) + pplayer.getGroups().get(0).getName();
+		Group group = getDisplayedGroup(player);
+		if (group != null)
+			name = String.format("%03d", 999 - group.getImportance()) + group.getName();
 		else
 			name = "000" + name;
 		if (name.length() > 16)
@@ -248,11 +250,28 @@ public class PermissionManager {
 		return name;
 	}
 
-	public String getPrefix(Player player) {
+	private Group getDisplayedGroup(Player player){
+		String name = player.getName();
 		PermissionPlayer pplayer = getPermissionPlayer(player);
-		if (pplayer.getGroups().isEmpty() || !pplayer.isPrefix())
+		if(pplayer == null){
+			Bukkit.getConsoleSender().sendMessage("§cPermission player for "+player.getName()+" is empty!");
+			return null;
+		}
+		LoadedPlayer lplayer = UtilServer.getClient().getPlayerAndLoad(name);
+		Group group = null;
+		if(lplayer.getDisplayedGroup() != null){
+			group = loadGroup(lplayer.getDisplayedGroup());
+		}
+		if(group == null && !pplayer.getGroups().isEmpty())
+			group = pplayer.getGroups().get(0);
+		return group;
+	}
+	
+	public String getPrefix(Player player) {
+		Group group = getDisplayedGroup(player);
+		if (group == null || group.getPrefix() == null)
 			return "§6§m";
-		return pplayer.getGroups().get(0).getPrefix();
+		return group.getPrefix();
 	}
 
 	public boolean hasPermission(Player player, String permission, boolean message) {

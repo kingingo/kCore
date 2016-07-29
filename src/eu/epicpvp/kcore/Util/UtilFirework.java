@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 public class UtilFirework {
 	 
 	public static Type RandomType(){
-		return Type.values()[UtilMath.r(Type.values().length)];
+		return Type.values()[UtilMath.randomInteger(Type.values().length)];
 	}
 	
 	public static Color RandomColor(){

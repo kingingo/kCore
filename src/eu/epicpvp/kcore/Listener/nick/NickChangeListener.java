@@ -116,6 +116,7 @@ public class NickChangeListener extends PacketHandler implements Listener{
 	}
 	@Override
 	public void onSend(SentPacket packet) {
+		long start = System.currentTimeMillis();
 		try{
 			if(packet.getPacket() instanceof PacketPlayOutPlayerInfo){
 				PacketPlayOutPlayerInfo pack = (PacketPlayOutPlayerInfo) packet.getPacket();
@@ -133,6 +134,9 @@ public class NickChangeListener extends PacketHandler implements Listener{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		long end = System.currentTimeMillis();
+		if(end-start > 5)
+			System.out.println("Need more than 5ms to replace nametags for the BungeeCord!");
 	}
 
 	@Override

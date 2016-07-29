@@ -21,6 +21,8 @@ public class kCore extends JavaPlugin {
 		new SkinUpdateListener(this).registerListener(); //Needed everywhere
 		
 		Bukkit.getScoreboardManager().getMainScoreboard().getTeams().stream().forEach(Team::unregister);
+		for(String s : Bukkit.getScoreboardManager().getMainScoreboard().getEntries())
+			Bukkit.getScoreboardManager().getMainScoreboard().resetScores(s);
 	}
 	public void onDisable() {
 		

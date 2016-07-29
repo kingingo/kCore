@@ -28,12 +28,12 @@ import dev.wolveringer.client.connection.ClientType;
 import dev.wolveringer.client.connection.ServerInformations;
 import dev.wolveringer.client.connection.State;
 import dev.wolveringer.client.external.ServerActionListener;
-import dev.wolveringer.client.threadfactory.ThreadFactory;
 import dev.wolveringer.dataserver.gamestats.GameState;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
+import dev.wolveringer.thread.ThreadFactory;
 import dev.wolveringer.translation.TranslationManager;
 import eu.epicpvp.kcore.Achievements.Handler.AchievementsHandler;
 import eu.epicpvp.kcore.Arena.TabManager;
@@ -186,7 +186,6 @@ public class UtilServer {
 		if (client == null) {
 			TranslationManager.setLanguageDirectory(new File("/root/languages/"));
 			createUpdaterAsync(instance);
-			ThreadFactory.setFactory(new ThreadFactory()); //149.202.150.185
 
 			client = new ClientWrapper(Client.createServerClient(type, name, new InetSocketAddress(host, port), new ServerActionListener() {
 
@@ -257,6 +256,11 @@ public class UtilServer {
 				public void error(State state, Exception e) {
 					// TODO Auto-generated method stub
 
+				}
+				
+				@Override
+				public boolean isOnline(String name) {
+					return Bukkit.getPlayer(name) != null && Bukkit.getPlayer(name).isOnline();
 				}
 			}, new ServerInformations() {
 
@@ -551,13 +555,7 @@ public class UtilServer {
 	}
 
 	public static void ensureMainthread(Runnable run, Object syncronicedObject) {
-		boolean main = false;
-		try {
-			AsyncCatcher.catchOp("");
-			main = true;
-		} catch (Exception e) {
-		}
-		if (main) {
+		if (isMainthread()) {
 			if (syncronicedObject == null)
 				run.run();
 			else
@@ -571,6 +569,15 @@ public class UtilServer {
 			synchronized (syncronicedObject) {
 				Bukkit.getScheduler().runTask(mysql.getInstance(), run);
 			}
+	}
+	
+	public static boolean isMainthread(){
+		try {
+			AsyncCatcher.catchOp("");
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	public static Plugin getPluginInstance(){

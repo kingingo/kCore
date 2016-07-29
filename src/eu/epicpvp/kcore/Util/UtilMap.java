@@ -46,7 +46,7 @@ public class UtilMap{
 	public static File getMapPicture(){
 		File folder = new File("pictures");
 		if(!folder.exists())folder.mkdirs();
-		return folder.listFiles()[UtilMath.r(folder.listFiles().length)];
+		return folder.listFiles()[UtilMath.randomInteger(folder.listFiles().length)];
 	}
 	
 	public static File[] getMapPictures(){
@@ -190,7 +190,7 @@ public class UtilMap{
 	            for (int z = cz - r; z <= cz + r; z++) {
 	                if ((cx - x) * (cx - x) + (cz - z) * (cz - z) <= rSquared) {
 	                    cylBlock = new Location(loc.getWorld(), x, cy, z);
-	        	        zufall = (int)UtilMath.r(20);
+	        	        zufall = (int)UtilMath.randomInteger(20);
 	                    if (zufall == 1) {
 	                    	cylBlock.getChunk().load();
 	                    	en = cylBlock.getWorld().spawnEntity(cylBlock,EntityType.ENDER_CRYSTAL);
@@ -332,7 +332,7 @@ public class UtilMap{
 		for(int x=MinX(ecke1, ecke2); x<MaxX(ecke1, ecke2); x++){
 			for(int z=MinZ(ecke1, ecke2); z<MaxZ(ecke1, ecke2); z++){
 				for(int y=MinY(ecke1, ecke2); y<MaxY(ecke1, ecke2); y++){
-					ecke1.getWorld().getBlockAt(x, y, z).setType(materials[UtilMath.r(materials.length)]);;
+					ecke1.getWorld().getBlockAt(x, y, z).setType(materials[UtilMath.randomInteger(materials.length)]);;
 				}
 			}
 		}

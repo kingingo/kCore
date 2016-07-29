@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
-import dev.wolveringer.client.threadfactory.ThreadFactory;
+import dev.wolveringer.thread.ThreadFactory;
 import eu.epicpvp.kcore.Util.UtilParticle;
 import lombok.Getter;
 

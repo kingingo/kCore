@@ -55,7 +55,7 @@ public class Color {
 	}
 	
 	public static DyeColor rdmDyeColor(){
-		return DyeColor.values()[ UtilMath.r(DyeColor.values().length) ];
+		return DyeColor.values()[ UtilMath.randomInteger(DyeColor.values().length) ];
 	}
 	
 	public static boolean isColor(String color){

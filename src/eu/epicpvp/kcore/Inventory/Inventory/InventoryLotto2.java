@@ -74,7 +74,7 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 	}
 	
 	public void newRound(Player player,LottoPackage[] list,int durchlauf){
-		newRound(player, list, list[UtilMath.r(list.length)], durchlauf);
+		newRound(player, list, list[UtilMath.randomInteger(list.length)], durchlauf);
 	}
 	
 	public void newRound(Player player,int durchlauf){

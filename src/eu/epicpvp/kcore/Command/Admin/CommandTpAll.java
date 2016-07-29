@@ -10,8 +10,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.client.threadfactory.ThreadFactory;
-import dev.wolveringer.client.threadfactory.ThreadRunner;
+import dev.wolveringer.thread.ThreadFactory;
+import dev.wolveringer.thread.ThreadRunner;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;

@@ -34,7 +34,7 @@ public class UtilMath
     return random.nextInt(high-low) + low;
   }
 
-  public static int r(int i){
+  public static int randomInteger(int i){
     return random.nextInt(i);
   }
 

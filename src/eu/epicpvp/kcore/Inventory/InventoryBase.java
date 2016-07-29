@@ -37,7 +37,7 @@ public class InventoryBase extends kListener{
 	private JavaPlugin instance;
 	
 	public InventoryBase(JavaPlugin instance,int main_size,String name){
-		super(instance, (name==null?"InventoryBase"+UtilMath.r(1000):name) );
+		super(instance, (name==null?"InventoryBase"+UtilMath.randomInteger(1000):name) );
 		this.name=getModuleName();
 		this.pages= new ArrayList<>();
 		this.another= new ArrayList<>();

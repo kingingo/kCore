@@ -39,13 +39,13 @@ public class ArmorColorChangeAuto extends kListener{
 				for(Creature creature : creatures.keySet()){
 					change=creatures.get(creature);
 					if(change.getTime()!=-1&&change.getTime() < System.currentTimeMillis()){
-						change.setType(ArmorColorChangeType.values()[UtilMath.r(ArmorColorChangeType.values().length)]);
+						change.setType(ArmorColorChangeType.values()[UtilMath.randomInteger(ArmorColorChangeType.values().length)]);
 						change.setTime(System.currentTimeMillis()+TimeSpan.SECOND*20);
 						if(change.getType()==ArmorColorChangeType.LOAD){
 							creature.getEquipment().setArmorContents(null);
 						}
 						hand = creature.getEquipment().getItemInHand();
-						hand.setType((UtilMath.r(2)==0 ? UtilItem.rdmAxt() : UtilItem.rdmSchwert()));
+						hand.setType((UtilMath.randomInteger(2)==0 ? UtilItem.rdmAxt() : UtilItem.rdmSchwert()));
 						creature.getEquipment().setItemInHand( hand );
 					}
 					

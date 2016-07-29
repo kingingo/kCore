@@ -1,7 +1,8 @@
 package eu.epicpvp.kcore.Permission;
 
 import dev.wolveringer.client.Callback;
-import dev.wolveringer.client.threadfactory.ThreadFactory;
+import dev.wolveringer.thread.ThreadFactory;
+import eu.epicpvp.kcore.Util.UtilServer;
 
 public class PluginMessageFutureTask<T> {
 
@@ -35,6 +36,8 @@ public class PluginMessageFutureTask<T> {
 	}
 
 	public T getSyncSave(int timeout) throws RuntimeException {
+		if(UtilServer.isMainthread())
+			throw new RuntimeException("PluginMessageFutureTask called sync!");
 		long start = System.currentTimeMillis();
 		while (response == null) {
 			if (exception != null)

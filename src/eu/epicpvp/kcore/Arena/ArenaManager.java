@@ -211,7 +211,7 @@ public class ArenaManager extends kListener  {
 					if(list.isEmpty()){
 						break;
 					}
-					arena = (PacketArenaStatus)this.server.get( list.get(UtilMath.r(list.size())) );
+					arena = (PacketArenaStatus)this.server.get( list.get(UtilMath.randomInteger(list.size())) );
 					this.list.remove(arena.getServer()+arena.getArena());
 
 					if(UtilDebug.isDebug())logMessage("SERVER "+arena.getServer()+" "+arena.getArena()+" "+arena.getState().name());

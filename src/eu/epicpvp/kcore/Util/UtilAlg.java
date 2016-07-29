@@ -112,6 +112,6 @@ public class UtilAlg
 
   public static <T> T Random(List<T> list)
   {
-    return list.get(UtilMath.r(list.size()));
+    return list.get(UtilMath.randomInteger(list.size()));
   }
 }

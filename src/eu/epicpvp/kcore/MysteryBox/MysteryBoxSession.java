@@ -84,7 +84,7 @@ public class MysteryBoxSession {
 		for(Player p : UtilServer.getPlayers())UtilPlayer.sendPacket(p, packet);
 		Location loc = block.getLocation().clone().add(0.5D, 1.0D, 0.5D);
 		
-		Item it = block.getWorld().dropItem(loc, UtilItem.RenameItem(drop.clone(), "item"+UtilMath.r(100)));
+		Item it = block.getWorld().dropItem(loc, UtilItem.RenameItem(drop.clone(), "item"+UtilMath.randomInteger(100)));
 		it.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
         it.setPickupDelay(1000*20);
         NameTagMessage msg;

@@ -34,7 +34,7 @@ public class InventoryLotto extends InventoryPageBase implements Listener{
 		if(ev.getType()!=UpdateType.TICK)return;
 		for(int i = 9; i <= 17; i++){
 			if(i==9){
-				setItem(i, items[UtilMath.r(items.length)]);
+				setItem(i, items[UtilMath.randomInteger(items.length)]);
 			}else{
 				item=getItem(i);
 				setItem(i, getItem(i-1) );
