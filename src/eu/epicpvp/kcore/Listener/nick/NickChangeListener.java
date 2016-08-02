@@ -48,7 +48,7 @@ public class NickChangeListener extends PacketHandler implements Listener{
 
 	@EventHandler
 	public void a(ServerMessageEvent e) {
-		if (e.getChannel().equalsIgnoreCase("nick")) {
+		if (false && e.getChannel().equalsIgnoreCase("nick")) {
 			int action = e.getBuffer().readInt();
 			if (action == 0) {
 				int playerId = e.getBuffer().readInt();
@@ -116,6 +116,8 @@ public class NickChangeListener extends PacketHandler implements Listener{
 	}
 	@Override
 	public void onSend(SentPacket packet) {
+		if (true)
+			return;
 		long start = System.currentTimeMillis();
 		try{
 			if(packet.getPacket() instanceof PacketPlayOutPlayerInfo){
