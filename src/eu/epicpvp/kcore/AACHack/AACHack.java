@@ -21,7 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class AACHack extends kListener{
+public class AACHack extends kListener {
 
 	@Getter
 	private JavaPlugin instance;
@@ -44,24 +44,24 @@ public class AACHack extends kListener{
 		this.client = UtilServer.getClient();
 		this.instance = mysql.getInstance();
 		this.server = server;
-		UtilServer.getCommandHandler().register(CommandReport.class, new CommandReport());
-		
+		UtilServer.getCommandHandler().register(CommandReport.class, new CommandReport(server));
+
 		UtilServer.getClient().getHandle().getHandlerBoss().addListener(new PacketListener() {
-			
+
 			@Override
 			public void handle(Packet packet) {
-				if(packet instanceof PacketAACReload){
+				if (packet instanceof PacketAACReload) {
 					AACAPIProvider.getAPI().reloadAAC();
 				}
 			}
 		});
-		
+
 		getMysql().Update("CREATE TABLE IF NOT EXISTS AAC_HACK(playerId int,ip varchar(30),server varchar(30),timestamp timestamp,hackType varchar(30),violations int)");
 		logMessage("AACHack System aktiviert");
 	}
-	
+
 	@EventHandler(ignoreCancelled = true)
-	public void onPlayerViolationKick(PlayerViolationCommandEvent ev){
+	public void onPlayerViolationKick(PlayerViolationCommandEvent ev) {
 		if (!ev.getCommand().contains("kick")) {
 			return;
 		}
@@ -71,12 +71,12 @@ public class AACHack extends kListener{
 			getAntiLogoutManager().del(ev.getPlayer());
 		}
 
-		if(ev.getHackType() == HackType.FLY
-			|| ev.getHackType() == HackType.FASTBOW
-			|| ev.getHackType() == HackType.FIGHTSPEED
-			|| ev.getHackType() == HackType.KILLAURA
-			|| ev.getHackType() == HackType.ANGLE
-			|| ev.getHackType() == HackType.FORCEFIELD) {
+		if (ev.getHackType() == HackType.FLY
+				|| ev.getHackType() == HackType.FASTBOW
+				|| ev.getHackType() == HackType.FIGHTSPEED
+				|| ev.getHackType() == HackType.KILLAURA
+				|| ev.getHackType() == HackType.ANGLE
+				|| ev.getHackType() == HackType.FORCEFIELD) {
 
 			HackType hackType = ev.getHackType();
 
