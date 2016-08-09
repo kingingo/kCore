@@ -419,7 +419,10 @@ public class UtilPlayer {
 			if (loadedplayer == null)
 				continue;
 			if (loadedplayer.getPlayerId() == playerId) {
-				return searchExact(loadedplayer.getName());
+				String name = loadedplayer.getName();
+				if (name != null) {
+					return searchExact(name);
+				}
 			}
 		}
 		return null;
