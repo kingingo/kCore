@@ -77,13 +77,6 @@ public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingStat
 		}
 		UtilVector.rotateVector(particlePos, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
 
-		if (entity instanceof Player && ((Player)entity).isSneaking()) {
-			particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(.3 + .4));
-			particlePos.setY(particlePos.getY() - .1);
-		} else {
-			particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(.3));
-		}
-
 		switch (wingPart) {
 			case INNER_LEFT:
 			case OUTER_LEFT:
@@ -93,6 +86,13 @@ public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingStat
 			case OUTER_RIGHT:
 				UtilVector.rotateAroundAxisY(particlePos, valueHolder.val.rotTransformed); //flügeldrehung / flügelschlag
 				break;
+		}
+
+		if (entity instanceof Player && ((Player)entity).isSneaking()) {
+			particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(.3 + .4));
+			particlePos.setY(particlePos.getY() - .1);
+		} else {
+			particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(.3));
 		}
 
 		Vector playerLocVector = playerLoc.toVector();
