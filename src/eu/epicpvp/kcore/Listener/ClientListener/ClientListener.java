@@ -31,7 +31,7 @@ public class ClientListener extends kListener{
 		if(ev.getType()==UpdateAsyncType.SEC_4){
 			if(client != null && !client.getHandle().isConnected()){
 				try {
-					client.getHandle().connect("HelloWorld".getBytes());
+					client.getHandle().connect("9CZFmaJnUyBajwmoLTUP".getBytes());
 
 					TranslationHandler.setInstance(client.getTranslationManager());
 					TranslationHandler.getInstance().updateTranslations();

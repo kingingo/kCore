@@ -7,21 +7,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.spigotmc.AsyncCatcher;
-
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.connection.Client;
 import dev.wolveringer.client.connection.ClientType;
@@ -36,8 +21,8 @@ import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
 import dev.wolveringer.thread.ThreadFactory;
 import dev.wolveringer.translation.TranslationManager;
 import eu.epicpvp.kcore.Achievements.Handler.AchievementsHandler;
-import eu.epicpvp.kcore.Arena.TabManager;
 import eu.epicpvp.kcore.Arena.BestOf.BestOf;
+import eu.epicpvp.kcore.Arena.TabManager;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.DeliveryPet.DeliveryPet;
 import eu.epicpvp.kcore.Disguise.DisguiseManager;
@@ -68,14 +53,27 @@ import eu.epicpvp.kcore.UpdateAsync.UpdaterAsync;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Server;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.spigotmc.AsyncCatcher;
+
 import net.minecraft.server.v1_8_R3.EntityHorse;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EntityWitherSkull;
-import net.minecraft.server.v1_8_R3.PacketPlayInArmAnimation;
 import net.minecraft.server.v1_8_R3.PacketPlayOutAttachEntity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_8_R3.PlayerConnection;
 import net.minecraft.server.v1_8_R3.WorldServer;
 
 public class UtilServer {
@@ -275,7 +273,7 @@ public class UtilServer {
 			try {
 				new ClientListener(instance, client);
 				TranslationHandler.setInstance(client.getTranslationManager());
-				client.getHandle().connect("HelloWorld".getBytes());
+				client.getHandle().connect("9CZFmaJnUyBajwmoLTUP".getBytes());
 
 				TranslationHandler.getInstance().updateTranslations();
 			} catch (Exception e) {
