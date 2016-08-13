@@ -1,4 +1,7 @@
 package eu.epicpvp.kcore.LoginManager.Commands;
+import dev.wolveringer.dataserver.gamestats.GameType;
+import dev.wolveringer.dataserver.gamestats.StatsKey;
+import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -47,6 +50,7 @@ public class CommandRegister implements CommandExecutor{
 				getLoginManager().getRegister().remove(player.getName().toLowerCase());
 				LoadedPlayer loadedplayer = getLoginManager().getClient().getPlayerAndLoad(player.getName());
 				loadedplayer.setPasswordSync(CommandLogin.hashPassword(password, player.getName().toLowerCase()));
+				loadedplayer.setStats(new PacketInStatsEdit.EditStats(GameType.WARZ, PacketInStatsEdit.Action.SET, StatsKey.KILLS, 1));
 				Title title = new Title("  "," ");
 				title.resetTitle(player);
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "REGISTER_ACCEPT"));
