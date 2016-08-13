@@ -67,7 +67,7 @@ public class CommandHandel extends kListener implements CommandExecutor {
 					anfrage.put(targetPlayer, player);
 					player.sendMessage(TranslationHandler.getText(targetPlayer, "PREFIX") + "§aDu hast §7" + targetPlayer.getName() + "§a eine anfrage gesendet!");
 					targetPlayer.sendMessage(TranslationHandler.getText(targetPlayer, "PREFIX") + "§aDu hast von §7" + player.getName() + "§a eine Handel anfrage erhalten!");
-					targetPlayer.sendMessage(TranslationHandler.getText(targetPlayer, "PREFIX") + "§azum Annehmen §7/Handel " + player.getName());
+					targetPlayer.sendMessage(TranslationHandler.getText(targetPlayer, "PREFIX") + "§azum Annehmen §7/Handel {player_" + player.getName()+"}");
 				}
 			} else {
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, "PLAYER_IS_OFFLINE", args[0]));

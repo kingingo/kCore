@@ -85,10 +85,10 @@ public class ChatListener extends kListener {
 				}
 
 				if (manager != null)
-					event.setFormat(manager.getPrefix(p) + tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
+					event.setFormat(manager.getPrefix(p) + tag + manager.getPrefix(p).subSequence(0, 2) + "{player_" + p.getName() + "}" + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
 			} else {
 				if (manager != null)
-					event.setFormat(manager.getPrefix(p) + p.getName() + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
+					event.setFormat(manager.getPrefix(p) + "{player_" + p.getName() + "}" + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
 			}
 		}
 	}
