@@ -30,7 +30,7 @@ public class UtilFile
 	}
 	
 	public static String getPluginFolder(JavaPlugin instance){
-		return "plugins"+File.separator+instance.getPlugin(instance.getClass()).getName();
+		return "plugins"+File.separator+instance.getName();
 	}
 	
 	public static File getFolder(){
