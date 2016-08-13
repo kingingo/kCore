@@ -43,10 +43,10 @@ public class CommandRegister implements CommandExecutor{
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "LOGIN_FAIL"));
 				return false;
 			}else{
-				loginManager.logMessage("Der Spieler "+player.getName()+" hat sich Regestriert!");
+				loginManager.logMessage("Der Spieler "+player.getName()+" hat sich Registriert!");
 				getLoginManager().getRegister().remove(player.getName().toLowerCase());
 				LoadedPlayer loadedplayer = getLoginManager().getClient().getPlayerAndLoad(player.getName());
-				loadedplayer.setPasswordSync(password);
+				loadedplayer.setPasswordSync(CommandLogin.hashPassword(password, player.getName().toLowerCase()));
 				Title title = new Title("  "," ");
 				title.resetTitle(player);
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "REGISTER_ACCEPT"));
