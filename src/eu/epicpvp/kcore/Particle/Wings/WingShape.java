@@ -72,9 +72,6 @@ public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingStat
 
 	@Override
 	public Color transformPerParticle(Entity entity, Location playerLoc, Vector particlePos, WingPart wingPart, ValueHolder<WingState> valueHolder) {
-		if (entity instanceof Player && ((Player)entity).isSneaking()) {
-			UtilVector.rotateAroundAxisX(particlePos, .1 * PI); //schräg zum körper
-		}
 		UtilVector.rotateVector(particlePos, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
 
 		switch (wingPart) {
@@ -86,6 +83,10 @@ public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingStat
 			case OUTER_RIGHT:
 				UtilVector.rotateAroundAxisY(particlePos, valueHolder.val.rotTransformed); //flügeldrehung / flügelschlag
 				break;
+		}
+
+		if (entity instanceof Player && ((Player)entity).isSneaking()) {
+			UtilVector.rotateAroundAxisX(particlePos, .1 * PI); //schräg zum körper
 		}
 
 		if (entity instanceof Player && ((Player)entity).isSneaking()) {
