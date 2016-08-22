@@ -37,9 +37,9 @@ import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.hashmaps.CachedHashMap;
 import eu.epicpvp.kcore.Enum.Zeichen;
-import eu.epicpvp.kcore.PacketAPI.kPacket;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutChat;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
+import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutChat;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityEquipment;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
@@ -71,7 +71,7 @@ public class UtilPlayer {
 	}
 
 	public static void sendHovbarText(Player player, String text) {
-		sendPacket(player, new kPacketPlayOutChat(text.replaceAll("&", "§"), kPacketPlayOutChat.ChatMode.HOVBAR));
+		sendPacket(player, new WrapperPacketPlayOutChat(text.replaceAll("&", "§"), WrapperPacketPlayOutChat.ChatMode.HOVBAR));
 	}
 
 	public static boolean canMove(Player player) {
@@ -299,7 +299,7 @@ public class UtilPlayer {
 		}
 	}
 
-	public static void sendPacket(Player player, kPacket packet) {
+	public static void sendPacket(Player player, PacketWrapper packet) {
 		if (packet == null)
 			return;
 		sendPacket(player, packet.getPacket());
@@ -336,7 +336,7 @@ public class UtilPlayer {
 	}
 
 	public static void setPlayerFakeEquipment(Player player, Player to, ItemStack item, short slot) {
-		kPacketPlayOutEntityEquipment packet = new kPacketPlayOutEntityEquipment();
+		WrapperPacketPlayOutEntityEquipment packet = new WrapperPacketPlayOutEntityEquipment();
 		packet.setEntityID(player.getEntityId());
 		packet.setItemStack(item);
 		packet.setSlot(slot);

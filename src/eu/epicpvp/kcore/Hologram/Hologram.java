@@ -30,7 +30,7 @@ public class Hologram extends kListener {
 
 	public Hologram(JavaPlugin plugin) {
 		super(plugin, "Hologram");
-		UtilServer.createHologram(this);
+//		UtilServer.createHologram(this); //TODO add to hologram list
 	}
 
 	HashMap<NameTagMessage, Long> clone;
@@ -78,6 +78,7 @@ public class Hologram extends kListener {
 				}
 			}
 		}
+		//TODO remove from hologram list!
 	}
 
 	public NameTagMessage setCreatureName(final Entity entity, String msg) {

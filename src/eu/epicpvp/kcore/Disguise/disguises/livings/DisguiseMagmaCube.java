@@ -1,8 +1,8 @@
 package eu.epicpvp.kcore.Disguise.disguises.livings;
 import org.bukkit.entity.EntityType;
 
-import eu.epicpvp.kcore.PacketAPI.kPacket;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
+import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutSpawnEntityLiving;
 
 public class DisguiseMagmaCube extends DisguiseSlime
 {
@@ -15,8 +15,8 @@ public class DisguiseMagmaCube extends DisguiseSlime
 	return EntityType.MAGMA_CUBE;
   }
 
-  public kPacket GetSpawnPacket(){
-	  kPacketPlayOutSpawnEntityLiving packet = new kPacketPlayOutSpawnEntityLiving();
+  public PacketWrapper GetSpawnPacket(){
+	  WrapperPacketPlayOutSpawnEntityLiving packet = new WrapperPacketPlayOutSpawnEntityLiving();
 	  packet.setEntityID(this.Entity.getId());
 	  packet.setX(this.Entity.locX);
 	  packet.setY(this.Entity.locY);

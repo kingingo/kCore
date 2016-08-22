@@ -23,6 +23,7 @@ import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.handler.PacketHandler;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.handler.ReceivedPacket;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.handler.SentPacket;
+import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilReflection;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
 import eu.epicpvp.kcore.Util.UtilServer;
@@ -53,12 +54,12 @@ public class NickChangeListener extends PacketHandler implements Listener{
 			if (action == 0) {
 				int playerId = e.getBuffer().readInt();
 				LoadedPlayer player = UtilServer.getClient().getPlayer(playerId);
-				if (player != null) {
+				Player bplayer;
+				if (player.isLoaded() && (bplayer= Bukkit.getPlayerExact(player.getName())) != null) {
 					System.out.println("Updating nickname for: " + player.getName());
 					UtilServer.getClient().clearCacheForPlayer(player);
 					player = UtilServer.getClient().getPlayerAndLoad(playerId);
-					String name = player.getName();
-					respawn(Bukkit.getPlayer(player.getName()));
+					respawn(bplayer);
 					Bukkit.getScheduler().runTaskAsynchronously(UtilServer.getPluginInstance(), ()->{
 						try {
 							Thread.sleep(1000);
@@ -139,6 +140,8 @@ public class NickChangeListener extends PacketHandler implements Listener{
 			System.out.println("Need more than 5ms to replace nametags for the BungeeCord!");
 	}
 
+	//TODO mayby somewhere player interacts with nickname?
+	//TOTO Items? Replace? Meta values?
 	@Override
 	public void onReceive(ReceivedPacket packet) {
 		

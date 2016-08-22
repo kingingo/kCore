@@ -9,7 +9,7 @@ import dev.wolveringer.client.ProgressFuture;
 import dev.wolveringer.skin.Skin;
 import dev.wolveringer.skin.SteveSkin;
 import eu.epicpvp.kcore.Listener.SkinCatcherListener.SkinCatcherListener;
-import eu.epicpvp.kcore.PacketAPI.Packets.kGameProfile;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperGameProfile;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +19,7 @@ public class UtilSkin {
 	public static SkinCatcherListener catcher;
 	
 	public static void setSkinPlayer(Player player, Skin data){
-		kGameProfile profile = (kGameProfile) UtilPlayer.getCraftPlayer(player).getProfile();
+		WrapperGameProfile profile = (WrapperGameProfile) UtilPlayer.getCraftPlayer(player).getProfile();
 		profile.loadSkin(data);
 	}
 	
@@ -39,7 +39,7 @@ public class UtilSkin {
 		}
 	}
 	
-	public static void loadSkin(kGameProfile profile, String playerName){
+	public static void loadSkin(WrapperGameProfile profile, String playerName){
 		if(catcher!=null){
 			if(catcher.getSkins().containsKey(playerName)){
 				 profile.loadSkin(catcher.getSkins().get(playerName));
@@ -55,7 +55,7 @@ public class UtilSkin {
 		}, playerName);
 	}
 	
-	public static void loadSteveSkin(kGameProfile profile){
+	public static void loadSteveSkin(WrapperGameProfile profile){
 		profile.loadSkin( new SteveSkin() );
 	}
 	
@@ -68,7 +68,7 @@ public class UtilSkin {
 		}
 	}
 	
-	public static void loadSkin(kGameProfile profile, UUID uuid){
+	public static void loadSkin(WrapperGameProfile profile, UUID uuid){
 		loadSkin(new Callback<Skin>() {
 			@Override
 			public void call(Skin skin, Throwable ex) {

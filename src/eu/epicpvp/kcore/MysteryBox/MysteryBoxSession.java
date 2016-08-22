@@ -21,7 +21,7 @@ import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
 import eu.epicpvp.kcore.MysteryBox.Items.MysteryItem;
 import eu.epicpvp.kcore.MysteryBox.Templates.Building;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutBlockAction;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutBlockAction;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilFirework;
@@ -80,7 +80,7 @@ public class MysteryBoxSession {
 		MysteryItem drop=items[item];
         item++;
 		UtilFirework.start(block.getLocation(), Color.RED, Type.BURST);
-		kPacketPlayOutBlockAction packet = new kPacketPlayOutBlockAction( (block.getType()==Material.CHEST ? Blocks.CHEST : Blocks.ENDER_CHEST) , block.getLocation(), 1);
+		WrapperPacketPlayOutBlockAction packet = new WrapperPacketPlayOutBlockAction( (block.getType()==Material.CHEST ? Blocks.CHEST : Blocks.ENDER_CHEST) , block.getLocation(), 1);
 		for(Player p : UtilServer.getPlayers())UtilPlayer.sendPacket(p, packet);
 		Location loc = block.getLocation().clone().add(0.5D, 1.0D, 0.5D);
 		

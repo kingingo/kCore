@@ -2,8 +2,8 @@ package eu.epicpvp.kcore.Disguise.disguises;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.epicpvp.kcore.PacketAPI.kPacket;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityEquipment;
+import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityEquipment;
 import net.minecraft.server.v1_8_R3.ItemStack;
 
 public abstract class DisguiseInsentient extends DisguiseLiving
@@ -59,7 +59,7 @@ public abstract class DisguiseInsentient extends DisguiseLiving
     this._showArmor = false;
   }
 
-  public List<kPacket> getArmorPackets()
+  public List<PacketWrapper> getArmorPackets()
   {
     List p5 = new ArrayList();
     ItemStack[] armorContents = this.Entity.getEquipment();
@@ -70,7 +70,7 @@ public abstract class DisguiseInsentient extends DisguiseLiving
 
       if (armorSlot != null)
       {
-        p5.add(new kPacketPlayOutEntityEquipment(this.Entity.getId(), i, armorSlot));
+        p5.add(new WrapperPacketPlayOutEntityEquipment(this.Entity.getId(), i, armorSlot));
       }
     }
 

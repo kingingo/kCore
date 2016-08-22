@@ -19,12 +19,8 @@ import me.konsolas.aac.api.PlayerViolationCommandEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class AACHack extends kListener {
-
-	@Getter
-	private JavaPlugin instance;
 	@Getter
 	private MySQL mysql;
 	@Setter
@@ -42,7 +38,6 @@ public class AACHack extends kListener {
 		}
 		this.mysql = UtilServer.getMysql();
 		this.client = UtilServer.getClient();
-		this.instance = mysql.getInstance();
 		this.server = server;
 		UtilServer.getCommandHandler().register(CommandReport.class, new CommandReport(server));
 
@@ -99,7 +94,7 @@ public class AACHack extends kListener {
 					a = anzahl / 2;
 					type = "tag";
 				}
-
+				
 				setZeitBan(ev.getPlayer(), a, type, ev.getHackType().getName());
 				ev.setCancelled(true);
 			}
@@ -126,13 +121,13 @@ public class AACHack extends kListener {
 		LoadedPlayer loadedplayer = client.getPlayerAndLoad(banned.getName());
 		loadedplayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, 2, time, reason);
 		loadedplayer.kickPlayer(reason);
-		UtilServer.sendTeamMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiHackSystem§c für §e" + ti + " " + typ.toUpperCase() + " §cgesperrt. Grund: §e" + reason);
+		UtilServer.broadcastTeamChatMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiHackSystem§c für §e" + ti + " " + typ.toUpperCase() + " §cgesperrt. Grund: §e" + reason);
 	}
 
 	private void setBan(int lvl, Player banned, String reason) {
 		LoadedPlayer loadedplayer = client.getPlayerAndLoad(banned.getName());
 		loadedplayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, 2, -1, reason);
 		loadedplayer.kickPlayer(reason);
-		UtilServer.sendTeamMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiHackSystem§c permanent gesperrt. Grund: §e" + reason);
+		UtilServer.broadcastTeamChatMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiHackSystem§c permanent gesperrt. Grund: §e" + reason);
 	}
 }

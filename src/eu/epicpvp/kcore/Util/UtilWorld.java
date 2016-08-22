@@ -13,7 +13,7 @@ import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.generator.ChunkGenerator;
 
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutWorldBorder;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutWorldBorder;
 import net.minecraft.server.v1_8_R3.Convertable;
 import net.minecraft.server.v1_8_R3.EntityTracker;
 import net.minecraft.server.v1_8_R3.EnumDifficulty;
@@ -37,13 +37,13 @@ public class UtilWorld{
 		Bukkit.getServer().createWorld(new WorldCreator(world.getName()));
 	}
 	
-	public static kPacketPlayOutWorldBorder createWorldBorder(Location center,int size,int warningTime,int warningBlocks){
+	public static WrapperPacketPlayOutWorldBorder createWorldBorder(Location center,int size,int warningTime,int warningBlocks){
 		WorldBorder w = new WorldBorder();
 	    w.setCenter(center.getX(),center.getZ());
 	    w.setSize(size);
 	    if (warningTime >= 0) w.setWarningTime(warningTime);
 	    if (warningBlocks >= 0) w.setWarningDistance(warningBlocks);
-	    return new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.INITIALIZE);
+	    return new WrapperPacketPlayOutWorldBorder(w, EnumWorldBorderAction.INITIALIZE);
 	}
 	
 	public static void sendWorldBorder(Player p, double midX, double midZ, double oldRadius, double newRadius, int seconds, int portalteleportboundary, int warningTime, int warningBlocks){
@@ -53,38 +53,38 @@ public class UtilWorld{
 	    if (warningTime >= 0) w.setWarningTime(warningTime);
 	    if (warningBlocks >= 0) w.setWarningDistance(warningBlocks);
 	    if (portalteleportboundary >= 0) w.a(portalteleportboundary);
-	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.INITIALIZE));
+	    UtilPlayer.sendPacket(p, new WrapperPacketPlayOutWorldBorder(w, EnumWorldBorderAction.INITIALIZE));
 	  }
 
 	  public static void setWorldBorderCenter(Player p, double midX, double midZ, double radius) {
 	    WorldBorder w = new WorldBorder();
 	    w.setCenter(midX, midZ);
 	    w.setSize(radius);
-	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_CENTER));
+	    UtilPlayer.sendPacket(p, new WrapperPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_CENTER));
 	  }
 
 	  public static void setWorldBorderSize(Player p, double radius) {
 	    WorldBorder w = new WorldBorder();
 	    w.setSize(radius);
-	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_SIZE));
+	    UtilPlayer.sendPacket(p, new WrapperPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_SIZE));
 	  }
 
 	  public static void changeWorldBorderSize(Player p, double oldRadius, double newRadius, int seconds) {
 	    WorldBorder w = new WorldBorder();
 	    w.transitionSizeBetween(oldRadius, newRadius, seconds*TimeSpan.SECOND);
-	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.LERP_SIZE));
+	    UtilPlayer.sendPacket(p, new WrapperPacketPlayOutWorldBorder(w, EnumWorldBorderAction.LERP_SIZE));
 	  }
 
 	  public static void setWorldBorderWarningTime(Player p, int warningTimeInSeconds) {
 	    WorldBorder w = new WorldBorder();
 	    w.setWarningTime(warningTimeInSeconds);
-	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_WARNING_TIME));
+	    UtilPlayer.sendPacket(p, new WrapperPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_WARNING_TIME));
 	  }
 
 	  public static void setWorldBorderWarningBlocks(Player p, int warningBlocksDistance) {
 	    WorldBorder w = new WorldBorder();
 	    w.setWarningDistance(warningBlocksDistance);
-	    UtilPlayer.sendPacket(p, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_WARNING_BLOCKS));
+	    UtilPlayer.sendPacket(p, new WrapperPacketPlayOutWorldBorder(w, EnumWorldBorderAction.SET_WARNING_BLOCKS));
 	  }
 
 	  public static void resetWorldBoarder(Player player){
@@ -93,7 +93,7 @@ public class UtilWorld{
 		  w.setWarningDistance(player.getWorld().getWorldBorder().getWarningDistance());
 		  w.setWarningTime(player.getWorld().getWorldBorder().getWarningTime());
 		  w.setSize(player.getWorld().getWorldBorder().getSize());
-		  UtilPlayer.sendPacket(player, new kPacketPlayOutWorldBorder(w, EnumWorldBorderAction.INITIALIZE));
+		  UtilPlayer.sendPacket(player, new WrapperPacketPlayOutWorldBorder(w, EnumWorldBorderAction.INITIALIZE));
 	  }
 	  
 //	  public static void sendBlood(Player p, int strength, int seconds) {

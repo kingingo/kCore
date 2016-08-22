@@ -42,16 +42,23 @@ public class kCore extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		Debugger.setFilter(DEBUGGER_FILTER);
+		UtilServer.setPluginInstance(this);
+		
+		UtilServer.getUpdater().start();
+		UtilServer.getAsyncUpdater().start();
+		
 		getServer().getPluginManager().registerEvents(new CommandDebugListener(), this);
+		
+		Debugger.setFilter(DEBUGGER_FILTER);
 		NickChangeListener nickListener = new NickChangeListener(this);
-		UtilServer.createPacketListener(this).addPacketHandler(nickListener);
+		UtilServer.getPacketListener().addPacketHandler(nickListener);
 		Bukkit.getPluginManager().registerEvents(nickListener, this);
 		new SkinUpdateListener(this).registerListener(); //Needed everywhere
 		
 		Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
 		for(String s : Bukkit.getScoreboardManager().getMainScoreboard().getEntries())
 			Bukkit.getScoreboardManager().getMainScoreboard().resetScores(s);
+		
 	}
 
 	private class CommandDebugListener implements Listener {

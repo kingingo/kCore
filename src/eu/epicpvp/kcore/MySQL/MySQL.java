@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.wolveringer.client.Callback;
@@ -21,14 +22,14 @@ import lombok.Getter;
 
 public class MySQL {
 	@Getter
-	private JavaPlugin instance;
+	private Plugin instance;
 	private String user = "";
 	private String pass = "";
 	private String host = "";
 	private String db = "";
 	private Connection connection;
 
-	public MySQL(String user, String pass, String host, String db, JavaPlugin plugin) {
+	public MySQL(String user, String pass, String host, String db, Plugin plugin) {
 		this.user = user;
 		this.pass = pass;
 		this.instance = plugin;
@@ -36,7 +37,6 @@ public class MySQL {
 		this.db = db;
 		connect();
 		new MySQLListener(this);
-		UtilServer.setMysql(this);
 	}
 
 	public void close() {

@@ -111,7 +111,6 @@ public class DeliveryPet extends kListener {
 		this.base = base;
 		if (pack != null)
 			this.lotto = new InventoryLotto2("Play a Round!", new Get() {
-
 				@Override
 				public Object onGet(Player player) {
 					LottoPackage[] ps = new LottoPackage[18];
@@ -190,11 +189,11 @@ public class DeliveryPet extends kListener {
 					return ps1;
 				}
 
-			}, 4, 7, getMysql().getInstance());
+			}, 4, 7, UtilServer.getPluginInstance());
 		if (pack != null)
 			this.base.addPage(lotto);
 		createPet();
-		UtilServer.createDeliveryPet(this);
+		UtilServer.getDeliveryPet(this);
 	}
 
 	public void teleportPet(Location location) {

@@ -5,8 +5,8 @@ import org.bukkit.craftbukkit.v1_8_R3.util.CraftMagicNumbers;
 import org.bukkit.entity.EntityType;
 
 import eu.epicpvp.kcore.Disguise.disguises.DisguiseBase;
-import eu.epicpvp.kcore.PacketAPI.kPacket;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntity;
+import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutSpawnEntity;
 import net.minecraft.server.v1_8_R3.Block;
 
 public class DisguiseBlock extends DisguiseBase
@@ -41,8 +41,8 @@ public class DisguiseBlock extends DisguiseBase
 	return EntityType.FALLING_BLOCK;
   }
 	  
-  public kPacket GetSpawnPacket(){
-	  kPacketPlayOutSpawnEntity spawn = new kPacketPlayOutSpawnEntity();
+  public PacketWrapper GetSpawnPacket(){
+	  WrapperPacketPlayOutSpawnEntity spawn = new WrapperPacketPlayOutSpawnEntity();
 	  spawn.setX(this.Entity.locX);
 	  spawn.setY(this.Entity.locY);
 	  spawn.setZ(this.Entity.locZ);

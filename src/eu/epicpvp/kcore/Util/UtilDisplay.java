@@ -8,11 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import eu.epicpvp.kcore.PacketAPI.Packets.kDataWatcher;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityTeleport;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperDataWatcher;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityDestroy;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityMetadata;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityTeleport;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutSpawnEntityLiving;
 import net.minecraft.server.v1_8_R3.DataWatcher;
 import us.myles.ViaVersion.api.boss.BossBar;
 import us.myles.ViaVersion.api.boss.BossColor;
@@ -37,7 +37,7 @@ public class UtilDisplay {
     public float health;
     public String name;
     public Location sloc;
-    private kPacketPlayOutSpawnEntityLiving dragon;
+    private WrapperPacketPlayOutSpawnEntityLiving dragon;
  
     public UtilDisplay(String name, int EntityID, Location loc){
         this(name, EntityID, (int) Math.floor(loc.getBlockX() * 32.0D), (int) Math.floor(loc.getBlockY() * 32.0D), (int) Math.floor(loc.getBlockZ() * 32.0D));
@@ -64,13 +64,13 @@ public class UtilDisplay {
     }
  
     public void getSpawnPacket(Player player){
-      dragon = new kPacketPlayOutSpawnEntityLiving();
+      dragon = new WrapperPacketPlayOutSpawnEntityLiving();
       dragon.setEntityID( EntityID );
       dragon.setEntityType(EntityType.ENDER_DRAGON);
       dragon.setX(Integer.valueOf(x));
       dragon.setY(Integer.valueOf(y));
       dragon.setZ(Integer.valueOf(z));
-      kDataWatcher wdw = new kDataWatcher();	
+      WrapperDataWatcher wdw = new WrapperDataWatcher();	
       wdw.setVisible(false);
       wdw.setCustomName(name);
       wdw.setCustomNameVisible(true);
@@ -82,20 +82,20 @@ public class UtilDisplay {
     }
 
     public void getDestroyPacket(Player player){
-      kPacketPlayOutEntityDestroy packet = new kPacketPlayOutEntityDestroy();
+      WrapperPacketPlayOutEntityDestroy packet = new WrapperPacketPlayOutEntityDestroy();
       packet.setID(EntityID);
       UtilPlayer.sendPacket(player, packet);
     }
     
     public void getMetaPacket(Player player,DataWatcher watcher){
-      kPacketPlayOutEntityMetadata packet = new kPacketPlayOutEntityMetadata();
+      WrapperPacketPlayOutEntityMetadata packet = new WrapperPacketPlayOutEntityMetadata();
       packet.setEntityID(EntityID);
       packet.setList(watcher.b());
       UtilPlayer.sendPacket(player, packet);
     }
 
     public void getTeleportPacket(Player player,int entityid,Location loc){
-    	kPacketPlayOutEntityTeleport packet = new kPacketPlayOutEntityTeleport();
+    	WrapperPacketPlayOutEntityTeleport packet = new WrapperPacketPlayOutEntityTeleport();
     	packet.setEntityID(entityid);
     	packet.setX(loc.getX());
     	packet.setY(loc.getY());
@@ -105,8 +105,8 @@ public class UtilDisplay {
         UtilPlayer.sendPacket(player, packet);
     }
     
-    public kDataWatcher getWatcher(){
-    	kDataWatcher w = new kDataWatcher();
+    public WrapperDataWatcher getWatcher(){
+    	WrapperDataWatcher w = new WrapperDataWatcher();
         w.a(0, Byte.valueOf((byte) 32));
         w.a(2,name);
         w.a(3, (byte) 1);

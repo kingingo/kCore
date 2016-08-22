@@ -8,6 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler;
@@ -65,7 +66,7 @@ public class ItemShop{
 	private HashMap<String, Integer> sales;
 	
 	public ItemShop(StatsManager statsManager,CommandHandler cmd){
-		this.config=new kConfig(UtilFile.getYMLFile(cmd.getPlugin(), "itemshop"));
+		this.config=new kConfig(UtilFile.getYMLFile(UtilServer.getPluginInstance(), "itemshop"));
 		UtilInv.getBase();
 		this.statsManager=statsManager;
 		this.cmd=cmd;
@@ -102,7 +103,7 @@ public class ItemShop{
 		}
 		
 		if(listener==null){
-			listener=new EntityClickListener(UtilServer.getCommandHandler().getPlugin(), new Click(){
+			listener=new EntityClickListener((JavaPlugin) UtilServer.getPluginInstance(), new Click(){
 	
 				@Override
 				public void onClick(Player player, ActionType type, Object object) {
@@ -342,7 +343,7 @@ public class ItemShop{
 											public void onClick(Player player,
 													ActionType type,
 													Object object) {
-												AnvilGUI gui = new AnvilGUI(player,getCmd().getPlugin(), new AnvilGUI.AnvilClickEventHandler(){
+												AnvilGUI gui = new AnvilGUI(player,(JavaPlugin) UtilServer.getPluginInstance(), new AnvilGUI.AnvilClickEventHandler(){
 
 													@Override
 													public void onAnvilClick(AnvilClickEvent ev) {
@@ -379,7 +380,7 @@ public class ItemShop{
 											public void onClick(Player player,
 													ActionType type,
 													Object object) {
-												AnvilGUI gui = new AnvilGUI(player,getCmd().getPlugin(), new AnvilGUI.AnvilClickEventHandler(){
+												AnvilGUI gui = new AnvilGUI(player,(JavaPlugin) UtilServer.getPluginInstance(), new AnvilGUI.AnvilClickEventHandler(){
 
 													@Override
 													public void onAnvilClick(AnvilClickEvent ev) {

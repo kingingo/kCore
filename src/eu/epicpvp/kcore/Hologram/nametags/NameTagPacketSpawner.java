@@ -10,10 +10,10 @@ import org.bukkit.util.Vector;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.MapMaker;
 
-import eu.epicpvp.kcore.PacketAPI.Packets.kArmorStandDataWatcher;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityTeleport;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperArmorStandDataWatcher;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityDestroy;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityTeleport;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutSpawnEntityLiving;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 
@@ -21,7 +21,7 @@ public class NameTagPacketSpawner {
 	private static int SHARED_ENTITY_ID = Short.MAX_VALUE;
 
 	@Getter
-	private kPacketPlayOutSpawnEntityLiving armorStand;
+	private WrapperPacketPlayOutSpawnEntityLiving armorStand;
 	@Getter
 	private double y = 1;
 	private int startEntityId;
@@ -49,7 +49,7 @@ public class NameTagPacketSpawner {
 	}
 	
 	public void moveNameTag(int index, Player observer, Location location) {
-		kPacketPlayOutEntityTeleport teleport = new kPacketPlayOutEntityTeleport();
+		WrapperPacketPlayOutEntityTeleport teleport = new WrapperPacketPlayOutEntityTeleport();
 		teleport.setEntityID(getArmorStandId(index));
 		teleport.setX(location.getX());
 		teleport.setY(location.getY()-getY());
@@ -93,7 +93,7 @@ public class NameTagPacketSpawner {
 	}
 	
 	public void clearNameTags(Player observer, int... indices) {
-		kPacketPlayOutEntityDestroy destroy = new kPacketPlayOutEntityDestroy();
+		WrapperPacketPlayOutEntityDestroy destroy = new WrapperPacketPlayOutEntityDestroy();
 		int[] ids = new int[indices.length * 2];
 
 		for (int i = 0; i < indices.length; i++) {
@@ -105,10 +105,10 @@ public class NameTagPacketSpawner {
 	}
 	
 	public void createArmorStand(int index, Location location,double dY, String message) {
-		this.armorStand = new kPacketPlayOutSpawnEntityLiving(getArmorStandId(index), EntityType.ARMOR_STAND, location);
+		this.armorStand = new WrapperPacketPlayOutSpawnEntityLiving(getArmorStandId(index), EntityType.ARMOR_STAND, location);
 		this.armorStand.setY(location.getY() + dY - getY());
 		
-		kArmorStandDataWatcher watcher = new kArmorStandDataWatcher(location.getWorld());
+		WrapperArmorStandDataWatcher watcher = new WrapperArmorStandDataWatcher(location.getWorld());
 		watcher.setCustomName(message);
 		watcher.setCustomNameVisible(true);
 		watcher.setVisible(false);

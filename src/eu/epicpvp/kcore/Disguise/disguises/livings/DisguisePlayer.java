@@ -7,11 +7,11 @@ import org.bukkit.entity.EntityType;
 
 import dev.wolveringer.skin.Skin;
 import eu.epicpvp.kcore.Disguise.disguises.DisguiseHuman;
-import eu.epicpvp.kcore.PacketAPI.kPacket;
-import eu.epicpvp.kcore.PacketAPI.Packets.kGameProfile;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutPlayerInfo;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPlayerInfoData;
+import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperGameProfile;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutNamedEntitySpawn;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutPlayerInfo;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPlayerInfoData;
 import eu.epicpvp.kcore.Util.UtilSkin;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
@@ -23,7 +23,7 @@ public class DisguisePlayer extends DisguiseHuman
   @Getter
   private UUID uuid;
   @Getter
-  private kGameProfile profile;
+  private WrapperGameProfile profile;
   @Getter
   private UUID skinUuid;
   @Getter
@@ -43,7 +43,7 @@ public class DisguisePlayer extends DisguiseHuman
     this._name = name;
     this.uuid=entity.getUniqueId();
     this.DataWatcher.setCustomName(_name);
-    this.profile=new kGameProfile(this.uuid, this._name);
+    this.profile=new WrapperGameProfile(this.uuid, this._name);
   }
   
   public void loadSkin(UUID uuid){
@@ -64,10 +64,10 @@ public class DisguisePlayer extends DisguiseHuman
 	  return this._name;
   }
   
-  public kPacket updateTabList(String prefix) {
+  public PacketWrapper updateTabList(String prefix) {
       try {
-         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-         kPlayerInfoData data = new kPlayerInfoData(packet,this.profile,prefix+this._name);
+         WrapperPacketPlayOutPlayerInfo packet = new WrapperPacketPlayOutPlayerInfo();
+         WrapperPlayerInfoData data = new WrapperPlayerInfoData(packet,this.profile,prefix+this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
          
@@ -81,10 +81,10 @@ public class DisguisePlayer extends DisguiseHuman
       return null;
    }
   
-  public kPacket getTabList(String prefix) {
+  public PacketWrapper getTabList(String prefix) {
       try {
-         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-         PlayerInfoData data = new kPlayerInfoData(packet,this.profile, prefix+this._name);
+         WrapperPacketPlayOutPlayerInfo packet = new WrapperPacketPlayOutPlayerInfo();
+         PlayerInfoData data = new WrapperPlayerInfoData(packet,this.profile, prefix+this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
          
@@ -98,10 +98,10 @@ public class DisguisePlayer extends DisguiseHuman
       return null;
    }
   
-  public kPacket getTabList() {
+  public PacketWrapper getTabList() {
       try {
-         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-         PlayerInfoData data = new kPlayerInfoData(packet,this.profile, this._name);
+         WrapperPacketPlayOutPlayerInfo packet = new WrapperPacketPlayOutPlayerInfo();
+         PlayerInfoData data = new WrapperPlayerInfoData(packet,this.profile, this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
          
@@ -115,10 +115,10 @@ public class DisguisePlayer extends DisguiseHuman
       return null;
    }
 
-  public kPacket removeFromTablist() {
+  public PacketWrapper removeFromTablist() {
 	   try {
-	         kPacketPlayOutPlayerInfo packet = new kPacketPlayOutPlayerInfo();
-	         PlayerInfoData data = new kPlayerInfoData(packet,this.profile, _name);
+	         WrapperPacketPlayOutPlayerInfo packet = new WrapperPacketPlayOutPlayerInfo();
+	         PlayerInfoData data = new WrapperPlayerInfoData(packet,this.profile, _name);
 	         List<PlayerInfoData> players = packet.getList();
 	         players.add(data);
 	         
@@ -132,8 +132,8 @@ public class DisguisePlayer extends DisguiseHuman
 	   return null;
   }
   
-  public kPacket GetSpawnPacket(){
-	  kPacketPlayOutNamedEntitySpawn packet = new kPacketPlayOutNamedEntitySpawn();
+  public PacketWrapper GetSpawnPacket(){
+	  WrapperPacketPlayOutNamedEntitySpawn packet = new WrapperPacketPlayOutNamedEntitySpawn();
 	  packet.setEntityID(this.Entity.getId());
 	  packet.setUUID(uuid);
 	  packet.setX(this.Entity.locX);

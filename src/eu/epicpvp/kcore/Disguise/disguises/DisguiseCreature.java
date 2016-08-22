@@ -1,6 +1,6 @@
 package eu.epicpvp.kcore.Disguise.disguises;
-import eu.epicpvp.kcore.PacketAPI.kPacket;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
+import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutSpawnEntityLiving;
 
 public abstract class DisguiseCreature extends DisguiseInsentient
 {
@@ -9,8 +9,8 @@ public abstract class DisguiseCreature extends DisguiseInsentient
     super(entity);
   }
 
-  public kPacket GetSpawnPacket(){
-	  kPacketPlayOutSpawnEntityLiving living = new kPacketPlayOutSpawnEntityLiving();
+  public PacketWrapper GetSpawnPacket(){
+	  WrapperPacketPlayOutSpawnEntityLiving living = new WrapperPacketPlayOutSpawnEntityLiving();
 	  living.setX(this.Entity.locX);
 	  living.setY(this.Entity.locY);
 	  living.setZ(this.Entity.locZ);

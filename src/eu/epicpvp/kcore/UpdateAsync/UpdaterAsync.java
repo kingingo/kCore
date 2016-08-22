@@ -2,16 +2,20 @@ package eu.epicpvp.kcore.UpdateAsync;
 
 import eu.epicpvp.kcore.UpdateAsync.Event.UpdateAsyncEvent;
 import eu.epicpvp.kcore.Util.UtilServer;
+
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class UpdaterAsync implements Runnable {
-	private JavaPlugin plugin;
+	private Plugin plugin;
 	private int taskId = -1;
 
-	public UpdaterAsync(JavaPlugin plugin) {
+	public UpdaterAsync(Plugin plugin) {
 		this.plugin = plugin;
+	}
+	
+	public void start(){
 		this.taskId = this.plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this, 1L, 1L).getTaskId();
-		UtilServer.setUpdaterAsync(this);
 	}
 
 	public void stop() {

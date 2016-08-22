@@ -26,11 +26,10 @@ import lombok.Getter;
 
 public class CommandHandler {
 	@Getter
-	private JavaPlugin plugin;
+	private Plugin plugin;
 
-	public CommandHandler(JavaPlugin p) {
+	public CommandHandler(Plugin p) {
 		this.plugin = p;
-		UtilServer.setCommandHandler(this);
 	}
 
 	public void register(Class clazz, CommandExecutor cExe) {

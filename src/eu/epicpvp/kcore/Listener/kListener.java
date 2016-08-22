@@ -17,11 +17,11 @@ public class kListener implements Listener {
 	@Getter
 	protected boolean registered = false;
 	
-	public kListener(JavaPlugin plugin, String moduleName) {
+	public kListener(Plugin plugin, String moduleName) {
 		this(plugin, moduleName, true);
 	}
 	
-	public kListener(JavaPlugin plugin, String moduleName,boolean autoRegister) {
+	public kListener(Plugin plugin, String moduleName,boolean autoRegister) {
 		this.moduleName = moduleName;
 		this.plugin = plugin;
 		if(autoRegister)

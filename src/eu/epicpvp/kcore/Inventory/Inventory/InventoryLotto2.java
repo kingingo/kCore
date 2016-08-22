@@ -4,8 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
@@ -47,7 +49,7 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 	private InventoryLotto2Status status;
 	private Get get;
 	
-	public InventoryLotto2(String title, Get get, int durchlauf_min, int durchlauf_max, JavaPlugin instance) {
+	public InventoryLotto2(String title, Get get, int durchlauf_min, int durchlauf_max, Plugin instance) {
 		super("InventoryLotto2",InventorySize._27, title);
 		this.durchlauf_min=durchlauf_min;
 		this.durchlauf_max=durchlauf_max;
@@ -67,6 +69,7 @@ public class InventoryLotto2 extends InventoryPageBase implements Listener{
 		for(int i = 18; i<=26;i++)setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE), " "));
 		setItem(4, UtilItem.RenameItem(new ItemStack(Material.HOPPER), " "));
 		closeInventory();
+		HandlerList.unregisterAll(this); //Unused handlers
 	}
 	
 	public void newRound(Player player){

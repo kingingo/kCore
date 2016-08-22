@@ -5,22 +5,22 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.entity.EntityType;
 
 import eu.epicpvp.kcore.Disguise.disguises.livings.DisguiseEnderman;
-import eu.epicpvp.kcore.PacketAPI.kPacket;
-import eu.epicpvp.kcore.PacketAPI.Packets.kDataWatcher;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
+import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperDataWatcher;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityMetadata;
 import lombok.Getter;
 
 public abstract class DisguiseBase
 {
   protected net.minecraft.server.v1_8_R3.Entity Entity;
   @Getter
-  protected kDataWatcher DataWatcher;
+  protected WrapperDataWatcher DataWatcher;
   private DisguiseBase _soundDisguise;
 
   public DisguiseBase(org.bukkit.entity.Entity entity)
   {
     this.Entity = ((CraftEntity)entity).getHandle();
-    this.DataWatcher = new kDataWatcher(new DummyEntity(((CraftWorld)entity.getWorld()).getHandle()));
+    this.DataWatcher = new WrapperDataWatcher(new DummyEntity(((CraftWorld)entity.getWorld()).getHandle()));
 
     this.DataWatcher.a(0, Byte.valueOf((byte)0));
     this.DataWatcher.a(1, Short.valueOf((short)300));
@@ -39,14 +39,14 @@ public abstract class DisguiseBase
     }
   }
 
-  public abstract kPacket GetSpawnPacket();
+  public abstract PacketWrapper GetSpawnPacket();
 
   public abstract EntityType GetEntityTypeId();
 
-  public kPacket GetMetaDataPacket()
+  public PacketWrapper GetMetaDataPacket()
   {
     UpdateDataWatcher();
-    return new kPacketPlayOutEntityMetadata(this.Entity.getId(), this.DataWatcher);
+    return new WrapperPacketPlayOutEntityMetadata(this.Entity.getId(), this.DataWatcher);
   }
 
   public void setSoundDisguise(DisguiseBase soundDisguise)

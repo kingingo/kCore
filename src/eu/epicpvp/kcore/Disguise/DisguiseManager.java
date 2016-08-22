@@ -8,6 +8,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Disguise.Events.DisguiseCreateEvent;
@@ -16,12 +17,12 @@ import eu.epicpvp.kcore.Disguise.disguises.DisguiseBase;
 import eu.epicpvp.kcore.Disguise.disguises.DisguiseInsentient;
 import eu.epicpvp.kcore.Disguise.disguises.livings.DisguisePlayer;
 import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.PacketAPI.kPacket;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityDestroy;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityMetadata;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutEntityTeleport;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutNamedEntitySpawn;
-import eu.epicpvp.kcore.PacketAPI.Packets.kPacketPlayOutSpawnEntityLiving;
+import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityDestroy;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityMetadata;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutEntityTeleport;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutNamedEntitySpawn;
+import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutSpawnEntityLiving;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerSendEvent;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
@@ -36,18 +37,16 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityLiving;
 public class DisguiseManager extends kListener {
 
 	@Getter
-	private JavaPlugin instance;
+	private Plugin instance;
 	@Getter
 	private HashMap<Integer, DisguiseBase> disguise = new HashMap<>();
 	@Getter
 	@Setter
 	private DisguiseShop disguiseShop;
 
-	public DisguiseManager(JavaPlugin instance) {
+	public DisguiseManager(Plugin instance) {
 		super(instance, "DisguiseManager");
 		this.instance = instance;
-		UtilServer.createPacketListener(instance);
-		UtilServer.setDisguiseManager(this);
 	}
 
 	@EventHandler
@@ -55,7 +54,7 @@ public class DisguiseManager extends kListener {
 		if (ev.getPlayer() != null && ev.getPacket() != null) {
 			try {
 				if (ev.getPacket() instanceof PacketPlayOutSpawnEntityLiving) {
-					kPacketPlayOutSpawnEntityLiving entityLiving = new kPacketPlayOutSpawnEntityLiving(
+					WrapperPacketPlayOutSpawnEntityLiving entityLiving = new WrapperPacketPlayOutSpawnEntityLiving(
 							((PacketPlayOutSpawnEntityLiving) ev.getPacket()));
 
 					if (ev.getPlayer().getEntityId() != entityLiving.getEntityID()
@@ -81,7 +80,7 @@ public class DisguiseManager extends kListener {
 					entityLiving.setPacket(null);
 					entityLiving = null;
 				} else if (ev.getPacket() instanceof PacketPlayOutNamedEntitySpawn) {
-					kPacketPlayOutNamedEntitySpawn namedEntitySpawn = new kPacketPlayOutNamedEntitySpawn(
+					WrapperPacketPlayOutNamedEntitySpawn namedEntitySpawn = new WrapperPacketPlayOutNamedEntitySpawn(
 							((PacketPlayOutNamedEntitySpawn) ev.getPacket()));
 
 					if (ev.getPlayer().getEntityId() != namedEntitySpawn.getEntityID()
@@ -94,7 +93,7 @@ public class DisguiseManager extends kListener {
 					namedEntitySpawn.setPacket(null);
 					namedEntitySpawn = null;
 				} else if (ev.getPacket() instanceof PacketPlayOutEntityMetadata) {
-					kPacketPlayOutEntityMetadata entityMetadata = new kPacketPlayOutEntityMetadata(
+					WrapperPacketPlayOutEntityMetadata entityMetadata = new WrapperPacketPlayOutEntityMetadata(
 							((PacketPlayOutEntityMetadata) ev.getPacket()));
 
 					if (ev.getPlayer().getEntityId() != entityMetadata.getEntityID()
@@ -120,14 +119,14 @@ public class DisguiseManager extends kListener {
 		return getDisguise().get(entity.getEntityId());
 	}
 
-	public void sendPacket(Player player, kPacket packet) {
+	public void sendPacket(Player player, PacketWrapper packet) {
 		UtilPlayer.sendPacket(player, packet);
 	}
 
 	private void disguise(Player player, DisguiseBase disguise) {
 		if (!getDisguise().containsKey(disguise.GetEntityId()))
 			getDisguise().put(disguise.GetEntityId(), disguise);
-		sendPacket(player, new kPacketPlayOutEntityDestroy(new int[] { disguise.GetEntityId() }));
+		sendPacket(player, new WrapperPacketPlayOutEntityDestroy(new int[] { disguise.GetEntityId() }));
 		if (disguise instanceof DisguisePlayer)
 			sendPacket(player, ((DisguisePlayer) disguise).getTabList());
 		sendPacket(player, disguise.GetSpawnPacket());
@@ -186,8 +185,8 @@ public class DisguiseManager extends kListener {
 		if (isDisguise(entity)) {
 			DisguiseBase disguise = getDisguise(entity);
 			getDisguise().remove(entity.getEntityId());
-			kPacketPlayOutEntityDestroy de = new kPacketPlayOutEntityDestroy(new int[] { entity.getEntityId() });
-			kPacketPlayOutNamedEntitySpawn s = new kPacketPlayOutNamedEntitySpawn(((CraftPlayer) entity).getHandle());
+			WrapperPacketPlayOutEntityDestroy de = new WrapperPacketPlayOutEntityDestroy(new int[] { entity.getEntityId() });
+			WrapperPacketPlayOutNamedEntitySpawn s = new WrapperPacketPlayOutNamedEntitySpawn(((CraftPlayer) entity).getHandle());
 			for (Player player : UtilServer.getPlayers()) {
 				if (entity.getEntityId() != player.getEntityId()) {
 					sendPacket(player, de);
@@ -227,7 +226,7 @@ public class DisguiseManager extends kListener {
 				if (player != otherPlayer) {
 					if (otherPlayer.getLocation().subtract(0.0D, 0.5D, 0.0D).getBlock().getTypeId() != 0)
 						UtilPlayer.sendPacket(player,
-								new kPacketPlayOutEntityTeleport(((CraftPlayer) otherPlayer).getHandle()));
+								new WrapperPacketPlayOutEntityTeleport(((CraftPlayer) otherPlayer).getHandle()));
 				}
 			}
 		}
@@ -238,7 +237,7 @@ public class DisguiseManager extends kListener {
 		if (isDisguise(event.getPlayer())) {
 			DisguiseBase disguise = getDisguise(event.getPlayer());
 			getDisguise().remove(event.getPlayer().getEntityId());
-			kPacketPlayOutEntityDestroy de = new kPacketPlayOutEntityDestroy(
+			WrapperPacketPlayOutEntityDestroy de = new WrapperPacketPlayOutEntityDestroy(
 					new int[] { event.getPlayer().getEntityId() });
 			for (Player player : UtilServer.getPlayers()) {
 				if (event.getPlayer().getEntityId() != player.getEntityId()) {
