@@ -38,7 +38,7 @@ public class WrapperPacketPlayOutEntityMetadata implements PacketWrapper{
 	}
 	
 	public List<WatchableObject> getList(){
-		return (List<WatchableObject>)UtilReflection.getValue(WATCHABLE,packet);
+		return (List<WatchableObject>) UtilReflection.getValue(WATCHABLE,packet);
 	}
 	
 	public void setList(List<WatchableObject> watcher){
