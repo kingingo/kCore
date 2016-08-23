@@ -37,13 +37,11 @@ public class WrapperPacketPlayOutPlayerInfo implements PacketWrapper{
 		return (EnumPlayerInfoAction) UtilReflection.getValue(ENUM_PLAYER_INFO_ACTION, packet);
 	}
 	
-	public void setkList(List<WrapperPlayerInfoData> list){
-		List<PlayerInfoData> l = new ArrayList<>();
-		l.addAll(list);
-		setList(l);
+	public void setEntries(List<WrapperPlayerInfoData> list){
+		setList(list);
 	}
 	
-	public void setList(List<PlayerInfoData> list){
+	public void setList(List<? extends PlayerInfoData> list){
 		UtilReflection.setValue(PLAYER_INFO_DATA_LIST, packet, list);
 	}
 	

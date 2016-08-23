@@ -27,6 +27,15 @@ public class WrapperGameProfile extends GameProfile{
 		if(data!=null)loadSkin(data);
 	}
 	
+	public WrapperGameProfile(GameProfile handle){
+		super(handle.getId(),handle.getName());
+		if(handle.getProperties().containsKey("textures")){
+			getProperties().removeAll("textures");
+			for(Property prop : handle.getProperties().get("textures"))
+				getProperties().put("textures", prop);
+		}
+	}
+	
 	public void setUUID(UUID uuid){
 		UtilReflection.setValue("id", this, uuid);
 	}
