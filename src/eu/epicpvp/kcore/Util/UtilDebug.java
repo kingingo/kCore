@@ -31,10 +31,9 @@ public class UtilDebug {
 	public static void debug(String methode,String... msg){
 		if(isDebug()){
 			System.err.println("          ");
-			if(methode!=null)System.err.println("[Debug] Methode: "+methode);
-			if(msg!=null)for(String m : msg)System.err.println("[Debug] "+m);
+			if(methode!=null) System.err.println("[Debug] Methode: "+methode);
+			if(msg!=null) for(String m : msg)System.err.println("[Debug] "+m);
 			System.err.println("          ");
 		}
 	}
-	
 }

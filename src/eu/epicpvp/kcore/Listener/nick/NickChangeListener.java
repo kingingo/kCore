@@ -40,7 +40,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags;
 
-public class NickChangeListener extends PacketHandler implements Listener{
+public class NickChangeListener extends PacketHandler implements Listener {
 
 	public NickChangeListener(JavaPlugin plugin) {
 		super(plugin);
@@ -55,18 +55,18 @@ public class NickChangeListener extends PacketHandler implements Listener{
 				int playerId = e.getBuffer().readInt();
 				LoadedPlayer player = UtilServer.getClient().getPlayer(playerId);
 				Player bplayer;
-				if (player.isLoaded() && (bplayer= Bukkit.getPlayerExact(player.getName())) != null) {
+				if (player.isLoaded() && (bplayer = Bukkit.getPlayerExact(player.getName())) != null) {
 					System.out.println("Updating nickname for: " + player.getName());
 					UtilServer.getClient().clearCacheForPlayer(player);
 					player = UtilServer.getClient().getPlayerAndLoad(playerId);
 					respawn(bplayer);
-					Bukkit.getScheduler().runTaskAsynchronously(UtilServer.getPluginInstance(), ()->{
+					Bukkit.getScheduler().runTaskAsynchronously(UtilServer.getPluginInstance(), () -> {
 						try {
 							Thread.sleep(1000);
 						} catch (Exception e1) {
 						}
-						UtilServer.ensureMainthread(()->{
-							for(Player p : Bukkit.getOnlinePlayers())
+						UtilServer.ensureMainthread(() -> {
+							for (Player p : Bukkit.getOnlinePlayers())
 								UtilScoreboard.resendScoreboard(p);
 						});
 					});
@@ -76,7 +76,7 @@ public class NickChangeListener extends PacketHandler implements Listener{
 	}
 
 	private void respawn(Player player) {
-		if(player == null)
+		if (player == null)
 			return;
 		try {
 			Location l = player.getLocation();
@@ -115,28 +115,29 @@ public class NickChangeListener extends PacketHandler implements Listener{
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void onSend(SentPacket packet) {
 		long start = System.currentTimeMillis();
-		try{
-			if(packet.getPacket() instanceof PacketPlayOutPlayerInfo){
+		try {
+			if (packet.getPacket() instanceof PacketPlayOutPlayerInfo) {
 				PacketPlayOutPlayerInfo pack = (PacketPlayOutPlayerInfo) packet.getPacket();
 				List<PlayerInfoData> data = (List<PlayerInfoData>) UtilReflection.getPrivateValue(pack, "b");
-				for(PlayerInfoData d : data){
-					if(d.a() == null || d.a().getName() == null || d.a().getName().length() < 3 || d.a().getName().startsWith("{"))
+				for (PlayerInfoData d : data) {
+					if (d.a() == null || d.a().getName() == null || d.a().getName().length() < 3 || d.a().getName().startsWith("{"))
 						continue;
-					GameProfile copied = new GameProfile(d.a().getId(), "{player_"+d.a().getName()+"}");
-					for(Entry<String, Collection<Property>> e : d.a().getProperties().asMap().entrySet())
-						for(Property p : e.getValue())
+					GameProfile copied = new GameProfile(d.a().getId(), "{player_" + d.a().getName() + "}");
+					for (Entry<String, Collection<Property>> e : d.a().getProperties().asMap().entrySet())
+						for (Property p : e.getValue())
 							copied.getProperties().put(e.getKey(), p);
 					UtilReflection.setFinalValue(UtilReflection.getField(PlayerInfoData.class, "d"), d, copied);
 				}
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		long end = System.currentTimeMillis();
-		if(end-start > 5)
+		if (end - start > 5)
 			System.out.println("Need more than 5ms to replace nametags for the BungeeCord!");
 	}
 
@@ -144,6 +145,6 @@ public class NickChangeListener extends PacketHandler implements Listener{
 	//TOTO Items? Replace? Meta values?
 	@Override
 	public void onReceive(ReceivedPacket packet) {
-		
+
 	}
 }

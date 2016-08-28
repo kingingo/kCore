@@ -10,48 +10,50 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.TeleportManager.TeleportManager;
 import eu.epicpvp.kcore.TeleportManager.Teleporter;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
-public class CommandWarp implements CommandExecutor{
+public class CommandWarp implements CommandExecutor {
 
 	private kConfig config;
 	private TeleportManager teleport;
-	
-	public CommandWarp(TeleportManager teleport){
-		this.config=new kConfig(new File(teleport.getPermManager().getInstance().getDataFolder(), "warps.yml"));
-		this.teleport=teleport;
+
+	public CommandWarp(TeleportManager teleport) {
+		this.config = new kConfig(new File(teleport.getPermManager().getInstance().getDataFolder(), "warps.yml"));
+		this.teleport = teleport;
 		teleport.getCmd().register(CommandDelWarp.class, new CommandDelWarp(config));
 		teleport.getCmd().register(CommandSetWarp.class, new CommandSetWarp(config));
 	}
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "warp", sender = Sender.PLAYER)
-	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
 		Player player = (Player) sender;
-		
-		if(player.hasPermission(PermissionType.WARP.getPermissionToString())){	
-			if(args.length==0){
-				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"/warp [Name]");
-				if(player.hasPermission(PermissionType.WARP_LIST.getPermissionToString())){
+		if (PermissionManager.getManager().hasPermission(player, PermissionType.WARP, true)) {
+			if (args.length == 0) {
+				player.sendMessage(TranslationHandler.getText(player, "PREFIX") + "/warp [Name]");
+				if (player.hasPermission(PermissionType.WARP_LIST.getPermissionToString())) {
 					String warps = "";
 					Map<String, Object> list = config.getPathList("warps");
-					for(String s : list.keySet())warps+=s+",";
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+ (warps.equalsIgnoreCase("") ? TranslationHandler.getText(player, "WARPS_EMPTY") : "Warps: "+warps.substring(0,warps.length()-1)) );
+					for (String s : list.keySet())
+						warps += s + ",";
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX") + (warps.equalsIgnoreCase("") ? TranslationHandler.getText(player, "WARPS_EMPTY") : "Warps: " + warps.substring(0, warps.length() - 1)));
 				}
-			}else{
-				if(args[0].equalsIgnoreCase("premium")&&!player.hasPermission(PermissionType.WARP.getPermissionToString()+".premium"))return false;
-				if(config.isSet("warps."+args[0].toLowerCase())){
-					if(player.hasPermission(PermissionType.WARP_BYEPASS_DELAY.getPermissionToString())){
-						player.teleport(config.getLocation("warps."+args[0].toLowerCase()),TeleportCause.PLUGIN);
-						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "TELEPORT"));
-					}else{
-						teleport.getTeleport().add(new Teleporter(player,config.getLocation("warps."+args[0].toLowerCase()),3));
+			} else {
+				if (args[0].equalsIgnoreCase("premium") && !player.hasPermission(PermissionType.WARP.getPermissionToString() + ".premium"))
+					return false;
+				if (config.isSet("warps." + args[0].toLowerCase())) {
+					if (player.hasPermission(PermissionType.WARP_BYEPASS_DELAY.getPermissionToString())) {
+						player.teleport(config.getLocation("warps." + args[0].toLowerCase()), TeleportCause.PLUGIN);
+						player.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, "TELEPORT"));
+					} else {
+						teleport.getTeleport().add(new Teleporter(player, config.getLocation("warps." + args[0].toLowerCase()), 3));
 					}
-				}else{
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "WARP_EXIST"));
+				} else {
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, "WARP_EXIST"));
 				}
 			}
 		}
