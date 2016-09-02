@@ -341,7 +341,12 @@ public class UserStores extends kListener{
 										if(ev.getPlayer().getItemInHand() == null || ev.getPlayer().getItemInHand().getType()==Material.AIR){
 											item=UtilInv.getFirstItem(chest.getInventory());
 											if(Integer.valueOf(getAnzahl(sign)) >= (anzahl)){
-												logMessage("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+item.getTypeId()+" gekauft und "+(preis*anzahl)+" Epics bezahlt. "+UtilLocation.getLocString(sign.getLocation())+" "+sign.getLocation().getWorld());
+												if(UtilDebug.isDebug()){
+													logMessage("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+item.getTypeId()+" gekauft und "+(preis*anzahl)+" Epics bezahlt. "+UtilLocation.getLocString(sign.getLocation())+" "+sign.getLocation().getWorld());
+													logMessage("Sign Spieler-ID: "+playerId);
+												}else{
+													logMessage("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+item.getTypeId()+" gekauft und "+(preis*anzahl)+" Epics bezahlt. "+UtilLocation.getLocString(sign.getLocation())+" "+sign.getLocation().getWorld());
+												}
 												getStatsManager().addDouble(p, -(preis*anzahl), StatsKey.MONEY);
 												
 						            			if( UtilPlayer.isOnline(playerId) ){
@@ -621,8 +626,6 @@ public class UserStores extends kListener{
 			}
 		}
 	}
-	//[UserStore]
-	//PREIS
 	
 	double store_preis;
 	Chest store_chest;

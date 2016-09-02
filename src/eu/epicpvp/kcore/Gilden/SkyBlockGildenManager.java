@@ -119,7 +119,7 @@ public class SkyBlockGildenManager extends GildenManager{
 		if(getTyp()==GildenType.SKY){
 			p.teleport(getSky().getGilden_world().getIslandHome(g));
 			p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "GILDE_TELEPORTET"));
-			UtilPlayer.sendPacket(p, sky.getGilden_world().getIslandBorder(p));;
+			UtilPlayer.sendPacket(p, sky.getGilden_world().getIslandBorder(p));
 		}else{
 			String w = getString(StatsKey.WORLD, g, getTyp());
 			int x = getInt(StatsKey.LOC_X, g, super.getTyp());

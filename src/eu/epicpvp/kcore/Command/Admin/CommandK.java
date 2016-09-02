@@ -1,8 +1,10 @@
 package eu.epicpvp.kcore.Command.Admin;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import dev.wolveringer.bukkit.permissions.GroupTyp;
 import dev.wolveringer.client.LoadedPlayer;
@@ -10,6 +12,8 @@ import dev.wolveringer.client.connection.ClientType;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.Permission.Permission;
+import eu.epicpvp.kcore.Permission.PermissionPlayer;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilReflection;
@@ -20,6 +24,7 @@ public class CommandK implements CommandExecutor{
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "k", alias={"group","perm"}, sender = Sender.CONSOLE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(args.length==0){
+			System.out.println("/k info [Player]");
 			System.out.println("/k addperm [Player] [Permission]");
 			System.out.println("/k addg [Player] [TYP] [Group]");
 			System.out.println("/k addgwithtime [Player] [TYP] [Group] [DAYs]");
@@ -43,6 +48,17 @@ public class CommandK implements CommandExecutor{
 			}else if(args[0].equalsIgnoreCase("update")){
 				UtilServer.getPermissionManager().updateGroup(args[1]);
 				System.out.println("UPDATE");
+			}else if(args[0].equalsIgnoreCase("info")){
+				if(args.length==2){
+					Player player = Bukkit.getPlayer(args[1]);
+					
+					if(player!=null){
+						PermissionPlayer pplayer = UtilServer.getPermissionManager().getPermissionPlayer(player);
+						System.out.println("Player:"+player.getName());
+						if(!pplayer.getGroups().isEmpty())System.out.println("Rank"+pplayer.getGroups().get(0).getName());
+						for(Permission perm : pplayer.getPermissions())System.out.println("P: "+perm.getPermissionToString());
+					}
+				}
 			}
 		}
 		return false;
