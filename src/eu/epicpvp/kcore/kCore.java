@@ -91,17 +91,17 @@ public class kCore extends JavaPlugin {
 				case "":
 					sender.sendMessage("§6Sets debug logging state");
 					if (Debugger.isEnabled() && Debugger.getFilter() == null)
-						sender.sendMessage("§4/" + getName() + " on");
+						sender.sendMessage("§4/dcdebug on");
 					else
-						sender.sendMessage("§c/" + getName() + " on");
+						sender.sendMessage("§c/dcdebug on");
 					if (Debugger.isEnabled() && Debugger.getFilter() != null)
-						sender.sendMessage("§4/" + getName() + " filtered §7(Filters spammy messages)");
+						sender.sendMessage("§4/dcdebug filtered §7(Filters spammy messages)");
 					else
-						sender.sendMessage("§c/" + getName() + " filtered §7(Filters spammy messages)");
+						sender.sendMessage("§c/dcdebug filtered §7(Filters spammy messages)");
 					if (!Debugger.isEnabled())
-						sender.sendMessage("§4/" + getName() + " off");
+						sender.sendMessage("§4/dcdebug off");
 					else
-						sender.sendMessage("§c/" + getName() + " off");
+						sender.sendMessage("§c/dcdebug off");
 					break;
 				case "on":
 					Debugger.setFilter(null);
