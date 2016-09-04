@@ -12,6 +12,7 @@ import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Packets.PacketAACReload;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.kCore;
 import lombok.Getter;
 import lombok.Setter;
 import me.konsolas.aac.api.AACAPIProvider;
@@ -56,9 +57,9 @@ public class AACHack extends kListener {
 		logMessage("AACHack System aktiviert");
 
 		//Prevent fly through a bug in nofall
-		ProtocolLibrary.getProtocolManager().addPacketListener(new FlyBypassFixer(this));
+		ProtocolLibrary.getProtocolManager().addPacketListener(new FlyBypassFixer());
 		logMessage("Registered FlyBypassFixer");
-		instance.getServer().getPluginManager().registerEvents(new ScaffoldWalkCheck(), instance);
+		kCore.getInstance().getServer().getPluginManager().registerEvents(new ScaffoldWalkCheck(), kCore.getInstance());
 		logMessage("Registered ScaffoldWalkCheck");
 	}
 

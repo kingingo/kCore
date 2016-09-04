@@ -6,6 +6,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import dev.wolveringer.client.debug.Debugger;
+import eu.epicpvp.kcore.kCore;
 import me.konsolas.aac.AAC;
 import me.konsolas.aac.api.AACAPI;
 import me.konsolas.aac.api.AACAPIProvider;
@@ -16,9 +17,9 @@ import org.bukkit.entity.Player;
 
 class FlyBypassFixer extends PacketAdapter {
 
-	public FlyBypassFixer(AACHack aacHack) {
+	public FlyBypassFixer() {
 		super(new AdapterParameteters()
-				.plugin(aacHack.getInstance())
+				.plugin(kCore.getInstance())
 				.clientSide()
 				.listenerPriority(ListenerPriority.HIGHEST)
 				.types(PacketType.Play.Client.POSITION, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.FLYING));

@@ -68,9 +68,9 @@ public class TowerLimiter implements Listener {
 		if (!couldStandOnBlockXZ(plrLoc, blockPlacedLoc)) {
 			return;
 		}
-		Rate rate = updateAndGetRate(plr);
+		Rate rate = getRate(plr);
 		double averagePerSecond = rate.getAveragePerSecond(3, TimeUnit.SECONDS);
-		if (averagePerSecond > 2) {
+		if (averagePerSecond > 2.1) {
 			event.setCancelled(true);
 			event.setBuild(false);
 			try {
@@ -78,16 +78,17 @@ public class TowerLimiter implements Listener {
 			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
+		} else {
+			rate.eventTriggered();
 		}
 	}
 	
-	public Rate updateAndGetRate(Player plr) {
+	public Rate getRate(Player plr) {
 		UUID uuid = plr.getUniqueId();
 		Rate rate = blockPlaceRate.get(uuid);
 		if (rate == null) {
 			blockPlaceRate.put(uuid, rate = new Rate(10, TimeUnit.SECONDS));
 		}
-		rate.eventTriggered();
 		return rate;
 	}
 	
