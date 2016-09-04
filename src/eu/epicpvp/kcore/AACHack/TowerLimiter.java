@@ -56,6 +56,7 @@ public class TowerLimiter implements Listener {
 		Location plrLoc = plr.getLocation();
 		Location blockPlacedLoc = blockPlaced.getLocation();
 		if (isSameBlockLocation(plrLoc, blockPlacedLoc)) {
+			System.out.println("tower detected - sameblock");
 			event.setCancelled(true);
 			event.setBuild(false);
 			return;
@@ -71,6 +72,7 @@ public class TowerLimiter implements Listener {
 		Rate rate = getRate(plr);
 		double averagePerSecond = rate.getAveragePerSecond(3, TimeUnit.SECONDS);
 		if (averagePerSecond > 2.1) {
+			System.out.println("tower detected - average");
 			event.setCancelled(true);
 			event.setBuild(false);
 			try {
