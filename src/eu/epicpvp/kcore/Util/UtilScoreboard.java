@@ -60,7 +60,7 @@ public class UtilScoreboard {
 		if (!board.getTeam(Team).getEntries().contains(p))
 			return;
 		Team r = board.getTeam(Team);
-		r.removeEntry("{player_"+p.getName()+"}");
+		r.removeEntry(p.getName());
 	}
 
 	public static void addPlayerToTeam(Scoreboard board, String Team, Player p) {
@@ -71,9 +71,9 @@ public class UtilScoreboard {
 	}
 
 	public static void addPlayerToTeam(Scoreboard board, Team t, Player p) {
-		if (t.getEntries().contains("{player_"+p.getName()+"}"))
+		if (t.getEntries().contains(p.getName()))
 			return;
-		t.addEntry("{player_"+p.getName()+"}");
+		t.addEntry(p.getName());
 	}
 
 	public static Team addTeam(Scoreboard board, String Team) {
@@ -184,9 +184,9 @@ public class UtilScoreboard {
 			Scoreboard board = p.getScoreboard();
 			for(Team team : board.getTeams()){
 				for(String s : team.getEntries()){
-					if(s.equalsIgnoreCase("{player_"+player.getName()+"}")){
-						team.removeEntry("{player_"+player.getName()+"}");
-						team.addEntry("{player_"+player.getName()+"}");
+					if(s.equalsIgnoreCase(player.getName())){
+						team.removeEntry(player.getName());
+						team.addEntry(player.getName());
 					}
 				}
 			}

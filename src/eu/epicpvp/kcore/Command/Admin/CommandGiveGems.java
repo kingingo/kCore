@@ -42,7 +42,7 @@ public class CommandGiveGems implements CommandExecutor{
 					} else {
 						translationId = "GEMS_ADD_PLAYER";
 					}
-					player.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, translationId, spieler, String.valueOf(c)));
+					player.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, translationId, String.valueOf(c), spieler));
 				}
 			}
 		}else if(sender instanceof ConsoleCommandSender){

@@ -49,7 +49,7 @@ public class CommandRegister implements CommandExecutor{
 				loginManager.logMessage("Der Spieler "+player.getName()+" hat sich Registriert!");
 				getLoginManager().getRegister().remove(player.getName().toLowerCase());
 				LoadedPlayer loadedplayer = getLoginManager().getClient().getPlayerAndLoad(player.getName());
-				loadedplayer.setPasswordSync(CommandLogin.hashPassword(password, player.getName().toLowerCase()));
+				loadedplayer.setPasswordSync(password);
 				loadedplayer.setStats(new PacketInStatsEdit.EditStats(GameType.WARZ, PacketInStatsEdit.Action.SET, StatsKey.KILLS, 1));
 				Title title = new Title("  "," ");
 				title.resetTitle(player);

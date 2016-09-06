@@ -12,7 +12,7 @@ import eu.epicpvp.kcore.Util.UtilVector;
 
 public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingState> {
 
-	protected static final double PI = 3.141592654; //not as precise as Math.PI, but enough
+	protected static final double PI = Math.PI;
 	protected static final double ROT_SPEED_BASE = 1.0 / 32.0;
 	protected static final double WING_ANIMATION_DISABLED_ROT = .05 * PI;
 	protected static final double WING_MIN_ROT = 0.1;
@@ -72,11 +72,6 @@ public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingStat
 
 	@Override
 	public Color transformPerParticle(Entity entity, Location playerLoc, Vector particlePos, WingPart wingPart, ValueHolder<WingState> valueHolder) {
-		if (entity instanceof Player && ((Player)entity).isSneaking()) {
-			UtilVector.rotateAroundAxisX(particlePos, .1 * PI); //schräg zum körper
-		}
-		UtilVector.rotateVector(particlePos, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
-
 		switch (wingPart) {
 			case INNER_LEFT:
 			case OUTER_LEFT:
@@ -87,6 +82,12 @@ public abstract class WingShape extends NoMoveShape<WingShape.WingPart, WingStat
 				UtilVector.rotateAroundAxisY(particlePos, valueHolder.val.rotTransformed); //flügeldrehung / flügelschlag
 				break;
 		}
+
+		if (entity instanceof Player && ((Player)entity).isSneaking()) {
+			UtilVector.rotateAroundAxisX(particlePos, .1 * PI); //etwas zum körper hin drehen, der beugt sich ja nach vorn
+		}
+
+		UtilVector.rotateVector(particlePos, playerLoc.getYaw() - 90, 0); //richtig gedreht zur kopfrichtung
 
 		if (entity instanceof Player && ((Player)entity).isSneaking()) {
 			particlePos.subtract(playerLoc.getDirection().setY(0).normalize().multiply(.3 + .4));

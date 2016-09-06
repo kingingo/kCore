@@ -1,5 +1,6 @@
 package eu.epicpvp.kcore.AACHack;
 
+import com.comphenix.protocol.ProtocolLibrary;
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.client.connection.PacketListener;
@@ -11,6 +12,7 @@ import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Packets.PacketAACReload;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.kCore;
 import lombok.Getter;
 import lombok.Setter;
 import me.konsolas.aac.api.AACAPIProvider;
@@ -53,6 +55,12 @@ public class AACHack extends kListener {
 
 		getMysql().Update("CREATE TABLE IF NOT EXISTS AAC_HACK(playerId int,ip varchar(30),server varchar(30),timestamp timestamp,hackType varchar(30),violations int)");
 		logMessage("AACHack System aktiviert");
+
+		//Prevent fly through a bug in nofall
+		ProtocolLibrary.getProtocolManager().addPacketListener(new FlyBypassFixer());
+		logMessage("Registered FlyBypassFixer");
+		kCore.getInstance().getServer().getPluginManager().registerEvents(new ScaffoldWalkCheck(), kCore.getInstance());
+		logMessage("Registered ScaffoldWalkCheck");
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -119,7 +127,7 @@ public class AACHack extends kListener {
 		}
 
 		LoadedPlayer loadedplayer = client.getPlayerAndLoad(banned.getName());
-		loadedplayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, 2, time, reason);
+		loadedplayer.banPlayer(banned.getAddress().getAddress().getHostAddress(), "AAC", "AAC", null, 2, time, reason);
 		loadedplayer.kickPlayer(reason);
 		UtilServer.broadcastTeamChatMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiHackSystem§c für §e" + ti + " " + typ.toUpperCase() + " §cgesperrt. Grund: §e" + reason);
 	}

@@ -2,4 +2,4 @@
 /bin/
 *.iml
 .idea/
-kCore/
+*.orig
