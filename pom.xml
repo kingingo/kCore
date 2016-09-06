@@ -1,6 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>eu.epicpvp</groupId>
 	<artifactId>core-core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -18,9 +20,11 @@
 			<url>http://149.202.150.185:8081/artifactory/epicpvp-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
 	<build>
 		<finalName>kCore</finalName>
 		<sourceDirectory>src</sourceDirectory>
@@ -45,7 +49,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.4.1</version>
- 
+
                 <executions>
                     <execution>
                         <goals>
@@ -53,12 +57,12 @@
                         </goals>
                     </execution>
                 </executions>
- 
+
                 <configuration>
                     <minimizeJar>false</minimizeJar>
                     <artifactSet>
                         <includes>
-                            <include>dev.wolveringer.lib</include>
+                            <include>dev.wolveringer.lib:NBTTag</include>
                         </includes>
                     </artifactSet>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
@@ -86,54 +90,45 @@
 		</repository>
 	</repositories>
 	<dependencies>
+		<!-- Spigot API -->
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.8.8-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
 			<version>1.8.8-R0.1-SNAPSHOT</version>
-			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>bukkit</artifactId>
+			<version>1.8.8-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- epicpvp dependencies -->
+		<dependency>
+			<groupId>eu.epicpvp</groupId>
+			<artifactId>core-kskyblock</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>dev.wolveringer</groupId>
 			<artifactId>DatenClient</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>dev.wolveringer.datenserver</groupId>
-			<artifactId>definitions</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>eu.epicpvp</groupId>
-			<artifactId>core-karcarde</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>DatenClient</artifactId>
-					<groupId>DatenClient</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>kCore</artifactId>
-					<groupId>kCore</groupId>
-				</exclusion>
-			</exclusions>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>dev.wolveringer.lib</groupId>
 			<artifactId>NBTTag</artifactId>
 			<version>1.2.1</version>
+			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>eu.epicpvp</groupId>
-			<artifactId>core-kskyblock</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>kCore</artifactId>
-					<groupId>kCore</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+		<!-- other plugin dependencies -->
 		<dependency>
 			<groupId>eu.epicpvp</groupId>
 			<artifactId>ViaVersion</artifactId>
@@ -144,21 +139,6 @@
 			<groupId>eu.epicpvp</groupId>
 			<artifactId>aac</artifactId>
 			<version>1.0</version>
-			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
-		<!--Spigot API -->
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
-			<version>1.8.8-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<!--Bukkit API -->
-		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>1.8.8-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -174,12 +154,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.8</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.vexsoftware</groupId>
 			<artifactId>votifier</artifactId>
 			<version>1.9</version>
@@ -189,6 +163,13 @@
 			<groupId>com.comphenix.protocol</groupId>
 			<artifactId>ProtocolLib</artifactId>
 			<version>3.6.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- other -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.8</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
