@@ -1,13 +1,11 @@
 package eu.epicpvp.kcore.Gilden.Commands;
 
-import org.bukkit.entity.Player;
-
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Gilden.GildenType;
-import eu.epicpvp.kcore.Gilden.SkyBlockGildenManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import org.bukkit.entity.Player;
 
 public class Erstellen {
 
@@ -26,29 +24,23 @@ public class Erstellen {
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_NAME_LENGTH_MAX",5));
 				return;
 			}
-			
+
 			if(g.contains("'"))return;
-			
+
 			if(manager.ExistGilde(g)){
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_EXIST"));
 				return;
 			}
-			
+
 			if(!g.matches("[a-zA-Z0-9]*")){
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+" §c§lDu hast ein Ung§ltiges Zeichen in deinen Clannamen!");
 				return;
 			}
-			
-			if(manager.getTyp()==GildenType.SKY&&manager instanceof SkyBlockGildenManager){
-				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
-				if(sky.getStats().getDouble(p, StatsKey.MONEY)>=500.0){
-					sky.getStats().add(p, StatsKey.MONEY,-500.0);
-				}else{
-					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"Du brauchst 500 Epics um eine Gilde zu erstellen.");
-					return;
-				}
+
+			if (manager.onCreate(p)) {
+				return;
 			}
-			
+
 			manager.createGildenEintrag(g, "§7"+g+"§b*§f", 10, UtilPlayer.getPlayerId(p));
 			manager.createPlayerEintrag(p, g);
 			if(manager.getTyp()==GildenType.PVP){
@@ -62,5 +54,5 @@ public class Erstellen {
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+" /gilde erstellen [Gilde]");
 		}
 	}
-	
+
 }

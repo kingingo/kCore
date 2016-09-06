@@ -111,12 +111,6 @@
 		</dependency>
 		<!-- epicpvp dependencies -->
 		<dependency>
-			<groupId>eu.epicpvp</groupId>
-			<artifactId>core-kskyblock</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>dev.wolveringer</groupId>
 			<artifactId>DatenClient</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
