@@ -55,6 +55,7 @@ public class InventoryCopy extends InventoryPageBase{
 	}
 
 	public void open(Player player,InventoryBase base){
+		player.closeInventory();
 		if(create_new_inv){
 			InventoryPageBase page = clone();
 			
