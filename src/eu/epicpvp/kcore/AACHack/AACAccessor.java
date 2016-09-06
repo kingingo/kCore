@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import me.konsolas.aac.AAC;
 import me.konsolas.aac.api.HackType;
+import me.konsolas.aac.b.f;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,10 +25,12 @@ public class AACAccessor {
 	
 	public static boolean increaseAllViolationsAndNotify(UUID uuid, int amount, HackType hackType, String message) throws ReflectiveOperationException {
 		AAC aac = JavaPlugin.getPlugin(AAC.class);
-		Object checkManager = AAC.class.getField("l").get(aac);
-		Method getDetector = checkManager.getClass().getMethod("a", HackType.class);
+		Object checkManager = AAC.class.getDeclaredField("l").get(aac);
+		Method getDetector = checkManager.getClass().getDeclaredMethod("a", HackType.class);
 		Object detector = getDetector.invoke(checkManager, hackType);
-		Method increaseAllViolationsAndNotify = detector.getClass().getMethod("a", UUID.class, int.class, HackType.class, String.class);
-		return (boolean) increaseAllViolationsAndNotify.invoke(uuid, amount, hackType, message);
+		Class<f> abstractDetector = f.class;
+		Method increaseAllViolationsAndNotify = abstractDetector.getDeclaredMethod("a", UUID.class, int.class, HackType.class, String.class);
+		increaseAllViolationsAndNotify.setAccessible(true);
+		return (boolean) increaseAllViolationsAndNotify.invoke(detector, uuid, amount, hackType, message);
 	}
 }
