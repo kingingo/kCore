@@ -43,6 +43,8 @@ public class PerkManager extends PerkData {
 			getPlayers().put(perk, new ArrayList<Player>());
 		registerPerks();
 
+		setPermission("Half-Falldamage", PermissionType.PERK_HALF_FALLDAMAGE);
+		setPermission("One-Hit", PermissionType.PERK_KILL_ZOMBIE);
 		setPermission("noHunger", PermissionType.PERK_NO_HUNGER);
 		setPermission("DoubleXP", PermissionType.PERK_DOUBLE_XP);
 		setPermission("Dropper", PermissionType.PERK_DROPPER);

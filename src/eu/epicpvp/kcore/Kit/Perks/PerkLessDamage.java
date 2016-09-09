@@ -1,11 +1,14 @@
 package eu.epicpvp.kcore.Kit.Perks;
 
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Kit.Perk;
+import eu.epicpvp.kcore.Util.UtilItem;
 
 public class PerkLessDamage extends Perk{
 
@@ -13,7 +16,7 @@ public class PerkLessDamage extends Perk{
 	private EntityType type;
 	
 	public PerkLessDamage(int prozent,EntityType type) {
-		super("LessDamage");
+		super("Half-Falldamage",UtilItem.RenameItem(new ItemStack(Material.IRON_BOOTS),"§eHalf-Falldamage"));
 		this.prozent=prozent;
 		this.type=type;
 	}

@@ -148,7 +148,9 @@ public enum PermissionType {
 	SPAWN_SET("epicpvp.spawn.set"),
 	COMMAND_TOGGLERANK("epicpvp.cmd.togglerank"),
 	COMMAND_FIREWORK("epicpvp.cmd.firework"),
-	
+
+	PERK_HALF_FALLDAMAGE("epicpvp.perk.halffalldamage"),
+	PERK_KILL_ZOMBIE("epicpvp.perk.killzombie"),
 	PERK_NO_POTION("epicpvp.perk.nopotion"),
 	PERK_UNLIMITED_STRENGTH("epicpvp.perk.unlimitedstrength"),
 	PERK_NO_HUNGER("epicpvp.perk.nohunger"),
