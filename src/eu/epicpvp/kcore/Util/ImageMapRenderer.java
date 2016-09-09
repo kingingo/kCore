@@ -26,7 +26,7 @@ class ImageMapRenderer extends MapRenderer {
         Graphics g = img.getGraphics();
         g.drawImage(image, 0, 0, 128, 128, 0, 0, image.getWidth(null), image.getHeight(null), null);
         g.dispose();
-
+        
         canvas.drawImage(0, 0, img);
     }
 

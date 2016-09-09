@@ -28,7 +28,6 @@ import net.minecraft.server.v1_8_R3.InventorySubcontainer;
 public class EnderChestListener extends kListener{
 
 	private UserDataConfig userData;
-	private kConfig config;
 	
 	public EnderChestListener(UserDataConfig userData) {
 		super(userData.getInstance(),"EnderChestListener");
@@ -50,7 +49,7 @@ public class EnderChestListener extends kListener{
 	@EventHandler
 	public void LoadPerm(PlayerLoadPermissionEvent ev){
 		if(ev.getPlayer().hasPermission(PermissionType.ENDERCHEST_ADDON.getPermissionToString())&&userData.contains(ev.getPlayer())){
-			config=userData.getConfig(ev.getPlayer());
+			kConfig config=userData.getConfig(ev.getPlayer());
 			if(!config.isSet("Enderchest")){
 				ItemStack[] items = new ItemStack[54];
 				for(int i = 0; i< ev.getPlayer().getEnderChest().getContents().length;i++){

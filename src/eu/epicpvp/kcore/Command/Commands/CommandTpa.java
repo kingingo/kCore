@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.TeleportManager.TeleportCheck;
 import eu.epicpvp.kcore.TeleportManager.TeleportManager;
 import eu.epicpvp.kcore.TeleportManager.Teleporter;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
@@ -38,14 +39,20 @@ public class CommandTpa implements CommandExecutor {
 				} else {
 					Player tp = UtilServer.getNickedPlayer(args[0]);
 					if (tp != null) {
-						if (getManager().getTeleport_anfrage().containsKey(tp))
-							getManager().getTeleport_anfrage().remove(tp);
+						if (getManager().getTeleport_anfrage().containsKey(tp))getManager().getTeleport_anfrage().remove(tp);
+						
 						if (player.hasPermission(PermissionType.PLAYER_TELEPORT_A_BYPASS.getPermissionToString())) {
-							// new Teleporter(player, tp)
 							getManager().getTeleport_anfrage().put(tp, new Teleporter(player, tp));
 						} else {
-							// new Teleporter(player, tp,3)
-							getManager().getTeleport_anfrage().put(tp, new Teleporter(player, tp, 3));
+							if(getManager().getCheck() == TeleportCheck.NEAR){
+								if(manager.near(player)){
+									getManager().getTeleport_anfrage().put(tp, new Teleporter(player, tp, 0));
+								}else{
+									player.sendMessage( TranslationHandler.getPrefixAndText( player, "WARZ_CMD_SPAWN_NEAR_TO_PLAYER" ) );
+								}
+							}else{
+								getManager().getTeleport_anfrage().put(tp, new Teleporter(player, tp, 3));
+							}
 						}
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, "TELEPORT_ANFRAGE_SENDER", tp.getName()));
 						tp.sendMessage(TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, "TELEPORT_ANFRAGE_EMPFÄNGER", player.getName()));

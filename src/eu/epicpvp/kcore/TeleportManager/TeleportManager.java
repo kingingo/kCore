@@ -1,9 +1,11 @@
 package eu.epicpvp.kcore.TeleportManager;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
@@ -15,6 +17,7 @@ import eu.epicpvp.kcore.Command.Commands.CommandTpaccept;
 import eu.epicpvp.kcore.Command.Commands.CommandTpdeny;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilServer;
@@ -31,13 +34,17 @@ public class TeleportManager extends kListener{
 	@Getter
 	private HashMap<Player,Teleporter> teleport_anfrage = new HashMap<>();
 	@Getter
-	private int sec;
+	private TeleportCheck check;
 	
-	public TeleportManager(CommandHandler cmd,PermissionManager permManager,int sec){
+	public TeleportManager(CommandHandler cmd,PermissionManager permManager){
+		this(cmd,permManager,TeleportCheck.TIME);
+	}
+	
+	public TeleportManager(CommandHandler cmd,PermissionManager permManager,TeleportCheck check){
 		super(permManager.getInstance(),"TeleportManager");
+		this.check=check;
 		this.permManager=permManager;
 		this.cmd=cmd;
-		this.sec=sec;
 		
 		cmd.register(CommandTpa.class, new CommandTpa(this));
 		cmd.register(CommandTpaHere.class, new CommandTpaHere(this));
@@ -45,6 +52,16 @@ public class TeleportManager extends kListener{
 		cmd.register(CommandReTpa.class, new CommandReTpa(this));
 		cmd.register(CommandTpdeny.class, new CommandTpdeny(this));
 		UtilServer.setTeleportManager(this);
+	}
+	
+	public boolean near(Player plr){
+		Collection<Entity> nearbyEntities = plr.getWorld().getNearbyEntities( plr.getLocation(), 25, 25, 25 );
+		for ( Entity e : nearbyEntities ) {
+			if ( e instanceof Player && e.getUniqueId() != plr.getUniqueId() ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@EventHandler
