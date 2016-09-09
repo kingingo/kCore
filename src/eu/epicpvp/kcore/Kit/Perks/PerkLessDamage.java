@@ -16,7 +16,7 @@ public class PerkLessDamage extends Perk{
 	private EntityType type;
 	
 	public PerkLessDamage(int prozent,EntityType type) {
-		super("Half-Falldamage",UtilItem.RenameItem(new ItemStack(Material.IRON_BOOTS),"§eHalf-Falldamage"));
+		super("LessDamage");
 		this.prozent=prozent;
 		this.type=type;
 	}
