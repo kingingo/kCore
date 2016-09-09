@@ -11,10 +11,18 @@ public class Rate {
 	@Getter
 	private final long maxTimeMillis;
 	private final Deque<Long> eventTimes;
+	private long start;
 
 	public Rate(long maxTime, TimeUnit timeUnit) {
 		this.maxTimeMillis = timeUnit.toMillis(maxTime);
 		eventTimes = new ArrayDeque<>();
+		start = System.currentTimeMillis();
+	}
+
+	Rate(long maxTime, TimeUnit timeUnit, long start) {
+		this.maxTimeMillis = timeUnit.toMillis(maxTime);
+		eventTimes = new ArrayDeque<>();
+		this.start = start;
 	}
 
 	public void eventTriggered() {

@@ -1,14 +1,9 @@
 package eu.epicpvp.kcore.Gilden.Commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import eu.epicpvp.kcore.Gilden.GildenManager;
-import eu.epicpvp.kcore.Gilden.GildenType;
-import eu.epicpvp.kcore.Gilden.SkyBlockGildenManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
-import eu.epicpvp.kcore.kConfig.kConfig;
+import org.bukkit.entity.Player;
 
 public class Kicken {
 
@@ -34,31 +29,13 @@ public class Kicken {
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_IS_NOT_IN_THE_GILD",kick_o));
 				return;
 			}
-			
-			if(manager.getTyp()==GildenType.SKY&&manager instanceof SkyBlockGildenManager){
-				SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
-				kConfig config;
-				
-				if(sky.getSky().getInstance().getUserData().getConfigs().containsKey(kick_id)&&UtilPlayer.isOnline(kick_o)){
-					config=sky.getSky().getInstance().getUserData().getConfig(Bukkit.getPlayer(kick_o));
-					if(Bukkit.getPlayer(kick_o).getWorld().getUID()!=Bukkit.getWorld("world").getUID())Bukkit.getPlayer(kick_o).teleport(Bukkit.getWorld("world").getSpawnLocation());
-				}else{
-					config=sky.getSky().getInstance().getUserData().loadConfig(kick_id);
-				}
-				
-				for(String path : config.getPathList("homes").keySet()){
-					if(config.getLocation("homes."+path).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName())){
-						config.set("homes."+path, null);
-					}
-				}
-				config.save();
-			}
-			
+
+			manager.onKick(kick_o, kick_id);
+
 			manager.sendGildenChat(g, "GILDE_KICK_PLAYER",kick_o);
 			manager.removePlayerEintrag(kick_id,kick_o);
 		}else{
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+" /gilde kicken [Player]");
 		}
 	}
-	
 }

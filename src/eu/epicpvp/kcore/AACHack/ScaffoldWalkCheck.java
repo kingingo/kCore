@@ -26,7 +26,9 @@ public class ScaffoldWalkCheck implements Listener {
 		}
 		if (event.getBlockAgainst().equals(plrBlock)) { //if he sneaked / moved so he is above the edge, his center is not the block he place his block against
 			try {
+				System.out.println("scaffoldwalk detected");
 				if (AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), 4, HackType.IMPOSSIBLEINTERACT, "(Custom) (ScaffoldWalk) " + plr.getName() + " is suspected for ImpossibleInteraction with the block at his feed")) {
+					System.out.println("scaffoldwalk blocked");
 					event.setCancelled(true);
 				}
 			} catch (ReflectiveOperationException e) {

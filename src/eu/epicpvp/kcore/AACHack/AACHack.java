@@ -61,6 +61,8 @@ public class AACHack extends kListener {
 		logMessage("Registered FlyBypassFixer");
 		kCore.getInstance().getServer().getPluginManager().registerEvents(new ScaffoldWalkCheck(), kCore.getInstance());
 		logMessage("Registered ScaffoldWalkCheck");
+		kCore.getInstance().getServer().getPluginManager().registerEvents(new TowerLimiter(), kCore.getInstance());
+		logMessage("Registered TowerLimiter");
 	}
 
 	@EventHandler(ignoreCancelled = true)

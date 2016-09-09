@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -161,15 +162,16 @@ public class LoginManager extends kListener {
 			this.list.clear();
 			try {
 
-				for (Player player : this.timer.keySet()) {
-					if (player.isOnline()) {
-						if ((System.currentTimeMillis() - this.timer.get(player)) > TimeSpan.MINUTE * 3) {
-							player.kickPlayer("§cDie Zeit ist abgelaufen!");
+				for (Map.Entry<Player, Long> entry : this.timer.entrySet()) {
+					Player plr = entry.getKey();
+					if (plr.isOnline()) {
+						if ((System.currentTimeMillis() - entry.getValue()) > TimeSpan.MINUTE * 3) {
+							plr.kickPlayer("§cDie Zeit ist abgelaufen!");
 						} else {
 							continue;
 						}
 					}
-					list.add(player);
+					list.add(plr);
 				}
 
 			} catch (ConcurrentModificationException e) {

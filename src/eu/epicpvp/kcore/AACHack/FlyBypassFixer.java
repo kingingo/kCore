@@ -5,9 +5,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import dev.wolveringer.client.debug.Debugger;
 import eu.epicpvp.kcore.kCore;
-import me.konsolas.aac.AAC;
 import me.konsolas.aac.api.AACAPI;
 import me.konsolas.aac.api.AACAPIProvider;
 import me.konsolas.aac.api.HackType;
@@ -69,6 +67,6 @@ class FlyBypassFixer extends PacketAdapter {
 
 	@Override
 	public void onPacketSending(PacketEvent event) {
-		//This needs to be here due to a ProtocolLib issue when fake-recieving packets (its fixed but AAC is not compatible with those newer versions)
+		//This needs to be here due to a ProtocolLib issue when fake-recieving packets (it might be fixed in later versions but AAC is not compatible)
 	}
 }

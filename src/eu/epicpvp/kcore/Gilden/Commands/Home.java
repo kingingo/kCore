@@ -1,26 +1,23 @@
 package eu.epicpvp.kcore.Gilden.Commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
 import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.kcore.Gilden.Events.GildenPlayerTeleportEvent;
 import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Gilden.GildenType;
-import eu.epicpvp.kcore.Gilden.SkyBlockGildenManager;
-import eu.epicpvp.kcore.Gilden.Events.GildenPlayerTeleportEvent;
-import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilDebug;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class Home {
-	
+
 	public static void useSet(Player p,String[] args,GildenManager manager){
 		useSet(p, p.getLocation(), args, manager);
 	}
-	
+
 	public static void useSet(Player p,Location loc,String[] args,GildenManager manager){
 		if(args.length==1){
 			if(!manager.isPlayerInGilde(p)){
@@ -33,24 +30,9 @@ public class Home {
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_OWNER_NOT"));
 				return;
 			}
-			
-			if(manager.getTyp()==GildenType.SKY){
-				if(manager instanceof SkyBlockGildenManager){
-					SkyBlockGildenManager skymanager = (SkyBlockGildenManager)manager;
-					
-					if(skymanager.getSky().getGilden_world().getIslands().containsKey(g.toLowerCase())){
-						return;
-					}
-					
-					if(p.hasPermission(PermissionType.SKYBLOCK_GILDEN_ISLAND.getPermissionToString())){
-						skymanager.getSky().addGildenIsland(p, g);
-						p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_SETISLAND"));
-						return;
-					}else{
-						p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "NO_RANG"));
-						return;
-					}
-				}
+
+			if (manager.onHomeUseSet(p, g)) {
+				return;
 			}
 
 			if(UtilDebug.isDebug())UtilDebug.debug("CMD:Home", new String[]{"Gilde:"+g,"PLAYER: "+p.getName()});
@@ -66,7 +48,8 @@ public class Home {
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+" /gilde sethome");
 		}
 	}
-	
+
+	@SuppressWarnings("ConstantConditions")
 	public static void use(Player p,String[] args,GildenManager manager){
 		if(args.length==1){
 			if(manager.getTeleport().containsKey(p)){
@@ -87,15 +70,8 @@ public class Home {
 			manager.getTeleport_loc().put(p, p.getLocation());
 			manager.getTeleport().put(p, (System.currentTimeMillis()+(TimeSpan.SECOND*5)) );
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_HOME",5+" sekunden"));
-		}else if(args.length==2&&manager instanceof SkyBlockGildenManager&&p.isOp()){
-			SkyBlockGildenManager sky = (SkyBlockGildenManager)manager;
-			
-			if(sky.getSky().getGilden_world().getIslands().containsKey(args[1].toLowerCase())){
-				p.teleport(sky.getSky().getGilden_world().getIslandHome(args[1].toLowerCase()));
-				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§aDu wurdest Teleporiert.");
-			}else{
-				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cGilde nicht gefunden");
-			}
+		} else if (args.length == 2 && manager.getTyp() == GildenType.SKY && p.isOp()) {
+			manager.onHomeAdminUse(p, args[1]);
 		}else if(args.length==2&&p.isOp()){
 			if(manager.ExistGilde(args[1])){
 				manager.TeleportToHome(p, args[1]);
@@ -107,5 +83,4 @@ public class Home {
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+" /gilde "+args[0]);
 		}
 	}
-	
 }

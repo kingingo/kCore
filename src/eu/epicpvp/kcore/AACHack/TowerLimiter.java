@@ -30,7 +30,7 @@ public class TowerLimiter implements Listener {
 	public void onQuit(PlayerQuitEvent event) {
 		blockPlaceRate.remove(event.getPlayer().getUniqueId());
 	}
-	
+
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player plr = event.getPlayer();
@@ -48,7 +48,8 @@ public class TowerLimiter implements Listener {
 			return;
 		}
 		Block blockPlaced = event.getBlockPlaced();
-		boolean placedAboveAnotherBlock = event.getBlockAgainst().getRelative(BlockFace.UP).getLocation().equals(blockPlaced);
+		Block blockAgainst = event.getBlockAgainst();
+		boolean placedAboveAnotherBlock = isSameBlockLocation(blockAgainst.getRelative(BlockFace.UP), blockPlaced);
 		if (!placedAboveAnotherBlock) {
 			return;
 		}
@@ -56,12 +57,20 @@ public class TowerLimiter implements Listener {
 		Location plrLoc = plr.getLocation();
 		Location blockPlacedLoc = blockPlaced.getLocation();
 		if (isSameBlockLocation(plrLoc, blockPlacedLoc)) {
+			System.out.println("tower detected - sameblock");
 			event.setCancelled(true);
 			event.setBuild(false);
 			return;
 		}
-		
-		boolean plrAboveBuiltBlock = blockPlacedLoc.getY() + 1 >= plrLoc.getY();
+		int violationAmount = 2;
+
+		double placedY = blockPlacedLoc.getY();
+		double plrY = plrLoc.getY();
+		boolean isExactlyOneBlockAbove = placedY + 1 == plrY;
+		if (isExactlyOneBlockAbove) {
+			violationAmount++;
+		}
+		boolean plrAboveBuiltBlock = plrY >= placedY + 1;
 		if (!plrAboveBuiltBlock) {
 			return;
 		}
@@ -71,10 +80,11 @@ public class TowerLimiter implements Listener {
 		Rate rate = getRate(plr);
 		double averagePerSecond = rate.getAveragePerSecond(3, TimeUnit.SECONDS);
 		if (averagePerSecond > 2.1) {
+			System.out.println("detected fasttower for player " + plr.getName() + " (avg3s:" + averagePerSecond + ")");
 			event.setCancelled(true);
 			event.setBuild(false);
 			try {
-				AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), 2, HackType.FASTPLACE, "(Custom) (TowerLimiter) " + plr.getName() + " is building too fast upwards (avg3s: " + averagePerSecond + ")");
+				AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), violationAmount, HackType.FASTPLACE, "(Custom) (TowerLimiter) " + plr.getName() + " is building too fast upwards (avg3s: " + averagePerSecond + ")");
 			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
@@ -82,7 +92,7 @@ public class TowerLimiter implements Listener {
 			rate.eventTriggered();
 		}
 	}
-	
+
 	public Rate getRate(Player plr) {
 		UUID uuid = plr.getUniqueId();
 		Rate rate = blockPlaceRate.get(uuid);
@@ -91,16 +101,27 @@ public class TowerLimiter implements Listener {
 		}
 		return rate;
 	}
-	
+
+	public boolean isSameBlockLocation(Block first, Block second) {
+		return isSameBlockLocation(first.getLocation(), second.getLocation());
+	}
+
 	public boolean isSameBlockLocation(Location first, Location second) {
-		return first.toVector().toBlockVector().equals(second.toVector().toBlockVector());
+		return first.getBlockX() == second.getBlockX() && first.getBlockY() == second.getBlockY() && first.getBlockZ() == second.getBlockZ();
 	}
-	
+
 	public boolean couldStandOnBlockXZ(Location plrLoc, Location blockLoc) {
-		return isIn(blockLoc.getX() + .5, plrLoc.getX(), (1 + .3) / 2) && isIn(blockLoc.getZ() + .5, plrLoc.getZ(), (1 + .3) / 2);
+		return isInRange(plrLoc.getX(), blockLoc.getX() + .5, (1 + .3) / 2) && isInRange(plrLoc.getZ(), blockLoc.getZ() + .5, (1 + .3) / 2);
 	}
-	
-	public boolean isIn(double exptected, double test, double maxDiff) {
-		return exptected - maxDiff >= test && exptected + maxDiff <= test;
+
+	/**
+	 * Checks if the given {@code test} value does not differ more than {@code range} from {@code expected}.
+	 * @param test the value to test
+	 * @param exptected the expected value
+	 * @param range the maximum range
+	 * @return if its in the range
+	 */
+	public boolean isInRange(double test, double exptected, double range) {
+		return exptected - range <= test && exptected + range >= test;
 	}
 }
