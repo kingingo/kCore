@@ -35,6 +35,7 @@ public class MySQL {
 		this.instance = plugin;
 		this.host = host;
 		this.db = db;
+		UtilServer.setMysql(this);
 		connect();
 		new MySQLListener(this);
 	}

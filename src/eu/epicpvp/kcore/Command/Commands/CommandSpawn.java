@@ -43,7 +43,7 @@ public class CommandSpawn extends kListener implements CommandExecutor{
 			}
 		}
 		
-		Bukkit.getWorld("world").setSpawnLocation(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());
+//		if(Bukkit.getWorld("world")!=null)Bukkit.getWorld("world").setSpawnLocation(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());
 		teleport.getCmd().register(CommandSetSpawn.class, new CommandSetSpawn(config,this));
 	}
 	
