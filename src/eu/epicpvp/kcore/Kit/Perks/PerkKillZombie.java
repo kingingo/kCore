@@ -21,8 +21,10 @@ public class PerkKillZombie extends Perk{
 		if(ev.getDamager() instanceof Player && ev.getEntity() instanceof Zombie){
 			Player damager = (Player)ev.getDamager();
 			
-			if(this.getPerkData().hasPlayer(this, damager)){
-				ev.setDamage(50);
+			if(damager.getItemInHand()!=null&&UtilItem.isSword(damager.getItemInHand())){
+				if(this.getPerkData().hasPlayer(this, damager)){
+					ev.setDamage(50);
+				}
 			}
 		}
 	}
