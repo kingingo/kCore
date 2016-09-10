@@ -37,15 +37,15 @@ public class WrapperGameProfile extends GameProfile{
 	}
 
 	public void setUUID(UUID uuid){
-		UtilReflection.setValue("id", GameProfile.class, uuid);
+		UtilReflection.setValue(GameProfile.class, "id", this, uuid);
 	}
 
 	public void setName(String name){
-		UtilReflection.setValue("name", GameProfile.class, name);
+		UtilReflection.setValue(GameProfile.class, "name", this, name);
 	}
 
 	public void setLegacy(boolean flag){
-		UtilReflection.setValue("legacy", GameProfile.class, flag);
+		UtilReflection.setValue(GameProfile.class, "legacy", this, flag);
 	}
 
 	public void loadSkin(Skin data){
