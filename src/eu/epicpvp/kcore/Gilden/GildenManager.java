@@ -75,9 +75,9 @@ public class GildenManager implements Listener {
 	@Getter
 	@Setter
 	private boolean onDisable=false;
-	HashMap<Integer,String> ranking = new HashMap<>();
+	protected HashMap<Integer,String> ranking = new HashMap<>();
 	@Getter
-	HashMap<String,Integer> extra_prefix = new HashMap<>();
+	protected HashMap<String,Integer> extra_prefix = new HashMap<>();
 	@Getter
 	private StatsManager statsManager;
 	@Getter
