@@ -30,7 +30,7 @@ public class UtilMath
 		return new Vector(x, 0, z);
 	}
   
-  public static Integer RandomInt(int high, int low) {
+  public static int RandomInt(int high, int low) {
     return random.nextInt(high-low) + low;
   }
 

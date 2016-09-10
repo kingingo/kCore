@@ -16,28 +16,40 @@ public class AddonNight implements Listener {
 	JavaPlugin instance;
 	@Getter
 	World world;
-	@Getter
-	boolean drehen=false;
-	
-	public AddonNight(JavaPlugin plugin,World w){
-		this.world=w;
-		this.instance=plugin;
+
+	public AddonNight(JavaPlugin plugin) {
+		this(plugin, null);
+	}
+
+	public AddonNight(JavaPlugin plugin, World w) {
+		this.world = w;
+		this.instance = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
-	
-	long time;
+
 	@EventHandler
-	public void Night(UpdateEvent ev){
-		if(ev.getType()!=UpdateType.FASTEST)return;
-		if(getWorld().isThundering()){
-			getWorld().setStorm(false);
-		}
-		if(getWorld().getTime()>=0||getWorld().getTime()<13000){
-			time=getWorld().getTime();
-			time+=160;
-			getWorld().setStorm(false);
-			getWorld().setTime(time);
+	public void Night(UpdateEvent ev) {
+		if (ev.getType() != UpdateType.FASTEST)
+			return;
+
+		if (world != null) {
+			checkWorld(world);
+		} else {
+			for (World w : Bukkit.getWorlds())
+				checkWorld(w);
 		}
 	}
-	
+
+	public void checkWorld(World world) {
+		if (world.isThundering()) {
+			world.setStorm(false);
+		}
+		if (world.getTime() >= 0 && world.getTime() <= 13000) {
+			long time = world.getTime();
+			time += 100;
+			world.setStorm(false);
+			world.setTime(time);
+		}
+	}
+
 }
