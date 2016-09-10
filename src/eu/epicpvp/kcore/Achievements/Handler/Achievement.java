@@ -120,7 +120,7 @@ public class Achievement implements Listener {
 			Integer val = getPlayerProgress().get(Integer.valueOf(playerId));
 			if(val == null)
 				return;
-			config.set("Achievements." + getClass().getName() + ".Progress", val.intValue());
+			config.set("Achievements." + getClass().getName() + ".Progress", val);
 			config.save();
 		}
 	}

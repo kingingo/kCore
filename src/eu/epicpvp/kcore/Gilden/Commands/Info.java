@@ -35,7 +35,7 @@ public class Info {
 			String l = "§6List: ";
 			for(String player : players){
 				if(UtilPlayer.isOnline(player)){
-					l=l+" §a"+Bukkit.getPlayer(player).getName()+",";
+					l=l+" §a"+player+",";
 				}else{
 					l=l+" §c"+player+",";
 				}
