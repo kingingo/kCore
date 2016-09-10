@@ -127,11 +127,6 @@ public class InventoryBase extends kListener {
 			}
 		}
 	}
-	
-	@EventHandler
-	public void closeEvent(InventoryCloseEvent e){
-		CloseInv(new UpdateEvent(UpdateType.MIN_005));
-	}
 
 	@EventHandler
 	public void UseInv(InventoryClickEvent ev) {
