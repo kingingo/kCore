@@ -82,9 +82,9 @@ public class UtilTime {
 				if (milis > TimeSpan.DAY) {
 					int time = (int) (milis / TimeSpan.DAY);
 					if (milis - time * TimeSpan.DAY > 1) {
-						return time + "day " + formatMili(milis - time * TimeSpan.DAY);
+						return time + " days " + formatMili(milis - time * TimeSpan.DAY);
 					}
-					return time + "day";
+					return time + " day";
 				}
 
 				int time = (int) (milis / TimeSpan.HOUR);
