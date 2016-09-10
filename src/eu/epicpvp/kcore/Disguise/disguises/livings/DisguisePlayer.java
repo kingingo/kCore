@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
+import dev.wolveringer.client.Callback;
 import dev.wolveringer.skin.Skin;
 import eu.epicpvp.kcore.Disguise.disguises.DisguiseHuman;
 import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
@@ -12,6 +14,8 @@ import eu.epicpvp.kcore.PacketAPI.Packets.WrapperGameProfile;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutNamedEntitySpawn;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutPlayerInfo;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPlayerInfoData;
+import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilSkin;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
@@ -28,6 +32,16 @@ public class DisguisePlayer extends DisguiseHuman
   private UUID skinUuid;
   @Getter
   private boolean tab=false;
+  
+  public DisguisePlayer(org.bukkit.entity.Entity entity, Player player)
+  {
+	  super(entity);
+
+	  this._name = player.getName();
+	  this.uuid=entity.getUniqueId();
+	  this.DataWatcher.setCustomName(_name);
+	  this.profile=new WrapperGameProfile( UtilPlayer.getCraftPlayer(player).getProfile() );
+  }
   
   public DisguisePlayer(org.bukkit.entity.Entity entity, String name)
   {
@@ -57,6 +71,7 @@ public class DisguisePlayer extends DisguiseHuman
   public void loadSkin(Skin data){
 	  if(data!=null){
 		  this.profile.loadSkin(data);
+		  UtilServer.getDisguiseManager().updateDisguise(this);
 	  }
   }
   

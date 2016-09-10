@@ -181,6 +181,20 @@ public class DisguiseManager extends kListener {
 		getDisguise().clear();
 	}
 
+
+	public void undisguise(int entityId) {
+		if(getDisguise().containsKey(entityId)){
+			DisguiseBase disguise = getDisguise().get(entityId);
+			getDisguise().remove(entityId);
+			WrapperPacketPlayOutEntityDestroy de = new WrapperPacketPlayOutEntityDestroy(new int[] { entityId });
+			for (Player player : UtilServer.getPlayers()){
+				sendPacket(player, de);
+				if (disguise instanceof DisguisePlayer)
+					sendPacket(player, ((DisguisePlayer) disguise).removeFromTablist());
+			}
+		}
+	}
+	
 	public void undisguise(LivingEntity entity) {
 		if (isDisguise(entity)) {
 			DisguiseBase disguise = getDisguise(entity);

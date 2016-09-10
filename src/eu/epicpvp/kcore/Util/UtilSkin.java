@@ -40,6 +40,10 @@ public class UtilSkin {
 	}
 	
 	public static void loadSkin(WrapperGameProfile profile, String playerName){
+		loadSkin(profile, playerName, null);
+	}
+	
+	public static void loadSkin(WrapperGameProfile profile, String playerName,Callback<Skin> fine){
 		if(catcher!=null){
 			if(catcher.getSkins().containsKey(playerName)){
 				 profile.loadSkin(catcher.getSkins().get(playerName));
@@ -51,6 +55,7 @@ public class UtilSkin {
 			@Override
 			public void call(Skin skin, Throwable ex) {
 				 profile.loadSkin(skin);
+				 if(fine!=null)fine.call(skin, null);
 			}
 		}, playerName);
 	}
