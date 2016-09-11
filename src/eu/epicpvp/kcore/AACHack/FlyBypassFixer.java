@@ -1,16 +1,22 @@
 package eu.epicpvp.kcore.AACHack;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import eu.epicpvp.kcore.AACHack.util.MaterialUtil;
 import eu.epicpvp.kcore.kCore;
 import me.konsolas.aac.api.AACAPI;
 import me.konsolas.aac.api.AACAPIProvider;
 import me.konsolas.aac.api.HackType;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 class FlyBypassFixer extends PacketAdapter {
@@ -33,9 +39,6 @@ class FlyBypassFixer extends PacketAdapter {
 		if (!api.isEnabled(HackType.NOFALL)) {
 			return;
 		}
-		if (api.getViolationLevel(plr, HackType.NOFALL) < 1) {
-			return;
-		}
 		final PacketContainer packet = event.getPacket();
 		Location location;
 		if (event.getPacketType() != PacketType.Play.Client.POSITION_LOOK && event.getPacketType() != PacketType.Play.Client.POSITION) {
@@ -48,21 +51,48 @@ class FlyBypassFixer extends PacketAdapter {
 		if (!sentOnGround) {
 			return;
 		}
-		boolean onGround = false;
+		boolean simpleOnGround = couldBeOnGroundSimple(location);
+		if (simpleOnGround && api.getViolationLevel(plr, HackType.NOFALL) < 1) {
+			return;
+		}
+		boolean onGround;
 		try {
 			onGround = AACAccessor.isOnGround(location);
-		} catch (ReflectiveOperationException e) {
-			e.printStackTrace();
+		} catch (ReflectiveOperationException ex) {
+			ex.printStackTrace();
 			return;
 		}
 		if (!onGround) {
 			packet.getBooleans().write(0, false);
-			try {
-				AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), 1, HackType.NOFALL, "(Custom) (FlyBypassFixer) " + plr.getName() + " is suspected for trying to bypass the fly check");
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
+			if (!simpleOnGround) {
+				try {
+					AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), 1, HackType.NOFALL, "(Custom) (FlyBypassFixer) " + plr.getName() + " is suspected for trying to bypass the fly check");
+				} catch (ReflectiveOperationException ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
+	}
+
+	private boolean couldBeOnGroundSimple(Location loc) {
+		Block block = loc.getBlock();
+		if (!MaterialUtil.canNeverStandOn(block)) {
+			return true;
+		}
+		Block blockDown = block.getRelative(BlockFace.DOWN);
+		if (!MaterialUtil.canNeverStandOn(blockDown)) {
+			return true;
+		}
+		List<BlockFace> faces = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH_EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH_WEST, BlockFace.NORTH_WEST);
+		for (BlockFace face : faces) {
+			if (!MaterialUtil.canNeverStandOn(block.getRelative(face))) {
+				return true;
+			}
+			if (!MaterialUtil.canNeverStandOn(blockDown.getRelative(face))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

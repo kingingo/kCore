@@ -4,13 +4,13 @@ import com.comphenix.protocol.ProtocolLibrary;
 import dev.wolveringer.client.ClientWrapper;
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.client.connection.PacketListener;
+import dev.wolveringer.dataserver.player.LanguageType;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.AntiLogout.AntiLogoutManager;
 import eu.epicpvp.kcore.Command.Admin.CommandReport;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Packets.PacketAACReload;
-import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kCore;
 import lombok.Getter;
@@ -66,47 +66,95 @@ public class AACHack extends kListener {
 	}
 
 	@EventHandler(ignoreCancelled = true)
-	public void onPlayerViolationKick(PlayerViolationCommandEvent ev) {
-		if (!ev.getCommand().contains("kick")) {
+	public void onPlayerViolationKick(PlayerViolationCommandEvent event) {
+		if (!event.getCommand().contains("kick")) {
 			return;
 		}
-		getMysql().Update("INSERT INTO AAC_HACK (playerId,ip,server,hackType,violations) VALUES ('" + UtilPlayer.getPlayerId(ev.getPlayer()) + "','" + ev.getPlayer().getAddress().getAddress().getHostAddress() + "','" + server + "','" + ev.getHackType().getName() + "','0');");
+		int vl = AACAPIProvider.getAPI().getViolationLevel(event.getPlayer(), event.getHackType());
 
-		if (getAntiLogoutManager() != null && ev.getHackType() != HackType.SPAM) {
-			getAntiLogoutManager().del(ev.getPlayer());
+		LoadedPlayer loadedPlayer = client.getPlayerAndLoad(event.getPlayer().getName());
+		int playerId = loadedPlayer.getPlayerId();
+		getMysql().Update("INSERT INTO AAC_HACK (playerId,ip,server,hackType,violations) VALUES ('" + playerId + "','" + event.getPlayer().getAddress().getAddress().getHostAddress() + "','" + server + "','" + event.getHackType().getName() + "','" + vl + "');");
+
+		if (getAntiLogoutManager() != null && event.getHackType() != HackType.SPAM) {
+			getAntiLogoutManager().del(event.getPlayer());
+		}
+		HackType hackType = event.getHackType();
+
+		if (hackType == HackType.KILLAURA || hackType == HackType.COMBATIMPOSSIBLE) { //they're similar hacks
+			hackType = HackType.FORCEFIELD;
 		}
 
-		if (ev.getHackType() == HackType.FLY
-				|| ev.getHackType() == HackType.FASTBOW
-				|| ev.getHackType() == HackType.FIGHTSPEED
-				|| ev.getHackType() == HackType.KILLAURA
-				|| ev.getHackType() == HackType.ANGLE
-				|| ev.getHackType() == HackType.FORCEFIELD) {
+		int anzahl = -1;
+		int gesamtanzahl = -1;
+		String reason;
+		String code = event.getHackType() + server + "x" + vl + "y" + anzahl + "z" + gesamtanzahl;
+		if (loadedPlayer.getLanguageSync() == LanguageType.GERMAN) {
+			reason = "§4§lDu wurdest von unserem Anticheat-System gekickt.\n" +
+					"\n" +
+					"§cDas Nutzen sogenannter Hack-Clients, Autoclicker, Makros o.ä.\n" +
+					"§cist auf unserem Netzwerk §nnicht§c gestattet.\n" +
+					"§4Dies kann zu einem §npermanenten§4 Bann führen!\n" +
+					"\n" +
+					"§6Wenn du nicht gecheatet haben solltest, melde dies bitte §numgehend\n" +
+					"§6im TS3 oder erstelle ein Supportticket unter www.ClashMC.eu\n" +
+					"§6Für einen gültigen Report, erwähne bitte die Uhrzeit und folgenden Code: §e" + code;
+		} else {
+			reason = "§4§lYou were kicked by our anti cheat system.\n" +
+					"\n" +
+					"§cThe usage of so-called hack-clients, auto clicker, macros or similar things is §nnot§c allowed on our network.\n" +
+					"§4This can lead to a §npermanent§4 ban!\n" +
+					"\n" +
+					"§6If you did not cheat, please report this issue §nimmediately\n" +
+					"§6on our teampspeak or create a support ticket at www.ClashMC.eu\n" +
+					"§6For a valid report, please tell us the current time and the following code: §e" + code;
+		}
+		if (hackType == HackType.FLY
+				|| hackType == HackType.NOSWING
+				|| hackType == HackType.HEADROLL
+				|| hackType == HackType.REACH
+				|| hackType == HackType.FASTBOW
+				|| hackType == HackType.IMPOSSIBLEINTERACT
+				|| hackType == HackType.FASTPLACE
+				|| hackType == HackType.FIGHTSPEED
+				|| hackType == HackType.ANGLE
+				|| hackType == HackType.FORCEFIELD) {
 
-			HackType hackType = ev.getHackType();
-
-			if (hackType == HackType.KILLAURA) { //they're similar hacks
-				hackType = HackType.FORCEFIELD;
+			if (hackType == HackType.FORCEFIELD) {
+				anzahl = getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE (hackType='forcefield' OR hacktype='killaura' OR hacktype='combatimpossible') AND playerId='" + playerId + "'");
+			} else {
+				anzahl = getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='" + hackType.getName() + "' AND playerId='" + playerId + "'");
 			}
+			gesamtanzahl = getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType!='nofall' AND playerId='" + playerId + "'");
 
-			int anzahl = getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='" + hackType.getName() + "' AND playerId='" + UtilPlayer.getPlayerId(ev.getPlayer()) + "'");
-
-			if (anzahl >= 5) {
-				String type = "";
-				int a = 0;
-				if (anzahl <= 15) {
-					a = anzahl * 2;
-					type = "min";
-				} else if (anzahl <= 20) {
-					a = anzahl;
+			if (anzahl >= 4 || gesamtanzahl >= 7 || hackType == HackType.HEADROLL) {
+				String type;
+				int a;
+				if (gesamtanzahl <= 10) {
+					a = gesamtanzahl;
 					type = "std";
 				} else {
-					a = anzahl / 2;
+					a = gesamtanzahl / 2;
 					type = "tag";
 				}
-				
-				setZeitBan(ev.getPlayer(), a, type, ev.getHackType().getName());
-				ev.setCancelled(true);
+
+				setZeitBan(event.getPlayer(), a, type, reason.replace("gekickt", "temporär gebannt").replace("kicked", "temporarely banned"));
+				event.setCancelled(true);
+			}
+		}
+		if (event.isCancelled()) {
+			return;
+		}
+		if (event.getHackType() != HackType.BADPACKETS && event.getHackType() != HackType.SPAM && event.getHackType() != HackType.REGEN) { //might occurr on lag so don't kick them fully
+			String cmd = event.getCommand();
+			if (cmd.charAt(0) == '/') {
+				cmd = cmd.substring(1);
+			}
+			if (cmd.startsWith("aackick")) {
+				event.setCancelled(true);
+				System.out.println("Anticheat-System-Kick: " + event.getPlayer().getName() + " hack: " + event.getHackType().getName() + " mysqlanzahl: " + anzahl + " gesamtanzahl: " + gesamtanzahl + " code: " + code);
+				loadedPlayer.kickPlayer(reason);
+
 			}
 		}
 	}
@@ -131,13 +179,13 @@ public class AACHack extends kListener {
 		LoadedPlayer loadedplayer = client.getPlayerAndLoad(banned.getName());
 		loadedplayer.banPlayer(banned.getAddress().getAddress().getHostAddress(), "AAC", "AAC", null, 2, time, reason);
 		loadedplayer.kickPlayer(reason);
-		UtilServer.broadcastTeamChatMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiHackSystem§c für §e" + ti + " " + typ.toUpperCase() + " §cgesperrt. Grund: §e" + reason);
+		UtilServer.broadcastTeamChatMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiCheatSystem§c für §e" + ti + " " + typ.toUpperCase() + " §cgesperrt. Grund: §e" + reason);
 	}
 
 	private void setBan(int lvl, Player banned, String reason) {
-		LoadedPlayer loadedplayer = client.getPlayerAndLoad(banned.getName());
-		loadedplayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, 2, -1, reason);
-		loadedplayer.kickPlayer(reason);
-		UtilServer.broadcastTeamChatMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiHackSystem§c permanent gesperrt. Grund: §e" + reason);
+		LoadedPlayer loadedPlayer = client.getPlayerAndLoad(banned.getName());
+		loadedPlayer.banPlayer(banned.getAddress().getHostName(), "AAC", "AAC", null, 2, -1, reason);
+		loadedPlayer.kickPlayer(reason);
+		UtilServer.broadcastTeamChatMessage("§cDer Spieler §e" + banned.getName() + "§c wurde vom §eAntiCheatSystem§c permanent gesperrt. Grund: §e" + reason);
 	}
 }
