@@ -85,11 +85,13 @@ public class AACHack extends kListener {
 
 			HackType hackType = ev.getHackType();
 
-			if (hackType == HackType.KILLAURA) { //they're similar hacks
-				hackType = HackType.FORCEFIELD;
+			int anzahl;
+			if (hackType == HackType.KILLAURA || hackType == HackType.FORCEFIELD || hackType == HackType.COMBATIMPOSSIBLE) { //they're similar hacks
+				anzahl = getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE (hackType='killaura' OR hackType='forcefield' OR hackType='combatimpossible') AND playerId='" + UtilPlayer.getPlayerId(ev.getPlayer()) + "'");
+				anzahl /= 2;
+			} else {
+				anzahl = getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='" + hackType.getName() + "' AND playerId='" + UtilPlayer.getPlayerId(ev.getPlayer()) + "'");
 			}
-
-			int anzahl = getMysql().getInt("SELECT COUNT(*) FROM AAC_HACK WHERE hackType='" + hackType.getName() + "' AND playerId='" + UtilPlayer.getPlayerId(ev.getPlayer()) + "'");
 
 			if (anzahl >= 5) {
 				String type = "";
@@ -104,7 +106,7 @@ public class AACHack extends kListener {
 					a = anzahl / 2;
 					type = "tag";
 				}
-				
+
 				setZeitBan(ev.getPlayer(), a, type, ev.getHackType().getName());
 				ev.setCancelled(true);
 			}
@@ -118,13 +120,13 @@ public class AACHack extends kListener {
 			long t = 1000 * ti;
 			time = System.currentTimeMillis() + t;
 		} else if (typ.equalsIgnoreCase("min")) {
-			long t = 60000 * ti;
+			long t = 60 * 1000 * ti;
 			time = System.currentTimeMillis() + t;
 		} else if (typ.equalsIgnoreCase("std")) {
-			long t = 3600000 * ti;
+			long t = 60 * 60 * 1000 * ti;
 			time = System.currentTimeMillis() + t;
 		} else if (typ.equalsIgnoreCase("tag")) {
-			long t = 86400000 * ti;
+			long t = 24 * 60 * 60 * 1000 * ti;
 			time = System.currentTimeMillis() + t;
 		}
 
