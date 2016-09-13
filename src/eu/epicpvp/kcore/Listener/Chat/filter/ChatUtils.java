@@ -22,7 +22,7 @@ public class ChatUtils {
 	static {
 		insultPatterns.add(Pattern.compile("n[oöuüv0" + BRACKETS + "]+[b8]")); //noob
 		insultPatterns.add(Pattern.compile("sp+[aä4]+s+t")); //spast
-		insultPatterns.add(Pattern.compile("[h][uüv]+r*[e3]*n*s+[oö0" + BRACKETS + "]+h*n?")); //hurensohn
+		insultPatterns.add(Pattern.compile("[h][uüvoö0" + BRACKETS + "]+r*[e3]*n*s+[oö0" + BRACKETS + "]+h*n?")); //hurensohn
 		insultPatterns.add(Pattern.compile("[vw][i1]+[chsx]+(?:[e3]+r|[aä4])*")); //wichser
 		insultPatterns.add(Pattern.compile("[aä4]r*s*c*h*[l1]+[oö0" + BRACKETS + "]+c*h?")); //arschloch
 		insultPatterns.add(Pattern.compile("[aä4]r*s+c+h")); //arsch
