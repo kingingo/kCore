@@ -25,7 +25,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.spigotmc.AsyncCatcher;
 
 class FlyBypassFixer extends PacketAdapter implements Listener {
 
@@ -46,6 +48,11 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 	}
 
 	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		bypassed.put(event.getPlayer().getUniqueId(), Boolean.TRUE);
+	}
+
+	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		bypassed.put(event.getEntity().getUniqueId(), Boolean.TRUE);
 	}
@@ -58,10 +65,10 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 	@Override
 	public void onPacketReceiving(PacketEvent event) {
 		Player plr = event.getPlayer();
-		if (!event.isFiltered() || plr.getGameMode() == GameMode.CREATIVE || plr.getGameMode() == GameMode.SPECTATOR || plr.getAllowFlight() || plr.getVehicle() != null) {
+		if (plr.getGameMode() == GameMode.CREATIVE || plr.getGameMode() == GameMode.SPECTATOR || plr.getAllowFlight() || plr.getVehicle() != null) {
 			return;
 		}
-		if (bypassed.getIfPresent(plr.getUniqueId()) == null) {
+		if (bypassed.getIfPresent(plr.getUniqueId()) != null) {
 			return;
 		}
 		AACAPI api = AACAPIProvider.getAPI();
@@ -80,8 +87,8 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 		if (!sentOnGround) {
 			return;
 		}
-		boolean simpleOnGround = couldBeOnGroundSimple(location);
-		if (simpleOnGround && api.getViolationLevel(plr, HackType.NOFALL) < 1) {
+		boolean couldBeOnGroundSimple = couldBeOnGroundSimple(location);
+		if (couldBeOnGroundSimple && api.getViolationLevel(plr, HackType.NOFALL) < 2) {
 			return;
 		}
 		boolean onGround;
@@ -93,8 +100,8 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 		}
 		if (!onGround) {
 			packet.getBooleans().write(0, false);
-			if (!simpleOnGround) {
-				if (doNotFlag.getIfPresent(plr.getUniqueId()) == null) {
+			if (!couldBeOnGroundSimple) {
+				if (doNotFlag.getIfPresent(plr.getUniqueId()) != null) {
 					return;
 				}
 				doNotFlag.put(plr.getUniqueId(), Boolean.TRUE);
@@ -117,6 +124,7 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 			return true;
 		}
 		List<BlockFace> faces = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH_EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH_WEST, BlockFace.NORTH_WEST);
+		AsyncCatcher.enabled = false;
 		for (BlockFace face : faces) {
 			if (!MaterialUtil.canNeverStandOn(block.getRelative(face))) {
 				return true;
@@ -125,6 +133,7 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 				return true;
 			}
 		}
+		AsyncCatcher.enabled = true;
 		return false;
 	}
 
