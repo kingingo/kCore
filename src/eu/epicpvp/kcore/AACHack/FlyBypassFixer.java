@@ -33,6 +33,10 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 			.expireAfterWrite(3, TimeUnit.SECONDS)
 			.build();
 
+	private Cache<UUID, Boolean> doNotFlag = CacheBuilder.newBuilder()
+			.expireAfterWrite(1, TimeUnit.SECONDS)
+			.build();
+
 	public FlyBypassFixer() {
 		super(new AdapterParameteters()
 				.plugin(kCore.getInstance())
@@ -90,6 +94,10 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 		if (!onGround) {
 			packet.getBooleans().write(0, false);
 			if (!simpleOnGround) {
+				if (doNotFlag.getIfPresent(plr.getUniqueId()) == null) {
+					return;
+				}
+				doNotFlag.put(plr.getUniqueId(), Boolean.TRUE);
 				try {
 					AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), 1, HackType.NOFALL, "(Custom) (FlyBypassFixer) " + plr.getName() + " is suspected for trying to bypass the fly check");
 				} catch (ReflectiveOperationException ex) {
