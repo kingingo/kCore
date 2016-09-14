@@ -2,12 +2,16 @@ package eu.epicpvp.kcore.AACHack;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import eu.epicpvp.kcore.AACHack.util.MaterialUtil;
 import eu.epicpvp.kcore.kCore;
 import me.konsolas.aac.api.AACAPI;
@@ -18,8 +22,16 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
-class FlyBypassFixer extends PacketAdapter {
+class FlyBypassFixer extends PacketAdapter implements Listener {
+
+	private Cache<UUID, Boolean> bypassed = CacheBuilder.newBuilder()
+			.expireAfterWrite(3, TimeUnit.SECONDS)
+			.build();
 
 	public FlyBypassFixer() {
 		super(new AdapterParameteters()
@@ -29,10 +41,23 @@ class FlyBypassFixer extends PacketAdapter {
 				.types(PacketType.Play.Client.POSITION, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.FLYING));
 	}
 
+	@EventHandler
+	public void onDeath(PlayerDeathEvent event) {
+		bypassed.put(event.getEntity().getUniqueId(), Boolean.TRUE);
+	}
+
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent event) {
+		bypassed.put(event.getPlayer().getUniqueId(), Boolean.TRUE);
+	}
+
 	@Override
 	public void onPacketReceiving(PacketEvent event) {
 		Player plr = event.getPlayer();
 		if (!event.isFiltered() || plr.getGameMode() == GameMode.CREATIVE || plr.getGameMode() == GameMode.SPECTATOR || plr.getAllowFlight() || plr.getVehicle() != null) {
+			return;
+		}
+		if (bypassed.getIfPresent(plr.getUniqueId()) == null) {
 			return;
 		}
 		AACAPI api = AACAPIProvider.getAPI();
