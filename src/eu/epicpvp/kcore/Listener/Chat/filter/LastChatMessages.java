@@ -3,29 +3,19 @@ package eu.epicpvp.kcore.Listener.Chat.filter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatHistory {
-
+public class LastChatMessages {
+	
 	private final List<String> messages = new ArrayList<>();
 
 	/**
 	 * @param message the message the player typed
 	 * @return whether the message is in the player's last messages
 	 */
-	public boolean containsOrAddChatMessage(String message, int amountToSave, boolean antiAntiSpamBypass) {
+	public boolean containsOrAddChatMessage(String message, int amountToSave) {
 		String lowerCase = message.toLowerCase();
 		for (String msg : messages) {
 			if (ChatUtils.isSimilar(lowerCase, msg, .8)) {
 				return true;
-			}
-		}
-		if (antiAntiSpamBypass && message.contains("|")) {
-			for (String msg : messages) {
-				if (msg.contains("|")) {
-					String msgSubstring = msg.substring(msg.lastIndexOf('|'));
-					if (msgSubstring.equals(lowerCase.substring(lowerCase.lastIndexOf('|')))) {
-						return true;
-					}
-				}
 			}
 		}
 		messages.add(lowerCase);

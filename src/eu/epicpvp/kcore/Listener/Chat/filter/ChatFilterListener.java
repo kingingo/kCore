@@ -1,11 +1,8 @@
 package eu.epicpvp.kcore.Listener.Chat.filter;
 
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
@@ -22,35 +19,27 @@ public class ChatFilterListener extends kListener {
 
 	@Getter
 	private final PermissionManager manager;
-	private final Map<UUID, ChatHistory> chatHistories = new HashMap<>();
+	private final Map<UUID, LastChatMessages> lastChatMessages = new HashMap<>();
 	@Getter
 	@Setter
-	private boolean detectLagMessages = false;
+	private boolean detectMessageContainingLag = false;
 	@Getter
 	@Setter
-	private boolean replaceSpecialChars = false;
-	@Getter
-	@Setter
-	private int chatHistoryLength = 2;
+	private int lastMessageAmount = 2;
 	@Getter
 	@Setter
 	private double capsPercentage = .9;
 	@Getter
 	@Setter
 	private int maxSameCharacters = 4;
-	@Getter
-	private static final Set<Pattern> blacklistPatterns = new LinkedHashSet<>();
 
-	public ChatFilterListener(JavaPlugin instance, PermissionManager manager, boolean addDefaultBlacklistPatterns) {
+	public ChatFilterListener(JavaPlugin instance, PermissionManager manager) {
 		super(instance, "AntiSpamListener");
 		this.manager = manager;
-		if (addDefaultBlacklistPatterns) {
-			blacklistPatterns.add(Pattern.compile("alpha.*centauri"));
-		}
 	}
 
-	private ChatHistory getOrCreateChatHistory(UUID uuid) {
-		return chatHistories.computeIfAbsent(uuid, uuid_ -> new ChatHistory());
+	private LastChatMessages getOrCreateLastChatMessages(UUID uuid) {
+		return lastChatMessages.computeIfAbsent(uuid, uuid_ -> new LastChatMessages());
 	}
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -62,12 +51,12 @@ public class ChatFilterListener extends kListener {
 			event.setCancelled(true);
 			return;
 		}
-		if (detectLagMessages && ChatUtils.isLagMessage(msg)) {
-			event.getPlayer().sendMessage(TranslationHandler.getText(event.getPlayer(), "PREFIX") + "§7Thanks for the information that the server is lagging. Tell it a team member in a private message or report it on our teamspeak.");
+		if (detectMessageContainingLag && ChatUtils.isLagMessage(msg)) {
+			event.getPlayer().sendMessage(TranslationHandler.getText(event.getPlayer(), "PREFIX") + "§7Thanks for the information that the server is lagging. Tell it a team member.");
 			event.setCancelled(true);
 			return;
 		}
-		if (ChatUtils.isCharacterSpam(msg, maxSameCharacters)) {
+		if (ChatUtils.isZeichenSpam(msg, maxSameCharacters)) {
 			event.getPlayer().sendMessage(TranslationHandler.getText(event.getPlayer(), "PREFIX") + "§cPlease do not spam.");
 			event.setCancelled(true);
 			return;
@@ -77,31 +66,24 @@ public class ChatFilterListener extends kListener {
 			event.setCancelled(true);
 			return;
 		}
-		if (ChatUtils.doesMath(msg, blacklistPatterns, true)) {
+		if (ChatUtils.isInternetAddress(msg)) {
 			event.getPlayer().sendMessage(TranslationHandler.getText(event.getPlayer(), "PREFIX") + "§cPlease do not advertise.");
 			event.setCancelled(true);
 			return;
 		}
-		if (ChatUtils.isInternetAddress(msg, true)) {
-			event.getPlayer().sendMessage(TranslationHandler.getText(event.getPlayer(), "PREFIX") + "§cPlease do not advertise.");
-			event.setCancelled(true);
-			return;
-		}
-		ChatHistory chatHistory = getOrCreateChatHistory(event.getPlayer().getUniqueId());
-		if (chatHistory.containsOrAddChatMessage(msg, chatHistoryLength, true)) {
+		LastChatMessages lastChatMessages = getOrCreateLastChatMessages(event.getPlayer().getUniqueId());
+		if (lastChatMessages.containsOrAddChatMessage(msg, lastMessageAmount)) {
 			event.getPlayer().sendMessage(TranslationHandler.getText(event.getPlayer(), "PREFIX") + "§cPlease do not spam.");
 			event.setCancelled(true);
 			return;
 		}
-		if (replaceSpecialChars) {
-			msg = ChatUtils.replaceSpecial(msg);
-		}
+		msg = ChatUtils.replaceSpecial(msg);
 		event.setMessage(msg);
 	}
 
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
-		chatHistories.remove(event.getPlayer().getUniqueId());
+		lastChatMessages.remove(event.getPlayer().getUniqueId());
 	}
 }
 

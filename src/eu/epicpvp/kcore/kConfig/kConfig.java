@@ -35,12 +35,12 @@ public class kConfig extends YamlConfiguration{
 		try {
 			load(configFile);
 		} catch (FileNotFoundException e) {
-			System.err.println("[EpicPvP] Config "+configFile.getPath()+" erstellt.");
+			System.err.println("[ClashMC] Config "+configFile.getPath()+" erstellt.");
 		} catch (IOException e) {
-			System.err.println("[EpicPvP] IOException:");
+			System.err.println("[ClashMC] IOException:");
 			e.printStackTrace();
 		} catch (InvalidConfigurationException e) {
-			System.err.println("[EpicPvP] InvalidConfigurationException:");
+			System.err.println("[ClashMC] InvalidConfigurationException:");
 			e.printStackTrace();
 		}
 	}

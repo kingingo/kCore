@@ -19,15 +19,15 @@ import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 
 public class CommandToggle extends kListener implements CommandExecutor{
-
+	
 	boolean chat=true;
 	long online;
-
+	
 	public CommandToggle(JavaPlugin instance){
 		super(instance, "PluginManager");
 		this.online = System.currentTimeMillis();
 	}
-
+	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "pluginmanager", sender = Sender.PLAYER, alias = {"plugman", "toggle"})
 	public boolean onCommand(CommandSender cs, Command cmd, String alias,String[] args) {
 		if(cs instanceof Player){
@@ -102,6 +102,7 @@ public class CommandToggle extends kListener implements CommandExecutor{
 								p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cFehler beim Einschalten des Plugins §6" + plName + "§c: §6" + ex.getLocalizedMessage());
 							}
 						}
+						p.sendMessage(TranslationHandler.getText(p, "PREFIX") + "§cDas Plugin wurde nicht gefunden: §6" + input);
 						return false;
 					}
 				} else {

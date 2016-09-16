@@ -1,8 +1,5 @@
 package eu.epicpvp.kcore.Command.Admin;
 
-import java.util.ArrayList;
-
-import eu.epicpvp.kcore.Permission.Group.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +20,7 @@ import eu.epicpvp.kcore.Util.UtilReflection;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandK implements CommandExecutor{
-
+	
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "k", alias={"group","perm"}, sender = Sender.CONSOLE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(args.length==0){
@@ -46,7 +43,7 @@ public class CommandK implements CommandExecutor{
 				String player = args[1];
 				String perm = args[2];
 				GroupTyp group = GroupTyp.get(args[3]);
-
+				
 				addPermission(player, perm,group);
 			}else if(args[0].equalsIgnoreCase("update")){
 				UtilServer.getPermissionManager().updateGroup(args[1]);
@@ -54,27 +51,19 @@ public class CommandK implements CommandExecutor{
 			}else if(args[0].equalsIgnoreCase("info")){
 				if(args.length==2){
 					Player player = Bukkit.getPlayer(args[1]);
-
+					
 					if(player!=null){
 						PermissionPlayer pplayer = UtilServer.getPermissionManager().getPermissionPlayer(player);
-						System.out.println("Player:" + player.getName());
-						ArrayList<Group> groups = pplayer.getGroups();
-						if(!groups.isEmpty()) {
-							for (Group group : groups) {
-								System.out.println("Rank: " + group.getName());
-								for (Permission perm : group.getPermissions()) {
-									System.out.println("G: " + perm.getPermission());
-								}
-							}
-						}
-						for(Permission perm : pplayer.getPermissions())System.out.println("P: " + perm.getPermissionToString());
+						System.out.println("Player:"+player.getName());
+						if(!pplayer.getGroups().isEmpty())System.out.println("Rank"+pplayer.getGroups().get(0).getName());
+						for(Permission perm : pplayer.getPermissions())System.out.println("P: "+perm.getPermissionToString());
 					}
 				}
 			}
 		}
 		return false;
 	}
-
+	
 	public void addPermission(String player, String permission,GroupTyp typ){
 		LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player);
 		DataBuffer buffer = new DataBuffer().writeByte(3).writeInt(loadedplayer.getPlayerId()).writeString(permission).writeInt(typ.ordinal());
@@ -98,5 +87,5 @@ public class CommandK implements CommandExecutor{
 		UtilServer.getClient().writePacket(packet);
 		System.out.println("Set "+player+"("+loadedplayer.getPlayerId()+") to "+toGroup);
 	}
-
+	
 }
