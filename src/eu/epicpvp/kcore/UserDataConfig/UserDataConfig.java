@@ -84,6 +84,7 @@ public class UserDataConfig extends kListener {
 			logMessage("Die Config konnte nicht gespeichert werden Error: " + e.getMessage());
 		} catch (NullPointerException e) {
 			logMessage("Die Config konnte nicht gespeichert werden NullPointerException: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

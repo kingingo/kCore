@@ -59,9 +59,9 @@ public class AACHack extends kListener {
 		//Prevent fly through a bug in nofall
 		ProtocolLibrary.getProtocolManager().addPacketListener(new FlyBypassFixer());
 		logMessage("Registered FlyBypassFixer");
-		kCore.getInstance().getServer().getPluginManager().registerEvents(new ScaffoldWalkCheck(), kCore.getInstance());
+		UtilServer.getPluginInstance().getServer().getPluginManager().registerEvents(new ScaffoldWalkCheck(), UtilServer.getPluginInstance());
 		logMessage("Registered ScaffoldWalkCheck");
-		kCore.getInstance().getServer().getPluginManager().registerEvents(new TowerLimiter(), kCore.getInstance());
+		UtilServer.getPluginInstance().getServer().getPluginManager().registerEvents(new TowerLimiter(), UtilServer.getPluginInstance());
 		logMessage("Registered TowerLimiter");
 	}
 
