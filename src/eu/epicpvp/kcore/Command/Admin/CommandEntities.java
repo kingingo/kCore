@@ -86,7 +86,7 @@ public class CommandEntities implements CommandExecutor{
 										if(UtilServer.getGemsShop().getListener().getEntity().getEntityId()==e.getEntityId())continue;
 									}
 									
-									if(UtilServer.getPerkManager()!=null&&UtilServer.getGemsShop().getListener().getEntity()!=null){
+									if(UtilServer.getPerkManager()!=null&&UtilServer.getPerkManager().getEntity()!=null){
 										if(UtilServer.getPerkManager().getEntity().getEntityId()==e.getEntityId())continue;
 									}
 									
