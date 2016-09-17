@@ -13,6 +13,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import eu.epicpvp.kcore.AACHack.util.MaterialUtil;
+import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kCore;
 import me.konsolas.aac.api.AACAPI;
 import me.konsolas.aac.api.AACAPIProvider;
@@ -41,7 +42,7 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 
 	public FlyBypassFixer() {
 		super(new AdapterParameteters()
-				.plugin(kCore.getInstance())
+				.plugin(UtilServer.getPluginInstance())
 				.clientSide()
 				.listenerPriority(ListenerPriority.HIGHEST)
 				.types(PacketType.Play.Client.POSITION, PacketType.Play.Client.POSITION_LOOK, PacketType.Play.Client.FLYING));
