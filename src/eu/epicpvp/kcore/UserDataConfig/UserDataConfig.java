@@ -78,6 +78,8 @@ public class UserDataConfig extends kListener {
 	}
 
 	public void saveConfig(int playerId) {
+		if(!configs.containsKey(playerId))return;
+		
 		try {
 			configs.get(playerId).save(new File(getDataFolder(), playerId + ".yml"));
 		} catch (IOException e) {
