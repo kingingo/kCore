@@ -14,7 +14,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import eu.epicpvp.kcore.AACHack.util.MaterialUtil;
 import eu.epicpvp.kcore.Util.UtilServer;
-import eu.epicpvp.kcore.kCore;
 import me.konsolas.aac.api.AACAPI;
 import me.konsolas.aac.api.AACAPIProvider;
 import me.konsolas.aac.api.HackType;
@@ -88,8 +87,10 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 		if (!sentOnGround) {
 			return;
 		}
+		AsyncCatcher.enabled = false;
 		boolean couldBeOnGroundSimple = couldBeOnGroundSimple(location);
 		if (couldBeOnGroundSimple && api.getViolationLevel(plr, HackType.NOFALL) < 2) {
+			AsyncCatcher.enabled = true;
 			return;
 		}
 		boolean onGround;
@@ -98,6 +99,8 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 		} catch (ReflectiveOperationException ex) {
 			ex.printStackTrace();
 			return;
+		} finally {
+			AsyncCatcher.enabled = true;
 		}
 		if (!onGround) {
 			packet.getBooleans().write(0, false);
@@ -125,7 +128,6 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 			return true;
 		}
 		List<BlockFace> faces = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH_EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH_WEST, BlockFace.NORTH_WEST);
-		AsyncCatcher.enabled = false;
 		for (BlockFace face : faces) {
 			if (!MaterialUtil.canNeverStandOn(block.getRelative(face))) {
 				return true;
@@ -134,7 +136,6 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 				return true;
 			}
 		}
-		AsyncCatcher.enabled = true;
 		return false;
 	}
 
