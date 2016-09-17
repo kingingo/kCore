@@ -12,7 +12,6 @@ import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Packets.PacketAACReload;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
-import eu.epicpvp.kcore.kCore;
 import lombok.Getter;
 import lombok.Setter;
 import me.konsolas.aac.api.AACAPIProvider;
@@ -21,6 +20,7 @@ import me.konsolas.aac.api.PlayerViolationCommandEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.plugin.Plugin;
 
 public class AACHack extends kListener {
 	@Getter
@@ -59,7 +59,7 @@ public class AACHack extends kListener {
 		//Prevent fly through a bug in nofall
 		FlyBypassFixer flyBypassFixer = new FlyBypassFixer();
 		ProtocolLibrary.getProtocolManager().addPacketListener(flyBypassFixer);
-		kCore plugin = kCore.getInstance();
+		Plugin plugin = UtilServer.getPluginInstance();
 		plugin.getServer().getPluginManager().registerEvents(flyBypassFixer, plugin);
 		logMessage("Registered FlyBypassFixer");
 		plugin.getServer().getPluginManager().registerEvents(new ScaffoldWalkCheck(), plugin);
