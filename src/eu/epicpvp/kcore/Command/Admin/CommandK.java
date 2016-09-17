@@ -14,6 +14,7 @@ import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.Permission;
 import eu.epicpvp.kcore.Permission.PermissionPlayer;
+import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilReflection;
@@ -57,6 +58,12 @@ public class CommandK implements CommandExecutor{
 						System.out.println("Player:"+player.getName());
 						if(!pplayer.getGroups().isEmpty())System.out.println("Rank"+pplayer.getGroups().get(0).getName());
 						for(Permission perm : pplayer.getPermissions())System.out.println("P: "+perm.getPermissionToString());
+						for(Group g : pplayer.getGroups()){
+							System.out.println("G: "+g.getName());
+							for(Permission perm : g.getPermissions()){
+								System.out.println("G_P: "+perm.getPermissionToString());
+							}
+						}
 					}
 				}
 			}
