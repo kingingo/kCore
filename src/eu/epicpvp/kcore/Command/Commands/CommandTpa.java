@@ -49,6 +49,7 @@ public class CommandTpa implements CommandExecutor {
 									getManager().getTeleport_anfrage().put(tp, new Teleporter(player, tp, 0));
 								}else{
 									player.sendMessage( TranslationHandler.getPrefixAndText( player, "WARZ_CMD_SPAWN_NEAR_TO_PLAYER" ) );
+									return false;
 								}
 							}else{
 								getManager().getTeleport_anfrage().put(tp, new Teleporter(player, tp, 3));
