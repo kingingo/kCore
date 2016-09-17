@@ -87,34 +87,38 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 		if (!sentOnGround) {
 			return;
 		}
-		AsyncCatcher.enabled = false;
-		boolean couldBeOnGroundSimple = couldBeOnGroundSimple(location);
-		if (couldBeOnGroundSimple && api.getViolationLevel(plr, HackType.NOFALL) < 2) {
-			AsyncCatcher.enabled = true;
-			return;
-		}
-		boolean onGround;
 		try {
-			onGround = AACAccessor.isOnGround(location);
-		} catch (ReflectiveOperationException ex) {
-			ex.printStackTrace();
-			return;
-		} finally {
-			AsyncCatcher.enabled = true;
-		}
-		if (!onGround) {
-			packet.getBooleans().write(0, false);
-			if (!couldBeOnGroundSimple) {
-				if (doNotFlag.getIfPresent(plr.getUniqueId()) != null) {
-					return;
-				}
-				doNotFlag.put(plr.getUniqueId(), Boolean.TRUE);
-				try {
-					AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), 1, HackType.NOFALL, "(Custom) (FlyBypassFixer) " + plr.getName() + " is suspected for trying to bypass the fly check");
-				} catch (ReflectiveOperationException ex) {
-					ex.printStackTrace();
+			AsyncCatcher.enabled = false;
+			boolean couldBeOnGroundSimple = couldBeOnGroundSimple(location);
+			if (couldBeOnGroundSimple && api.getViolationLevel(plr, HackType.NOFALL) < 2) {
+				AsyncCatcher.enabled = true;
+				return;
+			}
+			boolean onGround;
+			try {
+				onGround = AACAccessor.isOnGround(location);
+			} catch (ReflectiveOperationException ex) {
+				ex.printStackTrace();
+				return;
+			} finally {
+				AsyncCatcher.enabled = true;
+			}
+			if (!onGround) {
+				packet.getBooleans().write(0, false);
+				if (!couldBeOnGroundSimple) {
+					if (doNotFlag.getIfPresent(plr.getUniqueId()) != null) {
+						return;
+					}
+					doNotFlag.put(plr.getUniqueId(), Boolean.TRUE);
+					try {
+						AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), 1, HackType.NOFALL, "(Custom) (FlyBypassFixer) " + plr.getName() + " is suspected for trying to bypass the fly check");
+					} catch (ReflectiveOperationException ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
+		} catch (IllegalStateException ex) {
+			ex.printStackTrace();
 		}
 	}
 
