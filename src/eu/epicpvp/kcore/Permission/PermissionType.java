@@ -439,6 +439,8 @@ public enum PermissionType {
 	CAPE_YELLOW_GREEN("epicpvp.particle.cape.yellow.green"),
 	CAPE_RED_ORANGE("epicpvp.particle.cape.red.orange"),
 	CAPE_GREEN_PURPLE("epicpvp.particle.cape.green.purple"),
+	
+	WARZ_MAP_OTHER_PLAYER("warz.map.otherplayer"),
 	//
 
 	NONE("FAIL"), 

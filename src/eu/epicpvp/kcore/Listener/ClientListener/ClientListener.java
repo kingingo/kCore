@@ -57,8 +57,11 @@ public class ClientListener extends kListener{
 		getClient().clearCacheForPlayer(getClient().getPlayerAndLoad(ev.getPlayer().getName()));
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.HIGHEST)
 	public void a(AsyncPlayerPreLoginEvent e){
+		if (client == null || !client.getHandle().isConnected() || !client.getHandle().isHandshakeCompleted() ) {
+			return;
+		}
 		UtilServer.getClient().getPlayerAndLoad(e.getName());
 		System.out.println("§aPlayer "+e.getName()+" loaded!");
 	}
