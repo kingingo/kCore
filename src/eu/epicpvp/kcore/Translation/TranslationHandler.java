@@ -33,6 +33,10 @@ public class TranslationHandler {
 	public static LanguageType getLanguage(Player player) {
 		return instance.getLanguage(UtilServer.getClient().getPlayerAndLoad(player.getName()));
 	}
+	
+	public static void registerFallback(LanguageType type,String key,String message){
+		instance.getTranslationFile(type).registerFallbackMessage(key, message);
+	}
 
 	public static String getText(String name, Object... input) {
 		try {
