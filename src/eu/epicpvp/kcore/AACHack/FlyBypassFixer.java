@@ -27,16 +27,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.spigotmc.AsyncCatcher;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 class FlyBypassFixer extends PacketAdapter implements Listener {
 
-	private Cache<UUID, Boolean> bypassed = CacheBuilder.newBuilder()
-			.expireAfterWrite(3, TimeUnit.SECONDS)
+	private Cache<UUID, Boolean> doNotFlag1s = CacheBuilder.newBuilder()
+			.expireAfterWrite(1, TimeUnit.SECONDS)
 			.build();
 
-	private Cache<UUID, Boolean> doNotFlag = CacheBuilder.newBuilder()
-			.expireAfterWrite(1, TimeUnit.SECONDS)
+	private Cache<UUID, Boolean> doNotFlag3s = CacheBuilder.newBuilder()
+			.expireAfterWrite(3, TimeUnit.SECONDS)
 			.build();
 
 	public FlyBypassFixer() {
@@ -49,26 +49,28 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		bypassed.put(event.getPlayer().getUniqueId(), Boolean.TRUE);
+		doNotFlag3s.put(event.getPlayer().getUniqueId(), Boolean.TRUE);
+	}
+
+	@EventHandler
+	public void onTeleport(PlayerTeleportEvent event) {
+		doNotFlag3s.put(event.getPlayer().getUniqueId(), Boolean.TRUE);
 	}
 
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		bypassed.put(event.getEntity().getUniqueId(), Boolean.TRUE);
+		doNotFlag3s.put(event.getEntity().getUniqueId(), Boolean.TRUE);
 	}
 
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
-		bypassed.put(event.getPlayer().getUniqueId(), Boolean.TRUE);
+		doNotFlag3s.put(event.getPlayer().getUniqueId(), Boolean.TRUE);
 	}
 
 	@Override
 	public void onPacketReceiving(PacketEvent event) {
 		Player plr = event.getPlayer();
 		if (plr.getGameMode() == GameMode.CREATIVE || plr.getGameMode() == GameMode.SPECTATOR || plr.getAllowFlight() || plr.getVehicle() != null) {
-			return;
-		}
-		if (bypassed.getIfPresent(plr.getUniqueId()) != null) {
 			return;
 		}
 		AACAPI api = AACAPIProvider.getAPI();
@@ -82,16 +84,28 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 		} else {
 			location = new Location(plr.getWorld(), packet.getDoubles().read(0), packet.getDoubles().read(1), packet.getDoubles().read(2));
 		}
-
+		int baseChunkX = location.getBlockX() >> 4;
+		int baseChunkZ = location.getBlockZ() >> 4;
+		//@formatter:off
+		if (       !location.getWorld().isChunkLoaded(baseChunkX - 1, baseChunkZ - 1)
+				|| !location.getWorld().isChunkLoaded(baseChunkX - 1, baseChunkZ)
+				|| !location.getWorld().isChunkLoaded(baseChunkX - 1, baseChunkZ + 1)
+				|| !location.getWorld().isChunkLoaded(baseChunkX,     baseChunkZ - 1)
+				|| !location.getWorld().isChunkLoaded(baseChunkX,     baseChunkZ)
+				|| !location.getWorld().isChunkLoaded(baseChunkX,     baseChunkZ + 1)
+				|| !location.getWorld().isChunkLoaded(baseChunkX + 1, baseChunkZ - 1)
+				|| !location.getWorld().isChunkLoaded(baseChunkX + 1, baseChunkZ)
+				|| !location.getWorld().isChunkLoaded(baseChunkX + 1, baseChunkZ + 1)) {
+			return;
+		}
+		//@formatter:on
 		Boolean sentOnGround = packet.getBooleans().read(0);
 		if (!sentOnGround) {
 			return;
 		}
 		try {
-			AsyncCatcher.enabled = false;
 			boolean couldBeOnGroundSimple = couldBeOnGroundSimple(location);
 			if (couldBeOnGroundSimple && api.getViolationLevel(plr, HackType.NOFALL) < 2) {
-				AsyncCatcher.enabled = true;
 				return;
 			}
 			boolean onGround;
@@ -100,16 +114,20 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 			} catch (ReflectiveOperationException ex) {
 				ex.printStackTrace();
 				return;
-			} finally {
-				AsyncCatcher.enabled = true;
 			}
 			if (!onGround) {
 				packet.getBooleans().write(0, false);
+				boolean doNotFlag1sPresent = doNotFlag1s.getIfPresent(plr.getUniqueId()) != null;
+				boolean doNotFlag3sPresent = doNotFlag3s.getIfPresent(plr.getUniqueId()) != null;
+				System.out.println("[FlyBypassFixer] " + plr.getName() + " is suspected for trying to bypass the fly check; simple onground:" + couldBeOnGroundSimple + ", noFlag1s: " + doNotFlag1s + ", noFlag3s: " + doNotFlag3s);
 				if (!couldBeOnGroundSimple) {
-					if (doNotFlag.getIfPresent(plr.getUniqueId()) != null) {
+					if (doNotFlag1sPresent) {
 						return;
 					}
-					doNotFlag.put(plr.getUniqueId(), Boolean.TRUE);
+					if (doNotFlag3sPresent) {
+						return;
+					}
+					doNotFlag1s.put(plr.getUniqueId(), Boolean.TRUE);
 					try {
 						AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), 1, HackType.NOFALL, "(Custom) (FlyBypassFixer) " + plr.getName() + " is suspected for trying to bypass the fly check");
 					} catch (ReflectiveOperationException ex) {
