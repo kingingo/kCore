@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.Util;
 
 import java.util.UUID;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import dev.wolveringer.client.Callback;
