@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Gilden.GildenManager;
@@ -12,45 +11,25 @@ import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
-import lombok.Getter;
-import lombok.Setter;
+import eu.epicpvp.kcore.Util.UtilServer;
 
 public class ChatListener extends kListener {
 
-	@Getter
-	private PermissionManager manager;
-	@Setter
-	private GildenManager gildenmanager;
 	private String suffix = "§8 " + Zeichen.DOUBLE_ARROWS_R.getIcon() + " §7";
-	@Setter
+	private PermissionManager manager;
 	private UserDataConfig userData;
 
-	public ChatListener(JavaPlugin instance, GildenManager gildenmanager, PermissionManager manager, UserDataConfig userData) {
-		super(instance, "ChatListener");
-		this.manager = manager;
-		this.userData = userData;
-		this.gildenmanager = gildenmanager;
-	}
-
-	public ChatListener(JavaPlugin instance, PermissionManager manager) {
-		super(instance, "ChatListener");
-		this.manager = manager;
-	}
-
-	public ChatListener(JavaPlugin instance, GildenManager gildenmanager) {
-		super(instance, "ChatListener");
-		this.gildenmanager = gildenmanager;
+	public ChatListener() {
+		super(UtilServer.getPluginInstance(), "ChatListener");
+		this.manager=UtilServer.getPermissionManager();
+		this.userData=UtilServer.getUserData();
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
-		String g;
-		String tag;
-		Player p;
-		String msg;
 		if (!event.isCancelled()) {
-			p = event.getPlayer();
-			msg = event.getMessage();
+			Player p = event.getPlayer();
+			String msg = event.getMessage();
 
 			msg = msg.replaceAll("%", "");
 			if (p.hasPermission(PermissionType.CHAT_FARBIG.getPermissionToString())) {
@@ -62,9 +41,10 @@ public class ChatListener extends kListener {
 				}
 			}
 
-			if (gildenmanager != null && gildenmanager.isPlayerInGilde(p)) {
-				g = gildenmanager.getPlayerGilde(p);
-				tag = gildenmanager.getTag(gildenmanager.getPlayerGilde(p));
+			if (UtilServer.getGildenManager() != null && UtilServer.getGildenManager().isPlayerInGilde(p)) {
+				GildenManager gildenmanager = UtilServer.getGildenManager();
+				String g = gildenmanager.getPlayerGilde(p);
+				String tag = gildenmanager.getTag(gildenmanager.getPlayerGilde(p));
 				g = g.toLowerCase();
 				if (gildenmanager.getExtra_prefix().containsKey(g)) {
 					if (gildenmanager.getExtra_prefix().get(g) == 1) {
@@ -84,13 +64,15 @@ public class ChatListener extends kListener {
 					}
 				}
 
-				if (manager != null)
-					event.setFormat(manager.getPrefix(p) + tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
-			} else {
-				if (manager != null)
-					event.setFormat(manager.getPrefix(p) + p.getName() + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
+				event.setFormat(manager.getPrefix(p) + tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
+			} else if(UtilServer.getGildeHandler()!=null&&UtilServer.getGildeHandler().hasGilde(p)){
+				String tag = UtilServer.getGildeHandler().getSection(p).getHandle().getShortName();
+				
+				event.setFormat(manager.getPrefix(p) + tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
+			}else {
+				event.setFormat(manager.getPrefix(p) + p.getName() + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
 			}
 		}
 	}
 
-}
+	}

@@ -32,6 +32,7 @@ import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Events.ServerStatusUpdateEvent;
 import eu.epicpvp.kcore.GagdetShop.GadgetHandler;
 import eu.epicpvp.kcore.GemsShop.GemsShop;
+import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Hologram.Hologram;
 import eu.epicpvp.kcore.ItemShop.ItemShop;
 import eu.epicpvp.kcore.Kit.PerkManager;
@@ -50,6 +51,7 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.Updater;
 import eu.epicpvp.kcore.UpdateAsync.UpdaterAsync;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
+import eu.epicpvp.kcore.newGilde.GildeHandler;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -63,6 +65,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.spigotmc.AsyncCatcher;
 
 public class UtilServer {
+	@Getter
+	@Setter
+	private static GildenManager gildenManager = null;
+	@Getter
+	@Setter
+	private static GildeHandler gildeHandler = null;
 	@Setter
 	private static Plugin pluginInstance = null;
 	@Getter

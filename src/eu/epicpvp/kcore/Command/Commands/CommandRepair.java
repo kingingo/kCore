@@ -19,12 +19,10 @@ public class CommandRepair implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		Player player = (Player) sender;
 		if(player.hasPermission(PermissionType.REPAIR.getPermissionToString())){
-
 			String s = UtilTime.getTimeManager().check(cmd.getName(), player);
 			if(s !=null){
 				player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME", s));
 			}else{
-
 				Long l = UtilTime.getTimeManager().hasPermission(player, cmd.getName());
 				if( l !=0 ){
 					UtilTime.getTimeManager().add(cmd.getName(), player, l);

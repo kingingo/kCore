@@ -23,6 +23,7 @@ import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.Action;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.EditStats;
 import dev.wolveringer.gamestats.Statistic;
+import dev.wolveringer.gilde.GildSection;
 import dev.wolveringer.nbt.NBTCompressedStreamTools;
 import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Listener.kListener;
@@ -37,6 +38,7 @@ import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.newGilde.GildeHandler;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -61,6 +63,9 @@ public class StatsManager extends kListener {
 	@Getter
 	@Setter
 	private boolean autoLoad = false;
+	@Getter
+	@Setter
+	private GildeHandler gilde;
 
 	protected StatsManager(JavaPlugin instance, ClientWrapper client, GameType type) {
 		super(instance, "StatsManager|" + type.getShortName());
@@ -537,16 +542,18 @@ public class StatsManager extends kListener {
 		}
 	}
 
-	public void saveAll() {
-		EditStats[] stats;
-		for (Map.Entry<Integer, Map<StatsKey, StatsObject>> entry : this.cachedPlayerStats.entrySet()) {
-			LoadedPlayer loadedplayer = client.getPlayerAndLoad(entry.getKey());
-			Map<StatsKey, StatsObject> statsMap = entry.getValue();
-			stats = createEditStatsArray(statsMap);
-			loadedplayer.setStats(stats);
+	private EditStats[] createEditStatsArrayGilde(EditStats[] stats) {
+		ArrayList<EditStats> list = new ArrayList<>();
+		
+		for(EditStats s : stats){
+			if(s.getAction() == Action.ADD || s.getAction() == Action.REMOVE){
+				list.add(s);
+			}
 		}
+		
+		return ((EditStats[]) list.toArray(new EditStats[list.size()]));
 	}
-
+	
 	private EditStats[] createEditStatsArray(Map<StatsKey, StatsObject> statsMap) {
 		EditStats[] stats;
 		stats = new EditStats[statsMap.size()];
@@ -582,6 +589,26 @@ public class StatsManager extends kListener {
 		save(UtilPlayer.getPlayerId(player));
 	}
 
+	public void saveAll() {
+		EditStats[] stats;
+		for (Map.Entry<Integer, Map<StatsKey, StatsObject>> entry : this.cachedPlayerStats.entrySet()) {
+			LoadedPlayer loadedplayer = client.getPlayerAndLoad(entry.getKey());
+			Map<StatsKey, StatsObject> statsMap = entry.getValue();
+			stats = createEditStatsArray(statsMap);
+			
+			if(gilde!=null){
+				GildSection section = gilde.getSection(loadedplayer);
+				
+				if(section!=null){
+					EditStats[] gstats = createEditStatsArrayGilde(stats);
+					section.getStatsPlayer().setStats(gstats);
+				}
+			}
+			
+			loadedplayer.setStats(stats);
+		}
+	}
+
 	public void save(int playerId) {
 		if (isOnDisable())
 			return;
@@ -592,6 +619,14 @@ public class StatsManager extends kListener {
 				return;
 			EditStats[] stats = createEditStatsArray(statsMap);
 
+			if(gilde!=null){
+				GildSection section = gilde.getSection(playerId);
+				
+				if(section!=null){
+					EditStats[] gstats = createEditStatsArrayGilde(stats);
+					section.getStatsPlayer().setStats(gstats);
+				}
+			}
 			loadedplayer.setStats(stats);
 			this.loadingPlayers.remove(loadedplayer.getName());
 		}

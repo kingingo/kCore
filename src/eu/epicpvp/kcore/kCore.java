@@ -2,7 +2,14 @@ package eu.epicpvp.kcore;
 
 import java.util.function.Predicate;
 
+import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.client.debug.Debugger;
+import dev.wolveringer.gilde.GildManager;
+import dev.wolveringer.gilde.GildSection;
+import dev.wolveringer.gilde.Gilde;
+import dev.wolveringer.gilde.GildePermissions;
+import dev.wolveringer.gilde.GildeType;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,6 +24,7 @@ import eu.epicpvp.kcore.Listener.Skin.SkinUpdateListener;
 import eu.epicpvp.kcore.Listener.nick.NickChangeListener;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
+import net.minecraft.server.v1_8_R3.NBTTagByte;
 
 public class kCore extends JavaPlugin {
 	@Getter
@@ -58,9 +66,22 @@ public class kCore extends JavaPlugin {
 		Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
 		for(String s : Bukkit.getScoreboardManager().getMainScoreboard().getEntries())
 			Bukkit.getScoreboardManager().getMainScoreboard().resetScores(s);
-		
 	}
 
+	public void a(){
+		LoadedPlayer lplayer = null;
+		GildManager manager = new GildManager(UtilServer.getClient());
+		
+		Gilde gilde = manager.getGildeSync(lplayer, GildeType.ARCADE);
+		GildSection sec = gilde.getSelection(GildeType.ARCADE);
+		sec.getCostumData().setInt("x", 1);
+		sec.saveCostumData();
+		
+		sec.getMoney().log(lplayer.getPlayerId(), 100, "Runden ende gewinn");
+		sec.getMoney().addMoney(100);
+		sec.getPermission().hasPermission(lplayer, GildePermissions.MEMBER_EDIT);
+	}
+	
 	private class CommandDebugListener implements Listener {
 		@EventHandler
 		public void onCommand(PlayerCommandPreprocessEvent event) {

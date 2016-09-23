@@ -78,7 +78,10 @@ public class UserDataConfig extends kListener {
 	}
 
 	public void saveConfig(int playerId) {
-		if(!configs.containsKey(playerId))return;
+		if(!configs.containsKey(playerId)){
+			logMessage("Die Config konnte nicht gespeichert werden, weil sie nicht in der Liste gefunden wurde!");
+			return;
+		}
 		
 		try {
 			configs.get(playerId).save(new File(getDataFolder(), playerId + ".yml"));
