@@ -547,9 +547,9 @@ public class StatsManager extends kListener {
 		
 		for(EditStats s : stats){
 			if(s==null){
-				logMessage("EditStats is null length= ["+stats.length+"]");
 				continue;
 			}
+			
 			if(s.getAction() == Action.ADD || s.getAction() == Action.REMOVE){
 				list.add(s);
 			}
