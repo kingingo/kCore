@@ -119,14 +119,14 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 				packet.getBooleans().write(0, false);
 				boolean doNotFlag1sPresent = doNotFlag1s.getIfPresent(plr.getUniqueId()) != null;
 				boolean doNotFlag3sPresent = doNotFlag3s.getIfPresent(plr.getUniqueId()) != null;
-				System.out.println("[FlyBypassFixer] " + plr.getName() + " is suspected for trying to bypass the fly check; simple onground:" + couldBeOnGroundSimple + ", noFlag1s: " + doNotFlag1s + ", noFlag3s: " + doNotFlag3s);
 				if (!couldBeOnGroundSimple) {
-					if (doNotFlag1sPresent) {
-						return;
-					}
 					if (doNotFlag3sPresent) {
 						return;
 					}
+					if (doNotFlag1sPresent) {
+						return;
+					}
+					System.out.println("[FlyBypassFixer] " + plr.getName() + " is suspected for trying to bypass the fly check");
 					doNotFlag1s.put(plr.getUniqueId(), Boolean.TRUE);
 					try {
 						AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), 1, HackType.NOFALL, "(Custom) (FlyBypassFixer) " + plr.getName() + " is suspected for trying to bypass the fly check");
