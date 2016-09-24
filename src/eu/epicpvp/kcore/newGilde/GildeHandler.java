@@ -23,7 +23,7 @@ public class GildeHandler extends kListener{
 		super(UtilServer.getPluginInstance(),"GildeHandler");
 		this.type=type;
 		this.gilde=new GildManager(UtilServer.getClient());
-		UtilServer.setGildeHandler(this);
+//		UtilServer.setGildeHandler(this);
 	}
 	
 	public GildeType getType(){
