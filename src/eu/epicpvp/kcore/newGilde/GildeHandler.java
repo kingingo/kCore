@@ -1,12 +1,16 @@
 package eu.epicpvp.kcore.newGilde;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import dev.wolveringer.client.LoadedPlayer;
 import dev.wolveringer.client.futures.StatsResponseFuture;
 import dev.wolveringer.gilde.GildManager;
 import dev.wolveringer.gilde.GildSection;
+import dev.wolveringer.gilde.Gilde;
 import dev.wolveringer.gilde.GildeType;
+import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Util.UtilPlayer;
@@ -16,14 +20,22 @@ import lombok.Getter;
 public class GildeHandler extends kListener{
 
 	@Getter
-	private GildManager gilde;
+	private GildManager gildeManager;
 	private GildeType type;
 	
 	public GildeHandler(GildeType type){
 		super(UtilServer.getPluginInstance(),"GildeHandler");
 		this.type=type;
-		this.gilde=new GildManager(UtilServer.getClient());
-//		UtilServer.setGildeHandler(this);
+		this.gildeManager=new GildManager(UtilServer.getClient());
+		UtilServer.setGildeHandler(this);
+	}
+	
+	public void saveData(int playerId){
+		getSection(playerId).saveCostumData();
+	}
+	
+	public NBTTagCompound getData(int playerId){
+		return getSection(playerId).getCostumData();
 	}
 	
 	public GildeType getType(){
@@ -59,14 +71,23 @@ public class GildeHandler extends kListener{
 		return getSection(UtilPlayer.getPlayerId(player));
 	}
 	
-	public GildSection getSection(int playerId){
-		GildSection section = getGilde().getGildeSync(UtilServer.getClient().getPlayer(playerId), getType()).getSelection(getType());
-		
-		if(section.isActive()){
-			return section;
-		}else{
-			return null;
-		}
+	public Gilde getGilde(Player player){
+		return getGilde(UtilPlayer.getPlayerId(player));
 	}
 	
+	public Gilde getGilde(int playerId){
+		return getGildeManager().getGildeSync(UtilServer.getClient().getPlayer(playerId), getType());
+	}
+	
+	public GildSection getSection(int playerId){
+		Gilde gilde = getGilde(playerId);
+		
+		if(gilde!=null){
+			GildSection section = gilde.getSelection(getType());
+			if(section!=null&&section.isActive()){
+				return section;
+			}
+		}
+		return null;
+	}
 }

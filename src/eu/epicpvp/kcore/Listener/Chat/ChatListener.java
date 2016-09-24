@@ -67,7 +67,7 @@ public class ChatListener extends kListener {
 				event.setFormat(manager.getPrefix(p) + tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
 			} else if(UtilServer.getGildeHandler()!=null&&UtilServer.getGildeHandler().hasGilde(p)){
 				String tag = UtilServer.getGildeHandler().getSection(p).getHandle().getShortName();
-				
+				tag="§7"+tag+"§e* ";
 				event.setFormat(manager.getPrefix(p) + tag + manager.getPrefix(p).subSequence(0, 2) + p.getName() + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
 			}else {
 				event.setFormat(manager.getPrefix(p) + p.getName() + suffix + (p.hasPermission(PermissionType.SUFFIX.getPermissionToString()) ? (this.userData != null ? (this.userData.getConfig(p).contains("Chat.Suffix") ? this.userData.getConfig(p).getString("Chat.Suffix") : "") : "") : "") + msg);
