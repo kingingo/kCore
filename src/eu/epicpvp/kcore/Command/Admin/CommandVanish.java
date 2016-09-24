@@ -17,10 +17,12 @@ import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilServer;
+import lombok.Getter;
 
 public class CommandVanish extends kListener implements CommandExecutor {
 
-	private ArrayList<Player> invisible = new ArrayList<>();
+	@Getter
+	private static ArrayList<Player> invisible = new ArrayList<>();
 
 	public CommandVanish(JavaPlugin instance) {
 		super(instance, "CommandVanish");

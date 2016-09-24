@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
@@ -41,7 +42,7 @@ public class UtilItem {
 	public static void modifyMaxStack(net.minecraft.server.v1_8_R3.Item item, int amount) {
 		UtilReflection.setValue("maxStackSize", item, amount);
 	}
-	
+
 	public static boolean isUnbreakable(ItemStack item){
 		return item.getItemMeta().spigot().isUnbreakable();
 	}
