@@ -35,7 +35,9 @@ public class GildeHandler extends kListener{
 	}
 	
 	public NBTTagCompound getData(int playerId){
-		return getSection(playerId).getCostumData();
+		GildSection section = getSection(playerId);
+		if(section.getCostumData()==null)section.reloadDataSync();
+		return section.getCostumData();
 	}
 	
 	public GildeType getType(){
