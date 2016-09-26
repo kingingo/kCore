@@ -8,6 +8,7 @@ import com.google.common.base.Charsets;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
+import eu.epicpvp.kcore.Util.UtilFile;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kConfig.kConfig;
@@ -65,7 +66,8 @@ public class UserDataConfig extends kListener {
 	public void Join(PlayerJoinEvent ev) {
 		int playerId = UtilPlayer.getPlayerId(ev.getPlayer());
 		if (configs != null && configs.containsKey(playerId)) {
-			Bukkit.getPluginManager().callEvent(new UserDataConfigLoadEvent(configs.get(playerId), ev.getPlayer()));
+			
+			Bukkit.getPluginManager().callEvent(new UserDataConfigLoadEvent(configs.get(playerId), ev.getPlayer(), UtilFile.isFileNew(configs.get(playerId).getFile())));
 		}
 	}
 

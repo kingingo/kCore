@@ -16,6 +16,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.zip.ZipEntry;
@@ -31,6 +35,40 @@ public class UtilFile {
 
 	public static String getPluginFolder(Plugin instance) {
 		return "plugins" + File.separator + instance.getName();
+	}
+	
+	public static boolean isFileNew(File file){
+		return (creationTime(file) == lastModifiedTime(file));
+	}
+	
+	public static FileTime lastAccessTime(File file){
+		try {
+			BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+			return attr.lastAccessTime();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static FileTime lastModifiedTime(File file){
+		try {
+			BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+			return attr.lastModifiedTime();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static FileTime creationTime(File file){
+		try {
+			BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+			return attr.creationTime();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static File getFolder() {

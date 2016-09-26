@@ -14,11 +14,14 @@ public class UserDataConfigLoadEvent extends Event
   private kConfig config;
   @Getter
   private Player player;
+  @Getter
+  private boolean newConfig;
 
-  public UserDataConfigLoadEvent(kConfig config,Player player)
+  public UserDataConfigLoadEvent(kConfig config,Player player,boolean newConfig)
   {
 	this.player=player;
     this.config=config;
+    this.newConfig=newConfig;
   }
 
   public HandlerList getHandlers()
