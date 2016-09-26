@@ -66,8 +66,7 @@ public class UserDataConfig extends kListener {
 	public void Join(PlayerJoinEvent ev) {
 		int playerId = UtilPlayer.getPlayerId(ev.getPlayer());
 		if (configs != null && configs.containsKey(playerId)) {
-			
-			Bukkit.getPluginManager().callEvent(new UserDataConfigLoadEvent(configs.get(playerId), ev.getPlayer(), UtilFile.isFileNew(configs.get(playerId).getFile())));
+			Bukkit.getPluginManager().callEvent(new UserDataConfigLoadEvent(configs.get(playerId), ev.getPlayer(), (!configs.get(playerId).getFile().exists())));
 		}
 	}
 
