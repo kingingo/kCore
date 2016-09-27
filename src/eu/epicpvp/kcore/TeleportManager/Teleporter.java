@@ -71,7 +71,7 @@ public class Teleporter {
 		this.loc_from=from.getLocation();
 		this.loc_to=loc_to;
 		this.move=move;
-		this.time=TimeSpan.SECOND*sec;
+		this.time=System.currentTimeMillis()+TimeSpan.SECOND*sec;
 	}
 	
 	public static boolean hasMoved(Teleporter teleporter){
