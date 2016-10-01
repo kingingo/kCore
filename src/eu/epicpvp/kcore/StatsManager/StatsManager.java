@@ -123,6 +123,7 @@ public class StatsManager extends kListener {
 
 	@EventHandler
 	public void forceSave(PlayerStatsChangedEvent ev) {
+		if(ev.getManager().getType()!=getType())return;
 		if (isForceSave()) {
 			save(ev.getPlayerId());
 		}
@@ -130,6 +131,7 @@ public class StatsManager extends kListener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void loading(PlayerStatsLoadedEvent ev) {
+		if(ev.getManager().getType()!=getType())return;
 		ArrayList<Callback<Integer>> callbacks = this.loading.get(ev.getPlayerId());
 		if (callbacks != null) {
 			for (Callback<Integer> call : new ArrayList<>(callbacks))
