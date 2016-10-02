@@ -134,7 +134,7 @@ public class UtilServer {
 
 	//Hologram list? Mayby later. Unused currently
 	private ArrayList<Hologram> holograms = new ArrayList<>();
-	
+
 	public static void disable() {
 		for (Player player : UtilServer.getPlayers())
 			player.closeInventory();
@@ -238,7 +238,7 @@ public class UtilServer {
 					// TODO Auto-generated method stub
 
 				}
-				
+
 				@Override
 				public boolean isOnline(String name) {
 					Player plr = Bukkit.getPlayerExact(name);
@@ -256,7 +256,7 @@ public class UtilServer {
 			try {
 				new ClientListener(instance, client);
 				TranslationHandler.setInstance(client.getTranslationManager());
-				client.getHandle().connect("9CZFmaJnUyBajwmoLTUP".getBytes());
+				client.getHandle().connect("qsjotvbd1qtawwpcygb7epk765fzxw".getBytes());
 
 				TranslationHandler.getInstance().updateTranslations();
 			} catch (Exception e) {
@@ -285,7 +285,7 @@ public class UtilServer {
 		return getPerkManager();
 	}
 	//Useless?
-	
+
 	public static MySQL createMySQL(String user, String pass, String host, String db) {
 		if (mysql == null)
 			mysql = new MySQL(user, pass, host, db, getPluginInstance());
@@ -352,7 +352,7 @@ public class UtilServer {
 	public static void broadcastTeamChatMessage(String message){
 		client.broadcastMessage(PermissionType.TEAM_MESSAGE.getPermissionToString(), message);
 	}
-	
+
 	public static Collection<? extends Player> getPlayers() {
 		return Bukkit.getServer().getOnlinePlayers();
 	}
@@ -451,7 +451,7 @@ public class UtilServer {
 				Bukkit.getScheduler().runTask(mysql.getInstance(), run);
 			}
 	}
-	
+
 	public static boolean isMainthread(){
 		try {
 			AsyncCatcher.catchOp("");
@@ -460,14 +460,14 @@ public class UtilServer {
 			return false;
 		}
 	}
-	
+
 	public static void runAsync(Runnable run){
 		ThreadFactory.getFactory().createThread(run).start();
 	}
 	public static void runSync(Runnable run){
 		Bukkit.getScheduler().runTask(getPluginInstance(), run);
 	}
-	
+
 	public static void runAsyncLater(Runnable run,int ms){
 		runAsync(()->{
 			try {
@@ -479,13 +479,13 @@ public class UtilServer {
 			run.run();
 		});
 	}
-	
+
 	public static void runSyncLater(Runnable run,int ms){
 		runAsyncLater(()->{
 			runSync(run);
 		}, ms);
 	}
-	
+
 	public static Plugin getPluginInstance(){
 		return  pluginInstance != null ? pluginInstance : mysql.getInstance();
 	}
