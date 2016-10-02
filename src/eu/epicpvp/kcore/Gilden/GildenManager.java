@@ -102,6 +102,7 @@ public class GildenManager implements Listener {
 		}
 
 		LoadRanking(false);
+		UtilServer.setGildenManager(this);
 	}
 
 	@EventHandler

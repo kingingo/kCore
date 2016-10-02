@@ -17,6 +17,7 @@ import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Achievements.Events.PlayerLoadAchievementsEvent;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
+import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import eu.epicpvp.kcore.Util.Title;
 import eu.epicpvp.kcore.Util.UtilFirework;
 import eu.epicpvp.kcore.Util.UtilPlayer;
@@ -130,18 +131,26 @@ public class Achievement implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, handler.getInstance());
 		handler.getAchievements().add(this);
 	}
-
+	
 	@EventHandler
-	public void quit(PlayerQuitEvent ev) {
-		UtilServer.loopbackUntilValidDataserverConnection(() -> {
-			synchronized (playerProgress) {
-				if (this.playerProgress.containsKey(UtilPlayer.getPlayerId(ev.getPlayer()))) {
-					saveProgress(ev.getPlayer());
-					this.playerProgress.remove(UtilPlayer.getPlayerId(ev.getPlayer()));
-				}
-			}
-		}, "archievement save " + ev.getPlayer().getName(), false);
+	public void UserDataConfigRemove(UserDataConfigRemoveEvent ev){
+		if (this.playerProgress.containsKey(UtilPlayer.getPlayerId(ev.getPlayer()))) {
+			saveProgress(ev.getPlayer());
+			this.playerProgress.remove(UtilPlayer.getPlayerId(ev.getPlayer()));
+		}
 	}
+
+//	@EventHandler
+//	public void quit(PlayerQuitEvent ev) {
+//		UtilServer.loopbackUntilValidDataserverConnection(() -> {
+//			synchronized (playerProgress) {
+//				if (this.playerProgress.containsKey(UtilPlayer.getPlayerId(ev.getPlayer()))) {
+//					saveProgress(ev.getPlayer());
+//					this.playerProgress.remove(UtilPlayer.getPlayerId(ev.getPlayer()));
+//				}
+//			}
+//		}, "archievement save " + ev.getPlayer().getName(), false);
+//	}
 
 	@EventHandler
 	public void join(PlayerJoinEvent ev) {
