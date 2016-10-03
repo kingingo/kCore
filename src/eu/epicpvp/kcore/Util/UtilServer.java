@@ -253,10 +253,13 @@ public class UtilServer {
 					return ev.getPacket();
 				}
 			}));
+			
+			String password = "vtpmfru";
+			
 			try {
-				new ClientListener(instance, client);
+				new ClientListener(instance, client,password);
 				TranslationHandler.setInstance(client.getTranslationManager());
-				client.getHandle().connect("qsjotvbd1qtawwpcygb7epk765fzxw".getBytes());
+				client.getHandle().connect(password.getBytes());
 
 				TranslationHandler.getInstance().updateTranslations();
 			} catch (Exception e) {

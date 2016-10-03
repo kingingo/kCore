@@ -15,15 +15,20 @@ import eu.epicpvp.kcore.UpdateAsync.UpdateAsyncType;
 import eu.epicpvp.kcore.UpdateAsync.Event.UpdateAsyncEvent;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
+import lombok.Setter;
 
 public class ClientListener extends kListener{
 
 	@Getter
 	private ClientWrapper client;
+	@Getter
+	@Setter
+	private String password;
 	
-	public ClientListener(JavaPlugin instance,ClientWrapper client) {
+	public ClientListener(JavaPlugin instance,ClientWrapper client,String password) {
 		super(instance, "ClientListener");
 		this.client=client;
+		this.password=password;
 	}
 
 	@EventHandler
@@ -31,7 +36,7 @@ public class ClientListener extends kListener{
 		if(ev.getType()==UpdateAsyncType.SEC_4){
 			if(client != null && !client.getHandle().isConnected()){
 				try {
-					client.getHandle().connect("9CZFmaJnUyBajwmoLTUP".getBytes());
+					client.getHandle().connect(getPassword().getBytes());
 
 					TranslationHandler.setInstance(client.getTranslationManager());
 					TranslationHandler.getInstance().updateTranslations();
