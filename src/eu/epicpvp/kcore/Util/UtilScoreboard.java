@@ -23,8 +23,10 @@ public class UtilScoreboard {
 	public static void setTeams(Scoreboard board, Set<Team> teams) {
 		Team tt;
 		for (Team team : teams) {
+			team.setCanSeeFriendlyInvisibles(false);
 			if (!UtilScoreboard.existTeam(board, team.getName())) {
 				tt = board.registerNewTeam(team.getName());
+				tt.setCanSeeFriendlyInvisibles(false);
 				tt.setPrefix(team.getPrefix());
 			}
 
@@ -59,8 +61,9 @@ public class UtilScoreboard {
 			new NullPointerException("team == NULL");
 		if (!board.getTeam(Team).getEntries().contains(p))
 			return;
-		Team r = board.getTeam(Team);
-		r.removeEntry(p.getName());
+		Team t = board.getTeam(Team);
+		t.setCanSeeFriendlyInvisibles(false);
+		t.removeEntry(p.getName());
 	}
 
 	public static void addPlayerToTeam(Scoreboard board, String Team, Player p) {
@@ -90,21 +93,25 @@ public class UtilScoreboard {
 
 	public static Team addTeam(Scoreboard board, String Team, String displayName, String prefix, String suffix) {
 		Team t = board.getTeam(Team);
-		if (t != null)
+		if (t != null) {
+			t.setCanSeeFriendlyInvisibles(false);
 			return t;
-		Team r = board.registerNewTeam(UtilString.cut(Team));
+		}
+		t = board.registerNewTeam(UtilString.cut(Team));
+		t.setCanSeeFriendlyInvisibles(false);
 
 		if (displayName != null)
-			r.setDisplayName(UtilString.cut(displayName, 32));
+			t.setDisplayName(UtilString.cut(displayName, 32));
 		if (prefix != null)
-			r.setPrefix(UtilString.cut(prefix));
+			t.setPrefix(UtilString.cut(prefix));
 		if (suffix != null)
-			r.setSuffix(UtilString.cut(suffix));
-		return r;
+			t.setSuffix(UtilString.cut(suffix));
+		return t;
 	}
 
 	public static Team setTeamPrefix(Scoreboard board, String team, String prefix) {
 		Team t = addTeam(board, team, prefix);
+		t.setCanSeeFriendlyInvisibles(false);
 		if (!t.getPrefix().equals(prefix))
 			t.setPrefix(prefix);
 		return t;
@@ -172,7 +179,7 @@ public class UtilScoreboard {
 			o.setDisplayName(DisplayName);
 		}
 	}
-	
+
 	public static void resendScoreboard(Player player){
 		Scoreboard board = player.getScoreboard();
 		player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
@@ -192,7 +199,7 @@ public class UtilScoreboard {
 			}
 		}
 	}
-	
+
 	public static void addBoard(Scoreboard board, DisplaySlot typ, String DisplayName) {
 		if (typ == DisplaySlot.SIDEBAR && DisplayName.length() >= 32) {
 			DisplayName = DisplayName.substring(0, 31);
