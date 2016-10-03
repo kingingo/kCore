@@ -3,16 +3,15 @@ package eu.epicpvp.kcore.Util;
 import java.util.ArrayList;
 import java.util.Set;
 
-import eu.epicpvp.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import eu.epicpvp.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
 import net.minecraft.server.v1_8_R3.ScoreboardScore;
 
 public class UtilScoreboard {
@@ -25,11 +24,9 @@ public class UtilScoreboard {
 		Team tt;
 		for (Team team : teams) {
 			team.setCanSeeFriendlyInvisibles(false);
-			team.setNameTagVisibility(NameTagVisibility.NEVER);
 			if (!UtilScoreboard.existTeam(board, team.getName())) {
 				tt = board.registerNewTeam(team.getName());
 				tt.setCanSeeFriendlyInvisibles(false);
-				tt.setNameTagVisibility(NameTagVisibility.NEVER);
 				tt.setPrefix(team.getPrefix());
 			}
 
@@ -66,7 +63,6 @@ public class UtilScoreboard {
 			return;
 		Team t = board.getTeam(Team);
 		t.setCanSeeFriendlyInvisibles(false);
-		t.setNameTagVisibility(NameTagVisibility.NEVER);
 		t.removeEntry(p.getName());
 	}
 
@@ -99,12 +95,10 @@ public class UtilScoreboard {
 		Team t = board.getTeam(Team);
 		if (t != null) {
 			t.setCanSeeFriendlyInvisibles(false);
-			t.setNameTagVisibility(NameTagVisibility.NEVER);
 			return t;
 		}
 		t = board.registerNewTeam(UtilString.cut(Team));
 		t.setCanSeeFriendlyInvisibles(false);
-		t.setNameTagVisibility(NameTagVisibility.NEVER);
 
 		if (displayName != null)
 			t.setDisplayName(UtilString.cut(displayName, 32));
@@ -118,7 +112,6 @@ public class UtilScoreboard {
 	public static Team setTeamPrefix(Scoreboard board, String team, String prefix) {
 		Team t = addTeam(board, team, prefix);
 		t.setCanSeeFriendlyInvisibles(false);
-		t.setNameTagVisibility(NameTagVisibility.NEVER);
 		if (!t.getPrefix().equals(prefix))
 			t.setPrefix(prefix);
 		return t;
