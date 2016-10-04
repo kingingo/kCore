@@ -15,15 +15,15 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.wolveringer.arrays.CachedArrayList;
-import dev.wolveringer.client.Callback;
-import dev.wolveringer.client.ClientWrapper;
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.Callback;
+import eu.epicpvp.datenclient.client.ClientWrapper;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.Action;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit.EditStats;
 import dev.wolveringer.gamestats.Statistic;
-import dev.wolveringer.gilde.GildSection;
+import eu.epicpvp.datenclient.gilde.GildSection;
 import dev.wolveringer.nbt.NBTCompressedStreamTools;
 import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Listener.kListener;
@@ -546,20 +546,20 @@ public class StatsManager extends kListener {
 
 	private EditStats[] createEditStatsArrayGilde(EditStats[] stats) {
 		ArrayList<EditStats> list = new ArrayList<>();
-		
+
 		for(EditStats s : stats){
 			if(s==null){
 				continue;
 			}
-			
+
 			if(s.getAction() == Action.ADD || s.getAction() == Action.REMOVE){
 				list.add(s);
 			}
 		}
-		
+
 		return ((EditStats[]) list.toArray(new EditStats[list.size()]));
 	}
-	
+
 	private EditStats[] createEditStatsArray(Map<StatsKey, StatsObject> statsMap) {
 		EditStats[] stats;
 		stats = new EditStats[statsMap.size()];
@@ -601,16 +601,16 @@ public class StatsManager extends kListener {
 			LoadedPlayer loadedplayer = client.getPlayerAndLoad(entry.getKey());
 			Map<StatsKey, StatsObject> statsMap = entry.getValue();
 			stats = createEditStatsArray(statsMap);
-			
+
 			if(gilde!=null){
 				GildSection section = gilde.getSection(loadedplayer);
-				
+
 				if(section!=null){
 					EditStats[] gstats = createEditStatsArrayGilde(stats);
 					section.getStatsPlayer().setStats(gstats);
 				}
 			}
-			
+
 			loadedplayer.setStats(stats);
 		}
 	}
@@ -627,7 +627,7 @@ public class StatsManager extends kListener {
 
 			if(gilde!=null){
 				GildSection section = gilde.getSection(playerId);
-				
+
 				if(section!=null){
 					EditStats[] gstats = createEditStatsArrayGilde(stats);
 					section.getStatsPlayer().setStats(gstats);

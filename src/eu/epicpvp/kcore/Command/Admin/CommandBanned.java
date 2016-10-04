@@ -6,19 +6,19 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandBanned implements CommandExecutor{
-	
+
 //	private MySQL mysql;
-	
+
 	public CommandBanned(MySQL mysql){
 //		this.mysql=mysql;
 	}
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "kban", sender = Sender.CONSOLE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(args.length==1){
@@ -36,5 +36,5 @@ public class CommandBanned implements CommandExecutor{
 		}
 		return false;
 	}
-	
+
 }

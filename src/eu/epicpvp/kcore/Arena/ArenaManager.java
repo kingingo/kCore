@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import dev.wolveringer.client.connection.PacketListener;
+import eu.epicpvp.datenclient.client.connection.PacketListener;
 import dev.wolveringer.dataserver.gamestats.GameState;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
@@ -52,17 +52,17 @@ public class ArenaManager extends kListener  {
 	private HashMap<Integer,ArrayList<Rule>> rules;
 	@Setter
 	private UpdateAsyncType updateSpeed;
-	
+
 	/*
 	 * Wait list
 	 */
 	@Getter
 	private HashMap<ArenaType, ArrayList<Player>> wait_list;
-	
+
 	private StatsManager statsManager;
 	@Getter
 	private GameType t;
-	
+
 	public ArenaManager(StatsManager statsManager,GameType t,UpdateAsyncType updateSpeed){
 		super(statsManager.getInstance(),"ArenaManager:"+t.getShortName());
 		this.t=t;
@@ -80,17 +80,17 @@ public class ArenaManager extends kListener  {
 
 		PacketArenaSettings.register();
 		PacketArenaStatus.register();
-		
+
 		UtilServer.getClient().getHandle().getHandlerBoss().addListener(new PacketListener() {
-			
+
 			@Override
 			public void handle(Packet packet) {
 				if(packet instanceof PacketArenaStatus){
 					PacketArenaStatus arena = (PacketArenaStatus) packet;
-					
+
 					if(arena.getType()==getT()){
 						if(!server.containsKey(arena.getServer()+arena.getArena()))logMessage("ADD "+arena.getServer()+" "+arena.getArena());
-						
+
 						server.remove(arena.getServer()+arena.getArena());
 						server.put(arena.getServer()+arena.getArena(), arena);
 						arena=null;
@@ -99,13 +99,13 @@ public class ArenaManager extends kListener  {
 			}
 		});
 	}
-	
+
 	public boolean addPlayer(Player player,ArenaType type){
 		if(type==removePlayer(player))return false;
 		this.wait_list.get(type).add(player);
 		return true;
 	}
-	
+
 	public ArenaType removePlayer(Player player){
 		for(ArenaType t : this.wait_list.keySet()){
 			if(this.wait_list.get(t).contains(player)){
@@ -115,11 +115,11 @@ public class ArenaManager extends kListener  {
 		}
 		return null;
 	}
-	
+
 	public boolean delRound(Player player,boolean withMsg){
 		if(this.rounds_player.containsKey(player.getUniqueId())){
 			int c = this.rounds_player.get(player.getUniqueId());
-			
+
 			for(ArenaType type : ArenaType.values()){
 				if(this.rounds.get(type).containsKey(c)){
 					for(UUID p : this.rounds.get(type).get(c).getPlayers()){
@@ -137,7 +137,7 @@ public class ArenaManager extends kListener  {
 		}
 		return false;
 	}
-	
+
 	public boolean addRound(GameRound round){
 		for(UUID player : round.getPlayers())if(this.rounds_player.containsKey(player))return false;
 		for(UUID player : round.getPlayers())this.rounds_player.put(player, this.round_counter);
@@ -145,7 +145,7 @@ public class ArenaManager extends kListener  {
 		this.round_counter++;
 		return true;
 	}
-	
+
 	public void addRule(Rule rule,RulePriority priority){
 		if(!rules.containsKey(priority.getI()))rules.put(priority.getI(), new ArrayList<Rule>());
 		rules.get(priority.getI()).add(rule);
@@ -177,7 +177,7 @@ public class ArenaManager extends kListener  {
 					for(ArenaType type : ArenaType.values())getRounds().put(type, new HashMap<Integer,GameRound>());
 					getRounds_player().clear();
 					setRound_counter(0);
-					
+
 					getServer().clear();
 					getWait_list().clear();
 					for(ArenaType type : ArenaType.values())getWait_list().put(type, new ArrayList<Player>());
@@ -186,7 +186,7 @@ public class ArenaManager extends kListener  {
 				}
 			}
 	}
-	
+
 	@EventHandler
 	public void Update(UpdateAsyncEvent ev){
 		if(ev.getType()==updateSpeed&&!server.isEmpty()&&!this.wait_list.isEmpty()){
@@ -195,11 +195,11 @@ public class ArenaManager extends kListener  {
 					this.players=new HashMap<>();
 					for(Team t : ArenaType._TEAMx6.getTeam())players.put(t, new ArrayList<Player>());
 				}
-				
+
 				if(list==null)list=new ArrayList<>();
 				list.clear();
 				for(String arena : this.server.keySet())this.list.add(arena);
-				
+
 				if(list.isEmpty()){
 					if(UtilDebug.isDebug()){
 						logMessage("LISTE IS EMPTY!!!!");
@@ -217,7 +217,7 @@ public class ArenaManager extends kListener  {
 					if(UtilDebug.isDebug())logMessage("SERVER "+arena.getServer()+" "+arena.getArena()+" "+arena.getState().name());
 					if(arena.getState()==GameState.LobbyPhase){
 						if(UtilDebug.isDebug())logMessage("SERVER1 "+arena.getServer()+" "+arena.getArena()+" "+arena.getState().name());
-						
+
 						for(Team t : players.keySet())players.get(t).clear();
 
 						if(UtilDebug.isDebug())logMessage("arena: "+arena.getTeams());
@@ -241,15 +241,15 @@ public class ArenaManager extends kListener  {
 								if(UtilDebug.isDebug()&&this.round.getOwner()!=null&&UtilPlayer.isOnline(this.round.getOwner())&&Bukkit.getPlayer(this.round.getOwner()).getName().equalsIgnoreCase("kingingo")){
 									logMessage("Owner: kingingo");
 								}
-								
-								
+
+
 								if(UtilPlayer.isOnline(this.round.getOwner())){
 									this.owner=Bukkit.getPlayer(this.round.getOwner());
-									
+
 									if(UtilDebug.isDebug()&&this.owner.getName().equalsIgnoreCase("kingingo")){
 										logMessage("Online");
 									}
-									
+
 									for(UUID player : this.round.getPlayers()){
 										if(UtilPlayer.isOnline(player)){
 											this.players.get(this.type.getTeam()[this.team]).add(Bukkit.getPlayer(player));
@@ -262,7 +262,7 @@ public class ArenaManager extends kListener  {
 											break;
 										}
 									}
-									
+
 									if(!ba){
 										if(type==ArenaType._TEAMx2){
 											arena.setMin_team(1);
@@ -273,18 +273,18 @@ public class ArenaManager extends kListener  {
 										}
 										arena.setKit(this.owner.getName());
 										arena.setState(GameState.Laden);
-										
+
 										this.settings=new PacketArenaSettings(this.type, arena.getArena(), arena.getKit(), this.owner, Team.BLACK, arena.getMin_team(), arena.getMax_team());
 
 										for(Team t : this.type.getTeam()){
 											for(Player player : this.players.get(t)){
 												this.settings.setTeam(t);
 												this.settings.setPlayer(player.getName());
-												
+
 												UtilServer.getClient().sendPacket(arena.getServer(), this.settings);
 											}
 										}
-										
+
 										for(Team t : this.type.getTeam()){
 											for(Player player : this.players.get(t)){
 												this.rounds_player.remove(player.getUniqueId());
@@ -298,7 +298,7 @@ public class ArenaManager extends kListener  {
 										if(UtilDebug.isDebug()&&this.owner.getName().equalsIgnoreCase("kingingo")){
 											logMessage("ALLES GUT!");
 										}
-										
+
 										if(!(this.round instanceof GameRoundBestOf))this.round.remove();
 										this.rounds.get(type).remove(this.id);
 										break;
@@ -310,7 +310,7 @@ public class ArenaManager extends kListener  {
 
 									if(!(this.round instanceof GameRoundBestOf))this.round.remove();
 									this.rounds.get(type).remove(this.id);
-									
+
 									this.team=0;
 									this.owner=null;
 									this.ba=false;
@@ -318,25 +318,25 @@ public class ArenaManager extends kListener  {
 									this.br=false;
 								}
 							}
-							
+
 							if(!this.wait_list.containsKey(type)){
 								System.err.println("TYPE: "+t.getShortName());
 								System.err.println(" TYPE1:"+type);
 								continue;
 							}
-							
+
 							this.players_size=this.wait_list.get(type).size();
-							
+
 							if(this.players_size<this.type.getTeam().length){
 								continue;
 							}
-							
+
 							if(this.wait_list.containsKey(type)&&!this.wait_list.get(type).isEmpty()){
 								for(Player player : this.wait_list.get(type)){
 										if(!player.isOnline())continue;
 										if(this.owner==null){
 											this.owner=player;
-											
+
 											if(type==ArenaType._TEAMx2){
 												arena.setMin_team(1);
 												arena.setMax_team(1);
@@ -344,12 +344,12 @@ public class ArenaManager extends kListener  {
 												arena.setMin_team(statsManager.getInt(this.owner, StatsKey.TEAM_MIN));
 												arena.setMax_team(statsManager.getInt(this.owner, StatsKey.TEAM_MAX));
 											}
-											
+
 											if(arena.getMin_team()*this.type.getTeam().length>this.players_size){
 												br=true;
 												break;
 											}
-											
+
 											arena.setKit(this.owner.getName());
 										}
 										if(this.owner==player || RuleCheck(this.owner, player, type, arena,this.players)){
@@ -358,7 +358,7 @@ public class ArenaManager extends kListener  {
 											if(this.type.getTeam().length==this.team){
 												this.team=0;
 											}
-											
+
 											//Pr§§§ft ob die Teams voll genug sind!
 											for(Team t : this.type.getTeam()){
 												if( players.get(t).size() >= arena.getMax_team() ){
@@ -368,26 +368,26 @@ public class ArenaManager extends kListener  {
 													break;
 												}
 											}
-											
+
 											if(ba){
 												break;
 											}
 										}
 								}
-								
+
 								if(br)continue;
-								
+
 								for(Team t : this.type.getTeam()){
 									if(this.players.get(t).size()<arena.getMin_team()){
 										br=true;
 										break;
 									}
 								}
-								
+
 								if(br){
 									continue;
 								}
-								
+
 								for(Team t : this.type.getTeam()){
 									this.team_size=this.players.get(t).size();
 									for(Team t1 : this.type.getTeam()){
@@ -396,17 +396,17 @@ public class ArenaManager extends kListener  {
 											break;
 										}
 									}
-									
+
 									if(this.team_size!=-1)break;
 								}
-								
+
 								if(this.team_size<=0){
 									break;
 								}
-								
+
 								arena.setState(GameState.Laden);
 								this.settings=new PacketArenaSettings(this.type, arena.getArena(), arena.getKit(), this.owner, Team.BLACK, arena.getMin_team(), arena.getMax_team());
-								
+
 								for(Team t : this.type.getTeam()){
 									if(this.players.get(t).size()>this.team_size){
 										this.team_remove=this.players.get(t).size()-this.team_size;
@@ -416,20 +416,20 @@ public class ArenaManager extends kListener  {
 											}
 											this.team_remove--;
 											this.players.get(t).remove(a);
-											
+
 											if(team_remove==0){
 												break;
 											}
 										}
 									}
-									
+
 									for(Player player : this.players.get(t)){
 										this.settings.setTeam(t);
 										this.settings.setPlayer(player.getName());
 										UtilServer.getClient().sendPacket(arena.getServer(), this.settings);
 									}
 								}
-								
+
 								for(Team t : this.type.getTeam()){
 									for(Player player : this.players.get(t)){
 										this.wait_list.get(type).remove(player);
@@ -438,11 +438,11 @@ public class ArenaManager extends kListener  {
 									}
 									this.players.get(t).clear();
 								}
-								
+
 								break;
 							}
 						}
-						
+
 						if(isEmpty())break;
 					}
 				}
@@ -451,9 +451,9 @@ public class ArenaManager extends kListener  {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	public boolean isEmpty(){
 		for(ArenaType type : this.wait_list.keySet()){
 			if(!this.wait_list.get(type).isEmpty()&&this.wait_list.get(type).size()>=2){
@@ -480,7 +480,7 @@ public class ArenaManager extends kListener  {
 		}
 		return b;
 	}
-	
+
 	/**
 	 * Entfernt die Spieler von der Liste wenn sie Leften!
 	 * @param ev
@@ -490,5 +490,5 @@ public class ArenaManager extends kListener  {
 		removePlayer(ev.getPlayer());
 		delRound(ev.getPlayer(),false);
 	}
-	
+
 }

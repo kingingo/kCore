@@ -1,5 +1,5 @@
 package eu.epicpvp.kcore.StatsManager;
-import dev.wolveringer.client.Callback;
+import eu.epicpvp.datenclient.client.Callback;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.dataserver.protocoll.packets.PacketOutTopTen;
@@ -15,21 +15,21 @@ public class Ranking {
 	public GameType type;
 	@Getter
 	private RankInformation[] ranking;
-	
+
 	public Ranking(GameType type,StatsKey stats){
 		this.stats=stats;
 		this.type=type;
 	}
-	
+
 
 	public void load(){
 		load(null);
 	}
-	
+
 	public void load(Callback<Object> call){
 		if(UtilServer.getClient().getHandle().isConnected()){
 			UtilServer.getClient().getTopTen(getType(), getStats()).getAsync(new Callback<PacketOutTopTen>() {
-				
+
 				@Override
 				public void call(PacketOutTopTen packet, Throwable exception) {
 					if(packet != null){
@@ -40,5 +40,5 @@ public class Ranking {
 			});
 		}
 	}
-	
+
 }

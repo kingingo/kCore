@@ -10,7 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import dev.wolveringer.client.Callback;
+import eu.epicpvp.datenclient.client.Callback;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.MySQL.MySQLErr;
@@ -30,15 +30,15 @@ public class PlayerKitManager{
 	@Getter
 	@Setter
 	private boolean async=false;
-	
+
 	public PlayerKitManager(MySQL mysql,GameType type){
 		this.mysql=mysql;
 		this.type=type;
 		this.kits=new HashMap<>();
-		
+
 		this.mysql.createTable("statistics_"+type.getShortName()+"_kits", "playerId int,id int,content text,armor_content text");
 	}
-	
+
 	public ItemStack[] check(ItemStack[] c){
 		for(int i = 0; i<c.length;i++){
 			if(c[i]!=null){
@@ -60,27 +60,27 @@ public class PlayerKitManager{
 				}
 			}
 		}
-		
+
 		return c;
 	}
-	
+
 	public void addKit(int playerId,PlayerInventory inv,int id){
 		inv.setContents(check(inv.getContents()));
 		inv.setArmorContents(check(inv.getArmorContents()));
 		delKit(playerId,id);
-		
+
 		if(kits.containsKey(playerId)){
 			kits.get(playerId).content=inv.getContents();
 			kits.get(playerId).armor_content=inv.getArmorContents();
 		}
-		
+
 		if(isAsync()){
 			getMysql().asyncInsert("statistics_"+type.getShortName()+"_kits", "playerId,id,content,armor_content", "'"+playerId+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
-		}else{	
+		}else{
 			getMysql().Insert("statistics_"+type.getShortName()+"_kits", "playerId,id,content,armor_content", "'"+playerId+"','"+id+"','"+UtilInv.itemStackArrayToBase64(inv.getContents())+"','"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'");
 		}
 	}
-	
+
 	public void updateKit(int playerId,int id,PlayerInventory inv){
 		inv.setContents(check(inv.getContents()));
 		inv.setArmorContents(check(inv.getArmorContents()));
@@ -88,14 +88,14 @@ public class PlayerKitManager{
 			kits.get(playerId).content=inv.getContents();
 			kits.get(playerId).armor_content=inv.getArmorContents();
 		}
-		
+
 		if(isAsync()){
 			getMysql().asyncUpdate("statistics_"+type.getShortName()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "playerId='"+playerId+"' AND id='"+id+"'");
-		}else{	
+		}else{
 			getMysql().Update("statistics_"+type.getShortName()+"_kits", "content='"+UtilInv.itemStackArrayToBase64(inv.getContents())+"', armor_content='"+UtilInv.itemStackArrayToBase64(inv.getArmorContents())+"'", "playerId='"+playerId+"' AND id='"+id+"'");
 		}
 	}
-	
+
 	public void delKit(int playerId,int id){
 		if(kits.containsKey(playerId)){
 			kits.get(playerId).id=0;
@@ -103,34 +103,34 @@ public class PlayerKitManager{
 			kits.get(playerId).armor_content=null;
 			kits.remove(playerId);
 		}
-		
+
 		if(isAsync()){
 			getMysql().asyncDelete("statistics_"+type.getShortName()+"_kits", "playerId='"+playerId+"' AND id='"+id+"'");
-		}else{	
+		}else{
 			getMysql().Delete("statistics_"+type.getShortName()+"_kits", "playerId='"+playerId+"' AND id='"+id+"'");
 		}
 	}
-	
+
 	public void loadAsyncKit(int playerId,int id){
 		loadAsyncKit(playerId, id, null);
 	}
-	
+
 	public void loadAsyncKit(int playerId,int id,Callback<PlayerKit> callback){
 		if(!kits.containsKey(playerId)){
 			mysql.asyncQuery("statistics_"+type.getShortName()+"_kits", "`content`,`armor_content`", "playerId='"+playerId+"' AND id='"+id+"'", new Callback<ResultSet>() {
-				
+
 				@Override
 				public void call(ResultSet value, Throwable ex) {
 					if(value instanceof ResultSet){
-						
+
 						try {
 							ResultSet rs = (ResultSet) value;
-							
+
 							kits.put(playerId, new PlayerKit());
 							kits.get(playerId).id=id;
 							kits.get(playerId).content=UtilInv.itemStackArrayFromBase64(rs.getString(1));
 							kits.get(playerId).armor_content=UtilInv.itemStackArrayFromBase64(rs.getString(2));
-								 
+
 							if(callback!=null)callback.call(kits.get(playerId),null);
 						} catch (SQLException e) {
 							e.printStackTrace();
@@ -142,7 +142,7 @@ public class PlayerKitManager{
 			});
 		}
 	}
-	
+
 	public PlayerKit getKit(int playerId,int id){
 		if(kits.containsKey(playerId)){
 			if(kits.get(playerId).id==id)return kits.get(playerId);
@@ -151,7 +151,7 @@ public class PlayerKitManager{
 			kits.get(playerId).armor_content=null;
 			kits.remove(playerId);
 		}
-		
+
 		try
 	    {
 		  ResultSet rs = mysql.Query("statistics_"+type.getShortName()+"_kits", "`content`,`armor_content`", "playerId='"+playerId+"' AND id='"+id+"'");
@@ -167,12 +167,12 @@ public class PlayerKitManager{
 	    } catch (Exception err) {
 	    	Bukkit.getPluginManager().callEvent(new MySQLErrorEvent(MySQLErr.QUERY,err,getMysql()));
 	    }
-		
+
 		if(kits.containsKey(playerId)){
 			return kits.get(playerId);
 		}else{
 			return null;
 		}
 	}
-	
+
 }

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.wolveringer.client.Callback;
+import eu.epicpvp.datenclient.client.Callback;
 import dev.wolveringer.skin.Skin;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Listener.kListener;

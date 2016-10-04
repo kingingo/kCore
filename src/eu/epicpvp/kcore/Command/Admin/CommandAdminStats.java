@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.client.Callback;
+import eu.epicpvp.datenclient.client.Callback;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
@@ -14,13 +14,13 @@ import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandAdminStats  implements CommandExecutor{
-	
+
 	private StatsManager statsManager;
-	
+
 	public CommandAdminStats(StatsManager statsManager){
 		this.statsManager=statsManager;
 	}
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "adminstats", alias = {"astats"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(sender instanceof Player){
@@ -34,11 +34,11 @@ public class CommandAdminStats  implements CommandExecutor{
 				return true;
 			}
 			String spieler = args[0];
-			
+
 			if(args.length==1){
 				if(!UtilPlayer.isOnline(spieler)){
 					statsManager.loadPlayer(spieler, new Callback<Integer>() {
-						
+
 						@Override
 						public void call(Integer playerId, Throwable exception) {
 							callAllStats(player,playerId);
@@ -51,10 +51,10 @@ public class CommandAdminStats  implements CommandExecutor{
 				if(args[2].equalsIgnoreCase("set")){
 					StatsKey key = StatsKey.valueOf(args[3]);
 					String value = args[4];
-					
+
 					if(!UtilPlayer.isOnline(spieler)){
 						statsManager.loadPlayer(spieler, new Callback<Integer>() {
-							
+
 							@Override
 							public void call(Integer playerId, Throwable exception) {
 								set(player, playerId, key, value);
@@ -68,17 +68,17 @@ public class CommandAdminStats  implements CommandExecutor{
 		}
 		return true;
 	}
-	
+
 	public void set(Player sender,int playerId, StatsKey key, Object value){
 		statsManager.set(playerId, key, value);
 		sender.sendMessage("§eSet§6 "+key.name() +"§e to§6 "+value);
 	}
-	
+
 	public void callAllStats(Player sender, int playerId){
 		for(StatsKey key : statsManager.getType().getStats()){
 			sender.sendMessage("§eStats:§6 "+key.name()+" §eValue:§6"+statsManager.get(playerId, key));
 		}
 	}
-	
+
 }
 

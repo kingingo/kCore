@@ -2,11 +2,11 @@ package eu.epicpvp.kcore;
 
 import java.util.function.Predicate;
 
-import dev.wolveringer.client.LoadedPlayer;
-import dev.wolveringer.client.debug.Debugger;
-import dev.wolveringer.gilde.GildManager;
-import dev.wolveringer.gilde.GildSection;
-import dev.wolveringer.gilde.Gilde;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.debug.Debugger;
+import eu.epicpvp.datenclient.gilde.GildManager;
+import eu.epicpvp.datenclient.gilde.GildSection;
+import eu.epicpvp.datenclient.gilde.Gilde;
 import dev.wolveringer.gilde.GildePermissions;
 import dev.wolveringer.gilde.GildeType;
 
@@ -24,7 +24,6 @@ import eu.epicpvp.kcore.Listener.Skin.SkinUpdateListener;
 import eu.epicpvp.kcore.Listener.nick.NickChangeListener;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
-import net.minecraft.server.v1_8_R3.NBTTagByte;
 
 public class kCore extends JavaPlugin {
 	@Getter
@@ -51,18 +50,18 @@ public class kCore extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		UtilServer.setPluginInstance(this);
-		
+
 		UtilServer.getUpdater().start();
 		UtilServer.getAsyncUpdater().start();
-		
+
 		getServer().getPluginManager().registerEvents(new CommandDebugListener(), this);
-		
+
 		Debugger.setFilter(DEBUGGER_FILTER);
 		NickChangeListener nickListener = new NickChangeListener(this);
 		UtilServer.getPacketListener().addPacketHandler(nickListener);
 		Bukkit.getPluginManager().registerEvents(nickListener, this);
 		new SkinUpdateListener(this).registerListener(); //Needed everywhere
-		
+
 		Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
 		for(String s : Bukkit.getScoreboardManager().getMainScoreboard().getEntries())
 			Bukkit.getScoreboardManager().getMainScoreboard().resetScores(s);
@@ -71,17 +70,17 @@ public class kCore extends JavaPlugin {
 	public void a(){
 		LoadedPlayer lplayer = null;
 		GildManager manager = new GildManager(UtilServer.getClient());
-		
+
 		Gilde gilde = manager.getGildeSync(lplayer, GildeType.ARCADE);
 		GildSection sec = gilde.getSelection(GildeType.ARCADE);
 		sec.getCostumData().setInt("x", 1);
 		sec.saveCostumData();
-		
+
 		sec.getMoney().log(lplayer.getPlayerId(), 100, "Runden ende gewinn");
 		sec.getMoney().addMoney(100);
 		sec.getPermission().hasPermission(lplayer, GildePermissions.MEMBER_EDIT);
 	}
-	
+
 	private class CommandDebugListener implements Listener {
 		@EventHandler
 		public void onCommand(PlayerCommandPreprocessEvent event) {

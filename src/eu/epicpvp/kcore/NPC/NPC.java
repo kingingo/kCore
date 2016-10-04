@@ -11,7 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import dev.wolveringer.client.Callback;
+import eu.epicpvp.datenclient.client.Callback;
 import dev.wolveringer.skin.Skin;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperGameProfile;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutAnimation;
@@ -105,7 +105,7 @@ public class NPC {
 		try {
 			spawn_packet = getSpawnPacket();
 			this.addToTablist();
-			
+
 			for (Player online : UtilServer.getPlayers()) {
 				if (notsend != null && notsend.contains(online))
 					continue;
@@ -475,8 +475,8 @@ public class NPC {
 	public String getPlayerlistName() {
 		return this.tablist;
 	}
-	
-	
+
+
 	public void show(Player player){
 		UtilPlayer.sendPacket(player, getAddTablist());
 		UtilPlayer.sendPacket(player, getSpawnPacket());

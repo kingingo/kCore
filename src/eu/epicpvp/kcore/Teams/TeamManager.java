@@ -11,8 +11,8 @@ import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.client.Callback;
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.Callback;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.kCore;
@@ -85,7 +85,7 @@ public class TeamManager {
 				callback.call(null,null);
 			}
 			return;
-		} 
+		}
 		Team team = teams.get(teamId);
 		if (team != null) {
 			if (callback != null) {

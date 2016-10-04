@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import dev.wolveringer.client.Callback;
+import eu.epicpvp.datenclient.client.Callback;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Achievements.Handler.Achievement;

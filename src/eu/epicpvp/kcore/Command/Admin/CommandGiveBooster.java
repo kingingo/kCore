@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
@@ -13,7 +13,7 @@ import eu.epicpvp.kcore.Util.UtilInteger;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandGiveBooster implements CommandExecutor{
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "givebooster", sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(sender instanceof Player){
@@ -35,10 +35,10 @@ public class CommandGiveBooster implements CommandExecutor{
 		}
 		return false;
 	}
-	
+
 	public boolean add(String[] args){
 		LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(args[0]);
-		
+
 		int sec = UtilInteger.isNumber(args[1]);
 		if(sec==-1)return false;
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Teams.Team;
 import eu.epicpvp.kcore.Teams.TeamManager;

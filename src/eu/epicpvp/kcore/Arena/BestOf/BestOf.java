@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.wolveringer.client.connection.PacketListener;
+import eu.epicpvp.datenclient.client.connection.PacketListener;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.Arena.ArenaManager;
@@ -46,7 +46,7 @@ public class BestOf extends kListener{
 	private ItemStack item;
 	@Getter
 	private HashMap<UUID,String> players_name;
-	
+
 	public BestOf(JavaPlugin instance){
 		super(instance,"BestOf");
 		UtilServer.setBestOf(this);
@@ -62,12 +62,12 @@ public class BestOf extends kListener{
 
 		PacketArenaWinner.register();
 		UtilServer.getClient().getHandle().getHandlerBoss().addListener(new PacketListener() {
-			
+
 			@Override
 			public void handle(Packet packet) {
 				if(packet instanceof PacketArenaWinner){
 					PacketArenaWinner win = (PacketArenaWinner)packet;
-					
+
 					if(players.containsKey(win.getWinner())){
 						players.get(win.getWinner()).win(win.getWinner());
 					}
@@ -75,11 +75,11 @@ public class BestOf extends kListener{
 			}
 		});
 	}
-	
+
 	public void addGame(ArenaManager arenaManager){
 		games.put(arenaManager.getT(), arenaManager);
 	}
-	
+
 	public void removeBestOf(UUID player){
 		if(players.containsKey(player)){
 			GameRoundBestOf round = players.get(player);
@@ -88,7 +88,7 @@ public class BestOf extends kListener{
 			this.wait_list.remove(round);
 			players_name.remove(round.getPlayers()[0]);
 			players_name.remove(round.getPlayers()[1]);
-			
+
 			if(UtilPlayer.isOnline(round.getPlayers()[0])){
 				Bukkit.getPlayer(round.getPlayers()[0]).teleport(CommandLocations.getLocation("spawn"));
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().clear();
@@ -98,13 +98,13 @@ public class BestOf extends kListener{
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedWars 1vs1"));
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(8,UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1"));
 				Bukkit.getPlayer(round.getPlayers()[0]).getInventory().setItem(7,UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1"));
-			
+
 				for(Player p : UtilServer.getPlayers()){
 					p.showPlayer(Bukkit.getPlayer(round.getPlayers()[0]));
 					Bukkit.getPlayer(round.getPlayers()[0]).showPlayer(p);
 				}
 			}
-			
+
 			if(UtilPlayer.isOnline(round.getPlayers()[1])){
 				Bukkit.getPlayer(round.getPlayers()[1]).teleport(CommandLocations.getLocation("spawn"));
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().clear();
@@ -114,7 +114,7 @@ public class BestOf extends kListener{
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(6,UtilItem.RenameItem(new ItemStack(Material.GOLD_SWORD), "§aBedWars 1vs1"));
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(8,UtilItem.RenameItem(new ItemStack(Material.DIAMOND_SWORD), "§aVersus 1vs1"));
 				Bukkit.getPlayer(round.getPlayers()[1]).getInventory().setItem(7,UtilItem.RenameItem(new ItemStack(Material.IRON_AXE), "§aSkyWars 1vs1"));
-			
+
 				for(Player p : UtilServer.getPlayers()){
 					p.showPlayer(Bukkit.getPlayer(round.getPlayers()[1]));
 					Bukkit.getPlayer(round.getPlayers()[1]).showPlayer(p);
@@ -124,18 +124,18 @@ public class BestOf extends kListener{
 			round.remove();
 		}
 	}
-	
+
 	public void sendHologramm(GameRoundBestOf round){
 		for(UUID u : round.getPlayers())if(UtilPlayer.isOnline(u))round.getNameTagMessage().sendToPlayer(Bukkit.getPlayer(u));
 	}
-	
+
 	public void createBestOf(Player player, Player target){
 		if(this.players.containsKey(player.getUniqueId()))removeBestOf(player.getUniqueId());
 		if(this.players.containsKey(target.getUniqueId()))removeBestOf(target.getUniqueId());
-		
+
 		this.players_name.put(player.getUniqueId(), player.getName());
 		this.players_name.put(target.getUniqueId(), target.getName());
-		
+
 		for(UUID p : this.players.keySet()){
 			if(UtilPlayer.isOnline(p)){
 				Bukkit.getPlayer(p).hidePlayer(player);
@@ -144,9 +144,9 @@ public class BestOf extends kListener{
 				player.hidePlayer(Bukkit.getPlayer(p));
 			}
 		}
-		
+
 		GameRoundBestOf round = new GameRoundBestOf(player, target);
-		
+
 		this.players.put(player.getUniqueId(), round);
 		this.players.put(target.getUniqueId(), round);
 		player.teleport(this.spawn);
@@ -157,7 +157,7 @@ public class BestOf extends kListener{
 		target.getInventory().addItem(this.item);
 		this.wait_list.put(round, System.currentTimeMillis());
 	}
-	
+
 	public GameType random(){
 		switch(UtilMath.randomInteger(4)){
 		case 0:return GameType.Versus;
@@ -167,7 +167,7 @@ public class BestOf extends kListener{
 		}
 		return GameType.Versus;
 	}
-	
+
 	@EventHandler
 	public void interact(PlayerInteractEvent ev){
 		if(UtilEvent.isAction(ev, ActionType.RIGHT)&&ev.getPlayer().getGameMode()!=GameMode.CREATIVE){
@@ -178,15 +178,15 @@ public class BestOf extends kListener{
 			}
 		}
 	}
-	
+
 	ArrayList<GameRoundBestOf> list;
 	@EventHandler
 	public void updater(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.SLOW || this.wait_list.isEmpty())return;
 		if(list==null)list=new ArrayList<>();
-		
+
 		for(GameRoundBestOf round : this.wait_list.keySet()){
-			
+
 			if((System.currentTimeMillis()-this.wait_list.get(round)) > TimeSpan.SECOND*5){
 				if(round.getOwner().toString().equalsIgnoreCase("3e6028c4-c078-4835-bb3a-33c516f69bd8")){
 					logMessage("1: "+(System.currentTimeMillis()-this.wait_list.get(round)));
@@ -200,10 +200,10 @@ public class BestOf extends kListener{
 						this.games.get((type==null?random():type)).addRound(round);
 					}else{
 						UUID winner = round.getWinner();
-						
+
 						if(winner==null){
 							String t = UtilServer.getUserData().getConfig(Bukkit.getPlayer(round.getOwner())).getString("BestOf.Round.0");
-							
+
 							if(t.equalsIgnoreCase("random")){
 								this.games.get(random()).addRound(round);
 							}else{
@@ -239,11 +239,11 @@ public class BestOf extends kListener{
 				}
 			}
 		}
-		
+
 		for(GameRoundBestOf r : list)this.wait_list.remove(r);
 		list.clear();
 	}
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void join(PlayerJoinEvent ev){
 		if(this.players.containsKey(ev.getPlayer().getUniqueId())){
@@ -251,7 +251,7 @@ public class BestOf extends kListener{
 			sendHologramm(this.players.get(ev.getPlayer().getUniqueId()));
 			ev.getPlayer().getInventory().clear();
 			ev.getPlayer().getInventory().addItem(this.item);
-			
+
 			for(UUID p : this.players.keySet()){
 				if(UtilPlayer.isOnline(p)){
 					if(this.players.get(ev.getPlayer().getUniqueId()).getPlayers()[0].toString().equalsIgnoreCase(p.toString()))continue;
@@ -260,9 +260,9 @@ public class BestOf extends kListener{
 					ev.getPlayer().hidePlayer(Bukkit.getPlayer(p));
 				}
 			}
-			
+
 			new Title("§c"+this.players.get(ev.getPlayer().getUniqueId()).getRound()+"/"+this.players.get(ev.getPlayer().getUniqueId()).getTypes().length +" Runde"," ").send(ev.getPlayer());
-			
+
 			if(this.players.get(ev.getPlayer().getUniqueId()).canNextRound()){
 				this.wait_list.put(this.players.get(ev.getPlayer().getUniqueId()), System.currentTimeMillis());
 			}

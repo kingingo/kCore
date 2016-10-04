@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.client.Callback;
 import dev.wolveringer.skin.Skin;
 import eu.epicpvp.kcore.Disguise.disguises.DisguiseHuman;
 import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
@@ -32,7 +31,7 @@ public class DisguisePlayer extends DisguiseHuman
   private UUID skinUuid;
   @Getter
   private boolean tab=false;
-  
+
   public DisguisePlayer(org.bukkit.entity.Entity entity, Player player)
   {
 	  super(entity);
@@ -42,13 +41,13 @@ public class DisguisePlayer extends DisguiseHuman
 	  this.DataWatcher.setCustomName(_name);
 	  this.profile=new WrapperGameProfile( UtilPlayer.getCraftPlayer(player).getProfile() );
   }
-  
+
   public DisguisePlayer(org.bukkit.entity.Entity entity, String name)
   {
     super(entity);
-    
+
     if(name==null)System.err.println("[DisguisePlayer] name ist gleich null");
-    
+
     if (name.length() > 14)
     {
       name = name.substring(0, 14);
@@ -59,33 +58,33 @@ public class DisguisePlayer extends DisguiseHuman
     this.DataWatcher.setCustomName(_name);
     this.profile=new WrapperGameProfile(this.uuid, this._name);
   }
-  
+
   public void loadSkin(UUID uuid){
 	  UtilSkin.loadSkin(this.profile, uuid);
   }
-  
+
   public void loadSkin(String playerName){
 	  UtilSkin.loadSkin(this.profile, playerName);
   }
-  
+
   public void loadSkin(Skin data){
 	  if(data!=null){
 		  this.profile.loadSkin(data);
 		  UtilServer.getDisguiseManager().updateDisguise(this);
 	  }
   }
-  
+
   public String getName(){
 	  return this._name;
   }
-  
+
   public PacketWrapper updateTabList(String prefix) {
       try {
          WrapperPacketPlayOutPlayerInfo packet = new WrapperPacketPlayOutPlayerInfo();
          WrapperPlayerInfoData data = new WrapperPlayerInfoData(packet,this.profile,prefix+this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
-         
+
          packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.UPDATE_DISPLAY_NAME);
          packet.setList(players);
 
@@ -95,14 +94,14 @@ public class DisguisePlayer extends DisguiseHuman
       }
       return null;
    }
-  
+
   public PacketWrapper getTabList(String prefix) {
       try {
          WrapperPacketPlayOutPlayerInfo packet = new WrapperPacketPlayOutPlayerInfo();
          PlayerInfoData data = new WrapperPlayerInfoData(packet,this.profile, prefix+this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
-         
+
          packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
          packet.setList(players);
 
@@ -112,14 +111,14 @@ public class DisguisePlayer extends DisguiseHuman
       }
       return null;
    }
-  
+
   public PacketWrapper getTabList() {
       try {
          WrapperPacketPlayOutPlayerInfo packet = new WrapperPacketPlayOutPlayerInfo();
          PlayerInfoData data = new WrapperPlayerInfoData(packet,this.profile, this._name);
          List<PlayerInfoData> players = packet.getList();
          players.add(data);
-         
+
          packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.ADD_PLAYER);
          packet.setList(players);
 
@@ -136,17 +135,17 @@ public class DisguisePlayer extends DisguiseHuman
 	         PlayerInfoData data = new WrapperPlayerInfoData(packet,this.profile, _name);
 	         List<PlayerInfoData> players = packet.getList();
 	         players.add(data);
-	         
+
 	         packet.setEnumPlayerInfoAction(EnumPlayerInfoAction.REMOVE_PLAYER);
 	         packet.setList(players);
-	         
+
 	         return packet;
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	      }
 	   return null;
   }
-  
+
   public PacketWrapper GetSpawnPacket(){
 	  WrapperPacketPlayOutNamedEntitySpawn packet = new WrapperPacketPlayOutNamedEntitySpawn();
 	  packet.setEntityID(this.Entity.getId());

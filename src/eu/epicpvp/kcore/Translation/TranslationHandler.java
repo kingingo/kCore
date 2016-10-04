@@ -2,11 +2,11 @@ package eu.epicpvp.kcore.Translation;
 
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import dev.wolveringer.dataserver.player.LanguageType;
 import dev.wolveringer.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInChangePlayerSettings;
-import dev.wolveringer.translation.TranslationManager;
+import eu.epicpvp.datenclient.translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -33,7 +33,7 @@ public class TranslationHandler {
 	public static LanguageType getLanguage(Player player) {
 		return instance.getLanguage(UtilServer.getClient().getPlayerAndLoad(player.getName()));
 	}
-	
+
 	public static void registerFallback(LanguageType type,String key,String message){
 		instance.getTranslationFile(type).registerFallbackMessage(key, message);
 	}

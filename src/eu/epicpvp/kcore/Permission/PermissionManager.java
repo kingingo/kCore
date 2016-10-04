@@ -11,7 +11,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.spigotmc.AsyncCatcher;
 
 import dev.wolveringer.bukkit.permissions.GroupTyp;
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import dev.wolveringer.client.connection.ClientType;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
@@ -156,7 +156,7 @@ public class PermissionManager {
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		String prefix = getPrefix(player);
 		String tabGroup = getTabGroup(player);
-		
+
 		player.setPlayerListName(prefix+player.getName());
 		UtilScoreboard.addTeam(player.getScoreboard(), getTabGroup(player), prefix).addEntry(player.getName());
 
@@ -192,7 +192,7 @@ public class PermissionManager {
 	public boolean isLoaded(Player player){
 		return user.containsKey(UtilPlayer.getPlayerId(player));
 	}
-	
+
 	public void unloadPlayer(Player player) {
 		UtilServer.loopbackUntilValidDataserverConnection(()->{
 			synchronized (user) {
@@ -266,7 +266,7 @@ public class PermissionManager {
 			group = pplayer.getGroups().get(0);
 		return group;
 	}
-	
+
 	public String getPrefix(Player player) {
 		Group group = getDisplayedGroup(player);
 		if (group == null || group.getPrefix() == null)

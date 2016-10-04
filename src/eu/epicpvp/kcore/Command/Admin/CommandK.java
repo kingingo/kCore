@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.wolveringer.bukkit.permissions.GroupTyp;
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import dev.wolveringer.client.connection.ClientType;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
@@ -21,7 +21,7 @@ import eu.epicpvp.kcore.Util.UtilReflection;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandK implements CommandExecutor{
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "k", alias={"group","perm"}, sender = Sender.CONSOLE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(args.length==0){
@@ -44,7 +44,7 @@ public class CommandK implements CommandExecutor{
 				String player = args[1];
 				String perm = args[2];
 				GroupTyp group = GroupTyp.get(args[3]);
-				
+
 				addPermission(player, perm,group);
 			}else if(args[0].equalsIgnoreCase("update")){
 				UtilServer.getPermissionManager().updateGroup(args[1]);
@@ -52,7 +52,7 @@ public class CommandK implements CommandExecutor{
 			}else if(args[0].equalsIgnoreCase("info")){
 				if(args.length==2){
 					Player player = Bukkit.getPlayer(args[1]);
-					
+
 					if(player!=null){
 						PermissionPlayer pplayer = UtilServer.getPermissionManager().getPermissionPlayer(player);
 						System.out.println("Player:"+player.getName());
@@ -70,7 +70,7 @@ public class CommandK implements CommandExecutor{
 		}
 		return false;
 	}
-	
+
 	public void addPermission(String player, String permission,GroupTyp typ){
 		LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player);
 		DataBuffer buffer = new DataBuffer().writeByte(3).writeInt(loadedplayer.getPlayerId()).writeString(permission).writeInt(typ.ordinal());
@@ -94,5 +94,5 @@ public class CommandK implements CommandExecutor{
 		UtilServer.getClient().writePacket(packet);
 		System.out.println("Set "+player+"("+loadedplayer.getPlayerId()+") to "+toGroup);
 	}
-	
+
 }

@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-import dev.wolveringer.client.ClientWrapper;
-import dev.wolveringer.client.connection.Client;
+import eu.epicpvp.datenclient.client.ClientWrapper;
+import eu.epicpvp.datenclient.client.connection.Client;
 import dev.wolveringer.client.connection.ClientType;
-import dev.wolveringer.client.connection.ServerInformations;
-import dev.wolveringer.client.connection.State;
-import dev.wolveringer.client.external.ServerActionListener;
+import eu.epicpvp.datenclient.client.connection.ServerInformations;
+import eu.epicpvp.datenclient.client.connection.State;
+import eu.epicpvp.datenclient.client.external.ServerActionListener;
 import dev.wolveringer.dataserver.gamestats.GameState;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
 import dev.wolveringer.thread.ThreadFactory;
-import dev.wolveringer.translation.TranslationManager;
+import eu.epicpvp.datenclient.translation.TranslationManager;
 import eu.epicpvp.kcore.Achievements.Handler.AchievementsHandler;
 import eu.epicpvp.kcore.Arena.BestOf.BestOf;
 import eu.epicpvp.kcore.Arena.TabManager;
@@ -253,9 +253,9 @@ public class UtilServer {
 					return ev.getPacket();
 				}
 			}));
-			
+
 			String password = "vtpmfru";
-			
+
 			try {
 				new ClientListener(instance, client,password);
 				TranslationHandler.setInstance(client.getTranslationManager());

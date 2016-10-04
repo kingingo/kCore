@@ -9,9 +9,8 @@ import java.sql.Timestamp;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.wolveringer.client.Callback;
+import eu.epicpvp.datenclient.client.Callback;
 import eu.epicpvp.kcore.MySQL.Events.MySQLConnectEvent;
 import eu.epicpvp.kcore.MySQL.Events.MySQLDisconnectEvent;
 import eu.epicpvp.kcore.MySQL.Events.MySQLErrorEvent;
@@ -54,7 +53,7 @@ public class MySQL {
 
 	public void connect() {
 		close();
-		
+
 		if(user==null||pass==null||host==null||db==null)return;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://" + host
@@ -248,7 +247,7 @@ public class MySQL {
 		Update("INSERT INTO `" + table + "` (" + content + ") VALUES (" + values
 				+ ");");
 	}
-	
+
 	public int InsertGetId(String qry) throws SQLException {
 		Statement stmt = connection.createStatement();
 		return stmt.executeUpdate(qry, Statement.RETURN_GENERATED_KEYS);
@@ -285,7 +284,7 @@ public class MySQL {
 		}
 		return false;
 	}
-	
+
 	public boolean UpdateWithException(String qry) throws SQLException {
 		if (connection == null)
 			return false;
@@ -317,7 +316,7 @@ public class MySQL {
 		}
 		return time;
 	}
-	
+
 	public Double getDouble(String qry) {
 		if (connection == null)
 			return 0.0;

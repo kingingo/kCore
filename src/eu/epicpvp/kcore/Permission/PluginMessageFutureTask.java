@@ -1,6 +1,6 @@
 package eu.epicpvp.kcore.Permission;
 
-import dev.wolveringer.client.Callback;
+import eu.epicpvp.datenclient.client.Callback;
 import dev.wolveringer.thread.ThreadFactory;
 import eu.epicpvp.kcore.Util.UtilServer;
 

@@ -32,8 +32,8 @@ import org.bukkit.util.Vector;
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 
-import dev.wolveringer.client.Callback;
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.Callback;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.hashmaps.CachedHashMap;
 import eu.epicpvp.kcore.Enum.Zeichen;

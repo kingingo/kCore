@@ -6,8 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Score;
 
-import dev.wolveringer.client.Callback;
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.Callback;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import dev.wolveringer.dataserver.protocoll.DataBuffer;

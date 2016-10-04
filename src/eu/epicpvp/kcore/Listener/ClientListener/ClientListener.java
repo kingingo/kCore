@@ -6,7 +6,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.wolveringer.client.ClientWrapper;
+import eu.epicpvp.datenclient.client.ClientWrapper;
 import eu.epicpvp.kcore.Events.ClientConnectedEvent;
 import eu.epicpvp.kcore.Events.ClientDisconnectedEvent;
 import eu.epicpvp.kcore.Listener.kListener;
@@ -24,7 +24,7 @@ public class ClientListener extends kListener{
 	@Getter
 	@Setter
 	private String password;
-	
+
 	public ClientListener(JavaPlugin instance,ClientWrapper client,String password) {
 		super(instance, "ClientListener");
 		this.client=client;
@@ -46,7 +46,7 @@ public class ClientListener extends kListener{
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void connect(ClientConnectedEvent ev){
 		System.out.println("[Client]: Connected");
@@ -56,12 +56,12 @@ public class ClientListener extends kListener{
 	public void disconnect(ClientDisconnectedEvent ev){
 		System.out.println("[Client]: Disconnected");
 	}
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void quit(PlayerQuitEvent ev){
 		getClient().clearCacheForPlayer(getClient().getPlayerAndLoad(ev.getPlayer().getName()));
 	}
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void a(AsyncPlayerPreLoginEvent e){
 		if (client == null || !client.getHandle().isConnected() || !client.getHandle().isHandshakeCompleted() ) {

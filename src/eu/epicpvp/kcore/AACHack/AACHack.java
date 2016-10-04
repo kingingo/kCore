@@ -1,9 +1,9 @@
 package eu.epicpvp.kcore.AACHack;
 
 import com.comphenix.protocol.ProtocolLibrary;
-import dev.wolveringer.client.ClientWrapper;
-import dev.wolveringer.client.LoadedPlayer;
-import dev.wolveringer.client.connection.PacketListener;
+import eu.epicpvp.datenclient.client.ClientWrapper;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.connection.PacketListener;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.AntiLogout.AntiLogoutManager;
 import eu.epicpvp.kcore.Command.Admin.CommandReport;

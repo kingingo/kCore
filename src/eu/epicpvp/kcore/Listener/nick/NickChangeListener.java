@@ -16,14 +16,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import com.mojang.authlib.properties.PropertyMap;
 
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.handler.PacketHandler;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.handler.ReceivedPacket;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.handler.SentPacket;
-import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilReflection;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
 import eu.epicpvp.kcore.Util.UtilServer;

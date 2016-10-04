@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import dev.wolveringer.client.Callback;
+import eu.epicpvp.datenclient.client.Callback;
 import dev.wolveringer.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Achievements.Events.PlayerLoadAchievementsEvent;
@@ -24,20 +24,20 @@ public class Obsession extends Achievement{
 	public Obsession(StatsKey key){
 		this(key,null);
 	}
-	
+
 	public Obsession(StatsKey key,Callback<Integer> done) {
 		super("§aSucht!", Arrays.asList(" ","§a"+Zeichen.DOUBLE_ARROWS_R.getIcon()+" §7Spiele 24 Stunden auf dem Server."," "),done,false,1);
 		this.stats=StatsManagerRepository.getStatsManager(GameType.TIME);
 		this.key=key;
 	}
-	
+
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void join(PlayerLoadAchievementsEvent ev){
 		if(ev.getAchievement()==this){
 			stats.loadPlayer(ev.getPlayer());
 		}
 	}
-	
+
 	@EventHandler
 	public void load(PlayerStatsLoadedEvent ev){
 		if(ev.getManager().getType()!=GameType.TIME)return;

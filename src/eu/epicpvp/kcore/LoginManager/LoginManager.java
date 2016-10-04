@@ -21,9 +21,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.wolveringer.client.Callback;
-import dev.wolveringer.client.ClientWrapper;
-import dev.wolveringer.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.Callback;
+import eu.epicpvp.datenclient.client.ClientWrapper;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
 import dev.wolveringer.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.packets.PacketOutPlayerSettings;
 import eu.epicpvp.kcore.Command.CommandHandler;

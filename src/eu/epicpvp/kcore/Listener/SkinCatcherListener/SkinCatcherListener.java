@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.wolveringer.client.Callback;
+import eu.epicpvp.datenclient.client.Callback;
 import dev.wolveringer.skin.Skin;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
@@ -25,7 +25,7 @@ public class SkinCatcherListener extends kListener{
 	@Getter
 	private HashMap<UUID,Skin> skins;
 	private HashMap<UUID,Long> skins_time;
-	
+
 	public SkinCatcherListener(JavaPlugin instance, long time) {
 		super(instance, "SkinCatcherListener");
 		this.time=time;
@@ -46,7 +46,7 @@ public class SkinCatcherListener extends kListener{
 					delete.add(s);
 				}
 			}
-			
+
 			for(UUID s : delete){
 				skins_time.remove(s);
 				tabnames.remove(s);
@@ -60,14 +60,14 @@ public class SkinCatcherListener extends kListener{
 	public void prefix_save(PlayerLoadPermissionEvent ev){
 		tabnames.put(ev.getPlayer().getUniqueId(), ev.getPermissionPlayer().getGroups().get(0).getPrefix());
 	}
-	
+
 	@EventHandler
 	public void join(PlayerJoinEvent ev){
 		if(skins_time.containsKey( ev.getPlayer().getName() )){
 			skins_time.remove(ev.getPlayer().getName());
 		}else{
 			UtilSkin.loadSkin(new Callback<Skin>() {
-				
+
 				@Override
 				public void call(Skin data, Throwable exception) {
 					skins.put(ev.getPlayer().getUniqueId(), data);

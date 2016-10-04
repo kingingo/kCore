@@ -10,13 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
-import dev.wolveringer.client.Callback;
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenclient.client.Callback;
 import eu.epicpvp.kcore.Achievements.Events.PlayerLoadAchievementsEvent;
-import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigRemoveEvent;
 import eu.epicpvp.kcore.Util.Title;
 import eu.epicpvp.kcore.Util.UtilFirework;
@@ -131,7 +127,7 @@ public class Achievement implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, handler.getInstance());
 		handler.getAchievements().add(this);
 	}
-	
+
 	@EventHandler
 	public void UserDataConfigRemove(UserDataConfigRemoveEvent ev){
 		if (this.playerProgress.containsKey(UtilPlayer.getPlayerId(ev.getPlayer()))) {

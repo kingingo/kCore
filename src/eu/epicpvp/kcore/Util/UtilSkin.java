@@ -2,11 +2,10 @@ package eu.epicpvp.kcore.Util;
 
 import java.util.UUID;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.client.Callback;
-import dev.wolveringer.client.ProgressFuture;
+import eu.epicpvp.datenclient.client.Callback;
+import eu.epicpvp.datenclient.client.ProgressFuture;
 import dev.wolveringer.skin.Skin;
 import dev.wolveringer.skin.SteveSkin;
 import eu.epicpvp.kcore.Listener.SkinCatcherListener.SkinCatcherListener;
@@ -18,12 +17,12 @@ public class UtilSkin {
 	@Setter
 	@Getter
 	public static SkinCatcherListener catcher;
-	
+
 	public static void setSkinPlayer(Player player, Skin data){
 		WrapperGameProfile profile = (WrapperGameProfile) UtilPlayer.getCraftPlayer(player).getProfile();
 		profile.loadSkin(data);
 	}
-	
+
 	public static void loadSkin(Callback<Skin> callback, String playerName){
 		if(catcher!=null){
 			if(catcher.getSkins().containsKey(playerName)){
@@ -31,7 +30,7 @@ public class UtilSkin {
 				return;
 			}
 		}
-		
+
 		if(UtilServer.getClient().getHandle().isConnected()){
 			ProgressFuture<Skin> response = UtilServer.getClient().getSkin(playerName);
 			response.getAsync(callback);
@@ -39,11 +38,11 @@ public class UtilSkin {
 			callback.call(new SteveSkin(),null);
 		}
 	}
-	
+
 	public static void loadSkin(WrapperGameProfile profile, String playerName){
 		loadSkin(profile, playerName, null);
 	}
-	
+
 	public static void loadSkin(WrapperGameProfile profile, String playerName,Callback<Skin> fine){
 		if(catcher!=null){
 			if(catcher.getSkins().containsKey(playerName)){
@@ -51,7 +50,7 @@ public class UtilSkin {
 				return;
 			}
 		}
-		
+
 		loadSkin(new Callback<Skin>() {
 			@Override
 			public void call(Skin skin, Throwable ex) {
@@ -60,11 +59,11 @@ public class UtilSkin {
 			}
 		}, playerName);
 	}
-	
+
 	public static void loadSteveSkin(WrapperGameProfile profile){
 		profile.loadSkin( new SteveSkin() );
 	}
-	
+
 	public static void loadSkin(Callback<Skin> callback, UUID uuid){
 		if(UtilServer.getClient().getHandle().isConnected()){
 			ProgressFuture<Skin> response = UtilServer.getClient().getSkin(uuid);
@@ -73,7 +72,7 @@ public class UtilSkin {
 			callback.call(new SteveSkin(),null);
 		}
 	}
-	
+
 	public static void loadSkin(WrapperGameProfile profile, UUID uuid){
 		loadSkin(new Callback<Skin>() {
 			@Override
