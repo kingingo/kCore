@@ -62,7 +62,7 @@
                     <minimizeJar>false</minimizeJar>
                     <artifactSet>
                         <includes>
-                            <include>dev.wolveringer.lib:NBTTag</include>
+                            <include>eu.epicpvp.lib:NBTTag</include>
                         </includes>
                     </artifactSet>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
@@ -111,13 +111,13 @@
 		</dependency>
 		<!-- epicpvp dependencies -->
 		<dependency>
-			<groupId>dev.wolveringer</groupId>
+			<groupId>eu.epicpvp</groupId>
 			<artifactId>DatenClient</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>dev.wolveringer.lib</groupId>
+			<groupId>eu.epicpvp.lib</groupId>
 			<artifactId>NBTTag</artifactId>
 			<version>1.2.1</version>
 			<scope>compile</scope>
@@ -158,6 +158,11 @@
 			<artifactId>ProtocolLib</artifactId>
 			<version>3.6.5</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.comphenix.packetwrapper</groupId>
+			<artifactId>PacketWrapper</artifactId>
+			<version>1.8.7-R0.1-SNAPSHOT</version>
 		</dependency>
 		<!-- other -->
 		<dependency>
