@@ -2,7 +2,6 @@ package eu.epicpvp.kcore.Teams.Commands;
 
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.Teams.Team;
 import eu.epicpvp.kcore.Teams.TeamManager;
 import eu.epicpvp.kcore.Teams.TeamRank;
@@ -35,7 +34,7 @@ public class Leave {
 //						}else{
 //							config=sky.getSky().getInstance().getUserData().loadConfig(n);
 //						}
-//						
+//
 //						for(String path : config.getPathList("homes").keySet()){
 //							if(config.getLocation("homes."+path).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName())){
 //								config.set("homes."+path, null);

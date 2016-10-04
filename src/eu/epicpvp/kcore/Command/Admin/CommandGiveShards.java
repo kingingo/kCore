@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
@@ -13,7 +13,7 @@ import eu.epicpvp.kcore.Util.UtilInteger;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandGiveShards implements CommandExecutor{
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "giveshards", sender = Sender.CONSOLE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(sender instanceof Player){
@@ -24,7 +24,7 @@ public class CommandGiveShards implements CommandExecutor{
 				}else if(args.length >= 2){
 					String spieler = args[0];
 					int c=UtilInteger.isNumber(args[1]);
-					
+
 					if(c==-1)return false;
 
 					UtilServer.getMoneyListener().update(spieler, StatsKey.MYSTERY_SHARPS, c);
@@ -36,16 +36,16 @@ public class CommandGiveShards implements CommandExecutor{
 				System.out.println("[EpicPvP:] /GiveGems [Spieler] [+/- Sharps]");
 			}else if(args.length >= 2){
 				String spieler = args[0];
-				
+
 				int c=UtilInteger.isNumber(args[1]);
-				
+
 				if(c==-1)return false;
-				
+
 				UtilServer.getMoneyListener().update(spieler, StatsKey.MYSTERY_SHARPS, c);
 				System.out.println("[EpicPvP]: Der Spieler "+spieler+" hat die Gems erhalten!");
 			}
 		}
 		return false;
 	}
-	
+
 }

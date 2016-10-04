@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.AccessLevel;
@@ -31,7 +31,7 @@ public class Team {
 		this.name = name;
 		this.prefix = prefix;
 	}
-	
+
 	public TeamRank getRank(Player player){
 		return getRank(UtilPlayer.getPlayerId(player));
 	}
@@ -43,7 +43,7 @@ public class Team {
 	public void setRank(int playerId,TeamRank rank){
 		teamManager.getServerStatsManager().set(playerId,StatsKey.TEAM_RANK,rank.ordinal());
 	}
-	
+
 	public void addStatistic(StatsKey key, Object value) {
 		teamManager.getTeamStatsManager().add(teamId, key, value);
 	}

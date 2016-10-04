@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.GagdetShop.GadgetHandler;
 import eu.epicpvp.kcore.Listener.kListener;
@@ -38,7 +38,7 @@ public class Gadget extends kListener{
 	public Gadget(GadgetHandler handler, String name,ItemStack item){
 		this(handler,name,item,50,750,2000);
 	}
-	
+
 	public Gadget(GadgetHandler handler, String name,ItemStack item,int buyAmount,int gems,int coins){
 		super(handler.getInstance(),"Gadget - "+name);
 		this.handler=handler;
@@ -49,13 +49,13 @@ public class Gadget extends kListener{
 		this.coins=coins;
 		this.buyAmount=buyAmount;
 	}
-	
+
 	public void setAmount(Player player){
 		if(this.active_player.containsKey(player)){
 			setAmount(player, this.active_player.get(player));
 		}
 	}
-	
+
 	public void setAmount(Player player,int amount){
 		try {
 			NBTTagCompound nbt = getHandler().getStatsManager().getNBTTagCompound(player, StatsKey.PROPERTIES);
@@ -65,10 +65,10 @@ public class Gadget extends kListener{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int getAmount(Player player){
 		NBTTagCompound nbt = getHandler().getStatsManager().getNBTTagCompound(player, StatsKey.PROPERTIES);
-		
+
 		if(nbt.hasKey("gadgets"+getName())){
 			return nbt.getInt("gadgets"+getName());
 		}
@@ -78,14 +78,14 @@ public class Gadget extends kListener{
 	public void addPlayer(Player player){
 		addPlayer(player, getAmount(player));
 	}
-	
+
 	public void addPlayer(Player player, int amount){
 		for(Gadget gadget : this.handler.getGadgets())gadget.removePlayer(player);
-		
+
 		this.active_player.put(player,amount);
 		player.getInventory().addItem(getItem());
 	}
-	
+
 	public void removePlayer(Player player){
 		if(this.active_player.containsKey(player)){
 			setAmount(player);
@@ -93,31 +93,31 @@ public class Gadget extends kListener{
 			this.active_player.remove(player);
 		}
 	}
-	
+
 	public boolean use(Player player){
 		String timer = UtilTime.getTimeManager().check("gagdet", player);
-		
+
 		if(this.active_player.containsKey(player) && timer == null){
 			if(!player.isOp())UtilTime.getTimeManager().add("gagdet", player, TimeSpan.SECOND*10);
 			this.active_player.put(player, this.active_player.get(player)-1);
 			UtilItem.RenameItem(player.getItemInHand(), "§e"+getName()+" §7(§e"+this.active_player.get(player)+"§7)");
 			setAmount(player);
-			
+
 			if(this.active_player.get(player)<=0){
 				removePlayer(player);
 			}
 			return true;
 		}
-		
+
 		if(timer!=null)player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "USE_BEFEHL_TIME",timer));
 		return false;
 	}
-	
+
 	@EventHandler
 	public void MysteryUse(PlayerUseMysteryBoxEvent ev){
 		if(this.active_player.containsKey(ev.getPlayer())){
 			removePlayer(ev.getPlayer());
 		}
 	}
-	
+
 }

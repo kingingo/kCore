@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.datenclient.client.LoadedPlayer;
-import dev.wolveringer.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenclient.event.EventListener;
 import dev.wolveringer.events.Event;
 import dev.wolveringer.events.EventConditions;

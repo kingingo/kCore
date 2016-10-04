@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.datenclient.client.connection.PacketListener;
-import dev.wolveringer.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.Arena.ArenaManager;
 import eu.epicpvp.kcore.Command.Admin.CommandLocations;

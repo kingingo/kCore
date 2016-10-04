@@ -3,8 +3,8 @@ package eu.epicpvp.kcore.Translation;
 import org.bukkit.entity.Player;
 
 import eu.epicpvp.datenclient.client.LoadedPlayer;
-import dev.wolveringer.dataserver.player.LanguageType;
-import dev.wolveringer.dataserver.player.Setting;
+import eu.epicpvp.datenserver.definitions.dataserver.player.LanguageType;
+import eu.epicpvp.datenserver.definitions.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInChangePlayerSettings;
 import eu.epicpvp.datenclient.translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilServer;

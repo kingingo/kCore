@@ -1,6 +1,6 @@
 package eu.epicpvp.kcore.LoginManager.Commands;
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import dev.wolveringer.dataserver.protocoll.packets.PacketInStatsEdit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -4,7 +4,7 @@ import static net.minecraft.server.v1_8_R3.PotionBrewer.g;
 
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Teams.Team;
 import eu.epicpvp.kcore.Teams.TeamManager;
 import eu.epicpvp.kcore.Teams.TeamRank;

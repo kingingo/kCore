@@ -4,8 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonCopy;
@@ -23,14 +23,14 @@ public class MysteryShardButton extends ButtonCopy{
 				int sharps = StatsManagerRepository.getStatsManager(GameType.Money).getInt(player, StatsKey.MYSTERY_SHARPS);
 				((InventoryPageBase)object).setItem(slot, UtilItem.RenameItem(new ItemStack(Material.PRISMARINE_SHARD), "§b"+sharps+" MysteryShards"));
 			}
-			
+
 		}, new Click(){
 
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
-				
+
 			}
-			
+
 		}, new ItemStack(Material.PRISMARINE_SHARD));
 	}
 

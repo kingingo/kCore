@@ -26,7 +26,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import dev.wolveringer.dataserver.gamestats.ServerType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.ServerType;
 import dev.wolveringer.thread.ThreadFactory;
 import eu.epicpvp.kcore.Hologram.Hologram;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;

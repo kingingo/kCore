@@ -21,7 +21,7 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.AntiLogout.Events.AntiLogoutAddPlayerEvent;
 import eu.epicpvp.kcore.AntiLogout.Events.AntiLogoutDelPlayerEvent;
 import eu.epicpvp.kcore.AntiLogout.Events.AntiLogoutQuitPlayerEvent;
@@ -53,7 +53,7 @@ public class AntiLogoutManager extends kListener {
 	@Getter
 	@Setter
 	private StatsManager stats=null;
-	
+
 	public AntiLogoutManager(JavaPlugin instance,AntiLogoutType typ,int sec){
 		super(instance,"AntiLogoutManager");
 		this.typ=typ;
@@ -64,7 +64,7 @@ public class AntiLogoutManager extends kListener {
 	    	worldGuard=(WorldGuardPlugin)Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 	    }
 	}
-	
+
 	@EventHandler
 	public void Home(PlayerHomeEvent ev){
 		if(getPlayers().containsKey(ev.getPlayer())){
@@ -72,7 +72,7 @@ public class AntiLogoutManager extends kListener {
 			ev.setReason(TranslationHandler.getText(ev.getPlayer(),"ANTI_LOGOUT_FIGHT"));
 		}
 	}
-	
+
 	Location loc;
 	World w;
 	RegionManager regionManager;
@@ -97,7 +97,7 @@ public class AntiLogoutManager extends kListener {
 			UtilList.CleanList(players);
 		}
 	}
-	
+
 	public void add(Player player){
 		if(getPlayers().containsKey(player)){
 			getPlayers().remove(player);
@@ -112,7 +112,7 @@ public class AntiLogoutManager extends kListener {
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ANTI_LOGOUT_FIGHT"));
 		}
 	}
-	
+
 	public void del(Player player){
 		if(getPlayers().containsKey(player)){
 			player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "ANTI_LOGOUT_FIGHT_END"));
@@ -120,7 +120,7 @@ public class AntiLogoutManager extends kListener {
 			Bukkit.getPluginManager().callEvent(new AntiLogoutDelPlayerEvent(player,this));
 		}
 	}
-	
+
 	public boolean is(Player player){
 		if(getPlayers().containsKey(player)){
 			if((getPlayers().get(player)+time) < System.currentTimeMillis()){
@@ -131,7 +131,7 @@ public class AntiLogoutManager extends kListener {
 		}
 		return true;
 	}
-	
+
 	@EventHandler
 	public void Kick(PlayerKickEvent ev){
 		if(!is(ev.getPlayer())&&!onDisable){
@@ -153,17 +153,17 @@ public class AntiLogoutManager extends kListener {
 					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getBoots());
 					ev.getPlayer().getInventory().setBoots(null);
 				}
-				
+
 				for(ItemStack item : ev.getPlayer().getInventory().getContents()){
 					if(item!=null&&item.getType()!=Material.AIR){
 						ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), item);
 					}
 				}
-				
+
 				if(stats!=null){
 					stats.setInt(ev.getPlayer(), stats.getInt(StatsKey.DEATHS, ev.getPlayer())+1, StatsKey.DEATHS);
 				}
-				
+
 				ev.getPlayer().getInventory().clear();
 				ev.getPlayer().teleport(Bukkit.getWorld("world").getSpawnLocation());
 				break;
@@ -189,7 +189,7 @@ public class AntiLogoutManager extends kListener {
 			Bukkit.getPluginManager().callEvent(new AntiLogoutQuitPlayerEvent(ev.getPlayer(),this));
 		}
 	}
-	
+
 	@EventHandler
 	public void Quit(PlayerQuitEvent ev){
 		if(!is(ev.getPlayer())&&!onDisable){
@@ -211,17 +211,17 @@ public class AntiLogoutManager extends kListener {
 					ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), ev.getPlayer().getInventory().getBoots());
 					ev.getPlayer().getInventory().setBoots(null);
 				}
-				
+
 				for(ItemStack item : ev.getPlayer().getInventory().getContents()){
 					if(item!=null&&item.getType()!=Material.AIR){
 						ev.getPlayer().getWorld().dropItem(ev.getPlayer().getLocation(), item);
 					}
 				}
-				
+
 				if(stats!=null){
 					stats.setInt(ev.getPlayer(), stats.getInt(StatsKey.DEATHS, ev.getPlayer())+1, StatsKey.DEATHS);
 				}
-				
+
 				ev.getPlayer().getInventory().clear();
 				ev.getPlayer().teleport(Bukkit.getWorld("world").getSpawnLocation());
 				break;
@@ -247,7 +247,7 @@ public class AntiLogoutManager extends kListener {
 			Bukkit.getPluginManager().callEvent(new AntiLogoutQuitPlayerEvent(ev.getPlayer(),this));
 		}
 	}
-	
+
 	Player v;
 	Player d;
 	@EventHandler(priority=EventPriority.HIGHEST)
@@ -259,5 +259,5 @@ public class AntiLogoutManager extends kListener {
 			add(d);
 		}
 	}
-	
+
 }

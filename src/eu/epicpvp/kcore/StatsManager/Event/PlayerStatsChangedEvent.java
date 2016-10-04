@@ -3,7 +3,7 @@ package eu.epicpvp.kcore.StatsManager.Event;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import lombok.Getter;
 
@@ -16,7 +16,7 @@ public class PlayerStatsChangedEvent extends Event
   private int playerId;
   @Getter
   private StatsManager manager;
-  
+
 
   public PlayerStatsChangedEvent(StatsManager manager,StatsKey s,int playerId)
   {

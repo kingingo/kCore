@@ -1,6 +1,6 @@
 package eu.epicpvp.kcore.Gilden;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

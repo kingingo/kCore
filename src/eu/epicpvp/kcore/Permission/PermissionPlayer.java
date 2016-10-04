@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
 import dev.wolveringer.bukkit.permissions.GroupTyp;
-import dev.wolveringer.dataserver.protocoll.DataBuffer;
+import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
@@ -29,7 +29,7 @@ public class PermissionPlayer {
 	private boolean prefix = true;
 
 	private boolean loaded;
-	
+
 	public ArrayList<Group> getGroups() {
 		if (groups.size() == 0) {
 			if (manager.getGroup("default") == null)
@@ -101,7 +101,7 @@ public class PermissionPlayer {
 		long end = System.currentTimeMillis();
 		System.out.println("[PermissionManager]: Player geladen ("+(end-start)+"ms)");
 		loaded = true;
-		
+
 		if (hasPermission("epicpvp.op")) {
 			player.setOp(true);
 		} else {

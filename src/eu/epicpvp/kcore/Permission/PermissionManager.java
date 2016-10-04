@@ -13,7 +13,7 @@ import org.spigotmc.AsyncCatcher;
 import dev.wolveringer.bukkit.permissions.GroupTyp;
 import eu.epicpvp.datenclient.client.LoadedPlayer;
 import dev.wolveringer.client.connection.ClientType;
-import dev.wolveringer.dataserver.protocoll.DataBuffer;
+import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
 import dev.wolveringer.thread.ThreadFactory;
 import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;

@@ -9,8 +9,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import eu.epicpvp.datenclient.client.Callback;
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Gilden.Events.GildeLoadEvent;
 import eu.epicpvp.kcore.Gilden.Events.GildePlayerJoinEvent;

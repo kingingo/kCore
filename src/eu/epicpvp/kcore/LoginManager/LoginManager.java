@@ -24,7 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import eu.epicpvp.datenclient.client.Callback;
 import eu.epicpvp.datenclient.client.ClientWrapper;
 import eu.epicpvp.datenclient.client.LoadedPlayer;
-import dev.wolveringer.dataserver.player.Setting;
+import eu.epicpvp.datenserver.definitions.dataserver.player.Setting;
 import dev.wolveringer.dataserver.protocoll.packets.PacketOutPlayerSettings;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Command.Admin.CommandLocations;

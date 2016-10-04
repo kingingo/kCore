@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.StatsManager.Ranking;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
@@ -16,7 +16,7 @@ public class CommandStats implements CommandExecutor{
 	@Getter
 	private StatsManager statsManager;
 	private Ranking ranking;
-	
+
 	public CommandStats(StatsManager statsmanager){
 		this.statsManager=statsmanager;
 		this.ranking=new Ranking(statsmanager.getType(),StatsKey.KILLS);
@@ -38,5 +38,5 @@ public class CommandStats implements CommandExecutor{
 		}
 		return false;
 	}
-	
+
 }

@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
@@ -14,13 +14,13 @@ import eu.epicpvp.kcore.Util.UtilInteger;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public class CommandGiveCoins implements CommandExecutor{
-	
+
 	private StatsManager money;
-	
+
 	public CommandGiveCoins(StatsManager money){
 		this.money=money;
 	}
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "givecoins",alias={"coins"}, sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		if(sender instanceof Player){
@@ -31,9 +31,9 @@ public class CommandGiveCoins implements CommandExecutor{
 				}else if(args.length >= 2){
 					String spieler = args[0];
 					int c=UtilInteger.isNumber(args[1]);
-					
+
 					if(c==-1)return false;
-					
+
 					UtilServer.getMoneyListener().update(spieler, StatsKey.COINS, c);
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+(c<0?TranslationHandler.getText(player, "GEMS_DEL_PLAYER",new String[]{player.getName(),String.valueOf(c)}):TranslationHandler.getText(player, "GEMS_ADD_PLAYER",new String[]{player.getName(),String.valueOf(c)})));
 				}
@@ -43,9 +43,9 @@ public class CommandGiveCoins implements CommandExecutor{
 				System.out.println("[EpicPvP:] /givecoins [Spieler] [+/- Gems]");
 			}else if(args.length >= 2){
 				String spieler = args[0];
-				
+
 				int c=UtilInteger.isNumber(args[1]);
-				
+
 				if(c==-1)return false;
 
 				UtilServer.getMoneyListener().update(spieler, StatsKey.COINS, c);
@@ -54,5 +54,5 @@ public class CommandGiveCoins implements CommandExecutor{
 		}
 		return false;
 	}
-	
+
 }

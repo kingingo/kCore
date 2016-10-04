@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Kit.Kit;
 import eu.epicpvp.kcore.Kit.KitType;
 import eu.epicpvp.kcore.Kit.Shop.Events.KitShopPlayerDeleteEvent;
@@ -45,7 +45,7 @@ public class KitShop implements Listener {
 	@Getter
 	private StatsManager statsManager;
 	private HashMap<Player,Inventory> l = new HashMap<>();
-	
+
 	public KitShop(JavaPlugin instance,StatsManager statsManager,PermissionManager manager,String name,InventorySize size,Kit[] kits){
 		this.name=name;
 		this.kits=kits;
@@ -54,16 +54,16 @@ public class KitShop implements Listener {
 		if(kits.length>size.getSize())size=InventorySize._45;
 		this.inventory=Bukkit.createInventory(null, size.getSize(), getName());
 		this.admininventory=Bukkit.createInventory(null, size.getSize(), getName());
-		
+
 		for(Kit k : kits){
 			if(k.getType()!=KitType.ADMIN)getInventory().addItem( k.getItem() );
-			
+
 			getAdmininventory().addItem( k.getItem() );
 		}
-		
+
 		Bukkit.getPluginManager().registerEvents(this, instance);
 	}
-	
+
 	public void getInv(Player p){
 		if(l.containsKey(p)){
 			p.openInventory(l.get(p));
@@ -76,7 +76,7 @@ public class KitShop implements Listener {
 				for(Kit k : getKits()){
 					if(UtilItem.ItemNameEquals(i, k.getItem())){
 						if(getPermManager().hasPermission(p, k.getPermission())||getPermManager().hasPermission(p, PermissionType.ALL_KITS)){
-							inv.addItem(UtilItem.addEnchantmentGlow(i.clone()));	
+							inv.addItem(UtilItem.addEnchantmentGlow(i.clone()));
 						}else{
 							inv.addItem(i.clone());
 						}
@@ -93,7 +93,7 @@ public class KitShop implements Listener {
 				for(Kit k : getKits()){
 					if(UtilItem.ItemNameEquals(i, k.getItem().clone())){
 						if(getPermManager().hasPermission(p, k.getPermission())||getPermManager().hasPermission(p, PermissionType.ALL_KITS)){
-							inv.addItem(UtilItem.addEnchantmentGlow(i.clone()));	
+							inv.addItem(UtilItem.addEnchantmentGlow(i.clone()));
 						}else{
 							inv.addItem(i.clone());
 						}
@@ -105,14 +105,14 @@ public class KitShop implements Listener {
 			p.openInventory(inv);
 		}
 	}
-	
+
 	@EventHandler
 	public void Delete(KitShopPlayerDeleteEvent ev){
 		for(Kit kit : getKits()){
 			kit.removePlayer(ev.getPlayer());
 		}
 	}
-	
+
 	@EventHandler
 	public void ShopOpen(PlayerInteractEvent ev){
 		if(UtilEvent.isAction(ev, ActionType.RIGHT)){
@@ -121,7 +121,7 @@ public class KitShop implements Listener {
 			}
 		}
 	}
-	
+
 	public Inventory getInv(Kit kit,Player p){
 		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName());
 
@@ -170,7 +170,7 @@ public class KitShop implements Listener {
 					inventory.setItem(7, UtilItem.RenameItem(new ItemStack(Material.GLOWSTONE_DUST) ,TranslationHandler.getText(p,"KIT_SHOP_BUY")));
 				}
 			}
-		
+
 
 		for(int i = 0 ; i < inventory.getSize(); i++){
 			if(inventory.getItem(i)==null||inventory.getItem(i).getType()==Material.AIR){
@@ -183,22 +183,22 @@ public class KitShop implements Listener {
 			}
 		}
 		inventory.setItem(8, UtilItem.RenameItem(new ItemStack(Material.IRON_DOOR), TranslationHandler.getText(p, "KIT_BACK")));
-		
+
 		return inventory;
 	}
-	
+
 	@EventHandler
 	public void Quit(PlayerQuitEvent ev){
 		for(Kit kit : getKits()){
 			kit.removePlayer(ev.getPlayer());
 		}
-		
+
 		if(l.containsKey(ev.getPlayer())){
 			l.get(ev.getPlayer()).clear();
 			l.remove(ev.getPlayer());
 		}
 	}
-	
+
 	public Inventory getKaufen(Kit kit,Player p){
 		Inventory inventory=Bukkit.createInventory(null, 9, kit.getName()+" "+TranslationHandler.getText(p,"KIT_SHOP_BUY"));
 		switch(kit.getType()){
@@ -228,7 +228,7 @@ public class KitShop implements Listener {
 		}
 		return inventory;
 	}
-	
+
 	@EventHandler
 	public void ClickInventory(InventoryClickEvent ev){
 	if (!(ev.getWhoClicked() instanceof Player)|| ev.getInventory() == null || ev.getCursor() == null || ev.getCurrentItem() == null)return;
@@ -246,7 +246,7 @@ public class KitShop implements Listener {
 			for(Kit kit : getKits()){
 				if(kit.getName().equalsIgnoreCase(ev.getInventory().getName())){
 					ev.setCancelled(true);
-					
+
 					if(ev.getCurrentItem().getType()==Material.IRON_DOOR||ev.getCurrentItem().getType()==Material.REDSTONE){
 						p.closeInventory();
 						getInv(p);
@@ -262,11 +262,11 @@ public class KitShop implements Listener {
 				}else if(String.valueOf(kit.getName()+" "+TranslationHandler.getText(p,"KIT_SHOP_BUY")).equalsIgnoreCase(ev.getInventory().getName())){
 					ev.setCancelled(true);
 					p.closeInventory();
-					
+
 					if(ev.getCurrentItem().getType()==Material.GOLD_NUGGET){
 						int c = getStatsManager().getInt(p, StatsKey.COINS);
 						System.out.println("COINS. "+c +" >= "+kit.getCoins_preis());
-						
+
 						if(c>=kit.getCoins_preis()){
 							getStatsManager().add(p, StatsKey.COINS, -kit.getCoins_preis());
 							getPermManager().addPermission(p, kit.getPermission());
@@ -289,5 +289,5 @@ public class KitShop implements Listener {
 			}
 		}
 	}
-	
+
 }

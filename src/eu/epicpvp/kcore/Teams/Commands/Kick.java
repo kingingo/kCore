@@ -2,7 +2,6 @@ package eu.epicpvp.kcore.Teams.Commands;
 
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.Teams.Team;
 import eu.epicpvp.kcore.Teams.TeamManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
@@ -34,14 +33,14 @@ public class Kick {
 //		if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
 //			SkyBlockGildenManager sky = (SkyBlockGildenManager)teamManager;
 //			kConfig config;
-//			
+//
 //			if(sky.getSky().getInstance().getUserData().getConfigs().containsKey(kick_id)&&UtilPlayer.isOnline(kick_o)){
 //				config=sky.getSky().getInstance().getUserData().getConfig(Bukkit.getPlayer(kick_o));
 //				Bukkit.getPlayer(kick_o).teleport(Bukkit.getWorld("world").getSpawnLocation());
 //			}else{
 //				config=sky.getSky().getInstance().getUserData().loadConfig(kick_id);
 //			}
-//			
+//
 //			for(String path : config.getPathList("homes").keySet()){
 //				if(config.getLocation("homes."+path).getWorld().getName().equalsIgnoreCase(sky.getSky().getGilden_world().getWorld().getName())){
 //					config.set("homes."+path, null);

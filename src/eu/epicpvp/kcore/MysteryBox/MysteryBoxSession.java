@@ -15,8 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
 import eu.epicpvp.kcore.MysteryBox.Items.MysteryItem;
@@ -43,21 +43,21 @@ public class MysteryBoxSession {
 	private MysteryItem[] items;
 	private int item=0;
 	private MysteryBoxState state;
-	
+
 	//CHOOSE
 	private long time;
-	
+
 	//BUILDING
 	private int building_int;
 	private Building building;
 	private ArrayList<BlockState> blocks;
-	
+
 	//DROP
 	private HashMap<Item,NameTagMessage> drops;
 
 	//OPENED CHESTS
 	private ArrayList<Block> chests;
-	
+
 	public MysteryBoxSession(Player player,Building building,MysteryItem[] items){
 		this.player=player;
 		this.items=items;
@@ -67,12 +67,12 @@ public class MysteryBoxSession {
 		this.building=building;
 		this.playeritems=player.getInventory().getContents().clone();
 		this.player.getInventory().clear();
-		
+
 		this.blocks=new ArrayList<>();
 		this.chests=new ArrayList<>();
 		this.drops=new HashMap<>();
 	}
-	
+
 	public void drop(Block block){
 		if(item>=items.length)return;
 		if(chests.contains(block))return;
@@ -83,19 +83,19 @@ public class MysteryBoxSession {
 		WrapperPacketPlayOutBlockAction packet = new WrapperPacketPlayOutBlockAction( (block.getType()==Material.CHEST ? Blocks.CHEST : Blocks.ENDER_CHEST) , block.getLocation(), 1);
 		for(Player p : UtilServer.getPlayers())UtilPlayer.sendPacket(p, packet);
 		Location loc = block.getLocation().clone().add(0.5D, 1.0D, 0.5D);
-		
+
 		Item it = block.getWorld().dropItem(loc, UtilItem.RenameItem(drop.clone(), "item"+UtilMath.randomInteger(100)));
 		it.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
         it.setPickupDelay(1000*20);
         NameTagMessage msg;
-      
+
 
 		System.out.println("[MysterySession] Perm "+drop.getPermission()+" "+drop.getGroupTyp().name()+" "+(UtilServer.getPermissionManager().getPermissionPlayer(player)==null));
 		if(!drop.getPermission().equalsIgnoreCase("-"))
 			System.out.println("[MysterySession] TEST: "+UtilServer.getPermissionManager().getPermissionPlayer(player).hasPermission(drop.getPermission(), drop.getGroupTyp())+" "+drop.getPermission()+" "+drop.getGroupTyp().getName());
-			
-		
-        if(!drop.getPermission().equalsIgnoreCase("-") 
+
+
+        if(!drop.getPermission().equalsIgnoreCase("-")
         		&& UtilServer.getPermissionManager().getPermissionPlayer(player).hasPermission(drop.getPermission(), drop.getGroupTyp())){
         	msg = new NameTagMessage(NameTagType.PACKET, loc.clone().add(0,0.4,0), new String[]{"§c[Doppelt] Du hast "+drop.getSharps()+" Mystery Sharps erhalten.",drop.getItemMeta().getDisplayName()});
         	StatsManagerRepository.getStatsManager(GameType.Money).add(player, StatsKey.MYSTERY_SHARPS, drop.getSharps());
@@ -107,24 +107,24 @@ public class MysteryBoxSession {
         }
         msg.send();
         this.drops.put(it,msg);
-        
+
 		if(item>=items.length){
 			time=System.currentTimeMillis()-TimeSpan.SECOND*25;
 			UtilPlayer.setMove(player, true);
 		}
 	}
-	
+
 	public String rdm(String cmd){
 		if(cmd.contains("R,")){
 			String[] split = cmd.split(" ");
-			
+
 			for(String s : split){
 				if(s.startsWith("R,")){
 					String[] ssplit = s.split(",");
-				
+
 					int min = UtilNumber.toInt(ssplit[1]);
 					int max = UtilNumber.toInt(ssplit[2]);
-					
+
 					cmd=cmd.replaceAll("R,"+min+","+max, ""+UtilMath.RandomInt(max, min));
 					break;
 				}
@@ -132,7 +132,7 @@ public class MysteryBoxSession {
 		}
 		return cmd;
 	}
-	
+
 	public void remove(){
 		this.player=null;
 		this.location=null;
@@ -160,17 +160,17 @@ public class MysteryBoxSession {
 		this.blocks=null;
 		this.playeritems=null;
 	}
-	
+
 	public boolean next(){
 		if(!player.isOnline()){
 			return false;
 		}
-		
+
 		switch(state){
 		case BUILDING:
 			BlockState blockstate = building.nextBlock(location, building_int);
 			building_int++;
-			
+
 			if(blockstate!=null){
 				blocks.add(blockstate);
 			}else{
@@ -180,15 +180,15 @@ public class MysteryBoxSession {
 			}
 			return true;
 		case CHOOSE:
-			
+
 			if((System.currentTimeMillis() - time) > TimeSpan.SECOND*30){
 				UtilPlayer.setMove(player, true);
 				state=MysteryBoxState.DELETE;
 			}
-			
+
 			return true;
 		case DELETE:
-			
+
 			if(!this.drops.isEmpty()){
 				player.getInventory().setContents(this.playeritems);
 				player.updateInventory();
@@ -198,7 +198,7 @@ public class MysteryBoxSession {
 				}
 				this.drops.clear();
 			}
-			
+
 			if(!this.blocks.isEmpty()){
 				this.blocks.get(0).update(true);
 				this.blocks.remove(0);

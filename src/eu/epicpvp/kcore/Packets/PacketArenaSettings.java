@@ -1,7 +1,7 @@
 package eu.epicpvp.kcore.Packets;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.protocoll.DataBuffer;
+import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.Arena.ArenaType;
 import eu.epicpvp.kcore.Enum.Team;
@@ -15,7 +15,7 @@ public class PacketArenaSettings extends Packet{
 	public static void register(){
 		Packet.registerPacket(0xA0, PacketDirection.TO_CLIENT, PacketArenaSettings.class);
 	}
-	
+
 	@Getter
 	@Setter
 	private ArenaType type;
@@ -37,7 +37,7 @@ public class PacketArenaSettings extends Packet{
 	@Getter
 	@Setter
 	private int max_team;
-	
+
 	public PacketArenaSettings(ArenaType type,String arena,String kit,Player player,Team team,int min_team,int max_team){
 		this.type=type;
 		this.player=player.getName();
@@ -47,11 +47,11 @@ public class PacketArenaSettings extends Packet{
 		this.max_team=max_team;
 		this.min_team=min_team;
 	}
-	
+
 	public PacketArenaSettings(DataBuffer buffer){
 		read(buffer);
 	}
-	
+
 	public void read(DataBuffer buffer){
 		this.type=ArenaType.valueOf(buffer.readString());
 		this.kit=buffer.readString();
@@ -61,7 +61,7 @@ public class PacketArenaSettings extends Packet{
 		this.min_team=Integer.valueOf(buffer.readInt());
 		this.max_team=Integer.valueOf(buffer.readInt());
 	}
-	
+
 	public void write(DataBuffer buffer){
 		buffer.writeString(type.name());
 		buffer.writeString(kit);

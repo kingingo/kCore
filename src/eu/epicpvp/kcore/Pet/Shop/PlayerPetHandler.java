@@ -36,7 +36,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import dev.wolveringer.dataserver.gamestats.ServerType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.ServerType;
 import eu.epicpvp.kcore.Inventory.InventoryBase;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.Permission.PermissionManager;
@@ -82,7 +82,7 @@ public class PlayerPetHandler implements Listener{
 		this.manager.setHandler(this);
 		this.manager.setSetting(true);
 		this.mysql.Update("CREATE TABLE IF NOT EXISTS "+serverType.name()+"_pets(playerId int,pet text)");
-		
+
 		this.manager.getSetting_list().put(EntityType.SNOWMAN, new PetSetting(base,manager,EntityType.SNOWMAN,UtilItem.RenameItem(new ItemStack(Material.CARROT_ITEM), "§aSnowman")));
 //		this.manager.getSetting_list().put(EntityType.MAGMA_CUBE, new PetSetting(base,manager,EntityType.MAGMA_CUBE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 62), "§aMagma Cube")));
 		this.manager.getSetting_list().put(EntityType.VILLAGER, new PetSetting(base,manager,EntityType.VILLAGER,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 120), "§aVillager")));
@@ -106,11 +106,11 @@ public class PlayerPetHandler implements Listener{
 		this.manager.getSetting_list().put(EntityType.SQUID, new PetSetting(base,manager,EntityType.SQUID,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 94), "§aSquid")));
 		this.manager.getSetting_list().put(EntityType.BLAZE, new PetSetting(base,manager,EntityType.BLAZE,UtilItem.RenameItem(new ItemStack(Material.MONSTER_EGG,1,(byte) 61), "§aBlaze")));
 	}
-	
+
 	public String toString(Entity c){
-		
+
 		String sql = "ENTITYTYPE:"+(c.getPassenger()!=null&&c.getPassenger().getType()!=EntityType.PLAYER ? c.getPassenger().getType().name() : c.getType().name())+"-/-CUSTOMNAME:"+c.getCustomName()+"-/-";
-		
+
 		if(c instanceof CraftAgeable){
 			CraftAgeable ca = (CraftAgeable)c;
 			sql=sql+"AGE:"+ca.getAge()+"-/-";
@@ -119,7 +119,7 @@ public class PlayerPetHandler implements Listener{
 			sql=sql+"AGE:"+ca.isBaby()+"-/-";
 			sql=sql+"VILLAGER:"+ca.isVillager()+"-/-";
 		}
-		
+
 		if(c instanceof Sheep){
 			Sheep s = (Sheep)c;
 			sql=sql+"SHEEP:"+s.getColor().name()+"-/-";
@@ -146,7 +146,7 @@ public class PlayerPetHandler implements Listener{
 		}
 		return sql;
 	}
-	
+
 	public void DeletePetSettings(Player player){
 		if(isAsync()){
 			mysql.asyncUpdate("DELETE FROM "+serverType.name()+"_pets WHERE playerId='"+UtilPlayer.getPlayerId(player)+"'");
@@ -154,7 +154,7 @@ public class PlayerPetHandler implements Listener{
 			mysql.Update("DELETE FROM "+serverType.name()+"_pets WHERE playerId='"+UtilPlayer.getPlayerId(player)+"'");
 		}
 	}
-	
+
 	public void InsertPetSettings(Player player){
 		if(manager.getActivePetOwners().containsKey(player.getName().toLowerCase())){
 			Entity c = manager.getActivePetOwners().get(player.getName().toLowerCase());
@@ -166,7 +166,7 @@ public class PlayerPetHandler implements Listener{
 			}
 		}
 	}
-	
+
 	public PermissionType getPerm(String s){
 		switch(s){
 		case "§aEnderman": return PermissionType.PET_ENDERMAN;
@@ -195,7 +195,7 @@ public class PlayerPetHandler implements Listener{
 			return PermissionType.NONE;
 		}
 	}
-	
+
 	public EntityType getEntityType(PermissionType perm){
 		switch(perm){
 		case PET_ENDERMAN: return EntityType.ENDERMAN;
@@ -224,7 +224,7 @@ public class PlayerPetHandler implements Listener{
 			return null;
 		}
 	}
-	
+
 	public PermissionType getPerm(EntityType type){
 		switch(type){
 		case ENDERMAN: return PermissionType.PET_ENDERMAN;
@@ -252,12 +252,12 @@ public class PlayerPetHandler implements Listener{
 			return PermissionType.NONE;
 		}
 	}
-	
+
 	public void loadPetSettings(int playerId){
 		String sql = mysql.getString("SELECT `pet` FROM `"+serverType.name()+"_pets` WHERE playerId='"+playerId+"'");
 		if(!sql.equalsIgnoreCase("null"))settings.put(playerId, sql);
 	}
-	
+
 	public void loadPetSettings(Player player,String sql){
 		if(!sql.equalsIgnoreCase("null")){
 			int a = 1;
@@ -265,13 +265,13 @@ public class PlayerPetHandler implements Listener{
 			if(permManager.hasPermission(player, getPerm(EntityType.valueOf( split[0].split(":")[1] ))) || permManager.hasPermission(player, PermissionType.PET_ALL)){
 				getManager().AddPetOwner(player, split[a].split(":")[1], ( EntityType.valueOf( split[0].split(":")[1] )==EntityType.SQUID ? EntityType.OCELOT : EntityType.valueOf( split[0].split(":")[1] ) ) , player.getLocation());
 				Entity c = getManager().getActivePetOwners().get(player.getName().toLowerCase());
-			
+
 			if(EntityType.valueOf( split[0].split(":")[1] ) == EntityType.SQUID){
 				((Creature)manager.GetPet(player)).addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,100000*20, 2));
 				c=player.getLocation().getWorld().spawnEntity(player.getLocation(), EntityType.SQUID);
 				manager.GetPet(player).setPassenger( c );
 			}
-			
+
 			if(c instanceof CraftAgeable){
 				CraftAgeable ca = (CraftAgeable)c;
 				a++;
@@ -284,12 +284,12 @@ public class PlayerPetHandler implements Listener{
 				a++;
 				if(split[a]!=null)ca.setVillager( Boolean.valueOf( split[a].split(":")[1]) );
 			}
-			
+
 			if(c instanceof Sheep){
 				Sheep s = (Sheep)c;
 				a++;
 				if(split[a]!=null)s.setColor( DyeColor.valueOf( split[a].split(":")[1] ) );
-				
+
 			}else if(c instanceof Zombie||c instanceof PigZombie){
 				a++;
 				try {
@@ -331,13 +331,13 @@ public class PlayerPetHandler implements Listener{
 				a++;
 				if(split[a]!=null)((Villager)c).setProfession( Profession.valueOf(String.valueOf( split[a].split(":")[1]) ) );
 			}
-			
+
 			}else{
 				DeletePetSettings(player);
 			}
 		}
 	}
-	
+
 	Entity c;
 	@EventHandler
 	public void Ve(VehicleEnterEvent ev){
@@ -351,24 +351,24 @@ public class PlayerPetHandler implements Listener{
 			ev.setCancelled(true);
 		}
 	}
-	
+
 	public void loadPetSettings(Player player){
 		String sql = mysql.getString("SELECT `pet` FROM `"+serverType.name()+"_pets` WHERE playerId='"+UtilPlayer.getPlayerId(player)+"'");
 		loadPetSettings(player, sql);
 	}
-	
+
 	public void UpdatePetSettings(Player player){
 		DeletePetSettings(player);
 		InsertPetSettings(player);
 	}
-	
+
 	@EventHandler
 	public void Create(PetCreateEvent ev){
 		if(ev.getPet() instanceof Horse){
 			((Horse)ev.getPet()).getInventory().setSaddle(new ItemStack(Material.SADDLE));
 		}
 	}
-	
+
 	int playerId;
 	@EventHandler
 	public void Place(UpdateEvent ev){
@@ -381,12 +381,12 @@ public class PlayerPetHandler implements Listener{
 			}
 		}
 	}
-	
+
 	@EventHandler(priority=EventPriority.LOW)
 	public void Join(AsyncPlayerPreLoginEvent ev){
 		loadPetSettings(UtilPlayer.getPlayerId(ev.getName()));
 	}
-	
+
 	@EventHandler
 	public void Quit(PlayerQuitEvent ev){
 		if(change_settings.contains(ev.getPlayer())){
@@ -395,5 +395,5 @@ public class PlayerPetHandler implements Listener{
 		}
 		manager.RemovePet(ev.getPlayer(), true);
 	}
-	
+
 }

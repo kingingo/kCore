@@ -13,7 +13,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.Arena.ArenaManager;
 import eu.epicpvp.kcore.Arena.ArenaType;
 import eu.epicpvp.kcore.Arena.GameRound;
@@ -22,18 +22,18 @@ import eu.epicpvp.kcore.Util.UtilPlayer;
 import lombok.Getter;
 
 public class CommandArena implements CommandExecutor{
-	
+
 	@Getter
 	private ArrayList<ArenaManager> list;
-	
+
 	public CommandArena(){
 		list=new ArrayList<>();
 	}
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "arena", sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		Player player = (Player)sender;
-		
+
 		if(player.isOp()){
 			if(args.length==0){
 				for(ArenaManager m : list){
@@ -46,7 +46,7 @@ public class CommandArena implements CommandExecutor{
 					System.out.println("	Rounds_player: "+ m.getRounds_player().size());
 					System.out.println("	Server: "+ m.getServer().size());
 					System.out.println("	Wait_list: "+ m.getWait_list().size());
-					
+
 					player.sendMessage("	Rounds_player: "+ m.getRounds_player().size());
 					player.sendMessage("	Server: "+ m.getServer().size());
 					player.sendMessage("	Wait_list: "+ m.getWait_list().size());
@@ -54,20 +54,20 @@ public class CommandArena implements CommandExecutor{
 					for(ArenaType type : ArenaType.values())m.getRounds().put(type, new HashMap<Integer,GameRound>());
 					m.getRounds_player().clear();
 					m.setRound_counter(0);
-					
+
 					m.getServer().clear();
 					m.getWait_list().clear();
 					for(ArenaType type : ArenaType.values())m.getWait_list().put(type, new ArrayList<Player>());
 
 				}
-				
+
 				player.sendMessage("§ACLEAREDD!!!");
 			}else{
 				if(args[0].equalsIgnoreCase("save")){
 					try {
 						FileWriter fstream = new FileWriter("data.dat");
-						BufferedWriter out = new BufferedWriter(fstream);  
-						
+						BufferedWriter out = new BufferedWriter(fstream);
+
 						for(ArenaManager m : list){
 							out.write("GameType: "+ m.getT().name());
 							out.write("\n");
@@ -109,14 +109,14 @@ public class CommandArena implements CommandExecutor{
 							out.write("\n");
 
 						}
-						
+
 						out.close();
 						fstream.close();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
+
 				}else if(args[0].equalsIgnoreCase("c1")){
 					for(ArenaManager m : list){
 						m.getRounds().clear();
@@ -124,31 +124,31 @@ public class CommandArena implements CommandExecutor{
 						m.getRounds_player().clear();
 						m.setRound_counter(0);
 					}
-					
+
 					player.sendMessage("§aC1!!!");
 				}else if(args[0].equalsIgnoreCase("c2")){
 					for(ArenaManager m : list){
 						m.getServer().clear();
 					}
-					
+
 					player.sendMessage("§aC2!!!");
 				}else if(args[0].equalsIgnoreCase("c3")){
 					for(ArenaManager m : list){
 						m.getWait_list().clear();
 						for(ArenaType type : ArenaType.values())m.getWait_list().put(type, new ArrayList<Player>());
 					}
-					
+
 					player.sendMessage("§aC3!!!");
 				}else if(args[0].equalsIgnoreCase("skywars")){
 					ArenaManager a = null;
-					
+
 					for(ArenaManager aa : list){
 						if(aa.getT()==GameType.SkyWars1vs1){
 							a=aa;
 							break;
 						}
 					}
-					
+
 					for(String s : a.getServer().keySet()){
 						player.sendMessage("S: "+s+" "+a.getServer().get(s).getArena()+" "+a.getServer().get(s).getState());
 					}
@@ -156,14 +156,14 @@ public class CommandArena implements CommandExecutor{
 					player.sendMessage("ROUNDS:"+a.getRounds_player().size());
 				}else if(args[0].equalsIgnoreCase("bedwars")){
 					ArenaManager a = null;
-					
+
 					for(ArenaManager aa : list){
 						if(aa.getT()==GameType.BedWars1vs1){
 							a=aa;
 							break;
 						}
 					}
-					
+
 					for(String s : a.getServer().keySet()){
 						player.sendMessage("S: "+s+" "+a.getServer().get(s).getArena()+" "+a.getServer().get(s).getState());
 					}
@@ -171,14 +171,14 @@ public class CommandArena implements CommandExecutor{
 					player.sendMessage("ROUNDS:"+a.getRounds_player().size());
 				}else if(args[0].equalsIgnoreCase("sg")){
 					ArenaManager a = null;
-					
+
 					for(ArenaManager aa : list){
 						if(aa.getT()==GameType.SurvivalGames1vs1){
 							a=aa;
 							break;
 						}
 					}
-					
+
 					for(String s : a.getServer().keySet()){
 						player.sendMessage("S: "+s+" "+a.getServer().get(s).getArena()+" "+a.getServer().get(s).getState());
 					}
@@ -186,14 +186,14 @@ public class CommandArena implements CommandExecutor{
 					player.sendMessage("ROUNDS:"+a.getRounds_player().size());
 				}if(args[0].equalsIgnoreCase("versus")){
 					ArenaManager a = null;
-					
+
 					for(ArenaManager aa : list){
 						if(aa.getT()==GameType.Versus){
 							a=aa;
 							break;
 						}
 					}
-					
+
 					for(String s : a.getServer().keySet()){
 						player.sendMessage("S: "+s+" "+a.getServer().get(s).getArena()+" "+a.getServer().get(s).getState());
 					}

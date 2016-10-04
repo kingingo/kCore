@@ -6,8 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Teams.Team;
 import eu.epicpvp.kcore.Teams.TeamManager;
 import eu.epicpvp.kcore.Teams.TeamRank;
@@ -40,11 +39,11 @@ public class Home {
 //		if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
 ////			if(teamManager instanceof SkyBlockGildenManager){
 ////				SkyBlockGildenManager skymanager = (SkyBlockGildenManager)teamManager;
-////				
+////
 ////				if(skymanager.getSky().getGilden_world().getIslands().containsKey(g.toLowerCase())){
 ////					return true;
 ////				}
-////				
+////
 ////				if(player.hasPermission(PermissionType.SKYBLOCK_GILDEN_ISLAND.getPermissionToString())){
 ////					skymanager.getSky().addGildenIsland(player, g);
 ////					player.sendMessage(TranslationHandler.getText(player, "GILDE_PREFIX")+TranslationHandler.getText(player, "GILDE_SETISLAND"));
@@ -98,7 +97,7 @@ public class Home {
 			}
 //			if (teamManager.getTeamType() == GameType.TEAMS_SKYBLOCK) {
 ////				SkyBlockGildenManager sky = (SkyBlockGildenManager)teamManager;
-////				
+////
 ////				if(sky.getSky().getGilden_world().getIslands().containsKey(args[1].toLowerCase())){
 ////					player.teleport(sky.getSky().getGilden_world().getIslandHome(args[1].toLowerCase()));
 ////					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"§aDu wurdest Teleporiert.");

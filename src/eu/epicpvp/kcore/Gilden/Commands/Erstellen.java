@@ -1,6 +1,6 @@
 package eu.epicpvp.kcore.Gilden.Commands;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Gilden.GildenType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;

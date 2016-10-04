@@ -1,7 +1,7 @@
 package eu.epicpvp.kcore.Packets;
-import dev.wolveringer.dataserver.gamestats.GameState;
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.protocoll.DataBuffer;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameState;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
 import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,11 +9,11 @@ import lombok.Setter;
 
 @NoArgsConstructor
 public class PacketArenaStatus extends Packet{
-	
+
 	public static void register(){
 		Packet.registerPacket(0xA1, PacketDirection.TO_CLIENT, PacketArenaStatus.class);
 	}
-	
+
 	@Setter
 	@Getter
 	private GameState state;
@@ -46,11 +46,11 @@ public class PacketArenaStatus extends Packet{
 	@Getter
 	@Setter
 	private String kit;
-	
+
 	public PacketArenaStatus(DataBuffer buffer){
 		read(buffer);
 	}
-	
+
 	public PacketArenaStatus(GameState state,int online,int teams, int team,GameType type, String server, String arena,boolean apublic,String map,int min_team,int max_team,String kit) {
 	    this.state = state;
 	    this.teams=teams;
@@ -80,7 +80,7 @@ public class PacketArenaStatus extends Packet{
 		this.kit= buffer.readString();
 		this.teams= buffer.readInt();
 	}
-	
+
 	public void write(DataBuffer buffer){
 		buffer.writeByte(state.ordinal());
 		buffer.writeInt(team);

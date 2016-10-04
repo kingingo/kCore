@@ -6,8 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
 import eu.epicpvp.datenclient.client.Callback;
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Achievements.Events.PlayerLoadAchievementsEvent;
 import eu.epicpvp.kcore.Achievements.Handler.Achievement;
 import eu.epicpvp.kcore.Enum.Zeichen;

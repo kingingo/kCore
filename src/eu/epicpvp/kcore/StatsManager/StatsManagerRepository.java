@@ -3,7 +3,7 @@ package eu.epicpvp.kcore.StatsManager;
 import java.util.EnumMap;
 import java.util.Map;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.Util.UtilServer;
 
 public final class StatsManagerRepository {
@@ -32,7 +32,7 @@ public final class StatsManagerRepository {
 		return manager;
 	}
 
-	
+
 	public static StatsManager getStatsManager(GameType gameType) {
 		StatsManager manager = statsManagers.get(gameType);
 		if (manager != null) {

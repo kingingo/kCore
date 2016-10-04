@@ -6,9 +6,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.ServerType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.ServerType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.StatsManager.Ranking;
@@ -18,18 +18,18 @@ import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 
 public class CommandMoney implements CommandExecutor{
-	
+
 	private StatsManager stats;
 	private Ranking ranking;
 	private String prefix;
-	
+
 	public CommandMoney(StatsManager stats,MySQL mysql,ServerType type){
 		this.stats=stats;
 		this.ranking=new Ranking(stats.getType(), StatsKey.MONEY);
 		this.stats.addRanking(ranking);
 		this.prefix=(type==ServerType.SKYBLOCK?TranslationHandler.getText("PREFIX_GAME",GameType.SKYBLOCK.getTyp()):TranslationHandler.getText("PREFIX"));
 	}
-	
+
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "money",alias = {"geld","konto","kontostand","stand"}, sender = Sender.EVERYONE)
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		Player target;
@@ -56,9 +56,9 @@ public class CommandMoney implements CommandExecutor{
 						if(UtilPlayer.isOnline(args[1])){
 							target =Bukkit.getPlayer(args[1]);
 							money =UtilNumber.toDouble(args[2]);
-							
+
 							if(money <0)return false;
-							
+
 							if(money !=0){
 								if(stats.getDouble(player, StatsKey.MONEY) >= money){
 									stats.add(player, StatsKey.MONEY, -money);
@@ -83,9 +83,9 @@ public class CommandMoney implements CommandExecutor{
 					if(UtilPlayer.isOnline(args[1])){
 						target =Bukkit.getPlayer(args[1]);
 						money =UtilNumber.toDouble(args[2]);
-						
+
 						if(money <0)return false;
-						
+
 						if(money !=0){
 							stats.add(target, StatsKey.MONEY, money);
 						}else{
@@ -99,6 +99,6 @@ public class CommandMoney implements CommandExecutor{
 		}
 		return false;
 	}
-	
+
 }
 

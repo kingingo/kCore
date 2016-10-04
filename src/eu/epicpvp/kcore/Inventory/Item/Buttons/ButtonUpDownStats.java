@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
@@ -13,7 +13,7 @@ import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilItem;
 
 public class ButtonUpDownStats extends ButtonMultiCopy{
-	
+
 	public ButtonUpDownStats(InventoryPageBase page,ItemStack item,int slot,StatsManager statsManager,StatsKey stats,int min,int max) {
 		super(new ButtonForMultiButtonsCopy[]{new ButtonForMultiButtonsCopy(page,slot-InventorySize._9.getSize(),new Click(){
 
@@ -25,10 +25,10 @@ public class ButtonUpDownStats extends ButtonMultiCopy{
 					statsManager.setInt(player, player.getOpenInventory().getItem(slot).getAmount(), stats);
 				}
 			}
-			
+
 		}, UtilItem.RenameItem(new ItemStack(Material.STONE_BUTTON), "§6+"),null),
-		
-		
+
+
 		new ButtonForMultiButtonsCopy(page,slot+InventorySize._9.getSize(),new Click(){
 			@Override
 			public void onClick(Player player, ActionType type, Object object) {
@@ -38,7 +38,7 @@ public class ButtonUpDownStats extends ButtonMultiCopy{
 					statsManager.setInt(player, player.getOpenInventory().getItem(slot).getAmount(), stats);
 				}
 			}
-			
+
 		}, UtilItem.RenameItem(new ItemStack(Material.WOOD_BUTTON), "§6-"),null),
 		new ButtonForMultiButtonsCopy(page, slot, null, item, new Click(){
 

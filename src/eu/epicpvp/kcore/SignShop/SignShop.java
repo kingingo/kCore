@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sk89q.worldguard.protection.flags.StateFlag;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionType;
@@ -39,7 +39,7 @@ public class SignShop extends kListener{
 	@Getter
 	private StatsManager statsmanager;
 	private StateFlag flag;
-	
+
 	public SignShop(JavaPlugin instance,CommandHandler handle,StatsManager statsmanager){
 		super(instance,"SignShop");
 		this.instance=instance;
@@ -48,14 +48,14 @@ public class SignShop extends kListener{
 		this.flag=new StateFlag("shop",false);
 		UtilWorldGuard.addCustomFlag(flag);
 	}
-	
+
 	boolean b = false;
 	@EventHandler
 	public void Update(UpdateEvent ev){
 		if(ev.getType()!=UpdateType.MIN_64)return;
 		UtilList.CleanList(shop);
 	}
-	
+
 	@EventHandler
 	public void onSign (SignChangeEvent ev){
 		Player p = ev.getPlayer();
@@ -63,7 +63,7 @@ public class SignShop extends kListener{
 			if(UtilWorldGuard.RegionFlag(ev.getBlock().getLocation(), flag)||p.hasPermission(PermissionType.SHOP_SIGN_CREATE_BYPASS.getPermissionToString())){
 				if(p.hasPermission(PermissionType.SHOP_SIGN_CREATE.getPermissionToString())){
 					ev.setLine(0, ChatColor.AQUA + "[Shop]");
-					
+
 					for(Player player : UtilServer.getPlayers())
 						if(player.hasPermission(PermissionType.SHOP_SIGN_CREATE_MSG.getPermissionToString())){
 							player.sendMessage(TranslationHandler.getText(player,"PREFIX")+"Shop Schild erstellt von §c"+p.getName()+"§7: ");
@@ -72,7 +72,7 @@ public class SignShop extends kListener{
 							}
 							player.sendMessage(TranslationHandler.getText(player, "PREFIX")+" Welt:"+ev.getBlock().getLocation().getWorld().getName()+" X:"+ev.getBlock().getLocation().getBlockX()+" Y:"+ev.getBlock().getLocation().getBlockY()+" Z:"+ev.getBlock().getLocation().getBlockZ());
 					}
-					
+
 					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§eDie Sign wurde erstellt!");
 					return;
 				}
@@ -83,52 +83,52 @@ public class SignShop extends kListener{
 			ev.setLine(3, "N§!");
 		}
 	}
-	
+
 	public boolean RemoveItem(Player p, int id,int anzahl){
 		boolean b = false;
-		
+
 		for(ItemStack i : p.getInventory().getContents()){
-			
+
 			if(i != null){
 			if(i.getTypeId() == id){
-				
+
 				if(i.getAmount() == anzahl){
 					b = true;
 					p.getInventory().remove(i);
 					break;
 				}
-				
+
 				if(i.getAmount() < anzahl){
-					
+
 					break;
 				}
-				
+
 				if(i.getAmount() > anzahl){
 					b = true;
 					i.setAmount(i.getAmount() - anzahl);
 					break;
 				}
-				
+
 				break;
 			}
 			}
-			
+
 		}
-		
+
 		return b;
-		
+
 	}
-	
+
 	public boolean RemoveItemDoppelPunkt(Player p, String ids,int anzahl){
 		boolean b = false;
 		int id = ID(ids);
 		String idnach = IDnach(ids);
-		
+
 		for(ItemStack i : p.getInventory().getContents()){
-			
+
 			if(i != null){
 			if(i.getTypeId() == id){
-				
+
 				if(i.getDurability() == Short.parseShort(idnach)){
 
 					if(i.getAmount() == anzahl){
@@ -136,44 +136,44 @@ public class SignShop extends kListener{
 						p.getInventory().remove(i);
 						break;
 					}
-					
+
 					if(i.getAmount() < anzahl){
-						
+
 						break;
 					}
-					
+
 					if(i.getAmount() > anzahl){
 						b = true;
 						i.setAmount(i.getAmount() - anzahl);
 						break;
 					}
-				
+
 				break;
 			}
-				
+
 			}
 			}
-			
+
 		}
-		
+
 		return b;
-		
+
 	}
-	
+
 	public boolean Money(Player p,double Geld){
 		boolean b = true;
-		
+
 		if(getStatsmanager().getDouble(StatsKey.MONEY, p) < Geld){
 			p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "NOT_ENOUGH_MONEY"));
 			b = false;
 		}
-		
+
 		return b;
 	}
-	
+
 	public Integer SellAll(Player p,int id){
 		int a = 0;
-		
+
 		for(ItemStack i : p.getInventory().getContents()){
 			if(i != null){
 				if(i.getTypeId() == id){
@@ -182,78 +182,78 @@ public class SignShop extends kListener{
 				}
 			}
 		}
-		
+
 		return a;
 	}
-	
+
 	public Double Buy(String b){
 		Double i = 0.0;
-		
+
 		if(b.contains(":")){
 			String[] d = b.split(":");
 			i = Double.valueOf(d[0]);
-			
+
 		}
-		
+
 		return i;
 	}
-	
+
 	public Integer SellAllDoppelPunkt(Player p,String ids){
 		int a = 0;
 		int id = ID(ids);
 		String idnach = IDnach(ids);
-		
+
 		for(ItemStack i : p.getInventory().getContents()){
 			if(i != null){
 				if(i.getTypeId() == id){
-					
+
 					if(!(i.getDurability()==Short.parseShort(idnach))){
 						break;
 					}
-					
+
 					a=a+i.getAmount();
 					p.getInventory().remove(i);
 				}
 			}
 		}
-		
+
 		return a;
 	}
-	
+
 	public Double Sell(String s){
 		Double i = 0.0;
-		
+
 		if(s.contains(":")){
 			String[] d = s.split(":");
 			i = Double.valueOf(d[1]);
-			
+
 		}
-		
+
 		return i;
 	}
-	
+
 	public Integer ID(String b){
 		int i = 0;
-		
+
 		if(b.contains(":")){
 			String[] d = b.split(":");
 			i = Integer.valueOf(d[0]);
 		}
-		
+
 		return i;
 	}
-	
+
 	public String IDnach(String b){
 		String i = "";
-		
+
 		if(b.contains(":")){
 			String[] d = b.split(":");
 			i = d[1];
 		}
-		
+
 		return i;
 	}
-	
+
 		//[shop]
 		//KaufPreis:VerkaufPreis
 		//anzahl
@@ -266,49 +266,49 @@ public class SignShop extends kListener{
 		public void onInteract(PlayerInteractEvent ev){
 			p = ev.getPlayer();
 			a = ev.getAction();
-			
+
 			if(Action.RIGHT_CLICK_BLOCK == a && Action.LEFT_CLICK_BLOCK == a){
 				ev.setCancelled(true);
 				p.sendMessage(TranslationHandler.getText(p, "PREFIX")+"§cNicht so Schnell ...");
 				return;
 			}else if(Action.RIGHT_CLICK_BLOCK == a){
-				
+
 				if(ev.getClickedBlock().getState() instanceof Sign){
-					
+
 	                sign = (Sign) ev.getClickedBlock().getState();
-	                
-	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-buy]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-sale]")){	
+
+	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-buy]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-sale]")){
 	    				if(shop.containsKey(p)){
-	                		
+
 	                		if(shop.get(p) <= System.currentTimeMillis()){
 	                			shop.remove(p);
 	                		}else{
 	                			p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SIGN_SHOP_DELAY",3));
 	                			return;
 	                		}
-	                		
+
 	                	}else{
 	                		if(!p.isOp())shop.put(p, System.currentTimeMillis() + 3000);
 	                	}
-	                	
+
 	                	event = new SignShopUseEvent(sign,SignShopAction.BUY, p, ev);
 	    				Bukkit.getPluginManager().callEvent(event);
 	                	ev.setCancelled(true);
 	    				if(event.isCancelled())return;
-	                		
+
 	                		int anzahl = Integer.valueOf(sign.getLine(2));
-	                		
+
 	                		//SNEAK
-	                		
+
 	                		if(p.isSneaking()){
 	                			double Preis = Double.valueOf(Buy(sign.getLine(1)) * 32);
-	                			
+
 	                			boolean b = Money(p, Preis);
-	                			
+
 	                			if(!b){
 	                				return;
 	                			}
-	                			
+
 	                			// : ID+SNEAK
 	                			if(sign.getLine(3).contains(":")){
 	                				int id = ID(sign.getLine(3));
@@ -322,8 +322,8 @@ public class SignShop extends kListener{
 	            					logMessage("Der Spieler "+p.getName()+" hat 32 mal "+id+":"+idnach+" gekauft und "+Preis+" Epics bezahlt.");
 		            				return;
 	                			}
-	                			//: ID+SNEAK 
-	                			
+	                			//: ID+SNEAK
+
 	                			int id = Integer.valueOf(sign.getLine(3));
 	            				ItemStack i = new ItemStack(id, 32);
 	            				p.getInventory().addItem(i);
@@ -333,17 +333,17 @@ public class SignShop extends kListener{
 		                		logMessage("Der Spieler "+p.getName()+" hat 32 mal "+id+" gekauft und "+Preis+" Epics bezahlt.");
 	            				return;
 	                		}
-	                		
+
 	                		//SNEAK
-	                		
+
 	                		double Preis = Double.valueOf(Buy(sign.getLine(1)) * anzahl);
-	                		
+
 	                		boolean b = Money(p, Preis);
-	                		
+
 	                		if(!b){
 	                			return;
 	                		}
-	                		
+
 	                		//:
 	                		if(sign.getLine(3).contains(":")){
 	            				int id = ID(sign.getLine(3));
@@ -357,10 +357,10 @@ public class SignShop extends kListener{
 	        					return;
 	            			}
 	                		//:
-	                		
+
 	                		int id = Integer.valueOf(sign.getLine(3));
-	                		
-	                		
+
+
 	        				ItemStack i = new ItemStack(id, anzahl);
 	        				p.getInventory().addItem(i);
 	        				p.updateInventory();
@@ -370,46 +370,46 @@ public class SignShop extends kListener{
 	                		logMessage("Der Spieler "+p.getName()+" hat "+anzahl+" mal "+id+" gekauft und "+Preis+" Epics bezahlt.");
 	                }
 				}
-				
+
 			}else if(Action.LEFT_CLICK_BLOCK == a){
-				
+
 				if(ev.getClickedBlock().getState() instanceof Sign){
-					
+
 	                sign = (Sign) ev.getClickedBlock().getState();
-	                
+
 	                if(sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-buy]")||sign.getLine(0).equalsIgnoreCase(ChatColor.AQUA+"[shop-sale]")){
 	                	if(shop.containsKey(p)){
-	                		
+
 	                		if(shop.get(p) <= System.currentTimeMillis()){
 	                			shop.remove(p);
 	                		}else{
 	                			p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SIGN_SHOP_DELAY",3));
 	                			return;
 	                		}
-	                		
+
 	                	}else{
 	                		if(!p.isOp())shop.put(p, System.currentTimeMillis() + 3000);
 	                	}
-	                	
+
 	                	event = new SignShopUseEvent(sign,SignShopAction.SALE, p, ev);
 	    				Bukkit.getPluginManager().callEvent(event);
 	                	ev.setCancelled(true);
-	                	
+
 	    				if(event.isCancelled())return;
-	                	
+
 	                	int anzahl = Integer.valueOf(sign.getLine(2));
-	            		
+
 	                	//SNEAK
-	                	
+
 	                	if(p.isSneaking()){
-	                		
+
 	                		//: ID
 	                		if(sign.getLine(3).contains(":")){
-	                			
+
 	                			int id = ID(sign.getLine(3));
 	            				String idnach = IDnach(sign.getLine(3));
 	            				double VerkaufPreis = Double.valueOf(Sell(sign.getLine(1)));
-	                			
+
 	            				//boolean b = RemoveItemDoppelPunkt(p, sign.getLine(3),32);
 	            				int b = SellAllDoppelPunkt(p, sign.getLine(3));
 	            				if(b==0){
@@ -434,28 +434,28 @@ public class SignShop extends kListener{
 	    						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SIGN_SHOP_NO_ITEM_ON_INV"));
 	    						return;
 	    					}
-	                		
+
 	    					p.updateInventory();
-	    				
+
 	    					VerkaufPreis=VerkaufPreis*b;	//"§6Du hast " + b + " mal " + id+" Verkauft und hast " + VerkaufPreis+" Epic's erhalten."
 	    					p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SIGN_SHOP_VERKAUFT",new String[]{String.valueOf(b),String.valueOf(id),String.valueOf(VerkaufPreis)}));
-	    					
+
 	    					getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)+VerkaufPreis, StatsKey.MONEY);
 	                		logMessage("Der Spieler "+p.getName()+" hat 32 mal "+id+" verkauft und "+VerkaufPreis+" Epics erhalten.");
 	    					return;
 	                	}
-	                	
+
 	                	//SNEAK
-	                	
+
 	                	//: ID
 	            		if(sign.getLine(3).contains(":")){
-	            			
+
 	            			int id = ID(sign.getLine(3));
 	            			String idnach = IDnach(sign.getLine(3));
 	            			double VerkaufPreis = Double.valueOf(Sell(sign.getLine(1)) * anzahl);
-	            			
+
 	        				boolean b = RemoveItemDoppelPunkt(p, sign.getLine(3), anzahl);
-	        				
+
 	        				if(!b){
 	    						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SIGN_SHOP_NO_ITEM_ON_INV"));
 	    						return;
@@ -472,12 +472,12 @@ public class SignShop extends kListener{
 	            		double VerkaufPreis = Double.valueOf(Sell(sign.getLine(1)) * anzahl);
 
 	            		boolean b = RemoveItem(p, Integer.valueOf(sign.getLine(3)),anzahl);
-	    				
+
 	    				if(!b){
 							p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SIGN_SHOP_NO_ITEM_ON_INV"));
 							return;
 						}
-	            		
+
 						p.updateInventory();
 						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "SIGN_SHOP_VERKAUFT",new String[]{String.valueOf(anzahl),String.valueOf(id),String.valueOf(VerkaufPreis)}));
 						getStatsmanager().setDouble(p, getStatsmanager().getDouble(StatsKey.MONEY, p)+VerkaufPreis, StatsKey.MONEY);
@@ -485,9 +485,9 @@ public class SignShop extends kListener{
 	                }
 				}
 			}
-			
+
 		}
-	
-	
-	
+
+
+
 }

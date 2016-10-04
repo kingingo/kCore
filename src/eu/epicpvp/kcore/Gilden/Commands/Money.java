@@ -2,7 +2,7 @@ package eu.epicpvp.kcore.Gilden.Commands;
 
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilNumber;
@@ -17,7 +17,7 @@ public class Money {
 				return;
 			}
 			String g = manager.getPlayerGilde(p);
-			
+
 			if(args[1].equalsIgnoreCase("abheben")||args[1].equalsIgnoreCase("take")||args[1].equalsIgnoreCase("withdraws")){
 				int owner = manager.getOwner(manager.getPlayerGilde(p));
 				if(owner!=UtilPlayer.getPlayerId(p)){
@@ -29,7 +29,7 @@ public class Money {
 					p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "NO_INTEGER"));
 				}else{
 					if(money<0)return;
-					
+
 					if(manager.getDouble(StatsKey.MONEY, g) < money){
 						p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_NOT_ENOUGH_MONEY"));
 					}else{
@@ -50,7 +50,7 @@ public class Money {
 					p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "NO_INTEGER"));
 				}else{
 					if(money<0)return;
-					
+
 					if(manager.getStatsManager().getDouble(p, StatsKey.MONEY) < money){
 						p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+TranslationHandler.getText(p, "GILDE_NOT_ENOUGH_MONEY"));
 					}else{
@@ -64,7 +64,7 @@ public class Money {
 						System.err.println("[GildenManager] Kontostand-Player danach: "+manager.getStatsManager().getDouble(p, StatsKey.MONEY));
 						manager.sendGildenChat(g, "GILDE_MONEY_DEPOSIT",new String[]{p.getName(),String.valueOf(money)});
 					}
-				}	
+				}
 			}else{
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+" /gilde money abheben [Money]");
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+" /gilde money einzahlen [Money]");
@@ -74,5 +74,5 @@ public class Money {
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+" /gilde money einzahlen [Money]");
 		}
 	}
-	
+
 }

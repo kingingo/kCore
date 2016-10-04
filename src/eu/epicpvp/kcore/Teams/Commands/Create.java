@@ -2,8 +2,6 @@ package eu.epicpvp.kcore.Teams.Commands;
 
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
-import dev.wolveringer.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Teams.TeamManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;

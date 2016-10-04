@@ -3,7 +3,7 @@ package eu.epicpvp.kcore.Gilden.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.gamestats.StatsKey;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
@@ -20,7 +20,7 @@ public class Info {
 			String g = manager.getPlayerGilde(p);
 			for(StatsKey s : manager.getTyp().getStats()){
 				if(s==StatsKey.LOC_X||s==StatsKey.LOC_Y||s==StatsKey.LOC_Z||s==StatsKey.WORLD)continue;
-				
+
 				if(s==StatsKey.ELO){
 					p.sendMessage("§6FAME: §b"+manager.getDouble(s, g, manager.getTyp()));
 				}else if(s.getType() == int.class){
@@ -51,7 +51,7 @@ public class Info {
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_STATS_PREFIXBY",g));
 			for(StatsKey s : manager.getTyp().getStats()){
 				if(s==StatsKey.LOC_X||s==StatsKey.LOC_Y||s==StatsKey.LOC_Z||s==StatsKey.WORLD)continue;
-				
+
 				if(s==StatsKey.ELO){
 					p.sendMessage("§6FAME: §b"+manager.getDouble(s, g, manager.getTyp()));
 				}else if(s.getType() == int.class){
@@ -78,5 +78,5 @@ public class Info {
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_PREFIX")+" /gilde info oder /gilde info [Gilde]");
 		}
 	}
-	
+
 }

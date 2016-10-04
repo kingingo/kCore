@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.wolveringer.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.kcore.GagdetShop.Gagdet.Gadget;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
@@ -23,7 +23,7 @@ public class GadgetHandler extends kListener{
 	private ArrayList<Gadget> gadgets;
 	@Getter
 	private StatsManager statsManager;
-	
+
 	public GadgetHandler(JavaPlugin instance) {
 		super(instance,"GadgetHandler");
 		this.instance=instance;
@@ -35,14 +35,14 @@ public class GadgetHandler extends kListener{
 		UtilServer.getCommandHandler().register(CommandGiveGadget.class, new CommandGiveGadget(this));
 		UtilServer.setGadgetHandler(this);
 	}
-	
+
 	public Gadget getGadget(String gadget){
 		for(Gadget g : gadgets){
 			if(g.getName().equalsIgnoreCase(gadget))return g;
 		}
 		return null;
 	}
-	
+
 	public boolean removeGadget(Gadget gadget){
 		if(this.gadgets.contains(gadget)){
 			this.gadgets.remove(gadget);
@@ -50,11 +50,11 @@ public class GadgetHandler extends kListener{
 		}
 		return false;
 	}
-	
+
 	public void addGadget(Gadget gadget){
 		this.gadgets.add(gadget);
 	}
-	
+
 	@EventHandler
 	public void quit(PlayerQuitEvent ev){
 		for(Gadget gadget : gadgets){
