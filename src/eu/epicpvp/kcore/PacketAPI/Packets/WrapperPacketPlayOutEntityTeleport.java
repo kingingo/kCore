@@ -3,8 +3,8 @@ package eu.epicpvp.kcore.PacketAPI.Packets;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
-import eu.epicpvp.kcore.PacketAPI.UtilPacket;
 import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
+import eu.epicpvp.kcore.PacketAPI.UtilPacket;
 import eu.epicpvp.kcore.Util.UtilReflection;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.EntityPlayer;

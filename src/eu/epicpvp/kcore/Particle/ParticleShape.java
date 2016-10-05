@@ -1,6 +1,5 @@
 package eu.epicpvp.kcore.Particle;
 
-import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Map;
 

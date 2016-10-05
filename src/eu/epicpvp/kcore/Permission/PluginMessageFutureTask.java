@@ -1,8 +1,8 @@
 package eu.epicpvp.kcore.Permission;
 
 import eu.epicpvp.datenclient.client.Callback;
-import dev.wolveringer.thread.ThreadFactory;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.thread.ThreadFactory;
 
 public class PluginMessageFutureTask<T> {
 

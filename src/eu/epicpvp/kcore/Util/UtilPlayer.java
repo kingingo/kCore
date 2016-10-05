@@ -35,7 +35,7 @@ import com.mojang.authlib.GameProfile;
 import eu.epicpvp.datenclient.client.Callback;
 import eu.epicpvp.datenclient.client.LoadedPlayer;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
-import dev.wolveringer.hashmaps.CachedHashMap;
+import eu.epicpvp.datenserver.definitions.hashmaps.CachedHashMap;
 import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutChat;

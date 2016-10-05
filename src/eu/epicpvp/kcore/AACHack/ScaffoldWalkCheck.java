@@ -1,13 +1,14 @@
 package eu.epicpvp.kcore.AACHack;
 
-import me.konsolas.aac.api.AACAPIProvider;
-import me.konsolas.aac.api.HackType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+
+import me.konsolas.aac.api.AACAPIProvider;
+import me.konsolas.aac.api.HackType;
 
 public class ScaffoldWalkCheck implements Listener {
 

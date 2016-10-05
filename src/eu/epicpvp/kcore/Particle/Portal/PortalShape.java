@@ -3,13 +3,11 @@ package eu.epicpvp.kcore.Particle.Portal;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import eu.epicpvp.kcore.Particle.NoMoveShape;
 import eu.epicpvp.kcore.Particle.NoMoveShape.SimpleLastMoveHolder;
 import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Util.UtilVector;
 
 public abstract class PortalShape extends NoMoveShape<PortalShape.PortalPart, SimpleLastMoveHolder> {
 

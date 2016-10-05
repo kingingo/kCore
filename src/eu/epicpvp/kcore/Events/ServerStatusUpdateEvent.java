@@ -3,7 +3,7 @@ package eu.epicpvp.kcore.Events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import dev.wolveringer.dataserver.protocoll.packets.PacketInServerStatus;
+import eu.epicpvp.dataserver.protocoll.packets.PacketInServerStatus;
 import lombok.Getter;
 
 public class ServerStatusUpdateEvent  extends Event {

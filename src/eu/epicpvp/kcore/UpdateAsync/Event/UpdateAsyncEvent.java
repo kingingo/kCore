@@ -1,8 +1,9 @@
 package eu.epicpvp.kcore.UpdateAsync.Event;
 
-import eu.epicpvp.kcore.UpdateAsync.UpdateAsyncType;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import eu.epicpvp.kcore.UpdateAsync.UpdateAsyncType;
 
 public class UpdateAsyncEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();

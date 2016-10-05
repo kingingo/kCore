@@ -11,7 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.datenclient.client.Callback;
-import dev.wolveringer.skin.Skin;
+import eu.epicpvp.datenserver.definitions.skin.Skin;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Util.UtilServer;

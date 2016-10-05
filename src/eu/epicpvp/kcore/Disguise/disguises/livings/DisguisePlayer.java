@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.skin.Skin;
+import eu.epicpvp.datenserver.definitions.skin.Skin;
 import eu.epicpvp.kcore.Disguise.disguises.DisguiseHuman;
 import eu.epicpvp.kcore.PacketAPI.PacketWrapper;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperGameProfile;

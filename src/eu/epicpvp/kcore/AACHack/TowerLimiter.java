@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import eu.epicpvp.kcore.AACHack.util.Rate;
-import me.konsolas.aac.api.HackType;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,6 +19,9 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import eu.epicpvp.kcore.AACHack.util.Rate;
+import me.konsolas.aac.api.HackType;
 
 public class TowerLimiter implements Listener {
 

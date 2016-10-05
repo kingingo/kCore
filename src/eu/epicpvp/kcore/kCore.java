@@ -2,14 +2,6 @@ package eu.epicpvp.kcore;
 
 import java.util.function.Predicate;
 
-import eu.epicpvp.datenclient.client.LoadedPlayer;
-import eu.epicpvp.datenclient.client.debug.Debugger;
-import eu.epicpvp.datenclient.gilde.GildManager;
-import eu.epicpvp.datenclient.gilde.GildSection;
-import eu.epicpvp.datenclient.gilde.Gilde;
-import dev.wolveringer.gilde.GildePermissions;
-import dev.wolveringer.gilde.GildeType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,6 +12,13 @@ import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
 
+import eu.epicpvp.datenclient.client.LoadedPlayer;
+import eu.epicpvp.datenclient.client.debug.Debugger;
+import eu.epicpvp.datenclient.gilde.GildManager;
+import eu.epicpvp.datenclient.gilde.GildSection;
+import eu.epicpvp.datenclient.gilde.Gilde;
+import eu.epicpvp.datenserver.definitions.gilde.GildePermissions;
+import eu.epicpvp.datenserver.definitions.gilde.GildeType;
 import eu.epicpvp.kcore.Listener.Skin.SkinUpdateListener;
 import eu.epicpvp.kcore.Listener.nick.NickChangeListener;
 import eu.epicpvp.kcore.Util.UtilServer;

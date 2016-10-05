@@ -2,11 +2,11 @@ package eu.epicpvp.kcore.Translation;
 
 import org.bukkit.entity.Player;
 
+import eu.epicpvp.dataserver.protocoll.packets.PacketInChangePlayerSettings;
 import eu.epicpvp.datenclient.client.LoadedPlayer;
+import eu.epicpvp.datenclient.translation.TranslationManager;
 import eu.epicpvp.datenserver.definitions.dataserver.player.LanguageType;
 import eu.epicpvp.datenserver.definitions.dataserver.player.Setting;
-import dev.wolveringer.dataserver.protocoll.packets.PacketInChangePlayerSettings;
-import eu.epicpvp.datenclient.translation.TranslationManager;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -6,11 +6,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.bukkit.permissions.GroupTyp;
+import eu.epicpvp.dataserver.protocoll.packets.PacketServerMessage;
 import eu.epicpvp.datenclient.client.LoadedPlayer;
-import dev.wolveringer.client.connection.ClientType;
+import eu.epicpvp.datenserver.definitions.connection.ClientType;
 import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
-import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
+import eu.epicpvp.datenserver.definitions.permissions.GroupTyp;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.Permission;
 import eu.epicpvp.kcore.Permission.PermissionPlayer;

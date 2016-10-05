@@ -31,12 +31,12 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
 import net.minecraft.server.v1_8_R3.PacketPlayOutHeldItemSlot;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPosition;
-import net.minecraft.server.v1_8_R3.PlayerAbilities;
-import net.minecraft.server.v1_8_R3.PlayerConnection;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPosition;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags;
+import net.minecraft.server.v1_8_R3.PlayerAbilities;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 
 public class NickChangeListener extends PacketHandler implements Listener {
 

@@ -1,14 +1,11 @@
 package eu.epicpvp.kcore.Kit.Perks;
 
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Kit.Perk;
-import eu.epicpvp.kcore.Util.UtilItem;
 
 public class PerkLessDamage extends Perk{
 

@@ -10,11 +10,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.thread.ThreadFactory;
-import dev.wolveringer.thread.ThreadRunner;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.thread.ThreadFactory;
+import eu.epicpvp.thread.ThreadRunner;
 
 public class CommandTpAll implements CommandExecutor {
 	private ThreadRunner current = null;

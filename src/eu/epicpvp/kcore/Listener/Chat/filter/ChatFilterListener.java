@@ -7,16 +7,17 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.Permission.PermissionManager;
-import eu.epicpvp.kcore.Translation.TranslationHandler;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.Permission.PermissionManager;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
+import lombok.Getter;
+import lombok.Setter;
 
 public class ChatFilterListener extends kListener {
 

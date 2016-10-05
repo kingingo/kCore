@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.bukkit.permissions.GroupTyp;
 import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
+import eu.epicpvp.datenserver.definitions.permissions.GroupTyp;
 import eu.epicpvp.kcore.Permission.Permission;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Permission.Events.GroupLoadedEvent;

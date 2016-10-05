@@ -1,7 +1,7 @@
 package eu.epicpvp.kcore.StatsManager;
 
-import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Util.UtilNumber;
+import eu.epicpvp.nbt.NBTTagCompound;
 import lombok.Getter;
 
 public class StatsObject {

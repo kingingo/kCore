@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.kcore.Disguise.Events.DisguiseCreateEvent;
 import eu.epicpvp.kcore.Disguise.Events.DisguiseEntityLivingEvent;

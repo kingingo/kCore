@@ -19,9 +19,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 
 public class CommandHandler {

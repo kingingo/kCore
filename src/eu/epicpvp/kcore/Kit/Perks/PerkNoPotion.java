@@ -1,9 +1,5 @@
 package eu.epicpvp.kcore.Kit.Perks;
 
-import java.util.ArrayList;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

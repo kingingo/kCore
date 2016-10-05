@@ -1,8 +1,8 @@
 package eu.epicpvp.kcore.Packets;
 import org.bukkit.entity.Player;
 
+import eu.epicpvp.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
-import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.Arena.ArenaType;
 import eu.epicpvp.kcore.Enum.Team;
 import lombok.Getter;

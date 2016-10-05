@@ -13,7 +13,6 @@ import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
-import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import lombok.Getter;
 import lombok.Setter;
 

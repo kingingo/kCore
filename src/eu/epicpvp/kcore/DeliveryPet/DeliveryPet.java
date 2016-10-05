@@ -27,7 +27,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.ServerType;
-import dev.wolveringer.thread.ThreadFactory;
 import eu.epicpvp.kcore.Hologram.Hologram;
 import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
 import eu.epicpvp.kcore.Inventory.InventoryBase;
@@ -56,6 +55,7 @@ import eu.epicpvp.kcore.Util.UtilParticle;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilTime;
+import eu.epicpvp.thread.ThreadFactory;
 import lombok.Getter;
 import lombok.Setter;
 

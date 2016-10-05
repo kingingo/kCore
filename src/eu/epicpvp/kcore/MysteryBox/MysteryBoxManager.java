@@ -11,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
-import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Command.Admin.CommandGiveShards;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MysteryBox.Templates.Building;
@@ -20,6 +19,7 @@ import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Util.UtilFile;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.nbt.NBTTagCompound;
 import lombok.Getter;
 
 public class MysteryBoxManager extends kListener{

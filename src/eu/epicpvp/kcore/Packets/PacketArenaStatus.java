@@ -1,8 +1,8 @@
 package eu.epicpvp.kcore.Packets;
+import eu.epicpvp.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameState;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
-import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

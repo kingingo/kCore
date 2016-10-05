@@ -12,10 +12,10 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.spigotmc.AsyncCatcher;
 
 import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
-import dev.wolveringer.thread.ThreadFactory;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.thread.ThreadFactory;
 
 public class PermissionChannelHandler extends kListener implements PluginMessageListener{
 	HashMap<UUID,PermissionChannelListener> listener = new HashMap<>();

@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import dev.wolveringer.bukkit.permissions.GroupTyp;
+import eu.epicpvp.datenserver.definitions.permissions.GroupTyp;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MysteryBox.Events.PlayerUseMysteryBoxEvent;
 import eu.epicpvp.kcore.MysteryBox.Items.MysteryItem;

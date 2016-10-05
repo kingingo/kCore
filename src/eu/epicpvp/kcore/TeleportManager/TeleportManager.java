@@ -17,7 +17,6 @@ import eu.epicpvp.kcore.Command.Commands.CommandTpaccept;
 import eu.epicpvp.kcore.Command.Commands.CommandTpdeny;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Permission.PermissionManager;
-import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilServer;

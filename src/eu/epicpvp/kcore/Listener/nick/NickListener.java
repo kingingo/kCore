@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 import com.comphenix.packetwrapper.WrapperPlayServerChat;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+
 import eu.epicpvp.datenclient.client.LoadedPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -17,7 +20,6 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class NickListener extends PacketAdapter {
 

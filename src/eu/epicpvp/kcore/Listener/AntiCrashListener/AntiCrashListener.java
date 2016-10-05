@@ -27,10 +27,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-import dev.wolveringer.arrays.CachedArrayList;
 import eu.epicpvp.datenclient.client.ClientWrapper;
 import eu.epicpvp.datenclient.client.LoadedPlayer;
-import dev.wolveringer.hashmaps.CachedHashMap;
+import eu.epicpvp.datenserver.definitions.arrays.CachedArrayList;
+import eu.epicpvp.datenserver.definitions.hashmaps.CachedHashMap;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MySQL.MySQL;
 import eu.epicpvp.kcore.PacketAPI.packetlistener.event.PacketListenerReceiveEvent;

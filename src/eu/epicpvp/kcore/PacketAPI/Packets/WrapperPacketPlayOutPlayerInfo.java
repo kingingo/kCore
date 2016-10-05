@@ -1,6 +1,5 @@
 package eu.epicpvp.kcore.PacketAPI.Packets;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import eu.epicpvp.kcore.PacketAPI.PacketWrapper;

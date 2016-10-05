@@ -1,10 +1,8 @@
 package eu.epicpvp.kcore.UpdateAsync;
 
-import eu.epicpvp.kcore.UpdateAsync.Event.UpdateAsyncEvent;
-import eu.epicpvp.kcore.Util.UtilServer;
-
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
+
+import eu.epicpvp.kcore.UpdateAsync.Event.UpdateAsyncEvent;
 
 public class UpdaterAsync implements Runnable {
 	private Plugin plugin;

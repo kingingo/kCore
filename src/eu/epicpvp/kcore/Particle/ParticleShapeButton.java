@@ -5,7 +5,6 @@ import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
-import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Inventory.InventoryBuy;
 import eu.epicpvp.kcore.Inventory.Item.Click;
@@ -15,6 +14,7 @@ import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.nbt.NBTTagCompound;
 
 public class ParticleShapeButton extends ButtonCopy {
 

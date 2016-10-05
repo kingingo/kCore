@@ -1,9 +1,10 @@
 package eu.epicpvp.kcore.Gilden.Commands;
 
+import org.bukkit.entity.Player;
+
 import eu.epicpvp.kcore.Gilden.GildenManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilPlayer;
-import org.bukkit.entity.Player;
 
 public class Kicken {
 

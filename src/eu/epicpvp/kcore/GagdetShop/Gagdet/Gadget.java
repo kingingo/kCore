@@ -7,7 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
-import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.GagdetShop.GadgetHandler;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.MysteryBox.Events.PlayerUseMysteryBoxEvent;
@@ -16,6 +15,7 @@ import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilTime;
+import eu.epicpvp.nbt.NBTTagCompound;
 import lombok.Getter;
 
 public class Gadget extends kListener{

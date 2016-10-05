@@ -1,15 +1,16 @@
 package eu.epicpvp.kcore.Command.Commands;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.TeleportManager.TeleportManager;
 import eu.epicpvp.kcore.TeleportManager.Teleporter;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import lombok.Getter;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class CommandTpaccept implements CommandExecutor {
 

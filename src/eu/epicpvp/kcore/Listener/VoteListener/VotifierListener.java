@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 
 import com.vexsoftware.votifier.model.VotifierEvent;
 
-import dev.wolveringer.client.connection.ClientType;
+import eu.epicpvp.datenserver.definitions.connection.ClientType;
 import eu.epicpvp.kcore.Packets.PacketPlayerVote;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;

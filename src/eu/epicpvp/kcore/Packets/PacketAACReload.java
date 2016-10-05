@@ -1,7 +1,7 @@
 package eu.epicpvp.kcore.Packets;
 
+import eu.epicpvp.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
-import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

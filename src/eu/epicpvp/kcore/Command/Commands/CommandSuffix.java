@@ -9,7 +9,6 @@ import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
-import eu.epicpvp.kcore.Util.Color;
 import net.md_5.bungee.api.ChatColor;
 
 public class CommandSuffix implements CommandExecutor {

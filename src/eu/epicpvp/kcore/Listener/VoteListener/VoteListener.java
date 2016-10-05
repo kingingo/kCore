@@ -7,9 +7,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.epicpvp.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.datenclient.client.Callback;
 import eu.epicpvp.datenclient.client.connection.PacketListener;
-import dev.wolveringer.dataserver.protocoll.packets.Packet;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Packets.PacketPlayerVote;
 import eu.epicpvp.kcore.Util.UtilPlayer;

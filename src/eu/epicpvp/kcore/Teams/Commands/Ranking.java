@@ -2,7 +2,7 @@ package eu.epicpvp.kcore.Teams.Commands;
 
 import org.bukkit.entity.Player;
 
-import dev.wolveringer.dataserver.protocoll.packets.PacketOutTopTen;
+import eu.epicpvp.dataserver.protocoll.packets.PacketOutTopTen;
 import eu.epicpvp.kcore.Teams.TeamManager;
 
 public class Ranking {

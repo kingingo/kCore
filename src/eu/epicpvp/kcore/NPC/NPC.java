@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.datenclient.client.Callback;
-import dev.wolveringer.skin.Skin;
+import eu.epicpvp.datenserver.definitions.skin.Skin;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperGameProfile;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutAnimation;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperPacketPlayOutBed;

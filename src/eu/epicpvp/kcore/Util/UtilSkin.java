@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 import eu.epicpvp.datenclient.client.Callback;
 import eu.epicpvp.datenclient.client.ProgressFuture;
-import dev.wolveringer.skin.Skin;
-import dev.wolveringer.skin.SteveSkin;
+import eu.epicpvp.datenserver.definitions.skin.Skin;
+import eu.epicpvp.datenserver.definitions.skin.SteveSkin;
 import eu.epicpvp.kcore.Listener.SkinCatcherListener.SkinCatcherListener;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperGameProfile;
 import lombok.Getter;

@@ -18,7 +18,6 @@ import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.TimeSpan;
-import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 
 public class Hologram extends kListener {

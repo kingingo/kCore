@@ -10,12 +10,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.epicpvp.datenclient.client.LoadedPlayer;
-import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenclient.event.EventListener;
-import dev.wolveringer.events.Event;
-import dev.wolveringer.events.EventConditions;
-import dev.wolveringer.events.EventType;
-import dev.wolveringer.events.player.PlayerServerSwitchEvent;
+import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
+import eu.epicpvp.datenserver.definitions.events.Event;
+import eu.epicpvp.datenserver.definitions.events.EventConditions;
+import eu.epicpvp.datenserver.definitions.events.EventType;
+import eu.epicpvp.datenserver.definitions.events.player.PlayerServerSwitchEvent;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Listener.SkinCatcherListener.SkinCatcherListener;
 import eu.epicpvp.kcore.PacketAPI.Packets.WrapperGameProfile;

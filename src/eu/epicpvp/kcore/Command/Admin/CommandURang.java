@@ -4,10 +4,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import eu.epicpvp.dataserver.protocoll.packets.PacketServerMessage;
 import eu.epicpvp.datenclient.client.LoadedPlayer;
-import dev.wolveringer.client.connection.ClientType;
+import eu.epicpvp.datenserver.definitions.connection.ClientType;
 import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
-import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
 import eu.epicpvp.kcore.Command.CommandHandler.Sender;
 import eu.epicpvp.kcore.Permission.PermissionManager;
 import eu.epicpvp.kcore.Util.UtilReflection;

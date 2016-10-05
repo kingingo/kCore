@@ -11,7 +11,6 @@ import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import eu.epicpvp.kcore.Merchant.Merchant;
 import eu.epicpvp.kcore.Merchant.MerchantOffer;
 import eu.epicpvp.kcore.Util.InventorySize;
-import eu.epicpvp.kcore.Util.InventorySplit;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;

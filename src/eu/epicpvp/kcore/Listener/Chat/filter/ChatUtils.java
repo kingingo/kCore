@@ -4,8 +4,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import eu.epicpvp.kcore.Enum.Zeichen;
 import org.apache.commons.lang3.StringUtils;
+
+import eu.epicpvp.kcore.Enum.Zeichen;
 
 @SuppressWarnings("RedundantIfStatement")
 public class ChatUtils {

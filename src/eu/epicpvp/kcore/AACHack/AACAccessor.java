@@ -3,11 +3,12 @@ package eu.epicpvp.kcore.AACHack;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
+import org.bukkit.Location;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import me.konsolas.aac.AAC;
 import me.konsolas.aac.api.HackType;
 import me.konsolas.aac.b.f;
-import org.bukkit.Location;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * This class uses reflection to access AAC.

@@ -1,9 +1,9 @@
 package eu.epicpvp.kcore.StatsManager;
+import eu.epicpvp.dataserver.protocoll.packets.PacketOutTopTen;
+import eu.epicpvp.dataserver.protocoll.packets.PacketOutTopTen.RankInformation;
 import eu.epicpvp.datenclient.client.Callback;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
-import dev.wolveringer.dataserver.protocoll.packets.PacketOutTopTen;
-import dev.wolveringer.dataserver.protocoll.packets.PacketOutTopTen.RankInformation;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 

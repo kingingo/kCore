@@ -6,11 +6,11 @@ import eu.epicpvp.datenclient.client.LoadedPlayer;
 import eu.epicpvp.datenclient.gilde.GildManager;
 import eu.epicpvp.datenclient.gilde.GildSection;
 import eu.epicpvp.datenclient.gilde.Gilde;
-import dev.wolveringer.gilde.GildeType;
-import dev.wolveringer.nbt.NBTTagCompound;
+import eu.epicpvp.datenserver.definitions.gilde.GildeType;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.nbt.NBTTagCompound;
 import lombok.Getter;
 
 public class GildeHandler extends kListener{

@@ -5,18 +5,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import eu.epicpvp.kcore.AACHack.util.MaterialUtil;
-import eu.epicpvp.kcore.Util.UtilServer;
-import me.konsolas.aac.api.AACAPI;
-import me.konsolas.aac.api.AACAPIProvider;
-import me.konsolas.aac.api.HackType;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -28,6 +16,20 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
+import eu.epicpvp.kcore.AACHack.util.MaterialUtil;
+import eu.epicpvp.kcore.Util.UtilServer;
+import me.konsolas.aac.api.AACAPI;
+import me.konsolas.aac.api.AACAPIProvider;
+import me.konsolas.aac.api.HackType;
 
 class FlyBypassFixer extends PacketAdapter implements Listener {
 

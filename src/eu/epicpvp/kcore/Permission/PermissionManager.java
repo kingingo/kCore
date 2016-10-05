@@ -10,12 +10,11 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Scoreboard;
 import org.spigotmc.AsyncCatcher;
 
-import dev.wolveringer.bukkit.permissions.GroupTyp;
+import eu.epicpvp.dataserver.protocoll.packets.PacketServerMessage;
 import eu.epicpvp.datenclient.client.LoadedPlayer;
-import dev.wolveringer.client.connection.ClientType;
+import eu.epicpvp.datenserver.definitions.connection.ClientType;
 import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
-import dev.wolveringer.dataserver.protocoll.packets.PacketServerMessage;
-import dev.wolveringer.thread.ThreadFactory;
+import eu.epicpvp.datenserver.definitions.permissions.GroupTyp;
 import eu.epicpvp.kcore.Permission.Events.PlayerLoadPermissionEvent;
 import eu.epicpvp.kcore.Permission.Group.Group;
 import eu.epicpvp.kcore.Scoreboard.Events.PlayerSetScoreboardEvent;
@@ -23,6 +22,7 @@ import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilReflection;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.thread.ThreadFactory;
 import lombok.Getter;
 
 public class PermissionManager {

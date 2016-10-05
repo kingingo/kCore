@@ -11,7 +11,6 @@ import eu.epicpvp.datenclient.client.LoadedPlayer;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.datenserver.definitions.dataserver.protocoll.DataBuffer;
-import dev.wolveringer.nbt.NBTTagCompound;
 import eu.epicpvp.kcore.Events.ServerMessageEvent;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
@@ -20,6 +19,7 @@ import eu.epicpvp.kcore.StatsManager.Event.PlayerStatsChangedEvent;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilScoreboard;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.nbt.NBTTagCompound;
 
 public class MoneyListener extends kListener {
 

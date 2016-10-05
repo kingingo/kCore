@@ -2,13 +2,13 @@ package eu.epicpvp.kcore.PacketAPI.Packets;
 
 import java.util.UUID;
 
-import dev.wolveringer.skin.Skin;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+
+import eu.epicpvp.datenserver.definitions.skin.Skin;
 import eu.epicpvp.kcore.Util.UtilReflection;
 import lombok.Getter;
 import lombok.Setter;
-
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 
 public class WrapperGameProfile extends GameProfile{
     @Getter
