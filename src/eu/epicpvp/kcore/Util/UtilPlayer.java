@@ -414,7 +414,7 @@ public class UtilPlayer {
 		if (!(client instanceof Player)) {
 			return;
 		}
-		((Player) client).sendMessage(message);
+		client.sendMessage(message);
 	}
 
 	public static Player searchExact(int playerId) {
