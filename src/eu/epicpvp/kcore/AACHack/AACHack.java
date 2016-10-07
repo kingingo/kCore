@@ -64,8 +64,10 @@ public class AACHack extends kListener {
 		Plugin plugin = UtilServer.getPluginInstance();
 		plugin.getServer().getPluginManager().registerEvents(flyBypassFixer, plugin);
 		logMessage("Registered FlyBypassFixer");
-		plugin.getServer().getPluginManager().registerEvents(new ScaffoldWalkCheck(), plugin);
-		logMessage("Registered ScaffoldWalkCheck");
+		if (false) {
+			plugin.getServer().getPluginManager().registerEvents(new ScaffoldWalkCheck(), plugin);
+			logMessage("Registered ScaffoldWalkCheck");
+		}
 		plugin.getServer().getPluginManager().registerEvents(new TowerLimiter(), plugin);
 		logMessage("Registered TowerLimiter");
 	}
