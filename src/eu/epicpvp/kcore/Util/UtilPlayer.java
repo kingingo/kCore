@@ -401,7 +401,10 @@ public class UtilPlayer {
 	}
 
 	public static void RespawnNow(final Player p, JavaPlugin plugin) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> p.spigot().respawn(), 10L);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+			p.spigot().respawn();
+			p.setNoDamageTicks(10);
+		}, 10L);
 	}
 
 	public static void sendMessage(org.bukkit.entity.Entity client, String message) {
