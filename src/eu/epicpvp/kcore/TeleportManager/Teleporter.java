@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.TeleportManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
@@ -9,6 +10,7 @@ import org.bukkit.util.Vector;
 import eu.epicpvp.kcore.TeleportManager.Events.PlayerTeleportedEvent;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.TimeSpan;
+import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilTime;
 import lombok.Getter;
 
@@ -94,6 +96,24 @@ public class Teleporter {
 		return false;
 	}
 	
+	public void teleport(Player plr, Location loc){
+		if(!plr.teleport(loc, TeleportCause.PLUGIN)){
+			if(plr.getPassenger()!=null){
+				Entity e = plr.getPassenger();
+				plr.eject();
+				plr.teleport(loc, TeleportCause.PLUGIN);
+				
+				Bukkit.getScheduler().runTaskLater(UtilServer.getPluginInstance(), new Runnable() {
+					@Override
+					public void run() {
+						e.teleport(plr);
+						plr.setPassenger(e);
+					}
+				}, 10L);
+			}
+		}
+	}
+	
 	public boolean TeleportDo(){
 		if(!from.isOnline()){
 			from=null;
@@ -125,8 +145,7 @@ public class Teleporter {
 			if(getLoc_to()!=null){
 				from.leaveVehicle();
 				from.setVelocity(new Vector(0,0,0));
-				
-				from.teleport(getLoc_to(), TeleportCause.PLUGIN);
+				teleport(from, getLoc_to());
 				from.sendMessage(TranslationHandler.getText(from, "PREFIX")+TranslationHandler.getText(from, "TELEPORT"));
 
 				Bukkit.getPluginManager().callEvent(new PlayerTeleportedEvent(this));
