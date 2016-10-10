@@ -98,8 +98,8 @@ public class Achievement implements Listener {
 
 		if (this.handler.isConfig()) {
 			kConfig config = UtilServer.getUserData().getConfig(Integer.valueOf(playerId));
-			if (config.isSet("Achievements." + getClass().getName() + ".Progress")) {
-				return config.getInt("Achievements." + getClass().getName() + ".Progress");
+			if (config.isSet("Achievements." + getClass().getSimpleName() + ".Progress")) {
+				return config.getInt("Achievements." + getClass().getSimpleName() + ".Progress");
 			}
 		} else {
 
@@ -117,7 +117,7 @@ public class Achievement implements Listener {
 			Integer val = getPlayerProgress().get(Integer.valueOf(playerId));
 			if(val == null)
 				return;
-			config.set("Achievements." + getClass().getName() + ".Progress", val);
+			config.set("Achievements." + getClass().getSimpleName() + ".Progress", val);
 			config.save();
 		}
 	}

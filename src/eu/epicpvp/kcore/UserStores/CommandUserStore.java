@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.UserStores;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -33,6 +34,45 @@ public class CommandUserStore implements CommandExecutor {
 			this.userStores.openInv(p);
 		}else{
 			switch(args[0]){
+			
+			case "ca":
+				if (p.isOp()) {
+					File[] userdatas = new File(userStores.getPlugin().getDataFolder(), "userdata").listFiles();
+					if (userdatas == null) {
+						p.sendMessage("Could not list files in dir.");
+						return false;
+					}
+					int amount = userdatas.length;
+					p.sendMessage("Found " + amount + " userdata configs. Start clearing shop delivery chest content");
+					for (File userdata : userdatas) {
+						try{
+							kConfig config = new kConfig(userdata);
+							if (!config.contains("Achievements")) {
+								continue;
+							}
+
+							HashMap<String, Integer> l = new HashMap<>();
+							
+							for (String a : config.getPathList("Achievements.eu.epicpvp.kcore.Achievements").keySet()) {
+								l.put(a, config.getInt("Achievements.eu.epicpvp.kcore.Achievements."+a+".Progress"));
+							}
+							
+							config.set("Achievements", null);
+							config.set("eu", null);
+
+							for(String a : l.keySet()){
+								config.set("Achievements."+a+".Progress", l.get(a));
+							}
+							config.save();
+							System.out.println("CHANGED -> "+userdata.getName());
+						}catch(Exception e){
+							System.out.println("FAIL "+userdata.getAbsolutePath());
+						}
+					}
+					p.sendMessage("Done!");
+				}
+				return true;
+			
 			case "clean":
 				if (p.isOp()) {
 					File[] userdatas = new File(userStores.getPlugin().getDataFolder(), "userdata").listFiles();
