@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
@@ -30,12 +31,20 @@ public class ButtonShopBuy extends ButtonMultiCopy{
 					for(int i = 0; i<(amount/64); i++){
 						bitem = page.getItem(4).clone();
 						bitem.setAmount(64);
+						ItemMeta meta = bitem.getItemMeta();
+						meta.setDisplayName(null);
+						meta.setLore(null);
+						bitem.setItemMeta(meta);
 						player.getInventory().addItem(bitem);
 					}
 
 					if((amount%64)!=0){
 						bitem = page.getItem(4).clone();
 						bitem.setAmount((amount%64));
+						ItemMeta meta = bitem.getItemMeta();
+						meta.setDisplayName(null);
+						meta.setLore(null);
+						bitem.setItemMeta(meta);
 						player.getInventory().addItem(bitem);
 					}
 

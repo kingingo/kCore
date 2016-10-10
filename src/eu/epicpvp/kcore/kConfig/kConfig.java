@@ -163,7 +163,7 @@ public class kConfig extends YamlConfiguration{
 		return locs;
 	}
 	
-	public void setLocationList(String path,ArrayList<Location> locs){
+	public void setLocationList(String path,List<Location> locs){
 		ArrayList<String> s = new ArrayList<>();
 		
 		for(Location l : locs)s.add(locationToString(l));

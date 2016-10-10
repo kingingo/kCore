@@ -13,6 +13,7 @@ public class CommandWorkbench implements CommandExecutor{
 	@eu.epicpvp.kcore.Command.CommandHandler.Command(command = "workbench",alias={"wb","craft","craftingtable"}, sender = Sender.PLAYER)
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 		Player player = (Player) sender;
+		
 		if(player.hasPermission(PermissionType.WORKBENCH.getPermissionToString())){
 			player.openWorkbench(player.getLocation(), true);
 			return true;
