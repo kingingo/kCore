@@ -30,7 +30,7 @@ public class CommandGilde implements CommandExecutor{
 	public boolean onCommand(CommandSender cs, Command cmd, String arg2,String[] args) {
 		p = (Player)cs;
 		if(args.length==0){
-			p.sendMessage("§b---------------------§§6§l GILDE §b---------------------");
+			p.sendMessage("§b---------------------§6§l GILDE §b---------------------");
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD1"));
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD2"));
 			p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD3"));
@@ -48,7 +48,7 @@ public class CommandGilde implements CommandExecutor{
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD12"));
 				p.sendMessage(TranslationHandler.getText(p, "GILDE_CMD13"));
 			}
-			p.sendMessage("§b§ ---------------------6§l GILDE §b---------------------");
+			p.sendMessage("§b---------------------§6§l GILDE §b---------------------");
 		}else if(args.length > 0){
 			if(args[0].equalsIgnoreCase("erstellen")||args[0].equalsIgnoreCase("create")){
 				Erstellen.use(p, args, manager);
