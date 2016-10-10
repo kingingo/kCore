@@ -15,9 +15,9 @@ import org.bukkit.entity.Player;
 
 public class CommandSuffix implements CommandExecutor {
 	
-	private static final String bold_and_or_cursive = "(?:&l(?:&o)?|&o(?:&l)?)";
+	private static final String bold_and_or_cursive = "(?:[&§]l(?:[&§]o)?|[&§]o(?:[&§]l)?)";
 	private static final String allowedColors = "[1-35-9a-f]";
-	public static final Pattern SUFFIX_PATTERN = Pattern.compile("^(?:(?:&" + allowedColors + ")" + bold_and_or_cursive + "?|" + bold_and_or_cursive + ")$", Pattern.CASE_INSENSITIVE);
+	public static final Pattern SUFFIX_PATTERN = Pattern.compile("^(?:(?:[&§]" + allowedColors + ")" + bold_and_or_cursive + "?|" + bold_and_or_cursive + ")$", Pattern.CASE_INSENSITIVE);
 	private UserDataConfig userData;
 
 	public CommandSuffix(UserDataConfig userData) {
@@ -57,7 +57,8 @@ public class CommandSuffix implements CommandExecutor {
 			color = ChatColor.translateAlternateColorCodes('&', color);
 			this.userData.getConfig(target).set("Chat.Suffix", color);
 			initiator.sendMessage(TranslationHandler.getText(initiator, "PREFIX") + TranslationHandler.getText(initiator, "SUFFIX_SAVE"));
+		} else {
+			initiator.sendMessage(TranslationHandler.getText(initiator, "PREFIX") + TranslationHandler.getText(initiator, "NOT_COLOR_CODE"));
 		}
-		initiator.sendMessage(TranslationHandler.getText(initiator, "PREFIX") + TranslationHandler.getText(initiator, "NOT_COLOR_CODE"));
 	}
 }
