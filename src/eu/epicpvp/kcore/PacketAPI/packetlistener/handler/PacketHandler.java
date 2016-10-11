@@ -89,7 +89,7 @@ public abstract class PacketHandler {
 
 	// Sending methods
 	public void sendPacket(Player p, Object packet) {
-		if (p == null || packet == null) throw new NullPointerException();
+		if (p == null || packet == null) throw new NullPointerException("player or packet is null");
 		try {
 			Object handle = NMSUtils.getHandle(p);
 			Object connection = NMSUtils.getField(handle.getClass(), "playerConnection").get(handle);

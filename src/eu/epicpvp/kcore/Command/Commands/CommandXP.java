@@ -36,7 +36,7 @@ public class CommandXP implements CommandExecutor{
 					try{
 						lvl = Integer.parseInt(args[2]);
 						
-					}catch(NumberFormatException e){					
+					}catch(NumberFormatException e){
 						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "NO_INTEGER"));
 						return false;
 					}
@@ -46,7 +46,7 @@ public class CommandXP implements CommandExecutor{
 						if(target.isOnline()){
 							
 						}else{
-							throw new NullPointerException();
+							throw new NullPointerException("CommandXP nullpointer");
 						}
 					}catch(NullPointerException e){
 						p.sendMessage(TranslationHandler.getText(p, "PREFIX")+TranslationHandler.getText(p, "PLAYER_IS_OFFLINE",args[1]));
