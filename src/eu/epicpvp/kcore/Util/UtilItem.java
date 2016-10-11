@@ -38,9 +38,13 @@ public class UtilItem {
 		return item;
 	}
 	
-	public static void modifyMaxStack(net.minecraft.server.v1_8_R3.Item item, int amount) {
-		UtilReflection.setValue("maxStackSize", item, amount);
+	public static void modifyMaxStack(Material material, int amount) {
+		net.minecraft.server.v1_8_R3.Item.getById(material.getId()).c(amount);
 	}
+	
+//	public static void modifyMaxStack(net.minecraft.server.v1_8_R3.Item item, int amount) {
+//		UtilReflection.setValue("maxStackSize", item, amount);
+//	}
 
 	public static boolean isUnbreakable(ItemStack item){
 		return item.getItemMeta().spigot().isUnbreakable();
