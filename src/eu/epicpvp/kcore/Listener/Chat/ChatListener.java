@@ -42,7 +42,7 @@ public class ChatListener extends kListener {
 				msg = ChatColor.translateAlternateColorCodes('&', msg);
 				if (!p.hasPermission(PermissionType.CHAT_NERV.getPermissionToString())) {
 					for (int i = 0; i < 10; i++) {
-						msg = msg.replace("§l", "");
+						msg = msg.replace("§m", "");
 						msg = msg.replace("§n", "");
 						msg = msg.replace("§k", "");
 					}

@@ -1,9 +1,11 @@
 package eu.epicpvp.kcore.Permission;
 
 import eu.epicpvp.datenserver.definitions.permissions.GroupTyp;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode(exclude = "starIndex")
 public class Permission {
 	private String permission;
 	private GroupTyp group;
@@ -19,34 +21,6 @@ public class Permission {
 	
 	public String getPermissionToString(){
 		return permission;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((group == null) ? 0 : group.hashCode());
-		result = prime * result + ((permission == null) ? 0 : permission.hashCode());
-		return result;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Permission other = (Permission) obj;
-		if (group != other.group)
-			return false;
-		if (permission == null) {
-			if (other.permission != null)
-				return false;
-		} else if (!permission.equals(other.permission))
-			return false;
-		return true;
 	}
 
 	public String getRawPermission(){

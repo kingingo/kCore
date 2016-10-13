@@ -208,9 +208,7 @@ public class PermissionManager {
 	}
 
 	public PermissionPlayer getPermissionPlayer(Player player) {
-		int playerId = UtilPlayer.getPlayerId(player);
-		PermissionPlayer pplayer = getPermissionPlayer(playerId);
-		return pplayer;
+		return getPermissionPlayer(UtilPlayer.getPlayerId(player));
 	}
 
 	public PermissionPlayer getPermissionPlayer(int playerId) {
