@@ -1,5 +1,9 @@
 package eu.epicpvp.kcore.Util;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
 import lombok.Getter;
 
 public enum InventorySplit {
@@ -21,6 +25,10 @@ private InventorySplit(int min,int max){
 	this.min=min;
 	this.max=max;
 	this.middle=this.min+4;
+}
+
+public void setLine(Material material, byte data,Inventory inv){
+	for(int i = getMin(); i <= getMax(); i++)inv.setItem(i, UtilItem.Item(new ItemStack(material,1,data), new String[]{""}, " "));
 }
 
 public static int getSlotBorder(int slot){

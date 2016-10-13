@@ -1,6 +1,8 @@
 package eu.epicpvp.kcore.Permission;
 
 public enum PermissionType {
+	WARZ_MAP_ALL("warz.map.all"),
+	
 	SKYBLOCK_INVITE_PLAYER_1("epicpvp.skyblock.invite.1"),
 	SKYBLOCK_INVITE_PLAYER_2("epicpvp.skyblock.invite.2"),
 	SKYBLOCK_INVITE_PLAYER_3("epicpvp.skyblock.invite.3"),
