@@ -39,6 +39,8 @@ public class AACHack extends kListener {
 		if (Bukkit.getPluginManager().getPlugin("AAC") == null) {
 			logMessage("Das Plugin AAC fehlt!!!");
 			return;
+		}else{
+			logMessage("AACHack modifier activate!!");
 		}
 		this.mysql = UtilServer.getMysql();
 		this.client = UtilServer.getClient();
