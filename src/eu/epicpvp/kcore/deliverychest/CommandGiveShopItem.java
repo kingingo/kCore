@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.deliverychest;
 
 import com.google.common.base.Joiner;
 import eu.epicpvp.datenclient.client.LoadedPlayer;
+import eu.epicpvp.kcore.Command.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -16,6 +17,7 @@ public class CommandGiveShopItem implements CommandExecutor {
 
 	private final DeliveryChest module;
 
+	@CommandHandler.Command(command = "/giveshopitem")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!sender.isOp()) {
