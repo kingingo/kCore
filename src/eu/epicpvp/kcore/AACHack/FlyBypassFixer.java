@@ -75,6 +75,9 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 		if (plr.getGameMode() == GameMode.CREATIVE || plr.getGameMode() == GameMode.SPECTATOR || plr.getAllowFlight() || plr.getVehicle() != null) {
 			return;
 		}
+		if (!AACAPIProvider.isAPILoaded()) {
+			return;
+		}
 		AACAPI api = AACAPIProvider.getAPI();
 		if (!api.isEnabled(HackType.NOFALL)) {
 			return;
