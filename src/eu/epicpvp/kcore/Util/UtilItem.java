@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
@@ -550,7 +551,18 @@ public class UtilItem {
 	}
 	
 	public static org.bukkit.inventory.ItemStack setLore(org.bukkit.inventory.ItemStack i, List<String> msg){
+		if(msg==null){
+		  	System.out.println("[EpicPvP]: DESCRIPTION == NULL");
+			return i;
+		}
 	    ItemMeta im = i.getItemMeta();
+		if(im==null)im = Bukkit.getItemFactory().getItemMeta(i.getType());
+		
+		if(im==null){
+		  	System.out.println("[EpicPvP]: ITEM_META == NULL");
+			return i;
+		}
+		
 	    im.setLore(msg);
 	    i.setItemMeta(im);
 	    return i;

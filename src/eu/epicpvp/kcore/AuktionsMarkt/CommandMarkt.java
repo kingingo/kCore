@@ -14,7 +14,7 @@ public class CommandMarkt implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
 		Player player = (Player)sender;
 		
-		player.openInventory(AuktionsMarkt.getAuktionsMarkt().getMain());
+		AuktionsMarkt.getAuktionsMarkt().open(player);
 		return false;
 	}
 }

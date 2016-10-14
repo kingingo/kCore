@@ -99,7 +99,7 @@ public class ButtonBase implements IButtonOneSlot{
 	
 	public void refreshItemStack(){
 		if(getDescription()!=null)UtilItem.setLore(itemStack, getDescription());
-		this.inventoryPageBase.setItem(slot, itemStack);
+		if(this.inventoryPageBase!=null)this.inventoryPageBase.setItem(slot, itemStack);
 	}
 	
 	public void setItemStack(ItemStack item){
