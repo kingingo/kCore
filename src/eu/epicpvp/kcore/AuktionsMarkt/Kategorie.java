@@ -1,59 +1,65 @@
 package eu.epicpvp.kcore.AuktionsMarkt;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.google.common.collect.Lists;
+
+import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
+import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBack;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBase;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
 import eu.epicpvp.kcore.Util.InventorySize;
+import eu.epicpvp.kcore.Util.InventorySplit;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.kConfig.kConfig;
 
-public class Kategorie extends InventoryPageBase{
-
-	private HashMap<String,ItemKategorie> allowed = new HashMap<>();
+public class Kategorie{
+	private ArrayList<KategoriePage> pages = Lists.newArrayList();
 	
-	public Kategorie(int slot,ItemStack item) {
-		super(InventorySize._54,item.getItemMeta().getDisplayName());
-		init(slot,item);
+	public Kategorie(int kategorie) {
+		init(kategorie);
 	}
 	
 	public boolean addOffer(int playerId, ItemStack item, double price){
-		if(allowed.containsKey(item.getTypeId()+":"+UtilInv.GetData(item))){
-			allowed.get(item.getTypeId()+":"+UtilInv.GetData(item)).addOffer(playerId, item, price);
-			return true;
+		for(KategoriePage page : pages){
+			if(page.addOffer(playerId, item, price)){
+				return true;
+			}
 		}
 		return false;
 	}
 	
-	public void init(int slot,ItemStack item){
-		AuktionsMarkt instance = AuktionsMarkt.getAuktionsMarkt();
-		instance.getMain().addButton(slot, new ButtonOpenInventory(this, item));
+	public void init(int kategorie){
+		kConfig config = AuktionsMarkt.getAuktionsMarkt().getConfig();
 		
-		kConfig config = instance.getConfig();
-		ConfigurationSection section = config.getConfigurationSection(AuktionsMarkt.PATH+slot+".allowed");
-		for(String key : section.getKeys(false)){
-			allowed.put(key,new ItemKategorie(this, toItem(key)));
-			addButton(section.getInt(AuktionsMarkt.PATH+slot+".allowed."+key), new ButtonBase(new Click() {
+		KategoriePage page = null;
+		for(int p = 1; p <= 30; p++){
+			if(config.contains(AuktionsMarkt.PATH+kategorie+"."+p)){
+				int pagenumber = p;
+				KategoriePage newpage = new KategoriePage(kategorie,pagenumber);
 				
-				@Override
-				public void onClick(Player player, ActionType type, Object object) {
-					allowed.get(key).open(player);
+				if(page != null){
+					page.addButton(InventorySplit._54.getMiddle()+1, new ButtonBack(newpage, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§7"+(pagenumber)+" "+Zeichen.DOUBLE_ARROWS_R)));
+					newpage.addButton(InventorySplit._54.getMiddle()-1, new ButtonBack(page, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§7"+Zeichen.DOUBLE_ARROWS_l+" "+(pagenumber-1))));
+				}else{
+					newpage.addButton(InventorySplit._54.getMiddle()-1, new ButtonBack(AuktionsMarkt.getAuktionsMarkt().getMain(), UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "§aZurück")));
+					AuktionsMarkt.getAuktionsMarkt().getMain().addButton(kategorie, new ButtonOpenInventory(newpage, config.getItemStack(AuktionsMarkt.PATH+kategorie+".item")));
 				}
-			},UtilItem.setLore(toItem(key), new String[]{""})));
+				
+				pages.add(newpage);
+				page=newpage;
+			}
 		}
 	}
-	
-	public ItemStack toItem(String item){
-		return new ItemStack(UtilNumber.toInt(item.split(":")[0]),1,UtilNumber.toByte(item.split(":")[1]));
-	}
-
 }

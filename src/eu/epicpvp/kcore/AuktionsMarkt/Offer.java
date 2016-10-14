@@ -74,8 +74,6 @@ public class Offer extends ButtonBase{
 				"§eVerbleibende zeit im Markt: §7"+UtilTime.formatMili( (end-System.currentTimeMillis()) ),
 				"",
 				"§7Angebot von §c"+playerName});
-			
-			refreshItemStack();
 		}else{
 			closeOffer();
 		}

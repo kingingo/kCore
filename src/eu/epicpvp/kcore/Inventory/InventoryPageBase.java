@@ -35,6 +35,9 @@ public class InventoryPageBase extends CraftInventoryCustom {
 	@Getter
 	@Setter
 	private boolean clickPlayerInventory = false;
+	@Getter
+	@Setter
+	private boolean removeButtons = true;
 
 	public InventoryPageBase(int size, String title) {
 		this(null, size, title);
@@ -79,8 +82,9 @@ public class InventoryPageBase extends CraftInventoryCustom {
 	}
 
 	public void remove() {
-		for (IButton b : this.buttons)
-			b.remove();
+		if(isRemoveButtons())
+			for (IButton b : this.buttons)
+				b.remove();
 		this.buttons.clear();
 		this.buttons = null;
 		this.inventoryType = null;
