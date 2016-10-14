@@ -21,6 +21,9 @@ public class ScaffoldWalkCheck implements Listener {
 		if (!event.getBlockAgainst().getType().isSolid()) {
 			return;
 		}
+		if (!AACAPIProvider.isAPILoaded()) {
+			return;
+		}
 		Block plrBlock = plr.getLocation().getBlock().getRelative(BlockFace.DOWN);
 		if (!plrBlock.getType().isSolid()) {
 			return;
