@@ -186,7 +186,7 @@ public class GemsShop implements Listener{
 
 	public void fixInventory(InventoryPageBase page){
 		page.setItem(4, UtilItem.RenameItem(new ItemStack(Material.NETHER_STAR), getShopName()));
-		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"","§7Shop.ClashMC.eu"}, "§aOnline-Shop: "));
+		page.setItem(49, UtilItem.Item(new ItemStack(Material.EXP_BOTTLE), new String[]{"","§7Shop.EpicPvP.eu"}, "§aOnline-Shop: "));
 		if(this.main!=page)page.addButton(0, new ButtonBack(this.main, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§cBack")));
 	}
 

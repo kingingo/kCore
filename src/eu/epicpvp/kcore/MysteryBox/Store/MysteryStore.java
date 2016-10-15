@@ -54,7 +54,7 @@ public class MysteryStore extends InventoryCopy{
 				player.sendMessage(TranslationHandler.getPrefixAndText(player, "SHOP_LINK"));
 			}
 
-		},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE),new String[]{"§7Shop.ClashMC.eu"}, "§aOnlineStore")));
+		},UtilItem.Item(new ItemStack(Material.EXP_BOTTLE),new String[]{"§7Shop.EpicPvP.eu"}, "§aOnlineStore")));
 		addButton(InventorySplit._45.getMiddle(), new ButtonOpenInventory(craft, UtilItem.RenameItem(new ItemStack(Material.ANVIL), "§eCraft MysteryBoxes")));
 		addButton(InventorySplit._27.getMiddle(), new ButtonCopy(new Click(){
 

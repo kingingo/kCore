@@ -39,7 +39,7 @@ public class BungeeCordFirewallListener extends kListener{
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void preLogin(AsyncPlayerPreLoginEvent ev){
 		if(isFirewall() && UtilServer.getClient().getPlayerAndLoad(ev.getName()).isOnlineSync()){
-			ev.disallow(Result.KICK_OTHER, "§cPlease use the ClashMC Server Proxies!");
+			ev.disallow(Result.KICK_OTHER, "§cPlease use the EpicPvP Server Proxies!");
 		}
 	}
 

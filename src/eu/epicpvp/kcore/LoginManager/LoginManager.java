@@ -61,7 +61,7 @@ public class LoginManager extends kListener {
 	private Title registerTitle = new Title("§cRegister", "");
 	private Location spawn;
 
-	private NameTagMessage hm1 = new NameTagMessage(NameTagType.PACKET, CommandLocations.getLocation("HM1"), new String[] { "§eWillkommen auf §6ClashMC.eu", "§7Bitte absolviere das §aJump n' Run§7 um zu", "§7verifizieren, dass du kein Bot bist." });
+	private NameTagMessage hm1 = new NameTagMessage(NameTagType.PACKET, CommandLocations.getLocation("HM1"), new String[] { "§eWillkommen auf §6EpicPvP.eu", "§7Bitte absolviere das §aJump n' Run§7 um zu", "§7verifizieren, dass du kein Bot bist." });
 	private NameTagMessage hm2 = new NameTagMessage(NameTagType.PACKET, CommandLocations.getLocation("HM2"), new String[] { "§7Bitte stelle dich auf die §6Goldplatte§7 um", "§7dich registrieren zu können." });
 
 	public LoginManager(JavaPlugin instance, CommandHandler commandHandler, ClientWrapper client) {

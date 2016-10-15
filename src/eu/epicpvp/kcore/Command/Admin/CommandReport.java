@@ -43,7 +43,7 @@ public class CommandReport implements CommandExecutor {
 							UtilServer.getClient().getPlayerAndLoad("DasAntiHackSystem").getPlayerId(),
 							loadedplayer.getPlayerId(), reason,
 							"Server: " + server + ", Spieler-Ping: " + AACAPIProvider.getAPI().getPing(player) + ", Server-TPS: " + UtilMath.trim(2, AACAPIProvider.getAPI().getTPS()));
-					System.out.println("[ClashMC]: Der Report gegen " + player.getName() + " wurde erstellt! Grund: " + reason);
+					System.out.println("[EpicPvP]: Der Report gegen " + player.getName() + " wurde erstellt! Grund: " + reason);
 				}
 			}
 		}

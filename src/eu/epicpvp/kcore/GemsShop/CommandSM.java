@@ -95,8 +95,8 @@ public class CommandSM implements CommandExecutor{
 		player.sendMessage(" ");
 		player.sendMessage(" ");
 		player.sendMessage("§aKlicke auf den Link, um fortzufahren:");
-		TextComponent message = new TextComponent("§b§lhttp://Shop.ClashMC.eu/p="+id+"&ign="+player.getName());
-		message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://shop.clashmc.eu/checkout/packages?action=add&package="+id+"&ign="+player.getName()));
+		TextComponent message = new TextComponent("§b§lhttp://Shop.EpicPvP.eu/p="+id+"&ign="+player.getName());
+		message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://shop.EpicPvP.eu/checkout/packages?action=add&package="+id+"&ign="+player.getName()));
 		player.spigot().sendMessage(message);
 		player.sendMessage(" ");
 		player.sendMessage(" ");

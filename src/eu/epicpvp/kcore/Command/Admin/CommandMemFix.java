@@ -22,7 +22,7 @@ public class CommandMemFix implements CommandExecutor{
 			}
 		}else{
 			System.gc();
-			System.out.println("[ClashMC]: Es wurde versucht, den RAM-Verbrauch zu senken.");
+			System.out.println("[EpicPvP]: Es wurde versucht, den RAM-Verbrauch zu senken.");
 		}
 		return false;
 	}

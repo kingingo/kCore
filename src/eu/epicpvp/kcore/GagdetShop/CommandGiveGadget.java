@@ -32,18 +32,18 @@ public class CommandGiveGadget implements CommandExecutor {
 					if(add(args)){
 						player.sendMessage(TranslationHandler.getText(player, "PREFIX")+"Der Spieler hat das Gadget "+args[1]+" "+args[2]+" mal bekommen!");
 					}else{
-						System.out.println("[ClashMC]: FEHLER");
+						System.out.println("[EpicPvP]: FEHLER");
 					}
 				}
 			}
 		}else if(sender instanceof CommandSender){
 			if(args.length==0){
-				System.out.println("[ClashMC]: /GiveGadget [Spieler] [Gadget] [Anzahl]");
+				System.out.println("[EpicPvP]: /GiveGadget [Spieler] [Gadget] [Anzahl]");
 			}else if(args.length >= 2){
 				if(add(args)){
-					System.out.println("[ClashMC]: Der Spieler hat das Gadget "+args[1]+" "+args[2]+" mal bekommen!");
+					System.out.println("[EpicPvP]: Der Spieler hat das Gadget "+args[1]+" "+args[2]+" mal bekommen!");
 				}else{
-					System.out.println("[ClashMC]: FEHLER");
+					System.out.println("[EpicPvP]: FEHLER");
 				}
 			}
 		}
