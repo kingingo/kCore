@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -27,13 +28,13 @@ public class FlyListener extends kListener{
 	
 	public FlyListener() {
 		super(UtilServer.getPluginInstance(),"FlyListener");
+		System.out.println("BIN DA!");
 	}
 
 	@EventHandler
 	public void move(PlayerMoveEvent ev){
 		if(list.contains(ev.getPlayer())){
 			if(UtilWorldGuard.RegionFlag(ev.getPlayer(), DefaultFlag.PVP)){
-				ev.getPlayer().setAllowFlight(false);
 				ev.getPlayer().setFlying(false);
 				list.remove(ev.getPlayer());
 			}
@@ -41,9 +42,16 @@ public class FlyListener extends kListener{
 	}
 	
 	@EventHandler
+	public void jon(PlayerJoinEvent ev){
+		ev.getPlayer().setAllowFlight(true);
+	}
+	
+	@EventHandler
 	public void update(UpdateEvent ev){
 		if(ev.getType()==UpdateType.FAST){
-			for(Player player : list)UtilParticle.CLOUD.display((float)0.2,(float)0.2,(float)0.2,1, 30, player.getLocation().add(0, -2, 0), 25);
+			for(Player player : list){
+				UtilParticle.BUBBLE.display((float)0.2,(float)0.2,(float)0.2,1, 30, player.getLocation().add(0, -1, 0), 25);
+			}
 		}
 	}
 	
@@ -51,21 +59,15 @@ public class FlyListener extends kListener{
 	public void fly(PlayerToggleFlightEvent ev){
 		if(ev.getPlayer().getGameMode()!=GameMode.CREATIVE){
 			if(!UtilWorldGuard.RegionFlag(ev.getPlayer(), DefaultFlag.PVP)){
-				if(!ev.getPlayer().hasMetadata("flylistener") && !list.contains(ev.getPlayer())){
-					ev.getPlayer().setMetadata("flylistener", new FixedMetadataValue(UtilServer.getPluginInstance(), 1));
+				if(ev.getPlayer().isFlying()){
+					ev.getPlayer().setFlying(false);
+					list.remove(ev.getPlayer());
 				}else{
-					ev.getPlayer().removeMetadata("flylistener", UtilServer.getPluginInstance());
-					
-					if(ev.getPlayer().isFlying()){
-						ev.getPlayer().setAllowFlight(false);
-						ev.getPlayer().setFlying(false);
-						list.remove(ev.getPlayer());
-					}else{
-						ev.getPlayer().setAllowFlight(true);
-						ev.getPlayer().setFlying(true);
-						list.add(ev.getPlayer());
-					}
+					ev.getPlayer().setFlying(true);
+					list.add(ev.getPlayer());
 				}
+			}else{
+				ev.setCancelled(true);
 			}
 		}
 	}
