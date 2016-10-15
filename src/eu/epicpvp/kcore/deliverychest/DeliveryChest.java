@@ -55,7 +55,10 @@ public class DeliveryChest {
 		if (deliveryChestLocation != null) {
 			this.deliveryChestLocation = deliveryChestLocation;
 		} else {
-			this.deliveryChestLocation = plugin.getConfig().getVector("deliveryChest.chestLocation").toBlockVector();
+			Vector vector = plugin.getConfig().getVector("deliveryChest.chestLocation");
+			if (vector != null) {
+				this.deliveryChestLocation = vector.toBlockVector();
+			}
 		}
 		plugin.getServer().getPluginManager().registerEvents(deliveryChestHandler = new DeliveryChestHandler(this), plugin);
 		if (registerCommands) {

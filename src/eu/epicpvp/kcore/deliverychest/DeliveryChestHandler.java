@@ -7,10 +7,6 @@ import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
@@ -31,15 +27,6 @@ import org.bukkit.util.BlockVector;
 
 public class DeliveryChestHandler implements Listener {
 
-	private static final net.md_5.bungee.api.chat.BaseComponent[] NO_ITEMS_TO_DELIVER_MSG = new ComponentBuilder("")
-																									.append("Es warten aktuell keine Items auf dich.\n").color(ChatColor.RED)
-																									.append("Klicke ").color(ChatColor.GOLD)
-																									.append("hier") //@formatter:off
-			.underlined( true )
-			.event( new HoverEvent( HoverEvent.Action.SHOW_TEXT, new ComponentBuilder( "" ).append( "Klicke, um den Shop zu öffnen." ).color( ChatColor.GOLD ).create() ) )
-			.event( new ClickEvent( ClickEvent.Action.RUN_COMMAND, "/shop" ) ) //@formatter:on
-																									.append(" oder gebe /shop ein, um dir ein Item zu kaufen.", ComponentBuilder.FormatRetention.FORMATTING).underlined(false)
-																									.create();
 	private final DeliveryChest module;
 	private final TIntObjectMap<Inventory> inventories = new TIntObjectHashMap<>();
 	private final UserDataConfig userDataConfig;
@@ -192,7 +179,7 @@ public class DeliveryChestHandler implements Listener {
 	public void openInventory(Player plr) {
 		Inventory inv = inventories.get(module.getPlayerAndLoad(plr).getPlayerId());
 		if (inv == null || isEmpty(inv)) {
-			plr.spigot().sendMessage(NO_ITEMS_TO_DELIVER_MSG);
+			plr.sendMessage("§cEs warten aktuell keine Items auf dich.");
 			return;
 		}
 		ItemStack[] contents = inv.getContents();
@@ -223,7 +210,7 @@ public class DeliveryChestHandler implements Listener {
 		if (inv == null) {
 			inv = loadInventory(target);
 			if (inv == null || isEmpty(inv)) {
-				sender.spigot().sendMessage(NO_ITEMS_TO_DELIVER_MSG);
+				sender.sendMessage("§cEs warten aktuell keine Items auf dich.");
 				return;
 			}
 			ItemStack[] contents = inv.getContents();
