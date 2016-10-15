@@ -188,8 +188,10 @@ public class DeliveryChestHandler implements Listener {
 		if (itemModifier != null) {
 			for (int i = 0; i < contents.length; i++) {
 				ItemStack item = contents[i];
-				itemModifier.modify(item);
-				contents[i] = item;
+				if(item!=null&&item.getType()!=Material.AIR){
+					itemModifier.modify(item);
+					contents[i] = item;
+				}
 			}
 			inv.setContents(contents);
 		}
