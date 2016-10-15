@@ -17,7 +17,7 @@ public class CommandGiveShopItem implements CommandExecutor {
 
 	private final DeliveryChest module;
 
-	@CommandHandler.Command(command = "/giveshopitem")
+	@CommandHandler.Command(command = "giveshopitem")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!sender.isOp()) {

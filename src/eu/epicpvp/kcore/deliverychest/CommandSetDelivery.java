@@ -17,7 +17,7 @@ public class CommandSetDelivery implements CommandExecutor {
 
 	private final DeliveryChest module;
 
-	@CommandHandler.Command(command = "/setdelivery")
+	@CommandHandler.Command(command = "setdelivery")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!sender.isOp()) {
