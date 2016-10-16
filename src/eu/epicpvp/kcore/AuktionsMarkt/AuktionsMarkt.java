@@ -6,9 +6,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,12 +31,14 @@ import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonCopy;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonItemShopMove;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesPackageBase;
+import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import eu.epicpvp.kcore.Util.AnvilGUI;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.InventorySplit;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
+import eu.epicpvp.kcore.deliverychest.DeliveryChestInventoryHolder;
 import eu.epicpvp.kcore.Util.UtilFile;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
@@ -43,7 +49,7 @@ import eu.epicpvp.kcore.Util.AnvilGUI.AnvilClickEvent;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
 
-public class AuktionsMarkt {
+public class AuktionsMarkt extends kListener{
 	
 	private static AuktionsMarkt instance;
 	public final static String PATH = "Main.";
@@ -58,15 +64,146 @@ public class AuktionsMarkt {
 	public ArrayList<Offer> offers = new ArrayList<>();
 	
 	public AuktionsMarkt(){
+		super(UtilServer.getPluginInstance(),"AuktionsMarkt");
 		AuktionsMarkt.instance=this;
 		UtilServer.getCommandHandler().register(CommandMarkt.class, new CommandMarkt());
 		this.config=new kConfig(UtilFile.getYMLFile(UtilServer.getPluginInstance(), "auktions_markt.yml"));
 		
-		for(int i=1; i<256; i++){
-			addOffer(UtilServer.getClient().getPlayerAndLoad("kingingo").getPlayerId(), Material.values()[i], ((byte)0), i, i);
-		}
+		addOffer(UtilServer.getClient().getPlayerAndLoad("kingingo").getPlayerId(), Material.STONE, ((byte)0), 4000, 1000);
 		
 		loadBackup();
+	}
+	
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent event) {
+		if (!(event.getView().getTopInventory().getHolder() instanceof AuktionsInventoryHolder)) {
+			return;
+		}
+		if(event.getCurrentItem()!=null&&event.getCurrentItem().getType()==Material.ARROW 
+				&& event.getCurrentItem().hasItemMeta()
+				&& event.getCurrentItem().getItemMeta().hasDisplayName()
+				&& event.getClickedInventory().getHolder() instanceof AuktionsInventoryHolder){
+			if(event.getCurrentItem().getItemMeta().getDisplayName().contains(Zeichen.DOUBLE_ARROWS_R.getIcon()) 
+						^ event.getCurrentItem().getItemMeta().getDisplayName().contains(Zeichen.DOUBLE_ARROWS_l.getIcon())){
+				AuktionsInventoryHolder holder = (AuktionsInventoryHolder) event.getClickedInventory().getHolder();
+				kConfig config = holder.getConfig();
+				ItemStack[] items = config.getItemStackArray("auktionsMartk.items");
+				int page_amount = getPageNumber( event.getClickedInventory().getItem(event.getSlot()) );
+				event.getClickedInventory().clear();
+				
+				if(page_amount!=1){
+					event.getClickedInventory().setItem(InventorySplit._54.getMiddle()-1, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§e"+Zeichen.DOUBLE_ARROWS_l.getIcon()+" "+(page_amount-1)));
+				}else{
+					event.getClickedInventory().setItem(InventorySplit._54.getMiddle()-1, UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "§aZurück"));
+				}
+				
+				event.getClickedInventory().setItem(InventorySplit._54.getMiddle()+1, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§e "+(page_amount+1)+" "+Zeichen.DOUBLE_ARROWS_R.getIcon()));
+				int slot=0;
+				for(int i = (InventorySize._45.getSize())*(page_amount-1); i < (InventorySize._45.getSize())*(page_amount); i++){
+					if(items.length <= i){
+						event.getClickedInventory().setItem(InventorySplit._54.getMiddle()+1, null);
+						System.out.println("BREAK "+i+ " "+slot);
+						break;
+					}
+					event.getClickedInventory().setItem(slot, items[i]);
+					slot++;
+				}
+				
+				holder.setPage(page_amount);
+				event.setCancelled(true);
+				return;
+			}
+		}else if(event.getCurrentItem()!=null&&event.getCurrentItem().getType()==Material.SLIME_BALL 
+				&& event.getCurrentItem().hasItemMeta()
+				&& event.getCurrentItem().getItemMeta().hasDisplayName()
+				&& event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aZurück")
+				&& event.getClickedInventory().getHolder() instanceof AuktionsInventoryHolder){
+			open((Player)event.getWhoClicked());
+			event.setCancelled(true);
+			return;
+		}
+		//MOVE_TO_OTHER_INVENTORY
+		//PICKUP_ALL
+		System.out.println("MOVE "+event.getAction().toString());
+		
+		switch (event.getAction()) {
+			case HOTBAR_MOVE_AND_READD:
+			case COLLECT_TO_CURSOR:
+			case CLONE_STACK:
+			case HOTBAR_SWAP:
+			case DROP_ONE_SLOT:
+			case DROP_ALL_SLOT:
+			case DROP_ALL_CURSOR:
+			case DROP_ONE_CURSOR:
+			case NOTHING:
+			case UNKNOWN:
+				event.setCancelled(true);
+				break;
+			case PICKUP_ALL:
+			case PICKUP_HALF:
+			case PICKUP_ONE:
+			case PICKUP_SOME:
+				changeInv(event.getClickedInventory(), event.getSlot());
+				break;
+			case MOVE_TO_OTHER_INVENTORY:
+				if (!(event.getClickedInventory().getHolder() instanceof AuktionsInventoryHolder)) {
+					event.setCancelled(true);
+				}else{
+					changeInv(event.getClickedInventory(), event.getSlot());
+				}
+				break;
+			case PLACE_ALL:
+			case PLACE_ONE:
+			case PLACE_SOME:
+				//that is a xor operation, exactly one of both has to be true, the other one false
+				if (event.isShiftClick() ^ event.getClickedInventory().getHolder() instanceof AuktionsInventoryHolder) {
+					event.setCancelled(true);
+				}
+				break;
+			case SWAP_WITH_CURSOR:
+				if (event.getClickedInventory().getHolder() instanceof AuktionsInventoryHolder && (event.getCursor() != null && event.getCursor().getType() != Material.AIR)) {
+					event.setCancelled(true);
+				}
+				break;
+		}
+		if (event.isCancelled()) {
+			getPlugin().getServer().getScheduler().runTask(getPlugin(), () -> ((Player) event.getWhoClicked()).updateInventory());
+		}
+	}
+	
+	public void changeInv(Inventory inventory, int slot){
+		if(inventory.getHolder() instanceof AuktionsInventoryHolder){
+			AuktionsInventoryHolder holder = (AuktionsInventoryHolder)inventory.getHolder();
+			kConfig config = holder.getConfig();
+			ItemStack[] items = config.getItemStackArray("auktionsMartk.items");
+			System.out.println("CHANGE "+holder.getPage() +"*"+ slot+" = "+(((holder.getPage()-1)*InventorySize._45.getSize())+(slot))+"   "+items.length);
+			items[ ((holder.getPage()-1)*InventorySize._45.getSize())+(slot) ] = null;
+			config.setItemStackArray("auktionsMartk.items", items);
+		}
+	}
+	
+	public boolean openPlayerInventory(Player plr){
+		kConfig config = UtilServer.getUserData().getConfig(plr);
+		ItemStack[] items = config.getItemStackArray("auktionsMartk.items");
+		
+		if(items!=null){
+			AuktionsInventoryHolder holder = new AuktionsInventoryHolder(config);
+			Inventory inv = Bukkit.createInventory(holder, InventorySize._54.getSize(), plr.getName()+"'s Inv");
+			holder.setInventory(inv);
+			
+			for(int i = 0; i <= (items.length<=InventorySize._45.getSize()? items.length : InventorySplit._45.getMax()); i++){
+				inv.setItem(i, items[i]);
+			}
+			
+			if(items.length>InventorySize._45.getSize()){
+				inv.setItem(InventorySplit._54.getMiddle()+1, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§e "+2+" "+Zeichen.DOUBLE_ARROWS_R.getIcon()));
+			}
+			inv.setItem(InventorySplit._54.getMiddle()-1, UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "§aZurück"));
+			
+			plr.openInventory(inv);
+			return true;
+		}
+		return false;
 	}
 	
 	public void loadBackup(){
@@ -115,6 +252,7 @@ public class AuktionsMarkt {
 	public void open(Player player){
 		InventoryPageBase page = new InventoryPageBase(InventorySize._54, "");
 		InventorySplit._18.setLine(Material.STAINED_GLASS_PANE, ((byte)7), page);
+		page.addButton(1, new ButtonBase( (Player plr, ActionType type,Object object) -> openPlayerInventory(plr) , UtilItem.RenameItem(new ItemStack(Material.CHEST), "§6Deposit")));
 		page.addButton(0, new ButtonBase(new Click(){
 
 			@Override

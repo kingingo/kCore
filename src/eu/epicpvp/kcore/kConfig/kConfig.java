@@ -82,10 +82,12 @@ public class kConfig extends YamlConfiguration{
 	}
 	
 	public ItemStack[] getItemStackArray(String path){
-		try {
-			return UtilInv.itemStackArrayFromBase64(getString(path));
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(contains(path)){
+			try {
+				return UtilInv.itemStackArrayFromBase64(getString(path));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -95,10 +97,12 @@ public class kConfig extends YamlConfiguration{
 	}
 	
 	public Inventory getInventory(String path){
-		try {
-			return UtilInv.fromBase64(getString(path));
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(contains(path)){
+			try {
+				return UtilInv.fromBase64(getString(path));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

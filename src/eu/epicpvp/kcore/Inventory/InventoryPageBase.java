@@ -7,6 +7,7 @@ import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryCustom;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -39,12 +40,24 @@ public class InventoryPageBase extends CraftInventoryCustom {
 	@Setter
 	private boolean removeButtons = true;
 
+	public InventoryPageBase(InventoryHolder holder,int size, String title) {
+		this(holder,null, size, title);
+	}
+
+	public InventoryPageBase(InventoryHolder holder,InventorySize size, String title) {
+		this(holder,null, size.getSize(), title);
+	}
+
+	public InventoryPageBase(InventoryHolder holder,String inventoryType, InventorySize size, String title) {
+		this(holder,inventoryType, size.getSize(), title);
+	}
+	
 	public InventoryPageBase(int size, String title) {
-		this(null, size, title);
+		this(null,null, size, title);
 	}
 
 	public InventoryPageBase(InventorySize size, String title) {
-		this(null, size.getSize(), title);
+		this(null,null, size.getSize(), title);
 	}
 
 	public InventoryPageBase(String inventoryType, InventorySize size, String title) {
@@ -52,7 +65,11 @@ public class InventoryPageBase extends CraftInventoryCustom {
 	}
 
 	public InventoryPageBase(String inventoryType, int size, String title) {
-		super(null, InventorySize.invSize(size).getSize(), (title == null ? "Inventory" : UtilString.cut(title, 32)));
+		this(null,inventoryType,size,title);
+	}
+	
+	public InventoryPageBase(InventoryHolder holder,String inventoryType, int size, String title) {
+		super(holder, InventorySize.invSize(size).getSize(), (title == null ? "Inventory" : UtilString.cut(title, 32)));
 		this.buttons = new ArrayList<>();
 		this.inventoryType = inventoryType;
 	}
@@ -236,6 +253,8 @@ public class InventoryPageBase extends CraftInventoryCustom {
 		if (!isSlot(slot, "addButton(int,IButton)"))
 			return;
 
+		button = button.clone();
+		
 		if (button instanceof IButtonOneSlot) {
 			IButtonOneSlot b = (IButtonOneSlot) button;
 			b.setSlot(slot);

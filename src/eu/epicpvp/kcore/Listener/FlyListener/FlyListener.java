@@ -48,9 +48,9 @@ public class FlyListener extends kListener{
 	
 	@EventHandler
 	public void update(UpdateEvent ev){
-		if(ev.getType()==UpdateType.FAST){
+		if(ev.getType()==UpdateType.FASTEST){
 			for(Player player : list){
-				UtilParticle.BUBBLE.display((float)0.2,(float)0.2,(float)0.2,1, 30, player.getLocation().add(0, -1, 0), 25);
+				UtilParticle.SMOKE_LARGE.display((float)0.2,(float)0.2,(float)0.2,1, 1, player.getLocation().add(0, -1, 0), 25);
 			}
 		}
 	}

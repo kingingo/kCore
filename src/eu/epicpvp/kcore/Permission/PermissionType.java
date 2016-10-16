@@ -164,7 +164,6 @@ public enum PermissionType {
 	PERK_GET_XP("epicpvp.perk.getxp"),
 	PERK_KEEP_XP("epicpvp.perk.keepxp"),
 	PERK_ITEM_NAME("epicpvp.perk.itename"),
-	PERK_MINER("epicpvp.perk.miner"),
 	PERK_DROPPER("epicpvp.perk.dropper"),
 	PERK_HEALER("epicpvp.perk.healer"),
 	PERK_APPLE("epicpvp.perk.apple"),
