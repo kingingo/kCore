@@ -81,12 +81,14 @@ public class Lottery {
 			statsManager.set(winnerId, statsKey, statsManager.getDouble(winnerId, statsKey) + getCurrentPot());
 		}
 		//TODO send messages
+		data.clear();
 	}
 
 	public void onDisable() {
 		task.cancel();
 		task = null;
 		plugin.getConfig().set("lottery.data", data);
+		plugin.saveConfig();
 	}
 
 	public int getCurrentPot() {
@@ -114,6 +116,8 @@ public class Lottery {
 				statsManager.addDouble(player, -amount, statsKey);
 			}
 			data.put(playerId, amount);
+			plugin.getConfig().set("lottery.data", data);
+			plugin.saveConfig();
 			return true;
 		}
 	}

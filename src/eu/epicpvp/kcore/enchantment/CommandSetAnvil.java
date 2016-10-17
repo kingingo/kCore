@@ -3,15 +3,14 @@ package eu.epicpvp.kcore.enchantment;
 import java.util.List;
 import java.util.Set;
 
+import eu.epicpvp.kcore.Command.CommandHandler;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import eu.epicpvp.kcore.Command.CommandHandler;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class CommandSetAnvil implements CommandExecutor {
@@ -34,7 +33,7 @@ public class CommandSetAnvil implements CommandExecutor {
 			}
 			if (block.getType() == Material.ANVIL) {
 				AnvilEnchantHandler.getHandler().setAnvil(block.getLocation().toVector().toBlockVector());
-				sender.sendMessage("§aDer Anvil ist nun bei " + CustomEnchantmentListener.getListener().getAnvil());
+				sender.sendMessage("§aDer Anvil ist nun bei " + AnvilEnchantHandler.getHandler().getAnvil());
 				return true;
 			}
 		}
