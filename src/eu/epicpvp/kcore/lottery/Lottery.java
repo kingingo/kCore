@@ -4,6 +4,11 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
+
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
@@ -11,10 +16,6 @@ import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 public class Lottery {
 

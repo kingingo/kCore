@@ -43,7 +43,6 @@ import eu.epicpvp.kcore.Scheduler.kScheduler;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Update.UpdateType;
-import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigConvertEvent;
 import eu.epicpvp.kcore.UserDataConfig.Events.UserDataConfigLoadEvent;
 import eu.epicpvp.kcore.UserStores.Events.PlayerCreateUserStoreEvent;
 import eu.epicpvp.kcore.Util.AnvilGUI;

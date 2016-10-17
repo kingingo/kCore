@@ -8,48 +8,41 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.google.common.collect.Lists;
-
+import eu.epicpvp.datenserver.definitions.dataserver.player.LanguageType;
 import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
-import eu.epicpvp.kcore.Inventory.Inventory.InventoryCopy;
-import eu.epicpvp.kcore.Inventory.Inventory.InventoryShopBuy;
-import eu.epicpvp.kcore.Inventory.Inventory.InventoryShopSell;
 import eu.epicpvp.kcore.Inventory.Item.Click;
-import eu.epicpvp.kcore.Inventory.Item.IButton;
-import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBack;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBase;
-import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonCopy;
-import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonItemShopMove;
-import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonOpenInventory;
-import eu.epicpvp.kcore.Inventory.Item.Buttons.SalesPackageBase;
 import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
-import eu.epicpvp.kcore.Util.AnvilGUI;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.InventorySplit;
 import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
-import eu.epicpvp.kcore.deliverychest.DeliveryChestInventoryHolder;
 import eu.epicpvp.kcore.Util.UtilFile;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
-import eu.epicpvp.kcore.Util.AnvilGUI.AnvilClickEvent;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
 
 public class AuktionsMarkt extends kListener{
+	
+	static{
+		TranslationHandler.registerFallback(LanguageType.GERMAN, "markt.offer.added", "§aDas Angebot wurde hinzugefügt");
+		TranslationHandler.registerFallback(LanguageType.GERMAN, "markt.offer.closed", "§aEin Angebot wurde von dir geschlossen.");
+
+		TranslationHandler.registerFallback(LanguageType.ENGLISH, "markt.offer.closed", "§aAn offer of you was closed.");
+		TranslationHandler.registerFallback(LanguageType.ENGLISH, "markt.offer.added", "§aYou have added the offer!");
+	}
 	
 	private static AuktionsMarkt instance;
 	public final static String PATH = "Main.";
@@ -67,6 +60,7 @@ public class AuktionsMarkt extends kListener{
 		super(UtilServer.getPluginInstance(),"AuktionsMarkt");
 		AuktionsMarkt.instance=this;
 		UtilServer.getCommandHandler().register(CommandMarkt.class, new CommandMarkt());
+		UtilServer.getCommandHandler().register(CommandSell.class, new CommandSell());
 		this.config=new kConfig(UtilFile.getYMLFile(UtilServer.getPluginInstance(), "auktions_markt.yml"));
 		
 		addOffer(UtilServer.getClient().getPlayerAndLoad("kingingo").getPlayerId(), Material.STONE, ((byte)0), 4000, 1000);
@@ -102,7 +96,6 @@ public class AuktionsMarkt extends kListener{
 				for(int i = (InventorySize._45.getSize())*(page_amount-1); i < (InventorySize._45.getSize())*(page_amount); i++){
 					if(items.length <= i){
 						event.getClickedInventory().setItem(InventorySplit._54.getMiddle()+1, null);
-						System.out.println("BREAK "+i+ " "+slot);
 						break;
 					}
 					event.getClickedInventory().setItem(slot, items[i]);
@@ -122,9 +115,6 @@ public class AuktionsMarkt extends kListener{
 			event.setCancelled(true);
 			return;
 		}
-		//MOVE_TO_OTHER_INVENTORY
-		//PICKUP_ALL
-		System.out.println("MOVE "+event.getAction().toString());
 		
 		switch (event.getAction()) {
 			case HOTBAR_MOVE_AND_READD:
@@ -176,10 +166,21 @@ public class AuktionsMarkt extends kListener{
 			AuktionsInventoryHolder holder = (AuktionsInventoryHolder)inventory.getHolder();
 			kConfig config = holder.getConfig();
 			ItemStack[] items = config.getItemStackArray("auktionsMartk.items");
-			System.out.println("CHANGE "+holder.getPage() +"*"+ slot+" = "+(((holder.getPage()-1)*InventorySize._45.getSize())+(slot))+"   "+items.length);
 			items[ ((holder.getPage()-1)*InventorySize._45.getSize())+(slot) ] = null;
 			config.setItemStackArray("auktionsMartk.items", items);
 		}
+	}
+	
+	public boolean addOffer(Player plr,double price){
+		ItemStack item = plr.getItemInHand();
+		
+		if(item!=null){
+			plr.setItemInHand(null);
+			addOffer(UtilPlayer.getPlayerId(plr), item.getType(), UtilInv.GetData(item), item.getAmount(), price);
+			plr.sendMessage(TranslationHandler.getPrefixAndText(plr, "markt.offer.added"));
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean openPlayerInventory(Player plr){
@@ -360,7 +361,6 @@ public class AuktionsMarkt extends kListener{
 				for(int i = InventorySplit._27.getMin(); i <= InventorySplit._54.getMax(); i++)page.getButtons().remove(page.getButton(i));
 				
 				int slot = InventorySplit._27.getMin();
-				System.out.println("BACK->  page=["+page_amount+"] "+((InventorySplit._54.getMax()-InventorySplit._27.getMin())*(page_amount-1))+" TO "+(InventorySplit._54.getMax()-InventorySplit._27.getMin())*(page_amount));
 				for(int i = (InventorySplit._54.getMax()-InventorySplit._27.getMin())*(page_amount-1); i <= (InventorySplit._54.getMax()-InventorySplit._27.getMin())*(page_amount); i++){
 					if(offers.size() <= i){
 						break;

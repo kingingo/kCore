@@ -1,14 +1,13 @@
 package eu.epicpvp.kcore.AuktionsMarkt;
 
-import eu.epicpvp.datenclient.client.LoadedPlayer;
-import eu.epicpvp.kcore.Inventory.InventoryPageBase;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+
 import eu.epicpvp.kcore.kConfig.kConfig;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 
 @RequiredArgsConstructor
 public class AuktionsInventoryHolder implements InventoryHolder {

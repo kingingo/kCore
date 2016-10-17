@@ -2,6 +2,11 @@ package eu.epicpvp.kcore.Listener.Chat;
 
 import java.util.HashMap;
 
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+
 import eu.epicpvp.kcore.Command.Commands.CommandSuffix;
 import eu.epicpvp.kcore.Enum.Zeichen;
 import eu.epicpvp.kcore.Gilden.GildenManager;
@@ -13,10 +18,6 @@ import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.kConfig.kConfig;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener extends kListener {
 	

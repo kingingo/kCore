@@ -2,16 +2,17 @@ package eu.epicpvp.kcore.Command.Commands;
 
 import java.util.regex.Pattern;
 
-import eu.epicpvp.kcore.Command.CommandHandler.Sender;
-import eu.epicpvp.kcore.Permission.PermissionType;
-import eu.epicpvp.kcore.Translation.TranslationHandler;
-import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import eu.epicpvp.kcore.Command.CommandHandler.Sender;
+import eu.epicpvp.kcore.Permission.PermissionType;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
+import net.md_5.bungee.api.ChatColor;
 
 public class CommandSuffix implements CommandExecutor {
 	

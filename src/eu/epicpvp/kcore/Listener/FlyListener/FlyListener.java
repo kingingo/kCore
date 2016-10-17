@@ -8,14 +8,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import com.google.common.collect.Lists;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 
 import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.Particle.ParticleDisplayer;
-import eu.epicpvp.kcore.ParticleManager.Particle.Particle;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.UtilParticle;

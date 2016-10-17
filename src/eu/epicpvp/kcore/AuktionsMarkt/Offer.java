@@ -2,16 +2,16 @@ package eu.epicpvp.kcore.AuktionsMarkt;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import eu.epicpvp.kcore.Inventory.InventoryPageBase;
 import eu.epicpvp.kcore.Inventory.Item.Click;
 import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonBase;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.InventorySplit;
-import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
+import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilPlayer;
 import eu.epicpvp.kcore.Util.UtilServer;
@@ -166,7 +166,7 @@ public class Offer extends ButtonBase{
 				player.closeInventory();
 			}
 			
-			player.sendMessage(""); //TODO AUKTION OVER
+			player.sendMessage(TranslationHandler.getPrefixAndText(player, "markt.offer.closed"));
 		}
 		
 		kConfig config = UtilServer.getUserData().getConfig(UtilPlayer.getPlayerId(buyer));
@@ -199,8 +199,8 @@ public class Offer extends ButtonBase{
 					&& player.getOpenInventory().getBottomInventory().getHolder() instanceof AuktionsInventoryHolder){
 				player.closeInventory();
 			}
-			
-			player.sendMessage(""); //TODO AUKTION OVER
+
+			player.sendMessage(TranslationHandler.getPrefixAndText(player, "markt.offer.closed"));
 		}
 		
 		kConfig config = UtilServer.getUserData().getConfig(playerId);

@@ -2,11 +2,6 @@ package eu.epicpvp.kcore.deliverychest;
 
 import java.util.ArrayList;
 
-import eu.epicpvp.datenclient.client.LoadedPlayer;
-import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
-import eu.epicpvp.kcore.kConfig.kConfig;
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
@@ -24,6 +19,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockVector;
+
+import eu.epicpvp.datenclient.client.LoadedPlayer;
+import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
+import eu.epicpvp.kcore.kConfig.kConfig;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class DeliveryChestHandler implements Listener {
 

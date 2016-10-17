@@ -2,17 +2,18 @@ package eu.epicpvp.kcore.deliverychest;
 
 import javax.annotation.Nullable;
 
+import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.BlockVector;
+import org.bukkit.util.Vector;
+
 import eu.epicpvp.datenclient.client.LoadedPlayer;
 import eu.epicpvp.kcore.UserDataConfig.UserDataConfig;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
-import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.BlockVector;
-import org.bukkit.util.Vector;
 
 public class DeliveryChest {
 

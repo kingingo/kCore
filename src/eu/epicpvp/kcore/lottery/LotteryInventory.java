@@ -1,11 +1,12 @@
 package eu.epicpvp.kcore.lottery;
 
-import eu.epicpvp.kcore.Inventory.Inventory.InventoryCopy;
-import eu.epicpvp.kcore.Inventory.InventoryPageBase;
-import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonCopy;
-import eu.epicpvp.kcore.Util.UtilItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import eu.epicpvp.kcore.Inventory.InventoryPageBase;
+import eu.epicpvp.kcore.Inventory.Inventory.InventoryCopy;
+import eu.epicpvp.kcore.Inventory.Item.Buttons.ButtonCopy;
+import eu.epicpvp.kcore.Util.UtilItem;
 
 public class LotteryInventory extends InventoryCopy {
 
