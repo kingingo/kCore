@@ -33,7 +33,7 @@ public class CommandSetAnvil implements CommandExecutor {
 				continue;
 			}
 			if (block.getType() == Material.ANVIL) {
-				CustomEnchantmentListener.getListener().setAnvil(block.getLocation().toVector().toBlockVector());
+				AnvilEnchantHandler.getHandler().setAnvil(block.getLocation().toVector().toBlockVector());
 				sender.sendMessage("§aDer Anvil ist nun bei " + CustomEnchantmentListener.getListener().getAnvil());
 				return true;
 			}
