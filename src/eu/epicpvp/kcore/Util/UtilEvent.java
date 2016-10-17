@@ -6,6 +6,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import net.minecraft.server.v1_8_R3.PacketPlayInFlying.PacketPlayInPosition;

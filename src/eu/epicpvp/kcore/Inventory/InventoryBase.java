@@ -17,6 +17,7 @@ import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
 import eu.epicpvp.kcore.Util.InventorySize;
 import eu.epicpvp.kcore.Util.UtilDebug;
+import eu.epicpvp.kcore.Util.UtilEvent;
 import eu.epicpvp.kcore.Util.UtilEvent.ActionType;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilMath;
@@ -142,15 +143,14 @@ public class InventoryBase extends kListener {
 				if (trade.putItem(p, ev.getClickedInventory(), ev.getCurrentItem(), ev.getSlot()))
 					return;
 			}
-
-			if (ClickType.LEFT == ev.getClick()) {
-				ev.setCancelled(page.useButton(p, ActionType.LEFT, ev.getCurrentItem(), ev.getSlot()));
-			} else if (ClickType.RIGHT == ev.getClick()) {
-				ev.setCancelled(page.useButton(p, ActionType.RIGHT, ev.getCurrentItem(), ev.getSlot()));
-			} else if (ClickType.SHIFT_LEFT == ev.getClick()) {
-				ev.setCancelled(page.useButton(p, ActionType.SHIFT_LEFT, ev.getCurrentItem(), ev.getSlot()));
-			} else if (ClickType.SHIFT_RIGHT == ev.getClick()) {
-				ev.setCancelled(page.useButton(p, ActionType.SHIFT_RIGHT, ev.getCurrentItem(), ev.getSlot()));
+			
+			switch(ev.getClick()){
+			case LEFT:
+			case RIGHT:
+			case SHIFT_LEFT:
+			case SHIFT_RIGHT:
+				ev.setCancelled(page.useButton(p, UtilEvent.getActionType(ev.getClick()), ev.getCurrentItem(), ev.getSlot()));
+				break;
 			}
 		}
 	}

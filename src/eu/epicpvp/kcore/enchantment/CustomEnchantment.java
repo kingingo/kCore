@@ -3,12 +3,14 @@ package eu.epicpvp.kcore.enchantment;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.google.common.collect.Lists;
 
+import eu.epicpvp.kcore.Util.UtilItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -34,7 +36,11 @@ public class CustomEnchantment {
 		return false;
 	}
 	
-	public void addEnchantment(ItemStack item, int lvl){
+	public ItemStack toBook(){
+		return UtilItem.addEnchantmentGlow(UtilItem.setLore(new ItemStack(Material.ENCHANTED_BOOK), new String[]{"§7"+enchantment}));
+	}
+	
+	public void addEnchantment(ItemStack item){
 		if(item.hasItemMeta()){
 			ItemMeta im = item.getItemMeta();
 			
@@ -45,7 +51,7 @@ public class CustomEnchantment {
 				lore = lore.stream().filter( e -> !e.contains(enchantment) ).collect( Collectors.toList() );
 			}
 			
-			lore.add("§7"+enchantment+" "+lvl);
+			lore.add("§7"+enchantment);
 		}
 	}
 	
