@@ -14,6 +14,11 @@ public class LifestealEnchantmentListener extends DirectAttackEnchantmentListene
 	}
 
 	@Override
+	protected ItemStack checkForEnchantment(Player player) {
+		return player.getItemInHand();
+	}
+
+	@Override
 	protected void onDirectAttack(Player damager, Entity hurt, int level) {
 		double diff = damager.getMaxHealth() - damager.getHealth();
 		if (diff <= 0) {
