@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
@@ -134,15 +135,15 @@ public class UtilFile {
 	}
 
 	public static void copyFile(File file, File ziel) throws FileNotFoundException, IOException {
-
-		BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(ziel, true));
-		int bytes = 0;
-		while ((bytes = in.read()) != -1) { // Datei einlesen
-			out.write(bytes); // Datei schreiben
-		}
-		in.close();
-		out.close();
+//		BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+//		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(ziel, true));
+//		int bytes = 0;
+//		while ((bytes = in.read()) != -1) { // Datei einlesen
+//			out.write(bytes); // Datei schreiben
+//		}
+//		in.close();
+//		out.close();
+		Files.copy(file.toPath(), ziel.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	public static boolean existPath(File path) {
