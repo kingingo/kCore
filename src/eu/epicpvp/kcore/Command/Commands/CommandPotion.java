@@ -78,7 +78,7 @@ public class CommandPotion implements CommandExecutor{
 					for(Group g : manager.getPermissionPlayer(player).getGroups()){
 						for(Permission perm : g.getPermissions()){
 							if(perm.getPermission().contains(PermissionType.POTION_AMOUNT.getPermissionToString()+".")){
-								a = Integer.valueOf(perm.getPermission().substring((PermissionType.POTION_AMOUNT.getPermissionToString()+".").length(), perm.getPermission().length() ));
+								a = Integer.valueOf(perm.getPermission().replaceAll(PermissionType.POTION_AMOUNT.getPermissionToString()+".", ""));
 								break;
 							}
 						}
@@ -87,7 +87,7 @@ public class CommandPotion implements CommandExecutor{
 					if(a==1){
 						for(Permission perm : manager.getPermissionPlayer(player).getPermissions()){
 							if(perm.getPermission().contains(PermissionType.POTION_AMOUNT.getPermissionToString()+".")){
-								a = Integer.valueOf(perm.getPermission().substring((PermissionType.POTION_AMOUNT.getPermissionToString()+".").length(), perm.getPermission().length() ));
+								a = Integer.valueOf(perm.getPermission().replaceAll(PermissionType.POTION_AMOUNT.getPermissionToString()+".", ""));
 								break;
 							}
 						}
@@ -97,7 +97,15 @@ public class CommandPotion implements CommandExecutor{
 					if( l !=0 ){
 						UtilTime.getTimeManager().add(cmd.getName(), player, l);
 					}
-					player.getInventory().addItem( this.types.get(mob).toItemStack(a) );
+					
+					if(a > 64){
+						for(int i = 0; i < (a/64); i++)
+							player.getInventory().addItem( this.types.get(mob).toItemStack(64) );
+						
+						if((a%64)!=0)player.getInventory().addItem( this.types.get(mob).toItemStack( (a%64) ) );
+					}else{
+						player.getInventory().addItem( this.types.get(mob).toItemStack(a) );
+					}
 					player.sendMessage(TranslationHandler.getText(player, "PREFIX")+TranslationHandler.getText(player, "POTION_GOT"));
 				}
 			}
