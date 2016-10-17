@@ -63,8 +63,6 @@ public class AuktionsMarkt extends kListener{
 		UtilServer.getCommandHandler().register(CommandSell.class, new CommandSell());
 		this.config=new kConfig(UtilFile.getYMLFile(UtilServer.getPluginInstance(), "auktions_markt.yml"));
 		
-		addOffer(UtilServer.getClient().getPlayerAndLoad("kingingo").getPlayerId(), Material.STONE, ((byte)0), 4000, 1000);
-		
 		loadBackup();
 	}
 	
