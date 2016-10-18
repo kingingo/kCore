@@ -82,10 +82,14 @@ public class AnvilEnchantHandler extends kListener {
 							if (book.getType() == Material.ENCHANTED_BOOK) {
 								CustomEnchantment ce = CustomEnchantment.byBook(book);
 								
-								ce.addEnchantment(tool, ce.getLevel(book));
-								event.getClickedInventory().setItem(InventorySplit._18.getMiddle() - 2,tool);
-								event.getClickedInventory().setItem(InventorySplit._18.getMiddle() + 2,null);
-								getPlugin().getServer().getScheduler().runTask(getPlugin(), () -> ((Player) event.getWhoClicked()).updateInventory());
+								if(ce != null){
+									ce.addEnchantment(tool, ce.getLevel(book));
+									event.getClickedInventory().setItem(InventorySplit._18.getMiddle() - 2,tool);
+									event.getClickedInventory().setItem(InventorySplit._18.getMiddle() + 2,null);
+									getPlugin().getServer().getScheduler().runTask(getPlugin(), () -> ((Player) event.getWhoClicked()).updateInventory());
+								}else{
+									System.out.println("CE == null");
+								}
 							}
 						}
 					}

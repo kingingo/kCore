@@ -59,8 +59,10 @@ public class CustomEnchantment {
 		}
 		List<String> lore = meta.getLore();
 		for (CustomEnchantment ce : customEnchantments) {
-			if (lore.contains(ce.getAddedLorePart())) {
-				return ce;
+			for(String line : lore){
+				if(line.contains(ce.getAddedLorePart())){
+					return ce;
+				}
 			}
 		}
 		return null;
@@ -99,8 +101,10 @@ public class CustomEnchantment {
 
 	public boolean contains(ItemStack item) {
 		if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
-			if (item.getItemMeta().getLore().contains(getAddedLorePart())) {
-				return true;
+			for(String line : item.getItemMeta().getLore()){
+				if(line.contains(getAddedLorePart())){
+					return true;
+				}
 			}
 		}
 		return false;
