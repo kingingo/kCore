@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import eu.epicpvp.kcore.Util.UtilItem;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.EqualsAndHashCode;
@@ -17,7 +21,11 @@ import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -28,6 +36,7 @@ public class CustomEnchantment {
 
 	@Getter
 	private static final Set<CustomEnchantment> customEnchantments = new HashSet<>();
+	private final Cache<UUID, Boolean> cooldowns;
 	private final String name;
 	private final EnchantmentListener listener;
 	private long cooldown = 0;
@@ -36,6 +45,18 @@ public class CustomEnchantment {
 	private static void register(CustomEnchantment customEnchantment) {
 		if (customEnchantments.add(customEnchantment)) {
 			Bukkit.getPluginManager().registerEvents(customEnchantment.getListener(), UtilServer.getPluginInstance());
+			Bukkit.getPluginManager().registerEvents(new Listener() {
+
+				@EventHandler
+				public void onQuit(PlayerQuitEvent event) {
+					customEnchantment.cooldowns.invalidate(event.getPlayer().getUniqueId());
+				}
+
+				@EventHandler
+				public void onKick(PlayerKickEvent event) {
+					customEnchantment.cooldowns.invalidate(event.getPlayer().getUniqueId());
+				}
+			}, UtilServer.getPluginInstance());
 		} else {
 			throw new IllegalStateException("Double-registering an enchantment");
 		}
@@ -82,20 +103,31 @@ public class CustomEnchantment {
 		return new ArrayList<>(customEnchantments);
 	}
 
-	public CustomEnchantment(String enchantmentLore, EnchantmentListener listener){
-		this(enchantmentLore,0,listener);
+	public CustomEnchantment(String enchantmentLore, EnchantmentListener listener) {
+		this(enchantmentLore, 0, listener);
 	}
-	
-	public CustomEnchantment(String enchantmentLore, long cooldown, EnchantmentListener listener) {
+
+	public CustomEnchantment(String enchantmentLore, long cooldownMs, EnchantmentListener listener) {
 		this.name = enchantmentLore;
 		this.listener = listener;
-		this.cooldown=cooldown;
+		this.cooldown = cooldownMs;
+		if (cooldownMs != 0) {
+			cooldowns = CacheBuilder.newBuilder().expireAfterWrite(cooldownMs, TimeUnit.MILLISECONDS).build();
+		} else {
+			cooldowns = null;
+		}
 		register(this);
 	}
-	
-	public boolean hasCooldown(Player plr){
-		if(cooldown!=0)return false;
-		
+
+	public boolean hasCooldown(Player plr) {
+		if (cooldown == 0) {
+			return false;
+		}
+		if (cooldowns.getIfPresent(plr.getUniqueId()) != null) {
+			return true;
+		}
+		cooldowns.put(plr.getUniqueId(), Boolean.TRUE);
+
 		return true; //TODO ADD COOLDOWN!
 	}
 
