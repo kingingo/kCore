@@ -26,6 +26,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 @EqualsAndHashCode(of = "name")
 public class CustomEnchantment {
 
+	@Getter
 	private static final Set<CustomEnchantment> customEnchantments = new HashSet<>();
 	private final String name;
 	private final EnchantmentListener listener;

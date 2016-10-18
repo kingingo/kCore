@@ -35,6 +35,7 @@ public class AnvilEnchantHandler extends kListener {
 		if (getPlugin().getConfig().contains("anvilenchanthandler.anvil"))
 			this.anvil = getPlugin().getConfig().getVector("anvilenchanthandler.anvil").toBlockVector();
 		UtilServer.getCommandHandler().register(CommandSetAnvil.class, new CommandSetAnvil());
+		UtilServer.getCommandHandler().register(CommandEnchantments.class, new CommandEnchantments());
 	}
 
 	public void setAnvil(BlockVector block) {
