@@ -116,6 +116,8 @@ public class CustomEnchantment {
 		} else {
 			cooldowns = null;
 		}
+		
+		listener.setCustomEnchantment(this);
 		register(this);
 	}
 
