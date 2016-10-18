@@ -1,4 +1,4 @@
-package eu.epicpvp.kcore.enchantment;
+package eu.epicpvp.kcore.enchantment.enchantments;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,14 +15,15 @@ public abstract class DirectAttackEnchantmentListener extends SimpleEnchantmentL
 		if (event.getDamager() instanceof Player) {
 			Player damager = (Player) event.getDamager();
 			ItemStack hand = checkForEnchantment(damager);
-			if (doesFit(hand)) {
+			if (hand != null && !getEnchantment().hasCooldown(damager) && doesFit(hand)) {
 				onDirectAttack(damager, event.getEntity(), getEnchantment().getLevel(hand));
 			}
 		}
+		
 		if (event.getEntity() instanceof Player) {
 			Player hurt = (Player) event.getEntity();
 			ItemStack hand = checkForEnchantment(hurt);
-			if (doesFit(hand)) {
+			if (hand != null && !getEnchantment().hasCooldown(hurt) && doesFit(hand)) {
 				onDirectAttacked(event.getDamager(), hurt, getEnchantment().getLevel(hand));
 			}
 		}

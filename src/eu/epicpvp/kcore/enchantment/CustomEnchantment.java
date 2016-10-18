@@ -16,6 +16,7 @@ import lombok.SneakyThrows;
 import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,6 +29,7 @@ public class CustomEnchantment {
 	private static final Set<CustomEnchantment> customEnchantments = new HashSet<>();
 	private final String name;
 	private final EnchantmentListener listener;
+	private long cooldown = 0;
 
 	@SneakyThrows(IllegalStateException.class)
 	private static void register(CustomEnchantment customEnchantment) {
@@ -77,10 +79,21 @@ public class CustomEnchantment {
 		return new ArrayList<>(customEnchantments);
 	}
 
-	public CustomEnchantment(String enchantmentLore, EnchantmentListener listener) {
+	public CustomEnchantment(String enchantmentLore, EnchantmentListener listener){
+		this(enchantmentLore,0,listener);
+	}
+	
+	public CustomEnchantment(String enchantmentLore, long cooldown, EnchantmentListener listener) {
 		this.name = enchantmentLore;
 		this.listener = listener;
+		this.cooldown=cooldown;
 		register(this);
+	}
+	
+	public boolean hasCooldown(Player plr){
+		if(cooldown!=0)return false;
+		
+		return true; //TODO ADD COOLDOWN!
 	}
 
 	public boolean contains(ItemStack item) {

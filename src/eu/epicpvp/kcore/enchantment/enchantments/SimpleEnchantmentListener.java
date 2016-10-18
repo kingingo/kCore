@@ -1,5 +1,7 @@
-package eu.epicpvp.kcore.enchantment;
+package eu.epicpvp.kcore.enchantment.enchantments;
 
+import eu.epicpvp.kcore.enchantment.CustomEnchantment;
+import eu.epicpvp.kcore.enchantment.EnchantmentListener;
 import lombok.Getter;
 
 public abstract class SimpleEnchantmentListener implements EnchantmentListener {

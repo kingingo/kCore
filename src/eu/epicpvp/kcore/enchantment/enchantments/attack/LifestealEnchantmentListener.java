@@ -1,7 +1,8 @@
-package eu.epicpvp.kcore.enchantment.enchantments;
+package eu.epicpvp.kcore.enchantment.enchantments.attack;
 
 import eu.epicpvp.kcore.Util.UtilItem;
-import eu.epicpvp.kcore.enchantment.DirectAttackEnchantmentListener;
+import eu.epicpvp.kcore.enchantment.enchantments.DirectAttackEnchantmentListener;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +11,7 @@ public class LifestealEnchantmentListener extends DirectAttackEnchantmentListene
 
 	@Override
 	public boolean doesFit(ItemStack item) {
-		return UtilItem.isSword(item);
+		return UtilItem.isSword(item) ^ UtilItem.isAxt(item);
 	}
 
 	@Override
