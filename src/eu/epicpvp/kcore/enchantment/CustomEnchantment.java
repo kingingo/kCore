@@ -107,7 +107,7 @@ public class CustomEnchantment {
 	}
 
 	public ItemStack toBook(int lvl) {
-		return UtilItem.addEnchantmentGlow(UtilItem.setLore(new ItemStack(Material.ENCHANTED_BOOK), new String[]{getAddedLorePart() + lvl}));
+		return UtilItem.addEnchantmentGlow(UtilItem.setLore(new ItemStack(Material.ENCHANTED_BOOK), new String[]{getAddedLorePart() + getRomanNumber(lvl)}));
 	}
 
 	public int getLevel(ItemStack item) {
