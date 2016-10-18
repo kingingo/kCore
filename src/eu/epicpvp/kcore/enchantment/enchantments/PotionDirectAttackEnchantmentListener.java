@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.enchantment.enchantments;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -27,7 +28,7 @@ public class PotionDirectAttackEnchantmentListener extends DirectAttackEnchantme
 	}
 	
 	@Override
-	protected void onDirectAttack(Player damager, Entity hurt, int level) {
+	protected boolean onDirectAttack(Player damager, Entity hurt, int level,DamageCause cause) {
 		if(hurt instanceof Player){
 			Player victim = (Player)hurt;
 			
@@ -35,5 +36,6 @@ public class PotionDirectAttackEnchantmentListener extends DirectAttackEnchantme
 				UtilPlayer.addPotionEffect(victim, type, sec, potion_lvl);
 			}
 		}
+		return false;
 	}
 }

@@ -5,6 +5,7 @@ import eu.epicpvp.kcore.enchantment.enchantments.DirectAttackEnchantmentListener
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 
 public class LifestealEnchantmentListener extends DirectAttackEnchantmentListener {
@@ -20,15 +21,16 @@ public class LifestealEnchantmentListener extends DirectAttackEnchantmentListene
 	}
 
 	@Override
-	protected void onDirectAttack(Player damager, Entity hurt, int level) {
+	protected boolean onDirectAttack(Player damager, Entity hurt, int level,DamageCause cause) {
 		double diff = damager.getMaxHealth() - damager.getHealth();
 		if (diff <= 0) {
-			return;
+			return false;
 		}
 		if (diff <= level) {
 			damager.setHealth(damager.getMaxHealth());
-			return;
+			return false;
 		}
 		damager.setHealth(damager.getHealth() + level);
+		return false;
 	}
 }
