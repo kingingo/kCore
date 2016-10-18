@@ -84,7 +84,7 @@ public class AnvilEnchantHandler extends kListener {
 								
 								if(ce != null){
 									ce.addEnchantment(tool, ce.getLevel(book));
-									event.getClickedInventory().setItem(InventorySplit._18.getMiddle() - 2,tool);
+									event.getClickedInventory().setItem(InventorySplit._18.getMiddle() - 2,UtilItem.addEnchantmentGlow(tool));
 									event.getClickedInventory().setItem(InventorySplit._18.getMiddle() + 2,null);
 									getPlugin().getServer().getScheduler().runTask(getPlugin(), () -> ((Player) event.getWhoClicked()).updateInventory());
 								}else{

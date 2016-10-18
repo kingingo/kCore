@@ -17,7 +17,7 @@ public abstract class DirectAttackEnchantmentListener extends SimpleEnchantmentL
 		if (event.getDamager() instanceof Player) {
 			Player damager = (Player) event.getDamager();
 			ItemStack hand = checkForEnchantment(damager);
-			if (hand != null && !getEnchantment().hasCooldown(damager) && doesFit(hand)) {
+			if (hand != null && getEnchantment().contains(hand) && !getEnchantment().hasCooldown(damager) && doesFit(hand)) {
 				event.setCancelled(onDirectAttack(damager, event.getEntity(), getEnchantment().getLevel(hand),event.getCause()));
 			}
 		}
@@ -25,7 +25,7 @@ public abstract class DirectAttackEnchantmentListener extends SimpleEnchantmentL
 		if (event.getEntity() instanceof Player) {
 			Player hurt = (Player) event.getEntity();
 			ItemStack hand = checkForEnchantment(hurt);
-			if (hand != null && !getEnchantment().hasCooldown(hurt) && doesFit(hand)) {
+			if (hand != null && getEnchantment().contains(hand) && !getEnchantment().hasCooldown(hurt) && doesFit(hand)) {
 				event.setCancelled(onDirectAttacked(event.getDamager(), hurt, getEnchantment().getLevel(hand),event.getCause()));
 			}
 		}

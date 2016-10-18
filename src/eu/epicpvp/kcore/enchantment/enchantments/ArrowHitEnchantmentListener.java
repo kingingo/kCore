@@ -19,7 +19,7 @@ public abstract class ArrowHitEnchantmentListener extends SimpleEnchantmentListe
 				Player damager = (Player)arrow.getShooter();
 				ItemStack hand = checkForEnchantment(damager);
 
-				if (hand != null && !getEnchantment().hasCooldown(damager) && doesFit(hand)) {
+				if (hand != null && getEnchantment().contains(hand) && !getEnchantment().hasCooldown(damager) && doesFit(hand)) {
 					onDirectAttack(damager, event.getEntity(), arrow, getEnchantment().getLevel(hand));
 				}
 			}

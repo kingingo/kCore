@@ -17,7 +17,7 @@ public abstract class ShootBowEnchantmentListener extends SimpleEnchantmentListe
 		if(event.getEntity() instanceof Player){
 			Player shooter = (Player)event.getEntity();
 			
-			if(!getEnchantment().hasCooldown(shooter) && doesFit(event.getBow())){
+			if( getEnchantment().contains(event.getBow()) && !getEnchantment().hasCooldown(shooter) && doesFit(event.getBow())){
 				event.setCancelled( onDirectAttack(shooter, event.getProjectile(), getEnchantment().getLevel(event.getBow())) );
 			}
 		}

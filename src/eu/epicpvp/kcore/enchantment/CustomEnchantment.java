@@ -189,7 +189,6 @@ public class CustomEnchantment {
 		lore.add(getAddedLorePart() + getRomanNumber(lvl));
 		meta.setLore(lore);
 		item.setItemMeta(meta);
-		UtilItem.addEnchantmentGlow(item);
 	}
 
 	public static String getRomanNumber(int i) {
