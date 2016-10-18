@@ -182,8 +182,8 @@ public class CustomEnchantment {
 			lore = new ArrayList<>();
 		}
 
-		if (lore.contains(name)) {
-			lore = lore.stream().filter(e -> !e.contains(name)).collect(Collectors.toList());
+		if (contains(item)) {
+			lore = lore.stream().filter(e -> !e.contains(getAddedLorePart())).collect(Collectors.toList());
 		}
 
 		lore.add(getAddedLorePart() + getRomanNumber(lvl));
