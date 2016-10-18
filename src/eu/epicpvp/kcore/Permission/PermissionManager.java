@@ -235,7 +235,7 @@ public class PermissionManager {
 		String name = player.getName();
 		PermissionPlayer pplayer = getPermissionPlayer(player);
 		if(pplayer == null){
-			Bukkit.getConsoleSender().sendMessage("§cPermission player for "+player.getName()+" is empty!");
+			Bukkit.getConsoleSender().sendMessage("§cPermission player for "+player.getName()+" is empty! {getTabGroup}");
 			return "000"+name;
 		}
 		Group group = getDisplayedGroup(player);
@@ -252,7 +252,7 @@ public class PermissionManager {
 		String name = player.getName();
 		PermissionPlayer pplayer = getPermissionPlayer(player);
 		if(pplayer == null){
-			Bukkit.getConsoleSender().sendMessage("§cPermission player for "+player.getName()+" is empty!");
+			Bukkit.getConsoleSender().sendMessage("§cPermission player for "+player.getName()+" is empty! {getDisplayedGroup}");
 			return null;
 		}
 		LoadedPlayer lplayer = UtilServer.getClient().getPlayerAndLoad(name);
