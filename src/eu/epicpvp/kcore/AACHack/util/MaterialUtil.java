@@ -15,7 +15,6 @@ public class MaterialUtil {
 		}
 		switch (mat) {
 			case AIR:
-			case GRASS:
 			case LONG_GRASS:
 			case BANNER:
 			case STANDING_BANNER:
