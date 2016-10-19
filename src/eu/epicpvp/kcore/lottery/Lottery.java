@@ -47,11 +47,16 @@ public class Lottery {
 		lotteryInventory = new LotteryInventory(this);
 		UtilInv.getBase().addPage( lotteryInventory );
 
-		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::drawWinner, 2 * 60 * 60 * 20, 2 * 60 * 60 * 20);
+//		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::drawWinner, 2 * 60 * 60 * 20, 2 * 60 * 60 * 20);
+		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::drawWinner, 60 * 20, 60 * 20);
 	}
 
 	private void drawWinner() {
 		Map<Integer, Integer> map = new HashMap<>();
+		if (data.isEmpty()) {
+			Bukkit.broadcastMessage("§cEs hat niemand an der Lotterie teilgenommen.");
+			return;
+		}
 		data.forEach((playerId, value) -> {
 			map.put(playerId, value);
 		});
@@ -70,16 +75,20 @@ public class Lottery {
 			pos += entry.getValue();
 		}
 		if (winnerId == -1) {
-			Bukkit.broadcastMessage("§c§lFehler bei der Auslosung des Lotteriesystems. Schalte ab...");
+			Bukkit.broadcastMessage("§c§lFehler bei der Auslosung des Lotteriesystems. Mache gar nichts.");
+			System.err.println("Fehler bei der Auslosung des Lotteriesystems. Mache gar nichts.");
 			System.out.println("data = " + data);
 			System.out.println("map = " + map);
+			return;
 		}
 		StatsManager statsManager = StatsManagerRepository.getStatsManager(gameType);
+		int currentPot = getCurrentPot();
 		if (statsKey.getType() == int.class) {
-			statsManager.set(winnerId, statsKey, statsManager.getInt(winnerId, statsKey) + getCurrentPot());
+			statsManager.set(winnerId, statsKey, statsManager.getInt(winnerId, statsKey) + currentPot);
 		} else {
-			statsManager.set(winnerId, statsKey, statsManager.getDouble(winnerId, statsKey) + getCurrentPot());
+			statsManager.set(winnerId, statsKey, statsManager.getDouble(winnerId, statsKey) + currentPot);
 		}
+		Bukkit.broadcastMessage("§aDer Spieler §6" + UtilServer.getClient().getPlayerAndLoad(winnerId).getName() + "§a hat die Lotterie gewonnen und §6" + currentPot + " Epic's §abekommen.");
 		//TODO send messages
 		data.clear();
 	}
