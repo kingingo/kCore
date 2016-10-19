@@ -46,6 +46,7 @@ public class Lottery {
 		}
 		lotteryInventory = new LotteryInventory(this);
 		UtilInv.getBase().addPage( lotteryInventory );
+		UtilServer.getCommandHandler().register(CommandLottery.class, new CommandLottery(this));
 
 //		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::drawWinner, 2 * 60 * 60 * 20, 2 * 60 * 60 * 20);
 		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::drawWinner, 60 * 20, 60 * 20);
