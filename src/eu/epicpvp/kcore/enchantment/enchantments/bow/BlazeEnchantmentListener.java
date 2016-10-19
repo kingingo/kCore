@@ -1,18 +1,17 @@
 package eu.epicpvp.kcore.enchantment.enchantments.bow;
 
+import eu.epicpvp.kcore.enchantment.enchantments.ShootBowEnchantmentListener;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.SmallFireball;
 import org.bukkit.inventory.ItemStack;
 
-import eu.epicpvp.kcore.enchantment.enchantments.ShootBowEnchantmentListener;
-
-public class BlazeEnchantmentListener extends ShootBowEnchantmentListener{
+public class BlazeEnchantmentListener extends ShootBowEnchantmentListener {
 
 	@Override
 	public boolean doesFit(ItemStack item) {
-		return item.getType()==Material.BOW;
+		return item.getType() == Material.BOW;
 	}
 
 	@Override
@@ -21,7 +20,7 @@ public class BlazeEnchantmentListener extends ShootBowEnchantmentListener{
 	}
 
 	protected boolean onDirectAttack(Player shooter, Entity projectile, int level) {
-		shooter.launchProjectile( SmallFireball.class );
+		shooter.launchProjectile(SmallFireball.class);
 		return true;
 	}
 }

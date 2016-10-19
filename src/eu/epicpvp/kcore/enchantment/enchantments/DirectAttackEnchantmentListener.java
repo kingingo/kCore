@@ -1,6 +1,5 @@
 package eu.epicpvp.kcore.enchantment.enchantments;
 
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,24 +17,24 @@ public abstract class DirectAttackEnchantmentListener extends SimpleEnchantmentL
 			Player damager = (Player) event.getDamager();
 			ItemStack hand = checkForEnchantment(damager);
 			if (hand != null && getEnchantment().contains(hand) && !getEnchantment().hasCooldown(damager) && doesFit(hand)) {
-				event.setCancelled(onDirectAttack(damager, event.getEntity(), getEnchantment().getLevel(hand),event.getCause()));
+				event.setCancelled(event.isCancelled() || onAttack(damager, event.getEntity(), getEnchantment().getLevel(hand), event.getCause()));
 			}
 		}
-		
+
 		if (event.getEntity() instanceof Player) {
 			Player hurt = (Player) event.getEntity();
-			ItemStack hand = checkForEnchantment(hurt);
-			if (hand != null && getEnchantment().contains(hand) && !getEnchantment().hasCooldown(hurt) && doesFit(hand)) {
-				event.setCancelled(onDirectAttacked(event.getDamager(), hurt, getEnchantment().getLevel(hand),event.getCause()));
+			ItemStack item = checkForEnchantment(hurt);
+			if (item != null && getEnchantment().contains(item) && !getEnchantment().hasCooldown(hurt) && doesFit(item)) {
+				event.setCancelled(event.isCancelled() || onBeingAttacked(event.getDamager(), hurt, getEnchantment().getLevel(item), event.getCause()));
 			}
 		}
 	}
 
-	protected boolean onDirectAttack(Player damager, Entity hurt, int level,DamageCause cause) {
+	protected boolean onAttack(Player damager, Entity hurt, int level, DamageCause cause) {
 		return false;
 	}
 
-	protected boolean onDirectAttacked(Entity damager, Player hurt, int level,DamageCause cause) {
+	protected boolean onBeingAttacked(Entity damager, Player hurt, int level, DamageCause cause) {
 		return false;
 	}
 }

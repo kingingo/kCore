@@ -1,11 +1,10 @@
 package eu.epicpvp.kcore.enchantment.enchantments;
 
+import eu.epicpvp.kcore.Util.UtilItem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import eu.epicpvp.kcore.Util.UtilItem;
-
-public class ArmorAttackEnchantmentListener extends DirectAttackEnchantmentListener{
+public class ArmorAttackEnchantmentListener extends DirectAttackEnchantmentListener {
 
 	@Override
 	public boolean doesFit(ItemStack item) {
@@ -16,29 +15,29 @@ public class ArmorAttackEnchantmentListener extends DirectAttackEnchantmentListe
 	protected ItemStack checkForEnchantment(Player player) {
 		return checkForEnchantment(player, 0);
 	}
-	
+
 	public ItemStack checkForEnchantment(Player player, int i) {
 		ItemStack item;
-		switch(i){
-		case 0:
-			item = player.getInventory().getHelmet();
-			break;
-		case 1:
-			item = player.getInventory().getChestplate();
-			break;
-		case 2:
-			item = player.getInventory().getLeggings();
-			break;
-		case 3:
-			item = player.getInventory().getBoots();
-			break;
-		default:
-			return null;
+		switch (i) {
+			case 0:
+				item = player.getInventory().getHelmet();
+				break;
+			case 1:
+				item = player.getInventory().getChestplate();
+				break;
+			case 2:
+				item = player.getInventory().getLeggings();
+				break;
+			case 3:
+				item = player.getInventory().getBoots();
+				break;
+			default:
+				return null;
 		}
-		
-		if(item!=null&&doesFit(item)&&getEnchantment().contains(item)){
+
+		if (item != null && doesFit(item) && getEnchantment().contains(item)) {
 			return item;
-		}else{
+		} else {
 			i++;
 			return checkForEnchantment(player, i);
 		}

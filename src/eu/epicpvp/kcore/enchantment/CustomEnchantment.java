@@ -16,6 +16,7 @@ import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.ToString;
 import org.bukkit.Bukkit;
@@ -39,24 +40,27 @@ public class CustomEnchantment {
 	private final Cache<UUID, Boolean> cooldowns;
 	private final String name;
 	private final EnchantmentListener listener;
+	@Setter
 	private long cooldown = 0;
 
 	@SneakyThrows(IllegalStateException.class)
 	private static void register(CustomEnchantment customEnchantment) {
 		if (customEnchantments.add(customEnchantment)) {
 			Bukkit.getPluginManager().registerEvents(customEnchantment.getListener(), UtilServer.getPluginInstance());
-			Bukkit.getPluginManager().registerEvents(new Listener() {
+			if (customEnchantment.cooldown != 0) {
+				Bukkit.getPluginManager().registerEvents(new Listener() {
 
-				@EventHandler
-				public void onQuit(PlayerQuitEvent event) {
-					customEnchantment.cooldowns.invalidate(event.getPlayer().getUniqueId());
-				}
+					@EventHandler
+					public void onQuit(PlayerQuitEvent event) {
+						customEnchantment.cooldowns.invalidate(event.getPlayer().getUniqueId());
+					}
 
-				@EventHandler
-				public void onKick(PlayerKickEvent event) {
-					customEnchantment.cooldowns.invalidate(event.getPlayer().getUniqueId());
-				}
-			}, UtilServer.getPluginInstance());
+					@EventHandler
+					public void onKick(PlayerKickEvent event) {
+						customEnchantment.cooldowns.invalidate(event.getPlayer().getUniqueId());
+					}
+				}, UtilServer.getPluginInstance());
+			}
 		} else {
 			throw new IllegalStateException("Double-registering an enchantment");
 		}
@@ -80,8 +84,8 @@ public class CustomEnchantment {
 		}
 		List<String> lore = meta.getLore();
 		for (CustomEnchantment ce : customEnchantments) {
-			for(String line : lore){
-				if(line.contains(ce.getAddedLorePart())){
+			for (String line : lore) {
+				if (line.contains(ce.getAddedLorePart())) {
 					return ce;
 				}
 			}
@@ -116,7 +120,7 @@ public class CustomEnchantment {
 		} else {
 			cooldowns = null;
 		}
-		
+
 		listener.setCustomEnchantment(this);
 		register(this);
 	}
@@ -133,10 +137,14 @@ public class CustomEnchantment {
 		return true; //TODO ADD COOLDOWN!
 	}
 
+	public void setCooldown(long amount, TimeUnit timeUnit) {
+		setCooldown(timeUnit.toMillis(amount));
+	}
+
 	public boolean contains(ItemStack item) {
 		if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
-			for(String line : item.getItemMeta().getLore()){
-				if(line.contains(getAddedLorePart())){
+			for (String line : item.getItemMeta().getLore()) {
+				if (line.contains(getAddedLorePart())) {
 					return true;
 				}
 			}
