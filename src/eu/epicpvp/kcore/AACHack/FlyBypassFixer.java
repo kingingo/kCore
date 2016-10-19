@@ -33,10 +33,11 @@ import eu.epicpvp.kcore.Util.UtilServer;
 import me.konsolas.aac.api.AACAPI;
 import me.konsolas.aac.api.AACAPIProvider;
 import me.konsolas.aac.api.HackType;
+import org.bukkit.util.Vector;
 
 class FlyBypassFixer extends PacketAdapter implements Listener {
 
-	private Cache<UUID, Boolean> doNotFlagShort = CacheBuilder.newBuilder()
+	private Cache<UUID, Vector> doNotFlagShort = CacheBuilder.newBuilder()
 			.expireAfterWrite(250, TimeUnit.MILLISECONDS)
 			.build();
 
@@ -108,6 +109,21 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 			return;
 		}
 		//@formatter:on
+		Location noFlagLocation = doNotFlagJoinTeleportDeath.getIfPresent(plr.getUniqueId());
+		Vector doNotFlagShortPresent = doNotFlagShort.getIfPresent(plr.getUniqueId());
+		if (noFlagLocation == null && doNotFlagShortPresent != null) {
+			doubles.write(0, doNotFlagShortPresent.getX());
+			doubles.write(1, doNotFlagShortPresent.getY() - .97);
+			doubles.write(2, doNotFlagShortPresent.getZ());
+			WrapperPlayServerEntityTeleport teleport = new WrapperPlayServerEntityTeleport();
+			teleport.setEntityID(plr.getEntityId());
+			teleport.setX(doNotFlagShortPresent.getX());
+			teleport.setY(doNotFlagShortPresent.getY() - .97);
+			teleport.setZ(doNotFlagShortPresent.getZ());
+			teleport.setYaw(90);
+			teleport.setPitch(90);
+			teleport.sendPacket(plr);
+		}
 		Boolean sentOnGround = packet.getBooleans().read(0);
 		if (!sentOnGround) {
 			return;
@@ -129,18 +145,16 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 				plr.getVelocity().setX(0).setY(0).setZ(0);
 				Bukkit.getScheduler().runTaskLater(UtilServer.getPluginInstance(), () -> plr.getVelocity().setX(0).setY(0).setZ(0), 1);
 				Bukkit.getScheduler().runTaskLater(UtilServer.getPluginInstance(), () -> plr.getVelocity().setX(0).setY(0).setZ(0), 2);
-				boolean doNotFlagShortPresent = doNotFlagShort.getIfPresent(plr.getUniqueId()) != null;
-				Location noFlagLocation = doNotFlagJoinTeleportDeath.getIfPresent(plr.getUniqueId());
 				if (!couldBeOnGroundSimple) {
 					//Revert wrong movement without server-side teleport
 					Location setbackLocation = plr.getLocation();
 					doubles.write(0, setbackLocation.getX());
-					doubles.write(1, setbackLocation.getY() - .2);
+					doubles.write(1, setbackLocation.getY() - .97);
 					doubles.write(2, setbackLocation.getZ());
 					WrapperPlayServerEntityTeleport teleport = new WrapperPlayServerEntityTeleport();
 					teleport.setEntityID(plr.getEntityId());
 					teleport.setX(setbackLocation.getX());
-					teleport.setY(setbackLocation.getY() - .2);
+					teleport.setY(setbackLocation.getY() - .97);
 					teleport.setZ(setbackLocation.getZ());
 					teleport.setYaw(setbackLocation.getYaw());
 					teleport.setPitch(setbackLocation.getPitch());
@@ -148,11 +162,11 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 					if (noFlagLocation != null && (!noFlagLocation.getWorld().equals(location.getWorld()) || location.distanceSquared(noFlagLocation) < 5)) {
 						return;
 					}
-					if (doNotFlagShortPresent) {
+					if (doNotFlagShortPresent != null) {
 						return;
 					}
 					System.out.println("[FlyBypassFixer] " + plr.getName() + " is suspected for trying to bypass the fly check");
-					doNotFlagShort.put(plr.getUniqueId(), Boolean.TRUE);
+					doNotFlagShort.put(plr.getUniqueId(), setbackLocation.toVector());
 					try {
 						AACAccessor.increaseAllViolationsAndNotify(plr.getUniqueId(), 1, HackType.NOFALL, "(Custom) (FlyBypassFixer) " + plr.getName() + " is suspected for trying to bypass the fly check");
 					} catch (ReflectiveOperationException ex) {
