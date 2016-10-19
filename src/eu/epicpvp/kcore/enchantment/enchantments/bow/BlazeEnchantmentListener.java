@@ -19,6 +19,7 @@ public class BlazeEnchantmentListener extends ShootBowEnchantmentListener {
 		return player.getItemInHand();
 	}
 
+	@Override
 	protected boolean onDirectAttack(Player shooter, Entity projectile, int level) {
 		shooter.launchProjectile(SmallFireball.class);
 		return true;

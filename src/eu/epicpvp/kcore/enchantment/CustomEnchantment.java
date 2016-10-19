@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import javax.annotation.Nullable;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -16,17 +15,12 @@ import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -37,30 +31,15 @@ public class CustomEnchantment {
 
 	@Getter
 	private static final Set<CustomEnchantment> customEnchantments = new HashSet<>();
-	private final Cache<UUID, Boolean> cooldowns;
+	private Cache<UUID, Boolean> cooldowns;
 	private final String name;
 	private final EnchantmentListener listener;
-	@Setter
 	private long cooldown = 0;
 
 	@SneakyThrows(IllegalStateException.class)
 	private static void register(CustomEnchantment customEnchantment) {
 		if (customEnchantments.add(customEnchantment)) {
 			Bukkit.getPluginManager().registerEvents(customEnchantment.getListener(), UtilServer.getPluginInstance());
-			if (customEnchantment.cooldown != 0) {
-				Bukkit.getPluginManager().registerEvents(new Listener() {
-
-					@EventHandler
-					public void onQuit(PlayerQuitEvent event) {
-						customEnchantment.cooldowns.invalidate(event.getPlayer().getUniqueId());
-					}
-
-					@EventHandler
-					public void onKick(PlayerKickEvent event) {
-						customEnchantment.cooldowns.invalidate(event.getPlayer().getUniqueId());
-					}
-				}, UtilServer.getPluginInstance());
-			}
 		} else {
 			throw new IllegalStateException("Double-registering an enchantment");
 		}
@@ -93,8 +72,7 @@ public class CustomEnchantment {
 		return null;
 	}
 
-	@Nullable
-	private static CustomEnchantment getEnchantment(String name) {
+	public static CustomEnchantment getEnchantment(String name) {
 		for (CustomEnchantment ce : customEnchantments) {
 			if (ce.getName().equalsIgnoreCase(name)) {
 				return ce;
@@ -250,6 +228,15 @@ public class CustomEnchantment {
 				return 10;
 			default:
 				return Integer.parseInt(str);
+		}
+	}
+
+	public void setCooldown(long cooldown) {
+		this.cooldown = cooldown;
+		if (cooldown != 0) {
+			cooldowns = CacheBuilder.newBuilder().expireAfterWrite(cooldown, TimeUnit.MILLISECONDS).build();
+		} else {
+			cooldowns = null;
 		}
 	}
 }
