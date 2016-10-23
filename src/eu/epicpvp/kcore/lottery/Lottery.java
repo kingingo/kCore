@@ -2,31 +2,30 @@ package eu.epicpvp.kcore.lottery;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
-import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilInv;
-import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 public class Lottery {
 
+//	private static final int LOTTERY_DRAW_TICKS = 2 * 60 * 60 * 20;
+	private static final int LOTTERY_DRAW_TICKS = 60 * 20;
 	@Getter
 	private final JavaPlugin plugin;
 	private final GameType gameType;
 	private final StatsKey statsKey;
-	private Map<Integer, Integer> data;
+	private Map<Integer, Integer> data = new HashMap<>();
 	@Getter
 	private long endTime;
 	private BukkitTask task;
@@ -41,18 +40,16 @@ public class Lottery {
 		if (statsKey.getType() != int.class && statsKey.getType() != double.class) {
 			throw new IllegalArgumentException("invalid statskey");
 		}
-		
-		Object o = plugin.getConfig().get("lottery.data");
-		if (o != null && o instanceof Map) {
-			data = (Map<Integer,Integer>)o;
-		}else{
-			data = new HashMap<>();
+		ConfigurationSection section = plugin.getConfig().getConfigurationSection("lottery.data");
+		for (String playerId : section.getKeys(false)) {
+			data.put(Integer.valueOf(playerId), section.getInt(playerId));
 		}
 		lotteryInventory = new LotteryInventory(this);
-		UtilInv.getBase().addPage( lotteryInventory );
+		UtilInv.getBase().addPage(lotteryInventory);
 		UtilServer.getCommandHandler().register(CommandLottery.class, new CommandLottery(this));
 
-		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::drawWinner, 60 * 20, 60 * 20);
+		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::drawWinner, LOTTERY_DRAW_TICKS, LOTTERY_DRAW_TICKS);
+		endTime = System.currentTimeMillis() + LOTTERY_DRAW_TICKS;
 	}
 
 	private void drawWinner() {
@@ -95,16 +92,23 @@ public class Lottery {
 		Bukkit.broadcastMessage("§aDer Spieler §6" + UtilServer.getClient().getPlayerAndLoad(winnerId).getName() + "§a hat die Lotterie gewonnen und §6" + currentPot + " Epic's §abekommen.");
 		//TODO send messages
 		data.clear();
+		endTime = System.currentTimeMillis() + LOTTERY_DRAW_TICKS;
 	}
 
 	public void onDisable() {
 		task.cancel();
 		task = null;
-		
-		if(data.isEmpty()){
+
+		save();
+	}
+
+	private void save() {
+		if (data.isEmpty()) {
 			plugin.getConfig().set("lottery.data", null);
-		}else{
-			plugin.getConfig().set("lottery.data", data);
+		} else {
+			data.forEach((playerId, amount) -> {
+				plugin.getConfig().set("lottery.data." + playerId, amount);
+			});
 		}
 		plugin.saveConfig();
 	}
