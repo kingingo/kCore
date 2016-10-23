@@ -2,6 +2,8 @@ package eu.epicpvp.kcore.Listener.FlyListener;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +17,7 @@ import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import eu.epicpvp.kcore.Listener.kListener;
 import eu.epicpvp.kcore.Update.UpdateType;
 import eu.epicpvp.kcore.Update.Event.UpdateEvent;
+import eu.epicpvp.kcore.Util.UtilMath;
 import eu.epicpvp.kcore.Util.UtilParticle;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilWorldGuard;
@@ -25,7 +28,6 @@ public class FlyListener extends kListener{
 	
 	public FlyListener() {
 		super(UtilServer.getPluginInstance(),"FlyListener");
-		System.out.println("BIN DA!");
 	}
 
 	@EventHandler
@@ -47,7 +49,11 @@ public class FlyListener extends kListener{
 	public void update(UpdateEvent ev){
 		if(ev.getType()==UpdateType.FASTEST){
 			for(Player player : list){
-				UtilParticle.SMOKE_LARGE.display((float)0.2,(float)0.2,(float)0.2,1, 1, player.getLocation().add(0, -1, 0), 25);
+				try {
+					for(int i = 0; i<10; i++)UtilParticle.REDSTONE.sendColor(Bukkit.getOnlinePlayers(), player.getLocation().add(UtilMath.RandomDouble(.5, -.5), UtilMath.RandomDouble(-.1, -.5), UtilMath.RandomDouble(.5, -.5)), Color.WHITE);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
