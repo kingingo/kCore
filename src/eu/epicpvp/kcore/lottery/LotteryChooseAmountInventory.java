@@ -16,13 +16,17 @@ public class LotteryChooseAmountInventory extends AnvilGUI {
 			if (event.getSlot() == AnvilSlot.OUTPUT) {
 				try {
 					int i = Integer.parseInt(event.getName());
-					lottery.bid(player, i);
+					if(lottery.bid(player, i)){
+						UtilPlayer.sendMessage(player, TranslationHandler.getText(player, "PREFIX") + "§aDu hast dein gebot von §6"+i+"§a abgegeben!");
+					}else{
+						UtilPlayer.sendMessage(player, TranslationHandler.getText(player, "PREFIX") + "§cDu hast leider nicht soviel geld auf deinem Konto!");
+					}
 				} catch (NumberFormatException e) {
 					UtilPlayer.sendMessage(player, TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, "NO_INTEGER"));
 				}
 			}
 		});
-		ItemStack renamed = UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "Epic's");
+		ItemStack renamed = UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "100");
 		setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, renamed);
 		setSlot(AnvilGUI.AnvilSlot.OUTPUT, UtilItem.RenameItem(new ItemStack(Material.NAME_TAG), "§aBetrag setzen!"));
 		open();

@@ -110,7 +110,7 @@ public class Lottery {
 	}
 
 	public boolean hasBid(Player player) {
-		return !data.containsKey(UtilServer.getClient().getPlayerAndLoad(player.getUniqueId()).getPlayerId());
+		return data.containsKey(UtilServer.getClient().getPlayerAndLoad(player.getUniqueId()).getPlayerId());
 	}
 
 	public boolean bid(Player player, int amount) {

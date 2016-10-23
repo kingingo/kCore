@@ -49,7 +49,7 @@ public class AnvilEnchantHandler extends kListener {
 		if (!(event.getView().getTopInventory().getHolder() instanceof AnvilInventoryHolder)) {
 			return;
 		}
-
+		
 		switch (event.getAction()) {
 			case HOTBAR_MOVE_AND_READD:
 			case COLLECT_TO_CURSOR:
@@ -60,6 +60,7 @@ public class AnvilEnchantHandler extends kListener {
 			case DROP_ALL_CURSOR:
 			case DROP_ONE_CURSOR:
 			case NOTHING:
+			case MOVE_TO_OTHER_INVENTORY:
 			case UNKNOWN:
 				event.setCancelled(true);
 				break;
@@ -113,7 +114,7 @@ public class AnvilEnchantHandler extends kListener {
 					Inventory inv = Bukkit.createInventory(holder, InventorySize._27.getSize(), "§7Anvil");
 					holder.setInventory(inv);
 					for (int i = 0; i < InventorySize._27.getSize(); i++)
-						inv.setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE, 1, ((byte) 15)), ""));
+						inv.setItem(i, UtilItem.RenameItem(new ItemStack(Material.STAINED_GLASS_PANE, 1, ((byte) 7)), " "));
 					inv.setItem(InventorySplit._18.getMiddle() - 2, null);
 					inv.setItem(InventorySplit._18.getMiddle() + 2, null);
 					inv.setItem(InventorySplit._18.getMiddle(), UtilItem.RenameItem(new ItemStack(Material.EXP_BOTTLE), "§aenchant"));

@@ -14,7 +14,7 @@ public class CommandLottery implements CommandExecutor {
 
 	private final Lottery lottery;
 
-	@CommandHandler.Command(command = "lottery", sender = CommandHandler.Sender.PLAYER)
+	@CommandHandler.Command(command = "lottery",alias={"lotto"}, sender = CommandHandler.Sender.PLAYER)
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args) {
 		Player plr = (Player) sender;
