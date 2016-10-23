@@ -93,7 +93,7 @@ public class kConfig extends YamlConfiguration{
 	}
 	
 	public void setItemStackArray(String path,ItemStack[] items){
-		set(path, UtilInv.itemStackArrayToBase64(items));
+		set(path, (items!=null ? UtilInv.itemStackArrayToBase64(items) : null));
 	}
 	
 	public Inventory getInventory(String path){

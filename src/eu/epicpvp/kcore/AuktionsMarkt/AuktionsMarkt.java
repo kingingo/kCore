@@ -181,26 +181,46 @@ public class AuktionsMarkt extends kListener{
 		return false;
 	}
 	
+	public ItemStack[] compriseArray(ItemStack[] items){
+		ArrayList<ItemStack> list = new ArrayList<>();
+		for(ItemStack item : items)if(item!=null&&item.getType()!=Material.AIR)list.add(item);
+		
+		if(list.isEmpty()){
+			return null;
+		}else{
+			return list.toArray(new ItemStack[list.size()]);
+		}
+	}
+	
 	public boolean openPlayerInventory(Player plr){
 		kConfig config = UtilServer.getUserData().getConfig(plr);
 		ItemStack[] items = config.getItemStackArray("auktionsMartk.items");
 		
 		if(items!=null){
-			AuktionsInventoryHolder holder = new AuktionsInventoryHolder(config);
-			Inventory inv = Bukkit.createInventory(holder, InventorySize._54.getSize(), plr.getName()+"'s Inv");
-			holder.setInventory(inv);
+			items = compriseArray(items);
 			
-			for(int i = 0; i <= (items.length<=InventorySize._45.getSize()? items.length : InventorySplit._45.getMax()); i++){
-				inv.setItem(i, items[i]);
+			if(items!=null){
+				config.setItemStackArray("auktionsMartk.items", items);
+				AuktionsInventoryHolder holder = new AuktionsInventoryHolder(config);
+				Inventory inv = Bukkit.createInventory(holder, InventorySize._54.getSize(), plr.getName()+"'s Inv");
+				holder.setInventory(inv);
+				
+				for(int i = 0; i < (items.length<=InventorySize._45.getSize()? items.length : InventorySplit._45.getMax()); i++){
+					inv.setItem(i, items[i]);
+				}
+				
+				if(items.length>InventorySize._45.getSize()){
+					inv.setItem(InventorySplit._54.getMiddle()+1, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§e "+2+" "+Zeichen.DOUBLE_ARROWS_R.getIcon()));
+				}
+				inv.setItem(InventorySplit._54.getMiddle()-1, UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "§aZurück"));
+				
+				plr.openInventory(inv);
+				return true;
+			}else{
+				config.setItemStackArray("auktionsMartk.items", null);
 			}
 			
-			if(items.length>InventorySize._45.getSize()){
-				inv.setItem(InventorySplit._54.getMiddle()+1, UtilItem.RenameItem(new ItemStack(Material.ARROW), "§e "+2+" "+Zeichen.DOUBLE_ARROWS_R.getIcon()));
-			}
-			inv.setItem(InventorySplit._54.getMiddle()-1, UtilItem.RenameItem(new ItemStack(Material.SLIME_BALL), "§aZurück"));
-			
-			plr.openInventory(inv);
-			return true;
+			config.save();
 		}
 		return false;
 	}
@@ -251,7 +271,7 @@ public class AuktionsMarkt extends kListener{
 	public void open(Player player){
 		InventoryPageBase page = new InventoryPageBase(InventorySize._54, "");
 		InventorySplit._18.setLine(Material.STAINED_GLASS_PANE, ((byte)7), page);
-		page.addButton(1, new ButtonBase( (Player plr, ActionType type,Object object) -> openPlayerInventory(plr) , UtilItem.RenameItem(new ItemStack(Material.CHEST), "§6Deposit")));
+		page.addButton(1, new ButtonBase( (Player plr, ActionType type,Object object) -> openPlayerInventory(plr) , UtilItem.RenameItem(new ItemStack(Material.CHEST), "§6Lager")));
 		page.addButton(0, new ButtonBase(new Click(){
 
 			@Override

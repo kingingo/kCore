@@ -2,6 +2,7 @@ package eu.epicpvp.kcore.lottery;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -13,7 +14,9 @@ import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
 import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
+import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilInv;
+import eu.epicpvp.kcore.Util.UtilNumber;
 import eu.epicpvp.kcore.Util.UtilServer;
 import lombok.Getter;
 
@@ -38,26 +41,26 @@ public class Lottery {
 		if (statsKey.getType() != int.class && statsKey.getType() != double.class) {
 			throw new IllegalArgumentException("invalid statskey");
 		}
+		
 		Object o = plugin.getConfig().get("lottery.data");
-		if (o != null) {
-			data = (Map<Integer, Integer>) o;
-		} else {
+		if (o != null && o instanceof Map) {
+			data = (Map<Integer,Integer>)o;
+		}else{
 			data = new HashMap<>();
 		}
 		lotteryInventory = new LotteryInventory(this);
 		UtilInv.getBase().addPage( lotteryInventory );
 		UtilServer.getCommandHandler().register(CommandLottery.class, new CommandLottery(this));
 
-//		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::drawWinner, 2 * 60 * 60 * 20, 2 * 60 * 60 * 20);
 		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::drawWinner, 60 * 20, 60 * 20);
 	}
 
 	private void drawWinner() {
-		Map<Integer, Integer> map = new HashMap<>();
 		if (data.isEmpty()) {
 			Bukkit.broadcastMessage("§cEs hat niemand an der Lotterie teilgenommen.");
 			return;
 		}
+		Map<Integer, Integer> map = new HashMap<>();
 		data.forEach((playerId, value) -> {
 			map.put(playerId, value);
 		});
@@ -97,7 +100,12 @@ public class Lottery {
 	public void onDisable() {
 		task.cancel();
 		task = null;
-		plugin.getConfig().set("lottery.data", data);
+		
+		if(data.isEmpty()){
+			plugin.getConfig().set("lottery.data", null);
+		}else{
+			plugin.getConfig().set("lottery.data", data);
+		}
 		plugin.saveConfig();
 	}
 
