@@ -9,9 +9,11 @@ import org.bukkit.entity.Player;
 import eu.epicpvp.kcore.Command.CommandHandler;
 import eu.epicpvp.kcore.Permission.PermissionType;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.Util.TimeSpan;
 import eu.epicpvp.kcore.Util.UtilServer;
 import eu.epicpvp.kcore.Util.UtilTime;
 import eu.epicpvp.kcore.kConfig.kConfig;
+import lombok.AllArgsConstructor;
 
 public class CommandEpic implements CommandExecutor {
 	
@@ -27,7 +29,8 @@ public class CommandEpic implements CommandExecutor {
 			if( UtilTime.getStartOfDay().getTime() < last && UtilTime.getEndOfDay().getTime() > last ){
 				plr.sendMessage(TranslationHandler.getText(plr, "PREFIX")+"§cDu kannst dir nur einmal am Tag einen Key abholen!");
 			}else{
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "create givekey "+plr.getName()+" legend 1");
+				config.set("epic", System.currentTimeMillis());
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "cr givekey "+plr.getName()+" legendary 1");
 			}
 		}
 		return false;
