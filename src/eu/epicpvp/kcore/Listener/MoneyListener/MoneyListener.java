@@ -44,7 +44,7 @@ public class MoneyListener extends kListener {
 		if (key == StatsKey.GEMS || key == StatsKey.COINS || key == StatsKey.MYSTERY_SHARPS) {
 			LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player);
 
-			if (UtilPlayer.isOnline(player)) {
+			if (money.isLoaded(loadedplayer.getPlayerId())) {
 				money.add(loadedplayer.getPlayerId(), key, value);
 				logMessage("Add " + loadedplayer.getName() + " " + value + "" + key.getMySQLName() + " to his/her Account!");
 			} else {
@@ -75,8 +75,9 @@ public class MoneyListener extends kListener {
 		} else if (key == StatsKey.PROPERTIES) {
 			LoadedPlayer loadedplayer = UtilServer.getClient().getPlayerAndLoad(player);
 
-			if (UtilPlayer.isOnline(player)) {
+			if (properties.isLoaded(loadedplayer.getPlayerId())) {
 				NBTTagCompound nbt = properties.getNBTTagCompound(loadedplayer.getPlayerId(), key);
+				
 				nbt.setInt(path, nbt.getInt(path) + value);
 				try {
 					properties.setNBTTagCompound(loadedplayer.getPlayerId(), nbt, StatsKey.PROPERTIES);
@@ -94,6 +95,7 @@ public class MoneyListener extends kListener {
 								@Override
 								public void call(Integer playerId, Throwable exception) {
 									NBTTagCompound nbt = properties.getNBTTagCompound(loadedplayer.getPlayerId(), key);
+									
 									nbt.setInt(path, nbt.getInt(path) + value);
 									try {
 										properties.setNBTTagCompound(loadedplayer.getPlayerId(), nbt, StatsKey.PROPERTIES);
