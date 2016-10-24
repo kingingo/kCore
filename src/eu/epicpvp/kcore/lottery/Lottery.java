@@ -56,67 +56,69 @@ public class Lottery {
 
 	private void drawWinner() {
 		if (data.isEmpty()) {
-			Bukkit.broadcastMessage("§cEs hat niemand an der Lotterie teilgenommen.");
-			return;
-		}
-		Map<Integer, Integer> map = new HashMap<>();
-		data.forEach((playerId, value) -> {
-			map.put(playerId, value);
-		});
-		int pot = 0;
-		for (Integer value : map.values()) {
-			pot += value;
-		}
-		int winnerPos = new SecureRandom().nextInt(pot);
-		int pos = 0;
-		int winnerId = -1;
-		for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-			if (winnerPos >= pos && winnerPos < entry.getValue()) {
-				winnerId = entry.getKey();
-				break;
+			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§cEs hat niemand an der Lotterie teilgenommen.");
+		}else if (data.size() <= 5) {
+			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§cEs müssen mehr als 5 Spieler teilnehmen!.");
+		}else{
+			Map<Integer, Integer> map = new HashMap<>();
+			data.forEach((playerId, value) -> {
+				map.put(playerId, value);
+			});
+			int pot = 0;
+			for (Integer value : map.values()) {
+				pot += value;
 			}
-			pos += entry.getValue();
-		}
-		if (winnerId == -1) {
-			Bukkit.broadcastMessage("§c§lFehler bei der Auslosung des Lotteriesystems. Mache gar nichts.");
-			System.err.println("Fehler bei der Auslosung des Lotteriesystems. Mache gar nichts.");
-			System.out.println("data = " + data);
-			System.out.println("map = " + map);
-			return;
-		}
-		StatsManager statsManager = StatsManagerRepository.getStatsManager(gameType);
-		int currentPot = getCurrentPot();
-		if (statsKey.getType() == int.class) {
-			if(statsManager.isLoaded(winnerId)){
-				statsManager.set(winnerId, statsKey, statsManager.getInt(winnerId, statsKey) + currentPot);
-			}else{
-				statsManager.loadPlayer(winnerId, new Callback<Integer>() {
-					
-					@Override
-					public void call(Integer id, Throwable exception) {
-						statsManager.set(id, statsKey, statsManager.getInt(id, statsKey) + currentPot);
-						statsManager.save(id);
-					}
-				});
+			int winnerPos = new SecureRandom().nextInt(pot);
+			int pos = 0;
+			int winnerId = -1;
+			for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+				if (winnerPos >= pos && winnerPos < entry.getValue()) {
+					winnerId = entry.getKey();
+					break;
+				}
+				pos += entry.getValue();
 			}
-		} else {
-			if(statsManager.isLoaded(winnerId)){
-				statsManager.set(winnerId, statsKey, statsManager.getDouble(winnerId, statsKey) + currentPot);
-			}else{
-				statsManager.loadPlayer(winnerId, new Callback<Integer>() {
-					
-					@Override
-					public void call(Integer id, Throwable exception) {
-						statsManager.set(id, statsKey, statsManager.getDouble(id, statsKey) + currentPot);
-						statsManager.save(id);
-					}
-				});
+			if (winnerId == -1) {
+				Bukkit.broadcastMessage("§c§lFehler bei der Auslosung des Lotteriesystems. Mache gar nichts.");
+				System.err.println("Fehler bei der Auslosung des Lotteriesystems. Mache gar nichts.");
+				System.out.println("data = " + data);
+				System.out.println("map = " + map);
+				return;
 			}
+			StatsManager statsManager = StatsManagerRepository.getStatsManager(gameType);
+			int currentPot = getCurrentPot();
+			if (statsKey.getType() == int.class) {
+				if(statsManager.isLoaded(winnerId)){
+					statsManager.set(winnerId, statsKey, statsManager.getInt(winnerId, statsKey) + currentPot);
+				}else{
+					statsManager.loadPlayer(winnerId, new Callback<Integer>() {
+						
+						@Override
+						public void call(Integer id, Throwable exception) {
+							statsManager.set(id, statsKey, statsManager.getInt(id, statsKey) + currentPot);
+							statsManager.save(id);
+						}
+					});
+				}
+			} else {
+				if(statsManager.isLoaded(winnerId)){
+					statsManager.set(winnerId, statsKey, statsManager.getDouble(winnerId, statsKey) + currentPot);
+				}else{
+					statsManager.loadPlayer(winnerId, new Callback<Integer>() {
+						
+						@Override
+						public void call(Integer id, Throwable exception) {
+							statsManager.set(id, statsKey, statsManager.getDouble(id, statsKey) + currentPot);
+							statsManager.save(id);
+						}
+					});
+				}
+			}
+			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§aDer Spieler §6" + UtilServer.getClient().getPlayerAndLoad(winnerId).getName() + "§a hat die Lotterie gewonnen und §6" + currentPot + " Epic's §abekommen.");
+			//TODO send messages
+			data.clear();
+			endTime = System.currentTimeMillis() + LOTTERY_DRAW_TICKS;
 		}
-		Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§aDer Spieler §6" + UtilServer.getClient().getPlayerAndLoad(winnerId).getName() + "§a hat die Lotterie gewonnen und §6" + currentPot + " Epic's §abekommen.");
-		//TODO send messages
-		data.clear();
-		endTime = System.currentTimeMillis() + LOTTERY_DRAW_TICKS;
 	}
 
 	public void onDisable() {
