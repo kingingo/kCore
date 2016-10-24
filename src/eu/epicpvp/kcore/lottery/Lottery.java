@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
+import eu.epicpvp.datenclient.client.Callback;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.GameType;
 import eu.epicpvp.datenserver.definitions.dataserver.gamestats.StatsKey;
 import eu.epicpvp.kcore.StatsManager.StatsManager;
@@ -85,9 +86,31 @@ public class Lottery {
 		StatsManager statsManager = StatsManagerRepository.getStatsManager(gameType);
 		int currentPot = getCurrentPot();
 		if (statsKey.getType() == int.class) {
-			statsManager.set(winnerId, statsKey, statsManager.getInt(winnerId, statsKey) + currentPot);
+			if(statsManager.isLoaded(winnerId)){
+				statsManager.set(winnerId, statsKey, statsManager.getInt(winnerId, statsKey) + currentPot);
+			}else{
+				statsManager.loadPlayer(winnerId, new Callback<Integer>() {
+					
+					@Override
+					public void call(Integer id, Throwable exception) {
+						statsManager.set(id, statsKey, statsManager.getInt(id, statsKey) + currentPot);
+						statsManager.save(id);
+					}
+				});
+			}
 		} else {
-			statsManager.set(winnerId, statsKey, statsManager.getDouble(winnerId, statsKey) + currentPot);
+			if(statsManager.isLoaded(winnerId)){
+				statsManager.set(winnerId, statsKey, statsManager.getDouble(winnerId, statsKey) + currentPot);
+			}else{
+				statsManager.loadPlayer(winnerId, new Callback<Integer>() {
+					
+					@Override
+					public void call(Integer id, Throwable exception) {
+						statsManager.set(id, statsKey, statsManager.getDouble(id, statsKey) + currentPot);
+						statsManager.save(id);
+					}
+				});
+			}
 		}
 		Bukkit.broadcastMessage("§aDer Spieler §6" + UtilServer.getClient().getPlayerAndLoad(winnerId).getName() + "§a hat die Lotterie gewonnen und §6" + currentPot + " Epic's §abekommen.");
 		//TODO send messages
