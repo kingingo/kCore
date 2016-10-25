@@ -12,6 +12,7 @@ import eu.epicpvp.kcore.StatsManager.StatsManagerRepository;
 import eu.epicpvp.kcore.Translation.TranslationHandler;
 import eu.epicpvp.kcore.Util.UtilInv;
 import eu.epicpvp.kcore.Util.UtilServer;
+import eu.epicpvp.kcore.Util.UtilTime;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -19,17 +20,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-public class Lottery {
+public class Lottery implements Runnable{
 
-//	private static final int LOTTERY_DRAW_TICKS = 2 * 60 * 60 * 20;
-	private static final int LOTTERY_DRAW_TICKS = 60 * 20;
 	@Getter
 	private final JavaPlugin plugin;
 	private final GameType gameType;
 	private final StatsKey statsKey;
 	private Map<Integer, Integer> data = new HashMap<>();
 	@Getter
-	private long endTime;
+	private int endTime;
 	private BukkitTask task;
 	@Getter
 	private LotteryInventory lotteryInventory;
@@ -50,8 +49,33 @@ public class Lottery {
 		UtilInv.getBase().addPage(lotteryInventory);
 		UtilServer.getCommandHandler().register(CommandLottery.class, new CommandLottery(this));
 
-		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this::drawWinner, LOTTERY_DRAW_TICKS, LOTTERY_DRAW_TICKS);
-		endTime = System.currentTimeMillis() + LOTTERY_DRAW_TICKS;
+		task = plugin.getServer().getScheduler().runTaskTimer(plugin, this, 20, 20);
+		endTime = 15 * 60;
+	}
+
+	@Override
+	public void run() {
+		switch(endTime){
+		case (60 * 15):
+		case (60 * 14):
+		case (60 * 10):
+		case (60 * 5):
+		case (60 * 4):
+		case (60 * 3):
+		case (60 * 2):
+		case (60 * 1):
+			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§fDie Lottery endet in §6"+UtilTime.formatSeconds(endTime)+"§f!");
+			break;
+		case (30):
+		case (15):
+		case (5):
+			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§cDie Lottery endet in §6"+UtilTime.formatSeconds(endTime)+"§c!");
+			break;
+		case 0:
+			drawWinner();
+			break;
+		}
+		endTime--;
 	}
 
 	private void drawWinner() {
@@ -117,7 +141,7 @@ public class Lottery {
 			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§aDer Spieler §6" + UtilServer.getClient().getPlayerAndLoad(winnerId).getName() + "§a hat die Lotterie gewonnen und §6" + currentPot + " Epic's §abekommen.");
 			//TODO send messages
 			data.clear();
-			endTime = System.currentTimeMillis() + LOTTERY_DRAW_TICKS;
+			endTime = 15 * 60;
 		}
 	}
 
