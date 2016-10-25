@@ -71,11 +71,13 @@ public class Lottery implements Runnable{
 		case (5):
 			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§cDie Lottery endet in §6"+UtilTime.formatSeconds(endTime)+"§c!");
 			break;
-		case 0:
-			drawWinner();
-			break;
 		}
-		endTime--;
+		
+		if(endTime < 0){
+			drawWinner();
+		}else{
+			endTime--;
+		}
 	}
 
 	private void drawWinner() {
