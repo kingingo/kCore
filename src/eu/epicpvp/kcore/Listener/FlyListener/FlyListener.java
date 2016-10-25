@@ -33,10 +33,15 @@ public class FlyListener extends kListener{
 
 	@EventHandler
 	public void move(PlayerMoveEvent ev){
-		if(list.contains(ev.getPlayer())){
+		if(list.contains(ev.getPlayer()) || ev.getPlayer().getAllowFlight()){
 			if(UtilWorldGuard.RegionFlag(ev.getPlayer(), DefaultFlag.PVP)){
 				ev.getPlayer().setFlying(false);
+				ev.getPlayer().setAllowFlight(false);
 				list.remove(ev.getPlayer());
+			}
+		}else if(!ev.getPlayer().getAllowFlight()){
+			if(UtilWorldGuard.RegionFlag(ev.getPlayer(), DefaultFlag.PVP)){
+				ev.getPlayer().setAllowFlight(true);
 			}
 		}
 	}
