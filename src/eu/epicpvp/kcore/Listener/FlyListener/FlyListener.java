@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
 import com.google.common.collect.Lists;
@@ -41,6 +42,11 @@ public class FlyListener extends kListener{
 	}
 	
 	@EventHandler
+	public void q(PlayerQuitEvent ev){
+		list.remove(ev.getPlayer());
+	}
+	
+	@EventHandler
 	public void jon(PlayerJoinEvent ev){
 		ev.getPlayer().setAllowFlight(true);
 	}
@@ -48,11 +54,18 @@ public class FlyListener extends kListener{
 	@EventHandler
 	public void update(UpdateEvent ev){
 		if(ev.getType()==UpdateType.FASTEST){
-			for(Player player : list){
-				try {
-					for(int i = 0; i<10; i++)UtilParticle.REDSTONE.sendColor(Bukkit.getOnlinePlayers(), player.getLocation().add(UtilMath.RandomDouble(.5, -.5), UtilMath.RandomDouble(-.1, -.5), UtilMath.RandomDouble(.5, -.5)), Color.WHITE);
-				} catch (Exception e) {
-					e.printStackTrace();
+			Player player;
+			for(int a = 0; a < list.size(); a++){
+				player = list.get(a);
+				
+				if(player.isOnline()){
+					try {
+						for(int i = 0; i<10; i++)UtilParticle.REDSTONE.sendColor(Bukkit.getOnlinePlayers(), player.getLocation().add(UtilMath.RandomDouble(.5, -.5), UtilMath.RandomDouble(-.1, -.5), UtilMath.RandomDouble(.5, -.5)), Color.WHITE);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}else{
+					list.remove(player);
 				}
 			}
 		}
