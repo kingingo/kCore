@@ -56,7 +56,7 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 			logMessage("Cant send plugin message (player == null)");
 			return new PluginMessageFutureTask<>();
 		}
-		final UUID taskId = player.getUniqueId();
+		final UUID taskId = UUID.randomUUID();
 
 		final PluginMessageFutureTask<DataBuffer> task = new PluginMessageFutureTask<>();
 		long start = System.currentTimeMillis();
@@ -124,7 +124,7 @@ public class PermissionChannelHandler extends kListener implements PluginMessage
 	@EventHandler
 	public void quit(PlayerQuitEvent ev){
 		manager.unloadPlayer(ev.getPlayer());
-		listener.remove(ev.getPlayer().getUniqueId());
+//		listener.remove(ev.getPlayer().getUniqueId());
 	}
 
 	@SuppressWarnings("deprecation")
