@@ -50,6 +50,8 @@ public class AnvilEnchantHandler extends kListener {
 			return;
 		}
 		
+		if(event.getClickedInventory().getItem(event.getSlot()).getType() == Material.EXP_BOTTLE)event.setCancelled(true);
+		
 		switch (event.getAction()) {
 			case HOTBAR_MOVE_AND_READD:
 			case COLLECT_TO_CURSOR:
