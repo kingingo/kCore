@@ -96,8 +96,6 @@ public class AnvilEnchantHandler extends kListener {
 							}
 						}
 					}
-				}else{
-					event.setCancelled(true);
 				}
 				break;
 			case SWAP_WITH_CURSOR:
