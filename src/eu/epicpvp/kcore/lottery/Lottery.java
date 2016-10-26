@@ -81,10 +81,11 @@ public class Lottery implements Runnable{
 	}
 
 	private void drawWinner() {
+		endTime = 15 * 60;
 		if (data.isEmpty()) {
 			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§cEs hat niemand an der Lotterie teilgenommen.");
 		}else if (data.size() <= 5) {
-			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§cEs müssen mehr als 5 Spieler teilnehmen!.");
+			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§cEs müssen mehr als 5 Spieler teilnehmen!");
 		}else{
 			Map<Integer, Integer> map = new HashMap<>();
 			data.forEach((playerId, value) -> {
@@ -143,7 +144,6 @@ public class Lottery implements Runnable{
 			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§aDer Spieler §6" + UtilServer.getClient().getPlayerAndLoad(winnerId).getName() + "§a hat die Lotterie gewonnen und §6" + currentPot + " Epic's §abekommen.");
 			//TODO send messages
 			data.clear();
-			endTime = 15 * 60;
 		}
 	}
 
