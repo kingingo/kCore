@@ -220,9 +220,6 @@ public class UtilPlayer {
 
 	public static void setScoreboardGems(Player player, StatsManager money) {
 		UtilScoreboard.addBoard(player.getScoreboard(), DisplaySlot.SIDEBAR, UtilScoreboard.getScoreboardDisplayname());
-		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 12);
-		UtilScoreboard.setScore(player.getScoreboard(), "Loading...§c", DisplaySlot.SIDEBAR, 11);
-		UtilScoreboard.setScore(player.getScoreboard(), "     ", DisplaySlot.SIDEBAR, 10);
 		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_FORUM"), DisplaySlot.SIDEBAR, 9);
 		UtilScoreboard.setScore(player.getScoreboard(), "www.EpicPvP.eu", DisplaySlot.SIDEBAR, 8);
 		UtilScoreboard.setScore(player.getScoreboard(), "  ", DisplaySlot.SIDEBAR, 7);
@@ -239,8 +236,11 @@ public class UtilPlayer {
 			public void call(Object obj, Throwable exception) {
 				Bukkit.getScheduler().runTask(money.getInstance(), new Runnable() {
 					public void run() {
-						UtilScoreboard.resetScore(player.getScoreboard(), 11, DisplaySlot.SIDEBAR);
-						UtilScoreboard.setScore(player.getScoreboard(), "§a§r" + ((int) obj), DisplaySlot.SIDEBAR, 11);
+						if(((int) obj)>0){
+							UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 12);
+							UtilScoreboard.setScore(player.getScoreboard(), "§a§r" + ((int) obj), DisplaySlot.SIDEBAR, 11);
+							UtilScoreboard.setScore(player.getScoreboard(), "     ", DisplaySlot.SIDEBAR, 10);
+						}
 					}
 				});
 			}
@@ -249,9 +249,6 @@ public class UtilPlayer {
 
 	public static void setScoreboardGemsAndCoins(Player player, StatsManager money) {
 		UtilScoreboard.addBoard(player.getScoreboard(), DisplaySlot.SIDEBAR, UtilScoreboard.getScoreboardDisplayname());
-		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 15);
-		UtilScoreboard.setScore(player.getScoreboard(), "Loading...§c", DisplaySlot.SIDEBAR, 14);
-		UtilScoreboard.setScore(player.getScoreboard(), "     ", DisplaySlot.SIDEBAR, 13);
 		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_COINS"), DisplaySlot.SIDEBAR, 12);
 		UtilScoreboard.setScore(player.getScoreboard(), "Loading...§a", DisplaySlot.SIDEBAR, 11);
 		UtilScoreboard.setScore(player.getScoreboard(), "    ", DisplaySlot.SIDEBAR, 10);
@@ -282,8 +279,11 @@ public class UtilPlayer {
 			public void call(Object obj, Throwable exception) {
 				Bukkit.getScheduler().runTask(money.getInstance(), new Runnable() {
 					public void run() {
-						UtilScoreboard.resetScore(player.getScoreboard(), 14, DisplaySlot.SIDEBAR);
-						UtilScoreboard.setScore(player.getScoreboard(), "§a§r" + ((int) obj), DisplaySlot.SIDEBAR, 14);
+						if(((int) obj)>0){
+							UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_GEMS"), DisplaySlot.SIDEBAR, 15);
+							UtilScoreboard.setScore(player.getScoreboard(), "§a§r" + ((int) obj), DisplaySlot.SIDEBAR, 14);
+							UtilScoreboard.setScore(player.getScoreboard(), "     ", DisplaySlot.SIDEBAR, 13);
+						}
 					}
 				});
 			}
