@@ -106,13 +106,17 @@ public class StatsManager extends kListener {
 		players.add(ev.getPlayer().getName());
 		UtilServer.loopbackUntilValidDataserverConnection(() -> {
 			long start = System.currentTimeMillis();
-			while (loadingPlayers.contains(ev.getPlayer())) {
+			while (loadingPlayers.contains(ev.getPlayer().getName())) {
 				if (System.currentTimeMillis() - 5000 > start)
 					throw new NullPointerException("Cant save player who isnt loaded in 5 sec!");
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException ignore) {
+				}
 			}
 			save(ev.getPlayer());
-			int playerId = UtilPlayer.getPlayerId(ev.getPlayer());
 			this.loadingPlayers.remove(ev.getPlayer().getName());
+			int playerId = UtilPlayer.getPlayerId(ev.getPlayer());
 			ArrayList<Callback<Integer>> callbacks = this.loading.remove(playerId);
 			if (callbacks != null) {
 				callbacks.clear();
@@ -140,16 +144,10 @@ public class StatsManager extends kListener {
 	}
 
 	@EventHandler
-	public void Ranking(UpdateEvent ev) {
+	public void updateRanking(UpdateEvent ev) {
 		if (ev.getType() != UpdateType.MIN_08)
 			return;
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				for (Ranking ranking : rankings)
-					ranking.load();
-			}
-		}).start();
+		new Thread(() -> rankings.forEach(Ranking::load)).start();
 	}
 
 	public void SendRankingMessage(Player player, Ranking ranking) {
@@ -295,10 +293,9 @@ public class StatsManager extends kListener {
 		});
 	}
 
-	public double getKDR(int k, int d) {
-		if (d == 0) { // prevent ArithmeticException - alternative: use deaths
-							// to calculate lives (= add 1) and then calculate KLR
-						// instead?
+	public static double getKDR(int k, int d) {
+		// prevent ArithmeticException - alternative: use deaths to calculate lives (= add 1) and then calculate KLR instead?
+		if (d == 0) {
 			d = 1;
 		}
 		double kdr = (double) k / (double) d;
