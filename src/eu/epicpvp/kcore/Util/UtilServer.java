@@ -494,10 +494,11 @@ public class UtilServer {
 	}
 
 	public static Player getNickedPlayer(String string) {
-		if(Bukkit.getPlayerExact(string) != null)
-			return Bukkit.getPlayerExact(string);
+		Player playerExact = Bukkit.getPlayerExact(string);
+		if(playerExact != null)
+			return playerExact;
 		for(Player p : Bukkit.getOnlinePlayers())
-			if(UtilServer.getClient().getPlayerAndLoad(string).getNickname().equalsIgnoreCase(string))
+			if(string.equalsIgnoreCase(UtilServer.getClient().getPlayerAndLoad(string).getNickname()))
 				return p;
 		return null;
 	}
