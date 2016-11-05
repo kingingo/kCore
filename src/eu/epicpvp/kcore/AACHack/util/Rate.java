@@ -1,7 +1,7 @@
 package eu.epicpvp.kcore.AACHack.util;
 
-import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
@@ -10,26 +10,25 @@ public class Rate {
 
 	@Getter
 	private final long maxTimeMillis;
-	private final Deque<Long> eventTimes;
-	private long start;
+	private final Deque<Long> eventTimes = new ConcurrentLinkedDeque<>();
+	@Getter
+	private final long resetTime;
+	private long lastResetTime = System.currentTimeMillis();
 
-	public Rate(long maxTime, TimeUnit timeUnit) {
-		this.maxTimeMillis = timeUnit.toMillis(maxTime);
-		eventTimes = new ArrayDeque<>();
-		start = System.currentTimeMillis();
+	public Rate(long maxTime, TimeUnit maxTimeUnit) {
+		this (maxTime, maxTimeUnit, -1, TimeUnit.MILLISECONDS);
 	}
 
-	Rate(long maxTime, TimeUnit timeUnit, long start) {
-		this.maxTimeMillis = timeUnit.toMillis(maxTime);
-		eventTimes = new ArrayDeque<>();
-		this.start = start;
+	public Rate(long maxTime, TimeUnit maxTimeUnit, long resetTime, TimeUnit resetTimeUnit) {
+		this.maxTimeMillis = maxTimeUnit.toMillis(maxTime);
+		this.resetTime = resetTimeUnit.toMillis(resetTime);
 	}
 
 	public void eventTriggered() {
 		eventTriggered0(System.currentTimeMillis());
 	}
 
-	void eventTriggered0(long currentMillis) {
+	private void eventTriggered0(long currentMillis) {
 		cleanup(currentMillis - maxTimeMillis);
 		eventTimes.add(currentMillis);
 	}
@@ -38,7 +37,7 @@ public class Rate {
 		return getOccurredEventsInMaxTime0(System.currentTimeMillis());
 	}
 
-	int getOccurredEventsInMaxTime0(long currentMillis) {
+	private int getOccurredEventsInMaxTime0(long currentMillis) {
 		cleanup(currentMillis - maxTimeMillis);
 		return eventTimes.size();
 	}
@@ -47,7 +46,7 @@ public class Rate {
 		return getOccurredEventsInTime0(timeFrame, timeUnit, System.currentTimeMillis());
 	}
 
-	int getOccurredEventsInTime0(long timeFrame, TimeUnit timeUnit, long currentMillis) {
+	private int getOccurredEventsInTime0(long timeFrame, TimeUnit timeUnit, long currentMillis) {
 		cleanup(currentMillis - maxTimeMillis);
 		long searchTimeCut = currentMillis - timeUnit.toMillis(timeFrame);
 
@@ -61,11 +60,11 @@ public class Rate {
 		return eventTimes.size() - overJumped;
 	}
 
-	public double getAveragePerSecond() {
+	public double getAveragePerSecondOnMaxTime() {
 		return getOccurredEventsInMaxTime() / (((double) maxTimeMillis) / 1000.0);
 	}
 
-	double getAveragePerSecond0(long currentMillis) {
+	private double getAveragePerSecond0(long currentMillis) {
 		return getOccurredEventsInMaxTime0(currentMillis) / (((double) maxTimeMillis) / 1000.0);
 	}
 
@@ -73,7 +72,7 @@ public class Rate {
 		return getAveragePerSecond0(timeFrame, timeUnit, System.currentTimeMillis());
 	}
 
-	public double getAveragePerSecond0(long timeFrame, TimeUnit timeUnit, long currentMillis) {
+	private double getAveragePerSecond0(long timeFrame, TimeUnit timeUnit, long currentMillis) {
 		return getOccurredEventsInTime0(timeFrame, timeUnit, currentMillis) / (((double) timeUnit.toMillis(timeFrame)) / 1000.0);
 	}
 
@@ -85,5 +84,20 @@ public class Rate {
 			}
 			eventTimes.poll();
 		}
+		if (resetTime > 0 && getNextResetTime() < removeThresholdMillis) {
+			reset();
+		}
+	}
+
+	public void reset() {
+		eventTimes.clear();
+		lastResetTime = System.currentTimeMillis();
+	}
+
+	public long getNextResetTime() {
+		if (resetTime <= 0) {
+			throw new UnsupportedOperationException("There was no reset");
+		}
+		return lastResetTime + resetTime;
 	}
 }

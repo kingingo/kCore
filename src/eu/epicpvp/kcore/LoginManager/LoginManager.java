@@ -8,6 +8,26 @@ import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
 
+import eu.epicpvp.dataserver.protocoll.packets.PacketOutPlayerSettings;
+import eu.epicpvp.datenclient.client.Callback;
+import eu.epicpvp.datenclient.client.ClientWrapper;
+import eu.epicpvp.datenclient.client.LoadedPlayer;
+import eu.epicpvp.datenserver.definitions.dataserver.player.Setting;
+import eu.epicpvp.kcore.Command.Admin.CommandLocations;
+import eu.epicpvp.kcore.Command.CommandHandler;
+import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
+import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
+import eu.epicpvp.kcore.Listener.kListener;
+import eu.epicpvp.kcore.LoginManager.Commands.CommandLogin;
+import eu.epicpvp.kcore.LoginManager.Commands.CommandRegister;
+import eu.epicpvp.kcore.Translation.TranslationHandler;
+import eu.epicpvp.kcore.Update.Event.UpdateEvent;
+import eu.epicpvp.kcore.Update.UpdateType;
+import eu.epicpvp.kcore.Util.TimeSpan;
+import eu.epicpvp.kcore.Util.Title;
+import eu.epicpvp.kcore.Util.UtilPlayer;
+import eu.epicpvp.kcore.Util.UtilServer;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,27 +40,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import eu.epicpvp.dataserver.protocoll.packets.PacketOutPlayerSettings;
-import eu.epicpvp.datenclient.client.Callback;
-import eu.epicpvp.datenclient.client.ClientWrapper;
-import eu.epicpvp.datenclient.client.LoadedPlayer;
-import eu.epicpvp.datenserver.definitions.dataserver.player.Setting;
-import eu.epicpvp.kcore.Command.CommandHandler;
-import eu.epicpvp.kcore.Command.Admin.CommandLocations;
-import eu.epicpvp.kcore.Hologram.nametags.NameTagMessage;
-import eu.epicpvp.kcore.Hologram.nametags.NameTagType;
-import eu.epicpvp.kcore.Listener.kListener;
-import eu.epicpvp.kcore.LoginManager.Commands.CommandLogin;
-import eu.epicpvp.kcore.LoginManager.Commands.CommandRegister;
-import eu.epicpvp.kcore.Translation.TranslationHandler;
-import eu.epicpvp.kcore.Update.UpdateType;
-import eu.epicpvp.kcore.Update.Event.UpdateEvent;
-import eu.epicpvp.kcore.Util.TimeSpan;
-import eu.epicpvp.kcore.Util.Title;
-import eu.epicpvp.kcore.Util.UtilPlayer;
-import eu.epicpvp.kcore.Util.UtilServer;
-import lombok.Getter;
 
 public class LoginManager extends kListener {
 
@@ -61,8 +60,8 @@ public class LoginManager extends kListener {
 	private Title registerTitle = new Title("§cRegister", "");
 	private Location spawn;
 
-	private NameTagMessage hm1 = new NameTagMessage(NameTagType.PACKET, CommandLocations.getLocation("HM1"), new String[] { "§eWillkommen auf §6EpicPvP.eu", "§7Bitte absolviere das §aJump n' Run§7 um zu", "§7verifizieren, dass du kein Bot bist." });
-	private NameTagMessage hm2 = new NameTagMessage(NameTagType.PACKET, CommandLocations.getLocation("HM2"), new String[] { "§7Bitte stelle dich auf die §6Goldplatte§7 um", "§7dich registrieren zu können." });
+	private NameTagMessage hm1 = new NameTagMessage(NameTagType.PACKET, CommandLocations.getLocation("HM1"), new String[]{"§eWillkommen auf §6EpicPvP.eu", "§7Bitte absolviere das §aJump n' Run§7 um zu", "§7verifizieren, dass du kein Bot bist."});
+	private NameTagMessage hm2 = new NameTagMessage(NameTagType.PACKET, CommandLocations.getLocation("HM2"), new String[]{"§7Bitte stelle dich auf die §6Goldplatte§7 um", "§7dich registrieren zu können."});
 
 	public LoginManager(JavaPlugin instance, CommandHandler commandHandler, ClientWrapper client) {
 		super(instance, "LoginManager");
@@ -157,9 +156,11 @@ public class LoginManager extends kListener {
 	@EventHandler
 	public void timer(UpdateEvent ev) {
 		if (ev.getType() == UpdateType.SEC_2) {
-			if (list == null)
+			if (list == null) {
 				this.list = new ArrayList<>();
-			this.list.clear();
+			} else {
+				this.list.clear();
+			}
 			try {
 
 				for (Map.Entry<Player, Long> entry : this.timer.entrySet()) {
@@ -173,7 +174,6 @@ public class LoginManager extends kListener {
 					}
 					list.add(plr);
 				}
-
 			} catch (ConcurrentModificationException e) {
 
 			}
