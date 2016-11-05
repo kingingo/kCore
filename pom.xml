@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -45,29 +45,30 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.1</version>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.4.1</version>
 
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
+				<executions>
+					<execution>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
 
-                <configuration>
-                    <minimizeJar>false</minimizeJar>
-                    <artifactSet>
-                        <includes>
-                            <include>eu.epicpvp.lib:NBTTag</include>
-                        </includes>
-                    </artifactSet>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                </configuration>
-            </plugin>
+				<configuration>
+					<minimizeJar>false</minimizeJar>
+					<artifactSet>
+						<includes>
+							<include>eu.epicpvp.lib:NBTTag</include>
+							<include>com.comphenix.packetwrapper:PacketWrapper</include>
+						</includes>
+					</artifactSet>
+					<createDependencyReducedPom>false</createDependencyReducedPom>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
