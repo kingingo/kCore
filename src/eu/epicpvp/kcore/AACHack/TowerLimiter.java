@@ -25,11 +25,16 @@ import me.konsolas.aac.api.HackType;
 
 public class TowerLimiter implements Listener {
 
-	private Map<UUID, Rate> blockPlaceRate = new HashMap<>();
+	private Map<UUID, TowerData> towerDatas = new HashMap<>();
+
+	private static class TowerData {
+		private int lastY;
+		private Rate rate = new Rate(10, TimeUnit.SECONDS);
+	}
 
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
-		blockPlaceRate.remove(event.getPlayer().getUniqueId());
+		towerDatas.remove(event.getPlayer().getUniqueId());
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -78,10 +83,15 @@ public class TowerLimiter implements Listener {
 		if (!couldStandOnBlockXZ(plrLoc, blockPlacedLoc)) {
 			return;
 		}
-		Rate rate = getRate(plr);
-		double averagePerSecond = rate.getAveragePerSecond(3, TimeUnit.SECONDS);
-		if (averagePerSecond > 2.1) {
-			System.out.println("detected fasttower for player " + plr.getName() + " (avg3s:" + averagePerSecond + ")");
+		TowerData towerData = getTowerData(plr);
+		int placedYint = (int) placedY;
+		if (towerData.lastY <= placedYint) {
+			towerData.lastY = placedYint;
+		}
+		Rate rate = towerData.rate;
+		double averagePerSecond = rate.getAveragePerSecond(2, TimeUnit.SECONDS);
+		if (averagePerSecond >= 2.08) {
+			System.out.println("detected fasttower for player " + plr.getName() + " (avg2s:" + averagePerSecond + ")");
 			event.setCancelled(true);
 			event.setBuild(false);
 			try {
@@ -94,13 +104,13 @@ public class TowerLimiter implements Listener {
 		}
 	}
 
-	public Rate getRate(Player plr) {
+	public TowerData getTowerData(Player plr) {
 		UUID uuid = plr.getUniqueId();
-		Rate rate = blockPlaceRate.get(uuid);
-		if (rate == null) {
-			blockPlaceRate.put(uuid, rate = new Rate(10, TimeUnit.SECONDS));
+		TowerData towerData = towerDatas.get(uuid);
+		if (towerData == null) {
+			towerDatas.put(uuid, towerData = new TowerData());
 		}
-		return rate;
+		return towerData;
 	}
 
 	public boolean isSameBlockLocation(Block first, Block second) {
