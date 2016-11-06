@@ -223,9 +223,9 @@ public class UtilPlayer {
 		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_FORUM"), DisplaySlot.SIDEBAR, 9);
 		UtilScoreboard.setScore(player.getScoreboard(), "www.EpicPvP.eu", DisplaySlot.SIDEBAR, 8);
 		UtilScoreboard.setScore(player.getScoreboard(), "  ", DisplaySlot.SIDEBAR, 7);
-		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_ONLINE_STORE"), DisplaySlot.SIDEBAR, 6);
-		UtilScoreboard.setScore(player.getScoreboard(), "Shop.EpicPvP.eu", DisplaySlot.SIDEBAR, 5);
-		UtilScoreboard.setScore(player.getScoreboard(), " ", DisplaySlot.SIDEBAR, 4);
+//		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_ONLINE_STORE"), DisplaySlot.SIDEBAR, 6);
+//		UtilScoreboard.setScore(player.getScoreboard(), "Shop.EpicPvP.eu", DisplaySlot.SIDEBAR, 5);
+//		UtilScoreboard.setScore(player.getScoreboard(), " ", DisplaySlot.SIDEBAR, 4);
 		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_TS"), DisplaySlot.SIDEBAR, 3);
 		UtilScoreboard.setScore(player.getScoreboard(), "Ts.EpicPvP.eu", DisplaySlot.SIDEBAR, 2);
 		UtilScoreboard.setScore(player.getScoreboard(), "§8----------------", DisplaySlot.SIDEBAR, 1);
@@ -255,9 +255,9 @@ public class UtilPlayer {
 		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_FORUM"), DisplaySlot.SIDEBAR, 9);
 		UtilScoreboard.setScore(player.getScoreboard(), "www.EpicPvP.eu", DisplaySlot.SIDEBAR, 8);
 		UtilScoreboard.setScore(player.getScoreboard(), "  ", DisplaySlot.SIDEBAR, 7);
-		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_ONLINE_STORE"), DisplaySlot.SIDEBAR, 6);
-		UtilScoreboard.setScore(player.getScoreboard(), "Shop.EpicPvP.eu", DisplaySlot.SIDEBAR, 5);
-		UtilScoreboard.setScore(player.getScoreboard(), " ", DisplaySlot.SIDEBAR, 4);
+//		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_ONLINE_STORE"), DisplaySlot.SIDEBAR, 6);
+//		UtilScoreboard.setScore(player.getScoreboard(), "Shop.EpicPvP.eu", DisplaySlot.SIDEBAR, 5);
+//		UtilScoreboard.setScore(player.getScoreboard(), " ", DisplaySlot.SIDEBAR, 4);
 		UtilScoreboard.setScore(player.getScoreboard(), TranslationHandler.getText(player, "SCOREBOARD_TS"), DisplaySlot.SIDEBAR, 3);
 		UtilScoreboard.setScore(player.getScoreboard(), "Ts.EpicPvP.eu", DisplaySlot.SIDEBAR, 2);
 		UtilScoreboard.setScore(player.getScoreboard(), "§8----------------", DisplaySlot.SIDEBAR, 1);
