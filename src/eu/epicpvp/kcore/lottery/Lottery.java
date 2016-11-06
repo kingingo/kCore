@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-public class Lottery implements Runnable{
+public class Lottery implements Runnable {
 
 	@Getter
 	private final JavaPlugin plugin;
@@ -55,41 +55,44 @@ public class Lottery implements Runnable{
 
 	@Override
 	public void run() {
-		switch(endTime){
-		case (60 * 15):
-		case (60 * 14):
-		case (60 * 10):
-		case (60 * 5):
-		case (60 * 4):
-		case (60 * 3):
-		case (60 * 2):
-		case (60 * 1):
-			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§fDie Lottery endet in §6"+UtilTime.formatSeconds(endTime)+"§f!");
-			break;
-		case (30):
-		case (15):
-		case (5):
-			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§cDie Lottery endet in §6"+UtilTime.formatSeconds(endTime)+"§c!");
-			break;
+		switch (endTime) {
+			case (60 * 15):
+			case (60 * 14):
+			case (60 * 10):
+			case (60 * 5):
+			case (60 * 4):
+			case (60 * 3):
+			case (60 * 2):
+			case (60):
+				Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX") + "§fDie Lottery endet in §6" + UtilTime.formatSeconds(endTime) + "§f!");
+				break;
+			case (30):
+			case (15):
+			case (5):
+				Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX") + "§cDie Lottery endet in §6" + UtilTime.formatSeconds(endTime) + "§c!");
+				break;
 		}
-		
-		if(endTime < 0){
+
+		if (endTime < 0) {
 			drawWinner();
-		}else{
+		} else {
 			endTime--;
 		}
 	}
 
 	private void drawWinner() {
+		save();
 		endTime = 15 * 60;
 		if (data.isEmpty()) {
-			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§cEs hat niemand an der Lotterie teilgenommen.");
-		}else if (data.size() <= 5) {
-			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§cEs müssen mehr als 5 Spieler teilnehmen!");
-		}else{
+			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX") + "§cEs hat niemand an der Lotterie teilgenommen.");
+		} else if (data.size() <= 5) {
+			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX") + "§cEs müssen mehr als 5 Spieler an der Lotterie teilnehmen!");
+		} else {
 			Map<Integer, Integer> map = new HashMap<>();
 			data.forEach((playerId, value) -> {
-				map.put(playerId, value);
+				if (value > 0) {
+					map.put(playerId, value);
+				}
 			});
 			int pot = 0;
 			for (Integer value : map.values()) {
@@ -113,13 +116,13 @@ public class Lottery implements Runnable{
 				return;
 			}
 			StatsManager statsManager = StatsManagerRepository.getStatsManager(gameType);
-			int currentPot = getCurrentPot();
+			long currentPot = getCurrentPot();
 			if (statsKey.getType() == int.class) {
-				if(statsManager.isLoaded(winnerId)){
+				if (statsManager.isLoaded(winnerId)) {
 					statsManager.set(winnerId, statsKey, statsManager.getInt(winnerId, statsKey) + currentPot);
-				}else{
+				} else {
 					statsManager.loadPlayer(winnerId, new Callback<Integer>() {
-						
+
 						@Override
 						public void call(Integer id, Throwable exception) {
 							statsManager.set(id, statsKey, statsManager.getInt(id, statsKey) + currentPot);
@@ -128,11 +131,11 @@ public class Lottery implements Runnable{
 					});
 				}
 			} else {
-				if(statsManager.isLoaded(winnerId)){
+				if (statsManager.isLoaded(winnerId)) {
 					statsManager.set(winnerId, statsKey, statsManager.getDouble(winnerId, statsKey) + currentPot);
-				}else{
+				} else {
 					statsManager.loadPlayer(winnerId, new Callback<Integer>() {
-						
+
 						@Override
 						public void call(Integer id, Throwable exception) {
 							statsManager.set(id, statsKey, statsManager.getDouble(id, statsKey) + currentPot);
@@ -141,9 +144,10 @@ public class Lottery implements Runnable{
 					});
 				}
 			}
-			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX")+"§aDer Spieler §6" + UtilServer.getClient().getPlayerAndLoad(winnerId).getName() + "§a hat die Lotterie gewonnen und §6" + currentPot + " Epic's §abekommen.");
+			Bukkit.broadcastMessage(TranslationHandler.getText("PREFIX") + "§aDer Spieler §6" + UtilServer.getClient().getPlayerAndLoad(winnerId).getName() + "§a hat die Lotterie gewonnen und §6" + currentPot + " Epic's §abekommen.");
 			//TODO send messages
 			data.clear();
+			save();
 		}
 	}
 
@@ -155,18 +159,13 @@ public class Lottery implements Runnable{
 	}
 
 	private void save() {
-		if (data.isEmpty()) {
-			plugin.getConfig().set("lottery.data", null);
-		} else {
-			data.forEach((playerId, amount) -> {
-				plugin.getConfig().set("lottery.data." + playerId, amount);
-			});
-		}
+		plugin.getConfig().set("lottery.data", null);
+		data.forEach((playerId, amount) -> plugin.getConfig().set("lottery.data." + playerId, amount));
 		plugin.saveConfig();
 	}
 
-	public int getCurrentPot() {
-		int pot = 0;
+	public long getCurrentPot() {
+		long pot = 0;
 		for (Integer value : data.values()) {
 			pot += value;
 		}
@@ -190,8 +189,7 @@ public class Lottery implements Runnable{
 				statsManager.addDouble(player, -amount, statsKey);
 			}
 			data.put(playerId, amount);
-			plugin.getConfig().set("lottery.data", data);
-			plugin.saveConfig();
+			save();
 			return true;
 		}
 	}

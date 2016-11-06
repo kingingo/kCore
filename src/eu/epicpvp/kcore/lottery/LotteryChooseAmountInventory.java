@@ -15,10 +15,12 @@ public class LotteryChooseAmountInventory extends AnvilGUI {
 			if (event.getSlot() == AnvilSlot.OUTPUT) {
 				try {
 					int i = Integer.parseInt(event.getName());
-					if (lottery.bid(player, i)) {
-						UtilPlayer.sendMessage(player, TranslationHandler.getText(player, "PREFIX") + "§aDu hast dein gebot von §6" + i + "§a abgegeben!");
+					if (i <= 0) {
+						UtilPlayer.sendMessage(player, TranslationHandler.getText(player, "PREFIX") + "§cDas ist keine gültige Zahl!");
+					} else if (lottery.bid(player, i)) {
+						UtilPlayer.sendMessage(player, TranslationHandler.getText(player, "PREFIX") + "§aDu hast dein Gebot von §6" + i + "§a abgegeben!");
 					} else {
-						UtilPlayer.sendMessage(player, TranslationHandler.getText(player, "PREFIX") + "§cDu hast leider nicht soviel geld auf deinem Konto!");
+						UtilPlayer.sendMessage(player, TranslationHandler.getText(player, "PREFIX") + "§cDu hast leider nicht so viel Geld auf deinem Konto!");
 					}
 				} catch (NumberFormatException e) {
 					UtilPlayer.sendMessage(player, TranslationHandler.getText(player, "PREFIX") + TranslationHandler.getText(player, "NO_INTEGER"));

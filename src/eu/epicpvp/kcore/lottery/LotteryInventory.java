@@ -14,7 +14,7 @@ public class LotteryInventory extends InventoryCopy {
 		super(3 * 9, "Lotterie");
 
 		addButton(InventorySplit._18.getMiddle() - 2, new ButtonCopy((player, type, object) -> {
-			int pot = lottery.getCurrentPot();
+			long pot = lottery.getCurrentPot();
 			if (pot == 0) {
 				((InventoryPageBase) object).setItem(InventorySplit._18.getMiddle() - 2, UtilItem.RenameItem(new ItemStack(Material.BUCKET), "§cDer Pot ist leer"));
 			} else {
@@ -24,10 +24,8 @@ public class LotteryInventory extends InventoryCopy {
 		}, UtilItem.RenameItem(new ItemStack(Material.BUCKET), "§cDer Pot ist leer")));
 
 		addButton(InventorySplit._18.getMiddle(), new ButtonCopy((player, type, object) -> {
-			long endTime = lottery.getEndTime();
-			long dur = endTime - System.currentTimeMillis();
-			dur /= 1000 * 60;
-			((InventoryPageBase) object).setItem(InventorySplit._18.getMiddle(), UtilItem.RenameItem(new ItemStack(Material.COMPASS), "§7Auslosung in §6" + dur + " Minuten"));
+			int endTime = lottery.getEndTime();
+			((InventoryPageBase) object).setItem(InventorySplit._18.getMiddle(), UtilItem.RenameItem(new ItemStack(Material.COMPASS), "§7Auslosung in §6" + endTime + " Minuten"));
 		}, (player, type, object) -> {
 		}, UtilItem.RenameItem(new ItemStack(Material.COMPASS), "§7Auslosung in §6?? Minuten")));
 
