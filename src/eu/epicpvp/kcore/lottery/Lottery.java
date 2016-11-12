@@ -42,8 +42,15 @@ public class Lottery implements Runnable {
 			throw new IllegalArgumentException("invalid statskey");
 		}
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection("lottery.data");
-		for (String playerId : section.getKeys(false)) {
-			data.put(Integer.valueOf(playerId), section.getInt(playerId));
+		if (section != null) {
+			for (String playerId : section.getKeys(false)) {
+				try {
+					data.put(Integer.valueOf(playerId), section.getInt(playerId));
+				} catch (NumberFormatException ex) {
+					System.out.println("Error at " + playerId + " - " + section.get(playerId) + ":");
+					ex.printStackTrace();
+				}
+			}
 		}
 		lotteryInventory = new LotteryInventory(this);
 		UtilInv.getBase().addPage(lotteryInventory);
