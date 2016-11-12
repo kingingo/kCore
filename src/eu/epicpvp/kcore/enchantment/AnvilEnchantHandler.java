@@ -49,9 +49,9 @@ public class AnvilEnchantHandler extends kListener {
 		if (!(event.getView().getTopInventory().getHolder() instanceof AnvilInventoryHolder)) {
 			return;
 		}
-		
-		if(event.getClickedInventory().getItem(event.getSlot()).getType() == Material.EXP_BOTTLE)event.setCancelled(true);
-		
+
+		int slot = event.getSlot();
+
 		switch (event.getAction()) {
 			case HOTBAR_MOVE_AND_READD:
 			case COLLECT_TO_CURSOR:
@@ -69,15 +69,15 @@ public class AnvilEnchantHandler extends kListener {
 			case PICKUP_ALL:
 			case PICKUP_ONE:
 			case PICKUP_SOME:
+			case PICKUP_HALF:
 			case PLACE_ALL:
 			case PLACE_SOME:
 			case PLACE_ONE:
 				if (event.getClickedInventory().getHolder() instanceof AnvilInventoryHolder) {
-					if (event.getSlot() != (InventorySplit._18.getMiddle() - 2) && event.getSlot() != (InventorySplit._18.getMiddle() + 2)) {
+					if (slot != (InventorySplit._18.getMiddle() - 2) && slot != (InventorySplit._18.getMiddle() + 2)) {
 						event.setCancelled(true);
-					}
-
-					if (event.getSlot() == InventorySplit._18.getMiddle()) {
+					} else if (slot == InventorySplit._18.getMiddle()) {
+						event.setCancelled(true);
 						ItemStack tool = event.getClickedInventory().getItem(InventorySplit._18.getMiddle() - 2);
 						ItemStack book = event.getClickedInventory().getItem(InventorySplit._18.getMiddle() + 2);
 

@@ -155,10 +155,8 @@ public class CustomEnchantment {
 	}
 
 	public void addEnchantment(ItemStack item, int lvl) {
-		ItemMeta meta;
-		if (item.hasItemMeta()) {
-			meta = item.getItemMeta();
-		} else {
+		ItemMeta meta = item.getItemMeta();
+		if (meta == null) {
 			meta = Bukkit.getItemFactory().getItemMeta(item.getType());
 		}
 		List<String> lore;
@@ -169,7 +167,7 @@ public class CustomEnchantment {
 		}
 
 		if (contains(item)) {
-			lore = lore.stream().filter(e -> !e.contains(getAddedLorePart())).collect(Collectors.toList());
+			lore = lore.stream().filter(line -> !line.contains(getAddedLorePart())).collect(Collectors.toList());
 		}
 
 		lore.add(getAddedLorePart() + getRomanNumber(lvl));
