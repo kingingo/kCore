@@ -108,19 +108,6 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 		//@formatter:on
 		Location noFlagLocation = doNotFlagJoinTeleportDeath.getIfPresent(plr.getUniqueId());
 		Vector doNotFlagShortPresent = doNotFlagShort.getIfPresent(plr.getUniqueId());
-		if (noFlagLocation == null && doNotFlagShortPresent != null) {
-			doubles.write(0, doNotFlagShortPresent.getX());
-			doubles.write(1, doNotFlagShortPresent.getY() - .97);
-			doubles.write(2, doNotFlagShortPresent.getZ());
-//			WrapperPlayServerEntityTeleport teleport = new WrapperPlayServerEntityTeleport();
-//			teleport.setEntityID(plr.getEntityId());
-//			teleport.setX(doNotFlagShortPresent.getX());
-//			teleport.setY(doNotFlagShortPresent.getY() - .97);
-//			teleport.setZ(doNotFlagShortPresent.getZ());
-//			teleport.setYaw(90);
-//			teleport.setPitch(90);
-//			teleport.sendPacket(plr);
-		}
 		Boolean sentOnGround = packet.getBooleans().read(0);
 		if (!sentOnGround) {
 			return;
@@ -145,17 +132,6 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 				if (!couldBeOnGroundSimple) {
 					//Revert wrong movement without server-side teleport
 					Location setbackLocation = plr.getLocation();
-					doubles.write(0, setbackLocation.getX());
-					doubles.write(1, setbackLocation.getY() - .97);
-					doubles.write(2, setbackLocation.getZ());
-//					WrapperPlayServerEntityTeleport teleport = new WrapperPlayServerEntityTeleport();
-//					teleport.setEntityID(plr.getEntityId());
-//					teleport.setX(setbackLocation.getX());
-//					teleport.setY(setbackLocation.getY() - .97);
-//					teleport.setZ(setbackLocation.getZ());
-//					teleport.setYaw(setbackLocation.getYaw());
-//					teleport.setPitch(setbackLocation.getPitch());
-//					teleport.sendPacket(plr);
 					if (noFlagLocation != null && (!noFlagLocation.getWorld().equals(location.getWorld()) || location.distanceSquared(noFlagLocation) < 5)) {
 						return;
 					}
