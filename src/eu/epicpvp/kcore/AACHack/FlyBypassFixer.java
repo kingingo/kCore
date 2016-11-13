@@ -199,6 +199,6 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 
 	@Override
 	public void onPacketSending(PacketEvent event) {
-		//This needs to be here due to a ProtocolLib issue when fake-recieving packets (it might be fixed in later versions but AAC is not compatible)
+		//This needs to be here due to a ProtocolLib issue when fake-recieving packets (it might be fixed in later versions but I won't test it)
 	}
 }
