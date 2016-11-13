@@ -5,6 +5,19 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.reflect.StructureModifier;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import eu.epicpvp.kcore.AACHack.util.MaterialUtil;
+import eu.epicpvp.kcore.Util.UtilServer;
+import me.konsolas.aac.api.AACAPI;
+import me.konsolas.aac.api.AACAPIProvider;
+import me.konsolas.aac.api.HackType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -17,22 +30,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-
-import com.comphenix.packetwrapper.WrapperPlayServerEntityTeleport;
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.reflect.StructureModifier;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-
-import eu.epicpvp.kcore.AACHack.util.MaterialUtil;
-import eu.epicpvp.kcore.Util.UtilServer;
-import me.konsolas.aac.api.AACAPI;
-import me.konsolas.aac.api.AACAPIProvider;
-import me.konsolas.aac.api.HackType;
 import org.bukkit.util.Vector;
 
 class FlyBypassFixer extends PacketAdapter implements Listener {
@@ -115,14 +112,14 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 			doubles.write(0, doNotFlagShortPresent.getX());
 			doubles.write(1, doNotFlagShortPresent.getY() - .97);
 			doubles.write(2, doNotFlagShortPresent.getZ());
-			WrapperPlayServerEntityTeleport teleport = new WrapperPlayServerEntityTeleport();
-			teleport.setEntityID(plr.getEntityId());
-			teleport.setX(doNotFlagShortPresent.getX());
-			teleport.setY(doNotFlagShortPresent.getY() - .97);
-			teleport.setZ(doNotFlagShortPresent.getZ());
-			teleport.setYaw(90);
-			teleport.setPitch(90);
-			teleport.sendPacket(plr);
+//			WrapperPlayServerEntityTeleport teleport = new WrapperPlayServerEntityTeleport();
+//			teleport.setEntityID(plr.getEntityId());
+//			teleport.setX(doNotFlagShortPresent.getX());
+//			teleport.setY(doNotFlagShortPresent.getY() - .97);
+//			teleport.setZ(doNotFlagShortPresent.getZ());
+//			teleport.setYaw(90);
+//			teleport.setPitch(90);
+//			teleport.sendPacket(plr);
 		}
 		Boolean sentOnGround = packet.getBooleans().read(0);
 		if (!sentOnGround) {
@@ -143,22 +140,22 @@ class FlyBypassFixer extends PacketAdapter implements Listener {
 			if (!onGround) {
 				packet.getBooleans().write(0, false);
 				plr.getVelocity().setX(0).setY(0).setZ(0);
-				Bukkit.getScheduler().runTaskLater(UtilServer.getPluginInstance(), () -> plr.getVelocity().setX(0).setY(0).setZ(0), 1);
-				Bukkit.getScheduler().runTaskLater(UtilServer.getPluginInstance(), () -> plr.getVelocity().setX(0).setY(0).setZ(0), 2);
+				plr.setVelocity(new Vector());
+				Bukkit.getScheduler().runTaskLater(UtilServer.getPluginInstance(), () -> plr.setVelocity(new Vector()), 1);
 				if (!couldBeOnGroundSimple) {
 					//Revert wrong movement without server-side teleport
 					Location setbackLocation = plr.getLocation();
 					doubles.write(0, setbackLocation.getX());
 					doubles.write(1, setbackLocation.getY() - .97);
 					doubles.write(2, setbackLocation.getZ());
-					WrapperPlayServerEntityTeleport teleport = new WrapperPlayServerEntityTeleport();
-					teleport.setEntityID(plr.getEntityId());
-					teleport.setX(setbackLocation.getX());
-					teleport.setY(setbackLocation.getY() - .97);
-					teleport.setZ(setbackLocation.getZ());
-					teleport.setYaw(setbackLocation.getYaw());
-					teleport.setPitch(setbackLocation.getPitch());
-					teleport.sendPacket(plr);
+//					WrapperPlayServerEntityTeleport teleport = new WrapperPlayServerEntityTeleport();
+//					teleport.setEntityID(plr.getEntityId());
+//					teleport.setX(setbackLocation.getX());
+//					teleport.setY(setbackLocation.getY() - .97);
+//					teleport.setZ(setbackLocation.getZ());
+//					teleport.setYaw(setbackLocation.getYaw());
+//					teleport.setPitch(setbackLocation.getPitch());
+//					teleport.sendPacket(plr);
 					if (noFlagLocation != null && (!noFlagLocation.getWorld().equals(location.getWorld()) || location.distanceSquared(noFlagLocation) < 5)) {
 						return;
 					}

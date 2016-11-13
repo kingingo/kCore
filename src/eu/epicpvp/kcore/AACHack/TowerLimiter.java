@@ -90,7 +90,7 @@ public class TowerLimiter implements Listener {
 		}
 		Rate rate = towerData.rate;
 		double averagePerSecond = rate.getAveragePerSecond(2, TimeUnit.SECONDS);
-		if (averagePerSecond >= 2.08) {
+		if (averagePerSecond >= 2.58) {
 			System.out.println("detected fasttower for player " + plr.getName() + " (avg2s:" + averagePerSecond + ")");
 			event.setCancelled(true);
 			event.setBuild(false);
